@@ -2,5 +2,17 @@
 <resources>
 
     <string name="app_name">BlackLight</string>
+	
+	<!-- Login -->
+	<string name="login">登录</string>
+	<string name="app_id">App Id</string>
+	<string name="app_secret">App Secret</string>
+	<string name="username">用户名</string>
+	<string name="passwd">密码</string>
+	
+	<!-- Message -->
+	<string name="plz_wait">请稍候...</string>
+	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
+	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
 
 </resources>
