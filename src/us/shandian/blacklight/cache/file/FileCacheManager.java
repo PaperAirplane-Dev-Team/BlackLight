@@ -39,6 +39,7 @@ public class FileCacheManager
 		if (f.exists()) {
 			f.delete();
 		}
+		f.getParentFile().mkdirs();
 		f.createNewFile();
 		
 		FileOutputStream opt = new FileOutputStream(path);
