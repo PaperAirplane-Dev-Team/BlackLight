@@ -12,4 +12,8 @@ public class Utility
 	public static boolean isTokenExpired(long time) {
 		return time <= System.currentTimeMillis();
 	}
+	
+	public static boolean isCacheAvailable(long createTime, int availableDays) {
+		return System.currentTimeMillis() <= createTime + TimeUnit.DAYS.toMillis(availableDays);
+	}
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.util.Log;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
+import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -107,7 +109,6 @@ public class LoginActivity extends Activity
 			super.onPostExecute(result);
 			progDialog.dismiss();
 			
-			// TODO Use user api to see if the login is successful
 			if (mLogin.getAccessToken() != null) {
 				if (DEBUG) {
 					Log.d(TAG, "Access Token:" + mLogin.getAccessToken());
@@ -125,7 +126,10 @@ public class LoginActivity extends Activity
 									@Override
 									public void onClick(DialogInterface dialog, int id) {
 										dialog.dismiss();
-										// TODO Enter main timeline
+										Intent i = new Intent();
+										i.setAction(Intent.ACTION_MAIN);
+										i.setClass(LoginActivity.this, MainActivity.class);
+										startActivity(i);
 										finish();
 									}
 								})

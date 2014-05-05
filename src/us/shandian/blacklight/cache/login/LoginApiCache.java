@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.login.LoginApi;
+import us.shandian.blacklight.api.user.AccountApi;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class LoginApiCache
@@ -13,6 +15,7 @@ public class LoginApiCache
 	
 	private SharedPreferences mPrefs;
 	private String mAccessToken;
+	private String mUid;
 	private long mExpireDate;
 	private String mAppId;
 	private String mAppSecret;
@@ -20,9 +23,14 @@ public class LoginApiCache
 	public LoginApiCache(Context context) {
 		mPrefs = context.getSharedPreferences("access_token", Context.MODE_WORLD_READABLE);
 		mAccessToken = mPrefs.getString("access_token", null);
+		mUid = mPrefs.getString("uid", null);
 		mExpireDate = mPrefs.getLong("expires_in", Long.MIN_VALUE);
 		mAppId = mPrefs.getString("app_id", null);
 		mAppSecret = mPrefs.getString("app_secret", null);
+		
+		if (mAccessToken != null) {
+			BaseApi.setAccessToken(mAccessToken);
+		}
 	}
 	
 	public void login(String appId, String appSecret, String username, String passwd) {
@@ -36,6 +44,8 @@ public class LoginApiCache
 					Log.d(TAG, "result got, loading to cache");
 				}
 				mAccessToken = result[0];
+				BaseApi.setAccessToken(mAccessToken);
+				mUid = AccountApi.getUid();
 				mExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
 				mAppId = appId;
 				mAppSecret = appSecret;
@@ -46,12 +56,13 @@ public class LoginApiCache
 	public void logout() {
 		mAccessToken = null;
 		mExpireDate = Long.MIN_VALUE;
-		mPrefs.edit().remove("access_token").remove("expires_in").commit();
+		mPrefs.edit().remove("access_token").remove("expires_in").remove("uid").commit();
 	}
 	
 	public void cache() {
 		mPrefs.edit().putString("access_token", mAccessToken)
 					 .putLong("expires_in", mExpireDate)
+					 .putString("uid", mUid)
 					 .putString("app_id", mAppId)
 					 .putString("app_secret", mAppSecret)
 					 .commit();
@@ -59,6 +70,10 @@ public class LoginApiCache
 	
 	public String getAccessToken() {
 		return mAccessToken;
+	}
+	
+	public String getUid() {
+		return mUid;
 	}
 	
 	public long getExpireDate() {

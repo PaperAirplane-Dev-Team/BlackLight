@@ -12,6 +12,7 @@
 	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>
+	<string name="name_fetching">昵称获取中...</string>
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
 	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
 

@@ -6,7 +6,9 @@ import android.os.Bundle;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
+import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.ui.login.LoginActivity;
+import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.Utility;
 
 public class EntryActivity extends Activity
@@ -16,6 +18,9 @@ public class EntryActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		// Clear
+		FileCacheManager.instance(this).clearUnavailable();
+		
 		LoginApiCache login = new LoginApiCache(this);
 		if (needsLogin(login)) {
 			Intent i = new Intent();
@@ -24,8 +29,11 @@ public class EntryActivity extends Activity
 			startActivity(i);
 			finish();
 		} else {
-			BaseApi.setAccessToken(login.getAccessToken());
-			// TODO Enter the main time line
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, MainActivity.class);
+			startActivity(i);
+			finish();
 		}
 		
 	}

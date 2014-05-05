@@ -30,7 +30,7 @@ public class LoginApi extends BaseApi
 			return new String[]{json.optString("access_token"), json.optString("expires_in")};
 		} catch (Exception e) {
 			if (DEBUG) {
-				Log.d(TAG, "login error:" + e.getClass().getSimpleName());
+				Log.e(TAG, "login error:" + e.getClass().getSimpleName());
 			}
 			return null;
 		}
