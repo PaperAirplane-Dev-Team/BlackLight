@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="gray">#aaaaaa</color>
-	<color name="superlight_gray">#eaeaee</color>
+	<color name="superlight_gray">#fcfcfc</color>
+	<color name="selector_gray">#eaeaea</color>
 </resources>

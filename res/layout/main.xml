@@ -17,6 +17,8 @@
 		android:orientation="vertical" >
 		
 		<include layout="@layout/main_account" />
+			
+		<include layout="@layout/main_drawer" />
 		
 	</LinearLayout>
 	

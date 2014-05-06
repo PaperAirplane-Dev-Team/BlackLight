@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_height="50dp"
+		android:text="@string/my"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="match_parent"
+		android:gravity="center_vertical"
+		android:paddingLeft="10dp"
+		android:textStyle="bold"/>
+
+	<ListView
+		android:layout_height="200dp"
+		android:layout_width="match_parent"
+		android:background="@android:color/white"
+		android:id="@+id/list_my"
+		android:divider="@null"
+		android:listSelector="@drawable/drawer_selector"/>
+
+	<TextView
+		android:layout_height="50dp"
+		android:text="@string/at_me"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="match_parent"
+		android:gravity="center_vertical"
+		android:paddingLeft="10dp"
+		android:textStyle="bold"/>
+
+	<ListView
+		android:layout_height="100dp"
+		android:layout_width="match_parent"
+		android:background="@android:color/white"
+		android:id="@+id/list_at_me"
+		android:divider="@null"
+		android:listSelector="@drawable/drawer_selector"/>
+
+</LinearLayout>
+
