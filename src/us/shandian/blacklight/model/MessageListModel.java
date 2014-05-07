@@ -37,7 +37,7 @@ public class MessageListModel implements BaseListModel<MessageModel, MessageList
 		if (values != null && values.getSize() > 0) {
 			for (MessageModel msg : values.getList()) {
 				if (!statuses.contains(msg)) {
-					statuses.add(toTop ? 0 : statuses.size(), msg);
+					statuses.add(toTop ? values.getList().indexOf(msg) : statuses.size(), msg);
 				}
 			}
 			total_number = values.total_number;
