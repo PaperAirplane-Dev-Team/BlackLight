@@ -8,4 +8,10 @@ public class Constants
 	// File Cache Types
 	public static final String FILE_CACHE_AVATAR_SMALL = "avatar_small";
 	
+	// Statuses
+	public static final int HOME_TIMELINE_PAGE_SIZE = 20;
+	
+	// SQL
+	public static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS ";
+	
 }

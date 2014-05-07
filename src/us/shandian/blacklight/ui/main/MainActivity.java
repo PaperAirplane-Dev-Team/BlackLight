@@ -1,6 +1,8 @@
 package us.shandian.blacklight.ui.main;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.view.Gravity;
@@ -21,6 +23,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 
 /* Main Container Activity */
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener
@@ -37,6 +40,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
 	private UserModel mUser;
+	
+	// Fragments
+	private Fragment[] mFragmemts = new Fragment[1];
+	private FragmentManager mManager;
 	
 	// Temp fields
 	private TextView mLastChoice;
@@ -89,6 +96,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
 		
+		// Fragments
+		mFragmemts[0] = new HomeTimeLineFragment();
+		mManager = getFragmentManager();
+		mManager.beginTransaction().replace(R.id.container, mFragmemts[0]).commit();
 	}
 
 	@Override
@@ -124,7 +135,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			tv.getPaint().setFakeBoldText(true);
 			tv.invalidate();
 			mLastChoice = tv;
-			// TODO Switch fragments
+			switch (position) {
+				case 0:
+					mManager.beginTransaction().replace(R.id.container, mFragmemts[0]).commit();
+					break;
+			}
 		} else if (parent == mAtMe) {
 			TextView tv = (TextView) view;
 			tv.getPaint().setFakeBoldText(true);

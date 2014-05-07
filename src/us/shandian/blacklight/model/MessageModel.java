@@ -89,6 +89,11 @@ public class MessageModel implements Parcelable
 			return super.equals(o);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return idstr.hashCode();
+	}
 	
 	@Override
 	public int describeContents() {

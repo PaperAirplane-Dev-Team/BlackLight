@@ -24,6 +24,22 @@
 		<item>评论</item>
 	</string-array>
 	
+	<!-- Statuses -->
+	<string name="timeline">时间流</string>
+	<string name="retweet">转发</string>
+	<string name="comment">评论</string>
+	
+	<!-- Time -->
+	<string name="just_now">刚刚</string>
+	<string name="min">分钟前</string>
+	<string name="hour">小时前</string>
+	<string name="day">天前</string>
+	<string name="month">月前</string>
+	<string name="year">年前</string>
+	<string name="today">今天</string>
+	<string name="yesterday">昨天</string>
+	<string name="the_day_before_yesterday">前天</string>
+	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>
 	<string name="name_fetching">昵称获取中...</string>
