@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="50dp"
+	android:layout_height="45dp"
 	android:text="Item"
 	android:textAppearance="?android:attr/textAppearanceLarge"
 	android:layout_width="match_parent"
 	android:gravity="center_vertical"
 	android:paddingLeft="40dp"
-	android:textColor="@color/gray"/>
+	android:textColor="@color/darker_gray"/>
 

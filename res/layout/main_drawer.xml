@@ -6,7 +6,7 @@
 	android:orientation="vertical">
 
 	<TextView
-		android:layout_height="50dp"
+		android:layout_height="40dp"
 		android:text="@string/my"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="match_parent"
@@ -15,7 +15,7 @@
 		android:textStyle="bold"/>
 
 	<ListView
-		android:layout_height="200dp"
+		android:layout_height="180dp"
 		android:layout_width="match_parent"
 		android:background="@android:color/white"
 		android:id="@+id/list_my"
@@ -23,7 +23,7 @@
 		android:listSelector="@drawable/drawer_selector"/>
 
 	<TextView
-		android:layout_height="50dp"
+		android:layout_height="40dp"
 		android:text="@string/at_me"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="match_parent"
@@ -32,7 +32,7 @@
 		android:textStyle="bold"/>
 
 	<ListView
-		android:layout_height="100dp"
+		android:layout_height="90dp"
 		android:layout_width="match_parent"
 		android:background="@android:color/white"
 		android:id="@+id/list_at_me"
