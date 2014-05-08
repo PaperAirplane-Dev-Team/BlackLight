@@ -89,7 +89,7 @@ public class FileCacheManager
 				clearUnavailable(f);
 			} else {
 				long time = f.lastModified();
-				if (!Utility.isCacheAvailable(TimeUnit.SECONDS.toMillis(time), Constants.FILE_CACHE_DAYS)) {
+				if (!Utility.isCacheAvailable(time, Constants.FILE_CACHE_DAYS)) {
 					f.delete();
 				}
 			}
