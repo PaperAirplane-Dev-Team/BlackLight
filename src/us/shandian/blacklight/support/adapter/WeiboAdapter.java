@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.os.AsyncTask;
 import android.text.Html;
 
+import java.util.HashMap;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.MessageModel;
@@ -26,6 +28,8 @@ public class WeiboAdapter extends BaseAdapter
 	private UserApiCache mUserApi;
 	
 	private int mGray;
+	
+	private HashMap<Long, View> mViews = new HashMap<Long, View>();
 	
 	public WeiboAdapter(Context context, MessageListModel list) {
 		mList = list;
@@ -61,29 +65,65 @@ public class WeiboAdapter extends BaseAdapter
 	}
 	
 	private View bindView(MessageModel msg, boolean sub) {
-		View v = mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
-		TextView name = (TextView) v.findViewById(R.id.weibo_name);
+		boolean existed = false;
+		View v = null;
+		if (!sub) {
+			if (mViews.containsKey(msg.id)) {
+				v = mViews.get(msg.id);
+				existed = true;
+			}
+		}
+		
+		// If not inflated before, then we have much work to do
+		if (!existed) {
+			v = mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
+			
+			TextView name = (TextView) v.findViewById(R.id.weibo_name);
+			TextView from = (TextView) v.findViewById(R.id.weibo_from);
+			TextView content = (TextView) v.findViewById(R.id.weibo_content);
+			
+			name.setText(msg.user.screen_name);
+			from.setText(Html.fromHtml(msg.source).toString());
+			content.setText(msg.text); // TODO Spannable String , Emoticons
+			
+			// If this retweets others, show the original
+			if (!sub && msg.retweeted_status != null) {
+				View origin = bindView(msg.retweeted_status, true);
+				origin.setBackgroundColor(mGray);
+				LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+				originParent.addView(origin);
+				originParent.setVisibility(View.VISIBLE);
+			}
+
+			new ImageDownloader().execute(new Object[]{v, msg});
+			
+			if (!sub) {
+				mViews.put(msg.id, v);
+			}
+			
+		}
+		
+		// Even if inflated before, we still have to update these info
 		TextView date = (TextView) v.findViewById(R.id.weibo_date);
-		TextView from = (TextView) v.findViewById(R.id.weibo_from);
 		TextView retweet = (TextView) v.findViewById(R.id.weibo_retweet);
 		TextView comments = (TextView) v.findViewById(R.id.weibo_comments);
-		TextView content = (TextView) v.findViewById(R.id.weibo_content);
-		name.setText(msg.user.screen_name);
+		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
-		from.setText(Html.fromHtml(msg.source).toString());
 		retweet.setText(String.valueOf(msg.reposts_count));
 		comments.setText(String.valueOf(msg.comments_count));
-		content.setText(msg.text); // TODO Spannable String , Emoticons
 		
-		if (!sub && msg.retweeted_status != null) {
-			View origin = bindView(msg.retweeted_status, true);
-			origin.setBackgroundColor(mGray);
+		// Update subview's info as well
+		if (existed && !sub && msg.retweeted_status != null) {
 			LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
-			originParent.addView(origin);
-			originParent.setVisibility(View.VISIBLE);
-		}
+			
+			date = (TextView) originParent.findViewById(R.id.weibo_date);
+			retweet = (TextView) originParent.findViewById(R.id.weibo_retweet);
+			comments = (TextView) originParent.findViewById(R.id.weibo_comments);
 
-		new ImageDownloader().execute(new Object[]{v, msg});
+			date.setText(mTimeUtils.buildTimeString(msg.retweeted_status.created_at));
+			retweet.setText(String.valueOf(msg.retweeted_status.reposts_count));
+			comments.setText(String.valueOf(msg.retweeted_status.comments_count));
+		}
 		
 		return v;
 	}
