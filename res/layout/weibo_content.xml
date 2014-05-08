@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:layout_margin="2dp"
+	android:background="@android:color/white">
+
+	<LinearLayout
+		android:layout_height="50dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:layout_marginTop="5dp"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp">
+
+		<ImageView
+			android:layout_height="50dp"
+			style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="50dp"
+			android:id="@+id/weibo_avatar"/>
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginLeft="5dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp">
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Author Name"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:textStyle="bold"
+				android:id="@+id/weibo_name"/>
+
+			<LinearLayout
+				android:layout_height="match_parent"
+				android:layout_width="wrap_content"
+				android:orientation="horizontal"
+				android:layout_marginTop="2dp">
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="Date"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:id="@+id/weibo_date"
+					android:textSize="12sp"/>
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="From"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:layout_marginLeft="5dp"
+					android:id="@+id/weibo_from"
+					android:textSize="12sp"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			android:gravity="top|right"
+			android:layout_marginRight="5dp">
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="@string/retweet"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:textSize="10sp"/>
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_marginLeft="2dp"
+				android:id="@+id/weibo_retweet"
+				android:textSize="10sp"/>
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="@string/comment"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_marginLeft="4dp"
+				android:textSize="10sp"/>
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="0"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_marginLeft="2dp"
+				android:id="@+id/weibo_comments"
+				android:textSize="10sp"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="Content"
+		android:layout_width="match_parent"
+		android:id="@+id/weibo_content"
+		android:layout_margin="5dp"/>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="vertical"
+		android:layout_margin="5dp"
+		android:id="@+id/weibo_origin"
+		android:visibility="gone"/>
+
+</LinearLayout>
+

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.AsyncTask;
 import android.text.Html;
@@ -24,11 +25,14 @@ public class WeiboAdapter extends BaseAdapter
 	private StatusTimeUtils mTimeUtils;
 	private UserApiCache mUserApi;
 	
+	private int mGray;
+	
 	public WeiboAdapter(Context context, MessageListModel list) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
 		mUserApi = new UserApiCache(context);
+		mGray = context.getResources().getColor(R.color.light_gray);
 	}
 	
 	@Override
@@ -52,12 +56,12 @@ public class WeiboAdapter extends BaseAdapter
 			return convertView;
 		} else {
 			MessageModel msg = mList.get(position);
-			return bindView(msg);
+			return bindView(msg, false);
 		}
 	}
 	
-	private View bindView(MessageModel msg) {
-		View v = mInflater.inflate(R.layout.weibo, null);
+	private View bindView(MessageModel msg, boolean sub) {
+		View v = mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
 		TextView name = (TextView) v.findViewById(R.id.weibo_name);
 		TextView date = (TextView) v.findViewById(R.id.weibo_date);
 		TextView from = (TextView) v.findViewById(R.id.weibo_from);
@@ -70,6 +74,14 @@ public class WeiboAdapter extends BaseAdapter
 		retweet.setText(String.valueOf(msg.reposts_count));
 		comments.setText(String.valueOf(msg.comments_count));
 		content.setText(msg.text); // TODO Spannable String , Emoticons
+		
+		if (!sub && msg.retweeted_status != null) {
+			View origin = bindView(msg.retweeted_status, true);
+			origin.setBackgroundColor(mGray);
+			LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+			originParent.addView(origin);
+			originParent.setVisibility(View.VISIBLE);
+		}
 
 		new ImageDownloader().execute(new Object[]{v, msg});
 		
