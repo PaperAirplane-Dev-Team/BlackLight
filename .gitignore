@@ -2,3 +2,9 @@
 /gen
 /obj
 /libs/*/*.so
+/libs/*/bin
+/libs/*/gen
+/libs/*/obj
+/libs/*/libs/*/bin
+/libs/*/libs/*/gen
+/libs/*/libs/*/obj
