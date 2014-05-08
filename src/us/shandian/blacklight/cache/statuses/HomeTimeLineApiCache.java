@@ -44,17 +44,12 @@ public class HomeTimeLineApiCache
 	
 	public void load(boolean newWeibo) {
 		if (newWeibo) {
-			MessageListModel list = HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, 1);
-			int oldSize = mMessages.getSize();
-			mMessages.addAll(true, list);
-			if (mMessages.getSize() - oldSize > 20) {
-				mMessages.getList().clear();
-				mMessages.addAll(true, list);
-			}
-		} else {
-			MessageListModel list = HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
-			mMessages.addAll(false, list);
+			mMessages.getList().clear();
+			mCurrentPage = 0;
 		}
+		
+		MessageListModel list = HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
+		mMessages.addAll(false, list);
 	}
 	
 	public void cache() {
