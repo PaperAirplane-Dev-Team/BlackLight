@@ -115,7 +115,8 @@
 		android:text="Content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_content"
-		android:layout_margin="5dp"/>
+		android:layout_margin="5dp"
+		android:textColorLink="@color/link_blue"/>
 
 	<LinearLayout
 		android:layout_height="wrap_content"

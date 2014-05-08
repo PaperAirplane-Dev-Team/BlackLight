@@ -9,6 +9,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Utility;
 
 public class EntryActivity extends Activity
@@ -20,6 +21,9 @@ public class EntryActivity extends Activity
 		
 		// Clear
 		FileCacheManager.instance(this).clearUnavailable();
+		
+		// Init
+		Emoticons.init(this);
 		
 		LoginApiCache login = new LoginApiCache(this);
 		if (needsLogin(login)) {
@@ -39,7 +43,6 @@ public class EntryActivity extends Activity
 	}
 	
 	private boolean needsLogin(LoginApiCache login) {
-		// TODO consider expire date
 		return login.getAccessToken() == null || Utility.isTokenExpired(login.getExpireDate());
 	}
 }

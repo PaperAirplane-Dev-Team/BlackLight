@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 
 import java.util.HashMap;
 
@@ -18,6 +19,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 
 public class WeiboAdapter extends BaseAdapter
@@ -84,7 +86,8 @@ public class WeiboAdapter extends BaseAdapter
 			
 			name.setText(msg.user.screen_name);
 			from.setText(Html.fromHtml(msg.source).toString());
-			content.setText(msg.text); // TODO Spannable String , Emoticons
+			content.setText(SpannableStringUtils.span(msg.text));
+			content.setMovementMethod(LinkMovementMethod.getInstance());
 			
 			// If this retweets others, show the original
 			if (!sub && msg.retweeted_status != null) {
