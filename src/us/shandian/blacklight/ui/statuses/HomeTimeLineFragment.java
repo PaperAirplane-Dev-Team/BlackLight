@@ -56,6 +56,13 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		}
 		return v;
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		mCache.cache();
+	}
 	
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
