@@ -44,6 +44,16 @@
 			</intent-filter>
 		</activity>
 		
+		<activity
+			android:name=".ui.common.ImageActivity"
+			android:label="@string/app_name"
+			android:theme="@android:style/Theme.Holo.NoActionBar" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
     </application>
 
 </manifest>

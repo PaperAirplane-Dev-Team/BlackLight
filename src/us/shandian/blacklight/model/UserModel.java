@@ -79,6 +79,7 @@ public class UserModel implements Parcelable
 			ret.city = input.readString();
 			ret.location = input.readString();
 			ret.description = input.readString();
+			ret.url = input.readString();
 			ret.profile_image_url = input.readString();
 			ret.domain = input.readString();
 			ret.gender = input.readString();
