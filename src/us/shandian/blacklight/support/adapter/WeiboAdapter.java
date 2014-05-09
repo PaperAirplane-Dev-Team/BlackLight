@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.text.method.LinkMovementMethod;
 import java.util.HashMap;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
@@ -28,6 +30,7 @@ public class WeiboAdapter extends BaseAdapter
 	private LayoutInflater mInflater;
 	private StatusTimeUtils mTimeUtils;
 	private UserApiCache mUserApi;
+	private HomeTimeLineApiCache mHomeApi;
 	
 	private int mGray;
 	
@@ -38,6 +41,7 @@ public class WeiboAdapter extends BaseAdapter
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
 		mUserApi = new UserApiCache(context);
+		mHomeApi = new HomeTimeLineApiCache(context);
 		mGray = context.getResources().getColor(R.color.light_gray);
 	}
 	
@@ -83,11 +87,24 @@ public class WeiboAdapter extends BaseAdapter
 			TextView name = (TextView) v.findViewById(R.id.weibo_name);
 			TextView from = (TextView) v.findViewById(R.id.weibo_from);
 			TextView content = (TextView) v.findViewById(R.id.weibo_content);
+			HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
 			
 			name.setText(msg.user.screen_name);
 			from.setText(Html.fromHtml(msg.source).toString());
 			content.setText(SpannableStringUtils.span(msg.text));
 			content.setMovementMethod(LinkMovementMethod.getInstance());
+			
+			if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
+				scroll.setVisibility(View.VISIBLE);
+				
+				LinearLayout container = (LinearLayout) scroll.findViewById(R.id.weibo_pics);
+				
+				int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
+				
+				for (int i = 0; i < numChilds; i++) {
+					mInflater.inflate(R.layout.weibo_pic, container);
+				}
+			}
 			
 			// If this retweets others, show the original
 			if (!sub && msg.retweeted_status != null) {
@@ -145,6 +162,24 @@ public class WeiboAdapter extends BaseAdapter
 				publishProgress(new Object[]{0, avatar, v});
 			}
 			
+			// Images
+			if (v != null) {
+				HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
+				
+				if (scroll.getVisibility() == View.VISIBLE) {
+					LinearLayout container = (LinearLayout) scroll.findViewById(R.id.weibo_pics);
+					
+					for (int i = 0; i < container.getChildCount(); i++) {
+						ImageView imgView = (ImageView) container.getChildAt(i);
+						Bitmap img = mHomeApi.getThumbnailPic(msg, i);
+						
+						if (img != null) {
+							publishProgress(new Object[]{1, img, imgView});
+						}
+					}
+				}
+			}
+			
 			return null;
 		}
 
@@ -162,7 +197,12 @@ public class WeiboAdapter extends BaseAdapter
 							iv.setImageBitmap(avatar);
 						}
 					}
-					
+					break;
+				case 1:
+					Bitmap img = (Bitmap) values[1];
+					ImageView iv = (ImageView) values[2];
+					iv.setImageBitmap(img);
+					break;
 			}
 			
 		}

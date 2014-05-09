@@ -21,7 +21,17 @@ public class MessageModel implements Parcelable
 		// Picture url
 		// OMG Sina why you use a special class for a simple data!
 		
-		public String thumbnail_pic;
+		private String thumbnail_pic;
+		
+		@Override
+		public String getThumbnail() {
+			return thumbnail_pic;
+		}
+		
+		@Override
+		public String getLarge() {
+			return thumbnail_pic.replace("thumbnail", "large");
+		}
 		
 		@Override
 		public int describeContents() {
@@ -81,6 +91,11 @@ public class MessageModel implements Parcelable
 	// Array field
 	public ArrayList<PictureUrl> pic_urls = new ArrayList<PictureUrl>();
 
+	@Override
+	public boolean hasMultiplePictures() {
+		return pic_urls.size() > 1;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof MessageModel) {

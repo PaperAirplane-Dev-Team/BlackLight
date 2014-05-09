@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.google.gson.Gson;
 
@@ -50,6 +52,44 @@ public class HomeTimeLineApiCache
 		
 		MessageListModel list = HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 		mMessages.addAll(false, list);
+	}
+	
+	public Bitmap getThumbnailPic(MessageModel msg, int id) {
+		String url = null;
+		if (msg.hasMultiplePictures()) {
+			url = msg.pic_urls.get(id).getThumbnail();
+		} else if (id == 0) {
+			url = msg.thumbnail_pic;
+		} else {
+			return null;
+		}
+		
+		if (url == null) {
+			return null;
+		}
+		
+		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
+		byte[] cache;
+		
+		try {
+			cache = mManager.getCache(Constants.FILE_CACHE_PICS_SMALL, cacheName);
+		} catch (Exception e) {
+			cache = null;
+		}
+		
+		if (cache == null) {
+			try {
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
+			} catch (Exception e) {
+				cache = null;
+			}
+		}
+		
+		if (cache == null) {
+			return null;
+		}
+		
+		return BitmapFactory.decodeByteArray(cache, 0, cache.length);
 	}
 	
 	public void cache() {
