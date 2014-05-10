@@ -50,34 +50,42 @@
 			<TextView
 				android:layout_height="wrap_content"
 				android:text="Name"
-				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:layout_width="wrap_content"
 				android:id="@+id/user_name"
 				android:textStyle="bold"
 				android:textColor="@android:color/white"/>
 
-			<TextView
+			<LinearLayout
 				android:layout_height="wrap_content"
-				android:text="Geo"
-				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:layout_width="wrap_content"
-				android:id="@+id/user_geo"
-				android:textSize="9sp"
-				android:layout_marginTop="2dp"/>
+				android:orientation="horizontal"
+				android:layout_marginTop="2dp">
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="Following"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:layout_width="wrap_content"
-				android:layout_marginTop="2dp"
-				android:id="@+id/user_follow_state"
-				android:textColor="@color/darker_gray"
-				android:textSize="10sp"/>
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="Geo"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:id="@+id/user_geo"
+					android:textSize="9sp"/>
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="Following"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:id="@+id/user_follow_state"
+					android:textColor="@color/darker_gray"
+					android:textSize="10sp"
+					android:layout_marginLeft="4dp"/>
+
+			</LinearLayout>
 
 			<ScrollView
 				android:layout_height="match_parent"
-				android:layout_width="match_parent">
+				android:layout_width="match_parent"
+				android:layout_marginTop="3dp">
 
 				<TextView
 					android:layout_height="wrap_content"
