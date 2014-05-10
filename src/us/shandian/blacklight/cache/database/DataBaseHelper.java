@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.tables.UsersTable;
 import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
@@ -11,7 +12,7 @@ import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 public class DataBaseHelper extends SQLiteOpenHelper
 {
 	private static String DB_NAME = "weibo_data";
-	private static int DB_VER = 3;
+	private static int DB_VER = 5;
 	
 	private static DataBaseHelper instance;
 	
@@ -35,9 +36,32 @@ public class DataBaseHelper extends SQLiteOpenHelper
 			if (to >= 3) {
 				db.execSQL(UserTimeLineTable.CREATE);
 			}
+			if (to >= 4) {
+				db.execSQL(Constants.SQL_DROP_TABLE + UsersTable.NAME);
+			}
+			if (to >= 5) {
+				db.execSQL(UsersTable.CREATE);
+			}
 		} else if (from == 2) {
 			if (to >= 3) {
 				db.execSQL(UserTimeLineTable.CREATE);
+			}
+			if (to >= 4) {
+				db.execSQL(Constants.SQL_DROP_TABLE + UsersTable.NAME);
+			}
+			if (to >= 5) {
+				db.execSQL(UsersTable.CREATE);
+			}
+		} else if (from == 3) {
+			if (to >= 4) {
+				db.execSQL(Constants.SQL_DROP_TABLE + UsersTable.NAME);
+			}
+			if (to >= 5) {
+				db.execSQL(UsersTable.CREATE);
+			}
+		} else if (from == 4) {
+			if (to >= 5) {
+				db.execSQL(UsersTable.CREATE);
 			}
 		}
 	}
