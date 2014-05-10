@@ -48,7 +48,8 @@ public class ImageActivity extends Activity
 		mPager.setCurrentItem(def);
 		
 		if (Build.VERSION.SDK_INT >= 19) {
-			int flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+			int flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS |
+						WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
 			getWindow().setFlags(flags, flags);
 		}
 	}
