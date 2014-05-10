@@ -2,7 +2,7 @@ package us.shandian.blacklight.cache;
 
 public class Constants
 {
-	public static final int DB_CACHE_DAYS = 5;
+	public static final int DB_CACHE_DAYS = 1;
 	public static final int FILE_CACHE_DAYS = 3;
 	
 	// File Cache Types
