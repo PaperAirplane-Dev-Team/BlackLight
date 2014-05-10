@@ -2,5 +2,13 @@
 <resources>
 
     <style name="Widget.GifView" parent="@android:style/Widget"></style>
+	
+	<style name="My.Theme.Holo.NoActionBar" parent="@android:style/Theme.Holo.NoActionBar">
+		<item name="android:windowIsTranslucent">true</item>
+	</style>
+	
+	<style name="My.Theme.Holo.Light.DarkActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+		<item name="android:windowIsTranslucent">true</item>
+	</style>
 
 </resources>

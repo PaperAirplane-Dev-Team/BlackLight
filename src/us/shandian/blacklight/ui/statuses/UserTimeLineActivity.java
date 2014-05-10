@@ -11,11 +11,13 @@ import android.widget.TextView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 
-public class UserTimeLineActivity extends Activity
+public class UserTimeLineActivity extends SwipeBackActivity
 {
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;

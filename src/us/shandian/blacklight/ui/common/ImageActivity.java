@@ -18,6 +18,8 @@ import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 import org.roisoleil.gifview.GifView;
 
 import uk.co.senab.photoview.PhotoView;
@@ -26,7 +28,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 
-public class ImageActivity extends Activity
+public class ImageActivity extends SwipeBackActivity
 {
 	private ViewPager mPager;
 	private MessageModel mModel;
