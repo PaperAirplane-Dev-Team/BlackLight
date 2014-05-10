@@ -32,11 +32,11 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		getActivity().getActionBar().setTitle(R.string.timeline);
+		initTitle();
 		
 		View v = inflater.inflate(R.layout.home_timeline, null);
 		mList = (ListView) v.findViewById(R.id.home_timeline);
-		mCache = new HomeTimeLineApiCache(getActivity());
+		mCache = bindApiCache();
 		mCache.loadFromCache();
 		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages);
 		mList.setAdapter(mAdapter);
@@ -84,6 +84,14 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		} else {
 			mPullToRefresh.setRefreshComplete();
 		}
+	}
+	
+	protected HomeTimeLineApiCache bindApiCache() {
+		return new HomeTimeLineApiCache(getActivity());
+	}
+	
+	protected void initTitle() {
+		getActivity().getActionBar().setTitle(R.string.timeline);
 	}
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Void>

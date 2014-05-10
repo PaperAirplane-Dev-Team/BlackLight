@@ -26,6 +26,7 @@ import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.ui.common.ImageActivity;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class WeiboAdapter extends BaseAdapter
@@ -171,7 +172,7 @@ public class WeiboAdapter extends BaseAdapter
 			// Avatars
 			if (v != null) {
 				Bitmap avatar = mUserApi.getSmallAvatar(msg.user);
-				publishProgress(new Object[]{0, avatar, v});
+				publishProgress(new Object[]{0, avatar, v, msg});
 			}
 			
 			// Images
@@ -207,6 +208,19 @@ public class WeiboAdapter extends BaseAdapter
 						ImageView iv = (ImageView) v.findViewById(R.id.weibo_avatar);
 						if (iv != null) {
 							iv.setImageBitmap(avatar);
+							
+							final MessageModel msg = (MessageModel) values[3];
+							
+							iv.setOnClickListener(new View.OnClickListener() {
+								@Override
+								public void onClick(View v) {
+									Intent i = new Intent();
+									i.setAction(Intent.ACTION_MAIN);
+									i.setClass(mContext, UserTimeLineActivity.class);
+									i.putExtra("user", msg.user);
+									mContext.startActivity(i);
+								}
+							});
 						}
 					}
 					break;

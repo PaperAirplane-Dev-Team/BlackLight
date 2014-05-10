@@ -21,12 +21,12 @@ import us.shandian.blacklight.model.MessageListModel;
 /* Time Line of me and my friends */
 public class HomeTimeLineApiCache
 {
-	private DataBaseHelper mHelper;
-	private FileCacheManager mManager;
+	protected DataBaseHelper mHelper;
+	protected FileCacheManager mManager;
 	
 	public MessageListModel mMessages;
 	
-	private int mCurrentPage = 0;
+	protected int mCurrentPage = 0;
 
 	public HomeTimeLineApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
@@ -34,7 +34,7 @@ public class HomeTimeLineApiCache
 	}
 	
 	public void loadFromCache() {
-		Cursor cursor = mHelper.getReadableDatabase().query(HomeTimeLineTable.NAME, null, null, null, null, null, null);
+		Cursor cursor = query();
 		
 		if (cursor.getCount() == 1) {
 			cursor.moveToFirst();
@@ -51,7 +51,7 @@ public class HomeTimeLineApiCache
 			mCurrentPage = 0;
 		}
 		
-		MessageListModel list = HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
+		MessageListModel list = load();
 		mMessages.addAll(false, list);
 	}
 	
@@ -155,5 +155,13 @@ public class HomeTimeLineApiCache
 		
 		db.setTransactionSuccessful();
 		db.endTransaction();
+	}
+	
+	protected Cursor query() {
+		return mHelper.getReadableDatabase().query(HomeTimeLineTable.NAME, null, null, null, null, null, null);
+	}
+	
+	protected MessageListModel load() {
+		return HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 	}
 }

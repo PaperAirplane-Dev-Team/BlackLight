@@ -54,6 +54,16 @@
 			</intent-filter>
 		</activity>
 		
+		<activity
+			android:name=".ui.statuses.UserTimeLineActivity"
+			android:label="@string/user_info"
+			android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
     </application>
 
 </manifest>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:layout_height="120dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:background="@color/gray"
+		android:id="@+id/user_cover"
+		android:gravity="center_vertical">
+
+		<LinearLayout
+			android:layout_height="100dp"
+			android:layout_width="100dp"
+			android:orientation="vertical"
+			android:layout_marginLeft="10dp"
+			android:background="@color/darker_gray"
+			android:gravity="center">
+
+			<LinearLayout
+				android:layout_height="98dp"
+				android:layout_width="98dp"
+				android:orientation="vertical"
+				android:background="@android:color/white"
+				android:gravity="center">
+
+				<ImageView
+					android:layout_height="90dp"
+					style="?android:attr/buttonBarButtonStyle"
+					android:layout_width="90dp"
+					android:id="@+id/user_avatar"
+					android:scaleType="centerCrop"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="vertical"
+			android:layout_margin="10dp"
+			android:background="@color/gray_alpha"
+			android:padding="2dp">
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Name"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:id="@+id/user_name"
+				android:textStyle="bold"
+				android:textColor="@android:color/white"/>
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Geo"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:id="@+id/user_geo"
+				android:textSize="9sp"
+				android:layout_marginTop="2dp"/>
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Following"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_marginTop="2dp"
+				android:id="@+id/user_follow_state"
+				android:textColor="@color/darker_gray"
+				android:textSize="10sp"/>
+
+			<ScrollView
+				android:layout_height="match_parent"
+				android:layout_width="match_parent">
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="Description"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="match_parent"
+					android:id="@+id/user_des"
+					android:textSize="12sp"/>
+
+			</ScrollView>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="45dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:background="@color/light_gray"
+		android:paddingTop="5dp">
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="vertical"
+			android:layout_weight="0.25">
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="@string/followers"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:layout_weight="0.5"/>
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="0"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_weight="0.5"
+				android:gravity="center"
+				android:id="@+id/user_followers"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="vertical"
+			android:layout_weight="0.25">
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="@string/following"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:layout_weight="0.5"/>
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="0"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_weight="0.5"
+				android:gravity="center"
+				android:id="@+id/user_following"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="vertical"
+			android:layout_weight="0.25">
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="@string/msgs"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:layout_weight="0.5"/>
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="0"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_weight="0.5"
+				android:gravity="center"
+				android:id="@+id/user_msgs"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="vertical"
+			android:layout_weight="0.25">
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="@string/like"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:layout_weight="0.5"/>
+
+			<TextView
+				android:layout_height="match_parent"
+				android:text="0"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="match_parent"
+				android:layout_weight="0.5"
+				android:gravity="center"
+				android:id="@+id/user_like"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<FrameLayout
+		android:id="@+id/user_timeline_container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+
+</LinearLayout>
+

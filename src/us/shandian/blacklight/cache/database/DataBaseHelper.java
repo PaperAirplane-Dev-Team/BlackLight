@@ -5,12 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import us.shandian.blacklight.cache.database.tables.UsersTable;
+import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 
 public class DataBaseHelper extends SQLiteOpenHelper
 {
 	private static String DB_NAME = "weibo_data";
-	private static int DB_VER = 2;
+	private static int DB_VER = 3;
 	
 	private static DataBaseHelper instance;
 	
@@ -22,6 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(UsersTable.CREATE);
 		db.execSQL(HomeTimeLineTable.CREATE);
+		db.execSQL(UserTimeLineTable.CREATE);
 	}
 
 	@Override
@@ -29,6 +31,13 @@ public class DataBaseHelper extends SQLiteOpenHelper
 		if (from == 1) {
 			if (to >= 2) {
 				db.execSQL(HomeTimeLineTable.CREATE);
+			}
+			if (to >= 3) {
+				db.execSQL(UserTimeLineTable.CREATE);
+			}
+		} else if (from == 2) {
+			if (to >= 3) {
+				db.execSQL(UserTimeLineTable.CREATE);
 			}
 		}
 	}

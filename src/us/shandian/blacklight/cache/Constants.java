@@ -7,6 +7,8 @@ public class Constants
 	
 	// File Cache Types
 	public static final String FILE_CACHE_AVATAR_SMALL = "avatar_small";
+	public static final String FILE_CACHE_AVATAR_LARGE = "avatar_large";
+	public static final String FILE_CACHE_COVER = "cover";
 	public static final String FILE_CACHE_PICS_SMALL = "pics_small";
 	public static final String FILE_CACHE_PICS_LARGE = "pics_large";
 	

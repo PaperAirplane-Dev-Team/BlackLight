@@ -40,6 +40,17 @@
 	<string name="yesterday">昨天</string>
 	<string name="the_day_before_yesterday">前天</string>
 	
+	<!-- User Time Line -->
+	<string name="user_info">用户信息</string>
+	<string name="followers">粉丝</string>
+	<string name="following">关注</string>
+	<string name="msgs">微博</string>
+	<string name="like">收藏</string>
+	<string name="following_me">正关注我</string>
+	<string name="i_am_following">我正关注</string>
+	<string name="following_each_other">互相关注</string>
+	<string name="no_following">未关注</string>
+	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>
 	<string name="name_fetching">昵称获取中...</string>

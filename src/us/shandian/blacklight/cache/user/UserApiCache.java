@@ -98,4 +98,46 @@ public class UserApiCache
 		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
 	}
 	
+	public Bitmap getLargeAvatar(UserModel model) {
+		byte[] cache;
+		try {
+			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, model.id);
+		} catch (Exception e) {
+			cache = null;
+		}
+
+		if (cache == null) {
+			try {
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, model.id, model.avatar_large);
+			} catch (Exception e) {
+				cache = null;
+			}
+		}
+
+		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
+	}
+	
+	public Bitmap getCover(UserModel model) {
+		if (model.cover_image == null) {
+			return null;
+		}
+		
+		byte[] cache;
+		try {
+			cache = mManager.getCache(Constants.FILE_CACHE_COVER, model.id);
+		} catch (Exception e) {
+			cache = null;
+		}
+
+		if (cache == null) {
+			try {
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image);
+			} catch (Exception e) {
+				cache = null;
+			}
+		}
+
+		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
+	}
+	
 }

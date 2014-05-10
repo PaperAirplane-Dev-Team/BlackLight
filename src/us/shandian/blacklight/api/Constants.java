@@ -15,5 +15,6 @@ public class Constants
 	
 	// Statuses
 	public static final String HOME_TIMELINE = SINA_BASE_URL + "statuses/home_timeline.json";
+	public static final String USER_TIMELINE = SINA_BASE_URL + "statuses/user_timeline.json";
 	
 }
