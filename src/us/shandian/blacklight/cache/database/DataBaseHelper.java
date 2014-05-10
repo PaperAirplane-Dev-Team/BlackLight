@@ -33,8 +33,6 @@ public class DataBaseHelper extends SQLiteOpenHelper
 		}
 	}
 	
-	// TODO Clean unavailable records
-	
 	public static synchronized DataBaseHelper instance(Context context) {
 		if (instance == null) {
 			instance = new DataBaseHelper(context);

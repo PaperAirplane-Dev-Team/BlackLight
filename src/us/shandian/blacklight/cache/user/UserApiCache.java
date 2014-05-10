@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -15,9 +16,13 @@ import us.shandian.blacklight.cache.database.DataBaseHelper;
 import us.shandian.blacklight.cache.database.tables.UsersTable;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.support.Utility;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class UserApiCache
 {
+	private static String TAG = UserApiCache.class.getSimpleName();
+	
 	private DataBaseHelper mHelper;
 	private FileCacheManager mManager;
 	
@@ -37,24 +42,39 @@ public class UserApiCache
 		
 		if (cursor.getCount() >= 1) {
 			cursor.moveToFirst();
-			model = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(UsersTable.JSON)), UserModel.class);
-			model.timestamp = cursor.getInt(cursor.getColumnIndex(UsersTable.TIMESTAMP));
-		} else {
-			model = UserApi.getUser(uid);
 			
-			if (model == null) {
-				return null;
+			long time = cursor.getLong(cursor.getColumnIndex(UsersTable.TIMESTAMP));
+			
+			if (DEBUG) {
+				Log.d(TAG, "time = " + time);
+				Log.d(TAG, "available = " + Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS));
 			}
 			
-			// Insert into database
-			ContentValues values = new ContentValues();
-			values.put(UsersTable.UID, uid);
-			values.put(UsersTable.TIMESTAMP, model.timestamp);
-			values.put(UsersTable.JSON, new Gson().toJson(model));
-			
-			SQLiteDatabase db = mHelper.getWritableDatabase();
-			db.insert(UsersTable.NAME, null, values);
+			if (Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS)) {
+				model = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(UsersTable.JSON)), UserModel.class);
+				model.timestamp = cursor.getInt(cursor.getColumnIndex(UsersTable.TIMESTAMP));
+				return model;
+			}
 		}
+		
+		model = UserApi.getUser(uid);
+		
+		if (model == null) {
+			return null;
+		}
+		
+		// Insert into database
+		ContentValues values = new ContentValues();
+		values.put(UsersTable.UID, uid);
+		values.put(UsersTable.TIMESTAMP, model.timestamp);
+		values.put(UsersTable.JSON, new Gson().toJson(model));
+		
+		SQLiteDatabase db = mHelper.getWritableDatabase();
+		db.beginTransaction();
+		db.delete(UsersTable.NAME, UsersTable.UID + "=?", new String[]{uid});
+		db.insert(UsersTable.NAME, null, values);
+		db.setTransactionSuccessful();
+		db.endTransaction();
 		
 		return model;
 	}
