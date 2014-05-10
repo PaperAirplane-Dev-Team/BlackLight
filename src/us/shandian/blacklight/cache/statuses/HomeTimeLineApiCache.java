@@ -129,10 +129,16 @@ public class HomeTimeLineApiCache
 		}
 
 		if (cacheName.endsWith(".gif")) {
-			return Movie.decodeByteArray(cache, 0, cache.length);
-		} else {
-			return BitmapFactory.decodeByteArray(cache, 0, cache.length);
-		}
+			Movie movie = Movie.decodeByteArray(cache, 0, cache.length);
+			
+			// A real movie must have a dutation bigger than 0
+			// Or it is just a static picture
+			if (movie.duration() > 0) {
+				return movie;
+			}
+		} 
+		
+		return BitmapFactory.decodeByteArray(cache, 0, cache.length);
 	}
 	
 	public void cache() {
