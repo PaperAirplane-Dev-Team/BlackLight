@@ -174,7 +174,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			switch (value) {
 				case 0:
 					// Show user name
-					mName.setText(mUser.screen_name);
+					mName.setText(mUser.getName());
 					break;
 				case 1:
 					// Show avatar

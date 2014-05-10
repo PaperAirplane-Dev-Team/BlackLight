@@ -36,6 +36,10 @@ public class UserModel implements Parcelable
 	public int online_status = 0;
 	public int bi_followers_count = 0;
 	
+	public String getName() {
+		return screen_name == null ? name : screen_name;
+	}
+	
 	
 	@Override
 	public int describeContents() {
