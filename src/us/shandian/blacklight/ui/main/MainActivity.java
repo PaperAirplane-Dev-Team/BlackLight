@@ -3,6 +3,7 @@ package us.shandian.blacklight.ui.main;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.view.Gravity;
@@ -24,6 +25,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 /* Main Container Activity */
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener
@@ -89,6 +91,21 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
 		new InitializerTask().execute();
+		
+		findViewById(R.id.my_account).setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (mUser != null) {
+						Intent i = new Intent();
+						i.setAction(Intent.ACTION_MAIN);
+						i.setClass(MainActivity.this, UserTimeLineActivity.class);
+						i.putExtra("user", mUser);
+						startActivity(i);
+					}
+				}
+
+		});
 		
 		// Initialize ActionBar Style
 		getActionBar().setDisplayHomeAsUpEnabled(true);
