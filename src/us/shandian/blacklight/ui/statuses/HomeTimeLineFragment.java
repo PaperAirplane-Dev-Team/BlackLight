@@ -41,6 +41,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages);
 		mList.setAdapter(mAdapter);
 		mList.setOnScrollListener(this);
+		mList.addFooterView(inflater.inflate(R.layout.timeline_footer, null));
 		
 		// Pull To Refresh
 		mPullToRefresh = new PullToRefreshLayout(getActivity());

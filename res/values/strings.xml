@@ -30,6 +30,7 @@
 	<string name="comment">评论</string>
 	<string name="status_mention_me">提到我的微博</string>
 	<string name="comment_mention_me">提到我的评论</string>
+	<string name="loading_more">正在加载更多...</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>
