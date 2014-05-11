@@ -25,6 +25,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
+import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
@@ -119,6 +120,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mFragments[0] = new HomeTimeLineFragment();
 		mFragments[1] = new CommentTimeLineFragment();
 		mFragments[4] = new MentionsTimeLineFragment();
+		mFragments[5] = new CommentMentionsTimeLineFragment();
 		mManager = getFragmentManager();
 		mManager.beginTransaction().replace(R.id.container, mFragments[0]).commit();
 	}

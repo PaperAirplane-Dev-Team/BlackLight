@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.tables.CommentTimeLineTable;
+import us.shandian.blacklight.cache.database.tables.CommentMentionsTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.UsersTable;
 import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
@@ -14,7 +15,7 @@ import us.shandian.blacklight.cache.database.tables.MentionsTimeLineTable;
 public class DataBaseHelper extends SQLiteOpenHelper
 {
 	private static String DB_NAME = "weibo_data";
-	private static int DB_VER = 9;
+	private static int DB_VER = 10;
 	
 	private static DataBaseHelper instance;
 	
@@ -29,12 +30,13 @@ public class DataBaseHelper extends SQLiteOpenHelper
 		db.execSQL(UserTimeLineTable.CREATE);
 		db.execSQL(MentionsTimeLineTable.CREATE);
 		db.execSQL(CommentTimeLineTable.CREATE);
+		db.execSQL(CommentMentionsTimeLineTable.CREATE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int from, int to) {
-		if (from == 8) {
-			db.execSQL(CommentTimeLineTable.CREATE);
+		if (from == 9) {
+			db.execSQL(CommentMentionsTimeLineTable.CREATE);
 		}
 	}
 	
