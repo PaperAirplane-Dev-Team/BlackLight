@@ -2,6 +2,7 @@ package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.os.Bundle;
@@ -42,6 +43,16 @@ public class SingleActivity extends SwipeBackActivity
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
 		getFragmentManager().beginTransaction().replace(R.id.single_comments, mCommentFragment).commit();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
