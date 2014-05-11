@@ -28,6 +28,7 @@
 	<string name="timeline">时间流</string>
 	<string name="retweet">转发</string>
 	<string name="comment">评论</string>
+	<string name="status_mention_me">提到我的微博</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>

@@ -25,6 +25,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 /* Main Container Activity */
@@ -44,7 +45,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private UserModel mUser;
 	
 	// Fragments
-	private Fragment[] mFragmemts = new Fragment[1];
+	private Fragment[] mFragments = new Fragment[6];
 	private FragmentManager mManager;
 	
 	// Temp fields
@@ -114,9 +115,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		getActionBar().setDisplayShowHomeEnabled(false);
 		
 		// Fragments
-		mFragmemts[0] = new HomeTimeLineFragment();
+		mFragments[0] = new HomeTimeLineFragment();
+		mFragments[4] = new MentionsTimeLineFragment();
 		mManager = getFragmentManager();
-		mManager.beginTransaction().replace(R.id.container, mFragmemts[0]).commit();
+		mManager.beginTransaction().replace(R.id.container, mFragments[0]).commit();
 	}
 
 	@Override
@@ -141,7 +143,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 		if (mLastChoice != null) {
 			mLastChoice.getPaint().setFakeBoldText(false);
 			mLastChoice.invalidate();
@@ -152,17 +154,27 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			tv.getPaint().setFakeBoldText(true);
 			tv.invalidate();
 			mLastChoice = tv;
-			switch (position) {
-				case 0:
-					mManager.beginTransaction().replace(R.id.container, mFragmemts[0]).commit();
-					break;
+			if (mFragments[position] != null) {
+				tv.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						mManager.beginTransaction().replace(R.id.container, mFragments[position]).commit();
+					}
+				}, 800);
 			}
 		} else if (parent == mAtMe) {
 			TextView tv = (TextView) view;
 			tv.getPaint().setFakeBoldText(true);
 			tv.invalidate();
 			mLastChoice = tv;
-			// TODO Switch fragmemts
+			if (mFragments[4 + position] != null) {
+				tv.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						mManager.beginTransaction().replace(R.id.container, mFragments[4 + position]).commit();
+					}
+				}, 800);
+			}
 		}
 		
 		mDrawer.closeDrawer(Gravity.START);
