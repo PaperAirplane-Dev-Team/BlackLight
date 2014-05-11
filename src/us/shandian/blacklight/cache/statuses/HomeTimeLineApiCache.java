@@ -38,10 +38,14 @@ public class HomeTimeLineApiCache
 		
 		if (cursor.getCount() == 1) {
 			cursor.moveToFirst();
-			mMessages = new Gson().fromJson(cursor.getString(1), MessageListModel.class);
+			mMessages = new Gson().fromJson(cursor.getString(1), getListClass());
 			mCurrentPage = mMessages.getSize() / Constants.HOME_TIMELINE_PAGE_SIZE;
 		} else {
-			mMessages = new MessageListModel();
+			try {
+				mMessages = getListClass().newInstance();
+			} catch (Exception e) {
+				mMessages = new MessageListModel();
+			}
 		}
 	}
 	
@@ -163,5 +167,9 @@ public class HomeTimeLineApiCache
 	
 	protected MessageListModel load() {
 		return HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
+	}
+	
+	protected Class<? extends MessageListModel> getListClass() {
+		return MessageListModel.class;
 	}
 }

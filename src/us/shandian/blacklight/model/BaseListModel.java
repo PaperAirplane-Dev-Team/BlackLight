@@ -12,7 +12,7 @@ public interface BaseListModel<ITEM, LIST> extends Parcelable
 	
 	public int getSize();
 	public ITEM get(int position);
-	public List<ITEM> getList();
+	public List<? extends ITEM> getList();
 	
 	/*
 	  @param toTop If true, add to top, else add to bottom

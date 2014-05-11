@@ -21,6 +21,7 @@ import java.util.HashMap;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
+import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.SpannableStringUtils;
@@ -29,6 +30,11 @@ import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
+/*
+  This is a common adapter for all kinds of weibo data (Statuses / Comments)
+  Adapting them to ListViews.
+  They share one common layout
+*/
 public class WeiboAdapter extends BaseAdapter
 {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
@@ -117,13 +123,31 @@ public class WeiboAdapter extends BaseAdapter
 				}
 			}
 			
-			// If this retweets others, show the original
-			if (!sub && msg.retweeted_status != null) {
-				View origin = bindView(msg.retweeted_status, true);
-				origin.setBackgroundColor(mGray);
-				LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
-				originParent.addView(origin);
-				originParent.setVisibility(View.VISIBLE);
+			// If this retweets/repies to others, show the original
+			if (!sub) {
+				View origin = null;
+				if (!(msg instanceof CommentModel) && msg.retweeted_status != null) {
+					origin = bindView(msg.retweeted_status, true);
+				} else if (msg instanceof CommentModel) {
+					CommentModel comment = (CommentModel) msg;
+					if (comment.reply_comment != null) {
+						origin = bindView(comment.reply_comment, true);
+					} else if (comment.status != null) {
+						origin = bindView(comment.status, true);
+					}
+				}
+				
+				if (origin != null) {
+					origin.setBackgroundColor(mGray);
+					LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+					originParent.addView(origin);
+					originParent.setVisibility(View.VISIBLE);
+					
+					if (msg instanceof CommentModel) {
+						origin.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
+					}
+					
+				}
 			}
 
 			new ImageDownloader().execute(new Object[]{v, msg});
@@ -140,20 +164,33 @@ public class WeiboAdapter extends BaseAdapter
 		TextView comments = (TextView) v.findViewById(R.id.weibo_comments);
 		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
-		retweet.setText(String.valueOf(msg.reposts_count));
-		comments.setText(String.valueOf(msg.comments_count));
+		
+		if (msg instanceof CommentModel) {
+			v.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
+		} else {
+			retweet.setText(String.valueOf(msg.reposts_count));
+			comments.setText(String.valueOf(msg.comments_count));
+		}
 		
 		// Update subview's info as well
-		if (existed && !sub && msg.retweeted_status != null) {
+		MessageModel origMsg = null;
+		
+		if (msg instanceof CommentModel) {
+			origMsg = ((CommentModel) msg).status;
+		} else {
+			origMsg = msg.retweeted_status;
+		}
+		
+		if (existed && !sub && origMsg != null) {
 			LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
 			
 			date = (TextView) originParent.findViewById(R.id.weibo_date);
 			retweet = (TextView) originParent.findViewById(R.id.weibo_retweet);
 			comments = (TextView) originParent.findViewById(R.id.weibo_comments);
 
-			date.setText(mTimeUtils.buildTimeString(msg.retweeted_status.created_at));
-			retweet.setText(String.valueOf(msg.retweeted_status.reposts_count));
-			comments.setText(String.valueOf(msg.retweeted_status.comments_count));
+			date.setText(mTimeUtils.buildTimeString(origMsg.created_at));
+			retweet.setText(String.valueOf(origMsg.reposts_count));
+			comments.setText(String.valueOf(origMsg.comments_count));
 		}
 		
 		v.setTag(msg);
@@ -176,7 +213,7 @@ public class WeiboAdapter extends BaseAdapter
 			}
 			
 			// Images
-			if (v != null) {
+			if (v != null && !(msg instanceof CommentModel)) {
 				HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
 				
 				if (scroll.getVisibility() == View.VISIBLE) {

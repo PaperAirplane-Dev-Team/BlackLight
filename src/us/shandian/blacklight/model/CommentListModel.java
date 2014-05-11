@@ -7,43 +7,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-  List of messages
-  From timelines
-  
-  credits to: qii
-  author: PeterCxy
+  A list of comments
 */
-public class MessageListModel implements BaseListModel<MessageModel, MessageListModel>
+
+public class CommentListModel extends MessageListModel
 {
-	private List<MessageModel> statuses = new ArrayList<MessageModel>();
+	private List<CommentModel> comments = new ArrayList<CommentModel>();
 	
 	@Override
 	public int getSize() {
-		return statuses.size();
+		return comments.size();
 	}
 
 	@Override
-	public MessageModel get(int position) {
-		return statuses.get(position);
+	public CommentModel get(int position) {
+		return comments.get(position);
 	}
 
 	@Override
 	public List<? extends MessageModel> getList() {
-		return statuses;
+		return comments;
 	}
 
 	@Override
 	public void addAll(boolean toTop, MessageListModel values) {
-		if (values != null && values.getSize() > 0) {
+		if (values instanceof CommentListModel && values != null && values.getSize() > 0) {
 			for (MessageModel msg : values.getList()) {
-				if (!statuses.contains(msg)) {
-					statuses.add(toTop ? values.getList().indexOf(msg) : statuses.size(), msg);
+				if (!comments.contains(msg)) {
+					comments.add(toTop ? values.getList().indexOf(msg) : comments.size(), (CommentModel) msg);
 				}
 			}
 			total_number = values.total_number;
 		}
 	}
-	
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -54,28 +51,28 @@ public class MessageListModel implements BaseListModel<MessageModel, MessageList
 		dest.writeInt(total_number);
 		dest.writeString(previous_cursor);
 		dest.writeString(next_cursor);
-		dest.writeTypedList(statuses);
+		dest.writeTypedList(comments);
 	}
-	
+
 	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
 
 		@Override
-		public MessageListModel createFromParcel(Parcel in) {
-			MessageListModel ret = new MessageListModel();
+		public CommentListModel createFromParcel(Parcel in) {
+			CommentListModel ret = new CommentListModel();
 			ret.total_number = in.readInt();
 			ret.previous_cursor = in.readString();
 			ret.next_cursor = in.readString();
-			in.readTypedList(ret.statuses, MessageModel.CREATOR);
-			
+			in.readTypedList(ret.comments, CommentModel.CREATOR);
+
 			return ret;
 		}
 
 		@Override
-		public MessageListModel[] newArray(int size) {
-			return new MessageListModel[size];
+		public CommentListModel[] newArray(int size) {
+			return new CommentListModel[size];
 		}
 
-		
-	};
 
+	};
+	
 }
