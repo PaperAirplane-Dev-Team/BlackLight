@@ -21,6 +21,7 @@ import static us.shandian.blacklight.cache.Constants.HOME_TIMELINE_PAGE_SIZE;
 public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScrollListener, OnRefreshListener
 {
 	private ListView mList;
+	private View mFooter;
 	private WeiboAdapter mAdapter;
 	private HomeTimeLineApiCache mCache;
 	
@@ -30,6 +31,8 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	private boolean mRefreshing = false;
 	
 	protected boolean mBindOrig = true;
+	
+	private int mLastCount = 0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	}
 	
 	protected void bindFooterView(LayoutInflater inflater) {
-		mList.addFooterView(inflater.inflate(R.layout.timeline_footer, null));
+		mList.addFooterView((mFooter = inflater.inflate(R.layout.timeline_footer, null)));
 	}
 	
 	protected void bindPullToRefresh(View v) {
@@ -117,6 +120,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			mLastCount = mCache.mMessages.getSize();
 			mRefreshing = true;
 		}
 		
@@ -133,6 +137,14 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			mRefreshing = false;
 			if (mPullToRefresh != null) {
 				mPullToRefresh.setRefreshComplete();
+			}
+			
+			// Cannot load more
+			if (mCache.mMessages.getSize() == mLastCount) {
+				mFooter.setVisibility(View.GONE);
+				
+				// Set this flag to true, and this task can't be started again
+				mRefreshing = true;
 			}
 		}
 
