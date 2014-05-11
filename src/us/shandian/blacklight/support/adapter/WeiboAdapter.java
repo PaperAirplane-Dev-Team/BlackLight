@@ -166,7 +166,9 @@ public class WeiboAdapter extends BaseAdapter
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
 		
 		if (msg instanceof CommentModel) {
-			v.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
+			if (!existed) {
+				v.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
+			}
 		} else {
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
