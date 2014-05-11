@@ -27,6 +27,7 @@ import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.ui.common.ImageActivity;
+import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -49,9 +50,11 @@ public class WeiboAdapter extends BaseAdapter
 	
 	private Context mContext;
 	
+	private boolean mBindOrig;
+	
 	private HashMap<Long, View> mViews = new HashMap<Long, View>();
 	
-	public WeiboAdapter(Context context, MessageListModel list) {
+	public WeiboAdapter(Context context, MessageListModel list, boolean bindOrig) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
@@ -59,6 +62,7 @@ public class WeiboAdapter extends BaseAdapter
 		mHomeApi = new HomeTimeLineApiCache(context);
 		mGray = context.getResources().getColor(R.color.light_gray);
 		mContext = context;
+		mBindOrig = bindOrig;
 	}
 	
 	@Override
@@ -99,7 +103,7 @@ public class WeiboAdapter extends BaseAdapter
 		// If not inflated before, then we have much work to do
 		if (!existed) {
 			v = mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
-			
+			v.setTag(msg);
 			TextView name = (TextView) v.findViewById(R.id.weibo_name);
 			TextView from = (TextView) v.findViewById(R.id.weibo_from);
 			TextView content = (TextView) v.findViewById(R.id.weibo_content);
@@ -124,7 +128,7 @@ public class WeiboAdapter extends BaseAdapter
 			}
 			
 			// If this retweets/repies to others, show the original
-			if (!sub) {
+			if (!sub && mBindOrig) {
 				View origin = null;
 				if (!(msg instanceof CommentModel) && msg.retweeted_status != null) {
 					origin = bindView(msg.retweeted_status, true);
@@ -148,6 +152,24 @@ public class WeiboAdapter extends BaseAdapter
 					}
 					
 				}
+			}
+			
+			if (mBindOrig) {
+				v.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						MessageModel msg = (MessageModel) v.getTag();
+						if (msg != null) {
+							if (!(msg instanceof CommentModel)) {
+								Intent i = new Intent();
+								i.setAction(Intent.ACTION_MAIN);
+								i.setClass(mContext, SingleActivity.class);
+								i.putExtra("msg", msg);
+								mContext.startActivity(i);
+							}
+						}
+					}
+				});
 			}
 
 			new ImageDownloader().execute(new Object[]{v, msg});
@@ -183,7 +205,7 @@ public class WeiboAdapter extends BaseAdapter
 			origMsg = msg.retweeted_status;
 		}
 		
-		if (existed && !sub && origMsg != null) {
+		if (existed && mBindOrig && !sub && origMsg != null) {
 			LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
 			
 			date = (TextView) originParent.findViewById(R.id.weibo_date);
@@ -194,8 +216,6 @@ public class WeiboAdapter extends BaseAdapter
 			retweet.setText(String.valueOf(origMsg.reposts_count));
 			comments.setText(String.valueOf(origMsg.comments_count));
 		}
-		
-		v.setTag(msg);
 		
 		return v;
 	}

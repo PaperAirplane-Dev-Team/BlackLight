@@ -54,6 +54,9 @@
 	<string name="following_each_other">互相关注</string>
 	<string name="no_following">未关注</string>
 	
+	<!-- Single -->
+	<string name="single_info">微博信息</string>
+	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>
 	<string name="name_fetching">昵称获取中...</string>

@@ -29,6 +29,8 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	
 	private boolean mRefreshing = false;
 	
+	protected boolean mBindOrig = true;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -38,19 +40,13 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages);
+		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig);
 		mList.setAdapter(mAdapter);
 		mList.setOnScrollListener(this);
-		mList.addFooterView(inflater.inflate(R.layout.timeline_footer, null));
+		bindFooterView(inflater);
 		
 		// Pull To Refresh
-		mPullToRefresh = new PullToRefreshLayout(getActivity());
-		
-		ActionBarPullToRefresh.from(getActivity())
-							  .insertLayoutInto((ViewGroup) v)
-							  .theseChildrenArePullable(new View[]{mList})
-							  .listener(this)
-							  .setup(mPullToRefresh);
+		bindPullToRefresh(v);
 		
 		if (mCache.mMessages.getSize() == 0) {
 			new Refresher().execute(new Boolean[]{true});
@@ -101,6 +97,20 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		getActivity().getActionBar().setTitle(R.string.timeline);
 	}
 	
+	protected void bindFooterView(LayoutInflater inflater) {
+		mList.addFooterView(inflater.inflate(R.layout.timeline_footer, null));
+	}
+	
+	protected void bindPullToRefresh(View v) {
+		mPullToRefresh = new PullToRefreshLayout(getActivity());
+		
+		ActionBarPullToRefresh.from(getActivity())
+							  .insertLayoutInto((ViewGroup) v)
+							  .theseChildrenArePullable(new View[]{mList})
+							  .listener(this)
+							  .setup(mPullToRefresh);
+	}
+	
 	private class Refresher extends AsyncTask<Boolean, Void, Void>
 	{
 
@@ -121,7 +131,9 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			super.onPostExecute(result);
 			mAdapter.notifyDataSetChanged();
 			mRefreshing = false;
-			mPullToRefresh.setRefreshComplete();
+			if (mPullToRefresh != null) {
+				mPullToRefresh.setRefreshComplete();
+			}
 		}
 
 		
