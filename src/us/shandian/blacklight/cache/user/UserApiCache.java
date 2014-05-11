@@ -32,102 +32,100 @@ public class UserApiCache
 	}
 	
 	public UserModel getUser(String uid) {
-		Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[] {
-			UsersTable.UID,
-			UsersTable.TIMESTAMP,
-			UsersTable.USERNAME,
-			UsersTable.JSON
-		}, UsersTable.UID + "=?", new String[]{uid}, null, null, null);
-		
 		UserModel model;
 		
-		if (cursor.getCount() >= 1) {
-			cursor.moveToFirst();
-			
-			long time = cursor.getLong(cursor.getColumnIndex(UsersTable.TIMESTAMP));
-			
-			if (DEBUG) {
-				Log.d(TAG, "time = " + time);
-				Log.d(TAG, "available = " + Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS));
-			}
-			
-			if (Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS)) {
-				model = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(UsersTable.JSON)), UserModel.class);
-				model.timestamp = cursor.getInt(cursor.getColumnIndex(UsersTable.TIMESTAMP));
-				return model;
-			}
-		}
-		
 		model = UserApi.getUser(uid);
-		
+
 		if (model == null) {
-			return null;
+			Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[] {
+				UsersTable.UID,
+				UsersTable.TIMESTAMP,
+				UsersTable.USERNAME,
+				UsersTable.JSON
+			}, UsersTable.UID + "=?", new String[]{uid}, null, null, null);
+
+			if (cursor.getCount() >= 1) {
+				cursor.moveToFirst();
+
+				long time = cursor.getLong(cursor.getColumnIndex(UsersTable.TIMESTAMP));
+
+				if (DEBUG) {
+					Log.d(TAG, "time = " + time);
+					Log.d(TAG, "available = " + Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS));
+				}
+
+				if (Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS)) {
+					model = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(UsersTable.JSON)), UserModel.class);
+					model.timestamp = cursor.getInt(cursor.getColumnIndex(UsersTable.TIMESTAMP));
+				}
+			}
+		} else {
+			
+			// Insert into database
+			ContentValues values = new ContentValues();
+			values.put(UsersTable.UID, uid);
+			values.put(UsersTable.TIMESTAMP, model.timestamp);
+			values.put(UsersTable.USERNAME, model.getName());
+			values.put(UsersTable.JSON, new Gson().toJson(model));
+
+			SQLiteDatabase db = mHelper.getWritableDatabase();
+			db.beginTransaction();
+			db.delete(UsersTable.NAME, UsersTable.UID + "=?", new String[]{uid});
+			db.insert(UsersTable.NAME, null, values);
+			db.setTransactionSuccessful();
+			db.endTransaction();
+		
 		}
-		
-		// Insert into database
-		ContentValues values = new ContentValues();
-		values.put(UsersTable.UID, uid);
-		values.put(UsersTable.TIMESTAMP, model.timestamp);
-		values.put(UsersTable.USERNAME, model.getName());
-		values.put(UsersTable.JSON, new Gson().toJson(model));
-		
-		SQLiteDatabase db = mHelper.getWritableDatabase();
-		db.beginTransaction();
-		db.delete(UsersTable.NAME, UsersTable.UID + "=?", new String[]{uid});
-		db.insert(UsersTable.NAME, null, values);
-		db.setTransactionSuccessful();
-		db.endTransaction();
 		
 		return model;
 	}
 	
 	public UserModel getUserByName(String name) {
-		Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[] {
-			UsersTable.UID,
-			UsersTable.TIMESTAMP,
-			UsersTable.USERNAME,
-			UsersTable.JSON
-		}, UsersTable.USERNAME + "=?", new String[]{name}, null, null, null);
-		
 		UserModel model;
-
-		if (cursor.getCount() >= 1) {
-			cursor.moveToFirst();
-
-			long time = cursor.getLong(cursor.getColumnIndex(UsersTable.TIMESTAMP));
-
-			if (DEBUG) {
-				Log.d(TAG, "time = " + time);
-				Log.d(TAG, "available = " + Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS));
-			}
-
-			if (Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS)) {
-				model = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(UsersTable.JSON)), UserModel.class);
-				model.timestamp = cursor.getInt(cursor.getColumnIndex(UsersTable.TIMESTAMP));
-				return model;
-			}
-		}
-
+		
 		model = UserApi.getUserByName(name);
 
 		if (model == null) {
-			return null;
+			Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[] {
+				UsersTable.UID,
+				UsersTable.TIMESTAMP,
+				UsersTable.USERNAME,
+				UsersTable.JSON
+			}, UsersTable.USERNAME + "=?", new String[]{name}, null, null, null);
+
+			if (cursor.getCount() >= 1) {
+				cursor.moveToFirst();
+
+				long time = cursor.getLong(cursor.getColumnIndex(UsersTable.TIMESTAMP));
+
+				if (DEBUG) {
+					Log.d(TAG, "time = " + time);
+					Log.d(TAG, "available = " + Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS));
+				}
+
+				if (Utility.isCacheAvailable(time, Constants.DB_CACHE_DAYS)) {
+					model = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(UsersTable.JSON)), UserModel.class);
+					model.timestamp = cursor.getInt(cursor.getColumnIndex(UsersTable.TIMESTAMP));
+				}
+			}
+		} else {
+
+			// Insert into database
+			ContentValues values = new ContentValues();
+			values.put(UsersTable.UID, model.id);
+			values.put(UsersTable.TIMESTAMP, model.timestamp);
+			values.put(UsersTable.USERNAME, name);
+			values.put(UsersTable.JSON, new Gson().toJson(model));
+
+			SQLiteDatabase db = mHelper.getWritableDatabase();
+			db.beginTransaction();
+			db.delete(UsersTable.NAME, UsersTable.USERNAME + "=?", new String[]{name});
+			db.insert(UsersTable.NAME, null, values);
+			db.setTransactionSuccessful();
+			db.endTransaction();
+
 		}
-
-		// Insert into database
-		ContentValues values = new ContentValues();
-		values.put(UsersTable.UID, model.id);
-		values.put(UsersTable.TIMESTAMP, model.timestamp);
-		values.put(UsersTable.USERNAME, name);
-		values.put(UsersTable.JSON, new Gson().toJson(model));
-
-		SQLiteDatabase db = mHelper.getWritableDatabase();
-		db.beginTransaction();
-		db.delete(UsersTable.NAME, UsersTable.USERNAME + "=?", new String[]{name});
-		db.insert(UsersTable.NAME, null, values);
-		db.setTransactionSuccessful();
-		db.endTransaction();
-
+		
 		return model;
 	}
 	
