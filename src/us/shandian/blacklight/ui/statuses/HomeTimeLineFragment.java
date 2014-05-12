@@ -116,7 +116,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
 	}
 	
-	private class Refresher extends AsyncTask<Boolean, Void, Void>
+	private class Refresher extends AsyncTask<Boolean, Void, Boolean>
 	{
 
 		@Override
@@ -135,13 +135,13 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		}
 		
 		@Override
-		protected Void doInBackground(Boolean[] params) {
+		protected Boolean doInBackground(Boolean[] params) {
 			mCache.load(params[0]);
-			return null;
+			return params[0];
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			mAdapter.notifyDataSetChanged();
 			mRefreshing = false;
@@ -150,7 +150,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			}
 			
 			// Cannot load more
-			if (mCache.mMessages.getSize() == mLastCount) {
+			if (!result && mCache.mMessages.getSize() == mLastCount) {
 				mFooter.setVisibility(View.GONE);
 				
 				// Set this flag to true, and this task can't be started again
