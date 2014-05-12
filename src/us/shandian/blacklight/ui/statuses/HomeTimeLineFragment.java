@@ -27,6 +27,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	private SwipeRefreshLayout mSwipeRefresh;
 	
 	private boolean mRefreshing = false;
+	private boolean mNoMore = false;
 	
 	protected boolean mBindOrig = true;
 	
@@ -76,7 +77,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		// Refresh when scroll nearly to bottom
-		if (!mRefreshing && totalItemCount >= HOME_TIMELINE_PAGE_SIZE &&  firstVisibleItem >= totalItemCount - 2 * visibleItemCount) {
+		if (!mNoMore && !mRefreshing && totalItemCount >= HOME_TIMELINE_PAGE_SIZE &&  firstVisibleItem >= totalItemCount - 2 * visibleItemCount) {
 			new Refresher().execute(new Boolean[]{false});
 		}
 	}
@@ -126,6 +127,11 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(true);
 			}
+			
+			if (mNoMore) {
+				mNoMore = false;
+				mFooter.setVisibility(View.VISIBLE);
+			}
 		}
 		
 		@Override
@@ -148,7 +154,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 				mFooter.setVisibility(View.GONE);
 				
 				// Set this flag to true, and this task can't be started again
-				mRefreshing = true;
+				mNoMore = true;
 			}
 		}
 
