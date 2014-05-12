@@ -3,6 +3,7 @@ package us.shandian.blacklight.ui.main;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -162,7 +163,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				tv.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						mManager.beginTransaction().replace(R.id.container, mFragments[position]).commit();
+						mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+								.replace(R.id.container, mFragments[position]).commit();
 					}
 				}, 800);
 			}
@@ -175,7 +177,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				tv.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						mManager.beginTransaction().replace(R.id.container, mFragments[4 + position]).commit();
+						mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+								.replace(R.id.container, mFragments[4 + position]).commit();
 					}
 				}, 800);
 			}
