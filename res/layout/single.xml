@@ -10,10 +10,10 @@
 		android:layout_width="match_parent"
 		android:id="@+id/single_content"/>
 
-	<FrameLayout
+	<us.shandian.blacklight.ui.common.HackyViewPager
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:id="@+id/single_comments"/>
+		android:id="@+id/single_pager"/>
 
 </LinearLayout>
 

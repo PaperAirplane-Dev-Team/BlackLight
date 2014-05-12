@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.os.Bundle;
 
+import android.support.v4.view.ViewPager;
+import android.support.v13.app.FragmentStatePagerAdapter;
+
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import java.util.List;
@@ -24,6 +27,9 @@ public class SingleActivity extends SwipeBackActivity
 	
 	private Fragment mMsgFragment;
 	private Fragment mCommentFragment;
+	private Fragment mRepostFragment;
+	
+	private ViewPager mPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,29 @@ public class SingleActivity extends SwipeBackActivity
 		// Init
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
+		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
 		getFragmentManager().beginTransaction().add(R.id.single_content, mMsgFragment).commit();
-		getFragmentManager().beginTransaction().add(R.id.single_comments, mCommentFragment).commit();
+		
+		mPager = (ViewPager) findViewById(R.id.single_pager);
+		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
+			@Override
+			public int getCount() {
+				return 2;
+			}
+
+			@Override
+			public Fragment getItem(int position) {
+				switch (position) {
+					case 0:
+						return mCommentFragment;
+					case 1:
+						return mRepostFragment;
+					default:
+						return null;
+				}
+			}
+		});
+		
 	}
 	
 	@Override

@@ -11,12 +11,13 @@ import us.shandian.blacklight.cache.database.tables.UsersTable;
 import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.MentionsTimeLineTable;
+import us.shandian.blacklight.cache.database.tables.RepostTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.StatusCommentTable;
 
 public class DataBaseHelper extends SQLiteOpenHelper
 {
 	private static String DB_NAME = "weibo_data";
-	private static int DB_VER = 11;
+	private static int DB_VER = 12;
 	
 	private static DataBaseHelper instance;
 	
@@ -33,12 +34,13 @@ public class DataBaseHelper extends SQLiteOpenHelper
 		db.execSQL(CommentTimeLineTable.CREATE);
 		db.execSQL(CommentMentionsTimeLineTable.CREATE);
 		db.execSQL(StatusCommentTable.CREATE);
+		db.execSQL(RepostTimeLineTable.CREATE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int from, int to) {
-		if (from == 10) {
-			db.execSQL(StatusCommentTable.CREATE);
+		if (from == 11) {
+			db.execSQL(RepostTimeLineTable.CREATE);
 		}
 	}
 	
