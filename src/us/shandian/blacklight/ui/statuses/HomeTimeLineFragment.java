@@ -9,16 +9,14 @@ import android.widget.ListView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import static us.shandian.blacklight.cache.Constants.HOME_TIMELINE_PAGE_SIZE;
 
-public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScrollListener, OnRefreshListener
+public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener
 {
 	private ListView mList;
 	private View mFooter;
@@ -26,7 +24,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	private HomeTimeLineApiCache mCache;
 	
 	// Pull To Refresh
-	private PullToRefreshLayout mPullToRefresh;
+	private SwipeRefreshLayout mSwipeRefresh;
 	
 	private boolean mRefreshing = false;
 	
@@ -48,8 +46,8 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mList.setOnScrollListener(this);
 		bindFooterView(inflater);
 		
-		// Pull To Refresh
-		bindPullToRefresh(v);
+		// Swipe To Refresh
+		bindSwipeToRefresh((ViewGroup) v);
 		
 		if (mCache.mMessages.getSize() == 0) {
 			new Refresher().execute(new Boolean[]{true});
@@ -84,11 +82,11 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	}
 	
 	@Override
-	public void onRefreshStarted(View view) {
+	public void onRefresh() {
 		if (!mRefreshing) {
 			new Refresher().execute(new Boolean[]{true});
 		} else {
-			mPullToRefresh.setRefreshComplete();
+			mSwipeRefresh.setRefreshing(false);
 		}
 	}
 	
@@ -104,14 +102,17 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mList.addFooterView((mFooter = inflater.inflate(R.layout.timeline_footer, null)));
 	}
 	
-	protected void bindPullToRefresh(View v) {
-		mPullToRefresh = new PullToRefreshLayout(getActivity());
+	protected void bindSwipeToRefresh(ViewGroup v) {
+		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
 		
-		ActionBarPullToRefresh.from(getActivity())
-							  .insertLayoutInto((ViewGroup) v)
-							  .theseChildrenArePullable(new View[]{mList})
-							  .listener(this)
-							  .setup(mPullToRefresh);
+		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
+		v.removeViewInLayout(mList);
+		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		mSwipeRefresh.addView(mList, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		
+		mSwipeRefresh.setOnRefreshListener(this);
+		mSwipeRefresh.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_green_dark,
+									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
 	}
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Void>
@@ -122,6 +123,9 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			super.onPreExecute();
 			mLastCount = mCache.mMessages.getSize();
 			mRefreshing = true;
+			if (mSwipeRefresh != null) {
+				mSwipeRefresh.setRefreshing(true);
+			}
 		}
 		
 		@Override
@@ -135,8 +139,8 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			super.onPostExecute(result);
 			mAdapter.notifyDataSetChanged();
 			mRefreshing = false;
-			if (mPullToRefresh != null) {
-				mPullToRefresh.setRefreshComplete();
+			if (mSwipeRefresh != null) {
+				mSwipeRefresh.setRefreshing(false);
 			}
 			
 			// Cannot load more

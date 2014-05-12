@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.os.Bundle;
 
@@ -41,8 +42,8 @@ public class SingleActivity extends SwipeBackActivity
 		// Init
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
-		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
-		getFragmentManager().beginTransaction().replace(R.id.single_comments, mCommentFragment).commit();
+		getFragmentManager().beginTransaction().add(R.id.single_content, mMsgFragment).commit();
+		getFragmentManager().beginTransaction().add(R.id.single_comments, mCommentFragment).commit();
 	}
 	
 	@Override
@@ -86,7 +87,7 @@ public class SingleActivity extends SwipeBackActivity
 		}
 
 		@Override
-		protected void bindPullToRefresh(View v) {
+		protected void bindSwipeToRefresh(ViewGroup v) {
 			
 		}
 
