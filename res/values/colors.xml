@@ -8,4 +8,5 @@
 	<color name="superlight_gray">#fcfcfc</color>
 	<color name="selector_gray">#eaeaea</color>
 	<color name="link_blue">#9797ff</color>
+	<color name="action_gray">#bb000010</color>
 </resources>
