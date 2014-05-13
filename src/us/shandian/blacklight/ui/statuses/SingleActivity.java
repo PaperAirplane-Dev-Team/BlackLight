@@ -2,10 +2,12 @@ package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.view.animation.TranslateAnimation;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
@@ -30,6 +32,13 @@ public class SingleActivity extends SwipeBackActivity
 	private Fragment mRepostFragment;
 	
 	private ViewPager mPager;
+	private View mRoot;
+	private View mContent;
+	
+	private MenuItem mExpand;
+	
+	private boolean mExpanded = true;
+	private boolean mAnimating = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,9 @@ public class SingleActivity extends SwipeBackActivity
 		mMsg = getIntent().getParcelableExtra("msg");
 		
 		// Init
+		mRoot = findViewById(R.id.single_root);
+		mContent = findViewById(R.id.single_content);
+		
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
@@ -72,15 +84,54 @@ public class SingleActivity extends SwipeBackActivity
 		});
 		
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.single, menu);
+		mExpand = menu.findItem(R.id.expand);
+		return true;
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			finish();
-			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			case R.id.expand:
+				expandOrCollapse();
+				return true;
 		}
+		
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private void expandOrCollapse() {
+		if (mAnimating) return;
+		
+		mAnimating = true;
+		TranslateAnimation anim;
+		if (mExpanded) {
+			anim = new TranslateAnimation(0, 0, 0, -mContent.getHeight());
+		} else {
+			mContent.setVisibility(View.VISIBLE);
+			anim = new TranslateAnimation(0, 0, -mContent.getHeight(), 0);
+		}
+		anim.setDuration(500);
+		mRoot.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				mRoot.clearAnimation();
+				mRoot.setTranslationY(0);
+				if (mExpanded) {
+					mContent.setVisibility(View.GONE);
+				}
+				mExpanded = !mExpanded;
+				mExpand.setIcon(mExpanded ? R.drawable.ic_action_collapse : R.drawable.ic_action_expand);
+				mAnimating = false;
+			}
+		}, 500);
+		mRoot.startAnimation(anim);
 	}
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
