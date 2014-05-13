@@ -109,6 +109,10 @@ public class SingleActivity extends SwipeBackActivity
 	private void expandOrCollapse() {
 		if (mAnimating) return;
 		
+		ViewGroup.LayoutParams params = mRoot.getLayoutParams();
+		params.height = mRoot.getHeight() + mContent.getHeight();
+		mRoot.setLayoutParams(params);
+		
 		mAnimating = true;
 		TranslateAnimation anim;
 		if (mExpanded) {
@@ -123,6 +127,11 @@ public class SingleActivity extends SwipeBackActivity
 			public void run() {
 				mRoot.clearAnimation();
 				mRoot.setTranslationY(0);
+				
+				ViewGroup.LayoutParams params = mRoot.getLayoutParams();
+				params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+				mRoot.setLayoutParams(params);
+				
 				if (mExpanded) {
 					mContent.setVisibility(View.GONE);
 				}
