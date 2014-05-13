@@ -14,18 +14,19 @@
 	<TabHost
 		android:layout_height="wrap_content"
 		android:layout_width="140dp"
-		android:id="@+id/single_tabs">
-		
+		android:id="@+id/single_tabs"
+		android:layout_marginLeft="5dp">
+
 		<TabWidget
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
 			android:id="@android:id/tabs"/>
-		
+
 		<FrameLayout
 			android:layout_height="0dp"
 			android:layout_width="0dp"
 			android:id="@android:id/tabcontent"/>
-		
+
 	</TabHost>
 
 	<us.shandian.blacklight.ui.common.HackyViewPager
