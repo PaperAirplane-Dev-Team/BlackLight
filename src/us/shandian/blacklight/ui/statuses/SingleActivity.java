@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.animation.TranslateAnimation;
+import android.widget.TabHost;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
@@ -34,6 +35,8 @@ public class SingleActivity extends SwipeBackActivity
 	private ViewPager mPager;
 	private View mRoot;
 	private View mContent;
+	
+	private TabHost mTabs;
 	
 	private MenuItem mExpand;
 	
@@ -81,6 +84,52 @@ public class SingleActivity extends SwipeBackActivity
 						return null;
 				}
 			}
+		});
+		
+		mTabs = (TabHost) findViewById(R.id.single_tabs);
+		mTabs.setup();
+		
+		final String comment = getResources().getString(R.string.comment);
+		TabHost.TabSpec tab1 = mTabs.newTabSpec(comment);
+		tab1.setIndicator(comment);
+		tab1.setContent(android.R.id.tabcontent);
+		mTabs.addTab(tab1);
+		
+		final String repost = getResources().getString(R.string.retweet);
+		TabHost.TabSpec tab2 = mTabs.newTabSpec(repost);
+		tab2.setIndicator(repost);
+		tab2.setContent(android.R.id.tabcontent);
+		mTabs.addTab(tab2);
+		
+		mTabs.setCurrentTab(0);
+		
+		// Connect the TabHost with the ViewPager
+		mTabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+				@Override
+				public void onTabChanged(String id) {
+					if (id.equals(comment)) {
+						mPager.setCurrentItem(0);
+					} else if (id.equals(repost)) {
+						mPager.setCurrentItem(1);
+					}
+				}
+		});
+		
+		mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+				@Override
+				public void onPageScrolled(int position, float positonOffset, int positionOffsetPixels) {
+					
+				}
+
+				@Override
+				public void onPageSelected(int position) {
+					mTabs.setCurrentTab(position);
+				}
+
+				@Override
+				public void onPageScrollStateChanged(int state) {
+					
+				}
 		});
 		
 	}
