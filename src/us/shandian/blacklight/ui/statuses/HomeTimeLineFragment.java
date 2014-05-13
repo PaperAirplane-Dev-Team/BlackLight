@@ -1,7 +1,11 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -54,7 +58,28 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		if (mCache.mMessages.getSize() == 0) {
 			new Refresher().execute(new Boolean[]{true});
 		}
+		
+		setHasOptionsMenu(true);
+		
 		return v;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.main, menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.new_post:
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(getActivity(), NewPostActivity.class);
+				getActivity().startActivity(i);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

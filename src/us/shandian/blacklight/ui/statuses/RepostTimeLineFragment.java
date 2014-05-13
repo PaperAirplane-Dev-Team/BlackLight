@@ -1,5 +1,8 @@
 package us.shandian.blacklight.ui.statuses;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.RepostTimeLineApiCache;
 
@@ -20,5 +23,10 @@ public class RepostTimeLineFragment extends HomeTimeLineFragment
 	@Override
 	protected void initTitle() {
 		
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
 	}
 }

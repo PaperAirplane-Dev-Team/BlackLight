@@ -1,5 +1,8 @@
 package us.shandian.blacklight.ui.statuses;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.UserTimeLineApiCache;
 
@@ -20,5 +23,10 @@ public class UserTimeLineFragment extends HomeTimeLineFragment
 	@Override
 	protected void initTitle() {
 		// Don't change my title
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
 	}
 }

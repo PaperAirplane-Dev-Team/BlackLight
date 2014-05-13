@@ -1,5 +1,8 @@
 package us.shandian.blacklight.ui.comments;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.comments.CommentTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -21,6 +24,11 @@ public class CommentTimeLineFragment extends HomeTimeLineFragment
 	@Override
 	protected void initTitle() {
 		getActivity().getActionBar().setTitle(R.string.comment);
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
 	}
 	
 }

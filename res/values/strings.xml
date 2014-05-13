@@ -31,6 +31,7 @@
 	<string name="status_mention_me">提到我的微博</string>
 	<string name="comment_mention_me">提到我的评论</string>
 	<string name="loading_more">正在加载更多...</string>
+	<string name="new_post">发送微博</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>
@@ -62,5 +63,6 @@
 	<string name="name_fetching">昵称获取中...</string>
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
 	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
+	<string name="send_fail">发送失败</string>
 
 </resources>

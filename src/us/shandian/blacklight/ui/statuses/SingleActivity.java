@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
@@ -239,6 +240,11 @@ public class SingleActivity extends SwipeBackActivity
 		@Override
 		protected void initTitle() {
 			
+		}
+		
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
 		}
 	}
 }
