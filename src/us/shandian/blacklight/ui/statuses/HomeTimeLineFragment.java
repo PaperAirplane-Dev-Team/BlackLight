@@ -87,8 +87,6 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	public void onRefresh() {
 		if (!mRefreshing) {
 			new Refresher().execute(new Boolean[]{true});
-		} else {
-			mSwipeRefresh.setRefreshing(false);
 		}
 	}
 	
