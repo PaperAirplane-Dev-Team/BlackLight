@@ -159,6 +159,10 @@ public class SingleActivity extends SwipeBackActivity
 	
 	private class HackyFragment extends HomeTimeLineFragment {
 		
+		public HackyFragment() {
+			mShowCommentStatus = false;
+		}
+		
 		@Override
 		protected void bindFooterView(LayoutInflater inflater) {
 			

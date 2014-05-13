@@ -30,6 +30,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	private boolean mNoMore = false;
 	
 	protected boolean mBindOrig = true;
+	protected boolean mShowCommentStatus = true;
 	
 	private int mLastCount = 0;
 	
@@ -42,7 +43,7 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig);
+		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		mList.setOnScrollListener(this);
 		bindFooterView(inflater);

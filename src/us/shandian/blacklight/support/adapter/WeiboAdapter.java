@@ -51,10 +51,11 @@ public class WeiboAdapter extends BaseAdapter
 	private Context mContext;
 	
 	private boolean mBindOrig;
+	private boolean mShowCommentStatus;
 	
 	private HashMap<Long, View> mViews = new HashMap<Long, View>();
 	
-	public WeiboAdapter(Context context, MessageListModel list, boolean bindOrig) {
+	public WeiboAdapter(Context context, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
@@ -63,6 +64,7 @@ public class WeiboAdapter extends BaseAdapter
 		mGray = context.getResources().getColor(R.color.light_gray);
 		mContext = context;
 		mBindOrig = bindOrig;
+		mShowCommentStatus = showCommentStatus;
 	}
 	
 	@Override
@@ -187,7 +189,7 @@ public class WeiboAdapter extends BaseAdapter
 		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
 		
-		if (msg instanceof CommentModel) {
+		if (!mShowCommentStatus || msg instanceof CommentModel) {
 			if (!existed) {
 				v.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
 			}
