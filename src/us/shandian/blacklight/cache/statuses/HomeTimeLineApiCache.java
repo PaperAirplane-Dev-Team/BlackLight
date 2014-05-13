@@ -82,7 +82,7 @@ public class HomeTimeLineApiCache
 			cache = null;
 		}
 		
-		if (cache == null) {
+		if (cache == null || cache.length <= 1000) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
 			} catch (Exception e) {
@@ -120,7 +120,7 @@ public class HomeTimeLineApiCache
 			cache = null;
 		}
 
-		if (cache == null) {
+		if (cache == null || cache.length <= 1000) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url);
 			} catch (Exception e) {

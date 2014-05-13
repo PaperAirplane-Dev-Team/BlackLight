@@ -137,7 +137,7 @@ public class UserApiCache
 			cache = null;
 		}
 		
-		if (cache == null) {
+		if (cache == null || cache.length <= 1000) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, model.id, model.profile_image_url);
 			} catch (Exception e) {
@@ -156,7 +156,7 @@ public class UserApiCache
 			cache = null;
 		}
 
-		if (cache == null) {
+		if (cache == null || cache.length <= 1000) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, model.id, model.avatar_large);
 			} catch (Exception e) {
@@ -179,7 +179,7 @@ public class UserApiCache
 			cache = null;
 		}
 
-		if (cache == null) {
+		if (cache == null || cache.length <= 1000) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image);
 			} catch (Exception e) {
