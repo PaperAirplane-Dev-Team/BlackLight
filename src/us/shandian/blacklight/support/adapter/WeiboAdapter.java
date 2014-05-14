@@ -111,7 +111,7 @@ public class WeiboAdapter extends BaseAdapter
 			TextView content = (TextView) v.findViewById(R.id.weibo_content);
 			HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
 			
-			name.setText(msg.user.getName());
+			name.setText(msg.user != null ? msg.user.getName() : "");
 			from.setText(Html.fromHtml(msg.source).toString());
 			content.setText(SpannableStringUtils.span(msg.text));
 			content.setMovementMethod(LinkMovementMethod.getInstance());
