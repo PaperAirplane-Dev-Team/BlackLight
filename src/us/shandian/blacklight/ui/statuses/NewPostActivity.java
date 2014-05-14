@@ -19,8 +19,6 @@ import android.os.Bundle;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-import java.io.ByteArrayOutputStream;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 
