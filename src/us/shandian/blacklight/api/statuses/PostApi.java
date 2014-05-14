@@ -1,5 +1,7 @@
 package us.shandian.blacklight.api.statuses;
 
+import android.graphics.Bitmap;
+
 import com.sina.weibo.sdk.net.WeiboParameters;
 
 import com.google.gson.Gson;
@@ -27,6 +29,26 @@ public class PostApi extends BaseApi
 			return false;
 		}
 		
+		return true;
+	}
+	
+	// Picture size must be smaller than 5M
+	public static boolean newPostWithPic(String status, Bitmap pic) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("status", status);
+		params.put("pic", pic);
+
+		try {
+			JSONObject json = request(Constants.UPLOAD, params, HTTP_POST);
+			MessageModel msg = new Gson().fromJson(json.toString(), MessageModel.class);
+
+			if (msg == null || msg.idstr == null || msg.idstr.trim().equals("")) {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
 		return true;
 	}
 }

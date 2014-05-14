@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
-
+	<ImageView
+		android:id="@+id/post_back"
+		android:visibility="gone"
+		android:scaleType="centerCrop"
+		android:layout_height="match_parent"
+		style="?android:attr/buttonBarButtonStyle"
+		android:layout_width="match_parent"
+		android:src="@android:drawable/ic_delete"/>
+	
 	<EditText
 		android:layout_height="match_parent"
 		android:inputType="textMultiLine"
 		android:ems="10"
 		android:layout_width="match_parent"
 		android:id="@+id/post_edit"
-		android:gravity="top"/>
+		android:gravity="top"
+		android:padding="5dp"
+		android:layout_above="@id/post_edit"/>
 
-</LinearLayout>
+	
+</RelativeLayout>
 

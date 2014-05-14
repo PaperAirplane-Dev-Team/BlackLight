@@ -19,6 +19,7 @@ public class Constants
 	public static final String MENTIONS = SINA_BASE_URL + "statuses/mentions.json";
 	public static final String REPOST_TIMELINE = SINA_BASE_URL + "statuses/repost_timeline.json";
 	public static final String UPDATE = SINA_BASE_URL + "statuses/update.json";
+	public static final String UPLOAD = SINA_BASE_URL + "statuses/upload.json";
 	
 	// Comments
 	public static final String COMMENTS_TIMELINE = SINA_BASE_URL + "comments/timeline.json";

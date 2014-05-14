@@ -3,20 +3,36 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+import java.io.ByteArrayOutputStream;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 
 public class NewPostActivity extends SwipeBackActivity
 {
+	private static final int REQUEST_PICK_IMG = 1001;
+	
 	private EditText mText;
+	private ImageView mBackground;
+	
+	// Picked picture
+	private Bitmap mBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +47,26 @@ public class NewPostActivity extends SwipeBackActivity
 		
 		// Init
 		mText = (EditText) findViewById(R.id.post_edit);
+		mBackground = (ImageView) findViewById(R.id.post_back);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		// Image picked, decode
+		if (requestCode == REQUEST_PICK_IMG && resultCode == RESULT_OK) {
+			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null, null);
+			cursor.moveToFirst();
+			String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+			cursor.close();
+			
+			// Then decode
+			mBitmap = BitmapFactory.decodeFile(filePath);
+			mBackground.setImageBitmap(mBitmap);
+			mBackground.setVisibility(View.VISIBLE);
+			mText.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+		}
 	}
 
 	@Override
@@ -48,6 +84,13 @@ public class NewPostActivity extends SwipeBackActivity
 			case R.id.post_send:
 				new Uploader().execute();
 				return true;
+			case R.id.post_pic:
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_PICK);
+				i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(i, REQUEST_PICK_IMG);
+				return true;
+				
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -67,7 +110,11 @@ public class NewPostActivity extends SwipeBackActivity
 		
 		@Override
 		protected Boolean doInBackground(Void[] params) {
-			return PostApi.newPost(mText.getText().toString());
+			if (mBitmap == null) {
+				return PostApi.newPost(mText.getText().toString());
+			} else {
+				return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
+			}
 		}
 
 		@Override

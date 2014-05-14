@@ -2,6 +2,7 @@
 <resources>
 	<color name="gray">#aaaaaa</color>
 	<color name="gray_alpha">#bbaaaaaa</color>
+	<color name="gray_alpha_lighter">#eeeeeeee</color>
     <color name="darker_gray">#666666</color>
 	<color name="light_gray">#eeeeee</color>
 	<color name="shadow_gray">#ebebeb</color>
