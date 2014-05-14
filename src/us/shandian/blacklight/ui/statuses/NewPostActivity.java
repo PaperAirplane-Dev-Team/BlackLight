@@ -38,7 +38,7 @@ public class NewPostActivity extends SwipeBackActivity
 	
 	private static final int REQUEST_PICK_IMG = 1001;
 	
-	private EditText mText;
+	protected EditText mText;
 	private ImageView mBackground;
 	private TextView mCount;
 	private DrawerLayout mDrawer;
@@ -172,6 +172,15 @@ public class NewPostActivity extends SwipeBackActivity
 		return super.onOptionsItemSelected(item);
 	}
 	
+	// if extended, this should be overridden
+	protected boolean post() {
+		if (mBitmap == null) {
+			return PostApi.newPost(mText.getText().toString());
+		} else {
+			return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
+		}
+	}
+	
 	private class Uploader extends AsyncTask<Void, Void, Boolean> {
 		private ProgressDialog prog;
 
@@ -187,11 +196,7 @@ public class NewPostActivity extends SwipeBackActivity
 		
 		@Override
 		protected Boolean doInBackground(Void[] params) {
-			if (mBitmap == null) {
-				return PostApi.newPost(mText.getText().toString());
-			} else {
-				return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
-			}
+			return post();
 		}
 
 		@Override

@@ -25,5 +25,6 @@ public class Constants
 	public static final String COMMENTS_TIMELINE = SINA_BASE_URL + "comments/timeline.json";
 	public static final String COMMENTS_MENTIONS = SINA_BASE_URL + "comments/mentions.json";
 	public static final String COMMENTS_SHOW = SINA_BASE_URL + "comments/show.json";
+	public static final String COMMENTS_CREATE = SINA_BASE_URL + "comments/create.json";
 	
 }

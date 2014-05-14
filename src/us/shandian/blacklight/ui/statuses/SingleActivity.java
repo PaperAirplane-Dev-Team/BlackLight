@@ -2,6 +2,7 @@ package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -23,6 +24,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 
 public class SingleActivity extends SwipeBackActivity
@@ -150,6 +152,13 @@ public class SingleActivity extends SwipeBackActivity
 				return true;
 			case R.id.expand:
 				expandOrCollapse();
+				return true;
+			case R.id.comment_on:
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(this, CommentOnActivity.class);
+				i.putExtra("msg", mMsg);
+				startActivity(i);
 				return true;
 		}
 		
