@@ -14,20 +14,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
+import us.shandian.blacklight.support.Utility;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class NewPostActivity extends SwipeBackActivity
 {
+	private static final String TAG = NewPostActivity.class.getSimpleName();
+	
 	private static final int REQUEST_PICK_IMG = 1001;
 	
 	private EditText mText;
 	private ImageView mBackground;
+	private TextView mCount;
 	
 	// Picked picture
 	private Bitmap mBitmap;
@@ -46,6 +55,40 @@ public class NewPostActivity extends SwipeBackActivity
 		// Init
 		mText = (EditText) findViewById(R.id.post_edit);
 		mBackground = (ImageView) findViewById(R.id.post_back);
+		mCount = (TextView) findViewById(R.id.post_count);
+		mText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// How many Chinese characters (1 Chinses character = 2 English characters)
+				try {
+					int length = Utility.lengthOfString(s.toString());
+					
+					if (DEBUG) {
+						Log.d(TAG, "Text length = " + length);
+					}
+					
+					if (length > 140) {
+						mCount.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+					} else {
+						mCount.setTextColor(getResources().getColor(R.color.gray));
+					}
+					
+					mCount.setText(String.valueOf(140 - length));
+				} catch (Exception e) {
+					
+				}
+			}
+		});
 	}
 
 	@Override
@@ -63,7 +106,7 @@ public class NewPostActivity extends SwipeBackActivity
 			mBitmap = BitmapFactory.decodeFile(filePath);
 			mBackground.setImageBitmap(mBitmap);
 			mBackground.setVisibility(View.VISIBLE);
-			mText.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+			mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
 		}
 	}
 
@@ -80,7 +123,13 @@ public class NewPostActivity extends SwipeBackActivity
 				finish();
 				return true;
 			case R.id.post_send:
-				new Uploader().execute();
+				try {
+					if (Utility.lengthOfString(mText.getText().toString()) <= 140) {
+						new Uploader().execute();
+					}
+				} catch (Exception e) {
+					
+				}
 				return true;
 			case R.id.post_pic:
 				Intent i = new Intent();
