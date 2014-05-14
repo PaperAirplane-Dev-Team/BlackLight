@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:id="@+id/post_drawer">
 
-	<ImageView
-		android:id="@+id/post_back"
-		android:visibility="gone"
-		android:scaleType="centerCrop"
-		android:layout_height="match_parent"
-		android:layout_width="match_parent"/>
-
-	<TextView
-		android:id="@+id/post_count"
-		android:layout_height="match_parent"
-		android:text="140"
-		android:textColor="@color/gray"
-		android:textAppearance="?android:attr/textAppearanceLarge"
+	<RelativeLayout
 		android:layout_width="match_parent"
-		android:gravity="bottom|right"
-		android:textSize="40sp"/>
+		android:layout_height="match_parent">
 
-	<EditText
-		android:layout_height="match_parent"
-		android:inputType="textMultiLine"
-		android:ems="10"
-		android:layout_width="match_parent"
-		android:id="@+id/post_edit"
-		android:gravity="top"
-		android:padding="5dp"/>
+		<ImageView
+			android:id="@+id/post_back"
+			android:visibility="gone"
+			android:scaleType="centerCrop"
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"/>
 
-</RelativeLayout>
+		<TextView
+			android:id="@+id/post_count"
+			android:layout_height="match_parent"
+			android:text="140"
+			android:textColor="@color/gray"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="match_parent"
+			android:gravity="bottom|right"
+			android:textSize="40sp"/>
+
+		<EditText
+			android:layout_height="match_parent"
+			android:inputType="textMultiLine"
+			android:ems="10"
+			android:layout_width="match_parent"
+			android:id="@+id/post_edit"
+			android:gravity="top"
+			android:padding="5dp"/>
+
+	</RelativeLayout>
+
+	<FrameLayout
+		android:id="@+id/post_emoticons"
+		android:layout_gravity="end"
+		android:layout_width="240dp"
+		android:layout_height="match_parent"/>
+
+</android.support.v4.widget.DrawerLayout>
 

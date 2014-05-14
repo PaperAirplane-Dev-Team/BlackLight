@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +22,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
+import android.support.v4.widget.DrawerLayout;
+
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.EmoticonFragment;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class NewPostActivity extends SwipeBackActivity
@@ -37,6 +41,10 @@ public class NewPostActivity extends SwipeBackActivity
 	private EditText mText;
 	private ImageView mBackground;
 	private TextView mCount;
+	private DrawerLayout mDrawer;
+	
+	// Fragments
+	private EmoticonFragment mEmoticonFragment;
 	
 	// Picked picture
 	private Bitmap mBitmap;
@@ -56,6 +64,20 @@ public class NewPostActivity extends SwipeBackActivity
 		mText = (EditText) findViewById(R.id.post_edit);
 		mBackground = (ImageView) findViewById(R.id.post_back);
 		mCount = (TextView) findViewById(R.id.post_count);
+		mDrawer = (DrawerLayout) findViewById(R.id.post_drawer);
+		
+		// Fragments
+		mEmoticonFragment = new EmoticonFragment();
+		getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
+		
+		// Listeners
+		mEmoticonFragment.setEmoticonListener(new EmoticonFragment.EmoticonListener() {
+				@Override
+				public void onEmoticonSelected(String name) {
+					mText.getText().append(name);
+				}
+		});
+		
 		mText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -136,6 +158,14 @@ public class NewPostActivity extends SwipeBackActivity
 				i.setAction(Intent.ACTION_PICK);
 				i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 				startActivityForResult(i, REQUEST_PICK_IMG);
+				return true;
+			case R.id.post_emiticon:
+				if (mDrawer.isDrawerOpen(Gravity.END)) {
+					mDrawer.closeDrawer(Gravity.END);
+				} else {
+					mDrawer.openDrawer(Gravity.END);
+				}
+				
 				return true;
 				
 		}

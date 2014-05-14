@@ -5,6 +5,11 @@
         android:icon="@drawable/ic_action_new_picture"
 		android:showAsAction="always"/>
 	
+	<item
+		android:id="@+id/post_emiticon"
+		android:icon="@drawable/ic_action_emoticon"
+		android:showAsAction="always"/>
+	
     <item
         android:id="@+id/post_send"
         android:icon="@drawable/ic_action_send_now"
