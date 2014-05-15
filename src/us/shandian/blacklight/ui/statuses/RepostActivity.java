@@ -22,7 +22,6 @@ public class RepostActivity extends NewPostActivity
 		// We should repost the original one
 		if (mMsg.retweeted_status != null) {
 			mText.setText("//" + (mMsg.user != null ? "@" + mMsg.user.getName() + ":" : "") + mMsg.text);
-			mMsg = mMsg.retweeted_status;
 		}
 	}
 
