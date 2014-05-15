@@ -23,6 +23,9 @@
 		<item>微博</item>
 		<item>评论</item>
 	</string-array>
+	<string-array name="other_array">
+		<item>登出</item>
+	</string-array>
 	
 	<!-- Statuses -->
 	<string name="timeline">时间流</string>

@@ -38,6 +38,13 @@
 		android:id="@+id/list_at_me"
 		android:divider="@null"
 		android:listSelector="@drawable/drawer_selector"/>
+	
+	<ListView
+		android:layout_height="45dp"
+		android:layout_width="match_parent"
+		android:id="@+id/list_other"
+		android:divider="@null"
+		android:listSelector="@drawable/drawer_selector"/>
 
 </LinearLayout>
 

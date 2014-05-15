@@ -27,6 +27,7 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
+import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private ImageView mAvatar;
 	private ListView mMy;
 	private ListView mAtMe;
+	private ListView mOther;
 	
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
@@ -78,15 +80,20 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		
 		mMy = (ListView) findViewById(R.id.list_my);
 		mAtMe = (ListView) findViewById(R.id.list_at_me);
+		mOther = (ListView) findViewById(R.id.list_other);
 		mMy.setVerticalScrollBarEnabled(false);
 		mMy.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mAtMe.setVerticalScrollBarEnabled(false);
 		mAtMe.setChoiceMode(ListView.CHOICE_MODE_NONE);
+		mOther.setVerticalScrollBarEnabled(false);
+		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
 		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
+		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
 		
 		mMy.setOnItemClickListener(this);
 		mAtMe.setOnItemClickListener(this);
+		mOther.setOnItemClickListener(this);
 		
 		// My account
 		mName = (TextView) findViewById(R.id.my_name);
@@ -149,7 +156,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-		if (mLastChoice != null) {
+		if (parent != mOther && mLastChoice != null) {
 			mLastChoice.getPaint().setFakeBoldText(false);
 			mLastChoice.invalidate();
 		}
@@ -181,6 +188,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 								.replace(R.id.container, mFragments[4 + position]).commit();
 					}
 				}, 800);
+			}
+		} else if (parent == mOther) {
+			switch (position) {
+				case 0:{
+					mLoginCache.logout();
+					Intent i = new Intent();
+					i.setAction(Intent.ACTION_MAIN);
+					i.setClass(this, EntryActivity.class);
+					startActivity(i);
+					finish();
+					break;
+				}
 			}
 		}
 		
