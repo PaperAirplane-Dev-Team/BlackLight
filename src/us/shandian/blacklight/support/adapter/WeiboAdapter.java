@@ -157,7 +157,7 @@ public class WeiboAdapter extends BaseAdapter
 				}
 			}
 			
-			if (mBindOrig && !(msg instanceof CommentModel)) {
+			if (!(msg instanceof CommentModel)) {
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -171,9 +171,7 @@ public class WeiboAdapter extends BaseAdapter
 						}
 					}
 				});
-			}
-			
-			if (msg instanceof CommentModel) {
+			} else {
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
