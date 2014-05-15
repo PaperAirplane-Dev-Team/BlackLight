@@ -27,6 +27,7 @@ import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.ui.common.ImageActivity;
+import us.shandian.blacklight.ui.comments.ReplyToActivity;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
@@ -156,21 +157,35 @@ public class WeiboAdapter extends BaseAdapter
 				}
 			}
 			
-			if (mBindOrig) {
+			if (mBindOrig && !(msg instanceof CommentModel)) {
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						MessageModel msg = (MessageModel) v.getTag();
 						if (msg != null) {
-							if (!(msg instanceof CommentModel)) {
-								Intent i = new Intent();
-								i.setAction(Intent.ACTION_MAIN);
-								i.setClass(mContext, SingleActivity.class);
-								i.putExtra("msg", msg);
-								mContext.startActivity(i);
-							}
+							Intent i = new Intent();
+							i.setAction(Intent.ACTION_MAIN);
+							i.setClass(mContext, SingleActivity.class);
+							i.putExtra("msg", msg);
+							mContext.startActivity(i);
 						}
 					}
+				});
+			}
+			
+			if (msg instanceof CommentModel) {
+				v.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						CommentModel comment = (CommentModel) v.getTag();
+						if (comment != null) {
+							Intent i = new Intent();
+							i.setAction(Intent.ACTION_MAIN);
+							i.setClass(mContext, ReplyToActivity.class);
+							i.putExtra("comment", comment);
+							mContext.startActivity(i);
+						}
+					}		
 				});
 			}
 

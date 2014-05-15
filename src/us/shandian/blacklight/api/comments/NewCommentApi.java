@@ -30,4 +30,24 @@ public class NewCommentApi extends BaseApi
 
 		return true;
 	}
+	
+	public static boolean replyTo(long id, long cid, String comment) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("comment", comment);
+		params.put("id", id);
+		params.put("cid", cid);
+
+		try {
+			JSONObject json = request(Constants.COMMENTS_REPLY, params, HTTP_POST);
+			CommentModel msg = new Gson().fromJson(json.toString(), CommentModel.class);
+
+			if (msg == null || msg.id <= 0) {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
 }
