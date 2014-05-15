@@ -57,7 +57,7 @@ public class LoginActivity extends Activity
 		if (mLogin.getAppId() != null && mLogin.getAppSecret() != null) {
 			mAppId.setText(mLogin.getAppId());
 			mAppSecret.setText(mLogin.getAppSecret());
-		} else if (DEBUG) {
+		} else {
 			mAppId.setText("211160679");
 			mAppSecret.setText("63b64d531b98c2dbff2443816f274dd3");
 		}
