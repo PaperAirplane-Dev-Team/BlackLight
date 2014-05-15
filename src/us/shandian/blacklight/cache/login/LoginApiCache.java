@@ -19,6 +19,7 @@ public class LoginApiCache
 	private long mExpireDate;
 	private String mAppId;
 	private String mAppSecret;
+	private boolean mIsBM;
 	
 	public LoginApiCache(Context context) {
 		mPrefs = context.getSharedPreferences("access_token", Context.MODE_WORLD_READABLE);
@@ -27,6 +28,7 @@ public class LoginApiCache
 		mExpireDate = mPrefs.getLong("expires_in", Long.MIN_VALUE);
 		mAppId = mPrefs.getString("app_id", null);
 		mAppSecret = mPrefs.getString("app_secret", null);
+		mIsBM = mPrefs.getBoolean("black_magic", false);
 		
 		if (mAccessToken != null) {
 			BaseApi.setAccessToken(mAccessToken);
@@ -49,6 +51,26 @@ public class LoginApiCache
 				mExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
 				mAppId = appId;
 				mAppSecret = appSecret;
+				mIsBM = true;
+			}
+		}
+	}
+	
+	public void webLogin(String code) {
+		if (mAccessToken == null || mExpireDate == Long.MIN_VALUE) {
+			if (DEBUG) {
+				Log.d(TAG, "access token not initialized, running login function");
+			}
+			String[] result = LoginApi.webLogin(code);
+			if (result != null) {
+				if (DEBUG) {
+					Log.d(TAG, "result got, loading to cache");
+				}
+				mAccessToken = result[0];
+				BaseApi.setAccessToken(mAccessToken);
+				mUid = AccountApi.getUid();
+				mExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
+				mIsBM = false;
 			}
 		}
 	}
@@ -56,7 +78,8 @@ public class LoginApiCache
 	public void logout() {
 		mAccessToken = null;
 		mExpireDate = Long.MIN_VALUE;
-		mPrefs.edit().remove("access_token").remove("expires_in").remove("uid").commit();
+		mIsBM = false;
+		mPrefs.edit().remove("access_token").remove("expires_in").remove("uid").remove("black_magic").commit();
 	}
 	
 	public void cache() {
@@ -65,6 +88,7 @@ public class LoginApiCache
 					 .putString("uid", mUid)
 					 .putString("app_id", mAppId)
 					 .putString("app_secret", mAppSecret)
+					 .putBoolean("black_magic", mIsBM)
 					 .commit();
 	}
 	
@@ -86,5 +110,9 @@ public class LoginApiCache
 	
 	public String getAppSecret() {
 		return mAppSecret;
+	}
+	
+	public boolean isBlackMagic() {
+		return mIsBM;
 	}
 }
