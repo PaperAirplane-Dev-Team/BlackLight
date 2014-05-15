@@ -14,6 +14,11 @@ import us.shandian.blacklight.model.MessageModel;
 
 public class PostApi extends BaseApi
 {
+	public static final int EXTRA_NONE = 0;
+	public static final int EXTRA_COMMENT = 1;
+	public static final int EXTRA_COMMENT_ORIG = 2;
+	public static final int EXTRA_ALL = 3;
+	
 	public static boolean newPost(String status) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("status", status);
@@ -52,10 +57,11 @@ public class PostApi extends BaseApi
 		return true;
 	}
 	
-	public static boolean newRepost(long id, String status) {
+	public static boolean newRepost(long id, String status, int extra) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("status", status);
 		params.put("id", id);
+		params.put("is_comment", extra);
 
 		try {
 			JSONObject json = request(Constants.REPOST, params, HTTP_POST);

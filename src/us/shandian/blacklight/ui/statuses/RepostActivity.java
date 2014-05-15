@@ -1,6 +1,7 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.view.Menu;
+import android.view.MenuItem;
 import android.os.Bundle;
 
 import us.shandian.blacklight.R;
@@ -10,6 +11,9 @@ import us.shandian.blacklight.model.MessageModel;
 public class RepostActivity extends NewPostActivity
 {
 	private MessageModel mMsg;
+	
+	private MenuItem mComment;
+	private MenuItem mCommemtOrig;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +33,40 @@ public class RepostActivity extends NewPostActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.findItem(R.id.post_pic).setVisible(false);
+		
+		mComment = menu.add(R.string.repost_and_comment);
+		mComment.setCheckable(true);
+		mComment.setChecked(false);
+		mComment.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		
+		mCommemtOrig = menu.add(R.string.repost_and_comment_the_original);
+		mCommemtOrig.setCheckable(true);
+		mCommemtOrig.setChecked(false);
+		mCommemtOrig.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		
 		return true;
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.isCheckable()) {
+			item.setChecked(!item.isChecked());
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	protected boolean post() {
-		return PostApi.newRepost(mMsg.id, mText.getText().toString());
+		int extra = PostApi.EXTRA_NONE;
+		
+		if (mComment.isChecked() && mCommemtOrig.isChecked()) {
+			extra = PostApi.EXTRA_ALL;
+		} else if (mComment.isChecked()) {
+			extra = PostApi.EXTRA_COMMENT;
+		} else if (mCommemtOrig.isChecked()) {
+			extra = PostApi.EXTRA_COMMENT_ORIG;
+		}
+		
+		return PostApi.newRepost(mMsg.id, mText.getText().toString(), extra);
 	}
 }
