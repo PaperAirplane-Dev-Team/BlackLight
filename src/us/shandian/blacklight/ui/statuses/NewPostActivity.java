@@ -74,7 +74,7 @@ public class NewPostActivity extends SwipeBackActivity
 		mEmoticonFragment.setEmoticonListener(new EmoticonFragment.EmoticonListener() {
 				@Override
 				public void onEmoticonSelected(String name) {
-					mText.getText().append(name);
+					mText.getText().insert(mText.getSelectionStart(), name);
 				}
 		});
 		
