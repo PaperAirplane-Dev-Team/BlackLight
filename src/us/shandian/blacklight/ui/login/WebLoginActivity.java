@@ -32,6 +32,8 @@ public class WebLoginActivity extends Activity
 	
 	private WebView mWebView;
 	private LoginApiCache mLogin;
+	
+	private boolean mExecuting = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class WebLoginActivity extends Activity
 				if (url.startsWith(Constants.REDIRECT_URL)) {
 					if (url.contains("error")) {
 						v.loadUrl(Constants.LOGIN_URL);
-					} else {
+					} else if (!mExecuting) {
 						v.stopLoading();
 						String code = url.substring(url.lastIndexOf("=") + 1, url.length());
 						
@@ -96,6 +98,7 @@ public class WebLoginActivity extends Activity
 			progDialog.setMessage(getResources().getString(R.string.plz_wait));
 			progDialog.setCancelable(false);
 			progDialog.show();
+			mExecuting = true;
 		}
 
 		@Override
@@ -108,6 +111,7 @@ public class WebLoginActivity extends Activity
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			progDialog.dismiss();
+			mExecuting = false;
 
 			if (mLogin.getAccessToken() != null) {
 				mLogin.cache();
