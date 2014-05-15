@@ -40,6 +40,11 @@ public class LoginActivity extends Activity
 		
 		setContentView(R.layout.login);
 		
+		// Action Bar
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayUseLogoEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
+		
 		// Create login instance
 		mLogin = new LoginApiCache(this);
 		

@@ -40,6 +40,11 @@ public class WebLoginActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.web_login);
 		
+		// Action Bar
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayUseLogoEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
+		
 		// Init webview
 		mWebView = (WebView) findViewById(R.id.login_web);
 		WebSettings settings = mWebView.getSettings();
