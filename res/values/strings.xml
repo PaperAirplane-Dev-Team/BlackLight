@@ -33,6 +33,7 @@
 	<string name="loading_more">正在加载更多...</string>
 	<string name="new_post">发送微博</string>
 	<string name="comment_on">发表评论</string>
+	<string name="repost">转发微博</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>

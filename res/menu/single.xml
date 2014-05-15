@@ -5,6 +5,11 @@
 		android:icon="@drawable/ic_action_chat"
 		android:showAsAction="always"/>
 	
+	<item
+		android:id="@+id/repost"
+		android:icon="@drawable/ic_action_reply_all"
+		android:showAsAction="always"/>
+	
     <item
         android:id="@+id/expand"
         android:icon="@drawable/ic_action_collapse"

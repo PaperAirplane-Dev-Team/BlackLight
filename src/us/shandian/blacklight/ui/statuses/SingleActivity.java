@@ -153,13 +153,22 @@ public class SingleActivity extends SwipeBackActivity
 			case R.id.expand:
 				expandOrCollapse();
 				return true;
-			case R.id.comment_on:
+			case R.id.comment_on:{
 				Intent i = new Intent();
 				i.setAction(Intent.ACTION_MAIN);
 				i.setClass(this, CommentOnActivity.class);
 				i.putExtra("msg", mMsg);
 				startActivity(i);
 				return true;
+			}
+			case R.id.repost:{
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(this, RepostActivity.class);
+				i.putExtra("msg", mMsg);
+				startActivity(i);
+				return true;
+			}
 		}
 		
 		return super.onOptionsItemSelected(item);

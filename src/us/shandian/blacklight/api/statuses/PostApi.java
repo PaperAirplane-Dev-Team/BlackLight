@@ -51,4 +51,23 @@ public class PostApi extends BaseApi
 
 		return true;
 	}
+	
+	public static boolean newRepost(long id, String status) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("status", status);
+		params.put("id", id);
+
+		try {
+			JSONObject json = request(Constants.REPOST, params, HTTP_POST);
+			MessageModel msg = new Gson().fromJson(json.toString(), MessageModel.class);
+
+			if (msg == null || msg.idstr == null || msg.idstr.trim().equals("")) {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
 }

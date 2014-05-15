@@ -86,6 +86,17 @@
 		</activity>
 		
 		<activity
+			android:name=".ui.statuses.RepostActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/repost"
+			android:theme="@style/My.Theme.Holo.Light.DarkActionBar.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
 			android:name=".ui.comments.CommentOnActivity"
 			android:windowSoftInputMode="adjustResize"
 			android:label="@string/comment_on"
