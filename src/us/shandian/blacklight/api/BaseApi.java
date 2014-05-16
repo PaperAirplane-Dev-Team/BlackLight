@@ -74,4 +74,8 @@ public abstract class BaseApi
 	public static void setBMAccessToken(String token) {
 		mBMAccessToken = token;
 	}
+	
+	public static boolean hasBlackMagic() {
+		return mBMAccessToken != null;
+	}
 }

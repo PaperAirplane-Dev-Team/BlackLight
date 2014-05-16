@@ -14,6 +14,7 @@ import android.os.Bundle;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 
@@ -88,8 +89,10 @@ public class UserTimeLineActivity extends SwipeBackActivity
 		new Downloader().execute();
 		
 		// Init
-		mFragment = new UserTimeLineFragment(mModel.id);
-		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
+		if (BaseApi.hasBlackMagic()) {
+			mFragment = new UserTimeLineFragment(mModel.id);
+			getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
+		}
 	}
 
 	@Override
