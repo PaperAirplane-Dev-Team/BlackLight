@@ -79,5 +79,6 @@
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
 	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
 	<string name="send_fail">发送失败</string>
+	<string name="confirm_delete">确认删除?</string>
 
 </resources>

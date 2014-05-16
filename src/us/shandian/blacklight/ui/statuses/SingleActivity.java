@@ -1,8 +1,10 @@
 package us.shandian.blacklight.ui.statuses;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -183,29 +185,22 @@ public class SingleActivity extends SwipeBackActivity
 				return true;
 			}
 			case R.id.delete:{
-				new AsyncTask<Void, Void, Void>() {
-					private ProgressDialog prog;
-					
-					@Override
-					protected void onPreExecute() {
-						prog = new ProgressDialog(SingleActivity.this);
-						prog.setMessage(getResources().getString(R.string.plz_wait));
-						prog.setCancelable(false);
-						prog.show();
-					}
-					
-					@Override
-					protected Void doInBackground(Void[] params) {
-						PostApi.deletePost(mMsg.id);
-						return null;
-					}
-					
-					@Override
-					protected void onPostExecute(Void result) {
-						prog.dismiss();
-						finish();
-					}
-				}.execute();
+				new AlertDialog.Builder(this)
+								.setMessage(R.string.confirm_delete)
+								.setCancelable(true)
+								.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int id) {
+										new DeleteTask().execute();
+									}
+								})
+								.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int id) {
+										dialog.dismiss();
+									}
+								})
+								.show();
 				return true;
 			}
 		}
@@ -248,6 +243,30 @@ public class SingleActivity extends SwipeBackActivity
 			}
 		}, 500);
 		mRoot.startAnimation(anim);
+	}
+	
+	private class DeleteTask extends AsyncTask<Void, Void, Void> {
+		private ProgressDialog prog;
+		
+		@Override
+		protected void onPreExecute() {
+			prog = new ProgressDialog(SingleActivity.this);
+			prog.setMessage(getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
+		
+		@Override
+		protected Void doInBackground(Void[] params) {
+			PostApi.deletePost(mMsg.id);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			prog.dismiss();
+			finish();
+		}
 	}
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
