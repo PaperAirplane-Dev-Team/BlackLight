@@ -33,6 +33,14 @@ public class EntryActivity extends Activity
 			startActivity(i);
 			finish();
 		} else {
+			// Logout BM if not available
+			if (login.hasBlackMagic()) {
+				if (Utility.isTokenExpired(login.getExpireDate())) {
+					login.BMLogout();
+					login.cache();
+				}
+			}
+			
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, MainActivity.class);

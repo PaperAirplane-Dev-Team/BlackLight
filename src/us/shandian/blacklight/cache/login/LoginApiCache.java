@@ -81,7 +81,15 @@ public class LoginApiCache
 	public void logout() {
 		mAccessToken = null;
 		mExpireDate = Long.MIN_VALUE;
+		mBMAccessToken = null;
+		mBMExpireDate = Long.MIN_VALUE;
 		mPrefs.edit().remove("access_token").remove("expires_in").remove("uid").remove("bm_access_token").remove("bm_expires_in").commit();
+	}
+	
+	public void BMLogout() {
+		mBMAccessToken = null;
+		mBMExpireDate = Long.MIN_VALUE;
+		mPrefs.edit().remove("bm_access_token").remove("bm_expires_in").commit();
 	}
 	
 	public void cache() {
