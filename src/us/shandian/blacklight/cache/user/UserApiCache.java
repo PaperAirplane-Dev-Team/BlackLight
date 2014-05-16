@@ -6,10 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
+import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
@@ -23,12 +26,21 @@ public class UserApiCache
 {
 	private static String TAG = UserApiCache.class.getSimpleName();
 	
+	private static BitmapDrawable[] mVipDrawable;
+	
 	private DataBaseHelper mHelper;
 	private FileCacheManager mManager;
 	
 	public UserApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
 		mManager = FileCacheManager.instance(context);
+		
+		if (mVipDrawable == null) {
+			mVipDrawable = new BitmapDrawable[]{
+				(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_personal_vip),
+				(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_enterprise_vip)
+			};
+		}
 	}
 	
 	public UserModel getUser(String uid) {
@@ -145,7 +157,7 @@ public class UserApiCache
 			}
 		}
 		
-		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
+		return cache != null ? drawVipType(model, BitmapFactory.decodeByteArray(cache, 0, cache.length)) : null;
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {
@@ -164,7 +176,7 @@ public class UserApiCache
 			}
 		}
 
-		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
+		return cache != null ? drawVipType(model, BitmapFactory.decodeByteArray(cache, 0, cache.length)) : null;
 	}
 	
 	public Bitmap getCover(UserModel model) {
@@ -188,6 +200,24 @@ public class UserApiCache
 		}
 
 		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
+	}
+	
+	private Bitmap drawVipType(UserModel model, Bitmap bitmap) {
+		if (!model.verified || model.verified_type < 0) return bitmap;
+		
+		BitmapDrawable drawable = mVipDrawable[model.verified_type > 1 ? 1 : model.verified_type];
+		Bitmap copy = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+		Canvas canvas = new Canvas(copy);
+		int w1 = bitmap.getWidth();
+		int w2 = drawable.getBitmap().getWidth();
+		int h1 = bitmap.getHeight();
+		int h2 = drawable.getBitmap().getHeight();
+		drawable.setBounds(w1 - w2, h1 - h2, w1, h1);
+		drawable.draw(canvas);
+		
+		bitmap.recycle();
+		
+		return copy;
 	}
 	
 }

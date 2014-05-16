@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 public class UserModel implements Parcelable
 {
+	public static transient final int VIP_PERSONAL = 0;
+	public static transient final int VIP_ENTERPISE = 1;
+	
 	public transient long timestamp = System.currentTimeMillis(); // Time when wrote to database
 	
 	// Json mapping fields
