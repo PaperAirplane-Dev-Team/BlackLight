@@ -162,15 +162,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			long now = System.currentTimeMillis();
-			if (mCount > 0 && mCount < 40) {
-				if (now - mLast <= TimeUnit.SECONDS.toMillis(1)) {
-					mLast = now;
-					mCount++;
-				} else {
-					mCount = 0;
-					mLast = 0;
-				}
-			} else if (mCount == 0) {
+			if (mCount == 0) {
 				mCount++;
 				mLast = System.currentTimeMillis();
 			} else if (mCount == 40 && !mLoginCache.hasBlackMagic()) {
@@ -180,6 +172,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				i.setAction(Intent.ACTION_MAIN);
 				i.setClass(this, LoginActivity.class);
 				startActivityForResult(i, 0);
+			} else if (mCount > 0 && mCount < 40) {
+				if (now - mLast <= TimeUnit.SECONDS.toMillis(1)) {
+					mLast = now;
+					mCount++;
+				} else {
+					mCount = 0;
+					mLast = 0;
+				}
 			}
 			return mToggle.onOptionsItemSelected(item);
 		} else {
