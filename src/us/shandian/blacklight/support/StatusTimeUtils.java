@@ -77,7 +77,7 @@ public class StatusTimeUtils
 		int nowDay = now.get(Calendar.DAY_OF_YEAR);
 		int msgDay = msg.get(Calendar.DAY_OF_YEAR);
 
-		return nowDay == (msgDay - 2);
+		return nowDay == (msgDay + 2);
 	}
 	
 	private boolean isSameYear(Calendar now, Calendar msg) {
