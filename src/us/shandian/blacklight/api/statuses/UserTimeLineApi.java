@@ -19,7 +19,7 @@ public class UserTimeLineApi extends BaseApi
 		params.put("page", page);
 
 		try {
-			JSONObject json = request(Constants.USER_TIMELINE, params, HTTP_GET);
+			JSONObject json = BMRequest(Constants.USER_TIMELINE, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), MessageListModel.class);
 		} catch (Exception e) {
 			return null;

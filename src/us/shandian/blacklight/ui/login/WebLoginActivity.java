@@ -35,7 +35,6 @@ public class WebLoginActivity extends Activity
 	private LoginApiCache mLogin;
 	
 	private boolean mExecuting = false;
-	private int mClickCount = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,24 +92,6 @@ public class WebLoginActivity extends Activity
 				return true;
 			}
 		});
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			if (mClickCount < 30) {
-				mClickCount++;
-			} else {
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(this, LoginActivity.class);
-				startActivity(i);
-				finish();
-			}
-			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
 	}
 	
 	private class LoginTask extends AsyncTask<String, Void, Void> {

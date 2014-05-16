@@ -20,12 +20,21 @@ public abstract class BaseApi
 	
 	// Access Token
 	private static String mAccessToken;
+	private static String mBMAccessToken;
+	
+	protected static JSONObject BMRequest(String url, WeiboParameters params, String method) throws JSONException {
+		return request(mBMAccessToken, url, params, method);
+	}
 	
 	protected static JSONObject request(String url, WeiboParameters params, String method) throws JSONException {
-		if (mAccessToken == null) {
+		return request(mAccessToken, url, params, method);
+	}
+	
+	protected static JSONObject request(String token, String url, WeiboParameters params, String method) throws JSONException {
+		if (token == null) {
 			return null;
 		} else {
-			params.put("access_token", mAccessToken);
+			params.put("access_token", token);
 			String jsonData = AsyncWeiboRunner.request(url, params, method);
 			
 			if (DEBUG) {
@@ -60,5 +69,9 @@ public abstract class BaseApi
 	
 	public static void setAccessToken(String token) {
 		mAccessToken = token;
+	}
+	
+	public static void setBMAccessToken(String token) {
+		mBMAccessToken = token;
 	}
 }

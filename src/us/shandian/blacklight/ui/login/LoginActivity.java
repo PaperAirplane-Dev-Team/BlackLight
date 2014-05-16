@@ -41,6 +41,7 @@ public class LoginActivity extends Activity
 		setContentView(R.layout.login);
 		
 		// Action Bar
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
@@ -82,6 +83,9 @@ public class LoginActivity extends Activity
 				mPasswd.getText().toString()
 			});
 			return true;
+		} else if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
@@ -114,16 +118,16 @@ public class LoginActivity extends Activity
 			super.onPostExecute(result);
 			progDialog.dismiss();
 			
-			if (mLogin.getAccessToken() != null) {
+			if (mLogin.getBMAccessToken() != null) {
 				if (DEBUG) {
-					Log.d(TAG, "Access Token:" + mLogin.getAccessToken());
-					Log.d(TAG, "Expires in:" + mLogin.getExpireDate());
+					Log.d(TAG, "Access Token:" + mLogin.getBMAccessToken());
+					Log.d(TAG, "Expires in:" + mLogin.getBMExpireDate());
 				}
 				mLogin.cache();
-				BaseApi.setAccessToken(mLogin.getAccessToken());
+				BaseApi.setBMAccessToken(mLogin.getBMAccessToken());
 				
 				// Expire date
-				String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(mLogin.getExpireDate()));
+				String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(mLogin.getBMExpireDate()));
 				new AlertDialog.Builder(LoginActivity.this)
 								.setMessage(msg)
 								.setCancelable(false)
@@ -131,10 +135,6 @@ public class LoginActivity extends Activity
 									@Override
 									public void onClick(DialogInterface dialog, int id) {
 										dialog.dismiss();
-										Intent i = new Intent();
-										i.setAction(Intent.ACTION_MAIN);
-										i.setClass(LoginActivity.this, MainActivity.class);
-										startActivity(i);
 										finish();
 									}
 								})

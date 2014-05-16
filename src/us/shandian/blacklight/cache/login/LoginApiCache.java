@@ -17,9 +17,10 @@ public class LoginApiCache
 	private String mAccessToken;
 	private String mUid;
 	private long mExpireDate;
+	private String mBMAccessToken;
+	private long mBMExpireDate;
 	private String mAppId;
 	private String mAppSecret;
-	private boolean mIsBM;
 	
 	public LoginApiCache(Context context) {
 		mPrefs = context.getSharedPreferences("access_token", Context.MODE_WORLD_READABLE);
@@ -28,15 +29,20 @@ public class LoginApiCache
 		mExpireDate = mPrefs.getLong("expires_in", Long.MIN_VALUE);
 		mAppId = mPrefs.getString("app_id", null);
 		mAppSecret = mPrefs.getString("app_secret", null);
-		mIsBM = mPrefs.getBoolean("black_magic", false);
+		mBMAccessToken = mPrefs.getString("bm_access_token", null);
+		mBMExpireDate = mPrefs.getLong("bm_expires_in", Long.MIN_VALUE);
 		
 		if (mAccessToken != null) {
 			BaseApi.setAccessToken(mAccessToken);
+			
+			if (mBMAccessToken != null) {
+				BaseApi.setBMAccessToken(mBMAccessToken);
+			}
 		}
 	}
 	
 	public void login(String appId, String appSecret, String username, String passwd) {
-		if (mAccessToken == null || mExpireDate == Long.MIN_VALUE) {
+		if (mBMAccessToken == null || mBMExpireDate == Long.MIN_VALUE) {
 			if (DEBUG) {
 				Log.d(TAG, "access token not initialized, running login function");
 			}
@@ -45,13 +51,11 @@ public class LoginApiCache
 				if (DEBUG) {
 					Log.d(TAG, "result got, loading to cache");
 				}
-				mAccessToken = result[0];
-				BaseApi.setAccessToken(mAccessToken);
-				mUid = AccountApi.getUid();
-				mExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
+				mBMAccessToken = result[0];
+				BaseApi.setBMAccessToken(mBMAccessToken);
+				mBMExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
 				mAppId = appId;
 				mAppSecret = appSecret;
-				mIsBM = true;
 			}
 		}
 	}
@@ -70,7 +74,6 @@ public class LoginApiCache
 				BaseApi.setAccessToken(mAccessToken);
 				mUid = AccountApi.getUid();
 				mExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
-				mIsBM = false;
 			}
 		}
 	}
@@ -78,8 +81,7 @@ public class LoginApiCache
 	public void logout() {
 		mAccessToken = null;
 		mExpireDate = Long.MIN_VALUE;
-		mIsBM = false;
-		mPrefs.edit().remove("access_token").remove("expires_in").remove("uid").remove("black_magic").commit();
+		mPrefs.edit().remove("access_token").remove("expires_in").remove("uid").remove("bm_access_token").remove("bm_expires_in").commit();
 	}
 	
 	public void cache() {
@@ -88,7 +90,8 @@ public class LoginApiCache
 					 .putString("uid", mUid)
 					 .putString("app_id", mAppId)
 					 .putString("app_secret", mAppSecret)
-					 .putBoolean("black_magic", mIsBM)
+					 .putString("bm_access_token", mBMAccessToken)
+					 .putLong("bm_expires_in", mBMExpireDate)
 					 .commit();
 	}
 	
@@ -112,7 +115,15 @@ public class LoginApiCache
 		return mAppSecret;
 	}
 	
-	public boolean isBlackMagic() {
-		return mIsBM;
+	public boolean hasBlackMagic() {
+		return mBMAccessToken != null;
+	}
+	
+	public String getBMAccessToken() {
+		return mBMAccessToken;
+	}
+	
+	public long getBMExpireDate() {
+		return mBMExpireDate;
 	}
 }

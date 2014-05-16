@@ -21,6 +21,8 @@ import android.os.AsyncTask;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 
+import java.util.concurrent.TimeUnit;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
@@ -28,6 +30,7 @@ import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
+import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
@@ -55,6 +58,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	// Temp fields
 	private TextView mLastChoice;
+	private int mCount = 0;
+	private long mLast = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +153,24 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
+			long now = System.currentTimeMillis();
+			if (mCount > 0 && mCount < 40) {
+				if (now - mLast <= TimeUnit.SECONDS.toMillis(1)) {
+					mLast = now;
+					mCount++;
+				} else {
+					mCount = 0;
+					mLast = 0;
+				}
+			} else if (mCount == 0) {
+				mCount++;
+				mLast = System.currentTimeMillis();
+			} else if (mCount == 40 && !mLoginCache.hasBlackMagic()) {
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(this, LoginActivity.class);
+				startActivity(i);
+			}
 			return mToggle.onOptionsItemSelected(item);
 		} else {
 			return super.onOptionsItemSelected(item);
