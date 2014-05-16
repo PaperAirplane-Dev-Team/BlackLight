@@ -13,7 +13,7 @@ public class RepostActivity extends NewPostActivity
 	private MessageModel mMsg;
 	
 	private MenuItem mComment;
-	private MenuItem mCommemtOrig;
+	private MenuItem mCommentOrig;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,11 @@ public class RepostActivity extends NewPostActivity
 		mComment.setChecked(false);
 		mComment.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		
-		mCommemtOrig = menu.add(R.string.repost_and_comment_the_original);
-		mCommemtOrig.setCheckable(true);
-		mCommemtOrig.setChecked(false);
-		mCommemtOrig.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		mCommentOrig = menu.add(R.string.repost_and_comment_the_original);
+		mCommentOrig.setCheckable(true);
+		mCommentOrig.setChecked(false);
+		mCommentOrig.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		mCommentOrig.setEnabled(mMsg.retweeted_status != null);
 		
 		return true;
 	}
@@ -51,11 +52,11 @@ public class RepostActivity extends NewPostActivity
 	protected boolean post() {
 		int extra = PostApi.EXTRA_NONE;
 		
-		if (mComment.isChecked() && mCommemtOrig.isChecked()) {
+		if (mComment.isChecked() && mCommentOrig.isChecked()) {
 			extra = PostApi.EXTRA_ALL;
 		} else if (mComment.isChecked()) {
 			extra = PostApi.EXTRA_COMMENT;
-		} else if (mCommemtOrig.isChecked()) {
+		} else if (mCommentOrig.isChecked()) {
 			extra = PostApi.EXTRA_COMMENT_ORIG;
 		}
 		
