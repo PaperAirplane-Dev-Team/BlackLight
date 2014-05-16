@@ -76,4 +76,16 @@ public class PostApi extends BaseApi
 
 		return true;
 	}
+	
+	// Status destroyer
+	public static void deletePost(long id) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("id", id);
+		
+		try {
+			request(Constants.DESTROY, params, HTTP_POST);
+		} catch (Exception e) {
+			// Nothing can be done
+		}
+	}
 }

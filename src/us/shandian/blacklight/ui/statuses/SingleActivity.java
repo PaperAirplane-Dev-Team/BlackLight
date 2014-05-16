@@ -1,6 +1,7 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.animation.TranslateAnimation;
 import android.widget.TabHost;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
@@ -21,6 +23,8 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import java.util.List;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.statuses.PostApi;
+import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
@@ -45,6 +49,7 @@ public class SingleActivity extends SwipeBackActivity
 	
 	private boolean mExpanded = true;
 	private boolean mAnimating = false;
+	private boolean mIsMine = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,9 @@ public class SingleActivity extends SwipeBackActivity
 		
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
+		if (mMsg.user != null && mMsg.user.id != null) {
+			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
+		}
 		
 		// Init
 		mRoot = findViewById(R.id.single_root);
@@ -141,6 +149,11 @@ public class SingleActivity extends SwipeBackActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.single, menu);
 		mExpand = menu.findItem(R.id.expand);
+		
+		// Can only delete statuses post by me
+		if (!mIsMine) {
+			menu.findItem(R.id.delete).setVisible(false);
+		}
 		return true;
 	}
 	
@@ -167,6 +180,32 @@ public class SingleActivity extends SwipeBackActivity
 				i.setClass(this, RepostActivity.class);
 				i.putExtra("msg", mMsg);
 				startActivity(i);
+				return true;
+			}
+			case R.id.delete:{
+				new AsyncTask<Void, Void, Void>() {
+					private ProgressDialog prog;
+					
+					@Override
+					protected void onPreExecute() {
+						prog = new ProgressDialog(SingleActivity.this);
+						prog.setMessage(getResources().getString(R.string.plz_wait));
+						prog.setCancelable(false);
+						prog.show();
+					}
+					
+					@Override
+					protected Void doInBackground(Void[] params) {
+						PostApi.deletePost(mMsg.id);
+						return null;
+					}
+					
+					@Override
+					protected void onPostExecute(Void result) {
+						prog.dismiss();
+						finish();
+					}
+				}.execute();
 				return true;
 			}
 		}
