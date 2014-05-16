@@ -15,7 +15,7 @@
 		android:textStyle="bold"/>
 
 	<ListView
-		android:layout_height="180dp"
+		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="@android:color/white"
 		android:id="@+id/list_my"
@@ -32,15 +32,15 @@
 		android:textStyle="bold"/>
 
 	<ListView
-		android:layout_height="90dp"
+		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="@android:color/white"
 		android:id="@+id/list_at_me"
 		android:divider="@null"
 		android:listSelector="@drawable/drawer_selector"/>
-	
+
 	<ListView
-		android:layout_height="40dp"
+		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:id="@+id/list_other"
 		android:divider="@null"
