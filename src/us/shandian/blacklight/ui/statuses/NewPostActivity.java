@@ -140,6 +140,10 @@ public class NewPostActivity extends SwipeBackActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.isCheckable() && item.isEnabled()) {
+			item.setChecked(!item.isChecked());
+		}
+		
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				finish();

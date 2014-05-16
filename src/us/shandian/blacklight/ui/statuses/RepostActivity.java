@@ -48,14 +48,6 @@ public class RepostActivity extends NewPostActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.isCheckable()) {
-			item.setChecked(!item.isChecked());
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	protected boolean post() {
 		int extra = PostApi.EXTRA_NONE;
 		

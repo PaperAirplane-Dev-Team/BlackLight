@@ -32,6 +32,6 @@ public class ReplyToActivity extends NewPostActivity
 
 	@Override
 	protected boolean post() {
-		return NewCommentApi.replyTo(mComment.status.id, mComment.id, mText.getText().toString());
+		return NewCommentApi.replyTo(mComment.status.id, mComment.id, mText.getText().toString(), false);
 	}
 }

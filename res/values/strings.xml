@@ -45,6 +45,8 @@
 	<string name="reply_to">回复评论</string>
 	<string name="repost_and_comment">同时评论微博</string>
 	<string name="repost_and_comment_the_original">同时评论原微博</string>
+	<string name="comment_and_repost">同时转发微博</string>
+	<string name="comment_orig">同时评论原微博</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>

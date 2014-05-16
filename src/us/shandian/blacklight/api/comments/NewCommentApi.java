@@ -12,10 +12,11 @@ import us.shandian.blacklight.model.CommentModel;
 
 public class NewCommentApi extends BaseApi
 {
-	public static boolean commentOn(long id, String comment) {
+	public static boolean commentOn(long id, String comment, boolean commentOrig) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("comment", comment);
 		params.put("id", id);
+		params.put("comment_ori", commentOrig ? 1 : 0);
 
 		try {
 			JSONObject json = request(Constants.COMMENTS_CREATE, params, HTTP_POST);
@@ -31,11 +32,12 @@ public class NewCommentApi extends BaseApi
 		return true;
 	}
 	
-	public static boolean replyTo(long id, long cid, String comment) {
+	public static boolean replyTo(long id, long cid, String comment, boolean commentOrig) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("comment", comment);
 		params.put("id", id);
 		params.put("cid", cid);
+		params.put("comment_ori", commentOrig ? 1 : 0);
 
 		try {
 			JSONObject json = request(Constants.COMMENTS_REPLY, params, HTTP_POST);
