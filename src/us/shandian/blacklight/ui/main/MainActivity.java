@@ -92,9 +92,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mAtMe.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mOther.setVerticalScrollBarEnabled(false);
 		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);
-		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
-		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
-		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
 		
 		mMy.setOnItemClickListener(this);
 		mAtMe.setOnItemClickListener(this);
@@ -106,6 +103,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mAvatar = (ImageView) findViewById(R.id.my_avatar);
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
+		initList();
 		new InitializerTask().execute();
 		
 		findViewById(R.id.my_account).setOnClickListener(new View.OnClickListener() {
@@ -145,6 +143,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (resultCode == RESULT_OK) {
+			mLoginCache = new LoginApiCache(this);
+			initList();
+		}
+	}
+
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mToggle.onConfigurationChanged(newConfig);
@@ -166,10 +174,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				mCount++;
 				mLast = System.currentTimeMillis();
 			} else if (mCount == 40 && !mLoginCache.hasBlackMagic()) {
+				mCount = 0;
+				mLast = 0;
 				Intent i = new Intent();
 				i.setAction(Intent.ACTION_MAIN);
 				i.setClass(this, LoginActivity.class);
-				startActivity(i);
+				startActivityForResult(i, 0);
 			}
 			return mToggle.onOptionsItemSelected(item);
 		} else {
@@ -227,6 +237,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 		
 		mDrawer.closeDrawer(Gravity.START);
+	}
+	
+	private void initList() {
+		mLastChoice = null;
+		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(mLoginCache.hasBlackMagic() ? R.array.my_array : R.array.my_array_no_bm)));
+		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
+		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
 	}
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {

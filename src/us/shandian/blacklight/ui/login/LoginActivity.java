@@ -84,6 +84,7 @@ public class LoginActivity extends Activity
 			});
 			return true;
 		} else if (item.getItemId() == android.R.id.home) {
+			setResult(RESULT_CANCELED);
 			finish();
 			return true;
 		} else {
@@ -135,6 +136,7 @@ public class LoginActivity extends Activity
 									@Override
 									public void onClick(DialogInterface dialog, int id) {
 										dialog.dismiss();
+										setResult(RESULT_OK);
 										finish();
 									}
 								})
