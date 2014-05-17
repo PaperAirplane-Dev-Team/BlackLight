@@ -41,4 +41,5 @@ public class Constants
 	// Favorites
 	public static final String FAVORITES_CREATE = SINA_BASE_URL + "favorites/create.json";
 	public static final String FAVORITES_DESTROY = SINA_BASE_URL + "favorites/destroy.json";
+	public static final String FAVORITES_LIST = SINA_BASE_URL + "favorites.json";
 }
