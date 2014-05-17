@@ -38,4 +38,7 @@ public class Constants
 	public static final String COMMENTS_REPLY = SINA_BASE_URL + "comments/reply.json";
 	public static final String COMMENTS_DESTROY = SINA_BASE_URL + "comments/destroy.json";
 	
+	// Favorites
+	public static final String FAVORITES_CREATE = SINA_BASE_URL + "favorites/create.json";
+	public static final String FAVORITES_DESTROY = SINA_BASE_URL + "favorites/destroy.json";
 }

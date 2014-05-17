@@ -48,10 +48,13 @@ public class SingleActivity extends SwipeBackActivity
 	private TabHost mTabs;
 	
 	private MenuItem mExpand;
+	private MenuItem mFav;
 	
 	private boolean mExpanded = true;
 	private boolean mAnimating = false;
 	private boolean mIsMine = false;
+	private boolean mFavourited = false;
+	private boolean mFavTaskRunning = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class SingleActivity extends SwipeBackActivity
 		
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
+		mFavourited = mMsg.favorited;
 		if (mMsg.user != null && mMsg.user.id != null) {
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
@@ -151,10 +155,14 @@ public class SingleActivity extends SwipeBackActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.single, menu);
 		mExpand = menu.findItem(R.id.expand);
+		mFav = menu.findItem(R.id.fav);
 		
 		// Can only delete statuses post by me
 		if (!mIsMine) {
 			menu.findItem(R.id.delete).setVisible(false);
+			setFavouriteIcon();
+		} else {
+			mFav.setVisible(false);
 		}
 		return true;
 	}
@@ -203,6 +211,12 @@ public class SingleActivity extends SwipeBackActivity
 								.show();
 				return true;
 			}
+			case R.id.fav:{
+				if (!mFavTaskRunning) {
+					new FavTask().execute();
+				}
+				return true;
+			}
 		}
 		
 		return super.onOptionsItemSelected(item);
@@ -245,6 +259,10 @@ public class SingleActivity extends SwipeBackActivity
 		mRoot.startAnimation(anim);
 	}
 	
+	private void setFavouriteIcon() {
+		mFav.setIcon(mFavourited ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+	}
+	
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog prog;
 		
@@ -266,6 +284,34 @@ public class SingleActivity extends SwipeBackActivity
 		protected void onPostExecute(Void result) {
 			prog.dismiss();
 			finish();
+		}
+	}
+	
+	private class FavTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mFavTaskRunning = true;
+		}
+		
+		@Override
+		protected Void doInBackground(Void[] params) {
+			if (mFavourited) {
+				PostApi.unfav(mMsg.id);
+			} else {
+				PostApi.fav(mMsg.id);
+			}
+			
+			mFavourited = !mFavourited;
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			setFavouriteIcon();
+			mFavTaskRunning = false;
 		}
 	}
 	
