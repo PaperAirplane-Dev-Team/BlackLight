@@ -51,11 +51,15 @@ public class HomeTimeLineApiCache
 	
 	public void load(boolean newWeibo) {
 		if (newWeibo) {
-			mMessages.getList().clear();
 			mCurrentPage = 0;
 		}
 		
 		MessageListModel list = load();
+		
+		if (newWeibo) {
+			mMessages.getList().clear();
+		}
+		
 		mMessages.addAll(false, list);
 	}
 	
