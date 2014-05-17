@@ -47,10 +47,10 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig, mShowCommentStatus);
-		mList.setAdapter(mAdapter);
 		mList.setOnScrollListener(this);
 		bindFooterView(inflater);
+		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig, mShowCommentStatus);
+		mList.setAdapter(mAdapter);
 		
 		// Swipe To Refresh
 		bindSwipeToRefresh((ViewGroup) v);
