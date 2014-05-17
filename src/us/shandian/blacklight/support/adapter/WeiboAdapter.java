@@ -271,6 +271,13 @@ public class WeiboAdapter extends BaseAdapter
 		return v;
 	}
 	
+	public void notifyDataSetChangedAndClear() {
+		super.notifyDataSetChanged();
+		
+		// Fix memory leak
+		mViews.clear();
+	}
+	
 	// Downloads images including avatars
 	private class ImageDownloader extends AsyncTask<Object, Object, Void> {
 

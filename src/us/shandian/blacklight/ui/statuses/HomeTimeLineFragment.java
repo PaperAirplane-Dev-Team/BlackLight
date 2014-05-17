@@ -167,7 +167,11 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-			mAdapter.notifyDataSetChanged();
+			if (!result) {
+				mAdapter.notifyDataSetChanged();
+			} else {
+				mAdapter.notifyDataSetChangedAndClear();
+			}
 			mRefreshing = false;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);
