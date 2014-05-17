@@ -36,5 +36,6 @@ public class Constants
 	public static final String COMMENTS_SHOW = SINA_BASE_URL + "comments/show.json";
 	public static final String COMMENTS_CREATE = SINA_BASE_URL + "comments/create.json";
 	public static final String COMMENTS_REPLY = SINA_BASE_URL + "comments/reply.json";
+	public static final String COMMENTS_DESTROY = SINA_BASE_URL + "comments/destroy.json";
 	
 }

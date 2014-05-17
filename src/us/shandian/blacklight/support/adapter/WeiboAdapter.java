@@ -1,6 +1,9 @@
 package us.shandian.blacklight.support.adapter;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -19,6 +22,8 @@ import android.util.Log;
 import java.util.HashMap;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.comments.NewCommentApi;
+import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.CommentModel;
@@ -46,6 +51,9 @@ public class WeiboAdapter extends BaseAdapter
 	private StatusTimeUtils mTimeUtils;
 	private UserApiCache mUserApi;
 	private HomeTimeLineApiCache mHomeApi;
+	private LoginApiCache mLogin;
+	
+	private String mUid;
 	
 	private int mGray;
 	
@@ -62,7 +70,9 @@ public class WeiboAdapter extends BaseAdapter
 		mTimeUtils = StatusTimeUtils.instance(context);
 		mUserApi = new UserApiCache(context);
 		mHomeApi = new HomeTimeLineApiCache(context);
+		mLogin = new LoginApiCache(context);
 		mGray = context.getResources().getColor(R.color.light_gray);
+		mUid = mLogin.getUid();
 		mContext = context;
 		mBindOrig = bindOrig;
 		mShowCommentStatus = showCommentStatus;
@@ -185,6 +195,32 @@ public class WeiboAdapter extends BaseAdapter
 						}
 					}		
 				});
+				
+				CommentModel comment = (CommentModel) msg;
+				if (comment.user.id.equals(mUid) || (comment.status != null && comment.status.user.id != null && comment.status.user.id.equals(mUid))) {
+					v.setOnLongClickListener(new View.OnLongClickListener() {
+						@Override
+						public boolean onLongClick(final View v) {
+							new AlertDialog.Builder(mContext)
+									.setMessage(R.string.confirm_delete)
+									.setCancelable(true)
+									.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int id) {
+											new DeleteTask().execute((CommentModel) v.getTag());
+										}
+									})
+									.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int id) {
+											dialog.dismiss();
+										}
+									})
+									.show();
+							return true;
+						}
+					});
+				}
 			}
 
 			new ImageDownloader().execute(new Object[]{v, msg});
@@ -330,6 +366,29 @@ public class WeiboAdapter extends BaseAdapter
 		}
 
 		
+	}
+	
+	private class DeleteTask extends AsyncTask<CommentModel, Void, Void> {
+		private ProgressDialog prog;
+
+		@Override
+		protected void onPreExecute() {
+			prog = new ProgressDialog(mContext);
+			prog.setMessage(mContext.getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
+
+		@Override
+		protected Void doInBackground(CommentModel[] params) {
+			NewCommentApi.deleteComment(params[0].id);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			prog.dismiss();
+		}
 	}
 
 }

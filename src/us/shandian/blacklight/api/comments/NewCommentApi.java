@@ -52,4 +52,15 @@ public class NewCommentApi extends BaseApi
 
 		return true;
 	}
+	
+	public static void deleteComment(long cid) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("cid", cid);
+		
+		try {
+			request(Constants.COMMENTS_DESTROY, params, HTTP_POST);
+		} catch (Exception e) {
+			
+		}
+	}
 }
