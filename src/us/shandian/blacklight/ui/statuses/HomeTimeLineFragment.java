@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import static us.shandian.blacklight.cache.Constants.HOME_TIMELINE_PAGE_SIZE;
 

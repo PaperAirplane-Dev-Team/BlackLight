@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
-import android.os.AsyncTask;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.Log;

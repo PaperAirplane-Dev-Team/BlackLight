@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +27,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import static us.shandian.blacklight.BuildConfig.DEBUG;

@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.widget.TextView;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,6 +16,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 

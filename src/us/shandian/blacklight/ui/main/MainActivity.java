@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Bundle;
-import android.os.AsyncTask;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +26,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;

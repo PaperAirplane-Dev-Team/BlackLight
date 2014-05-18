@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.animation.TranslateAnimation;
 import android.widget.TabHost;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
@@ -30,6 +29,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -27,6 +26,7 @@ import uk.co.senab.photoview.PhotoView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
+import us.shandian.blacklight.support.AsyncTask;
 
 public class ImageActivity extends SwipeBackActivity
 {

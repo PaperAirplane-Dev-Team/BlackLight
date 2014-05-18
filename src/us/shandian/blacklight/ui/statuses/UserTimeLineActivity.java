@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -17,6 +16,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.support.AsyncTask;
 
 public class UserTimeLineActivity extends SwipeBackActivity
 {

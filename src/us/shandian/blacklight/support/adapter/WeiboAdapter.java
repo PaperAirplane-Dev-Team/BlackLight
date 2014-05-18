@@ -14,7 +14,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
 
@@ -28,6 +27,7 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;

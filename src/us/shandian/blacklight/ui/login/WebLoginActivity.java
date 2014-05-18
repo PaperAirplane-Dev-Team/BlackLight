@@ -11,7 +11,6 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,6 +18,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.cache.login.LoginApiCache;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.main.MainActivity;
 import static  us.shandian.blacklight.BuildConfig.DEBUG;
