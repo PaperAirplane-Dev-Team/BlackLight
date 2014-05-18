@@ -111,7 +111,7 @@
 
 	</LinearLayout>
 
-	<TextView
+	<us.shandian.blacklight.ui.common.HackyTextView
 		android:layout_height="wrap_content"
 		android:text="Content"
 		android:layout_width="match_parent"

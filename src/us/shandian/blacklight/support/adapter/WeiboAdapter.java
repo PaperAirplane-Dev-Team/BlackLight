@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.ui.common.ImageActivity;
@@ -125,7 +125,7 @@ public class WeiboAdapter extends BaseAdapter
 			name.setText(msg.user != null ? msg.user.getName() : "");
 			from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
 			content.setText(SpannableStringUtils.span(msg.text));
-			content.setMovementMethod(LinkMovementMethod.getInstance());
+			content.setMovementMethod(HackyMovementMethod.getInstance());
 			
 			if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
 				scroll.setVisibility(View.VISIBLE);
