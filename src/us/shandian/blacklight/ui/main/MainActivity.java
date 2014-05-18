@@ -205,8 +205,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				tv.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-								.replace(R.id.container, mFragments[position]).commit();
+						try {
+							mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+									.replace(R.id.container, mFragments[position]).commit();
+						} catch (Exception e) {
+							
+						}
 					}
 				}, 800);
 			}
@@ -219,8 +223,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				tv.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-								.replace(R.id.container, mFragments[4 + position]).commit();
+						try {
+							mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+									.replace(R.id.container, mFragments[4 + position]).commit();
+						} catch (Exception e) {
+							
+						}
 					}
 				}, 800);
 			}
