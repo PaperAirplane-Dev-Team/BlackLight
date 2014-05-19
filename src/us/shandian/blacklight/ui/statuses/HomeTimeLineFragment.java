@@ -14,6 +14,8 @@ import android.os.Bundle;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import java.util.ConcurrentModificationException;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -86,7 +88,11 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	public void onPause() {
 		super.onPause();
 		
-		mCache.cache();
+		try {
+			mCache.cache();
+		} catch (ConcurrentModificationException e) {
+			
+		}
 	}
 
 	@Override
