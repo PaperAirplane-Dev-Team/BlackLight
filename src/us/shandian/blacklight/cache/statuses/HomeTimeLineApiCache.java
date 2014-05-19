@@ -154,7 +154,7 @@ public class HomeTimeLineApiCache
 			BitmapFactory.Options opt = new BitmapFactory.Options();
 			opt.inJustDecodeBounds = true;
 			BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
-			opt.inSampleSize = Utility.computeSampleSize(opt, -1, 1024 * 1024);
+			opt.inSampleSize = Utility.computeSampleSize(opt, -1, 4 * 1024 * 1024);
 			opt.inJustDecodeBounds = false;
 			return BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
 		}
