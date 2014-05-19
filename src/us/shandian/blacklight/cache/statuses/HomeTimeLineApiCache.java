@@ -17,6 +17,7 @@ import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.Utility;
 
 /* Time Line of me and my friends */
 public class HomeTimeLineApiCache
@@ -146,7 +147,17 @@ public class HomeTimeLineApiCache
 			}
 		} 
 		
-		return BitmapFactory.decodeByteArray(cache, 0, cache.length);
+		try {
+			return BitmapFactory.decodeByteArray(cache, 0, cache.length);
+		} catch (OutOfMemoryError e) {
+			// If OOM, compress and decode.
+			BitmapFactory.Options opt = new BitmapFactory.Options();
+			opt.inJustDecodeBounds = true;
+			BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
+			opt.inSampleSize = Utility.computeSampleSize(opt, -1, 1024 * 1024);
+			opt.inJustDecodeBounds = false;
+			return BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
+		}
 	}
 	
 	public void cache() {
