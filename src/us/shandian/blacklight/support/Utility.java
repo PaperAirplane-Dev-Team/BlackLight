@@ -1,6 +1,10 @@
 package us.shandian.blacklight.support;
 
 import android.graphics.BitmapFactory;
+import android.opengl.GLES10;
+import android.opengl.GLES11;
+import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +27,25 @@ public class Utility
 	public static int lengthOfString(String str) throws UnsupportedEncodingException {
 		// Considers 1 Chinese character as 2 English characters
 		return (str.getBytes("GB2312").length + 1) / 2;
+	}
+	
+	public static int getSupportedMaxPictureSize() {
+		int[] array = new int[1];
+		GLES10.glGetIntegerv(GLES10.GL_MAX_TEXTURE_SIZE, array, 0);
+		
+		if (array[0] == 0) {
+			GLES11.glGetIntegerv(GLES11.GL_MAX_TEXTURE_SIZE, array, 0);
+			
+			if (array[0] == 0) {
+				GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, array, 0);
+				
+				if (array[0] == 0) {
+					GLES30.glGetIntegerv(GLES30.GL_MAX_TEXTURE_SIZE, array, 0);
+				}
+			}
+		}
+		
+		return array[0] != 0 ? array[0] : 2048;
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {

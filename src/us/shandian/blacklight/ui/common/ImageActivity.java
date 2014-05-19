@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,9 +28,13 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class ImageActivity extends SwipeBackActivity
 {
+	private static final String TAG = ImageActivity.class.getSimpleName();
+	
 	private ViewPager mPager;
 	private MessageModel mModel;
 	private HomeTimeLineApiCache mApiCache;
@@ -118,7 +123,19 @@ public class ImageActivity extends SwipeBackActivity
 				v.removeAllViews();
 				if (img instanceof Bitmap) {
 					PhotoView p = new PhotoView(ImageActivity.this);
-					p.setImageBitmap((Bitmap) img);
+					
+					// Disable hardware acceleration if too large
+					Bitmap image = (Bitmap) img;
+					int maxSize = Utility.getSupportedMaxPictureSize();
+					if (image.getWidth() > maxSize || image.getHeight() > maxSize) {
+						p.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+						
+						if (DEBUG) {
+							Log.d(TAG, "Image too large, hardware acceleration disabled. max size: " + maxSize);
+						}
+					}
+					
+					p.setImageBitmap(image);
 					v.addView(p, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				} else if (img instanceof Movie) {
 					GifView g = new GifView(ImageActivity.this);
