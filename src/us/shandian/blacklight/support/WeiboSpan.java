@@ -10,6 +10,7 @@ import android.util.Log;
 
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.ui.search.TopicsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -48,6 +49,15 @@ public class WeiboSpan extends ClickableSpan
 				}
 				
 				new UserInfoTask().execute(context, name);
+			} else if (mUri.getScheme().startsWith("us.shandian.blacklight.topic")) {
+				String name = mUrl.substring(mUrl.indexOf("#") + 1, mUrl.lastIndexOf("#"));
+				
+				// Start Activity
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(context, TopicsActivity.class);
+				i.putExtra("topic", name);
+				context.startActivity(i);
 			}
 		}
 	}
