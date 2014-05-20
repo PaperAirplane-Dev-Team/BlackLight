@@ -19,7 +19,7 @@
 -->
 <TextView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="40dp"
+	android:layout_height="45dp"
 	android:text="Item"
 	android:textAppearance="?android:attr/textAppearanceMedium"
 	android:layout_width="match_parent"
