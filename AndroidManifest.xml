@@ -138,6 +138,28 @@
 			</intent-filter>
 		</activity>
 		
+		<activity
+			android:name=".ui.settings.SettingsActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/settings"
+			android:theme="@style/My.Theme.Holo.Light.DarkActionBar.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name=".ui.settings.LicenseActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/license"
+			android:theme="@style/My.Theme.Holo.Light.DarkActionBar.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
     </application>
 
 </manifest>

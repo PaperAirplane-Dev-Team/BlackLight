@@ -29,6 +29,7 @@
 		<item>评论</item>
 	</string-array>
 	<string-array name="other_array">
+		<item>设置</item>
 		<item>登出</item>
 	</string-array>
 	
@@ -73,6 +74,11 @@
 	
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
+	
+	<!-- Settings -->
+	<string name="settings">设置</string>
+	<string name="about">关于</string>
+	<string name="license">开源协议</string>
 	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>

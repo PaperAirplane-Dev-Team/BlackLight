@@ -32,6 +32,7 @@ import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
 import us.shandian.blacklight.ui.login.LoginActivity;
+import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
@@ -235,6 +236,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		} else if (parent == mOther) {
 			switch (position) {
 				case 0:{
+					Intent i = new Intent();
+					i.setAction(Intent.ACTION_MAIN);
+					i.setClass(this, SettingsActivity.class);
+					startActivity(i);
+					break;
+				}
+				case 1:{
 					mLoginCache.logout();
 					Intent i = new Intent();
 					i.setAction(Intent.ACTION_MAIN);
