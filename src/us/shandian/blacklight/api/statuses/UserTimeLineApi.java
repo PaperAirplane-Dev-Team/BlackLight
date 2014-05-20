@@ -20,13 +20,13 @@
 package us.shandian.blacklight.api.statuses;
 
 import com.google.gson.Gson;
-import com.sina.weibo.sdk.net.WeiboParameters;
 
 import org.json.JSONObject;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.http.WeiboParameters;
 
 /* Fetches messages published by an exact user */
 public class UserTimeLineApi extends BaseApi

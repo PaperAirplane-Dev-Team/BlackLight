@@ -21,10 +21,9 @@ package us.shandian.blacklight.api.user;
 
 import org.json.JSONObject;
 
-import com.sina.weibo.sdk.net.WeiboParameters;
-
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
+import us.shandian.blacklight.support.http.WeiboParameters;
 
 /* Current Account Api of Sina Weibo */
 public class AccountApi extends BaseApi

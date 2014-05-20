@@ -22,13 +22,13 @@ package us.shandian.blacklight.api.comments;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.sina.weibo.sdk.net.WeiboParameters;
 
 import org.json.JSONObject;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.CommentListModel;
+import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class StatusCommentApi extends BaseApi

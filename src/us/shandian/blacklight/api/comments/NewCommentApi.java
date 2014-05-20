@@ -19,8 +19,6 @@
 
 package us.shandian.blacklight.api.comments;
 
-import com.sina.weibo.sdk.net.WeiboParameters;
-
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -28,6 +26,7 @@ import org.json.JSONObject;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.CommentModel;
+import us.shandian.blacklight.support.http.WeiboParameters;
 
 public class NewCommentApi extends BaseApi
 {

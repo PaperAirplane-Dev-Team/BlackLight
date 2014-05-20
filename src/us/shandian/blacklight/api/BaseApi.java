@@ -24,9 +24,8 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import com.sina.weibo.sdk.net.AsyncWeiboRunner;
-import com.sina.weibo.sdk.net.WeiboParameters;
-
+import us.shandian.blacklight.support.http.HttpUtility;
+import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public abstract class BaseApi
@@ -34,27 +33,27 @@ public abstract class BaseApi
 	private static final String TAG = BaseApi.class.getSimpleName();
 	
 	// Http Methods
-	protected static final String HTTP_GET = "GET";
-	protected static final String HTTP_POST = "POST";
+	protected static final String HTTP_GET = HttpUtility.GET;
+	protected static final String HTTP_POST = HttpUtility.POST;
 	
 	// Access Token
 	private static String mAccessToken;
 	private static String mBMAccessToken;
 	
-	protected static JSONObject BMRequest(String url, WeiboParameters params, String method) throws JSONException {
+	protected static JSONObject BMRequest(String url, WeiboParameters params, String method) throws Exception {
 		return request(mBMAccessToken, url, params, method);
 	}
 	
-	protected static JSONObject request(String url, WeiboParameters params, String method) throws JSONException {
+	protected static JSONObject request(String url, WeiboParameters params, String method) throws Exception {
 		return request(mAccessToken, url, params, method);
 	}
 	
-	protected static JSONObject request(String token, String url, WeiboParameters params, String method) throws JSONException {
+	protected static JSONObject request(String token, String url, WeiboParameters params, String method) throws Exception {
 		if (token == null) {
 			return null;
 		} else {
 			params.put("access_token", token);
-			String jsonData = AsyncWeiboRunner.request(url, params, method);
+			String jsonData = HttpUtility.doRequest(url, params, method);
 			
 			if (DEBUG) {
 				Log.d(TAG, "jsonData = " + jsonData);
@@ -68,8 +67,8 @@ public abstract class BaseApi
 		}
 	}
 	
-	protected static JSONObject requestWithoutAccessToken(String url, WeiboParameters params, String method) throws JSONException {
-		String jsonData = AsyncWeiboRunner.request(url, params, method);
+	protected static JSONObject requestWithoutAccessToken(String url, WeiboParameters params, String method) throws Exception {
+		String jsonData = HttpUtility.doRequest(url, params, method);
 		
 		if (DEBUG) {
 			Log.d(TAG, "jsonData = " + jsonData);
