@@ -41,11 +41,12 @@
 
 		<LinearLayout
 			android:layout_height="match_parent"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:orientation="vertical"
 			android:layout_marginLeft="5dp"
 			android:layout_marginTop="5dp"
-			android:layout_marginBottom="5dp">
+			android:layout_marginBottom="5dp"
+			android:layout_weight="0.6">
 
 			<TextView
 				android:layout_height="wrap_content"
@@ -53,7 +54,9 @@
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:layout_width="wrap_content"
 				android:textStyle="bold"
-				android:id="@+id/weibo_name"/>
+				android:id="@+id/weibo_name"
+				android:singleLine="true"
+				android:ellipsize="end"/>
 
 			<LinearLayout
 				android:layout_height="match_parent"
@@ -90,7 +93,8 @@
 			android:layout_marginBottom="5dp"
 			android:gravity="top|right"
 			android:layout_marginRight="5dp"
-			android:id="@+id/weibo_comment_and_retweet">
+			android:id="@+id/weibo_comment_and_retweet"
+			android:layout_weight="0.8">
 
 			<TextView
 				android:layout_height="wrap_content"
@@ -106,7 +110,8 @@
 				android:layout_width="wrap_content"
 				android:layout_marginLeft="2dp"
 				android:id="@+id/weibo_retweet"
-				android:textSize="10sp"/>
+				android:textSize="10sp"
+				android:singleLine="true"/>
 
 			<TextView
 				android:layout_height="wrap_content"
@@ -123,7 +128,8 @@
 				android:layout_width="wrap_content"
 				android:layout_marginLeft="2dp"
 				android:id="@+id/weibo_comments"
-				android:textSize="10sp"/>
+				android:textSize="10sp"
+				android:singleLine="true"/>
 
 		</LinearLayout>
 
