@@ -51,7 +51,7 @@
 			<TextView
 				android:layout_height="wrap_content"
 				android:text="Author Name"
-				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textSize="14.5sp"
 				android:layout_width="wrap_content"
 				android:textStyle="bold"
 				android:id="@+id/weibo_name"
@@ -141,7 +141,9 @@
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_content"
 		android:layout_margin="5dp"
-		android:textColorLink="@color/link_blue"/>
+		android:textSize="14.5sp"
+		android:textColorLink="@color/link_blue"
+		android:lineSpacingExtra="2dp"/>
 
 	<LinearLayout
 		android:layout_height="wrap_content"
