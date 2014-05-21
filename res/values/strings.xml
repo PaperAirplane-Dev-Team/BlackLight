@@ -23,8 +23,7 @@
 	
 	<!-- Login -->
 	<string name="login">登录</string>
-	<string name="app_id">App Id</string>
-	<string name="app_secret">App Secret</string>
+	<string name="tail">尾巴</string>
 	<string name="username">用户名</string>
 	<string name="passwd">密码</string>
 	

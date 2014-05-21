@@ -32,32 +32,15 @@
 
 	<TextView
 		android:layout_height="wrap_content"
-		android:text="@string/app_id"
+		android:text="@string/tail"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:layout_gravity="center_vertical"/>
 
-	<EditText
-		android:layout_height="wrap_content"
-		android:inputType="textPassword"
-		android:ems="10"
+	<Spinner
+		android:layout_height="35dp"
 		android:layout_width="wrap_content"
-		android:id="@+id/app_id"
-		android:layout_marginLeft="5dp"/>
-
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="@string/app_secret"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center_vertical"/>
-
-	<EditText
-		android:layout_height="wrap_content"
-		android:inputType="textPassword"
-		android:ems="10"
-		android:layout_width="wrap_content"
-		android:id="@+id/app_secret"
+		android:id="@+id/tail"
 		android:layout_marginLeft="5dp"/>
 
 	<TextView

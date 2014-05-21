@@ -27,6 +27,10 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,16 +44,21 @@ import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* BlackMagic Login Activity */
-public class LoginActivity extends Activity
+public class LoginActivity extends Activity implements AdapterView.OnItemSelectedListener
 {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
-	private TextView mAppId;
-	private TextView mAppSecret;
+	private Spinner mTail;
 	private TextView mUsername;
 	private TextView mPasswd;
 	
 	private MenuItem mMenuItem;
+	
+	private String[] mTailNames;
+	private String[] mKeys;
+	
+	private String mAppId;
+	private String mAppSecret;
 	
 	private LoginApiCache mLogin;
 
@@ -69,26 +78,36 @@ public class LoginActivity extends Activity
 		mLogin = new LoginApiCache(this);
 		
 		// Get views
-		mAppId = (TextView) findViewById(R.id.app_id);
-		mAppSecret = (TextView) findViewById(R.id.app_secret);
+		mTail = (Spinner) findViewById(R.id.tail);
 		mUsername = (TextView) findViewById(R.id.username);
 		mPasswd = (TextView) findViewById(R.id.passwd);
 		
-		if (mLogin.getAppId() != null && mLogin.getAppSecret() != null) {
-			mAppId.setText(mLogin.getAppId());
-			mAppSecret.setText(mLogin.getAppSecret());
-		} else {
-			mAppId.setText("211160679");
-			mAppSecret.setText("63b64d531b98c2dbff2443816f274dd3");
-		}
+		mTailNames = getResources().getStringArray(R.array.bm_tails);
+		mKeys = getResources().getStringArray(R.array.bm_keys);
+		
+		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
+		mTail.setOnItemSelectedListener(this);
+		
+		onItemSelected(null, null, 0, 0);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		mMenuItem = menu.add(R.string.login);
 		mMenuItem.setShowAsAction(1);
 		return true;
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		String[] key = mKeys[position].split("\\|");
+		mAppId = key[0];
+		mAppSecret = key[1];
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		
 	}
 
 	@Override
@@ -96,8 +115,8 @@ public class LoginActivity extends Activity
 	{
 		if (item == mMenuItem) {
 			new LoginTask().execute(new String[]{
-				mAppId.getText().toString(),
-				mAppSecret.getText().toString(),
+				mAppId,
+				mAppSecret,
 				mUsername.getText().toString(),
 				mPasswd.getText().toString()
 			});
