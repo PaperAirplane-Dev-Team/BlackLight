@@ -37,11 +37,6 @@
 		<item>收藏</item>
 		<item>私信</item>
 	</string-array>
-	<string-array name="my_array_no_bm">
-		<item>微博</item>
-		<item>评论</item>
-		<item>收藏</item>
-	</string-array>
 	<string-array name="at_me_array">
 		<item>微博</item>
 		<item>评论</item>

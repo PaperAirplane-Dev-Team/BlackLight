@@ -138,16 +138,16 @@ public class LoginActivity extends Activity
 			super.onPostExecute(result);
 			progDialog.dismiss();
 			
-			if (mLogin.getBMAccessToken() != null) {
+			if (mLogin.getAccessToken() != null) {
 				if (DEBUG) {
-					Log.d(TAG, "Access Token:" + mLogin.getBMAccessToken());
-					Log.d(TAG, "Expires in:" + mLogin.getBMExpireDate());
+					Log.d(TAG, "Access Token:" + mLogin.getAccessToken());
+					Log.d(TAG, "Expires in:" + mLogin.getExpireDate());
 				}
 				mLogin.cache();
-				BaseApi.setBMAccessToken(mLogin.getBMAccessToken());
+				BaseApi.setAccessToken(mLogin.getAccessToken());
 				
 				// Expire date
-				String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(mLogin.getBMExpireDate()));
+				String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(mLogin.getExpireDate()));
 				new AlertDialog.Builder(LoginActivity.this)
 								.setMessage(msg)
 								.setCancelable(false)
@@ -155,7 +155,10 @@ public class LoginActivity extends Activity
 									@Override
 									public void onClick(DialogInterface dialog, int id) {
 										dialog.dismiss();
-										setResult(RESULT_OK);
+										Intent i = new Intent();
+										i.setAction(Intent.ACTION_MAIN);
+										i.setClass(LoginActivity.this, MainActivity.class);
+										startActivity(i);
 										finish();
 									}
 								})

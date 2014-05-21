@@ -45,7 +45,7 @@ public class TopicsApi extends BaseApi
 		params.put("page", page);
 
 		try {
-			JSONObject json = BMRequest(Constants.SEARCH_TOPICS, params, HTTP_GET);
+			JSONObject json = request(Constants.SEARCH_TOPICS, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), MessageListModel.class);
 		} catch (Exception e) {
 			if (DEBUG) {

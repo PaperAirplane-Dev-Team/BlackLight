@@ -79,8 +79,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	// Temp fields
 	private TextView mLastChoice;
-	private int mCount = 0;
-	private long mLast = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -183,26 +181,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
-			long now = System.currentTimeMillis();
-			if (mCount == 0) {
-				mCount++;
-				mLast = System.currentTimeMillis();
-			} else if (mCount == 40 && !mLoginCache.hasBlackMagic()) {
-				mCount = 0;
-				mLast = 0;
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(this, LoginActivity.class);
-				startActivityForResult(i, 0);
-			} else if (mCount > 0 && mCount < 40) {
-				if (now - mLast <= TimeUnit.SECONDS.toMillis(1)) {
-					mLast = now;
-					mCount++;
-				} else {
-					mCount = 0;
-					mLast = 0;
-				}
-			}
 			return mToggle.onOptionsItemSelected(item);
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -278,7 +256,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	private void initList() {
 		mLastChoice = null;
-		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(mLoginCache.hasBlackMagic() ? R.array.my_array : R.array.my_array_no_bm)));
+		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
 		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
 		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
 	}

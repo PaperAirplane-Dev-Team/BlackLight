@@ -108,10 +108,8 @@ public class UserTimeLineActivity extends SwipeBackActivity
 		new Downloader().execute();
 		
 		// Init
-		if (BaseApi.hasBlackMagic()) {
-			mFragment = new UserTimeLineFragment(mModel.id);
-			getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
-		}
+		mFragment = new UserTimeLineFragment(mModel.id);
+		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
 	}
 
 	@Override

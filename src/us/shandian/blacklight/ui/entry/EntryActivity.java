@@ -26,7 +26,7 @@ import android.os.Bundle;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.file.FileCacheManager;
-import us.shandian.blacklight.ui.login.WebLoginActivity;
+import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Utility;
@@ -48,18 +48,10 @@ public class EntryActivity extends Activity
 		if (needsLogin(login)) {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(this, WebLoginActivity.class);
+			i.setClass(this, LoginActivity.class);
 			startActivity(i);
 			finish();
 		} else {
-			// Logout BM if not available
-			if (login.hasBlackMagic()) {
-				if (Utility.isTokenExpired(login.getExpireDate())) {
-					login.BMLogout();
-					login.cache();
-				}
-			}
-			
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, MainActivity.class);

@@ -38,11 +38,6 @@ public abstract class BaseApi
 	
 	// Access Token
 	private static String mAccessToken;
-	private static String mBMAccessToken;
-	
-	protected static JSONObject BMRequest(String url, WeiboParameters params, String method) throws Exception {
-		return request(mBMAccessToken, url, params, method);
-	}
 	
 	protected static JSONObject request(String url, WeiboParameters params, String method) throws Exception {
 		return request(mAccessToken, url, params, method);
@@ -87,13 +82,5 @@ public abstract class BaseApi
 	
 	public static void setAccessToken(String token) {
 		mAccessToken = token;
-	}
-	
-	public static void setBMAccessToken(String token) {
-		mBMAccessToken = token;
-	}
-	
-	public static boolean hasBlackMagic() {
-		return mBMAccessToken != null;
 	}
 }
