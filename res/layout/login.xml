@@ -38,7 +38,7 @@
 		android:layout_gravity="center_vertical"/>
 
 	<Spinner
-		android:layout_height="35dp"
+		android:layout_height="40dp"
 		android:layout_width="wrap_content"
 		android:id="@+id/tail"
 		android:layout_marginLeft="5dp"/>
@@ -51,7 +51,7 @@
 		android:layout_gravity="center_vertical"/>
 
 	<EditText
-		android:layout_height="wrap_content"
+		android:layout_height="40dp"
 		android:ems="10"
 		android:layout_width="wrap_content"
 		android:id="@+id/username"
@@ -65,7 +65,7 @@
 		android:layout_gravity="center_vertical"/>
 
 	<EditText
-		android:layout_height="wrap_content"
+		android:layout_height="40dp"
 		android:inputType="textPassword"
 		android:ems="10"
 		android:layout_width="wrap_content"
