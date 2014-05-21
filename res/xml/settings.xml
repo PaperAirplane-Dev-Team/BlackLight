@@ -24,6 +24,19 @@
 		android:title="@string/about">
 		
 		<Preference
+			android:key="version"
+			android:title="@string/version"/>
+		
+		<Preference
+			android:title="@string/author_title"
+			android:summary="@string/author_summary"/>
+		
+		<Preference
+			android:key="source_code"
+			android:title="@string/source_code_title"
+			android:summary="@string/source_code_summary"/>
+		
+		<Preference
 			android:key="license"
 			android:title="@string/license"/>
 		

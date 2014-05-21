@@ -90,6 +90,11 @@
 	<!-- Settings -->
 	<string name="settings">设置</string>
 	<string name="about">关于</string>
+	<string name="version">版本</string>
+	<string name="author_title">作者</string>
+	<string name="author_summary">\@喝雪碧的虾PeterCxy</string>
+	<string name="source_code_title">源代码</string>
+	<string name="source_code_summary">http://github.com/PeterCxy/BlackLight</string>
 	<string name="license">开源协议</string>
 	
 	<!-- Message -->

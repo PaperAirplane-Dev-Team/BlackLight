@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.settings;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.view.MenuItem;
@@ -30,9 +31,13 @@ import us.shandian.blacklight.R;
 
 public class SettingsActivity extends SwipeBackPreferenceActivity implements Preference.OnPreferenceClickListener
 {
+	private static final String VERSION = "version";
+	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
 	
 	private Preference mPrefLicense;
+	private Preference mPrefVersion;
+	private Preference mPrefSourceCode;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +52,21 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 		
 		// Init
 		mPrefLicense = findPreference(LICENSE);
+		mPrefVersion = findPreference(VERSION);
+		mPrefSourceCode = findPreference(SOURCE_CODE);
+		
+		// Data
+		String version = "Unknown";
+		try {
+			version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (Exception e) {
+			// Keep the default value
+		}
+		mPrefVersion.setSummary(version);
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
+		mPrefSourceCode.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -68,6 +85,13 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, LicenseActivity.class);
+			startActivity(i);
+			return true;
+		} else if (preference == mPrefSourceCode) {
+			// Visit source code
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_VIEW);
+			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
 			return true;
 		} else {
