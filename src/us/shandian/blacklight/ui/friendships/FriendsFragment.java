@@ -134,6 +134,10 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 			
 			if (usr == null || usr.getSize() == 0 || usr.next_cursor == null || usr.next_cursor.equals("0")) {
 				mNoMore = true;
+				
+				if (mUsers.getSize() == 0 && usr != null) {
+					mUsers.addAll(params[0], usr);
+				}
 			} else {
 				mNextCursor = Integer.parseInt(usr.next_cursor);
 				mUsers.addAll(params[0], usr);
