@@ -79,7 +79,9 @@
 					android:layout_width="wrap_content"
 					android:layout_marginLeft="5dp"
 					android:id="@+id/weibo_from"
-					android:textSize="12sp"/>
+					android:textSize="12sp"
+					android:singleLine="true"
+					android:ellipsize="end"/>
 
 			</LinearLayout>
 
