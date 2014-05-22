@@ -156,7 +156,8 @@
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
 			android:orientation="vertical"
-			android:layout_weight="0.25">
+			android:layout_weight="0.25"
+			android:id="@+id/user_following_container">
 
 			<TextView
 				android:layout_height="match_parent"

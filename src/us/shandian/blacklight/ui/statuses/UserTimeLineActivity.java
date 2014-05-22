@@ -21,6 +21,7 @@ package us.shandian.blacklight.ui.statuses;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.MenuItem;
@@ -36,8 +37,9 @@ import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
-public class UserTimeLineActivity extends SwipeBackActivity
+public class UserTimeLineActivity extends SwipeBackActivity implements View.OnClickListener
 {
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
@@ -52,6 +54,7 @@ public class UserTimeLineActivity extends SwipeBackActivity
 	private TextView mGeo;
 	private ImageView mAvatar;
 	private View mCover;
+	private View mFollowingContainer;
 	
 	private UserApiCache mCache;
 
@@ -82,6 +85,9 @@ public class UserTimeLineActivity extends SwipeBackActivity
 		mGeo = (TextView) findViewById(R.id.user_geo);
 		mAvatar = (ImageView) findViewById(R.id.user_avatar);
 		mCover = findViewById(R.id.user_cover);
+		mFollowingContainer = findViewById(R.id.user_following_container);
+		
+		mFollowingContainer.setOnClickListener(this);
 		
 		// View values
 		mName.setText(mModel.getName());
@@ -120,6 +126,19 @@ public class UserTimeLineActivity extends SwipeBackActivity
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_VIEW);
+		i.putExtra("uid", mModel.id);
+		
+		if (v == mFollowingContainer) {
+			i.setClass(this, FriendsActivity.class);
+		}
+		
+		startActivity(i);
 	}
 	
 	private class Downloader extends AsyncTask<Void, Object, Void> {
