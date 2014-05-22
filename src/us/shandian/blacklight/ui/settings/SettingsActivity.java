@@ -22,27 +22,37 @@ package us.shandian.blacklight.ui.settings;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.view.MenuItem;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.Settings;
 
-public class SettingsActivity extends SwipeBackPreferenceActivity implements Preference.OnPreferenceClickListener
+public class SettingsActivity extends SwipeBackPreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener
 {
 	private static final String VERSION = "version";
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
 	
+	private Settings mSettings;
+	
+	// About
 	private Preference mPrefLicense;
 	private Preference mPrefVersion;
 	private Preference mPrefSourceCode;
+	
+	// Actions
+	private CheckBoxPreference mPrefFastScroll;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		
+		mSettings = Settings.getInstance(this);
 		
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -54,6 +64,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 		mPrefLicense = findPreference(LICENSE);
 		mPrefVersion = findPreference(VERSION);
 		mPrefSourceCode = findPreference(SOURCE_CODE);
+		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
 		
 		// Data
 		String version = "Unknown";
@@ -63,10 +74,12 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 			// Keep the default value
 		}
 		mPrefVersion.setSummary(version);
+		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL, false));
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
+		mPrefFastScroll.setOnPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -93,6 +106,16 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 			i.setAction(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean onPreferenceChange(Preference preference, Object newValue) {
+		if (preference == mPrefFastScroll) {
+			mSettings.putBoolean(Settings.FAST_SCROLL, (boolean) newValue);
 			return true;
 		} else {
 			return false;

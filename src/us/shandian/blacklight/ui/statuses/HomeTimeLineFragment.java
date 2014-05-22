@@ -38,6 +38,8 @@ import java.util.ConcurrentModificationException;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Settings;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import static us.shandian.blacklight.cache.Constants.HOME_TIMELINE_PAGE_SIZE;
 
@@ -118,6 +120,21 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	public void onResume() {
 		super.onResume();
 		initTitle();
+		
+		Settings settings = Settings.getInstance(getActivity());
+		
+		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
+		mList.setFastScrollEnabled(fs);
+		
+		if (fs) {
+			// Scroller
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while(!Utility.changeFastScrollColor(mList, getResources().getColor(R.color.gray)));
+				}
+			}).start();
+		}
 	}
 	
 	@Override

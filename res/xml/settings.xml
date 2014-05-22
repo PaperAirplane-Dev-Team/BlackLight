@@ -19,6 +19,17 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	
+	<!-- Actions -->
+	<PreferenceCategory
+		android:title="@string/actions">
+		
+		<CheckBoxPreference
+			android:key="fast_scroll"
+			android:title="@string/fast_scroll"
+			android:checked="false"/>
+		
+	</PreferenceCategory>
+	
 	<!-- About -->
 	<PreferenceCategory
 		android:title="@string/about">

@@ -20,17 +20,27 @@
 package us.shandian.blacklight.support;
 
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
+
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */
 public class Utility
 {
+	private static final String TAG = Utility.class.getSimpleName();
+	
 	public static int expireTimeInDays(long time) {
 		return (int) TimeUnit.MILLISECONDS.toDays(time - System.currentTimeMillis());
 	}
@@ -65,6 +75,24 @@ public class Utility
 		}
 		
 		return array[0] != 0 ? array[0] : 2048;
+	}
+	
+	public static boolean changeFastScrollColor(AbsListView v, int color) {
+		try {
+			Field f = AbsListView.class.getDeclaredField("mFastScroller");
+			f.setAccessible(true);
+			Object o = f.get(v);
+			f = f.getType().getDeclaredField("mThumbImage");
+			f.setAccessible(true);
+			o = f.get(o);
+			((ImageView) o).setColorFilter(color);
+			return true;
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+			return false;
+		}
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {

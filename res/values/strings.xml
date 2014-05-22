@@ -96,6 +96,8 @@
 	<string name="source_code_title">源代码</string>
 	<string name="source_code_summary">http://github.com/PeterCxy/BlackLight</string>
 	<string name="license">开源协议</string>
+	<string name="actions">动作</string>
+	<string name="fast_scroll">列表快速滚动</string>
 	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>
