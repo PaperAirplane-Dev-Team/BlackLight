@@ -94,7 +94,14 @@ public class FileCacheManager
 			opt.write(buf, 0, len);
 		}
 		in.close();
-		return opt.toByteArray();
+		byte[] ret;
+		try {
+			ret = opt.toByteArray();
+		} catch (OutOfMemoryError e) {
+			ret = null;
+		}
+		opt.close();
+		return ret;
 	}
 	
 	public void clearUnavailable() {
