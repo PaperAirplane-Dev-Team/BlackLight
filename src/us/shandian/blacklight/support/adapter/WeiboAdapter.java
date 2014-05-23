@@ -28,6 +28,9 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -245,6 +248,7 @@ public class WeiboAdapter extends BaseAdapter
 			new ImageDownloader().execute(new Object[]{v, msg});
 			
 			if (!sub) {
+				setAnimation(v);
 				mViews.put(msg.id, v);
 			}
 			
@@ -288,6 +292,17 @@ public class WeiboAdapter extends BaseAdapter
 		}
 		
 		return v;
+	}
+	
+	private void setAnimation(View v) {
+		AlphaAnimation alpha = new AlphaAnimation(0.4f, 1.0f);
+		TranslateAnimation translate = new TranslateAnimation(0.0f, 0.0f, 50.0f, 0.0f);
+		AnimationSet set = new AnimationSet(true);
+		set.addAnimation(alpha);
+		set.addAnimation(translate);
+		set.setInterpolator(mContext, android.R.anim.accelerate_interpolator);
+		set.setDuration(250);
+		v.startAnimation(set);
 	}
 	
 	public void notifyDataSetChangedAndClear() {
