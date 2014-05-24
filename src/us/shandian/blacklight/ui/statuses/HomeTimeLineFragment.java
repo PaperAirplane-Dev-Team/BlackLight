@@ -75,6 +75,10 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		
+		mList.setDrawingCacheEnabled(true);
+		mList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+		mList.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE | ViewGroup.PERSISTENT_SCROLLING_CACHE);
+		
 		// Swipe To Refresh
 		bindSwipeToRefresh((ViewGroup) v);
 		
