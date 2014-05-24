@@ -52,4 +52,19 @@ public class CommentTimeLineApi extends BaseApi
 		}
 	}
 	
+	public static CommentListModel fetchCommentTimeLineSince(long id) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("since_id", id);
+
+		try {
+			JSONObject json = request(Constants.COMMENTS_TIMELINE, params, HTTP_GET);
+			return new Gson().fromJson(json.toString(), CommentListModel.class);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+			return null;
+		}
+	}
+	
 }

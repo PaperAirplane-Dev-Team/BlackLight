@@ -19,6 +19,10 @@
 
 package us.shandian.blacklight.support;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -34,12 +38,18 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
+import us.shandian.blacklight.service.CommentTimeLineFetcherService;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */
 public class Utility
 {
 	private static final String TAG = Utility.class.getSimpleName();
+	
+	private static final int REQUEST_CODE = 100001;
+	
+	private static final int INTERVAL_THREE_MINUTES = 3 * 60 * 1000;
 	
 	public static int expireTimeInDays(long time) {
 		return (int) TimeUnit.MILLISECONDS.toDays(time - System.currentTimeMillis());
@@ -93,6 +103,28 @@ public class Utility
 			}
 			return false;
 		}
+	}
+	
+	public static void startServiceAlarm(Context context, Class<?> service, long interval) {
+		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		Intent i = new Intent(context, service);
+		PendingIntent p = PendingIntent.getService(context, REQUEST_CODE, i, PendingIntent.FLAG_CANCEL_CURRENT);
+		am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 0, interval, p);
+	}
+	
+	public static void stopServiceAlarm(Context context, Class<?> service) {
+		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		Intent i = new Intent(context, service);
+		PendingIntent p = PendingIntent.getService(context, REQUEST_CODE, i, PendingIntent.FLAG_CANCEL_CURRENT);
+		am.cancel(p);
+	}
+	
+	public static void startServices(Context context) {
+		startServiceAlarm(context, CommentTimeLineFetcherService.class, INTERVAL_THREE_MINUTES);
+	}
+	
+	public static void stopServices(Context context) {
+		stopServiceAlarm(context, CommentTimeLineFetcherService.class);
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
