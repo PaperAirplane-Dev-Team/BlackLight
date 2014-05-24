@@ -35,7 +35,7 @@ import us.shandian.blacklight.cache.comments.CommentTimeLineApiCache;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.model.CommentListModel;
-import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.ui.entry.EntryActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class CommentTimeLineFetcherService extends IntentService
@@ -78,7 +78,7 @@ public class CommentTimeLineFetcherService extends IntentService
 				int size = since.getSize();
 				String str = String.format(getResources().getString(R.string.new_comment), size);
 				Notification no = new Notification(R.drawable.ic_action_chat, str, System.currentTimeMillis());
-				PendingIntent i = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+				PendingIntent i = PendingIntent.getActivity(this, 0, new Intent(this, EntryActivity.class), 0);
 				no.setLatestEventInfo(this, str, getResources().getString(R.string.click_to_view), i);
 				NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				m.notify(ID, no);
