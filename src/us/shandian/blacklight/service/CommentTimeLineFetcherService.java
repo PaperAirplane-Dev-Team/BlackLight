@@ -59,6 +59,10 @@ public class CommentTimeLineFetcherService extends IntentService
 		
 		if (BaseApi.getAccessToken() == null) {
 			BaseApi.setAccessToken(new LoginApiCache(this).getAccessToken());
+			
+			if (BaseApi.getAccessToken() == null) {
+				return;
+			}
 		}
 		
 		CommentTimeLineApiCache cache = new CommentTimeLineApiCache(this);
