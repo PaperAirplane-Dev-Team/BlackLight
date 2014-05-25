@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
+import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
@@ -51,5 +52,31 @@ public class FriendsApi extends BaseApi
 		}
 		
 		return null;
+	}
+	
+	public static boolean follow(String uid) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		
+		try {
+			JSONObject json = request(Constants.FRIENDSHIPS_CREATE, params, HTTP_POST);
+			UserModel user = new Gson().fromJson(json.toString(), UserModel.class);
+			return user != null && !user.id.trim().equals("");
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public static boolean unfollow(String uid) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+
+		try {
+			JSONObject json = request(Constants.FRIENDSHIPS_DESTROY, params, HTTP_POST);
+			UserModel user = new Gson().fromJson(json.toString(), UserModel.class);
+			return user != null && !user.id.trim().equals("");
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

@@ -24,6 +24,8 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +36,8 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
+import us.shandian.blacklight.api.friendships.FriendsApi;
+import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
@@ -55,6 +59,8 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 	private ImageView mAvatar;
 	private View mCover;
 	private View mFollowingContainer;
+	
+	private MenuItem mMenuFollow;
 	
 	private UserApiCache mCache;
 
@@ -93,15 +99,7 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 		mName.setText(mModel.getName());
 		
 		// Follower state (following/followed/each other)
-		if (mModel.follow_me && mModel.following) {
-			mFollowState.setText(R.string.following_each_other);
-		} else if (mModel.follow_me) {
-			mFollowState.setText(R.string.following_me);
-		} else if (mModel.following) {
-			mFollowState.setText(R.string.i_am_following);
-		} else {
-			mFollowState.setText(R.string.no_following);
-		}
+		resetFollowState();
 		
 		// Also view values
 		mDes.setText(mModel.description);
@@ -119,12 +117,29 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			finish();
-			return true;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.user, menu);
+		mMenuFollow = menu.findItem(R.id.follow);
+		if (new LoginApiCache(this).getUid().equals(mModel.id)) {
+			mMenuFollow.setVisible(false);
 		} else {
-			return super.onOptionsItemSelected(item);
+			resetFollowState();
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			case R.id.follow:
+				new Follower().execute();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -139,6 +154,43 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 		}
 		
 		startActivity(i);
+	}
+	
+	private void resetFollowState() {
+		if (mModel.follow_me && mModel.following) {
+			mFollowState.setText(R.string.following_each_other);
+		} else if (mModel.follow_me) {
+			mFollowState.setText(R.string.following_me);
+		} else if (mModel.following) {
+			mFollowState.setText(R.string.i_am_following);
+		} else {
+			mFollowState.setText(R.string.no_following);
+		}
+		
+		if (mMenuFollow != null) {
+			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+		}
+	}
+	
+	private class Follower extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (mModel.following) {
+				FriendsApi.unfollow(mModel.id);
+			} else {
+				FriendsApi.follow(mModel.id);
+			}
+			
+			mModel.following = !mModel.following;
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+			resetFollowState();
+		}
 	}
 	
 	private class Downloader extends AsyncTask<Void, Object, Void> {
