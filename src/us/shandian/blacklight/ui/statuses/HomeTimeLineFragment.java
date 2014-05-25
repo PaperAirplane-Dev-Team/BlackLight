@@ -41,20 +41,18 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
-import static us.shandian.blacklight.cache.Constants.HOME_TIMELINE_PAGE_SIZE;
+import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 
-public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener
+public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
 	private ListView mList;
-	private View mFooter;
 	private WeiboAdapter mAdapter;
 	private HomeTimeLineApiCache mCache;
 	
 	// Pull To Refresh
-	private SwipeRefreshLayout mSwipeRefresh;
+	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	private boolean mRefreshing = false;
-	private boolean mNoMore = false;
 	
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
@@ -70,8 +68,6 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		mList.setOnScrollListener(this);
-		bindFooterView(inflater);
 		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		
@@ -142,22 +138,9 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 	}
 	
 	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// Refresh when scroll nearly to bottom
-		if (!mNoMore && !mRefreshing && totalItemCount >= HOME_TIMELINE_PAGE_SIZE &&  firstVisibleItem >= totalItemCount - 2 * visibleItemCount) {
-			new Refresher().execute(new Boolean[]{false});
-		}
-	}
-	
-	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
-			new Refresher().execute(new Boolean[]{true});
+			new Refresher().execute(new Boolean[]{!mSwipeRefresh.isDown()});
 		}
 	}
 	
@@ -169,12 +152,8 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 		getActivity().getActionBar().setTitle(R.string.timeline);
 	}
 	
-	protected void bindFooterView(LayoutInflater inflater) {
-		mList.addFooterView((mFooter = inflater.inflate(R.layout.timeline_footer, null)));
-	}
-	
 	protected void bindSwipeToRefresh(ViewGroup v) {
-		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
+		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
 		
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
 		v.removeViewInLayout(mList);
@@ -197,11 +176,6 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(true);
 			}
-			
-			if (mNoMore) {
-				mNoMore = false;
-				mFooter.setVisibility(View.VISIBLE);
-			}
 		}
 		
 		@Override
@@ -221,14 +195,6 @@ public class HomeTimeLineFragment extends Fragment implements AbsListView.OnScro
 			mRefreshing = false;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);
-			}
-			
-			// Cannot load more
-			if (!result && mCache.mMessages.getSize() == mLastCount) {
-				mFooter.setVisibility(View.GONE);
-				
-				// Set this flag to true, and this task can't be started again
-				mNoMore = true;
 			}
 		}
 

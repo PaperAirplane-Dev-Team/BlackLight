@@ -36,20 +36,19 @@ import us.shandian.blacklight.api.friendships.FriendsApi;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.UserAdapter;
+import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener
+public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
 {
 	private String mUid;
 	private UserListModel mUsers;
 	private int mNextCursor = 0;
 	private boolean mRefreshing = false;
-	private boolean mNoMore = false;
 	
 	private ListView mList;
-	private View mFooter;
 	private UserAdapter mAdapter;
-	private SwipeRefreshLayout mSwipeRefresh;
+	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	public FriendsFragment(String uid) {
 		mUid = uid;
@@ -65,10 +64,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		mUsers = new UserListModel();
 		mAdapter = new UserAdapter(getActivity(), mUsers);
 		mList.setAdapter(mAdapter);
-		mList.addFooterView((mFooter = inflater.inflate(R.layout.timeline_footer, null)));
-		mList.setOnScrollListener(this);
 		mList.setOnItemClickListener(this);
-		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
+		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
 
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
 		v.removeViewInLayout(mList);
@@ -87,22 +84,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
-			mNoMore = false;
-			mFooter.setVisibility(View.VISIBLE);
-			new Refresher().execute(true);
-		}
-	}
-	
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// Refresh when scroll nearly to bottom
-		if (!mNoMore && !mRefreshing && totalItemCount >= 50 &&  firstVisibleItem >= totalItemCount - 2 * visibleItemCount) {
-			new Refresher().execute(false);
+			new Refresher().execute(!mSwipeRefresh.isDown());
 		}
 	}
 
@@ -132,15 +114,12 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 			
 			UserListModel usr = FriendsApi.getFriendsOf(mUid, 50, mNextCursor);
 			
-			if (usr == null || usr.getSize() == 0 || usr.next_cursor == null || usr.next_cursor.equals("0")) {
-				mNoMore = true;
-				
-				if (mUsers.getSize() == 0 && usr != null) {
+			if (usr != null) {
+				int nextCursor = Integer.parseInt(usr.next_cursor);
+				if (params[0] || mNextCursor != 0) {
+					mNextCursor = nextCursor;
 					mUsers.addAll(params[0], usr);
 				}
-			} else {
-				mNextCursor = Integer.parseInt(usr.next_cursor);
-				mUsers.addAll(params[0], usr);
 			}
 			
 			return params[0];
@@ -156,10 +135,6 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
-			
-			if (mNoMore) {
-				mFooter.setVisibility(View.GONE);
-			}
 		}
 	}
 }
