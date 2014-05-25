@@ -135,14 +135,21 @@ public class WeiboAdapter extends BaseAdapter
 			}
 		}
 		
+		ViewHolder h = null;
+		
 		// If not inflated before, then we have much work to do
 		if (!existed) {
 			v = mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
-			v.setTag(msg);
-			TextView name = (TextView) v.findViewById(R.id.weibo_name);
-			TextView from = (TextView) v.findViewById(R.id.weibo_from);
-			TextView content = (TextView) v.findViewById(R.id.weibo_content);
-			HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
+			h = new ViewHolder(v, msg);
+		} else {
+			h = (ViewHolder) v.getTag();
+		}
+		
+		if (!existed) {
+			TextView name = h.getName();
+			TextView from = h.getFrom();
+			TextView content = h.getContent();
+			HorizontalScrollView scroll = h.getScroll();
 			
 			name.setText(msg.user != null ? msg.user.getName() : "");
 			from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
@@ -152,7 +159,7 @@ public class WeiboAdapter extends BaseAdapter
 			if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
 				scroll.setVisibility(View.VISIBLE);
 				
-				LinearLayout container = (LinearLayout) scroll.findViewById(R.id.weibo_pics);
+				LinearLayout container = h.getContainer();
 				
 				int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
 				
@@ -178,12 +185,12 @@ public class WeiboAdapter extends BaseAdapter
 				
 				if (origin != null) {
 					origin.setBackgroundColor(mGray);
-					LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+					LinearLayout originParent = h.getOriginParent();
 					originParent.addView(origin);
 					originParent.setVisibility(View.VISIBLE);
 					
 					if (msg instanceof CommentModel) {
-						origin.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
+						h.getCommentAndRetweet().setVisibility(View.GONE);
 					}
 					
 				}
@@ -193,7 +200,7 @@ public class WeiboAdapter extends BaseAdapter
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						MessageModel msg = (MessageModel) v.getTag();
+						MessageModel msg = ((ViewHolder) v.getTag()).msg;
 						if (msg != null) {
 							Intent i = new Intent();
 							i.setAction(Intent.ACTION_MAIN);
@@ -207,7 +214,7 @@ public class WeiboAdapter extends BaseAdapter
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						CommentModel comment = (CommentModel) v.getTag();
+						CommentModel comment = (CommentModel) ((ViewHolder) v.getTag()).msg;
 						if (comment != null) {
 							Intent i = new Intent();
 							i.setAction(Intent.ACTION_MAIN);
@@ -229,7 +236,7 @@ public class WeiboAdapter extends BaseAdapter
 									.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 										@Override
 										public void onClick(DialogInterface dialog, int id) {
-											new DeleteTask().execute((CommentModel) v.getTag());
+											new DeleteTask().execute((CommentModel) ((ViewHolder) v.getTag()).msg);
 										}
 									})
 									.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -245,7 +252,7 @@ public class WeiboAdapter extends BaseAdapter
 				}
 			}
 
-			new ImageDownloader().execute(new Object[]{v, msg});
+			new ImageDownloader().execute(new Object[]{v});
 			
 			if (!sub) {
 				setAnimation(v);
@@ -255,16 +262,14 @@ public class WeiboAdapter extends BaseAdapter
 		}
 		
 		// Even if inflated before, we still have to update these info
-		TextView date = (TextView) v.findViewById(R.id.weibo_date);
-		TextView retweet = (TextView) v.findViewById(R.id.weibo_retweet);
-		TextView comments = (TextView) v.findViewById(R.id.weibo_comments);
+		TextView date = h.getDate();
+		TextView retweet = h.getRetweets();
+		TextView comments = h.getComments();
 		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
 		
 		if (!mShowCommentStatus || msg instanceof CommentModel) {
-			if (!existed) {
-				v.findViewById(R.id.weibo_comment_and_retweet).setVisibility(View.GONE);
-			}
+			h.getCommentAndRetweet().setVisibility(View.GONE);
 		} else {
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
@@ -280,11 +285,12 @@ public class WeiboAdapter extends BaseAdapter
 		}
 		
 		if (existed && mBindOrig && !sub && origMsg != null) {
-			LinearLayout originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+			LinearLayout originParent = h.getOriginParent();
+			ViewHolder originHolder = (ViewHolder) originParent.getChildAt(0).getTag();
 			
-			date = (TextView) originParent.findViewById(R.id.weibo_date);
-			retweet = (TextView) originParent.findViewById(R.id.weibo_retweet);
-			comments = (TextView) originParent.findViewById(R.id.weibo_comments);
+			date = originHolder.getDate();
+			retweet = originHolder.getRetweets();
+			comments = originHolder.getComments();
 
 			date.setText(mTimeUtils.buildTimeString(origMsg.created_at));
 			retweet.setText(String.valueOf(origMsg.reposts_count));
@@ -318,7 +324,8 @@ public class WeiboAdapter extends BaseAdapter
 		@Override
 		protected Void doInBackground(Object[] params) {
 			View v = (View) params[0];
-			MessageModel msg = (MessageModel) params[1];
+			ViewHolder h = (ViewHolder) v.getTag();
+			MessageModel msg = h.msg;
 			
 			// Avatars
 			if (v != null) {
@@ -328,10 +335,10 @@ public class WeiboAdapter extends BaseAdapter
 			
 			// Images
 			if (v != null && !(msg instanceof CommentModel)) {
-				HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
+				HorizontalScrollView scroll = h.getScroll();
 				
 				if (scroll.getVisibility() == View.VISIBLE) {
-					LinearLayout container = (LinearLayout) scroll.findViewById(R.id.weibo_pics);
+					LinearLayout container = h.getContainer();
 					
 					for (int i = 0; i < container.getChildCount(); i++) {
 						ImageView imgView = (ImageView) container.getChildAt(i);
@@ -429,6 +436,103 @@ public class WeiboAdapter extends BaseAdapter
 		@Override
 		protected void onPostExecute(Void result) {
 			prog.dismiss();
+		}
+	}
+	
+	private class ViewHolder {
+		public MessageModel msg;
+		
+		private TextView date, retweets, comments, name, from, content;
+		private HorizontalScrollView scroll;
+		private LinearLayout container, originParent;
+		private View comment_and_retweet;
+		private View v;
+		
+		public ViewHolder(View v, MessageModel msg) {
+			this.v = v;
+			this.msg = msg;
+			
+			v.setTag(this);
+		}
+		
+		public TextView getDate() {
+			if (date == null) {
+				date = (TextView) v.findViewById(R.id.weibo_date);
+			}
+			
+			return date;
+		}
+		
+		public TextView getComments() {
+			if (comments == null) {
+				comments = (TextView) v.findViewById(R.id.weibo_comments);
+			}
+
+			return comments;
+		}
+		
+		public TextView getRetweets() {
+			if (retweets == null) {
+				retweets = (TextView) v.findViewById(R.id.weibo_retweet);
+			}
+			
+			return retweets;
+		}
+		
+		public TextView getName() {
+			if (name == null) {
+				name = (TextView) v.findViewById(R.id.weibo_name);
+			}
+			
+			return name;
+		}
+		
+		public TextView getFrom() {
+			if (from == null) {
+				from = (TextView) v.findViewById(R.id.weibo_from);
+			}
+			
+			return from;
+		}
+		
+		public TextView getContent() {
+			if (content == null) {
+				content = (TextView) v.findViewById(R.id.weibo_content);
+			}
+			
+			return content;
+		}
+		
+		public HorizontalScrollView getScroll() {
+			if (scroll == null) {
+				scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
+			}
+			
+			return scroll;
+		}
+		
+		public LinearLayout getContainer() {
+			if (container == null) {
+				container = (LinearLayout) getScroll().findViewById(R.id.weibo_pics);
+			}
+			
+			return container;
+		}
+		
+		public LinearLayout getOriginParent() {
+			if (originParent == null) {
+				originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+			}
+			
+			return originParent;
+		}
+		
+		public View getCommentAndRetweet() {
+			if (comment_and_retweet == null) {
+				comment_and_retweet = v.findViewById(R.id.weibo_comment_and_retweet);
+			}
+			
+			return comment_and_retweet;
 		}
 	}
 
