@@ -34,7 +34,27 @@ import java.util.List;
 */
 public class MessageListModel implements BaseListModel<MessageModel, MessageListModel>
 {
+	private class AD {
+		public long id = -1;
+		public String mark = "";
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof AD) {
+				return ((AD) o).id == id;
+			} else {
+				return super.equals(o);
+			}
+		}
+
+		@Override
+		public int hashCode() {
+			return String.valueOf(id).hashCode();
+		}
+	}
+	
 	private List<MessageModel> statuses = new ArrayList<MessageModel>();
+	private List<AD> ad = new ArrayList<AD>();
 	
 	@Override
 	public int getSize() {
@@ -55,7 +75,7 @@ public class MessageListModel implements BaseListModel<MessageModel, MessageList
 	public void addAll(boolean toTop, MessageListModel values) {
 		if (values != null && values.getSize() > 0) {
 			for (MessageModel msg : values.getList()) {
-				if (!statuses.contains(msg)) {
+				if (!statuses.contains(msg) && !values.ad.contains(msg.id)) {
 					statuses.add(toTop ? values.getList().indexOf(msg) : statuses.size(), msg);
 				}
 			}
