@@ -48,6 +48,7 @@ import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
+import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
 import us.shandian.blacklight.ui.login.LoginActivity;
@@ -150,6 +151,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mFragments[0] = new HomeTimeLineFragment();
 		mFragments[1] = new CommentTimeLineFragment();
 		mFragments[2] = new FavListFragment();
+		mFragments[3] = new DirectMessageUserFragment();
 		mFragments[4] = new MentionsTimeLineFragment();
 		mFragments[5] = new CommentMentionsTimeLineFragment();
 		mManager = getFragmentManager();

@@ -87,6 +87,9 @@
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
 	
+	<!-- Direct Message -->
+	<string name="direct_message">私信</string>
+	
 	<!-- Settings -->
 	<string name="settings">设置</string>
 	<string name="about">关于</string>

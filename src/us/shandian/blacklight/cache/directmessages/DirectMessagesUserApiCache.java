@@ -64,7 +64,9 @@ public class DirectMessagesUserApiCache
 		}
 		
 		if (m != null) {
-			mUsers.addAll(toTop, m);
+			if (toTop || Integer.parseInt(mUsers.next_cursor) != 0) {
+				mUsers.addAll(toTop, m);
+			}
 		}
 	}
 	
