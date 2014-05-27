@@ -20,10 +20,16 @@
 package us.shandian.blacklight.ui.common;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import android.support.v4.widget.SwipeProgressBar;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.lang.reflect.Field;
@@ -34,6 +40,10 @@ import java.lang.reflect.Method;
 */
 public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 {
+	private Canvas mCanvas;
+	private Bitmap mBitmap;
+	private int mWidth, mHeight, mProgressBarHeight;
+	
 	private boolean mIsDown = false;
 	
 	public SwipeUpAndDownRefreshLayout(Context context) {
@@ -56,6 +66,75 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 			return v.canScrollVertically(1);
 		} catch (Exception e) {
 			return true;
+		}
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
+		
+		mWidth = getMeasuredWidth();
+		mHeight = getMeasuredHeight();
+		
+		try {
+			Field f = SwipeRefreshLayout.class.getDeclaredField("mProgressBarHeight");
+			f.setAccessible(true);
+			mProgressBarHeight = f.get(this);
+		} catch (Exception e) {
+			mProgressBarHeight = 0;
+		}
+		
+		mBitmap = Bitmap.createBitmap(mWidth, mProgressBarHeight, Bitmap.Config.ARGB_8888);
+		mCanvas = new Canvas(mBitmap);
+	}
+
+	@Override
+	public void draw(Canvas canvas) {
+		Object progressBar = null;
+		
+		try {
+			Field f = SwipeRefreshLayout.class.getDeclaredField("mProgressBar");
+			f.setAccessible(true);
+			progressBar = f.get(this);
+		} catch (Exception e) {
+			
+		}
+		
+		Method m = null;
+		
+		if (progressBar != null) {
+			try {
+				m = SwipeProgressBar.class.getDeclaredMethod("setBounds", int.class, int.class, int.class, int.class);
+				m.setAccessible(true);
+			} catch (Exception e) {
+				
+			}
+		}
+		
+		if (m != null) {
+			try {
+				m.invoke(progressBar, 0, 0, 0, 0);
+			} catch (Exception e) {
+				
+			}
+		}
+		
+		super.draw(canvas);
+		
+		if (m != null) {
+			Paint p = new Paint();
+			p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+			mCanvas.drawPaint(p);
+			try {
+				m.invoke(progressBar, 0, 0, mWidth, mProgressBarHeight);
+				Method method = SwipeProgressBar.class.getDeclaredMethod("draw", Canvas.class);
+				method.setAccessible(true);
+				method.invoke(progressBar, mCanvas);
+			} catch (Exception e) {
+				
+			}
+			
+			canvas.drawBitmap(mBitmap, 0, isDown() ? mHeight - mProgressBarHeight : 0, null);
 		}
 	}
 
