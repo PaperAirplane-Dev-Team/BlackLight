@@ -80,8 +80,6 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		mIsDown = false;
-		
 		boolean returningToStart = false;
 		MotionEvent downEvent = null;
 		try {
@@ -99,9 +97,6 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		
 		if (event.getAction() == MotionEvent.ACTION_MOVE
 			&& downEvent != null && !returningToStart && !canChildScrollDown()) {
-				
-				mIsDown = true;
-				
 				downEvent.setLocation(downEvent.getX(), -downEvent.getY());
 				event.setLocation(event.getX(), -event.getY());
 				
@@ -119,6 +114,12 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 			m.invoke(this, 0);
 		} catch (Exception e) {
 
+		}
+		
+		if (!canChildScrollDown()) {
+			mIsDown = true;
+		} else if (!canChildScrollUp()) {
+			mIsDown = false;
 		}
 		
 		return ret;
