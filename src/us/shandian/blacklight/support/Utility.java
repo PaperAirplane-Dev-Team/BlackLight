@@ -39,7 +39,7 @@ import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.service.CommentTimeLineFetcherService;
-
+import us.shandian.blacklight.service.MentionsTimeLineFetcherService;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */
@@ -121,10 +121,12 @@ public class Utility
 	
 	public static void startServices(Context context) {
 		startServiceAlarm(context, CommentTimeLineFetcherService.class, INTERVAL_THREE_MINUTES);
+		startServiceAlarm(context, MentionsTimeLineFetcherService.class, INTERVAL_THREE_MINUTES);
 	}
 	
 	public static void stopServices(Context context) {
 		stopServiceAlarm(context, CommentTimeLineFetcherService.class);
+		stopServiceAlarm(context, MentionsTimeLineFetcherService.class);
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {

@@ -182,6 +182,7 @@
 		</activity>
 		
 		<service android:name=".service.CommentTimeLineFetcherService" />
+		<service android:name=".service.MentionsTimeLineFetcherService" />
 		
 		<receiver android:name=".receiver.ConnectivityReceiver">
 			<intent-filter>

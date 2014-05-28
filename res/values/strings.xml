@@ -110,6 +110,7 @@
 	<string name="send_fail">发送失败</string>
 	<string name="confirm_delete">确认删除?</string>
 	<string name="new_comment">%d 条新评论</string>
+	<string name="new_at">%d 条新提及</string>
 	<string name="click_to_view">点击查看</string>
 
 </resources>

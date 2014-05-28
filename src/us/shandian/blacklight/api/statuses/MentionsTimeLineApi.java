@@ -50,4 +50,19 @@ public class MentionsTimeLineApi extends BaseApi
 			return null;
 		}
 	}
+	
+	public static MessageListModel fetchMentionsTimeLineSince(long id) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("since_id", id);
+
+		try {
+			JSONObject json = request(Constants.MENTIONS, params, HTTP_GET);
+			return new Gson().fromJson(json.toString(), MessageListModel.class);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.d(TAG, "Cannot fetch home timeline, " + e.getClass().getSimpleName());
+			}
+			return null;
+		}
+	}
 }
