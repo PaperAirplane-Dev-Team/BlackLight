@@ -212,7 +212,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 							
 						}
 					}
-				}, 800);
+				}, 400);
 			}
 		} else if (parent == mAtMe) {
 			TextView tv = (TextView) view;
@@ -230,7 +230,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 							
 						}
 					}
-				}, 800);
+				}, 400);
 			}
 		} else if (parent == mOther) {
 			switch (position) {
