@@ -80,6 +80,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	// Temp fields
 	private TextView mLastChoice;
+	private int mLastFragment = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +156,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mFragments[4] = new MentionsTimeLineFragment();
 		mFragments[5] = new CommentMentionsTimeLineFragment();
 		mManager = getFragmentManager();
-		mManager.beginTransaction().replace(R.id.container, mFragments[0]).commit();
+		
+		FragmentTransaction ft = mManager.beginTransaction();
+		for (Fragment f : mFragments) {
+			ft.add(R.id.container, f);
+			ft.hide(f);
+		}
+		ft.commit();
+		switchTo(0);
 	}
 
 	@Override
@@ -206,8 +214,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					@Override
 					public void run() {
 						try {
-							mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-									.replace(R.id.container, mFragments[position]).commit();
+							switchTo(position);
 						} catch (Exception e) {
 							
 						}
@@ -224,8 +231,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					@Override
 					public void run() {
 						try {
-							mManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-									.replace(R.id.container, mFragments[4 + position]).commit();
+							switchTo(4 + position);
 						} catch (Exception e) {
 							
 						}
@@ -261,6 +267,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
 		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
 		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
+	}
+	
+	private void switchTo(int id) {
+		FragmentTransaction ft = mManager.beginTransaction();
+		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
+		ft.hide(mFragments[mLastFragment]);
+		ft.show(mFragments[id]);
+		ft.commit();
+		mLastFragment = id;
 	}
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {

@@ -117,10 +117,23 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 	}
 
 	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		
+		if (!hidden) {
+			initTitle();
+			resume();
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
-		initTitle();
 		
+		resume();
+	}
+	
+	public void resume() {
 		Settings settings = Settings.getInstance(getActivity());
 		
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
