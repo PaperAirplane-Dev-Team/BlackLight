@@ -181,6 +181,17 @@
 			</intent-filter>
 		</activity>
 		
+		<activity
+			android:name=".ui.directmessage.DirectMessageConversationActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/direct_message"
+			android:theme="@style/My.Theme.Holo.Light.DarkActionBar.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
 		<service android:name=".service.CommentTimeLineFetcherService" />
 		<service android:name=".service.MentionsTimeLineFetcherService" />
 		

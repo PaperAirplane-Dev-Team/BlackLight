@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
+import us.shandian.blacklight.model.DirectMessageListModel;
 import us.shandian.blacklight.model.DirectMessageUserListModel;
 import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
@@ -46,6 +47,24 @@ public class DirectMessagesApi extends BaseApi
 		} catch (Exception e) {
 			if (DEBUG) {
 				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		
+		return null;
+	}
+	
+	public static DirectMessageListModel getConversation(String uid, int count, int page) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		params.put("count", count);
+		params.put("page", page);
+		
+		try {
+			JSONObject json = request(Constants.DIRECT_MESSAGES_CONVERSATION, params, HTTP_GET);
+			return new Gson().fromJson(json.toString(), DirectMessageListModel.class);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.d(TAG, Log.getStackTraceString(e));
 			}
 		}
 		

@@ -20,10 +20,12 @@
 package us.shandian.blacklight.ui.directmessage;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,7 +38,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageUserAdapter;
 
-public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
 {
 	private DirectMessagesUserApiCache mApiCache;
 	private ListView mList;
@@ -65,6 +67,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mApiCache = new DirectMessagesUserApiCache(getActivity());
 		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers);
 		mList.setAdapter(mAdapter);
+		mList.setOnItemClickListener(this);
 		
 		mApiCache.loadFromCache();
 		
@@ -121,6 +124,15 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		if (!mRefreshing) {
 			new Refresher().execute(!mSwipeRefresh.isDown());
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(getActivity(), DirectMessageConversationActivity.class);
+		i.putExtra("user", mApiCache.mUsers.get(position).user);
+		startActivity(i);
 	}
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
