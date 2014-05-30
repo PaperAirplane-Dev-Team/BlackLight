@@ -216,7 +216,7 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 		protected void onProgressUpdate(Object[] values) {
 			super.onProgressUpdate(values);
 			
-			switch ((int) values[0]) {
+			switch (Integer.parseInt(String.valueOf(values[0]))) {
 				case 0:
 					if (mAvatar != null) {
 						mAvatar.setImageBitmap((Bitmap) values[1]);
