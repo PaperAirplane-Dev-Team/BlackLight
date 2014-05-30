@@ -35,13 +35,9 @@ public class StatusTimeUtils
 {
 	private static final long MILLIS_MIN = 1000 * 60;
 	private static final long MILLIS_HOUR = MILLIS_MIN * 60;
-	private static final long MILLIS_DAY = MILLIS_HOUR * 24;
 	
 	private static String JUST_NOW, MIN, HOUR, DAY, MONTH, YEAR,
 							YESTERDAY, THE_DAY_BEFORE_YESTERDAY, TODAY;
-	
-	private static final String FORMAT_DATE = "M-d HH:mm";
-	private static final String FORMAT_YEAR = "yyyy-M-d HH:mm";
 	
 	private static SimpleDateFormat day_format = new SimpleDateFormat("HH:mm");
 	private static SimpleDateFormat date_format = new SimpleDateFormat("M-d HH:mm");
@@ -69,13 +65,6 @@ public class StatusTimeUtils
 		}
 		
 		return mInstance;
-	}
-	
-	private boolean isSameSemiDay(Calendar now, Calendar msg) {
-		int nowHour = now.get(Calendar.HOUR_OF_DAY);
-		int msgHour = msg.get(Calendar.HOUR_OF_DAY);
-		
-		return (nowHour <= 12 && msgHour <= 12) || (nowHour >= 12) && (msgHour >= 12);
 	}
 	
 	private boolean isSameDay(Calendar now, Calendar msg) {

@@ -299,7 +299,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 		@Override
 		protected void onProgressUpdate(Object[] values) {
-			int value = (int) values[0];
+			int value = Integer.parseInt(String.valueOf(values[0]));
 			switch (value) {
 				case 0:
 					// Show user name

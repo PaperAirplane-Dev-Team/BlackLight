@@ -52,10 +52,10 @@ public abstract class AsyncTask<Params, Progress, Result>
 			AsyncResult result = (AsyncResult) msg.obj;
 			switch (msg.what) {
 				case MSG_FINISH:
-					result.task.onPostExecute(result.data);
+					result.task.postExecute(result.data);
 					break;
 				case MSG_PROGRESS:
-					result.task.onProgressUpdate((Object[]) result.data);
+					result.task.updateProgress(result.data);
 					break;
 			}
 		}
@@ -97,5 +97,17 @@ public abstract class AsyncTask<Params, Progress, Result>
 		onPreExecute();
 		mParams = params;
 		mThread.start();
+	}
+	
+	void postExecute(Object data) {
+		if (data instanceof Result) {
+			onPostExecute((Result) data);
+		}
+	}
+	
+	void updateProgress(Object data) {
+		if (data instanceof Progress[]) {
+			onProgressUpdate((Progress[]) data);
+		}
 	}
 }

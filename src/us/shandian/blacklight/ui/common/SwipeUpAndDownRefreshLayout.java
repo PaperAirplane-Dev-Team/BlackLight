@@ -29,7 +29,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import android.support.v4.widget.SwipeProgressBar;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.lang.reflect.Field;
@@ -104,7 +103,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		
 		if (progressBar != null) {
 			try {
-				m = SwipeProgressBar.class.getDeclaredMethod("setBounds", int.class, int.class, int.class, int.class);
+				m = progressBar.getClass().getDeclaredMethod("setBounds", int.class, int.class, int.class, int.class);
 				m.setAccessible(true);
 			} catch (Exception e) {
 				
@@ -127,7 +126,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 			mCanvas.drawPaint(p);
 			try {
 				m.invoke(progressBar, 0, 0, mWidth, mProgressBarHeight);
-				Method method = SwipeProgressBar.class.getDeclaredMethod("draw", Canvas.class);
+				Method method = progressBar.getClass().getDeclaredMethod("draw", Canvas.class);
 				method.setAccessible(true);
 				method.invoke(progressBar, mCanvas);
 			} catch (Exception e) {

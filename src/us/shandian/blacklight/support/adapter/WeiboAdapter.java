@@ -358,7 +358,7 @@ public class WeiboAdapter extends BaseAdapter
 		protected void onProgressUpdate(Object[] values) {
 			super.onProgressUpdate(values);
 			
-			switch ((int) values[0]) {
+			switch (Integer.parseInt(String.valueOf(values[0]))) {
 				case 0:
 					Bitmap avatar = (Bitmap) values[1];
 					View v = (View) values[2];
