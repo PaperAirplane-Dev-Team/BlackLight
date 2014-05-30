@@ -35,17 +35,13 @@ import us.shandian.blacklight.support.Emoticons;
 
 public class EmoticonAdapter extends BaseAdapter
 {
-	private ArrayList<String> mNames = new ArrayList<String>();
-	private ArrayList<Bitmap> mBitmaps = new ArrayList<Bitmap>();
+	private static ArrayList<String> mNames = new ArrayList<String>();
+	private static ArrayList<Bitmap> mBitmaps = new ArrayList<Bitmap>();
 	
 	private LayoutInflater mInflater;
 	
 	public EmoticonAdapter(Context context) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		for (Entry<String, Bitmap> entry : Emoticons.EMOTICON_BITMAPS.entrySet()) {
-			mNames.add(entry.getKey());
-			mBitmaps.add(entry.getValue());
-		}
 	}
 	
 	@Override
@@ -72,6 +68,13 @@ public class EmoticonAdapter extends BaseAdapter
 			ImageView iv = (ImageView) v.findViewById(R.id.emoticon_image);
 			iv.setImageBitmap(mBitmaps.get(position));
 			return v;
+		}
+	}
+	
+	public static void init() {
+		for (Entry<String, Bitmap> entry : Emoticons.EMOTICON_BITMAPS.entrySet()) {
+			mNames.add(entry.getKey());
+			mBitmaps.add(entry.getValue());
 		}
 	}
 

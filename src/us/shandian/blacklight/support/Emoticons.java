@@ -26,6 +26,8 @@ import android.graphics.BitmapFactory;
 
 import java.util.HashMap;
 
+import us.shandian.blacklight.support.adapter.EmoticonAdapter;
+
 /*
   This class maps emoticon strings to asset imgs
   Thanks sina for those emoticons
@@ -154,6 +156,7 @@ public class Emoticons
 				// just jump it
 			}
 		}
+		EmoticonAdapter.init();
 	}
 	
 }

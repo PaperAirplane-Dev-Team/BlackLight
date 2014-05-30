@@ -106,8 +106,8 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
+	public void onStop() {
+		super.onStop();
 		
 		try {
 			mCache.cache();

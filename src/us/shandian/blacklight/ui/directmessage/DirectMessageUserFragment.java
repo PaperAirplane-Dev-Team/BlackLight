@@ -114,8 +114,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	}
 	
 	@Override
-	public void onPause() {
-		super.onPause();
+	public void onStop() {
+		super.onStop();
 		mApiCache.cache();
 	}
 	
