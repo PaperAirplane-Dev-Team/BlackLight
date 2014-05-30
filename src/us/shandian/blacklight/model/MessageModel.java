@@ -42,12 +42,10 @@ public class MessageModel implements Parcelable
 		
 		private String thumbnail_pic;
 		
-		@Override
 		public String getThumbnail() {
 			return thumbnail_pic;
 		}
 		
-		@Override
 		public String getLarge() {
 			return thumbnail_pic.replace("thumbnail", "large");
 		}
