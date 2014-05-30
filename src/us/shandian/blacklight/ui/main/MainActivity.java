@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	// Temp fields
 	private TextView mLastChoice;
-	private int mLastFragment = 0;
+	private int mLastFragment = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -272,7 +272,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private void switchTo(int id) {
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
-		ft.hide(mFragments[mLastFragment]);
+		if (mLastFragment != -1 && mLastFragment != id) {
+			ft.hide(mFragments[mLastFragment]);
+		}
 		ft.show(mFragments[id]);
 		ft.commit();
 		mLastFragment = id;
