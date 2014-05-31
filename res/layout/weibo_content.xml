@@ -166,7 +166,72 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:orientation="horizontal"
-			android:id="@+id/weibo_pics"/>
+			android:id="@+id/weibo_pics">
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+			<ImageView
+				android:layout_width="68dp"
+				android:layout_height="100dp"
+				android:background="@color/gray"
+				android:scaleType="centerCrop"
+				android:layout_marginRight="5dp"/>
+			
+		</LinearLayout>
 
 	</HorizontalScrollView>
 

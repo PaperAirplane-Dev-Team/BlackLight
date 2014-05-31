@@ -68,7 +68,7 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		mAdapter = new WeiboAdapter(getActivity(), mCache.mMessages, mBindOrig, mShowCommentStatus);
+		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		
 		mList.setDrawingCacheEnabled(true);
