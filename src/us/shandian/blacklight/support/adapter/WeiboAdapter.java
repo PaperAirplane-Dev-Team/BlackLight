@@ -141,6 +141,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				ImageView iv = (ImageView) container.getChildAt(i);
 				iv.setImageBitmap(null);
 				iv.setVisibility(View.VISIBLE);
+				iv.setOnClickListener(null);
 			}
 			
 			h.getScroll().setVisibility(View.GONE);
