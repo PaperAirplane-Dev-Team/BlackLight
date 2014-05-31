@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -62,7 +63,8 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener
+public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener, 
+										View.OnClickListener, View.OnLongClickListener
 {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 	
@@ -160,6 +162,52 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		// Do nothing
 	}
 	
+	@Override
+	public void onClick(View v) {
+		MessageModel msg = ((ViewHolder) v.getTag()).msg;
+		if (msg instanceof CommentModel) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(mContext, ReplyToActivity.class);
+			i.putExtra("comment", (CommentModel) msg);
+			mContext.startActivity(i);
+		} else {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(mContext, SingleActivity.class);
+			i.putExtra("msg", msg);
+			mContext.startActivity(i);
+		}
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		MessageModel msg = ((ViewHolder) v.getTag()).msg;
+		if (msg instanceof CommentModel) {
+			final CommentModel comment = (CommentModel) msg;
+			if (comment.user.id.equals(mUid) || (comment.status != null && comment.status.user.id != null && comment.status.user.id.equals(mUid))) {
+				new AlertDialog.Builder(mContext)
+					.setMessage(R.string.confirm_delete)
+					.setCancelable(true)
+					.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							new DeleteTask().execute(comment);
+						}
+					})
+					.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private View bindView(final MessageModel msg, View convertView, boolean sub) {
 		View v = null;
 		ViewHolder h = null;
@@ -250,61 +298,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		}
 		
-		if (!(msg instanceof CommentModel)) {
-			v.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					MessageModel msg = ((ViewHolder) v.getTag()).msg;
-					if (msg != null) {
-						Intent i = new Intent();
-						i.setAction(Intent.ACTION_MAIN);
-						i.setClass(mContext, SingleActivity.class);
-						i.putExtra("msg", msg);
-						mContext.startActivity(i);
-					}
-				}
-			});
-		} else {
-			v.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					CommentModel comment = (CommentModel) ((ViewHolder) v.getTag()).msg;
-					if (comment != null) {
-						Intent i = new Intent();
-						i.setAction(Intent.ACTION_MAIN);
-						i.setClass(mContext, ReplyToActivity.class);
-						i.putExtra("comment", comment);
-						mContext.startActivity(i);
-					}
-				}		
-			});
-			
-			CommentModel comment = (CommentModel) msg;
-			if (comment.user.id.equals(mUid) || (comment.status != null && comment.status.user.id != null && comment.status.user.id.equals(mUid))) {
-				v.setOnLongClickListener(new View.OnLongClickListener() {
-					@Override
-					public boolean onLongClick(final View v) {
-						new AlertDialog.Builder(mContext)
-								.setMessage(R.string.confirm_delete)
-								.setCancelable(true)
-								.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int id) {
-										new DeleteTask().execute((CommentModel) ((ViewHolder) v.getTag()).msg);
-									}
-								})
-								.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int id) {
-										dialog.dismiss();
-									}
-								})
-								.show();
-						return true;
-					}
-				});
-			}
-		}
+		v.setOnClickListener(this);
+		v.setOnLongClickListener(this);
 		
 		new ImageDownloader().execute(new Object[]{v});
 		
