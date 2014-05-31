@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -228,7 +229,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView date = h.getDate();
 		TextView retweet = h.getRetweets();
 		TextView comments = h.getComments();
-		HorizontalScrollView scroll = h.getScroll();
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
@@ -244,17 +244,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			comments.setText(String.valueOf(msg.comments_count));
 		}
 		
-		if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
-			scroll.setVisibility(View.VISIBLE);
-		}
-		
-		LinearLayout container = h.getContainer();
-
-		int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
-
-		for (int i = numChilds; i < 9; i++) {
-			container.getChildAt(i).setVisibility(View.GONE);
-		}
+		/**/
 		
 		// If this retweets/repies to others, show the original
 		if (!sub && mBindOrig) {
@@ -344,21 +334,23 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 			
 			// Images
-			if (v != null && !(msg instanceof CommentModel)) {
-				HorizontalScrollView scroll = h.getScroll();
+			if (v != null && !(msg instanceof CommentModel) && (msg.pic_urls.size() > 0 || !TextUtils.isEmpty(msg.thumbnail_pic))) {
+				if (!waitUntilNotScrolling(h, msg)) return null;
 				
-				if (scroll.getVisibility() == View.VISIBLE) {
-					LinearLayout container = h.getContainer();
+				publishProgress(v, 2, msg);
+				
+				LinearLayout container = h.getContainer();
+				
+				int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
+				
+				for (int i = 0; i < numChilds; i++) {
+					if (!waitUntilNotScrolling(h, msg)) return null;
 					
-					for (int i = 0; i < container.getChildCount(); i++) {
-						if (!waitUntilNotScrolling(h, msg)) return null;
-						
-						ImageView imgView = (ImageView) container.getChildAt(i);
-						Bitmap img = mHomeApi.getThumbnailPic(msg, i);
-						
-						if (img != null) {
-							publishProgress(new Object[]{v, 1, img, imgView, i, msg});
-						}
+					ImageView imgView = (ImageView) container.getChildAt(i);
+					Bitmap img = mHomeApi.getThumbnailPic(msg, i);
+					
+					if (img != null) {
+						publishProgress(new Object[]{v, 1, img, imgView, i, msg});
 					}
 				}
 			}
@@ -427,6 +419,23 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 							mContext.startActivity(i);
 						}
 						});
+					
+					break;
+				case 2:
+					MessageModel msg = (MessageModel) values[2];
+					
+					HorizontalScrollView scroll = ((ViewHolder) v.getTag()).getScroll();
+					if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
+						scroll.setVisibility(View.VISIBLE);
+					}
+					
+					LinearLayout container = ((ViewHolder) v.getTag()).getContainer();
+
+					int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
+
+					for (int i = numChilds; i < 9; i++) {
+						container.getChildAt(i).setVisibility(View.GONE);
+					}
 					
 					break;
 			}
