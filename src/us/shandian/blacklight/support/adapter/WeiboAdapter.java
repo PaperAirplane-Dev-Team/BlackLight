@@ -83,9 +83,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
+	private boolean mBindPicsInUiThread;
 	private boolean mScrolling = false;
 	
-	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
+	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus, boolean bindPicsInUiThread) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
@@ -96,6 +97,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mUid = mLogin.getUid();
 		mContext = context;
 		mBindOrig = bindOrig;
+		mBindPicsInUiThread = bindPicsInUiThread;
 		mShowCommentStatus = showCommentStatus;
 		
 		listView.setRecyclerListener(this);
@@ -230,6 +232,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView date = h.getDate();
 		TextView retweet = h.getRetweets();
 		TextView comments = h.getComments();
+		HorizontalScrollView scroll = h.getScroll();
+		
+		if (mBindPicsInUiThread && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
+			scroll.setVisibility(View.VISIBLE);
+		}
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
@@ -244,8 +251,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
 		}
-		
-		/**/
 		
 		// If this retweets/repies to others, show the original
 		if (!sub && mBindOrig) {
@@ -426,7 +431,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					MessageModel msg = (MessageModel) values[2];
 					
 					HorizontalScrollView scroll = ((ViewHolder) v.getTag()).getScroll();
-					if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
+
+					if (!mBindPicsInUiThread && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
 						scroll.setVisibility(View.VISIBLE);
 					}
 					

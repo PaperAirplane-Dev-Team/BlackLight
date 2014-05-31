@@ -100,7 +100,7 @@ public class SingleActivity extends SwipeBackActivity
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
-		getFragmentManager().beginTransaction().add(R.id.single_content, mMsgFragment).commit();
+		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
 		
 		mPager = (ViewPager) findViewById(R.id.single_pager);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -361,6 +361,7 @@ public class SingleActivity extends SwipeBackActivity
 		
 		public HackyFragment() {
 			mShowCommentStatus = false;
+			mBindPicsInUiThread = true;
 		}
 		
 		@Override
