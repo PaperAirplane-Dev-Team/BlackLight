@@ -62,7 +62,7 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener
+public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener
 {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 	
@@ -81,6 +81,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
+	private boolean mScrolling = false;
 	
 	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
@@ -96,6 +97,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mShowCommentStatus = showCommentStatus;
 		
 		listView.setRecyclerListener(this);
+		listView.setOnScrollListener(this);
 	}
 	
 	@Override
@@ -147,7 +149,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		}
 	}
-
+	
+	@Override
+	public void onScrollStateChanged(AbsListView v, int state) {
+		mScrolling = state != AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+	}
+	
 	@Override
 	public void onScroll(AbsListView p1, int p2, int p3, int p4) {
 		// Do nothing
@@ -307,6 +314,22 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		super.notifyDataSetChanged();
 	}
 	
+	private boolean waitUntilNotScrolling(ViewHolder h, MessageModel msg) {
+		while (mScrolling) {
+			if (h.msg != msg) {
+				return false;
+			}
+			
+			try {
+				Thread.sleep(200);
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	// Downloads images including avatars
 	private class ImageDownloader extends AsyncTask<Object, Object, Void> {
 
@@ -318,7 +341,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			// Avatars
 			if (v != null) {
+				if (!waitUntilNotScrolling(h, msg)) return null;
+				
 				Bitmap avatar = mUserApi.getSmallAvatar(msg.user);
+				
 				publishProgress(new Object[]{v, 0, avatar, msg});
 			}
 			
@@ -330,6 +356,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					LinearLayout container = h.getContainer();
 					
 					for (int i = 0; i < container.getChildCount(); i++) {
+						if (!waitUntilNotScrolling(h, msg)) return null;
 						
 						ImageView imgView = (ImageView) container.getChildAt(i);
 						Bitmap img = mHomeApi.getThumbnailPic(msg, i);
