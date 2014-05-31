@@ -172,6 +172,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		} else {
 			h = (ViewHolder) v.getTag();
 			h.msg = msg;
+			h.span = null;
 		}
 		
 		TextView name = h.getName();
@@ -184,7 +185,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
-		content.setText(SpannableStringUtils.span(msg.text));
+		content.setText(h.getSpan());
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
@@ -466,6 +467,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private static class ViewHolder {
 		public MessageModel msg;
+		public CharSequence span;
 		
 		private TextView date, retweets, comments, name, from, content;
 		private HorizontalScrollView scroll;
@@ -567,6 +569,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 			
 			return weibo_avatar;
+		}
+		
+		public CharSequence getSpan() {
+			if (span == null) {
+				span = SpannableStringUtils.span(msg.text);
+			}
+			
+			return span;
 		}
 	}
 
