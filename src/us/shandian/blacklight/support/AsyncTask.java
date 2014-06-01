@@ -33,11 +33,11 @@ public abstract class AsyncTask<Params, Progress, Result>
 {
 	private static final String TAG = AsyncTask.class.getSimpleName();
 	
-	private static class AsyncResult {
+	private static class AsyncResult<Data> {
 		public AsyncTask task;
-		public Object data;
+		public Data[] data;
 		
-		public AsyncResult(AsyncTask task, Object data) {
+		public AsyncResult(AsyncTask task, Data... data) {
 			this.task = task;
 			this.data = data;
 		}
@@ -47,15 +47,16 @@ public abstract class AsyncTask<Params, Progress, Result>
 	private static final int MSG_PROGRESS = 1001;
 	
 	private static Handler sInternalHandler = new Handler() {
+		@SuppressWarnings({"unchecked", "RawUseOfParameterizedType"})
 		@Override
 		public void handleMessage(Message msg) {
 			AsyncResult result = (AsyncResult) msg.obj;
 			switch (msg.what) {
 				case MSG_FINISH:
-					result.task.postExecute(result.data);
+					result.task.onPostExecute(result.data[0]);
 					break;
 				case MSG_PROGRESS:
-					result.task.updateProgress(result.data);
+					result.task.onProgressUpdate(result.data);
 					break;
 			}
 		}
@@ -68,7 +69,7 @@ public abstract class AsyncTask<Params, Progress, Result>
 		public void run() {
 			try {
 				Result result = doInBackground(mParams);
-				sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_FINISH, new AsyncResult(AsyncTask.this, result)));
+				sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_FINISH, new AsyncResult<Result>(AsyncTask.this, result)));
 			} catch (Exception e) {
 				// Don't crash the whole app
 				if (DEBUG) {
@@ -90,24 +91,12 @@ public abstract class AsyncTask<Params, Progress, Result>
 	protected void onProgressUpdate(Progress... progress) {}
 	
 	protected void publishProgress(Progress... progress) {
-		sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_PROGRESS, new AsyncResult(this, progress)));
+		sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_PROGRESS, new AsyncResult<Progress>(this, progress)));
 	}
 	
 	public void execute(Params... params) {
 		onPreExecute();
 		mParams = params;
 		mThread.start();
-	}
-	
-	void postExecute(Object data) {
-		if (data instanceof Result) {
-			onPostExecute((Result) data);
-		}
-	}
-	
-	void updateProgress(Object data) {
-		if (data instanceof Progress[]) {
-			onProgressUpdate((Progress[]) data);
-		}
 	}
 }
