@@ -38,7 +38,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.HashMap;
+import java.util.ArrayDeque;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.comments.NewCommentApi;
@@ -81,6 +81,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private Context mContext;
 	
+	private ArrayDeque<View> mViewDeque = new ArrayDeque<View>(10);
+	private ArrayDeque<View> mSubViewDeque = new ArrayDeque<View>(10);
+	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
 	private boolean mScrolling = false;
@@ -100,6 +103,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
+		
+		for (int i = 0; i < 10; i++) {
+			mViewDeque.offer(mInflater.inflate(R.layout.weibo, null));
+			mSubViewDeque.offer(mInflater.inflate(R.layout.weibo_content, null));
+		}
 	}
 	
 	@Override
@@ -132,6 +140,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	public void onMovedToScrapHeap(View v) {
 		if (v.getTag() instanceof ViewHolder) {
 			ViewHolder h = (ViewHolder) v.getTag();
+			
+			if (!h.sub) {
+				mViewDeque.offer(v);
+			}
+			
 			h.getAvatar().setImageBitmap(null);
 			h.getCommentAndRetweet().setVisibility(View.VISIBLE);
 			
@@ -214,7 +227,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		ViewHolder h = null;
 		
 		// If not inflated before, then we have much work to do
-		v = convertView != null ? convertView : mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
+		v = convertView != null ? convertView : sub ? mSubViewDeque.poll() : mViewDeque.poll();
+		
+		if (v == null) {
+			v = mInflater.inflate(sub ? R.layout.weibo_content : R.layout.weibo, null);
+		}
 		
 		if (convertView == null) {
 			h = new ViewHolder(v, msg);
@@ -223,6 +240,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.msg = msg;
 			h.span = null;
 		}
+		
+		h.sub = sub;
 		
 		TextView name = h.getName();
 		TextView from = h.getFrom();
@@ -470,6 +489,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private static class ViewHolder {
 		public MessageModel msg;
 		public CharSequence span;
+		public boolean sub = false;
 		
 		private TextView date, retweets, comments, name, from, content;
 		private HorizontalScrollView scroll;
