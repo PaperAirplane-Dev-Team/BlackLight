@@ -37,6 +37,7 @@ import us.shandian.blacklight.model.DirectMessageListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.DirectMessageAdapter;
+import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -54,6 +55,8 @@ public class DirectMessageConversationActivity extends SwipeBackActivity impleme
 	private ImageView mSend;
 	private DirectMessageAdapter mAdapter;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	
+	private EmoticonFragment mEmoticons;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,18 @@ public class DirectMessageConversationActivity extends SwipeBackActivity impleme
 		mList.setAdapter(mAdapter);
 		
 		mSend.setOnClickListener(this);
+		
+		// Emoticon Picker
+		mEmoticons = new EmoticonFragment();
+		mEmoticons.setEmoticonListener(new EmoticonFragment.EmoticonListener() {
+			@Override
+			public void onEmoticonSelected(String name) {
+				if (!mRefreshing) {
+					mText.getText().append(name);
+				}
+			}
+		});
+		getFragmentManager().beginTransaction().replace(R.id.direct_message_emoticons, mEmoticons).commit();
 		
 		new Refresher().execute(true);
 	}

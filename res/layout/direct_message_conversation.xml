@@ -19,45 +19,74 @@
 -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:sothree="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout
+	<com.sothree.slidinguppanel.SlidingUpPanelLayout
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:layout_weight="0.1"
-		android:id="@+id/direct_message_refresh">
+		android:gravity="bottom"
+		sothree:panelHeight="48dp"
+		sothree:shadowHeight="4dp"
+		sothree:dragView="@+id/direct_message_emoticon">
 
-		<ListView
+		<us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-			android:divider="@null"
-			android:id="@+id/direct_message_conversation"/>
+			android:id="@+id/direct_message_refresh">
 
-	</us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout>
+			<ListView
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:divider="@null"
+				android:id="@+id/direct_message_conversation"/>
 
-	<LinearLayout
-		android:layout_height="48dp"
-		android:layout_width="match_parent"
-		android:orientation="horizontal"
-		android:background="@android:color/white">
+		</us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout>
 
-		<EditText
-			android:layout_height="match_parent"
-			android:ems="10"
+		<LinearLayout
+			android:layout_height="288dp"
 			android:layout_width="match_parent"
-			android:layout_weight="0.1"
-			android:id="@+id/direct_message_send_text"/>
+			android:background="@android:color/white"
+			android:orientation="vertical">
 
-		<ImageView
-			android:layout_height="48dp"
-			style="?android:attr/buttonBarButtonStyle"
-			android:layout_width="48dp"
-			android:src="@drawable/ic_action_send_now_dark"
-			android:id="@+id/direct_message_send"/>
+			<LinearLayout
+				android:layout_height="48dp"
+				android:layout_width="match_parent"
+				android:orientation="horizontal">
 
-	</LinearLayout>
+				<EditText
+					android:layout_height="match_parent"
+					android:ems="10"
+					android:layout_width="match_parent"
+					android:layout_weight="0.1"
+					android:id="@+id/direct_message_send_text"/>
+
+				<ImageView
+					android:layout_height="48dp"
+					style="?android:attr/buttonBarButtonStyle"
+					android:layout_width="48dp"
+					android:src="@drawable/ic_action_send_now_dark"
+					android:id="@+id/direct_message_send"/>
+
+				<ImageView
+					android:layout_height="48dp"
+					style="?android:attr/buttonBarButtonStyle"
+					android:layout_width="48dp"
+					android:src="@drawable/ic_action_emoticon_dark"
+					android:id="@+id/direct_message_emoticon"/>
+
+			</LinearLayout>
+
+			<FrameLayout
+				android:id="@+id/direct_message_emoticons"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"/>
+
+		</LinearLayout>
+
+	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </LinearLayout>
 
