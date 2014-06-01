@@ -76,6 +76,7 @@ public class DirectMessageConversationActivity extends SwipeBackActivity impleme
 		// View
 		mSwipeRefresh = (SwipeUpAndDownRefreshLayout) findViewById(R.id.direct_message_refresh);
 		mSwipeRefresh.setOnRefreshListener(this);
+		mSwipeRefresh.setDownHasPriority();
 		mSwipeRefresh.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_green_dark,
 									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
 		

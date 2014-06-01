@@ -44,6 +44,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	private int mWidth, mHeight, mProgressBarHeight;
 	
 	private boolean mIsDown = false;
+	private boolean mDownPriority = false;
 	
 	public SwipeUpAndDownRefreshLayout(Context context) {
 		super(context);
@@ -59,6 +60,10 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	
 	public void setIsDown(boolean isDown) {
 		mIsDown = isDown;
+	}
+	
+	public void setDownHasPriority() {
+		mDownPriority = true;
 	}
 	
 	public boolean canChildScrollDown() {
@@ -178,7 +183,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		boolean ret;
 		
 		if (event.getAction() == MotionEvent.ACTION_MOVE
-			&& downEvent != null && !returningToStart && !canChildScrollDown()) {
+			&& downEvent != null && !returningToStart && !canChildScrollDown() && (mDownPriority || canChildScrollUp())) {
 				downEvent.setLocation(downEvent.getX(), -downEvent.getY());
 				event.setLocation(event.getX(), -event.getY());
 				
@@ -200,7 +205,9 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		
 		if (!canChildScrollDown()) {
 			mIsDown = true;
-		} else if (!canChildScrollUp()) {
+		}
+		
+		if ((!mDownPriority || canChildScrollDown()) && !canChildScrollUp()) {
 			mIsDown = false;
 		}
 		
