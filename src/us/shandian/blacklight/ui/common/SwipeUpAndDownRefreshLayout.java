@@ -57,6 +57,10 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		return mIsDown;
 	}
 	
+	public void setIsDown(boolean isDown) {
+		mIsDown = isDown;
+	}
+	
 	public boolean canChildScrollDown() {
 		try {
 			Field f = SwipeRefreshLayout.class.getDeclaredField("mTarget");

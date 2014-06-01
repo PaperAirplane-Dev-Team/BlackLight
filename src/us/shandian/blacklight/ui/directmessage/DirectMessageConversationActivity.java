@@ -20,8 +20,12 @@
 package us.shandian.blacklight.ui.directmessage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ImageView;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -34,15 +38,20 @@ import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.DirectMessageAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class DirectMessageConversationActivity extends SwipeBackActivity implements SwipeRefreshLayout.OnRefreshListener
+public class DirectMessageConversationActivity extends SwipeBackActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
 {
+	private static final String TAG = DirectMessageConversationActivity.class.getSimpleName();
+	
 	private UserModel mUser;
 	private DirectMessageListModel mMsgList = new DirectMessageListModel();
 	private int mPage = 0;
 	private boolean mRefreshing = false;
 	
 	private ListView mList;
+	private EditText mText;
+	private ImageView mSend;
 	private DirectMessageAdapter mAdapter;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
@@ -68,9 +77,14 @@ public class DirectMessageConversationActivity extends SwipeBackActivity impleme
 									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
 		
 		mList = (ListView) findViewById(R.id.direct_message_conversation);
+		mText = (EditText) findViewById(R.id.direct_message_send_text);
+		mSend = (ImageView) findViewById(R.id.direct_message_send);
+		
 		mList.setStackFromBottom(true);
 		mAdapter = new DirectMessageAdapter(this, mMsgList, mUser.id);
 		mList.setAdapter(mAdapter);
+		
+		mSend.setOnClickListener(this);
 		
 		new Refresher().execute(true);
 	}
@@ -89,6 +103,13 @@ public class DirectMessageConversationActivity extends SwipeBackActivity impleme
 	public void onRefresh() {
 		if (!mRefreshing) {
 			new Refresher().execute(mSwipeRefresh.isDown());
+		}
+	}
+	
+	@Override
+	public void onClick(View v) {
+		if (!mRefreshing) {
+			new Sender().execute();
 		}
 	}
 	
@@ -127,6 +148,43 @@ public class DirectMessageConversationActivity extends SwipeBackActivity impleme
 			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
+		}
+	}
+	
+	private class Sender extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			
+			mRefreshing = true;
+			mSwipeRefresh.setIsDown(true);
+			mSwipeRefresh.setRefreshing(true);
+			
+			mText.setEnabled(false);
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (DEBUG) {
+				Log.d(TAG, "Begin sending direct message");
+			}
+			
+			DirectMessagesApi.send(mUser.id, mText.getText().toString());
+			
+			if (DEBUG) {
+				Log.d(TAG, "Finished");
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+			mText.setText("");
+			mText.setEnabled(true);
+			new Refresher().execute(true);
 		}
 	}
 }

@@ -66,4 +66,5 @@ public class Constants
 	// Direct Message
 	public static final String DIRECT_MESSAGES_USER_LIST = SINA_BASE_URL + "direct_messages/user_list.json";
 	public static final String DIRECT_MESSAGES_CONVERSATION = SINA_BASE_URL + "direct_messages/conversation.json";
+	public static final String DIRECT_MESSAGES_SEND = SINA_BASE_URL + "direct_messages/new.json";
 }

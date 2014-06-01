@@ -70,4 +70,21 @@ public class DirectMessagesApi extends BaseApi
 		
 		return null;
 	}
+	
+	public static boolean send(String uid, String text) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		params.put("text", text);
+		
+		try {
+			request(Constants.DIRECT_MESSAGES_SEND, params, HTTP_POST);
+			return true;
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.d(TAG, Log.getStackTraceString(e));
+			}
+		}
+		
+		return false;
+	}
 }
