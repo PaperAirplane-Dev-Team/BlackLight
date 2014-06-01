@@ -56,7 +56,6 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 	
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
-	protected boolean mBindPicsInUiThread = false;
 	
 	private int mLastCount = 0;
 	
@@ -69,7 +68,7 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus, mBindPicsInUiThread);
+		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		
 		mList.setDrawingCacheEnabled(true);

@@ -83,10 +83,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
-	private boolean mBindPicsInUiThread;
 	private boolean mScrolling = false;
 	
-	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus, boolean bindPicsInUiThread) {
+	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
@@ -97,7 +96,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mUid = mLogin.getUid();
 		mContext = context;
 		mBindOrig = bindOrig;
-		mBindPicsInUiThread = bindPicsInUiThread;
 		mShowCommentStatus = showCommentStatus;
 		
 		listView.setRecyclerListener(this);
@@ -234,7 +232,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView comments = h.getComments();
 		HorizontalScrollView scroll = h.getScroll();
 		
-		if (mBindPicsInUiThread && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
+		if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
 			scroll.setVisibility(View.VISIBLE);
 		}
 		
@@ -429,12 +427,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					break;
 				case 2:
 					MessageModel msg = (MessageModel) values[2];
-					
-					HorizontalScrollView scroll = ((ViewHolder) v.getTag()).getScroll();
-
-					if (!mBindPicsInUiThread && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
-						scroll.setVisibility(View.VISIBLE);
-					}
 					
 					LinearLayout container = ((ViewHolder) v.getTag()).getContainer();
 

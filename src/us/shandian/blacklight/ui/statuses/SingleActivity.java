@@ -361,7 +361,6 @@ public class SingleActivity extends SwipeBackActivity
 		
 		public HackyFragment() {
 			mShowCommentStatus = false;
-			mBindPicsInUiThread = true;
 		}
 		
 		@Override
