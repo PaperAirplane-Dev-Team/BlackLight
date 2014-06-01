@@ -151,14 +151,27 @@
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:orientation="vertical"
-		android:layout_margin="5dp"
 		android:id="@+id/weibo_origin"
-		android:visibility="gone"/>
+		android:background="@color/midium_gray"
+		android:visibility="gone">
+
+		<us.shandian.blacklight.ui.common.HackyTextView
+			android:layout_height="wrap_content"
+			android:text="Content"
+			android:layout_width="match_parent"
+			android:id="@+id/weibo_orig_content"
+			android:layout_margin="5dp"
+			android:textSize="14.5sp"
+			android:textColorLink="@color/link_blue"
+			android:lineSpacingExtra="2dp"/>
+
+	</LinearLayout>
 
 	<HorizontalScrollView
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:layout_margin="5dp"
+		android:background="@color/midium_gray"
+		android:padding="5dp"
 		android:id="@+id/weibo_pics_scroll"
 		android:visibility="gone">
 
@@ -167,70 +180,34 @@
 			android:layout_width="wrap_content"
 			android:orientation="horizontal"
 			android:id="@+id/weibo_pics">
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
-			<ImageView
-				android:layout_width="68dp"
-				android:layout_height="100dp"
-				android:background="@color/gray"
-				android:scaleType="centerCrop"
-				android:layout_marginRight="5dp"/>
-			
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
+			<include
+				layout="@layout/weibo_pic"/>
+
 		</LinearLayout>
 
 	</HorizontalScrollView>

@@ -21,6 +21,7 @@ package us.shandian.blacklight.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.SpannableString;
 
 import java.util.ArrayList;
 
@@ -102,6 +103,8 @@ public class MessageModel implements Parcelable
 	public int reposts_count;
 	public int comments_count;
 	public int attitudes_count;
+	
+	public transient SpannableString span, origSpan;
 	
 	// public Object visible; ignored. We do not need this field at all.
 	

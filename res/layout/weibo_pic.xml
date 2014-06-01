@@ -17,16 +17,11 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
-	<color name="gray">#aaaaaa</color>
-	<color name="gray_alpha">#bbaaaaaa</color>
-	<color name="gray_alpha_lighter">#eeeeeeee</color>
-    <color name="darker_gray">#666666</color>
-	<color name="light_gray">#eeeeee</color>
-	<color name="midium_gray">#fbfbfb</color>
-	<color name="shadow_gray">#ebebeb</color>
-	<color name="superlight_gray">#fcfcfc</color>
-	<color name="selector_gray">#eaeaea</color>
-	<color name="link_blue">#9797ff</color>
-	<color name="action_gray">#aa000008</color>
-</resources>
+<ImageView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="68dp"
+	android:layout_height="100dp"
+	android:background="@color/gray"
+	android:scaleType="centerCrop"
+	android:layout_marginRight="5dp"/>
+			
