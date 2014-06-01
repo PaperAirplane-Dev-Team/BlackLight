@@ -31,7 +31,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.view.animation.TranslateAnimation;
 import android.widget.TabHost;
 import android.os.Bundle;
 
@@ -66,11 +65,8 @@ public class SingleActivity extends SwipeBackActivity
 	
 	private TabHost mTabs;
 	
-	private MenuItem mExpand;
 	private MenuItem mFav;
 	
-	private boolean mExpanded = true;
-	private boolean mAnimating = false;
 	private boolean mIsMine = false;
 	private boolean mFavourited = false;
 	private boolean mFavTaskRunning = false;
@@ -173,7 +169,6 @@ public class SingleActivity extends SwipeBackActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.single, menu);
-		mExpand = menu.findItem(R.id.expand);
 		mFav = menu.findItem(R.id.fav);
 		
 		// Can only delete statuses post by me
@@ -191,9 +186,6 @@ public class SingleActivity extends SwipeBackActivity
 		switch (item.getItemId()) {
 			case android.R.id.home:
 				finish();
-				return true;
-			case R.id.expand:
-				expandOrCollapse();
 				return true;
 			case R.id.comment_on:{
 				Intent i = new Intent();
@@ -239,43 +231,6 @@ public class SingleActivity extends SwipeBackActivity
 		}
 		
 		return super.onOptionsItemSelected(item);
-	}
-	
-	private void expandOrCollapse() {
-		if (mAnimating) return;
-		
-		ViewGroup.LayoutParams params = mRoot.getLayoutParams();
-		params.height = mRoot.getHeight() + mContent.getHeight();
-		mRoot.setLayoutParams(params);
-		
-		mAnimating = true;
-		TranslateAnimation anim;
-		if (mExpanded) {
-			anim = new TranslateAnimation(0, 0, 0, -mContent.getHeight());
-		} else {
-			mContent.setVisibility(View.VISIBLE);
-			anim = new TranslateAnimation(0, 0, -mContent.getHeight(), 0);
-		}
-		anim.setDuration(500);
-		mRoot.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				mRoot.clearAnimation();
-				mRoot.setTranslationY(0);
-				
-				ViewGroup.LayoutParams params = mRoot.getLayoutParams();
-				params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-				mRoot.setLayoutParams(params);
-				
-				if (mExpanded) {
-					mContent.setVisibility(View.GONE);
-				}
-				mExpanded = !mExpanded;
-				mExpand.setIcon(mExpanded ? R.drawable.ic_action_collapse : R.drawable.ic_action_expand);
-				mAnimating = false;
-			}
-		}, 500);
-		mRoot.startAnimation(anim);
 	}
 	
 	private void setFavouriteIcon() {

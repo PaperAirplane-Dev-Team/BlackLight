@@ -37,10 +37,4 @@
 		android:id="@+id/fav"
 		android:icon="@drawable/ic_action_not_important"
 		android:showAsAction="always"/>
-	
-    <item
-        android:id="@+id/expand"
-        android:icon="@drawable/ic_action_collapse"
-		android:showAsAction="always"/>
-    
 </menu>
