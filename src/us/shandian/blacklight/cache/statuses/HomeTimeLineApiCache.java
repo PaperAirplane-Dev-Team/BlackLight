@@ -29,6 +29,9 @@ import android.graphics.Movie;
 
 import com.google.gson.Gson;
 
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
+
 import us.shandian.blacklight.api.statuses.HomeTimeLineApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
@@ -41,6 +44,8 @@ import us.shandian.blacklight.support.Utility;
 /* Time Line of me and my friends */
 public class HomeTimeLineApiCache
 {
+	private static HashMap<Long, SoftReference<Bitmap>> mThumnnailCache = new HashMap<Long, SoftReference<Bitmap>>();
+	
 	protected DataBaseHelper mHelper;
 	protected FileCacheManager mManager;
 	
@@ -118,7 +123,19 @@ public class HomeTimeLineApiCache
 			return null;
 		}
 		
-		return BitmapFactory.decodeByteArray(cache, 0, cache.length);
+		Bitmap bmp = BitmapFactory.decodeByteArray(cache, 0, cache.length);
+		mThumnnailCache.put(msg.id * 10 + id, new SoftReference<Bitmap>(bmp));
+		return bmp;
+	}
+	
+	public Bitmap getCachedThumbnail(MessageModel msg, int id) {
+		long key = msg.id * 10 + id;
+		
+		if (mThumnnailCache.containsKey(key)) {
+			return mThumnnailCache.get(key).get();
+		} else {
+			return null;
+		}
 	}
 	
 	public Object getLargePic(MessageModel msg, int id) {

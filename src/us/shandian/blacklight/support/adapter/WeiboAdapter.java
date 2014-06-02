@@ -144,7 +144,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 			
 			h.getAvatar().setImageBitmap(null);
-			h.getAvatar().setTag(false);
+			h.getAvatar().setTag(true);
 			h.getCommentAndRetweet().setVisibility(View.VISIBLE);
 			
 			LinearLayout container = h.getContainer();
@@ -154,6 +154,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				iv.setImageBitmap(null);
 				iv.setVisibility(View.VISIBLE);
 				iv.setOnClickListener(null);
+				iv.setTag(true);
 			}
 			
 			h.getScroll().setVisibility(View.GONE);
@@ -250,11 +251,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView date = h.getDate();
 		TextView retweet = h.getRetweets();
 		TextView comments = h.getComments();
-		HorizontalScrollView scroll = h.getScroll();
-		
-		if (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) {
-			scroll.setVisibility(View.VISIBLE);
-		}
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
@@ -269,6 +265,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
 		}
+		
+		bindMultiPicLayout(h, msg, true);
 		
 		// If this retweets/repies to others, show the original
 		if (mBindOrig) {
@@ -290,7 +288,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			if (bmp != null) {
 				h.getAvatar().setImageBitmap(bmp);
-				h.getAvatar().setTag(true);
+				h.getAvatar().setTag(false);
 			}
 		}
 		
@@ -307,14 +305,37 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getOrigContent().setText(getOrigSpan(msg));
 		h.getOrigContent().setMovementMethod(HackyMovementMethod.getInstance());
 		
+		bindMultiPicLayout(h, msg, showPic);
+		
+		h.getOriginParent().setTag(msg);
+		h.getOriginParent().setOnClickListener(this);
+	}
+	
+	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
 		HorizontalScrollView scroll = h.getScroll();
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
 			scroll.setVisibility(View.VISIBLE);
+
+			LinearLayout container = h.getContainer();
+
+			int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
+
+			for (int i = 0; i < 9; i++) {
+				ImageView iv = (ImageView) container.getChildAt(i);
+				
+				if (i >= numChilds) {
+					iv.setVisibility(View.GONE);
+				} else {
+					Bitmap bmp = mHomeApi.getCachedThumbnail(msg, i);
+					
+					if (bmp != null) {
+						iv.setImageBitmap(bmp);
+						iv.setTag(false);
+					}
+				}
+			}
 		}
-		
-		h.getOriginParent().setTag(msg);
-		h.getOriginParent().setOnClickListener(this);
 	}
 	
 	public void notifyDataSetChangedAndClear() {
@@ -370,7 +391,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			MessageModel msg = h.msg;
 			
 			// Avatars
-			if (v != null && !Boolean.parseBoolean(h.getAvatar().getTag().toString())) {
+			if (v != null && Boolean.parseBoolean(h.getAvatar().getTag().toString())) {
 				if (!waitUntilNotScrolling(h, msg)) return null;
 				
 				Bitmap avatar = mUserApi.getSmallAvatar(msg.user);
@@ -388,8 +409,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			if (v != null && !(msg instanceof CommentModel) && (realMsg.pic_urls.size() > 0 || !TextUtils.isEmpty(msg.thumbnail_pic))) {
 				if (!waitUntilNotScrolling(h, msg)) return null;
 				
-				publishProgress(v, 2, msg);
-				
 				LinearLayout container = h.getContainer();
 				
 				int numChilds = realMsg.hasMultiplePictures() ? realMsg.pic_urls.size() : 1;
@@ -398,6 +417,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					if (!waitUntilNotScrolling(h, msg)) return null;
 					
 					ImageView imgView = (ImageView) container.getChildAt(i);
+					
+					if (!Boolean.parseBoolean(imgView.getTag().toString())) continue;
+					
 					Bitmap img = mHomeApi.getThumbnailPic(realMsg, i);
 					
 					if (img != null) {
@@ -473,26 +495,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 							mContext.startActivity(i);
 						}
 						});
-					
-					break;
-				case 2:
-					MessageModel msg = (MessageModel) values[2];
-					
-					if (msg instanceof CommentModel) {
-						return;
-					}
-					
-					if (msg.retweeted_status != null) {
-						msg = msg.retweeted_status;
-					}
-					
-					LinearLayout container = ((ViewHolder) v.getTag()).getContainer();
-
-					int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
-
-					for (int i = numChilds; i < 9; i++) {
-						container.getChildAt(i).setVisibility(View.GONE);
-					}
 					
 					break;
 			}
