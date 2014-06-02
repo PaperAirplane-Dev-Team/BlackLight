@@ -390,8 +390,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			ViewHolder h = (ViewHolder) v.getTag();
 			MessageModel msg = h.msg;
 			
+			Object tag = h.getAvatar().getTag();
+			
+			if (tag == null) {
+				tag = true;
+			}
+			
 			// Avatars
-			if (v != null && Boolean.parseBoolean(h.getAvatar().getTag().toString())) {
+			if (v != null && Boolean.parseBoolean(tag.toString())) {
 				if (!waitUntilNotScrolling(h, msg)) return null;
 				
 				Bitmap avatar = mUserApi.getSmallAvatar(msg.user);
@@ -418,7 +424,13 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					
 					ImageView imgView = (ImageView) container.getChildAt(i);
 					
-					if (!Boolean.parseBoolean(imgView.getTag().toString())) continue;
+					tag = imgView.getTag();
+					
+					if (tag == null) {
+						tag = true;
+					}
+					
+					if (!Boolean.parseBoolean(tag.toString())) continue;
 					
 					Bitmap img = mHomeApi.getThumbnailPic(realMsg, i);
 					
