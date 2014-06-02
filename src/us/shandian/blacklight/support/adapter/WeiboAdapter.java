@@ -415,8 +415,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			View v = (View) values[0];
 			
-			if (!(v.getTag() instanceof ViewHolder) ||
-				((ViewHolder) v.getTag()).msg.id != ((MessageModel) values[values.length -1]).id) {
+			if (!(v.getTag() instanceof ViewHolder) || (((ViewHolder) v.getTag()).msg != null &&
+				((ViewHolder) v.getTag()).msg.id != ((MessageModel) values[values.length -1]).id)) {
 				
 				return;
 				
