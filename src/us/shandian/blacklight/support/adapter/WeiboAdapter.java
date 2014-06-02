@@ -145,6 +145,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.getAvatar().setImageBitmap(null);
 			h.getAvatar().setTag(true);
+			h.getAvatar().setOnClickListener(null);
 			h.getCommentAndRetweet().setVisibility(View.VISIBLE);
 			
 			LinearLayout container = h.getContainer();
@@ -290,6 +291,17 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				h.getAvatar().setImageBitmap(bmp);
 				h.getAvatar().setTag(false);
 			}
+			
+			h.getAvatar().setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent();
+					i.setAction(Intent.ACTION_MAIN);
+					i.setClass(mContext, UserTimeLineActivity.class);
+					i.putExtra("user", msg.user);
+					mContext.startActivity(i);
+				}
+			});
 		}
 		
 		v.setOnClickListener(this);
@@ -311,7 +323,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getOriginParent().setOnClickListener(this);
 	}
 	
-	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
+	private void bindMultiPicLayout(ViewHolder h, final MessageModel msg, boolean showPic) {
 		HorizontalScrollView scroll = h.getScroll();
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
@@ -333,6 +345,25 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 						iv.setImageBitmap(bmp);
 						iv.setTag(false);
 					}
+					
+					final int finalId = i;
+					
+					iv.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Intent i = new Intent();
+							i.setAction(Intent.ACTION_MAIN);
+							i.setClass(mContext, ImageActivity.class);
+							i.putExtra("model", msg);
+							i.putExtra("defaultId", finalId);
+
+							if (DEBUG) {
+								Log.d(TAG, "defaultId = " + finalId);
+							}
+
+							mContext.startActivity(i);
+						}
+					});
 				}
 			}
 		}
@@ -463,19 +494,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 						ImageView iv = ((ViewHolder) v.getTag()).getAvatar();
 						if (iv != null) {
 							iv.setImageBitmap(avatar);
-							
-							final MessageModel msg = (MessageModel) values[3];
-							
-							iv.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View v) {
-									Intent i = new Intent();
-									i.setAction(Intent.ACTION_MAIN);
-									i.setClass(mContext, UserTimeLineActivity.class);
-									i.putExtra("user", msg.user);
-									mContext.startActivity(i);
-								}
-							});
 						}
 					}
 					break;
@@ -483,31 +501,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					Bitmap img = (Bitmap) values[2];
 					ImageView iv = (ImageView) values[3];
 					iv.setImageBitmap(img);
-					
-					final int finalId = values[4];
-					
-					MessageModel m = (MessageModel) values[5];
-					
-					final MessageModel finalMsg = m.retweeted_status != null ? m.retweeted_status : m;
-					
-					iv.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							Intent i = new Intent();
-							i.setAction(Intent.ACTION_MAIN);
-							i.setClass(mContext, ImageActivity.class);
-							i.putExtra("model", finalMsg);
-							i.putExtra("defaultId", finalId);
-
-							if (DEBUG) {
-								Log.d(TAG, "defaultId = " + finalId);
-
-							}
-
-							mContext.startActivity(i);
-						}
-						});
-					
 					break;
 			}
 			
