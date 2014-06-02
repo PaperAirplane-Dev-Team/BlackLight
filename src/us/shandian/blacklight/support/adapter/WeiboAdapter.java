@@ -144,6 +144,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 			
 			h.getAvatar().setImageBitmap(null);
+			h.getAvatar().setTag(false);
 			h.getCommentAndRetweet().setVisibility(View.VISIBLE);
 			
 			LinearLayout container = h.getContainer();
@@ -284,6 +285,15 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				
 		}
 		
+		if (msg.user != null) {
+			Bitmap bmp = mUserApi.getCachedSmallAvatar(msg.user);
+			
+			if (bmp != null) {
+				h.getAvatar().setImageBitmap(bmp);
+				h.getAvatar().setTag(true);
+			}
+		}
+		
 		v.setOnClickListener(this);
 		v.setOnLongClickListener(this);
 		
@@ -360,7 +370,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			MessageModel msg = h.msg;
 			
 			// Avatars
-			if (v != null) {
+			if (v != null && !Boolean.parseBoolean(h.getAvatar().getTag().toString())) {
 				if (!waitUntilNotScrolling(h, msg)) return null;
 				
 				Bitmap avatar = mUserApi.getSmallAvatar(msg.user);

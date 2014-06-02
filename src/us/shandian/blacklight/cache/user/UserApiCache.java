@@ -31,6 +31,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.cache.Constants;
@@ -46,6 +49,8 @@ public class UserApiCache
 	private static String TAG = UserApiCache.class.getSimpleName();
 	
 	private static BitmapDrawable[] mVipDrawable;
+	
+	private static HashMap<String, SoftReference<Bitmap>> mSmallAvatarCache = new HashMap<String, SoftReference<Bitmap>>();
 	
 	private DataBaseHelper mHelper;
 	private FileCacheManager mManager;
@@ -176,7 +181,21 @@ public class UserApiCache
 			}
 		}
 		
-		return cache != null ? drawVipType(model, BitmapFactory.decodeByteArray(cache, 0, cache.length)) : null;
+		if (cache == null) {
+			return null;
+		} else {
+			Bitmap bmp = drawVipType(model, BitmapFactory.decodeByteArray(cache, 0, cache.length));
+			mSmallAvatarCache.put(model.id, new SoftReference<Bitmap>(bmp));
+			return bmp;
+		}
+	}
+	
+	public Bitmap getCachedSmallAvatar(UserModel model) {
+		if (mSmallAvatarCache.containsKey(model.id)) {
+			return mSmallAvatarCache.get(model.id).get();
+		} else {
+			return null;
+		}
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {
