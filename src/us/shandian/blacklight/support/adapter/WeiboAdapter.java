@@ -157,6 +157,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.getScroll().setVisibility(View.GONE);
 			h.getOriginParent().setVisibility(View.GONE);
+			
+			h.msg = null;
 		}
 	}
 	
@@ -234,9 +236,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		} else {
 			h = (ViewHolder) v.getTag();
 			
-			if (h.msg != msg) {
-				h.msg = msg;
+			if (h.msg != null) {
+				onMovedToScrapHeap(v);
 			}
+			
+			h.msg = msg;
 		}
 		
 		TextView name = h.getName();
