@@ -17,123 +17,103 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:layout_margin="2dp"
-	android:background="@android:color/white">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@android:color/white"
+	android:layout_margin="2dp">
+
+	<ImageView
+		android:layout_height="50dp"
+		style="?android:attr/buttonBarButtonStyle"
+		android:layout_width="50dp"
+		android:id="@+id/weibo_avatar"
+		android:layout_margin="5dp"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="Author Name"
+		android:textSize="14.5sp"
+		android:layout_width="wrap_content"
+		android:textStyle="bold"
+		android:id="@+id/weibo_name"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:layout_toRightOf="@id/weibo_avatar"
+		android:layout_toLeftOf="@+id/weibo_comment_and_retweet"
+		android:layout_marginBottom="5dp"
+		android:layout_marginRight="5dp"
+		android:layout_marginTop="8dp"
+		android:layout_centerVertical="false"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="Date"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_width="wrap_content"
+		android:id="@+id/weibo_date"
+		android:textSize="12sp"
+		android:layout_below="@id/weibo_name"
+		android:layout_toRightOf="@id/weibo_avatar"/>
+
+	<TextView
+		android:layout_height="wrap_content"
+		android:text="From"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_width="wrap_content"
+		android:layout_marginLeft="5dp"
+		android:id="@+id/weibo_from"
+		android:textSize="12sp"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:layout_below="@id/weibo_name"
+		android:layout_toRightOf="@id/weibo_date"/>
 
 	<LinearLayout
-		android:layout_height="50dp"
-		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
 		android:orientation="horizontal"
-		android:layout_marginTop="5dp"
-		android:layout_marginLeft="5dp"
+		android:id="@+id/weibo_comment_and_retweet"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginTop="8dp"
 		android:layout_marginRight="5dp">
 
-		<ImageView
-			android:layout_height="50dp"
-			style="?android:attr/buttonBarButtonStyle"
-			android:layout_width="50dp"
-			android:id="@+id/weibo_avatar"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="@string/retweet"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:textSize="10sp"/>
 
-		<LinearLayout
-			android:layout_height="match_parent"
-			android:layout_width="match_parent"
-			android:orientation="vertical"
-			android:layout_marginLeft="5dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginBottom="5dp"
-			android:layout_weight="0.6">
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="0"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="2dp"
+			android:id="@+id/weibo_retweet"
+			android:textSize="10sp"
+			android:singleLine="true"/>
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="Author Name"
-				android:textSize="14.5sp"
-				android:layout_width="wrap_content"
-				android:textStyle="bold"
-				android:id="@+id/weibo_name"
-				android:singleLine="true"
-				android:ellipsize="end"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="@string/comment"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="4dp"
+			android:textSize="10sp"/>
 
-			<LinearLayout
-				android:layout_height="match_parent"
-				android:layout_width="wrap_content"
-				android:orientation="horizontal"
-				android:layout_marginTop="2dp">
-
-				<TextView
-					android:layout_height="wrap_content"
-					android:text="Date"
-					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:layout_width="wrap_content"
-					android:id="@+id/weibo_date"
-					android:textSize="12sp"/>
-
-				<TextView
-					android:layout_height="wrap_content"
-					android:text="From"
-					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:layout_width="wrap_content"
-					android:layout_marginLeft="5dp"
-					android:id="@+id/weibo_from"
-					android:textSize="12sp"
-					android:singleLine="true"
-					android:ellipsize="end"/>
-
-			</LinearLayout>
-
-		</LinearLayout>
-
-		<LinearLayout
-			android:layout_height="match_parent"
-			android:layout_width="match_parent"
-			android:orientation="horizontal"
-			android:layout_marginTop="5dp"
-			android:layout_marginBottom="5dp"
-			android:gravity="top|right"
-			android:layout_marginRight="5dp"
-			android:id="@+id/weibo_comment_and_retweet"
-			android:layout_weight="0.8">
-
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="@string/retweet"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:layout_width="wrap_content"
-				android:textSize="10sp"/>
-
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="0"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:layout_width="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:id="@+id/weibo_retweet"
-				android:textSize="10sp"
-				android:singleLine="true"/>
-
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="@string/comment"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:layout_width="wrap_content"
-				android:layout_marginLeft="4dp"
-				android:textSize="10sp"/>
-
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="0"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:layout_width="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:id="@+id/weibo_comments"
-				android:textSize="10sp"
-				android:singleLine="true"/>
-
-		</LinearLayout>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="0"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="2dp"
+			android:id="@+id/weibo_comments"
+			android:textSize="10sp"
+			android:singleLine="true"/>
 
 	</LinearLayout>
 
@@ -142,17 +122,20 @@
 		android:text="Content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_content"
-		android:layout_margin="5dp"
 		android:textSize="14.5sp"
 		android:textColorLink="@color/link_blue"
-		android:lineSpacingExtra="2dp"/>
+		android:lineSpacingExtra="2dp"
+		android:layout_below="@id/weibo_avatar"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:layout_marginBottom="5dp"/>
 
-	<LinearLayout
+	<RelativeLayout
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:orientation="vertical"
 		android:id="@+id/weibo_origin"
 		android:background="@color/midium_gray"
+		android:layout_below="@id/weibo_content"
 		android:visibility="gone">
 
 		<us.shandian.blacklight.ui.common.HackyTextView
@@ -165,7 +148,7 @@
 			android:textColorLink="@color/link_blue"
 			android:lineSpacingExtra="2dp"/>
 
-	</LinearLayout>
+	</RelativeLayout>
 
 	<HorizontalScrollView
 		android:layout_height="wrap_content"
@@ -173,6 +156,7 @@
 		android:background="@color/midium_gray"
 		android:padding="5dp"
 		android:id="@+id/weibo_pics_scroll"
+		android:layout_below="@id/weibo_origin"
 		android:visibility="gone">
 
 		<LinearLayout
@@ -212,5 +196,5 @@
 
 	</HorizontalScrollView>
 
-</LinearLayout>
+</RelativeLayout>
 

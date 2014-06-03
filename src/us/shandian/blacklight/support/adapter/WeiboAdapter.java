@@ -538,7 +538,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		private TextView date, retweets, comments, name, from, content;
 		private HorizontalScrollView scroll;
-		private LinearLayout container, originParent;
+		private LinearLayout container;
+		private View originParent;
 		private View comment_and_retweet;
 		private ImageView weibo_avatar;
 		private View v;
@@ -615,9 +616,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			return container;
 		}
 		
-		public LinearLayout getOriginParent() {
+		public View getOriginParent() {
 			if (originParent == null) {
-				originParent = (LinearLayout) v.findViewById(R.id.weibo_origin);
+				originParent = v.findViewById(R.id.weibo_origin);
 			}
 			
 			return originParent;
