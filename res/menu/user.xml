@@ -18,6 +18,11 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
+		android:id="@+id/send_dm"
+		android:icon="@drawable/ic_action_email"
+		android:showAsAction="always"/>
+	
+	<item
 		android:id="@+id/follow"
 		android:icon="@drawable/ic_action_not_important"
 		android:showAsAction="always"/>

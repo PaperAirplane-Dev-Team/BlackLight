@@ -41,6 +41,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
 public class UserTimeLineActivity extends SwipeBackActivity implements View.OnClickListener
@@ -123,6 +124,7 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 		mMenuFollow = menu.findItem(R.id.follow);
 		if (new LoginApiCache(this).getUid().equals(mModel.id)) {
 			mMenuFollow.setVisible(false);
+			menu.findItem(R.id.send_dm).setVisible(false);
 		} else {
 			resetFollowState();
 		}
@@ -138,6 +140,14 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 			case R.id.follow:
 				new Follower().execute();
 				return true;
+			case R.id.send_dm: {
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(this, DirectMessageConversationActivity.class);
+				i.putExtra("user", mModel);
+				startActivity(i);
+				return true;
+			}
 			default:
 				return super.onOptionsItemSelected(item);
 		}
