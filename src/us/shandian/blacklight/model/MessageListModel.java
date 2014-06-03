@@ -25,6 +25,8 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+import us.shandian.blacklight.support.SpannableStringUtils;
+
 /*
   List of messages
   From timelines
@@ -56,6 +58,16 @@ public class MessageListModel implements BaseListModel<MessageModel, MessageList
 	private List<MessageModel> statuses = new ArrayList<MessageModel>();
 	private List<AD> ad = new ArrayList<AD>();
 	
+	public void spanAll() {
+		for (MessageModel msg : getList()) {
+			msg.span = SpannableStringUtils.getSpan(msg);
+			
+			if (msg.retweeted_status != null) {
+				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(msg.retweeted_status);
+			}
+		}
+	}
+	
 	@Override
 	public int getSize() {
 		return statuses.size();
@@ -81,6 +93,8 @@ public class MessageListModel implements BaseListModel<MessageModel, MessageList
 			}
 			total_number = values.total_number;
 		}
+		
+		spanAll();
 	}
 	
 	@Override

@@ -65,6 +65,7 @@ public class HomeTimeLineApiCache
 			cursor.moveToFirst();
 			mMessages = new Gson().fromJson(cursor.getString(1), getListClass());
 			mCurrentPage = mMessages.getSize() / Constants.HOME_TIMELINE_PAGE_SIZE;
+			mMessages.spanAll();
 		} else {
 			try {
 				mMessages = getListClass().newInstance();

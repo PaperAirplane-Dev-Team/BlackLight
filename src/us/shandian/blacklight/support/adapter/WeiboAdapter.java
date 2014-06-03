@@ -255,7 +255,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
-		content.setText(getSpan(msg));
+		content.setText(SpannableStringUtils.getSpan(msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
@@ -314,7 +314,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
 		h.getOriginParent().setVisibility(View.VISIBLE);
-		h.getOrigContent().setText(getOrigSpan(msg));
+		h.getOrigContent().setText(SpannableStringUtils.getOrigSpan(msg));
 		h.getOrigContent().setMovementMethod(HackyMovementMethod.getInstance());
 		
 		bindMultiPicLayout(h, msg, showPic);
@@ -371,29 +371,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	public void notifyDataSetChangedAndClear() {
 		super.notifyDataSetChanged();
-	}
-	
-	public CharSequence getSpan(MessageModel msg) {
-		if (msg.span == null) {
-			msg.span = SpannableStringUtils.span(msg.text);
-		}
-
-		return msg.span;
-	}
-
-	public CharSequence getOrigSpan(MessageModel orig) {
-		if (orig.origSpan == null) {
-			String username = "";
-
-			if (orig.user != null) {
-				username = orig.user.getName();
-				username = "@" + username + ":";
-			}
-
-			orig.origSpan = SpannableStringUtils.span(username + orig.text);
-		}
-
-		return orig.origSpan;
 	}
 	
 	private boolean waitUntilNotScrolling(ViewHolder h, MessageModel msg) {

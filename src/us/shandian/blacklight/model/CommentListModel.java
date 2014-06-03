@@ -25,6 +25,8 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+import us.shandian.blacklight.support.SpannableStringUtils;
+
 /*
   A list of comments
 */
@@ -32,6 +34,19 @@ import java.util.List;
 public class CommentListModel extends MessageListModel
 {
 	private List<CommentModel> comments = new ArrayList<CommentModel>();
+
+	@Override
+	public void spanAll() {
+		super.spanAll();
+		
+		for (CommentModel comment : comments) {
+			if (comment.reply_comment != null) {
+				comment.reply_comment.origSpan = SpannableStringUtils.getOrigSpan(comment.reply_comment);
+			} else if (comment.status != null) {
+				comment.status.origSpan = SpannableStringUtils.getOrigSpan(comment.status);
+			}
+		}
+	}
 	
 	@Override
 	public int getSize() {
@@ -58,6 +73,8 @@ public class CommentListModel extends MessageListModel
 			}
 			total_number = values.total_number;
 		}
+		
+		spanAll();
 	}
 
 	@Override

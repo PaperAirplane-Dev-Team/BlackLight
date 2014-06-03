@@ -29,6 +29,8 @@ import android.text.util.Linkify;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import us.shandian.blacklight.model.MessageModel;
+
 /* This class is modified from qii/weiciyuan */
 public class SpannableStringUtils
 {
@@ -75,4 +77,26 @@ public class SpannableStringUtils
 		return ss;
 	}
 	
+	public static SpannableString getSpan(MessageModel msg) {
+		if (msg.span == null) {
+			msg.span = span(msg.text);
+		}
+
+		return msg.span;
+	}
+
+	public static SpannableString getOrigSpan(MessageModel orig) {
+		if (orig.origSpan == null) {
+			String username = "";
+
+			if (orig.user != null) {
+				username = orig.user.getName();
+				username = "@" + username + ":";
+			}
+
+			orig.origSpan = span(username + orig.text);
+		}
+
+		return orig.origSpan;
+	}
 }
