@@ -25,15 +25,19 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
+import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import us.shandian.blacklight.model.MessageModel;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* This class is modified from qii/weiciyuan */
 public class SpannableStringUtils
 {
+	private static final String TAG = SpannableStringUtils.class.getSimpleName();
+	
 	private static final Pattern PATTERN_WEB = Pattern.compile("http://[a-zA-Z0-9+&@#/%?=~_\\-|!:,\\.;]*[a-zA-Z0-9+&@#/%=~_|]");
 	private static final Pattern PATTERN_TOPIC = Pattern.compile("#[\\p{Print}\\p{InCJKUnifiedIdeographs}&&[^#]]+#");
 	private static final Pattern PATTERN_MENTION = Pattern.compile("@[\\w\\p{InCJKUnifiedIdeographs}-]{1,26}");
@@ -79,6 +83,11 @@ public class SpannableStringUtils
 	
 	public static SpannableString getSpan(MessageModel msg) {
 		if (msg.span == null) {
+			
+			if (DEBUG) {
+				Log.d(TAG, msg.id + " span is null");
+			}
+			
 			msg.span = span(msg.text);
 		}
 
@@ -87,6 +96,11 @@ public class SpannableStringUtils
 
 	public static SpannableString getOrigSpan(MessageModel orig) {
 		if (orig.origSpan == null) {
+			
+			if (DEBUG) {
+				Log.d(TAG, orig.id + " origSpan is null");
+			}
+			
 			String username = "";
 
 			if (orig.user != null) {
