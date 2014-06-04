@@ -24,8 +24,9 @@
 	android:orientation="vertical">
 
 	<LinearLayout
-		android:layout_height="120dp"
+		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
+		android:paddingTop="?android:attr/actionBarSize"
 		android:orientation="horizontal"
 		android:background="@color/gray"
 		android:id="@+id/user_cover"
@@ -36,6 +37,8 @@
 			android:layout_width="100dp"
 			android:orientation="vertical"
 			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
 			android:background="@color/darker_gray"
 			android:gravity="center">
 

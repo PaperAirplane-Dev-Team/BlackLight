@@ -36,6 +36,10 @@
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
 	
+	<style name="My.Theme.Holo.Light.TranslucentActionBar" parent="@style/My.Theme.Holo.Light.DarkActionBar.Translucent">
+		<item name="android:windowActionBarOverlay">true</item>
+	</style>
+	
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
 		<item name="android:background">@color/action_gray</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>

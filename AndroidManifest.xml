@@ -76,7 +76,7 @@
 		<activity
 			android:name=".ui.statuses.UserTimeLineActivity"
 			android:label="@string/user_info"
-			android:theme="@style/My.Theme.Holo.Light.DarkActionBar.Translucent" >
+			android:theme="@style/My.Theme.Holo.Light.TranslucentActionBar" >
 			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT" />
 				<action android:name="android.intent.action.MAIN" />
