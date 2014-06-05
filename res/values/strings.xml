@@ -75,6 +75,7 @@
 	
 	<!-- User Time Line -->
 	<string name="user_info">用户信息</string>
+	<string name="user_statuses">用户微博</string>
 	<string name="followers">粉丝</string>
 	<string name="following">关注</string>
 	<string name="msgs">微博</string>

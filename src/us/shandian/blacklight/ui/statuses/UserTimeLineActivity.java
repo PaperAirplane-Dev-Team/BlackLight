@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Bundle;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
@@ -41,6 +43,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
@@ -60,6 +63,8 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 	private ImageView mAvatar;
 	private View mCover;
 	private View mFollowingContainer;
+	
+	private SlidingUpPanelLayout mSlide;
 	
 	private MenuItem mMenuFollow;
 	
@@ -93,6 +98,7 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 		mAvatar = (ImageView) findViewById(R.id.user_avatar);
 		mCover = findViewById(R.id.user_cover);
 		mFollowingContainer = findViewById(R.id.user_following_container);
+		mSlide = (SlidingUpPanelLayout) findViewById(R.id.user_slide);
 		
 		mFollowingContainer.setOnClickListener(this);
 		
@@ -113,6 +119,13 @@ public class UserTimeLineActivity extends SwipeBackActivity implements View.OnCl
 		new Downloader().execute();
 		
 		// Init
+		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() {
+			@Override
+			public void onPanelSlide(View panel, float offset) {
+				Utility.setActionBarTranslation(UserTimeLineActivity.this, mSlide.getCurrentParalaxOffset());
+			}
+		});
+		
 		mFragment = new UserTimeLineFragment(mModel.id);
 		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
 	}

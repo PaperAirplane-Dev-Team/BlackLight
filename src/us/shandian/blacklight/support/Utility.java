@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.support;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,6 +27,8 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.opengl.GLES10;
@@ -33,6 +36,7 @@ import android.opengl.GLES11;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.util.Log;
+import android.util.TypedValue;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -127,6 +131,29 @@ public class Utility
 	public static void stopServices(Context context) {
 		stopServiceAlarm(context, CommentTimeLineFetcherService.class);
 		stopServiceAlarm(context, MentionsTimeLineFetcherService.class);
+	}
+	
+	public static int getActionBarHeight(Context context) {
+		TypedValue v = new TypedValue();
+		
+		if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, v, true)) {
+			return TypedValue.complexToDimensionPixelSize(v.data, context.getResources().getDisplayMetrics());
+		} else {
+			return 0;
+		}
+	}
+	
+	public static void setActionBarTranslation(Activity activity, float y) {
+		ViewGroup vg = (ViewGroup) activity.findViewById(android.R.id.content).getParent();
+		int count = vg.getChildCount();
+		
+		for (int i = 0; i < count; i++) {
+			View v = vg.getChildAt(i);
+			
+			if (v.getId() != android.R.id.content) {
+				v.setTranslationY(y);
+			}
+		}
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
