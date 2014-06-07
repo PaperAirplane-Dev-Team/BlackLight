@@ -41,6 +41,7 @@
 		<item>评论</item>
 	</string-array>
 	<string-array name="other_array">
+		<item>搜索</item>
 		<item>设置</item>
 		<item>登出</item>
 	</string-array>
@@ -90,6 +91,12 @@
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
+	
+	<!-- Search -->
+	<string-array name="search_type">
+		<item>微博</item>
+		<item>用户</item>
+	</string-array>
 	
 	<!-- Settings -->
 	<string name="settings">设置</string>

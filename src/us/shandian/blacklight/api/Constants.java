@@ -57,6 +57,8 @@ public class Constants
 	
 	// Search
 	public static final String SEARCH_TOPICS = SINA_BASE_URL + "search/topics.json";
+	public static final String SEARCH_STATUSES = SINA_BASE_URL + "search/statuses.json";
+	public static final String SEARCH_USERS = SINA_BASE_URL + "search/users.json";
 	
 	// Friendships
 	public static final String FRIENDSHIPS_FRIENDS = SINA_BASE_URL + "friendships/friends.json";

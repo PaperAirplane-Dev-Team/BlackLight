@@ -52,6 +52,7 @@ import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
 import us.shandian.blacklight.ui.login.LoginActivity;
+import us.shandian.blacklight.ui.search.SearchFragment;
 import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
@@ -75,7 +76,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private UserModel mUser;
 	
 	// Fragments
-	private Fragment[] mFragments = new Fragment[6];
+	private Fragment[] mFragments = new Fragment[7];
 	private FragmentManager mManager;
 	
 	// Temp fields
@@ -154,6 +155,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mFragments[3] = new DirectMessageUserFragment();
 		mFragments[4] = new MentionsTimeLineFragment();
 		mFragments[5] = new CommentMentionsTimeLineFragment();
+		mFragments[6] = new SearchFragment();
 		mManager = getFragmentManager();
 		
 		FragmentTransaction ft = mManager.beginTransaction();
@@ -198,7 +200,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-		if (parent != mOther && mLastChoice != null) {
+		if ((parent != mOther || position == 0) && mLastChoice != null) {
 			mLastChoice.getPaint().setFakeBoldText(false);
 			mLastChoice.invalidate();
 		}
@@ -240,13 +242,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		} else if (parent == mOther) {
 			switch (position) {
 				case 0:{
+					view.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							try {
+								switchTo(6);
+							} catch (Exception e) {
+
+							}
+						}
+					}, 400);
+					break;
+				}
+				case 1:{
 					Intent i = new Intent();
 					i.setAction(Intent.ACTION_MAIN);
 					i.setClass(this, SettingsActivity.class);
 					startActivity(i);
 					break;
 				}
-				case 1:{
+				case 2:{
 					mLoginCache.logout();
 					Intent i = new Intent();
 					i.setAction(Intent.ACTION_MAIN);
