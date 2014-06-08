@@ -104,7 +104,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		listView.setOnScrollListener(this);
 		
 		for (int i = 0; i < 10; i++) {
-			mViewDeque.offer(mInflater.inflate(R.layout.weibo, null));
+			View v = mInflater.inflate(R.layout.weibo, null);
+			new ViewHolder(v, null);
+			mViewDeque.offer(v);
 		}
 	}
 	
@@ -226,15 +228,17 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private View bindView(final MessageModel msg, View convertView) {
 		View v = null;
 		ViewHolder h = null;
+		boolean useExisted = true;
 		
 		// If not inflated before, then we have much work to do
 		v = convertView != null ? convertView : mViewDeque.poll();
 		
 		if (v == null) {
+			useExisted = false;
 			v = mInflater.inflate(R.layout.weibo, null);
 		}
 		
-		if (convertView == null) {
+		if (!useExisted) {
 			h = new ViewHolder(v, msg);
 		} else {
 			h = (ViewHolder) v.getTag();
