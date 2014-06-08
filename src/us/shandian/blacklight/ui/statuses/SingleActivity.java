@@ -317,11 +317,6 @@ public class SingleActivity extends SwipeBackActivity
 		public HackyFragment() {
 			mShowCommentStatus = false;
 		}
-		
-		@Override
-		protected void bindFooterView(LayoutInflater inflater) {
-			
-		}
 
 		@Override
 		protected void bindSwipeToRefresh(ViewGroup v) {
