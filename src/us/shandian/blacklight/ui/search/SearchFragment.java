@@ -66,6 +66,7 @@ public class SearchFragment extends Fragment
 		
 		// Fragments
 		mFragments[0] = new SearchStatusFragment();
+		mFragments[1] = new SearchUserFragment();
 		
 		return v;
 	}

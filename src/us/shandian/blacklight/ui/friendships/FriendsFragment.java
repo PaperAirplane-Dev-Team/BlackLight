@@ -42,13 +42,17 @@ import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
 {
 	private String mUid;
-	private UserListModel mUsers;
+	protected UserListModel mUsers;
 	private int mNextCursor = 0;
 	private boolean mRefreshing = false;
 	
 	private ListView mList;
 	private UserAdapter mAdapter;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	
+	public FriendsFragment() {
+		this(null);
+	}
 	
 	public FriendsFragment(String uid) {
 		mUid = uid;
@@ -76,7 +80,9 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		mSwipeRefresh.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_green_dark,
 									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
 		
-		onRefresh(); 
+		if (mUid != null) {
+			onRefresh(); 
+		}
 		
 		return v;
 	}
@@ -97,6 +103,24 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		startActivity(i);
 	}
 	
+	protected void doRefresh(boolean param) {
+		if (param) {
+			mNextCursor = 0;
+			mUsers.getList().clear();
+		}
+
+		UserListModel usr = FriendsApi.getFriendsOf(mUid, 50, mNextCursor);
+
+		if (usr != null) {
+			int nextCursor = Integer.parseInt(usr.next_cursor);
+			if (param || mNextCursor != 0) {
+				mNextCursor = nextCursor;
+				mUsers.addAll(param, usr);
+			}
+		}
+		
+	}
+	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
 		@Override
 		protected void onPreExecute() {
@@ -106,21 +130,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		
 		@Override
 		protected Boolean doInBackground(Boolean... params) {
-			
-			if (params[0]) {
-				mNextCursor = 0;
-				mUsers.getList().clear();
-			}
-			
-			UserListModel usr = FriendsApi.getFriendsOf(mUid, 50, mNextCursor);
-			
-			if (usr != null) {
-				int nextCursor = Integer.parseInt(usr.next_cursor);
-				if (params[0] || mNextCursor != 0) {
-					mNextCursor = nextCursor;
-					mUsers.addAll(params[0], usr);
-				}
-			}
+			doRefresh(params[0]);
 			
 			return params[0];
 		}
