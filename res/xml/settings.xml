@@ -30,6 +30,20 @@
 		
 	</PreferenceCategory>
 	
+	<!-- Debug -->
+	<PreferenceCategory
+		android:title="@string/debug">
+		
+		<Preference
+			android:key="debug_log"
+			android:title="@string/debug_log"/>
+		
+		<Preference
+			android:key="debug_crash"
+			android:title="@string/debug_crash"/>
+		
+	</PreferenceCategory>
+	
 	<!-- About -->
 	<PreferenceCategory
 		android:title="@string/about">

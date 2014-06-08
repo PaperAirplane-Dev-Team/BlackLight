@@ -28,6 +28,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Utility;
 
@@ -42,6 +43,8 @@ public class EntryActivity extends Activity
 		FileCacheManager.instance(this).clearUnavailable();
 		
 		// Init
+		CrashHandler.init(this);
+		CrashHandler.register();
 		Emoticons.init(this);
 		
 		LoginApiCache login = new LoginApiCache(this);

@@ -67,6 +67,8 @@ public abstract class AsyncTask<Params, Progress, Result>
 	private Thread mThread = new Thread(new Runnable() {
 		@Override
 		public void run() {
+			CrashHandler.register();
+			
 			try {
 				Result result = doInBackground(mParams);
 				sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_FINISH, new AsyncResult<Result>(AsyncTask.this, result)));

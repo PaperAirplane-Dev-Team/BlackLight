@@ -109,6 +109,9 @@
 	<string name="license">开源协议</string>
 	<string name="actions">动作</string>
 	<string name="fast_scroll">列表快速滚动</string>
+	<string name="debug">调试</string>
+	<string name="debug_log">崩溃日志</string>
+	<string name="debug_crash">立即崩溃</string>
 	
 	<!-- Message -->
 	<string name="plz_wait">请稍候...</string>

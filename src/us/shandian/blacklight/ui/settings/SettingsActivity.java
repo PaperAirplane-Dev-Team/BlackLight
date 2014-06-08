@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
 
 public class SettingsActivity extends SwipeBackPreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener
@@ -36,6 +37,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 	private static final String VERSION = "version";
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
+	private static final String DEBUG_LOG = "debug_log";
+	private static final String DEBUG_CRASH = "debug_crash";
 	
 	private Settings mSettings;
 	
@@ -43,6 +46,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 	private Preference mPrefLicense;
 	private Preference mPrefVersion;
 	private Preference mPrefSourceCode;
+	private Preference mPrefLog;
+	private Preference mPrefCrash;
 	
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
@@ -65,6 +70,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 		mPrefVersion = findPreference(VERSION);
 		mPrefSourceCode = findPreference(SOURCE_CODE);
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
+		mPrefLog = findPreference(DEBUG_LOG);
+		mPrefCrash = findPreference(DEBUG_CRASH);
 		
 		// Data
 		String version = "Unknown";
@@ -75,11 +82,13 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 		}
 		mPrefVersion.setSummary(version);
 		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL, false));
+		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
+		mPrefCrash.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -107,6 +116,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
 			return true;
+		} else if (preference == mPrefCrash) {
+			throw new RuntimeException("Debug crash");
 		} else {
 			return false;
 		}
