@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 * Copyright (C) 2014 Peter Cai
 *
@@ -16,28 +17,38 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<android.support.v4.widget.DrawerLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/drawer"
+	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
-	
-	<FrameLayout
-		android:id="@+id/container"
+	android:fitsSystemWindows="true">
+
+	<android.support.v4.widget.DrawerLayout
+		android:id="@+id/drawer"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
-	
-	<LinearLayout
-		android:layout_gravity="start"
-		android:layout_width="240dp"
-		android:layout_height="match_parent"
-		android:background="@color/superlight_gray"
-		android:orientation="vertical" >
-		
-		<include layout="@layout/main_account" />
-			
-		<include layout="@layout/main_drawer" />
-		
-	</LinearLayout>
-	
-</android.support.v4.widget.DrawerLayout>
+		android:layout_height="match_parent">
+
+		<FrameLayout
+			android:id="@+id/container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
+		<LinearLayout
+			android:layout_gravity="start"
+			android:layout_width="240dp"
+			android:layout_height="match_parent"
+			android:background="@color/superlight_gray"
+			android:orientation="vertical">
+
+			<include
+				layout="@layout/main_account"/>
+
+			<include
+				layout="@layout/main_drawer"/>
+
+		</LinearLayout>
+
+	</android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>
+

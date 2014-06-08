@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.support;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -27,8 +28,11 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.opengl.GLES10;
@@ -38,10 +42,13 @@ import android.opengl.GLES30;
 import android.util.Log;
 import android.util.TypedValue;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
+import us.shandian.blacklight.R;
 import us.shandian.blacklight.service.CommentTimeLineFetcherService;
 import us.shandian.blacklight.service.MentionsTimeLineFetcherService;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
@@ -154,6 +161,20 @@ public class Utility
 				v.setTranslationY(y);
 			}
 		}
+	}
+	
+	@TargetApi(19)
+	public static void enableTint(Activity activity) {
+		if (Build.VERSION.SDK_INT < 19) return;
+		
+		Window w = activity.getWindow();
+		WindowManager.LayoutParams p = w.getAttributes();
+		p.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+		w.setAttributes(p);
+		
+		SystemBarTintManager m = new SystemBarTintManager(activity);
+		m.setStatusBarTintEnabled(true);
+		m.setStatusBarTintResource(R.color.action_gray);
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {

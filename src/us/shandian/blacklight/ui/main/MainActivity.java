@@ -46,6 +46,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
@@ -86,6 +87,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		// Tint
+		Utility.enableTint(this);
 		
 		// Initialize naviagtion drawer
 		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
