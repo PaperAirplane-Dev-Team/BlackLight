@@ -126,7 +126,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements Pre
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		if (preference == mPrefFastScroll) {
-			mSettings.putBoolean(Settings.FAST_SCROLL, (boolean) newValue);
+			mSettings.putBoolean(Settings.FAST_SCROLL, Boolean.parseBoolean(newValue.toString()));
 			return true;
 		} else {
 			return false;
