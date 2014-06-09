@@ -188,19 +188,11 @@ public class SingleActivity extends SwipeBackActivity
 				finish();
 				return true;
 			case R.id.comment_on:{
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(this, CommentOnActivity.class);
-				i.putExtra("msg", mMsg);
-				startActivity(i);
+				commentOn();
 				return true;
 			}
 			case R.id.repost:{
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(this, RepostActivity.class);
-				i.putExtra("msg", mMsg);
-				startActivity(i);
+				repost();
 				return true;
 			}
 			case R.id.delete:{
@@ -231,6 +223,22 @@ public class SingleActivity extends SwipeBackActivity
 		}
 		
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void commentOn() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, CommentOnActivity.class);
+		i.putExtra("msg", mMsg);
+		startActivity(i);
+	}
+	
+	public void repost() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, RepostActivity.class);
+		i.putExtra("msg", mMsg);
+		startActivity(i);
 	}
 	
 	private void setFavouriteIcon() {
@@ -334,7 +342,7 @@ public class SingleActivity extends SwipeBackActivity
 		}
 		
 		@Override
-		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		protected void bindNewButton(View v) {
 
 		}
 	}

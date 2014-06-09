@@ -22,9 +22,6 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Fragment;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -43,9 +40,10 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 
-public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
 {
 	private ListView mList;
+	private View mNew;
 	private WeiboAdapter mAdapter;
 	private HomeTimeLineApiCache mCache;
 	
@@ -82,27 +80,10 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 			new Refresher().execute(new Boolean[]{true});
 		}
 		
-		setHasOptionsMenu(true);
+		// Floating "New" button
+		bindNewButton(v);
 		
 		return v;
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.main, menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.new_post:
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(getActivity(), NewPostActivity.class);
-				getActivity().startActivity(i);
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -157,6 +138,13 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		}
 	}
 	
+	@Override
+	public void onClick(View v) {
+		if (v == mNew) {
+			newPost();
+		}
+	}
+	
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
 	}
@@ -176,6 +164,20 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		mSwipeRefresh.setOnRefreshListener(this);
 		mSwipeRefresh.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_green_dark,
 									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
+	}
+	
+	protected void bindNewButton(View v) {
+		mNew = v.findViewById(R.id.home_timeline_new);
+		mNew.setVisibility(View.VISIBLE);
+		mNew.bringToFront();
+		mNew.setOnClickListener(this);
+	}
+	
+	protected void newPost() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(getActivity(), NewPostActivity.class);
+		startActivity(i);
 	}
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean>

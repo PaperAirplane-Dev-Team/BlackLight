@@ -19,8 +19,7 @@
 
 package us.shandian.blacklight.ui.statuses;
 
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.View;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -39,7 +38,7 @@ public class MentionsTimeLineFragment extends HomeTimeLineFragment
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	protected void bindNewButton(View v) {
 		
 	}
 }

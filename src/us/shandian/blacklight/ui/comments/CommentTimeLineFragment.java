@@ -19,8 +19,7 @@
 
 package us.shandian.blacklight.ui.comments;
 
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.View;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.comments.CommentTimeLineApiCache;
@@ -46,8 +45,7 @@ public class CommentTimeLineFragment extends HomeTimeLineFragment
 	}
 	
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	protected void bindNewButton(View v) {
 
 	}
-	
 }

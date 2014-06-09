@@ -20,8 +20,7 @@
 package us.shandian.blacklight.ui.search;
 
 import android.content.Context;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.View;
 import android.view.MenuItem;
 import android.os.Bundle;
 
@@ -103,7 +102,7 @@ public class TopicsActivity extends SwipeBackActivity
 		}
 
 		@Override
-		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		protected void bindNewButton(View v) {
 
 		}
 	}

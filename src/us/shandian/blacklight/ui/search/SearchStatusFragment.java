@@ -20,11 +20,7 @@
 package us.shandian.blacklight.ui.search;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -61,7 +57,7 @@ public class SearchStatusFragment extends HomeTimeLineFragment implements Search
 	}
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	protected void bindNewButton(View v) {
 
 	}
 	
