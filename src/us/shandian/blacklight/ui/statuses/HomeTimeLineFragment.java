@@ -22,8 +22,10 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Fragment;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.os.Bundle;
@@ -40,8 +42,10 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 
-public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
+public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
+													View.OnTouchListener
 {
+	
 	private ListView mList;
 	private View mNew;
 	private WeiboAdapter mAdapter;
@@ -51,11 +55,13 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	private boolean mRefreshing = false;
+	private boolean mNewHidden = false;
 	
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 	
 	private int mLastCount = 0;
+	private float mLastY = -1.0f;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,6 +150,53 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 			newPost();
 		}
 	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent ev) {
+		
+		switch (ev.getAction() & MotionEvent.ACTION_MASK) {
+			case MotionEvent.ACTION_DOWN:
+				mLastY = ev.getY();
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (mLastY == -1.0f) break;
+				
+				float y = ev.getY();
+				
+				if (!mNewHidden && y < mLastY) {
+					mNew.clearAnimation();
+					
+					TranslateAnimation anim = new TranslateAnimation(0, 0, 0, mList.getHeight() - mNew.getTop());
+					anim.setFillAfter(true);
+					anim.setDuration(400);
+					
+					mNew.setAnimation(anim);
+					anim.startNow();
+					
+					mNewHidden = true;
+				} else if (mNewHidden && y > mLastY) {
+					mNew.clearAnimation();
+
+					TranslateAnimation anim = new TranslateAnimation(0, 0, mList.getHeight() - mNew.getTop(), 0);
+					anim.setFillAfter(true);
+					anim.setDuration(400);
+
+					mNew.setAnimation(anim);
+					anim.startNow();
+
+					mNewHidden = false;
+				}
+				
+				mLastY = y;
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_CANCEL:
+				mLastY = -1.0f;
+				break;
+		}
+		
+		return false;
+	}
 	
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
@@ -171,6 +224,8 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		mNew.setVisibility(View.VISIBLE);
 		mNew.bringToFront();
 		mNew.setOnClickListener(this);
+		
+		mList.setOnTouchListener(this); // Listener to hide or show the button
 	}
 	
 	protected void newPost() {
