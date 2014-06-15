@@ -23,7 +23,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
@@ -65,6 +68,31 @@ public class SearchApi extends BaseApi
 		} catch (Exception e) {
 			if (DEBUG) {
 				Log.e(TAG, "Cannot search, " + e.getClass().getSimpleName());
+			}
+			return null;
+		}
+	}
+	
+	public static ArrayList<String> suggestAtUser(String q, int count) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("q", q);
+		params.put("count", count);
+		params.put("type", 0);
+		params.put("range", 0);
+		
+		try {
+			JSONArray json = requestArray(Constants.SEARCH_SUGGESTIONS_AT_USERS, params, HTTP_GET);
+			ArrayList<String> ret = new ArrayList<String>();
+			
+			for (int i = 0; i < json.length(); i++) {
+				ret.add(json.getJSONObject(i).optString("nickname"));
+			}
+			
+			return ret;
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot search, " + e.getClass().getSimpleName());
+				Log.e(TAG, Log.getStackTraceString(e));
 			}
 			return null;
 		}

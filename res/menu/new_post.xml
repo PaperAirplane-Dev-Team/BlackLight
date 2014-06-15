@@ -24,6 +24,11 @@
 		android:showAsAction="always"/>
 	
 	<item
+		android:id="@+id/post_at"
+		android:icon="@drawable/ic_action_at"
+		android:showAsAction="always"/>
+	
+	<item
 		android:id="@+id/post_emiticon"
 		android:icon="@drawable/ic_action_emoticon"
 		android:showAsAction="always"/>

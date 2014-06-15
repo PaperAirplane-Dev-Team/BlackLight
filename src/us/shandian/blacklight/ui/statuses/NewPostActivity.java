@@ -49,6 +49,7 @@ import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
+import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class NewPostActivity extends SwipeBackActivity
@@ -189,6 +190,16 @@ public class NewPostActivity extends SwipeBackActivity
 					mDrawer.openDrawer(Gravity.END);
 				}
 				
+				return true;
+			case R.id.post_at:
+				AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
+				diag.setListener(new AtUserSuggestDialog.AtUserListener() {
+					@Override
+					public void onChooseUser(String name) {
+						mText.getText().append(" @").append(name).append(" ");
+					}
+				});
+				diag.show();
 				return true;
 				
 		}

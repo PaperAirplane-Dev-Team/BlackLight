@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="240dp"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="240dp"
+		android:orientation="horizontal">
+
+		<EditText
+			android:layout_height="45dp"
+			android:ems="10"
+			android:layout_width="200dp"
+			android:singleLine="true"
+			android:id="@+id/at_user_text"/>
+
+		<ImageView
+			android:layout_height="45dp"
+			style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="45dp"
+			android:src="@drawable/ic_action_search_dark"
+			android:id="@+id/at_user_search"
+			android:scaleType="centerInside"/>
+
+	</LinearLayout>
+
+	<ListView
+		android:layout_height="wrap_content"
+		android:layout_width="240dp"
+		android:id="@+id/at_user_list"/>
+
+</LinearLayout>
+
