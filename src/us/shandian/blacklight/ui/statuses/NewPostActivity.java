@@ -196,7 +196,7 @@ public class NewPostActivity extends SwipeBackActivity
 				diag.setListener(new AtUserSuggestDialog.AtUserListener() {
 					@Override
 					public void onChooseUser(String name) {
-						mText.getText().append(" @").append(name).append(" ");
+						mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
 					}
 				});
 				diag.show();
