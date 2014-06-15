@@ -48,6 +48,7 @@ public class AtUserSuggestDialog extends Dialog implements View.OnClickListener,
 	private ListView mList;
 	
 	private String[] mStrs;
+	private boolean mLoading = false;
 	
 	private AtUserListener mListener;
 	
@@ -77,6 +78,8 @@ public class AtUserSuggestDialog extends Dialog implements View.OnClickListener,
 
 	@Override
 	public void onClick(View v) {
+		if (mLoading) return;
+		
 		new SearchTask().execute(mText.getText().toString());
 	}
 
@@ -95,6 +98,12 @@ public class AtUserSuggestDialog extends Dialog implements View.OnClickListener,
 	private class SearchTask extends AsyncTask<String, Void, String[]> {
 
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mLoading = true;
+		}
+		
+		@Override
 		protected String[] doInBackground(String... params) {
 			ArrayList<String> a = SearchApi.suggestAtUser(params[0], 5);
 			return a.toArray(new String[a.size()]);
@@ -109,6 +118,7 @@ public class AtUserSuggestDialog extends Dialog implements View.OnClickListener,
 			mList.setAdapter(adapter);
 			
 			mStrs = result;
+			mLoading = false;
 		}
 	}
 }
