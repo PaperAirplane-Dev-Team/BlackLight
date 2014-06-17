@@ -98,7 +98,7 @@ public class HttpUtility
 			byte[] bs = ("--" + b + "--\r\n").getBytes("UTF-8");
 			
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-			bmp.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+			bmp.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 			byte[] img = bytes.toByteArray();
 			
 			int l =  s.getBytes("UTF-8").length + img.length + 2 * bs.length;

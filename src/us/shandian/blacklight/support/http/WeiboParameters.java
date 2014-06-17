@@ -87,8 +87,8 @@ public class WeiboParameters extends HashMap<String, Object>
 		
 		if (bitmap != null) {
 			str.append("Content-Disposition: form-data; name=\"");
-			str.append(bmKey).append("\"; filename=\"").append(System.currentTimeMillis()).append(".png");
-			str.append("\"\r\nContent-Type: image/png\r\n\r\n");
+			str.append(bmKey).append("\"; filename=\"").append(System.currentTimeMillis()).append(".jpg");
+			str.append("\"\r\nContent-Type: image/jpeg\r\n\r\n");
 		}
 		
 		return new Object[]{b, bitmap, str.toString()};
