@@ -37,7 +37,7 @@
 			android:layout_gravity="start"
 			android:layout_width="240dp"
 			android:layout_height="match_parent"
-			android:background="@color/superlight_gray"
+			android:background="@color/action_gray"
 			android:orientation="vertical">
 
 			<include

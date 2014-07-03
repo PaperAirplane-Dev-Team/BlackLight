@@ -26,5 +26,5 @@
 	android:gravity="center_vertical"
 	android:paddingLeft="10dp"
 	android:textStyle="bold"
-	android:textColor="@android:color/black"/>
+	android:textColor="@android:color/white"/>
 

@@ -34,12 +34,12 @@
 			android:layout_width="match_parent"
 			android:gravity="center_vertical"
 			android:paddingLeft="10dp"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:textColor="@color/superlight_gray"/>
 
 		<ListView
 			android:layout_height="180dp"
 			android:layout_width="match_parent"
-			android:background="@android:color/white"
 			android:id="@+id/list_my"
 			android:divider="@null"
 			android:listSelector="@drawable/drawer_selector"/>
@@ -51,12 +51,12 @@
 			android:layout_width="match_parent"
 			android:gravity="center_vertical"
 			android:paddingLeft="10dp"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:textColor="@color/superlight_gray"/>
 
 		<ListView
 			android:layout_height="90dp"
 			android:layout_width="match_parent"
-			android:background="@android:color/white"
 			android:id="@+id/list_at_me"
 			android:divider="@null"
 			android:listSelector="@drawable/drawer_selector"/>

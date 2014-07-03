@@ -25,5 +25,5 @@
 	android:layout_width="match_parent"
 	android:gravity="center_vertical"
 	android:paddingLeft="40dp"
-	android:textColor="@color/darker_gray"/>
+	android:textColor="@android:color/white"/>
 

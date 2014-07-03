@@ -106,7 +106,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			}
 		};
 		mDrawer.setDrawerListener(mToggle);
-		mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 		
 		mMy = (ListView) findViewById(R.id.list_my);
 		mAtMe = (ListView) findViewById(R.id.list_at_me);

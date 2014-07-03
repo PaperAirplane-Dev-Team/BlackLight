@@ -30,6 +30,7 @@
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
 		<item name="android:windowBackground">@color/light_gray</item>
+		<item name="android:windowContentOverlay">@null</item>
 	</style>
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
