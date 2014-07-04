@@ -216,14 +216,16 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 				
 				downEvent.setLocation(downEvent.getX(), -downEvent.getY());
 				event.setLocation(event.getX(), -event.getY());
+				
+				// Abandon the offset animation when swiping up
+				try {
+					mUpdateContentOffsetTop.invoke(this, -100);
+				} catch (Exception e) {
+					
+				}
+			
 		} else {
 			ret = super.onTouchEvent(event);
-		}
-		
-		try {
-			mUpdateContentOffsetTop.invoke(this, 0);
-		} catch (Exception e) {
-
 		}
 		
 		if (!canChildScrollDown()) {
