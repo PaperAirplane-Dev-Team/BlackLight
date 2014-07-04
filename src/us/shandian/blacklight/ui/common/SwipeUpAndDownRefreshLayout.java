@@ -46,12 +46,38 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	private boolean mIsDown = false;
 	private boolean mDownPriority = false;
 	
+	private Field mTarget, mProgressBar, mReturningToStart, mDownEvent;
+	private Method mSetBounds, mDraw, mUpdateContentOffsetTop;
+	
 	public SwipeUpAndDownRefreshLayout(Context context) {
-		super(context);
+		this(context, null);
 	}
 	
 	public SwipeUpAndDownRefreshLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
+		try {
+			initFields();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private void initFields() throws NoSuchFieldException, NoSuchMethodException {
+		mTarget = SwipeRefreshLayout.class.getDeclaredField("mTarget");
+		mTarget.setAccessible(true);
+		
+		mProgressBar = SwipeRefreshLayout.class.getDeclaredField("mProgressBar");
+		mProgressBar.setAccessible(true);
+		
+		mReturningToStart = SwipeRefreshLayout.class.getDeclaredField("mReturningToStart");
+		mReturningToStart.setAccessible(true);
+		
+		mDownEvent = SwipeRefreshLayout.class.getDeclaredField("mDownEvent");
+		mDownEvent.setAccessible(true);
+		
+		mUpdateContentOffsetTop = SwipeRefreshLayout.class.getDeclaredMethod("updateContentOffsetTop", int.class);
+		mUpdateContentOffsetTop.setAccessible(true);
 	}
 	
 	public boolean isDown() {
@@ -68,9 +94,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	
 	public boolean canChildScrollDown() {
 		try {
-			Field f = SwipeRefreshLayout.class.getDeclaredField("mTarget");
-			f.setAccessible(true);
-			View v = (View) f.get(this);
+			View v = (View) mTarget.get(this);
 			return v.canScrollVertically(1);
 		} catch (Exception e) {
 			return true;
@@ -101,16 +125,14 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		Object progressBar = null;
 		
 		try {
-			Field f = SwipeRefreshLayout.class.getDeclaredField("mProgressBar");
-			f.setAccessible(true);
-			progressBar = f.get(this);
+			progressBar = mProgressBar.get(this);
 		} catch (Exception e) {
 			
 		}
 		
-		Method m = null;
+		Method m = mSetBounds;
 		
-		if (progressBar != null) {
+		if (m == null && progressBar != null) {
 			try {
 				m = progressBar.getClass().getDeclaredMethod("setBounds", int.class, int.class, int.class, int.class);
 				m.setAccessible(true);
@@ -120,6 +142,8 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		}
 		
 		if (m != null) {
+			mSetBounds = m;
+			
 			try {
 				m.invoke(progressBar, 0, 0, 0, 0);
 			} catch (Exception e) {
@@ -135,8 +159,15 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 			mCanvas.drawPaint(p);
 			try {
 				m.invoke(progressBar, 0, 0, mWidth, mProgressBarHeight);
-				Method method = progressBar.getClass().getDeclaredMethod("draw", Canvas.class);
-				method.setAccessible(true);
+				
+				Method method = mDraw;
+				
+				if (method == null) {
+					method = progressBar.getClass().getDeclaredMethod("draw", Canvas.class);
+					method.setAccessible(true);
+				}
+				
+				mDraw = method;
 				method.invoke(progressBar, mCanvas);
 			} catch (Exception e) {
 				
@@ -151,9 +182,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		boolean handled = super.onInterceptTouchEvent(ev);
 		boolean returningToStart;
 		try {
-			Field f = SwipeRefreshLayout.class.getDeclaredField("mReturningToStart");
-			f.setAccessible(true);
-			returningToStart = f.get(this);
+			returningToStart = mReturningToStart.get(this);
 		} catch (Exception e) {
 			return handled;
 		}
@@ -170,12 +199,8 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		boolean returningToStart = false;
 		MotionEvent downEvent = null;
 		try {
-			Field f = SwipeRefreshLayout.class.getDeclaredField("mReturningToStart");
-			f.setAccessible(true);
-			returningToStart = f.get(this);
-			f = SwipeRefreshLayout.class.getDeclaredField("mDownEvent");
-			f.setAccessible(true);
-			downEvent = (MotionEvent) f.get(this);
+			returningToStart = mReturningToStart.get(this);
+			downEvent = (MotionEvent) mDownEvent.get(this);
 		} catch (Exception e) {
 			
 		}
@@ -196,9 +221,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		}
 		
 		try {
-			Method m = SwipeRefreshLayout.class.getDeclaredMethod("updateContentOffsetTop", int.class);
-			m.setAccessible(true);
-			m.invoke(this, 0);
+			mUpdateContentOffsetTop.invoke(this, 0);
 		} catch (Exception e) {
 
 		}
