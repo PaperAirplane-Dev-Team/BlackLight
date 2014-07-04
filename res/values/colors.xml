@@ -29,4 +29,10 @@
 	<color name="selector_gray">#eaeaea</color>
 	<color name="link_blue">#9797ff</color>
 	<color name="action_gray">#aa000008</color>
+	
+	<!-- Pull To Refresh -->
+	<color name="ptr_green">#44aa00</color>
+	<color name="ptr_red">#aa5500</color>
+	<color name="ptr_orange">#ea7800</color>
+	<color name="ptr_blue">#0045aa</color>
 </resources>

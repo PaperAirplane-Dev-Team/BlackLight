@@ -215,8 +215,7 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		mSwipeRefresh.addView(mList, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		
 		mSwipeRefresh.setOnRefreshListener(this);
-		mSwipeRefresh.setColorScheme(android.R.color.holo_blue_dark, android.R.color.holo_green_dark,
-									 android.R.color.holo_orange_dark, android.R.color.holo_red_dark);
+		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
 	}
 	
 	protected void bindNewButton(View v) {
