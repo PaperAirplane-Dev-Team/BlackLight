@@ -247,9 +247,9 @@ public class UserApiCache
 		Bitmap copy = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 		Canvas canvas = new Canvas(copy);
 		int w1 = bitmap.getWidth();
-		int w2 = drawable.getBitmap().getWidth();
+		int w2 = w1 / 4;
 		int h1 = bitmap.getHeight();
-		int h2 = drawable.getBitmap().getHeight();
+		int h2 = h1 / 4;
 		drawable.setBounds(w1 - w2, h1 - h2, w1, h1);
 		drawable.draw(canvas);
 		
