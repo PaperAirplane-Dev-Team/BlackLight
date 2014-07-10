@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.common;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Movie;
@@ -74,10 +75,16 @@ public class ImageActivity extends SwipeBackActivity
 		mPager.setCurrentItem(def);
 		
 		if (Build.VERSION.SDK_INT >= 19) {
-			int flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS |
-						WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-			getWindow().setFlags(flags, flags);
+			changeToTranslucent();
+
 		}
+	}
+	
+	@TargetApi(19)
+	private void changeToTranslucent() {
+		int flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS |
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+		getWindow().setFlags(flags, flags);
 	}
 	
 	private class ImageAdapter extends PagerAdapter {
