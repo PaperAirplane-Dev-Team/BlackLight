@@ -111,7 +111,6 @@ public class MessageModel implements Parcelable
 	// Array field
 	public ArrayList<PictureUrl> pic_urls = new ArrayList<PictureUrl>();
 
-	@Override
 	public boolean hasMultiplePictures() {
 		return pic_urls.size() > 1;
 	}

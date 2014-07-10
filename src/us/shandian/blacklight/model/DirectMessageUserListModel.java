@@ -28,7 +28,7 @@ import java.util.List;
 /*
   Long-long class name. Pain.
 */
-public class DirectMessageUserListModel implements BaseListModel<DirectMessageUserModel, DirectMessageUserListModel>
+public class DirectMessageUserListModel extends BaseListModel<DirectMessageUserModel, DirectMessageUserListModel>
 {
 	public int total_number = 0;
 	public String previous_cursor = "0", next_cursor = "0";

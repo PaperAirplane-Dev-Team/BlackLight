@@ -24,18 +24,18 @@ import android.os.Parcelable;
 import java.util.List;
 
 /* Type of all weibo json lists */
-public interface BaseListModel<I, L> extends Parcelable
+public abstract class BaseListModel<I, L> implements Parcelable
 {
-	public int total_number;
-	public String previous_cursor, next_cursor;
+	public int total_number = 0;
+	public String previous_cursor = null, next_cursor = null;
 	
-	public int getSize();
-	public I get(int position);
-	public List<? extends I> getList();
+	public abstract int getSize();
+	public abstract I get(int position);
+	public abstract List<? extends I> getList();
 	
 	/*
 	  @param toTop If true, add to top, else add to bottom
 	  @param values All values needed to be added
 	*/
-	public void addAll(boolean toTop, L values);
+	public abstract void addAll(boolean toTop, L values);
 }

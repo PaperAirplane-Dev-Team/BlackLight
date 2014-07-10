@@ -34,7 +34,7 @@ import us.shandian.blacklight.support.SpannableStringUtils;
   credits to: qii
   author: PeterCxy
 */
-public class MessageListModel implements BaseListModel<MessageModel, MessageListModel>
+public class MessageListModel extends BaseListModel<MessageModel, MessageListModel>
 {
 	private class AD {
 		public long id = -1;

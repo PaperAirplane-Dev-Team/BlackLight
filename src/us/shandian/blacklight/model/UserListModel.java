@@ -25,7 +25,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListModel implements BaseListModel<UserModel, UserListModel>
+public class UserListModel extends BaseListModel<UserModel, UserListModel>
 {
 	public int total_number = 0;
 	public String previous_cursor = "0", next_cursor = "0";

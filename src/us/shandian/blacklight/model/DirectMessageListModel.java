@@ -25,7 +25,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DirectMessageListModel implements BaseListModel<DirectMessageModel, DirectMessageListModel>
+public class DirectMessageListModel extends BaseListModel<DirectMessageModel, DirectMessageListModel>
 {
 	private List<DirectMessageModel> direct_messages = new ArrayList<DirectMessageModel>();
 	
