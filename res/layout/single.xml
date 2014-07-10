@@ -68,6 +68,7 @@
 				android:layout_height="match_parent">
 				
 				<ImageView
+				    android:id="@+id/iv_collapse"
 					android:layout_width="40dp"
 					android:layout_height="40dp"
 					android:layout_marginEnd="5dp"

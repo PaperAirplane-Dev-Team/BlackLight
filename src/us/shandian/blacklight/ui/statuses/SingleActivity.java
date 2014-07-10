@@ -30,8 +30,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.os.Bundle;
 
@@ -39,6 +44,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 import java.util.List;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -63,6 +70,7 @@ public class SingleActivity extends Activity
 	private View mContent;
 	
 	private TabHost mTabs;
+	private ImageView mCollapse;
 	
 	private MenuItem mFav;
 	
@@ -115,6 +123,36 @@ public class SingleActivity extends Activity
 						return null;
 				}
 			}
+		});
+
+		mCollapse = (ImageView) mRoot.findViewById(R.id.iv_collapse);
+		
+		((SlidingUpPanelLayout) mRoot).setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
+
+			@Override
+			public void onPanelSlide(View panel, float slideOffset) {
+				
+			}
+
+			@Override
+			public void onPanelCollapsed(View panel) {
+				mCollapse.setRotation(180);
+				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
+				mCollapse.startAnimation(animation);
+			}
+
+			@Override
+			public void onPanelExpanded(View panel) {
+				mCollapse.setRotation(0);
+				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
+				mCollapse.startAnimation(animation);
+			}
+
+			@Override
+			public void onPanelAnchored(View panel) {
+				
+			}
+			
 		});
 		
 		mTabs = (TabHost) findViewById(R.id.single_tabs);
