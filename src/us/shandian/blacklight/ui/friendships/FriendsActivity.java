@@ -19,14 +19,13 @@
 
 package us.shandian.blacklight.ui.friendships;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import us.shandian.blacklight.R;
 
-public class FriendsActivity extends SwipeBackActivity
+public class FriendsActivity extends Activity
 {
 
 	@Override

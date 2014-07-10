@@ -24,15 +24,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.view.MenuItem;
-
-import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
 
-public class SettingsActivity extends SwipeBackPreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener
+public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener
 {
 	private static final String VERSION = "version";
 	private static final String SOURCE_CODE = "source_code";

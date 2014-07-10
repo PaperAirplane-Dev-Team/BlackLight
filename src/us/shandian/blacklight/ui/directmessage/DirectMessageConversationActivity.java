@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.directmessage;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,8 +29,6 @@ import android.widget.ListView;
 import android.widget.ImageView;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.directmessages.DirectMessagesApi;
@@ -41,7 +40,7 @@ import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class DirectMessageConversationActivity extends SwipeBackActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
+public class DirectMessageConversationActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
 {
 	private static final String TAG = DirectMessageConversationActivity.class.getSimpleName();
 	

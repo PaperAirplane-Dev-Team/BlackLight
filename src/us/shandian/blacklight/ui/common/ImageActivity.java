@@ -38,8 +38,6 @@ import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import org.roisoleil.gifview.GifView;
 
 import uk.co.senab.photoview.PhotoView;
@@ -51,7 +49,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class ImageActivity extends SwipeBackActivity
+public class ImageActivity extends Activity
 {
 	private static final String TAG = ImageActivity.class.getSimpleName();
 	

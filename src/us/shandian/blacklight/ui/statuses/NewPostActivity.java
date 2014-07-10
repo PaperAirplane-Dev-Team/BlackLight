@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -42,8 +43,6 @@ import android.util.Log;
 
 import android.support.v4.widget.DrawerLayout;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.support.AsyncTask;
@@ -52,7 +51,7 @@ import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class NewPostActivity extends SwipeBackActivity
+public class NewPostActivity extends Activity
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
 	

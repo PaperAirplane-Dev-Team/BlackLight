@@ -34,8 +34,6 @@ import android.os.Bundle;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.friendships.FriendsApi;
@@ -47,7 +45,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
-public class UserTimeLineActivity extends SwipeBackActivity implements View.OnClickListener
+public class UserTimeLineActivity extends Activity implements View.OnClickListener
 {
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;

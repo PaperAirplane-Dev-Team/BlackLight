@@ -19,12 +19,11 @@
 
 package us.shandian.blacklight.ui.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.MenuItem;
 import android.os.Bundle;
-
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.search.TopicsApi;
@@ -36,7 +35,7 @@ import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 /*
   Shows the topics
 */
-public class TopicsActivity extends SwipeBackActivity
+public class TopicsActivity extends Activity
 {
 	private String mTopic;
 	

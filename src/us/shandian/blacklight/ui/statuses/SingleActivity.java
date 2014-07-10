@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -37,8 +38,6 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import java.util.List;
 
 import us.shandian.blacklight.R;
@@ -51,7 +50,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 
-public class SingleActivity extends SwipeBackActivity
+public class SingleActivity extends Activity
 {
 	private MessageModel mMsg;
 	

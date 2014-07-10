@@ -19,15 +19,14 @@
 
 package us.shandian.blacklight.ui.settings;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import us.shandian.blacklight.R;
 
-public class LicenseActivity extends SwipeBackActivity
+public class LicenseActivity extends Activity
 {
 	private WebView mWebView;
 
