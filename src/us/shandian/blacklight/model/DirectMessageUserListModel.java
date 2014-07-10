@@ -30,8 +30,6 @@ import java.util.List;
 */
 public class DirectMessageUserListModel extends BaseListModel<DirectMessageUserModel, DirectMessageUserListModel>
 {
-	public int total_number = 0;
-	public String previous_cursor = "0", next_cursor = "0";
 	
 	public List<DirectMessageUserModel> user_list = new ArrayList<DirectMessageUserModel>();
 	
