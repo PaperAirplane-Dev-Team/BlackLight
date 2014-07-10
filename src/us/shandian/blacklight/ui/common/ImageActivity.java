@@ -127,7 +127,7 @@ public class ImageActivity extends SwipeBackActivity
 
 		@Override
 		protected Object[] doInBackground(Object[] params) {
-			int id = params[1];
+			int id = Integer.parseInt(params[1].toString());
 			Object img = mApiCache.getLargePic(mModel, id);
 			return new Object[]{params[0], img};
 		}

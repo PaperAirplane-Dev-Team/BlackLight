@@ -111,7 +111,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		try {
 			Field f = SwipeRefreshLayout.class.getDeclaredField("mProgressBarHeight");
 			f.setAccessible(true);
-			mProgressBarHeight = f.get(this);
+			mProgressBarHeight = Integer.parseInt(f.get(this).toString());
 		} catch (Exception e) {
 			mProgressBarHeight = 0;
 		}
@@ -182,7 +182,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		boolean handled = super.onInterceptTouchEvent(ev);
 		boolean returningToStart;
 		try {
-			returningToStart = mReturningToStart.get(this);
+			returningToStart = Boolean.parseBoolean(mReturningToStart.get(this).toString());
 		} catch (Exception e) {
 			return handled;
 		}
@@ -199,7 +199,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		boolean returningToStart = false;
 		MotionEvent downEvent = null;
 		try {
-			returningToStart = mReturningToStart.get(this);
+			returningToStart = Boolean.parseBoolean(mReturningToStart.get(this).toString());
 			downEvent = (MotionEvent) mDownEvent.get(this);
 		} catch (Exception e) {
 			
