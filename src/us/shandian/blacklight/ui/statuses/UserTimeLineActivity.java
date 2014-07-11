@@ -28,6 +28,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Bundle;
@@ -61,6 +63,7 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 	private ImageView mAvatar;
 	private View mCover;
 	private View mFollowingContainer;
+	private ImageView mCollapse;
 	
 	private SlidingUpPanelLayout mSlide;
 	
@@ -97,6 +100,36 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 		mCover = findViewById(R.id.user_cover);
 		mFollowingContainer = findViewById(R.id.user_following_container);
 		mSlide = (SlidingUpPanelLayout) findViewById(R.id.user_slide);
+		mCollapse = (ImageView) mSlide.findViewById(R.id.iv_collapse);
+		
+		// Init PanelSlideListener
+		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
+
+			@Override
+			public void onPanelSlide(View panel, float slideOffset) {
+				Utility.setActionBarTranslation(UserTimeLineActivity.this, mSlide.getCurrentParalaxOffset());
+			}
+
+			@Override
+			public void onPanelCollapsed(View panel) {
+				mCollapse.setRotation(180);
+				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
+				mCollapse.startAnimation(animation);
+			}
+
+			@Override
+			public void onPanelExpanded(View panel) {
+				mCollapse.setRotation(0);
+				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
+				mCollapse.startAnimation(animation);
+			}
+
+			@Override
+			public void onPanelAnchored(View panel) {
+				
+			}
+			
+		});
 		
 		mFollowingContainer.setOnClickListener(this);
 		
@@ -115,14 +148,6 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 		mGeo.setText(mModel.location);
 		
 		new Downloader().execute();
-		
-		// Init
-		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() {
-			@Override
-			public void onPanelSlide(View panel, float offset) {
-				Utility.setActionBarTranslation(UserTimeLineActivity.this, mSlide.getCurrentParalaxOffset());
-			}
-		});
 		
 		mFragment = new UserTimeLineFragment(mModel.id);
 		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
@@ -190,6 +215,7 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 		
 		if (mMenuFollow != null) {
 			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+			mMenuFollow.setTitle(getString(mModel.following ? R.string.unfollow : R.string.follow));
 		}
 	}
 	

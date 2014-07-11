@@ -21,20 +21,24 @@
 	<item
 		android:id="@+id/comment_on"
 		android:icon="@drawable/ic_action_chat"
+		android:title="@string/comment_on"
 		android:showAsAction="always"/>
 	
 	<item
 		android:id="@+id/repost"
 		android:icon="@drawable/ic_action_reply_all"
+		android:title="@string/repost"
 		android:showAsAction="always"/>
 	
 	<item
 		android:id="@+id/delete"
 		android:icon="@drawable/ic_action_discard"
+		android:title="@string/delete"
 		android:showAsAction="always"/>
 	
 	<item
 		android:id="@+id/fav"
 		android:icon="@drawable/ic_action_not_important"
+		android:title="@string/fav_add"
 		android:showAsAction="always"/>
 </menu>

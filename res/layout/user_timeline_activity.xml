@@ -260,14 +260,40 @@
 			android:background="@android:color/white"
 			android:orientation="vertical">
 
-			<TextView
-				android:layout_width="match_parent"
+			<LinearLayout
+			    android:id="@+id/user_timeline_drag"
+			    android:layout_width="match_parent"
 				android:layout_height="?android:attr/actionBarSize"
-				android:textSize="18sp"
-				android:gravity="center_vertical"
-				android:paddingLeft="5dp"
-				android:text="@string/user_statuses"
-				android:id="@+id/user_timeline_drag"/>
+			    android:background="@android:color/white"
+			    android:orientation="horizontal">
+				
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="match_parent"
+				    android:textSize="18sp"
+				    android:gravity="left|center_vertical"
+				    android:paddingLeft="10dp"
+				    android:text="@string/user_statuses"/>
+				
+				<RelativeLayout
+				    android:id="@+id/single_drag"
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+				    android:gravity="right">
+					
+					<ImageView
+					    android:id="@+id/iv_collapse"
+					    android:layout_width="40dp"
+					    android:layout_height="40dp"
+					    android:layout_marginEnd="5dp"
+					    android:layout_alignParentEnd="true"
+					    android:layout_centerVertical="true"
+					    android:src="@drawable/ic_action_collapse"
+					    android:scaleType="centerInside"/>
+				
+				</RelativeLayout>
+				
+			</LinearLayout>
 
 			<FrameLayout
 				android:id="@+id/user_timeline_container"

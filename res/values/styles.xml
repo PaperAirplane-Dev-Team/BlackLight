@@ -29,6 +29,7 @@
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar</item>
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
+		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 		<item name="android:windowBackground">@color/light_gray</item>
 		<item name="android:windowContentOverlay">@null</item>
 	</style>
@@ -44,11 +45,12 @@
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
 		<item name="android:background">@color/action_gray</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
+		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 	</style>
 	
 	<style name="TitleText">
 		<item name="android:textColor">@android:color/white</item>
 		<item name="android:textSize">18sp</item>
 	</style>
-
+	
 </resources>
