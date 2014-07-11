@@ -62,6 +62,9 @@
 	<string name="comment_and_repost">同时转发微博</string>
 	<string name="comment_orig">同时评论原微博</string>
 	<string name="topics_info">话题信息</string>
+	<string name="emoticon">表情</string>
+	<string name="new_picture">添加图片</string>
+	<string name="at">选择@的好友</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>
@@ -85,14 +88,20 @@
 	<string name="i_am_following">我正关注</string>
 	<string name="following_each_other">互相关注</string>
 	<string name="no_following">未关注</string>
+	<string name="follow">关注Ta</string>
+	<string name="unfollow">取消关注</string>
 	
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
+	<string name="delete">删除</string>
+	<string name="fav_add">收藏微博</string>
+	<string name="fav_del">取消收藏</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
 	
 	<!-- Search -->
+	<string name="search">搜索</string>
 	<string-array name="search_type">
 		<item>微博</item>
 		<item>用户</item>

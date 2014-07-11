@@ -280,6 +280,7 @@ public class SingleActivity extends Activity
 	
 	private void setFavouriteIcon() {
 		mFav.setIcon(mFavourited ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+		mFav.setTitle(getString(mFavourited ? R.string.fav_del : R.string.fav_add));
 	}
 	
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {

@@ -20,15 +20,17 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
+import android.app.Service;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.os.Bundle;
+import android.os.Vibrator;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -43,7 +45,7 @@ import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 
 public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-													View.OnTouchListener
+													View.OnTouchListener, View.OnLongClickListener
 {
 	
 	private ListView mList;
@@ -152,6 +154,14 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 	}
 
 	@Override
+	public boolean onLongClick(View arg0) {
+		Vibrator vibrator = (Vibrator) getActivity().getApplication().getSystemService(Service.VIBRATOR_SERVICE);
+		vibrator.vibrate(50);
+		Toast.makeText(getActivity().getApplicationContext(), getString(R.string.new_post), Toast.LENGTH_SHORT).show();
+		return true;
+	}
+	
+	@Override
 	public boolean onTouch(View v, MotionEvent ev) {
 		
 		switch (ev.getAction() & MotionEvent.ACTION_MASK) {
@@ -223,6 +233,7 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 		mNew.setVisibility(View.VISIBLE);
 		mNew.bringToFront();
 		mNew.setOnClickListener(this);
+		mNew.setOnLongClickListener(this);
 		
 		mList.setOnTouchListener(this); // Listener to hide or show the button
 	}

@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
@@ -45,6 +44,11 @@ import android.support.v4.widget.DrawerLayout;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
+import us.shandian.blacklight.api.user.AccountApi;
+import us.shandian.blacklight.api.user.UserApi;
+import us.shandian.blacklight.cache.login.LoginApiCache;
+import us.shandian.blacklight.cache.user.UserApiCache;
+import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
@@ -61,6 +65,10 @@ public class NewPostActivity extends Activity
 	private ImageView mBackground;
 	private TextView mCount;
 	private DrawerLayout mDrawer;
+
+	private LoginApiCache mLoginCache;
+	private UserApiCache mUserCache;
+	private UserModel mUser;
 	
 	// Fragments
 	private EmoticonFragment mEmoticonFragment;
@@ -78,6 +86,10 @@ public class NewPostActivity extends Activity
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+		
+		mLoginCache = new LoginApiCache(this);
+		mUserCache = new UserApiCache(this);
+		new GetNameTask().execute();
 		
 		// Init
 		mText = (EditText) findViewById(R.id.post_edit);
@@ -182,7 +194,7 @@ public class NewPostActivity extends Activity
 				i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 				startActivityForResult(i, REQUEST_PICK_IMG);
 				return true;
-			case R.id.post_emiticon:
+			case R.id.post_emoticon:
 				if (mDrawer.isDrawerOpen(Gravity.END)) {
 					mDrawer.closeDrawer(Gravity.END);
 				} else {
@@ -255,5 +267,24 @@ public class NewPostActivity extends Activity
 			}
 		}
 
+	}
+	
+	private class GetNameTask extends AsyncTask<Void, Object, Void> {
+
+		@Override
+		protected Void doInBackground(Void[] params) {
+			// Username first
+			mUser = mUserCache.getUser(mLoginCache.getUid());
+			publishProgress();
+			
+			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(Object[] values) {
+			getActionBar().setSubtitle(mUser.getName());
+			super.onProgressUpdate();
+		}
+		
 	}
 }

@@ -20,10 +20,12 @@
 	<item
 		android:id="@+id/send_dm"
 		android:icon="@drawable/ic_action_email"
+		android:title="@string/direct_message"
 		android:showAsAction="always"/>
 	
 	<item
 		android:id="@+id/follow"
 		android:icon="@drawable/ic_action_not_important"
+		android:title="@string/follow"
 		android:showAsAction="always"/>
 </menu>
