@@ -31,6 +31,9 @@ public class Settings
 	
 	// Actions
 	public static final String FAST_SCROLL = "fast_scroll";
+	// Notification
+	public static final String NOTIFICATION_SOUND = "notification_sound",
+			NOTIFICATION_VIBRATE = "notification_vibrate";
 	
 	private static Settings sInstance;
 	

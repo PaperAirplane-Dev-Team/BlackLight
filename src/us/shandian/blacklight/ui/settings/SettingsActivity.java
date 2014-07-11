@@ -50,6 +50,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 	
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
+	// Notification
+	private CheckBoxPreference mPrefNotificationSound, mPrefNotificationVibrate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
 		mPrefLog = findPreference(DEBUG_LOG);
 		mPrefCrash = findPreference(DEBUG_CRASH);
+		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
+		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
 		
 		// Data
 		String version = "Unknown";
@@ -81,12 +85,16 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		}
 		mPrefVersion.setSummary(version);
 		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL, false));
+		mPrefNotificationSound.setChecked(mSettings.getBoolean(Settings.NOTIFICATION_SOUND, true));
+		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(Settings.NOTIFICATION_VIBRATE, true));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
+		mPrefNotificationSound.setOnPreferenceChangeListener(this);
+		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
 		mPrefCrash.setOnPreferenceClickListener(this);
 	}
 
@@ -127,8 +135,18 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		if (preference == mPrefFastScroll) {
 			mSettings.putBoolean(Settings.FAST_SCROLL, Boolean.parseBoolean(newValue.toString()));
 			return true;
-		} else {
-			return false;
 		}
+		
+		if (preference == mPrefNotificationSound) {
+			mSettings.putBoolean(Settings.NOTIFICATION_SOUND, Boolean.parseBoolean(newValue.toString()));
+			return true;
+		}
+		
+		if (preference == mPrefNotificationVibrate) {
+			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE, Boolean.parseBoolean(newValue.toString()));
+			return true;
+		}
+		
+		return false;
 	}
 }
