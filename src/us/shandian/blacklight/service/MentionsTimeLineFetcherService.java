@@ -35,8 +35,8 @@ import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.ui.entry.EntryActivity;
-import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class MentionsTimeLineFetcherService extends IntentService
 {
@@ -77,11 +77,27 @@ public class MentionsTimeLineFetcherService extends IntentService
 
 				int size = since.getSize();
 				String str = String.format(getResources().getString(R.string.new_at), size);
-				Notification no = new Notification(R.drawable.ic_action_reply_all, str, System.currentTimeMillis());
+
+				Settings settings = Settings.getInstance(getApplicationContext());
+				int defaults = (settings.getBoolean(Settings.NOTIFICATION_SOUND, true) ? Notification.DEFAULT_SOUND : 0)|
+						(settings.getBoolean(Settings.NOTIFICATION_VIBRATE, true) ? Notification.DEFAULT_VIBRATE : 0)|
+						Notification.DEFAULT_LIGHTS;
+				
+				android.util.Log.i("Service", "get mentions!");
+				
 				PendingIntent i = PendingIntent.getActivity(this, 0, new Intent(this, EntryActivity.class), 0);
-				no.setLatestEventInfo(this, str, getResources().getString(R.string.click_to_view), i);
+				
+				Notification n = new Notification.Builder(getApplicationContext())
+				.setContentTitle(str)
+				.setContentText(getString(R.string.click_to_view))
+				.setSmallIcon(R.drawable.ic_action_reply_all)
+				.setDefaults(defaults)
+				.setAutoCancel(true)
+				.setContentIntent(i)
+				.build();
+				
 				NotificationManager m = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				m.notify(ID, no);
+				m.notify(ID, n);
 			}
 		}
 

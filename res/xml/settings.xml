@@ -19,6 +19,22 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	
+    <!-- Notification -->
+    <PreferenceCategory
+		android:title="@string/notification">
+		
+		<CheckBoxPreference
+			android:key="notification_sound"
+			android:title="@string/notification_sound"
+			android:checked="true"/>
+		
+		<CheckBoxPreference
+			android:key="notification_vibrate"
+			android:title="@string/notification_vibrate"
+			android:checked="true"/>
+		
+	</PreferenceCategory>
+    
 	<!-- Actions -->
 	<PreferenceCategory
 		android:title="@string/actions">
