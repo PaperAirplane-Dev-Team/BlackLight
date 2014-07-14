@@ -46,6 +46,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
@@ -209,4 +210,25 @@ public class Utility
 			return upperBound;
 		}
 	}
+
+    // SmartBar Support
+    public static boolean hasSmartBar() {
+        try {
+            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+            Log.i("SmartBar", "method1=" + ((Boolean) method.invoke(null)).booleanValue());
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+        }
+
+        if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3")) {
+            Log.i("SmartBar", "method2=true");
+            return true;
+        } else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {
+            Log.i("SmartBar", "method2=false");
+            return false;
+        }
+
+        return false;
+    }
+
 }

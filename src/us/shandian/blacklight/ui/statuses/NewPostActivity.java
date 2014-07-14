@@ -24,6 +24,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,6 +63,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class NewPostActivity extends Activity
 {
@@ -86,7 +88,11 @@ public class NewPostActivity extends Activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
+        super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_status);
 		
 		// Action Bar
@@ -94,7 +100,7 @@ public class NewPostActivity extends Activity
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
-		
+
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
 		new GetNameTask().execute();

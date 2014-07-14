@@ -22,12 +22,14 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -46,6 +48,8 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class UserTimeLineActivity extends Activity implements View.OnClickListener
 {
@@ -73,17 +77,22 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        if (hasSmartBar()) {
+            getWindow().setFeatureInt(Window.FEATURE_ACTION_BAR, 0);
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
+        super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_timeline_activity);
 		
 		mCache = new UserApiCache(this);
-		
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
-		
+
 		// Arguments
 		mModel = getIntent().getParcelableExtra("user");
 		

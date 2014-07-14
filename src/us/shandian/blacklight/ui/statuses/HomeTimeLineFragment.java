@@ -22,6 +22,7 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Fragment;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +44,8 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
 													View.OnTouchListener, View.OnLongClickListener
@@ -229,13 +232,17 @@ public class HomeTimeLineFragment extends Fragment implements SwipeRefreshLayout
 	}
 	
 	protected void bindNewButton(View v) {
-		mNew = v.findViewById(R.id.home_timeline_new);
-		mNew.setVisibility(View.VISIBLE);
-		mNew.bringToFront();
-		mNew.setOnClickListener(this);
-		mNew.setOnLongClickListener(this);
-		
-		mList.setOnTouchListener(this); // Listener to hide or show the button
+        mNew = v.findViewById(R.id.home_timeline_new);
+        if (!hasSmartBar()) {
+            mNew.setVisibility(View.VISIBLE);
+            mNew.bringToFront();
+            mNew.setOnClickListener(this);
+            mNew.setOnLongClickListener(this);
+
+            mList.setOnTouchListener(this); // Listener to hide or show the button
+        } else {
+            mNew.setVisibility(View.INVISIBLE);
+        }
 	}
 	
 	protected void newPost() {

@@ -26,6 +26,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -57,6 +58,8 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
+
 public class SingleActivity extends Activity
 {
 	private MessageModel mMsg;
@@ -80,6 +83,10 @@ public class SingleActivity extends Activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
 		

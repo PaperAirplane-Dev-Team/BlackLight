@@ -20,16 +20,23 @@
 package us.shandian.blacklight.ui.friendships;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import us.shandian.blacklight.R;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class FriendsActivity extends Activity
 {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.empty_frame);
 		

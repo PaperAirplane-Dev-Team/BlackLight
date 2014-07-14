@@ -24,6 +24,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -42,6 +43,7 @@ import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* BlackMagic Login Activity */
 public class LoginActivity extends Activity implements AdapterView.OnItemSelectedListener
@@ -64,6 +66,10 @@ public class LoginActivity extends Activity implements AdapterView.OnItemSelecte
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.login);
