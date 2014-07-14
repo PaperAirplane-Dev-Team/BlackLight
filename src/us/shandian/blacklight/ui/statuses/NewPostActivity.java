@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
@@ -41,6 +42,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 
 import android.support.v4.widget.DrawerLayout;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -59,7 +67,7 @@ public class NewPostActivity extends Activity
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
 	
-	private static final int REQUEST_PICK_IMG = 1001;
+	private static final int REQUEST_PICK_IMG = 1001, REQUEST_CAPTURE_PHOTO = 1002;
 	
 	protected EditText mText;
 	private ImageView mBackground;
@@ -161,6 +169,15 @@ public class NewPostActivity extends Activity
 			mBackground.setVisibility(View.VISIBLE);
 			mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
 		}
+
+        // Captured photo
+        if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            mBitmap = (Bitmap) extras.get("data");
+            mBackground.setImageBitmap(mBitmap);
+            mBackground.setVisibility(View.VISIBLE);
+            mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+        }
 	}
 
 	@Override
@@ -189,10 +206,7 @@ public class NewPostActivity extends Activity
 				}
 				return true;
 			case R.id.post_pic:
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_PICK);
-				i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(i, REQUEST_PICK_IMG);
+                showPicturePicker();
 				return true;
 			case R.id.post_emoticon:
 				if (mDrawer.isDrawerOpen(Gravity.END)) {
@@ -200,7 +214,6 @@ public class NewPostActivity extends Activity
 				} else {
 					mDrawer.openDrawer(Gravity.END);
 				}
-				
 				return true;
 			case R.id.post_at:
 				AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
@@ -216,7 +229,28 @@ public class NewPostActivity extends Activity
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
+    private void showPicturePicker(){
+        new AlertDialog.Builder(this).setItems(getResources().getStringArray(R.array.picture_picker_array),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        switch (id) {
+                            case 0:
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_PICK);
+                                i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(i, REQUEST_PICK_IMG);
+                                break;
+                            case 1:
+                                Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
+                                break;
+                        }
+                    }
+                }
+        ).show();
+    }
+
 	// if extended, this should be overridden
 	protected boolean post() {
 		if (mBitmap == null) {
