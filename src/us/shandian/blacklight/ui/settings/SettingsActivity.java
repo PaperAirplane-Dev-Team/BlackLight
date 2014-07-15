@@ -62,6 +62,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		addPreferencesFromResource(R.xml.settings);
 
         if (hasSmartBar()) {
+            getListView().setFitsSystemWindows(true);
             Utility.enableTint(this);
         }
 
