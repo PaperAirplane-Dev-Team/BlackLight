@@ -26,8 +26,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -215,16 +213,13 @@ public class Utility
     public static boolean hasSmartBar() {
         try {
             Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
-            Log.i("SmartBar", "method1=" + ((Boolean) method.invoke(null)).booleanValue());
             return ((Boolean) method.invoke(null)).booleanValue();
         } catch (Exception e) {
         }
 
         if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3")) {
-            Log.i("SmartBar", "method2=true");
             return true;
         } else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {
-            Log.i("SmartBar", "method2=false");
             return false;
         }
 

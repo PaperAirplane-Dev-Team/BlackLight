@@ -71,9 +71,12 @@ public class LoginActivity extends Activity implements AdapterView.OnItemSelecte
         }
 
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.login);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);

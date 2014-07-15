@@ -78,13 +78,12 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         if (hasSmartBar()) {
-            getWindow().setFeatureInt(Window.FEATURE_ACTION_BAR, 0);
             getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
         }
 
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_timeline_activity);
-		
+
 		mCache = new UserApiCache(this);
 
 		// Action Bar

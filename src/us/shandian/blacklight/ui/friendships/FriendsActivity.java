@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
@@ -39,7 +40,11 @@ public class FriendsActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.empty_frame);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);

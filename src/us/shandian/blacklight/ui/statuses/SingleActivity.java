@@ -55,6 +55,7 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 
@@ -89,7 +90,11 @@ public class SingleActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);

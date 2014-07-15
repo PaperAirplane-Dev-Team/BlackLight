@@ -94,7 +94,11 @@ public class NewPostActivity extends Activity
 
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_status);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);

@@ -26,7 +26,8 @@
 	android:id="@+id/single_root"
 	sothree:panelHeight="48dp"
 	sothree:shadowHeight="4dp"
-	sothree:dragView="@+id/single_drag">
+	sothree:dragView="@+id/single_drag"
+    android:fitsSystemWindows="true">
 
 	<FrameLayout
 		android:layout_height="match_parent"
