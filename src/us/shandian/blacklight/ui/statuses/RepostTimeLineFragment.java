@@ -22,7 +22,7 @@ package us.shandian.blacklight.ui.statuses;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.RepostTimeLineApiCache;
 
-public class RepostTimeLineFragment extends HomeTimeLineFragment
+public class RepostTimeLineFragment extends TimeLineFragment
 {
 	private long mId;
 	

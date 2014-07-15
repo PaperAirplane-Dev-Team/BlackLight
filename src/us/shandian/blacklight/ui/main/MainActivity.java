@@ -109,13 +109,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				
+                invalidateOptionsMenu();
 				if (mLastChoice == null) {
 					mLastChoice = (TextView) mMy.getChildAt(0);
 					mLastChoice.getPaint().setFakeBoldText(true);
 					mLastChoice.invalidate();
 				}
 			}
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                invalidateOptionsMenu();
+            }
 		};
 		mDrawer.setDrawerListener(mToggle);
 		
@@ -206,9 +211,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (hasSmartBar()){
-            menu.add(0, 1001, 100, R.string.new_post).setIcon(R.drawable.ic_action_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        super.onPrepareOptionsMenu(menu);
         return true;
     }
 
@@ -216,13 +224,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			return mToggle.onOptionsItemSelected(item);
-		} else if (item.getItemId() == 1001) {
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_MAIN);
-            i.setClass(MainActivity.this, NewPostActivity.class);
-            startActivity(i);
-            return true;
-        } else {
+		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}

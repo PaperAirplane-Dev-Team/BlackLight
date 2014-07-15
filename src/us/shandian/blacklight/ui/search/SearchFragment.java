@@ -100,8 +100,8 @@ public class SearchFragment extends Fragment
 			}
 			
 			return true;
-		} else {
-			return super.onOptionsItemSelected(item);
 		}
+
+        return false;
 	}
 }

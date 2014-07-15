@@ -25,7 +25,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 
-public class MentionsTimeLineFragment extends HomeTimeLineFragment
+public class MentionsTimeLineFragment extends TimeLineFragment
 {
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {

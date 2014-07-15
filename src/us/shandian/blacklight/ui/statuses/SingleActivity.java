@@ -370,7 +370,7 @@ public class SingleActivity extends Activity
 		}
 	}
 	
-	private class HackyFragment extends HomeTimeLineFragment {
+	private class HackyFragment extends TimeLineFragment {
 		
 		public HackyFragment() {
 			mShowCommentStatus = false;
