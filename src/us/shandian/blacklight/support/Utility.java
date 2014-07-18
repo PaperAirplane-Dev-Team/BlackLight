@@ -26,8 +26,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +44,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
@@ -209,4 +208,22 @@ public class Utility
 			return upperBound;
 		}
 	}
+
+    // SmartBar Support
+    public static boolean hasSmartBar() {
+        try {
+            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+        }
+
+        if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3")) {
+            return true;
+        } else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {
+            return false;
+        }
+
+        return false;
+    }
+
 }

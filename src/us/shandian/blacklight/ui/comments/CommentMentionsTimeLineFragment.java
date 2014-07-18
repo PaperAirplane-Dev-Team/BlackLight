@@ -24,9 +24,9 @@ import android.view.View;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.comments.CommentMentionsTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
-import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class CommentMentionsTimeLineFragment extends HomeTimeLineFragment
+public class CommentMentionsTimeLineFragment extends TimeLineFragment
 {
 
 	@Override

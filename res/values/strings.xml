@@ -65,6 +65,10 @@
 	<string name="emoticon">表情</string>
 	<string name="new_picture">添加图片</string>
 	<string name="at">选择@的好友</string>
+    <string-array name="picture_picker_array">
+        <item>从图库选择照片</item>
+        <item>拍照</item>
+    </string-array>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>

@@ -26,6 +26,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -54,8 +55,11 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class SingleActivity extends Activity
 {
@@ -80,9 +84,17 @@ public class SingleActivity extends Activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
@@ -358,7 +370,7 @@ public class SingleActivity extends Activity
 		}
 	}
 	
-	private class HackyFragment extends HomeTimeLineFragment {
+	private class HackyFragment extends TimeLineFragment {
 		
 		public HackyFragment() {
 			mShowCommentStatus = false;

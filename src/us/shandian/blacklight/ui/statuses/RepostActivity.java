@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Bundle;
@@ -26,6 +27,9 @@ import android.os.Bundle;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.model.MessageModel;
+import us.shandian.blacklight.support.Utility;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class RepostActivity extends NewPostActivity
 {
@@ -36,8 +40,16 @@ public class RepostActivity extends NewPostActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Get the original msg
 		mMsg = getIntent().getParcelableExtra("msg");
 		

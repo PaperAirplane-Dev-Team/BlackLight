@@ -21,10 +21,10 @@ package us.shandian.blacklight.ui.comments;
 
 import us.shandian.blacklight.cache.comments.StatusCommentApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
-import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class StatusCommentFragment extends HomeTimeLineFragment
+public class StatusCommentFragment extends TimeLineFragment
 {
 	private long mId;
 	

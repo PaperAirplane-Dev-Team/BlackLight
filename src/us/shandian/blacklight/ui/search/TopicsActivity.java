@@ -21,6 +21,7 @@ package us.shandian.blacklight.ui.search;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.view.MenuItem;
 import android.os.Bundle;
@@ -30,7 +31,10 @@ import us.shandian.blacklight.api.search.TopicsApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /*
   Shows the topics
@@ -41,9 +45,17 @@ public class TopicsActivity extends Activity
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.empty_frame);
-		
+
+        if (hasSmartBar()) {
+            Utility.enableTint(this);
+        }
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);

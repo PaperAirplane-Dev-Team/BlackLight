@@ -24,14 +24,14 @@ import android.view.View;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.comments.CommentTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
-import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
 /* 
   Shows latest comments (mine and recieved)
   Similar with HomeTimeLine, so we just extend this from HomeTimeLine
   To avoid unnecessary extra work
  */
-public class CommentTimeLineFragment extends HomeTimeLineFragment
+public class CommentTimeLineFragment extends TimeLineFragment
 {
 
 	@Override

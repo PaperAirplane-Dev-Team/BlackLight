@@ -28,7 +28,8 @@
 	android:layout_marginLeft="10dp"
 	android:alignmentMode="alignBounds"
 	android:useDefaultMargins="true"
-	android:layout_gravity="top|center_horizontal">
+	android:layout_gravity="top|center_horizontal"
+    android:fitsSystemWindows="true">
 
 	<TextView
 		android:layout_height="wrap_content"

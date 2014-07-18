@@ -43,9 +43,11 @@
 	</style>
 	
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:displayOptions">showTitle</item>
 		<item name="android:background">@color/action_gray</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
 		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
+        <item name="android:backgroundSplit">@color/action_gray</item>
 	</style>
 	
 	<style name="TitleText">

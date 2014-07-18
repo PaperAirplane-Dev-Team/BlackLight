@@ -19,14 +19,19 @@
 
 package us.shandian.blacklight.ui.main;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,7 +62,10 @@ import us.shandian.blacklight.ui.search.SearchFragment;
 import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener
@@ -85,25 +93,34 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        if (hasSmartBar()) {
+            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+        }
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
 		// Tint
 		Utility.enableTint(this);
-		
+
 		// Initialize naviagtion drawer
 		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer, 0, 0) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				
+                invalidateOptionsMenu();
 				if (mLastChoice == null) {
 					mLastChoice = (TextView) mMy.getChildAt(0);
 					mLastChoice.getPaint().setFakeBoldText(true);
 					mLastChoice.invalidate();
 				}
 			}
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                invalidateOptionsMenu();
+            }
 		};
 		mDrawer.setDrawerListener(mToggle);
 		
@@ -146,11 +163,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		});
 		
 		// Initialize ActionBar Style
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
-		
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayUseLogoEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
+
 		// Fragments
 		mFragments[0] = new HomeTimeLineFragment();
 		mFragments[1] = new CommentTimeLineFragment();
@@ -191,6 +208,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		super.onConfigurationChanged(newConfig);
 		mToggle.onConfigurationChanged(newConfig);
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

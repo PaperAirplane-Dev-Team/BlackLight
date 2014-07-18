@@ -30,6 +30,9 @@ import android.view.MenuItem;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
+import us.shandian.blacklight.support.Utility;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener
 {
@@ -57,7 +60,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
-		
+
+        if (hasSmartBar()) {
+            getListView().setFitsSystemWindows(true);
+            Utility.enableTint(this);
+        }
+
 		mSettings = Settings.getInstance(this);
 		
 		// Action Bar
