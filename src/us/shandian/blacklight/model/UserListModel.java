@@ -41,7 +41,7 @@ public class UserListModel extends BaseListModel<UserModel, UserListModel>
 	}
 
 	@Override
-	public List<? extends UserModel> getList() {
+	public List<UserModel> getList() {
 		return users;
 	}
 
