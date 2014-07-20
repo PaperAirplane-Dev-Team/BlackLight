@@ -115,8 +115,7 @@
 	<string name="settings">設置</string>
 	<string name="about">關於</string>
 	<string name="version">版本</string>
-	<string name="author_title">作者</string>
-	<string name="author_summary">\@喝雪碧的虾PeterCxy</string>
+	<string name="developers_title">開發者</string>
 	<string name="source_code_title">源代碼</string>
 	<string name="source_code_summary">http://github.com/PeterCxy/BlackLight</string>
 	<string name="license">開源協議</string>

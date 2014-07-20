@@ -25,55 +25,58 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.MenuItem;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
-
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener
-{
+public class SettingsActivity extends PreferenceActivity implements
+		Preference.OnPreferenceClickListener,
+		Preference.OnPreferenceChangeListener {
 	private static final String VERSION = "version";
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
 	private static final String DEBUG_LOG = "debug_log";
 	private static final String DEBUG_CRASH = "debug_crash";
-	
+	private static final String DEVELOPERS = "developers";
+
 	private Settings mSettings;
-	
+
 	// About
 	private Preference mPrefLicense;
 	private Preference mPrefVersion;
 	private Preference mPrefSourceCode;
 	private Preference mPrefLog;
 	private Preference mPrefCrash;
-	
+	private Preference mPrefDevelopers;
+
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
 	// Notification
-	private CheckBoxPreference mPrefNotificationSound, mPrefNotificationVibrate;
-	
+	private CheckBoxPreference mPrefNotificationSound,
+			mPrefNotificationVibrate;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 
-        if (hasSmartBar()) {
-            getListView().setFitsSystemWindows(true);
-            Utility.enableTint(this);
-        }
+		if (hasSmartBar()) {
+			getListView().setFitsSystemWindows(true);
+			Utility.enableTint(this);
+		}
 
 		mSettings = Settings.getInstance(this);
-		
+
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
-		
+
 		// Init
 		mPrefLicense = findPreference(LICENSE);
 		mPrefVersion = findPreference(VERSION);
@@ -83,7 +86,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		mPrefCrash = findPreference(DEBUG_CRASH);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
-		
+		mPrefDevelopers = findPreference(DEVELOPERS);
+
 		// Data
 		String version = "Unknown";
 		try {
@@ -92,11 +96,14 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 			// Keep the default value
 		}
 		mPrefVersion.setSummary(version);
-		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL, false));
-		mPrefNotificationSound.setChecked(mSettings.getBoolean(Settings.NOTIFICATION_SOUND, true));
-		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(Settings.NOTIFICATION_VIBRATE, true));
+		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL,
+				false));
+		mPrefNotificationSound.setChecked(mSettings.getBoolean(
+				Settings.NOTIFICATION_SOUND, true));
+		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
+				Settings.NOTIFICATION_VIBRATE, true));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
-		
+
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
@@ -104,6 +111,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
 		mPrefCrash.setOnPreferenceClickListener(this);
+		mPrefDevelopers.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -115,10 +123,10 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
-		if (preference == mPrefLicense){
+		if (preference == mPrefLicense) {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, LicenseActivity.class);
@@ -133,28 +141,36 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 			return true;
 		} else if (preference == mPrefCrash) {
 			throw new RuntimeException("Debug crash");
-		} else {
-			return false;
+		} else if (preference == mPrefDevelopers) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, DevelopersActivity.class);
+			startActivity(i);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		if (preference == mPrefFastScroll) {
-			mSettings.putBoolean(Settings.FAST_SCROLL, Boolean.parseBoolean(newValue.toString()));
+			mSettings.putBoolean(Settings.FAST_SCROLL,
+					Boolean.parseBoolean(newValue.toString()));
 			return true;
 		}
-		
+
 		if (preference == mPrefNotificationSound) {
-			mSettings.putBoolean(Settings.NOTIFICATION_SOUND, Boolean.parseBoolean(newValue.toString()));
+			mSettings.putBoolean(Settings.NOTIFICATION_SOUND,
+					Boolean.parseBoolean(newValue.toString()));
 			return true;
 		}
-		
+
 		if (preference == mPrefNotificationVibrate) {
-			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE, Boolean.parseBoolean(newValue.toString()));
+			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE,
+					Boolean.parseBoolean(newValue.toString()));
 			return true;
 		}
-		
+
 		return false;
 	}
 }

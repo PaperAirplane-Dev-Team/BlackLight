@@ -69,8 +69,8 @@
 			android:title="@string/version"/>
 		
 		<Preference
-			android:title="@string/author_title"
-			android:summary="@string/author_summary"/>
+		    android:key="developers"
+			android:title="@string/developers_title"/>
 		
 		<Preference
 			android:key="source_code"
