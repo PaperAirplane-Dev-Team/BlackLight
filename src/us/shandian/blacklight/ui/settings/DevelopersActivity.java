@@ -30,6 +30,7 @@ import android.widget.ListView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
+import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
@@ -43,32 +44,35 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 {
 	private UserAdapter mAdapter;
 	private UserListModel mUsers;
+	private ListView mDevelopers;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mUsers = new UserListModel();
-		ListView developers = new ListView(this);
-		developers.setOnItemClickListener(this);
-		mAdapter = new UserAdapter(this, mUsers);
-		developers.setAdapter(mAdapter);
-		setContentView(developers);
-		new UserGetter().execute(mUsers);
+		mDevelopers = new ListView(this);
+		mDevelopers.setOnItemClickListener(this);
+		
+		setContentView(mDevelopers);
+		
+		new UserGetter().execute();
 		
 	}
 	
-	private class UserGetter extends AsyncTask<UserListModel,Void,Boolean>{
+	private class UserGetter extends AsyncTask<Void, Void, Boolean>{
 
 		@Override
-		protected Boolean doInBackground(UserListModel... users) {
+		protected Boolean doInBackground(Void... args) {
 			String[] developerWeiboUids=getResources().getStringArray(R.array.developer_weibo_uids);
-			for(String uid:developerWeiboUids){
+			for(String uid : developerWeiboUids){
 				try{
-					users[0].getList().add(UserApi.getUser(uid));
-				}
-				catch(Exception e){
-					//错误处理
+					UserModel m = UserApi.getUser(uid);
+					if (m != null) {
+						mUsers.getList().add(m);
+					}
+				} catch(Exception e) {
+					
 				}
 			};
 			return true;
@@ -76,7 +80,8 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		
 		@Override
 		protected void onPostExecute(Boolean result) {
-			mAdapter.notifyDataSetChangedAndClear();
+			mAdapter = new UserAdapter(DevelopersActivity.this, mUsers);
+			mDevelopers.setAdapter(mAdapter);
 		}
 		
 	}
