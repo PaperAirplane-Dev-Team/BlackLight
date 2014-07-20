@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.model.UserListModel;
@@ -34,6 +35,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class DevelopersActivity extends Activity implements AdapterView.OnItemClickListener
@@ -45,9 +47,9 @@ public class DevelopersActivity extends Activity implements AdapterView.OnItemCl
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
+		if (hasSmartBar()) {
+			Utility.enableTint(this);
+		}
 
 		// Action Bar
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,10 +57,10 @@ public class DevelopersActivity extends Activity implements AdapterView.OnItemCl
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
 
-		mUsers=new UserListModel();
-		ListView developers=new ListView(this);
+		mUsers = new UserListModel();
+		ListView developers = new ListView(this);
 		developers.setOnItemClickListener(this);
-		mAdapter=new UserAdapter(this, mUsers);
+		mAdapter = new UserAdapter(this, mUsers);
 		developers.setAdapter(mAdapter);
 		setContentView(developers);
 		new UserGetter().execute(mUsers);
