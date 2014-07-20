@@ -27,7 +27,6 @@ import android.os.Bundle;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.model.MessageModel;
-import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 

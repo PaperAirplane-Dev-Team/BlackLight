@@ -23,7 +23,6 @@ import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONException;
 
 import us.shandian.blacklight.support.http.HttpUtility;
 import us.shandian.blacklight.support.http.WeiboParameters;

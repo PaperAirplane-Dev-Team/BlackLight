@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.support;
 
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;

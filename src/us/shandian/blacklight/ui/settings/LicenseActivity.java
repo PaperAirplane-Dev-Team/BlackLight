@@ -19,16 +19,13 @@
 
 package us.shandian.blacklight.ui.settings;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.common.AbsActivity;
-import us.shandian.blacklight.support.Utility;
 
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class LicenseActivity extends AbsActivity
 {

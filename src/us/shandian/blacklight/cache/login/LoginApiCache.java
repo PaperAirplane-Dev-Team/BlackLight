@@ -22,7 +22,6 @@ package us.shandian.blacklight.cache.login;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.login.LoginApi;
 import us.shandian.blacklight.api.user.AccountApi;
@@ -39,8 +38,8 @@ public class LoginApiCache
 	private String mAppId;
 	private String mAppSecret;
 	
-	public LoginApiCache(Context context) {
-		mPrefs = context.getSharedPreferences("access_token", Context.MODE_WORLD_READABLE);
+    public LoginApiCache(Context context) {
+		mPrefs = context.getSharedPreferences("access_token", Context.MODE_PRIVATE);
 		mAccessToken = mPrefs.getString("access_token", null);
 		mUid = mPrefs.getString("uid", null);
 		mExpireDate = mPrefs.getLong("expires_in", Long.MIN_VALUE);

@@ -22,12 +22,7 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Fragment;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -270,7 +265,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		}
 		
 		@Override
-		protected Boolean doInBackground(Boolean[] params) {
+		protected Boolean doInBackground(Boolean... params) {
 			mCache.load(params[0]);
 			return params[0];
 		}
