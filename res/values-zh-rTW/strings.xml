@@ -52,7 +52,7 @@
 	<string name="comment">評論</string>
 	<string name="status_mention_me">提及我的微博</string>
 	<string name="comment_mention_me">提及我的評論</string>
-	<string name="loading_more">正在加載更多...</string>
+	<string name="loading_more">正在加載更多……</string>
 	<string name="new_post">發送微博</string>
 	<string name="comment_on">發送評論</string>
 	<string name="repost">轉發微博</string>
@@ -115,7 +115,7 @@
 	<string name="settings">設置</string>
 	<string name="about">關於</string>
 	<string name="version">版本</string>
-	<string name="developers_title">開發者</string>
+	<string name="developers_title">開發者與感謝名單</string>
 	<string name="source_code_title">源代碼</string>
 	<string name="source_code_summary">http://github.com/PeterCxy/BlackLight</string>
 	<string name="license">開源協議</string>
@@ -129,8 +129,8 @@
 	<string name="notification_vibrate">震動</string>
 	
 	<!-- Message -->
-	<string name="plz_wait">請稍候...</string>
-	<string name="name_fetching">暱稱獲取中...</string>
+	<string name="plz_wait">請稍候……</string>
+	<string name="name_fetching">暱稱獲取中……</string>
 	<string name="expires_in">本次登入授權將于 %d 天後失效</string>
 	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤</string>
 	<string name="send_fail">發送失敗</string>

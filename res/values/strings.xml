@@ -52,7 +52,7 @@
 	<string name="comment">评论</string>
 	<string name="status_mention_me">提到我的微博</string>
 	<string name="comment_mention_me">提到我的评论</string>
-	<string name="loading_more">正在加载更多...</string>
+	<string name="loading_more">正在加载更多……</string>
 	<string name="new_post">发送微博</string>
 	<string name="comment_on">发表评论</string>
 	<string name="repost">转发微博</string>
@@ -112,16 +112,21 @@
 	</string-array>
 	
 	<string-array name="developer_weibo_uids" translatable="false">
-	    <item>1789004515</item>
-	    <item>1870051034</item>
-	    <item>1689129907</item>
+		<item>1789004515</item>
+		<item>1870051034</item>
+		<item>1689129907</item>
+	</string-array>
+	
+	<string-array name="thank_weibo_uids" translatable="false">
+		<item>2984891190</item>
+		<item>1797272061</item>
 	</string-array>
 	
 	<!-- Settings -->
 	<string name="settings">设置</string>
 	<string name="about">关于</string>
 	<string name="version">版本</string>
-	<string name="developers_title">开发者</string>
+	<string name="developers_title">开发者与感谢名单</string>
 	<string name="source_code_title">源代码</string>
 	<string name="source_code_summary">http://github.com/PeterCxy/BlackLight</string>
 	<string name="license">开源协议</string>
@@ -135,8 +140,8 @@
 	<string name="notification_vibrate">震动</string>
 	
 	<!-- Message -->
-	<string name="plz_wait">请稍候...</string>
-	<string name="name_fetching">昵称获取中...</string>
+	<string name="plz_wait">请稍候……</string>
+	<string name="name_fetching">昵称获取中……</string>
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
 	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
 	<string name="send_fail">发送失败</string>
