@@ -60,12 +60,13 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class NewPostActivity extends Activity
+public class NewPostActivity extends AbsActivity
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
 	
@@ -94,16 +95,6 @@ public class NewPostActivity extends Activity
 
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_status);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);

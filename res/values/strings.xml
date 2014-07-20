@@ -111,7 +111,7 @@
 		<item>用户</item>
 	</string-array>
 	
-	<string-array name="developer_weibo_uids">
+	<string-array name="developer_weibo_uids" translatable="false">
 	    <item>1789004515</item>
 	    <item>512332940</item>
 	    <item>1689129907</item>

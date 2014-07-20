@@ -25,27 +25,18 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class LicenseActivity extends Activity
+public class LicenseActivity extends AbsActivity
 {
 	private WebView mWebView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 		
 		// This activity shares the same view with the login activity
 		setContentView(R.layout.web_login);

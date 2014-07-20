@@ -39,6 +39,7 @@ import android.util.Log;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
@@ -46,7 +47,7 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* BlackMagic Login Activity */
-public class LoginActivity extends Activity implements AdapterView.OnItemSelectedListener
+public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener
 {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
@@ -72,16 +73,6 @@ public class LoginActivity extends Activity implements AdapterView.OnItemSelecte
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 		
 		// Create login instance
 		mLogin = new LoginApiCache(this);

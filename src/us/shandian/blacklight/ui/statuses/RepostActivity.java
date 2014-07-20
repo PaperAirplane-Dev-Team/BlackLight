@@ -40,15 +40,11 @@ public class RepostActivity extends NewPostActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
+		if (hasSmartBar()) {
+			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+		}
 
 		super.onCreate(savedInstanceState);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
 
 		// Get the original msg
 		mMsg = getIntent().getParcelableExtra("msg");

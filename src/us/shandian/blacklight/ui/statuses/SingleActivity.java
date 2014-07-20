@@ -58,10 +58,11 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
+import us.shandian.blacklight.ui.common.AbsActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class SingleActivity extends Activity
+public class SingleActivity extends AbsActivity
 {
 	private MessageModel mMsg;
 	
@@ -90,16 +91,6 @@ public class SingleActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 		
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");

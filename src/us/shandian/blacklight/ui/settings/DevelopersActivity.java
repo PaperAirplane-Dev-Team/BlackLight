@@ -34,11 +34,12 @@ import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.UserAdapter;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class DevelopersActivity extends Activity implements AdapterView.OnItemClickListener
+public class DevelopersActivity extends AbsActivity implements AdapterView.OnItemClickListener
 {
 	private UserAdapter mAdapter;
 	private UserListModel mUsers;
@@ -46,16 +47,6 @@ public class DevelopersActivity extends Activity implements AdapterView.OnItemCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (hasSmartBar()) {
-			Utility.enableTint(this);
-		}
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 
 		mUsers = new UserListModel();
 		ListView developers = new ListView(this);

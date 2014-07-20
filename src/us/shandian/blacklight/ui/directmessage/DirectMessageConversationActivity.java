@@ -38,12 +38,13 @@ import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageAdapter;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class DirectMessageConversationActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
+public class DirectMessageConversationActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
 {
 	private static final String TAG = DirectMessageConversationActivity.class.getSimpleName();
 	
@@ -68,16 +69,6 @@ public class DirectMessageConversationActivity extends Activity implements Swipe
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.direct_message_conversation);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 		
 		// Argument
 		mUser = getIntent().getParcelableExtra("user");

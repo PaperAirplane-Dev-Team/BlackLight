@@ -26,10 +26,11 @@ import android.view.MenuItem;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.AbsActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class FriendsActivity extends Activity
+public class FriendsActivity extends AbsActivity
 {
 
 	@Override
@@ -40,16 +41,6 @@ public class FriendsActivity extends Activity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.empty_frame);
-
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 		
 		// Arguments
 		String uid = getIntent().getStringExtra("uid");

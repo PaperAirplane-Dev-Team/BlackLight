@@ -32,6 +32,7 @@ import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
@@ -39,7 +40,7 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 /*
   Shows the topics
 */
-public class TopicsActivity extends Activity
+public class TopicsActivity extends AbsActivity
 {
 	private String mTopic;
 	
@@ -52,16 +53,6 @@ public class TopicsActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.empty_frame);
 
-        if (hasSmartBar()) {
-            Utility.enableTint(this);
-        }
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
-		
 		// Argument
 		mTopic = getIntent().getStringExtra("topic");
 		

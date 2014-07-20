@@ -46,12 +46,13 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class UserTimeLineActivity extends Activity implements View.OnClickListener
+public class UserTimeLineActivity extends AbsActivity implements View.OnClickListener
 {
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
@@ -85,12 +86,6 @@ public class UserTimeLineActivity extends Activity implements View.OnClickListen
 		setContentView(R.layout.user_timeline_activity);
 
 		mCache = new UserApiCache(this);
-
-		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
 
 		// Arguments
 		mModel = getIntent().getParcelableExtra("user");
