@@ -3,6 +3,7 @@
 /obj
 /.settings
 /.directory
+/lint.xml
 /libs/*/*.so
 /libs/*/bin
 /libs/*/gen
