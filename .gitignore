@@ -1,10 +1,14 @@
 /bin
 /gen
 /obj
+/.settings
+/.directory
 /libs/*/*.so
 /libs/*/bin
 /libs/*/gen
 /libs/*/obj
+/libs/*/.settings
 /libs/*/libs/*/bin
 /libs/*/libs/*/gen
 /libs/*/libs/*/obj
+/libs/*/libs/*/.settings
