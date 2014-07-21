@@ -48,7 +48,7 @@ public class Settings
 	}
 	
 	private Settings(Context context) {
-		mPrefs = context.getSharedPreferences(XML_NAME, Context.MODE_WORLD_READABLE);
+		mPrefs = context.getSharedPreferences(XML_NAME, Context.MODE_PRIVATE);
 	}
 	
 	public Settings putBoolean(String key, boolean value) {

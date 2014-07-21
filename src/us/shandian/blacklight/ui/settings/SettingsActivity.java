@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
@@ -59,7 +58,8 @@ public class SettingsActivity extends PreferenceActivity implements
 	private CheckBoxPreference mPrefNotificationSound,
 			mPrefNotificationVibrate;
 
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);

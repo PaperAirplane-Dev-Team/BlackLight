@@ -90,7 +90,7 @@ public class WeiboSpan extends ClickableSpan
 	private class UserInfoTask extends AsyncTask<Object, Void, Object[]> {
 
 		@Override
-		protected Object[] doInBackground(Object[] params) {
+		protected Object[] doInBackground(Object... params) {
 			// Detect user info in background
 			return new Object[]{params[0],
 				new UserApiCache((Context) params[0]).getUserByName((String) params[1])};

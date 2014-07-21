@@ -29,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.HttpURLConnection;
-import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.support.Utility;

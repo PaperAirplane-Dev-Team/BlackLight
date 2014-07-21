@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.ui.statuses;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -28,7 +27,6 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
@@ -44,17 +42,9 @@ import android.util.Log;
 
 import android.support.v4.widget.DrawerLayout;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URI;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
-import us.shandian.blacklight.api.user.AccountApi;
-import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
@@ -275,7 +265,7 @@ public class NewPostActivity extends AbsActivity
 		}
 		
 		@Override
-		protected Boolean doInBackground(Void[] params) {
+		protected Boolean doInBackground(Void... params) {
 			return post();
 		}
 
@@ -307,7 +297,7 @@ public class NewPostActivity extends AbsActivity
 	private class GetNameTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
-		protected Void doInBackground(Void[] params) {
+		protected Void doInBackground(Void... params) {
 			// Username first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
 			publishProgress();
@@ -316,7 +306,7 @@ public class NewPostActivity extends AbsActivity
 		}
 
 		@Override
-		protected void onProgressUpdate(Object[] values) {
+		protected void onProgressUpdate(Object... values) {
 			getActionBar().setSubtitle(mUser.getName());
 			super.onProgressUpdate();
 		}

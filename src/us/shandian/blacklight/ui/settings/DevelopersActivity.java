@@ -19,42 +19,51 @@
 
 package us.shandian.blacklight.ui.settings;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-
+import android.widget.TextView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.AsyncTask;
-import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
-
 public class DevelopersActivity extends AbsActivity implements AdapterView.OnItemClickListener
 {
-	private UserAdapter mAdapter;
-	private UserListModel mUsers;
+	private UserAdapter mAdapterOfDevelopers;
+	private UserAdapter mAdapterOfThanks;
+	private UserListModel mUserListOfDevelopers;
+	private UserListModel mUserListOfThanks;
 	private ListView mDevelopers;
+	private ListView mThanks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mUsers = new UserListModel();
+		mUserListOfThanks = new UserListModel();
+		mUserListOfDevelopers = new UserListModel();
 		mDevelopers = new ListView(this);
+		mThanks = new ListView(this);
+		mThanks.setOnItemClickListener(this);
 		mDevelopers.setOnItemClickListener(this);
-		
-		setContentView(mDevelopers);
+		LinearLayout mainLayout=new LinearLayout(this);
+		mainLayout.setOrientation(LinearLayout.VERTICAL);
+		//FIXME   It's very ugly! 
+		mainLayout.addView(mDevelopers);
+		TextView thanks = new TextView(this);
+		thanks.setText("感谢");
+		mainLayout.addView(thanks);
+		mainLayout.addView(mThanks);
+		setContentView(mainLayout);
 		
 		new UserGetter().execute();
 		
@@ -69,19 +78,32 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 				try{
 					UserModel m = UserApi.getUser(uid);
 					if (m != null) {
-						mUsers.getList().add(m);
+						mUserListOfDevelopers.getList().add(m);
 					}
 				} catch(Exception e) {
 					
 				}
-			};
+			}
+			String[] thankWeiboUids=getResources().getStringArray(R.array.thank_weibo_uids);
+	         for(String uid : thankWeiboUids){
+	                try{
+	                    UserModel m = UserApi.getUser(uid);
+	                    if (m != null) {
+	                        mUserListOfThanks.getList().add(m);
+	                    }
+	                } catch(Exception e) {
+	                    
+	                }
+	            }
 			return true;
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean result) {
-			mAdapter = new UserAdapter(DevelopersActivity.this, mUsers);
-			mDevelopers.setAdapter(mAdapter);
+			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers);
+			mDevelopers.setAdapter(mAdapterOfDevelopers);
+			mAdapterOfThanks = new UserAdapter(DevelopersActivity.this, mUserListOfThanks);
+			mThanks.setAdapter(mAdapterOfThanks);
 		}
 		
 	}
@@ -91,7 +113,15 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
 		i.setClass(this, UserTimeLineActivity.class);
-		i.putExtra("user", mUsers.get(position));
+		if(view==mDevelopers){
+		    i.putExtra("user", mUserListOfDevelopers.get(position));
+		}
+		else if(view==mThanks){
+		    i.putExtra("user", mUserListOfThanks.get(position));
+		}
+		else{
+		    throw new RuntimeException("What the hell?");
+		}
 		startActivity(i);
 	}
 	

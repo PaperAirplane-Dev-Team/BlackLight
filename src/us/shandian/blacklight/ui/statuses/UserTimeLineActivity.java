@@ -19,8 +19,6 @@
 
 package us.shandian.blacklight.ui.statuses;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -29,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -246,7 +243,7 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 	private class Downloader extends AsyncTask<Void, Object, Void> {
 
 		@Override
-		protected Void doInBackground(Void[] params) {
+		protected Void doInBackground(Void... params) {
 			// Avatar
 			Bitmap avatar = mCache.getLargeAvatar(mModel);
 			publishProgress(new Object[]{0, avatar});
@@ -263,7 +260,7 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Object[] values) {
+		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
 			
 			switch (Integer.parseInt(String.valueOf(values[0]))) {

@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.ui.statuses;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -29,13 +28,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -55,7 +50,6 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.AsyncTask;
-import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 import us.shandian.blacklight.ui.common.AbsActivity;
@@ -298,7 +292,7 @@ public class SingleActivity extends AbsActivity
 		}
 		
 		@Override
-		protected Void doInBackground(Void[] params) {
+		protected Void doInBackground(Void... params) {
 			PostApi.deletePost(mMsg.id);
 			return null;
 		}
@@ -319,7 +313,7 @@ public class SingleActivity extends AbsActivity
 		}
 		
 		@Override
-		protected Void doInBackground(Void[] params) {
+		protected Void doInBackground(Void... params) {
 			if (mFavourited) {
 				PostApi.unfav(mMsg.id);
 			} else {

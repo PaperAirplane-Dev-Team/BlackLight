@@ -23,7 +23,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.tables.CommentTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.CommentMentionsTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.DirectMessageUserTable;
