@@ -24,9 +24,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.model.UserModel;
@@ -39,31 +38,18 @@ import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 public class DevelopersActivity extends AbsActivity implements AdapterView.OnItemClickListener
 {
 	private UserAdapter mAdapterOfDevelopers;
-	private UserAdapter mAdapterOfThanks;
 	private UserListModel mUserListOfDevelopers;
-	private UserListModel mUserListOfThanks;
 	private ListView mDevelopers;
-	private ListView mThanks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mUserListOfThanks = new UserListModel();
 		mUserListOfDevelopers = new UserListModel();
 		mDevelopers = new ListView(this);
-		mThanks = new ListView(this);
-		mThanks.setOnItemClickListener(this);
 		mDevelopers.setOnItemClickListener(this);
-		LinearLayout mainLayout=new LinearLayout(this);
-		mainLayout.setOrientation(LinearLayout.VERTICAL);
-		//FIXME   It's very ugly! 
-		mainLayout.addView(mDevelopers);
-		TextView thanks = new TextView(this);
-		thanks.setText("感谢");
-		mainLayout.addView(thanks);
-		mainLayout.addView(mThanks);
-		setContentView(mainLayout);
+
+		setContentView(mDevelopers);
 		
 		new UserGetter().execute();
 		
@@ -84,17 +70,6 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 					
 				}
 			}
-			String[] thankWeiboUids=getResources().getStringArray(R.array.thank_weibo_uids);
-	         for(String uid : thankWeiboUids){
-	                try{
-	                    UserModel m = UserApi.getUser(uid);
-	                    if (m != null) {
-	                        mUserListOfThanks.getList().add(m);
-	                    }
-	                } catch(Exception e) {
-	                    
-	                }
-	            }
 			return true;
 		}
 		
@@ -102,8 +77,6 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		protected void onPostExecute(Boolean result) {
 			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers);
 			mDevelopers.setAdapter(mAdapterOfDevelopers);
-			mAdapterOfThanks = new UserAdapter(DevelopersActivity.this, mUserListOfThanks);
-			mThanks.setAdapter(mAdapterOfThanks);
 		}
 		
 	}
@@ -115,11 +88,7 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		i.setClass(this, UserTimeLineActivity.class);
 		if(view==mDevelopers){
 		    i.putExtra("user", mUserListOfDevelopers.get(position));
-		}
-		else if(view==mThanks){
-		    i.putExtra("user", mUserListOfThanks.get(position));
-		}
-		else{
+		} else {
 		    throw new RuntimeException("What the hell?");
 		}
 		startActivity(i);
