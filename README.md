@@ -9,6 +9,7 @@ BlackLight 新浪微博客户端
 使用BUCK编译
 ---
 [BUCK](https://github.com/facebook/buck) 是Facebook出品的一款编译工具。  
+请确保您的 `$ANDROID_HOME` 环境变量指向正确的Android SDK目录。  
 安装好以后，您只需在BlackLight目录下运行 `buck build debug` 即可。  
 使用 `buck install debug` 来把编译好的apk安装到手机上。  
 请不要尝试使用 `buck build release` 或 `buck install release` ，因为我没有上传发布用的签名文件。
