@@ -231,13 +231,13 @@ public class SingleActivity extends AbsActivity
 			new AlertDialog.Builder(this)
 							.setMessage(R.string.confirm_delete)
 							.setCancelable(true)
-							.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									new DeleteTask().execute();
 								}
 							})
-							.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+							.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									dialog.dismiss();
