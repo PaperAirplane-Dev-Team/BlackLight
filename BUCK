@@ -16,6 +16,7 @@ android_binary(
 android_binary(
   name = 'release',
   package_type = 'RELEASE',
+  proguard_config = './proguard.cfg',
   manifest = './AndroidManifest.xml',
   target = 'android-19',
   keystore = ':release_keystore',

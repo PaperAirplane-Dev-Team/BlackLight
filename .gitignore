@@ -1,4 +1,7 @@
 *.swp
+class_files.txt
+seeds.txt
+unused.txt
 /bin
 /gen
 /obj
