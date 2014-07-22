@@ -16,3 +16,5 @@
 /libs/*/libs/*/gen
 /libs/*/libs/*/obj
 /libs/*/libs/*/.settings
+/keystore/publish.keystore
+/keystore/publish.keystore.properties

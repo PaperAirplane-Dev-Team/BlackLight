@@ -1,5 +1,6 @@
 [alias]
     debug = //:debug
+    release = //:release
 [java]
     src_roots = /src
 [project]

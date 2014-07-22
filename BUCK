@@ -12,6 +12,21 @@ android_binary(
   ],
 )
 
+# BlackLight Release Binary
+android_binary(
+  name = 'release',
+  package_type = 'RELEASE',
+  manifest = './AndroidManifest.xml',
+  target = 'android-19',
+  keystore = ':release_keystore',
+  deps = [
+    ':bl-res',
+    ':bl-src',
+    ':sup-res',
+  ],
+)
+
+
 # BlackLight Resources
 android_resource(
   name = 'bl-res',
@@ -94,6 +109,13 @@ keystore(
   name = 'debug_keystore',
   store = './keystore/debug.keystore',
   properties = './keystore/debug.keystore.properties',
+)
+
+# Release Keystore (Private)
+keystore(
+  name = 'release_keystore',
+  store = './keystore/publish.keystore',
+  properties = './keystore/publish.keystore.properties',
 )
 
 # Config
