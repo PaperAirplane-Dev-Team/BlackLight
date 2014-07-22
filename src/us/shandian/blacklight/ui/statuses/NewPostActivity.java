@@ -183,42 +183,42 @@ public class NewPostActivity extends AbsActivity
 			item.setChecked(!item.isChecked());
 		}
 		
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			case R.id.post_send:
-				try {
-					if (Utility.lengthOfString(mText.getText().toString()) <= 140) {
-						new Uploader().execute();
-					}
-				} catch (Exception e) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			finish();
+			return true;
+		} else if (id == R.id.post_send) {
+			try {
+				if (Utility.lengthOfString(mText.getText().toString()) <= 140) {
+					new Uploader().execute();
+				}
+			} catch (Exception e) {
 					
+			}
+			return true;
+		} else if (id == R.id.post_pic) {
+			showPicturePicker();
+			return true;
+		} else if (id == R.id.post_emoticon) {
+			if (mDrawer.isDrawerOpen(Gravity.END)) {
+				mDrawer.closeDrawer(Gravity.END);
+			} else {
+				mDrawer.openDrawer(Gravity.END);
+			}
+			return true;
+		} else if (id == R.id.post_at) {
+			AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
+			diag.setListener(new AtUserSuggestDialog.AtUserListener() {
+				@Override
+				public void onChooseUser(String name) {
+					mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
 				}
-				return true;
-			case R.id.post_pic:
-                showPicturePicker();
-				return true;
-			case R.id.post_emoticon:
-				if (mDrawer.isDrawerOpen(Gravity.END)) {
-					mDrawer.closeDrawer(Gravity.END);
-				} else {
-					mDrawer.openDrawer(Gravity.END);
-				}
-				return true;
-			case R.id.post_at:
-				AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
-				diag.setListener(new AtUserSuggestDialog.AtUserListener() {
-					@Override
-					public void onChooseUser(String name) {
-						mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
-					}
-				});
-				diag.show();
-				return true;
-				
+			});
+			diag.show();
+			return true;		
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
     private void showPicturePicker(){

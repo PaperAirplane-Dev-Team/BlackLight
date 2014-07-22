@@ -169,23 +169,22 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			case R.id.follow:
-				new Follower().execute();
-				return true;
-			case R.id.send_dm: {
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(this, DirectMessageConversationActivity.class);
-				i.putExtra("user", mModel);
-				startActivity(i);
-				return true;
-			}
-			default:
-				return super.onOptionsItemSelected(item);
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			finish();
+			return true;
+		} else if (id == R.id.follow) {
+			new Follower().execute();
+			return true;
+		} else if (id == R.id.send_dm) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, DirectMessageConversationActivity.class);
+			i.putExtra("user", mModel);
+			startActivity(i);
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
 

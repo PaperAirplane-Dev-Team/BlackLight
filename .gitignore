@@ -1,7 +1,10 @@
+*.swp
 /bin
 /gen
 /obj
+/buck-out
 /.settings
+/.buckd
 /.directory
 /lint.xml
 /libs/*/*.so

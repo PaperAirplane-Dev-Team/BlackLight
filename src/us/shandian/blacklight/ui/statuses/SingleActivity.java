@@ -217,43 +217,39 @@ public class SingleActivity extends AbsActivity
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			case R.id.comment_on:{
-				commentOn();
-				return true;
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			finish();
+			return true;
+		} else if (id == R.id.comment_on) {
+			commentOn();
+			return true;
+		} else if (id == R.id.repost) {
+			repost();
+			return true;
+		} else if (id == R.id.delete) {
+			new AlertDialog.Builder(this)
+							.setMessage(R.string.confirm_delete)
+							.setCancelable(true)
+							.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									new DeleteTask().execute();
+								}
+							})
+							.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.dismiss();
+								}
+							})
+							.show();
+			return true;
+		} else if (id == R.id.fav) {
+			if (!mFavTaskRunning) {
+				new FavTask().execute();
 			}
-			case R.id.repost:{
-				repost();
-				return true;
-			}
-			case R.id.delete:{
-				new AlertDialog.Builder(this)
-								.setMessage(R.string.confirm_delete)
-								.setCancelable(true)
-								.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int id) {
-										new DeleteTask().execute();
-									}
-								})
-								.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int id) {
-										dialog.dismiss();
-									}
-								})
-								.show();
-				return true;
-			}
-			case R.id.fav:{
-				if (!mFavTaskRunning) {
-					new FavTask().execute();
-				}
-				return true;
-			}
+			return true;
 		}
 		
 		return super.onOptionsItemSelected(item);
