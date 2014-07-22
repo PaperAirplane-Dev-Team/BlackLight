@@ -31,6 +31,7 @@ android_binary(
 android_resource(
   name = 'bl-res',
   res = './res',
+  assets = './assets',
   package = 'us.shandian.blacklight',
   deps = [ ':sup-res' ],
   visibility = [ 'PUBLIC' ],
