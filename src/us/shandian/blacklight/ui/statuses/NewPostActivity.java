@@ -35,8 +35,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 
@@ -190,7 +192,11 @@ public class NewPostActivity extends AbsActivity
 		} else if (id == R.id.post_send) {
 			try {
 				if (Utility.lengthOfString(mText.getText().toString()) <= 140) {
-					new Uploader().execute();
+					if (!TextUtils.isEmpty(mText.getText().toString())) {
+						new Uploader().execute();
+					} else {
+						Toast.makeText(this, R.string.empty_weibo, 1000).show();
+					}
 				}
 			} catch (Exception e) {
 					

@@ -146,5 +146,6 @@
 	<string name="new_comment">%d 条新评论</string>
 	<string name="new_at">%d 条新提及</string>
 	<string name="click_to_view">点击查看</string>
+	<string name="empty_weibo">空微博</string>
 
 </resources>
