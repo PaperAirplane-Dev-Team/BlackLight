@@ -64,6 +64,7 @@
 	<string name="topics_info">話題信息</string>
 	<string name="emoticon">表情</string>
 	<string name="new_picture">添加圖像</string>
+    <string name="delete_picture">移除圖像</string>
 	<string name="at">選擇@的好友</string>
     <string-array name="picture_picker_array">
         <item>從圖片庫選擇圖像</item>

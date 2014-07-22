@@ -157,25 +157,25 @@ public class NewPostActivity extends AbsActivity
 			cursor.close();
 			
 			// Then decode
-			mBitmap = BitmapFactory.decodeFile(filePath);
-			mBackground.setImageBitmap(mBitmap);
-			mBackground.setVisibility(View.VISIBLE);
-			mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+			setPicture(BitmapFactory.decodeFile(filePath));
 		}
 
         // Captured photo
         if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            mBitmap = (Bitmap) extras.get("data");
-            mBackground.setImageBitmap(mBitmap);
-            mBackground.setVisibility(View.VISIBLE);
-            mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+            setPicture((Bitmap) extras.get("data"));
         }
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
 		getMenuInflater().inflate(R.menu.new_post, menu);
+        if (mBitmap != null){
+            menu.findItem(R.id.post_pic)
+                    .setTitle(R.string.delete_picture)
+                    .setIcon(android.R.drawable.ic_menu_delete);
+        }
 		return true;
 	}
 
@@ -195,7 +195,7 @@ public class NewPostActivity extends AbsActivity
 					if (!TextUtils.isEmpty(mText.getText().toString())) {
 						new Uploader().execute();
 					} else {
-						Toast.makeText(this, R.string.empty_weibo, 1000).show();
+						Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
 					}
 				}
 			} catch (Exception e) {
@@ -203,7 +203,12 @@ public class NewPostActivity extends AbsActivity
 			}
 			return true;
 		} else if (id == R.id.post_pic) {
-			showPicturePicker();
+			if (mBitmap == null){
+                showPicturePicker();
+            } else {
+                // Delete picture
+                setPicture(null);
+            }
 			return true;
 		} else if (id == R.id.post_emoticon) {
 			if (mDrawer.isDrawerOpen(Gravity.END)) {
@@ -246,6 +251,19 @@ public class NewPostActivity extends AbsActivity
                     }
                 }
         ).show();
+    }
+
+    private void setPicture(Bitmap bitmap){
+        mBitmap = bitmap;
+        if (bitmap != null) {
+            mBackground.setImageBitmap(bitmap);
+            mBackground.setVisibility(View.VISIBLE);
+            mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+        } else {
+            mBackground.setVisibility(View.INVISIBLE);
+            mCount.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        }
+        invalidateOptionsMenu();
     }
 
 	// if extended, this should be overridden
