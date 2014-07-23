@@ -86,11 +86,7 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
 		i.setClass(this, UserTimeLineActivity.class);
-		if(view==mDevelopers){
-		    i.putExtra("user", mUserListOfDevelopers.get(position));
-		} else {
-		    throw new RuntimeException("What the hell?");
-		}
+		i.putExtra("user", mUserListOfDevelopers.get(position));
 		startActivity(i);
 	}
 	
