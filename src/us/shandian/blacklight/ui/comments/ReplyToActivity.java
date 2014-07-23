@@ -40,8 +40,8 @@ public class ReplyToActivity extends NewPostActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 
 		// Disable picture uploading, because comments cannot contain pictures
 		menu.findItem(R.id.post_pic).setVisible(false);

@@ -56,8 +56,8 @@ public class RepostActivity extends NewPostActivity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.post_pic).setVisible(false);
 		
 		mComment = menu.add(R.string.repost_and_comment);
