@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class AbsActivity extends Activity {
 
@@ -31,7 +32,8 @@ public class AbsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		// On SmartBar devices, allow all Acvities to tint statusbar
-		if (Utility.hasSmartBar()) {
+		if (Utility.hasSmartBar() && !(this instanceof ImageActivity) &&
+			!(this instanceof UserTimeLineActivity)) {
 			Utility.enableTint(this);
 		}
 		
