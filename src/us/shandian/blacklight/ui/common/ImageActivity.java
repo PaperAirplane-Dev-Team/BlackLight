@@ -23,6 +23,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Movie;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +77,13 @@ public class ImageActivity extends AbsActivity
 		mPager.setAdapter(new ImageAdapter());
 		mPager.setCurrentItem(def);
 		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.image, menu);
+		return true;
 	}
 	
 	@Override
