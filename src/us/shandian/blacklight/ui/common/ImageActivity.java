@@ -19,11 +19,11 @@
 
 package us.shandian.blacklight.ui.common;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Movie;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -49,7 +49,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class ImageActivity extends Activity
+public class ImageActivity extends AbsActivity
 {
 	private static final String TAG = ImageActivity.class.getSimpleName();
 	
@@ -61,6 +61,9 @@ public class ImageActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		// ActionBar
+		getActionBar().setTitle("");
+
 		mApiCache = new HomeTimeLineApiCache(this);
 		
 		mModel = getIntent().getParcelableExtra("model");
@@ -72,19 +75,19 @@ public class ImageActivity extends Activity
 		mPager.setAdapter(new ImageAdapter());
 		mPager.setCurrentItem(def);
 		
-		if (Build.VERSION.SDK_INT >= 19) {
-			changeToTranslucent();
-
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			finish();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	@TargetApi(19)
-	private void changeToTranslucent() {
-		int flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS |
-				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-		getWindow().setFlags(flags, flags);
-	}
-	
+
 	private class ImageAdapter extends PagerAdapter {
 		private ArrayList<View> mViews = new ArrayList<View>();
 		
