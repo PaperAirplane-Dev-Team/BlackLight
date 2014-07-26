@@ -64,6 +64,13 @@ public class FileCacheManager
 		opt.write(data);
 		opt.close();
 	}
+
+	public String copyCacheTo(String type, String name, String dist) throws IOException {
+		String path = mCacheDir.getPath() + "/" + type + "/" + name;
+		new File(dist).mkdirs();
+		Runtime.getRuntime().exec("cp " + path + " " + dist);
+		return dist + "/" + name;
+	}
 	
 	public byte[] createCacheFromNetwork(String type, String name, String url) throws IOException {
 		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();

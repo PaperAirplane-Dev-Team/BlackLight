@@ -151,5 +151,8 @@
 	<string name="new_at">%d 条新提及</string>
 	<string name="click_to_view">点击查看</string>
 	<string name="empty_weibo">空微博</string>
+	<string name="not_loaded">请等待图片加载完成再试</string>
+	<string name="saved_to">图片已保存到 %s</string>
+	<string name="save_failed">图片保存失败</string>
 
 </resources>

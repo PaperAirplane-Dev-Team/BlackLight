@@ -196,6 +196,28 @@ public class HomeTimeLineApiCache
 			return BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
 		}
 	}
+
+	public String saveLargePic(MessageModel msg, int id) {
+		String url = null;
+		if (msg.hasMultiplePictures()) {
+			url = msg.pic_urls.get(id).getLarge();
+		} else if (id == 0) {
+			url = msg.original_pic;
+		} else {
+			return null;
+		}
+
+		if (url == null) {
+			return null;
+		}
+
+		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
+		try {
+			return mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName, "/sdcard/BlackLight");
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();

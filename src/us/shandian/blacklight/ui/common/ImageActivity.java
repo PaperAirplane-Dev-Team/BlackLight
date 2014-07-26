@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,8 @@ public class ImageActivity extends AbsActivity
 	private ViewPager mPager;
 	private MessageModel mModel;
 	private HomeTimeLineApiCache mApiCache;
+
+	private boolean[] mLoaded;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +76,12 @@ public class ImageActivity extends AbsActivity
 		
 		setContentView(R.layout.image_activity);
 		
+		// Initialize the adapter
+		ImageAdapter adapter = new ImageAdapter();
+		mLoaded = new boolean[adapter.getCount()];
+
 		mPager = (ViewPager) findViewById(R.id.image_pager);
-		mPager.setAdapter(new ImageAdapter());
+		mPager.setAdapter(adapter);
 		mPager.setCurrentItem(def);
 		
 	}
@@ -91,6 +98,20 @@ public class ImageActivity extends AbsActivity
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			finish();
+			return true;
+		} else if (id == R.id.save) {
+			int current = mPager.getCurrentItem();
+			if (!mLoaded[current]) {
+				Toast.makeText(this, R.string.not_loaded, Toast.LENGTH_SHORT).show();
+			} else {
+				String path = mApiCache.saveLargePic(mModel, current);
+				if (path == null) {
+					Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show();
+				} else {
+					String msg = String.format(getResources().getString(R.string.saved_to), path);
+					Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+				}
+			}
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -146,6 +167,7 @@ public class ImageActivity extends AbsActivity
 		protected Object[] doInBackground(Object[] params) {
 			int id = Integer.parseInt(params[1].toString());
 			Object img = mApiCache.getLargePic(mModel, id);
+			mLoaded[id] = true;
 			return new Object[]{params[0], img};
 		}
 
