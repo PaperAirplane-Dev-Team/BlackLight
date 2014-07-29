@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import org.roisoleil.gifview.GifView;
 
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -52,7 +53,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class ImageActivity extends AbsActivity
+public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 {
 	private static final String TAG = ImageActivity.class.getSimpleName();
 	
@@ -115,6 +116,15 @@ public class ImageActivity extends AbsActivity
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onPhotoTap(View v, float x, float y) {
+		if (getActionBar().isShowing()) {
+			getActionBar().hide();
+		} else {
+			getActionBar().show();
 		}
 	}
 
@@ -194,6 +204,7 @@ public class ImageActivity extends AbsActivity
 					}
 					
 					p.setImageBitmap(image);
+					p.setOnPhotoTapListener(ImageActivity.this);
 					v.addView(p, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				} else if (img instanceof Movie) {
 					GifView g = new GifView(ImageActivity.this);
