@@ -25,7 +25,7 @@ function scandir() {
 }
 
 function usage() {
-	echo "usage: bash build.sh [debug|release]"
+	echo "usage: sh build.sh [debug|release]"
 }
 
 # Verification

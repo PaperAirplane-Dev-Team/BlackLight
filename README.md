@@ -20,8 +20,8 @@ BlackLight 新浪微博客户端
 如果你要在手机上编译，请使用 `Terminal IDE` 环境。在电脑上只需普通Linux bash环境即可。  
 首先，设置 `$ANDROID_JAR` 环境变量指向你的 `android.jar`。(其实这一步是为Android上编译设计的，因为Android上不是标准的sdk目录)  
 然后，确保您的 `aapt` `dx` `javac` `jarsigner` 四个命令可以直接调用。如果不行，尝试把它们符号链接到 `/usr/bin` 或者加入 `$PATH`。如果你用的是Android手机且运行的是 `Terminal IDE` 环境，那么这四个命令应当原本就可以成功调用。  
-接下来，切换到 `BlackLight` 目录，运行 `bash build.sh debug` 或 `./build.sh debug`，即可开始编译。编译完成后的apk文件位于 `build/bin/build.apk`。请不要尝试使用 `sh build.sh release` 或 `./build.sh release` ，因为我没有上传发布用的签名文件。在Android上，请只使用 `bash build.sh debug`。  
-另外，`Terminal IDE` 自带的 `aapt` 命令可能不支持我的脚本，您可以尝试使用最新的带有 `CM新主题引擎` 的ROM中的 `/system/bin/aapt`。
+接下来，切换到 `BlackLight` 目录，运行 `sh build.sh debug` 或 `./build.sh debug`，即可开始编译。编译完成后的apk文件位于 `build/bin/build.apk`。请不要尝试使用 `sh build.sh release` 或 `./build.sh release` ，因为我没有上传发布用的签名文件。在Android上，请只使用 `sh build.sh debug`。  
+另外，`Terminal IDE` 自带的 `aapt` 命令可能不支持我的脚本，您可以尝试使用最新的带有 `CM新主题引擎` 的ROM中的 `/system/bin/aapt`。同时，建议使用 `java-7-openjdk-armel` 中的 `javac` 与 `jarsigner`
 
 感谢
 ---
