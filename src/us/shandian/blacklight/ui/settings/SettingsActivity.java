@@ -213,6 +213,7 @@ public class SettingsActivity extends PreferenceActivity implements
 									mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)
 									]
 											);
+							Utility.restartServices(SettingsActivity.this);
 							dialog.dismiss();
 						}
 					})

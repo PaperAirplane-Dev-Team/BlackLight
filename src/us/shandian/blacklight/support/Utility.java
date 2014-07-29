@@ -26,6 +26,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,6 +144,16 @@ public class Utility
 	public static void stopServices(Context context) {
 		stopServiceAlarm(context, CommentTimeLineFetcherService.class);
 		stopServiceAlarm(context, MentionsTimeLineFetcherService.class);
+	}
+
+	public static void restartServices(Context context) {
+		stopServices(context);
+
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
+			startServices(context);
+		}
 	}
 	
 	public static int getIntervalTime(int id) {
