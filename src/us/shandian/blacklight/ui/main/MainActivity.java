@@ -51,6 +51,7 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
@@ -71,6 +72,7 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener
 {
 	private DrawerLayout mDrawer;
+	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
 	
 	// Drawer content
@@ -103,6 +105,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		// Tint
 		Utility.enableTint(this);
 
+		// Detect if the user chose to use right-handed mode
+		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
+		mDrawerGravity = rightHanded ? Gravity.END : Gravity.START;
+
+		// Set gravity
+		View nav = findViewById(R.id.nav);
+		DrawerLayout.LayoutParams p = (DrawerLayout.LayoutParams) nav.getLayoutParams();
+		p.gravity = mDrawerGravity;
+		nav.setLayoutParams(p);
+
 		// Initialize naviagtion drawer
 		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer, 0, 0) {
@@ -123,7 +135,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             }
 		};
 		mDrawer.setDrawerListener(mToggle);
-		
+
 		mMy = (ListView) findViewById(R.id.list_my);
 		mAtMe = (ListView) findViewById(R.id.list_at_me);
 		mOther = (ListView) findViewById(R.id.list_other);
@@ -223,7 +235,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
-			return mToggle.onOptionsItemSelected(item);
+			if (mDrawer.isDrawerOpen(mDrawerGravity)) {
+				mDrawer.closeDrawer(mDrawerGravity);
+			} else {
+				mDrawer.openDrawer(mDrawerGravity);
+			}
+			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
@@ -304,7 +321,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			}
 		}
 		
-		mDrawer.closeDrawer(Gravity.START);
+		mDrawer.closeDrawer(mDrawerGravity);
 	}
 	
 	private void initList() {

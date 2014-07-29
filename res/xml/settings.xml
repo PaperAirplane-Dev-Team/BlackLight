@@ -44,6 +44,12 @@
 			android:title="@string/fast_scroll"
 			android:checked="false"/>
 		
+		<CheckBoxPreference
+			android:key="right_handed"
+			android:title="@string/right_handed"
+			android:summary="@string/right_handed_des"
+			android:checked="false"/>
+		
 	</PreferenceCategory>
 	
 	<!-- Debug -->

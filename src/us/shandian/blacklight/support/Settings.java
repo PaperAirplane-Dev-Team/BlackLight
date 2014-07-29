@@ -31,6 +31,8 @@ public class Settings
 	
 	// Actions
 	public static final String FAST_SCROLL = "fast_scroll";
+	public static final String RIGHT_HANDED = "right_handed";
+
 	// Notification
 	public static final String NOTIFICATION_SOUND = "notification_sound",
 			NOTIFICATION_VIBRATE = "notification_vibrate";

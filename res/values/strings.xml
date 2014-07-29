@@ -133,6 +133,8 @@
 	<string name="license">开源协议</string>
 	<string name="actions">动作</string>
 	<string name="fast_scroll">列表快速滚动</string>
+	<string name="right_handed">右手习惯</string>
+	<string name="right_handed_des">将主界面的抽屉调整到界面右边，适用于大屏手机</string>
 	<string name="debug">调试</string>
 	<string name="debug_log">崩溃日志</string>
 	<string name="debug_crash">立即崩溃</string>
@@ -154,5 +156,6 @@
 	<string name="not_loaded">请等待图片加载完成再试</string>
 	<string name="saved_to">图片已保存到 %s</string>
 	<string name="save_failed">图片保存失败</string>
+	<string name="needs_restart">设置将在重启软件后生效</string>
 
 </resources>

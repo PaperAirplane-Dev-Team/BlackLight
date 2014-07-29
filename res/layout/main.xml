@@ -34,7 +34,7 @@
 			android:layout_height="match_parent"/>
 
 		<LinearLayout
-			android:layout_gravity="start"
+			android:id="@+id/nav"
 			android:layout_width="240dp"
 			android:layout_height="match_parent"
 			android:background="@color/action_gray"

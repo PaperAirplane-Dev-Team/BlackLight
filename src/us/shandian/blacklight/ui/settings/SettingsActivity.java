@@ -26,6 +26,8 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
@@ -54,6 +56,8 @@ public class SettingsActivity extends PreferenceActivity implements
 
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
+	private CheckBoxPreference mPrefRightHanded;
+
 	// Notification
 	private CheckBoxPreference mPrefNotificationSound,
 			mPrefNotificationVibrate;
@@ -82,6 +86,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefVersion = findPreference(VERSION);
 		mPrefSourceCode = findPreference(SOURCE_CODE);
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
+		mPrefRightHanded = (CheckBoxPreference) findPreference(Settings.RIGHT_HANDED);
 		mPrefLog = findPreference(DEBUG_LOG);
 		mPrefCrash = findPreference(DEBUG_CRASH);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
@@ -98,6 +103,8 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefVersion.setSummary(version);
 		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL,
 				false));
+		mPrefRightHanded.setChecked(mSettings.getBoolean(
+				Settings.RIGHT_HANDED, false));
 		mPrefNotificationSound.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_SOUND, true));
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
@@ -108,6 +115,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
+		mPrefRightHanded.setOnPreferenceChangeListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
 		mPrefCrash.setOnPreferenceClickListener(this);
@@ -157,17 +165,18 @@ public class SettingsActivity extends PreferenceActivity implements
 			mSettings.putBoolean(Settings.FAST_SCROLL,
 					Boolean.parseBoolean(newValue.toString()));
 			return true;
-		}
-
-		if (preference == mPrefNotificationSound) {
+		} else if (preference == mPrefNotificationSound) {
 			mSettings.putBoolean(Settings.NOTIFICATION_SOUND,
 					Boolean.parseBoolean(newValue.toString()));
 			return true;
-		}
-
-		if (preference == mPrefNotificationVibrate) {
+		} else if (preference == mPrefNotificationVibrate) {
 			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE,
 					Boolean.parseBoolean(newValue.toString()));
+			return true;
+		} else if (preference == mPrefRightHanded) {
+			mSettings.putBoolean(Settings.RIGHT_HANDED,
+					Boolean.parseBoolean(newValue.toString()));
+			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;
 		}
 
