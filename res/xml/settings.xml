@@ -33,6 +33,10 @@
 			android:title="@string/notification_vibrate"
 			android:checked="true"/>
 		
+		<Preference
+		    android:key="notification_interval"
+		    android:title="@string/notification_interval" />
+		
 	</PreferenceCategory>
     
 	<!-- Actions -->

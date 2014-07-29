@@ -141,6 +141,15 @@
 	<string name="notification">通知</string>
 	<string name="notification_sound">声音</string>
 	<string name="notification_vibrate">震动</string>
+	<string name="notification_interval">提醒间隔</string>
+	<string name="set_interval">设置提醒间隔</string>
+	<string-array name="interval_name">
+	    <item>1 分钟</item>
+	    <item>3 分钟</item>
+	    <item>5 分钟</item>
+	    <item>10 分钟</item>
+	    <item>30 分钟</item>
+	</string-array>
 	
 	<!-- Message -->
 	<string name="plz_wait">请稍候……</string>

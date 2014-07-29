@@ -35,7 +35,8 @@ public class Settings
 
 	// Notification
 	public static final String NOTIFICATION_SOUND = "notification_sound",
-			NOTIFICATION_VIBRATE = "notification_vibrate";
+			NOTIFICATION_VIBRATE = "notification_vibrate",
+			NOTIFICATION_INTERVAL = "notification_interval";
 	
 	private static Settings sInstance;
 	
@@ -61,4 +62,14 @@ public class Settings
 	public boolean getBoolean(String key, boolean def) {
 		return mPrefs.getBoolean(key, def);
 	}
+	
+	public Settings putInt(String key, int value) {
+		mPrefs.edit().putInt(key, value).commit();
+		return this;
+	}
+	
+	public int getInt(String key, int defValue) {
+		return mPrefs.getInt(key, defValue);
+	}
+	
 }

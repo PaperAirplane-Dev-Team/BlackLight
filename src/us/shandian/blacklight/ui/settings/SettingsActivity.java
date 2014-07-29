@@ -19,6 +19,8 @@
 
 package us.shandian.blacklight.ui.settings;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -61,6 +63,7 @@ public class SettingsActivity extends PreferenceActivity implements
 	// Notification
 	private CheckBoxPreference mPrefNotificationSound,
 			mPrefNotificationVibrate;
+	private Preference mPrefInterval;
 
 	@SuppressWarnings("deprecation")
     @Override
@@ -92,7 +95,8 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
 		mPrefDevelopers = findPreference(DEVELOPERS);
-
+		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
+		
 		// Data
 		String version = "Unknown";
 		try {
@@ -110,7 +114,11 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
-
+		mPrefInterval.setSummary(
+				this.getResources()
+				.getStringArray(R.array.interval_name) [mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
+						);
+		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
@@ -120,6 +128,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
 		mPrefCrash.setOnPreferenceClickListener(this);
 		mPrefDevelopers.setOnPreferenceClickListener(this);
+		mPrefInterval.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -155,7 +164,11 @@ public class SettingsActivity extends PreferenceActivity implements
 			i.setClass(this, DevelopersActivity.class);
 			startActivity(i);
 			return true;
+		} else if (preference == mPrefInterval) {
+			showIntervalSetDialog();
+			return true;
 		}
+
 		return false;
 	}
 
@@ -182,4 +195,29 @@ public class SettingsActivity extends PreferenceActivity implements
 
 		return false;
 	}
+	
+	private void showIntervalSetDialog(){
+		new AlertDialog.Builder(this)
+			.setTitle(getString(R.string.set_interval))
+			.setSingleChoiceItems(
+					getResources().getStringArray(R.array.interval_name),
+					mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1),
+					new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							mSettings.putInt(Settings.NOTIFICATION_INTERVAL, which);
+							mPrefInterval.setSummary(
+									getResources()
+									.getStringArray(R.array.interval_name) [
+									mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)
+									]
+											);
+							dialog.dismiss();
+						}
+					})
+			.show();
+		
+	}
+	
 }
