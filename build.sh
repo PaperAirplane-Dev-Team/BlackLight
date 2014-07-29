@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
  
 function scandir() {
 	local cur_dir parent_dir workdir
@@ -25,7 +25,7 @@ function scandir() {
 }
 
 function usage() {
-	echo "usage: sh build.sh [debug|release]"
+	echo "usage: bash build.sh [debug|release]"
 }
 
 # Verification
