@@ -77,7 +77,6 @@ echo 'Generating list of sources...'
 for dir in $src
 do
 	echo -e `scandir $dir` >> build/bin/sources.list
-	sleep 1
 done
 
 # Run javac
