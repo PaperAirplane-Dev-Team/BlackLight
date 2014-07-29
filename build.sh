@@ -81,7 +81,7 @@ done
 
 # Run javac
 echo 'Compiling Java sources...'
-javac -cp $jar @build/bin/sources.list -d build/bin/classes
+javac -encoding utf-8 -cp $jar @build/bin/sources.list -d build/bin/classes
 
 # Dex
 echo 'Dexing...'
