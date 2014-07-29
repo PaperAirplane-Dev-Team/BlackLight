@@ -2,6 +2,7 @@
 class_files.txt
 seeds.txt
 unused.txt
+/build
 /bin
 /gen
 /obj
