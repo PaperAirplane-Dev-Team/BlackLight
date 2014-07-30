@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import android.util.Log;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 
 import java.util.ArrayList;
 
@@ -57,9 +59,12 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 {
 	private static final String TAG = ImageActivity.class.getSimpleName();
 	
+	private ImageAdapter mAdapter;
 	private ViewPager mPager;
 	private MessageModel mModel;
 	private HomeTimeLineApiCache mApiCache;
+
+	private TextView mPage;
 
 	private boolean[] mLoaded;
 	
@@ -78,11 +83,21 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 		setContentView(R.layout.image_activity);
 		
 		// Initialize the adapter
-		ImageAdapter adapter = new ImageAdapter();
-		mLoaded = new boolean[adapter.getCount()];
+		mAdapter = new ImageAdapter();
+		mLoaded = new boolean[mAdapter.getCount()];
+
+		// Page indicator
+		mPage = (TextView) findViewById(R.id.image_page);
+		mPage.setText((def + 1) + " / " + mAdapter.getCount());
 
 		mPager = (ViewPager) findViewById(R.id.image_pager);
-		mPager.setAdapter(adapter);
+		mPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int page) {
+				mPage.setText((page + 1) + " / " + mAdapter.getCount());
+			}
+		});
+		mPager.setAdapter(mAdapter);
 		mPager.setCurrentItem(def);
 		
 	}
