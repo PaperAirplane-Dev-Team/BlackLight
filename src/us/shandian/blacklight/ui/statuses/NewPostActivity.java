@@ -56,7 +56,6 @@ import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class NewPostActivity extends AbsActivity
 {
@@ -81,9 +80,7 @@ public class NewPostActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
+		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
 
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_status);

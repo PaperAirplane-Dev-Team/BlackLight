@@ -54,8 +54,6 @@ import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 import us.shandian.blacklight.ui.common.AbsActivity;
 
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
-
 public class SingleActivity extends AbsActivity
 {
 	private MessageModel mMsg;
@@ -79,9 +77,7 @@ public class SingleActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
+		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
