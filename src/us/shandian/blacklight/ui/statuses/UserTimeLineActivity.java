@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -151,6 +152,19 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 		
 		mFragment = new UserTimeLineFragment(mModel.id);
 		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
+
+		// Change panel height when measured
+		final View container = findViewById(R.id.user_container);
+		ViewTreeObserver vto = container.getViewTreeObserver();
+		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				int containerHeight = container.getMeasuredHeight();
+				int slideHeight = mSlide.getMeasuredHeight();
+				mSlide.setPanelHeight(slideHeight - containerHeight - 20);
+				return true;
+			}
+		});
 	}
 
 	@Override
