@@ -23,9 +23,15 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.support.Settings;
+import us.shandian.blacklight.support.ShakeDetector;
+import us.shandian.blacklight.support.ShakeDetector.ShakeListener;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class AbsActivity extends Activity {
+public class AbsActivity extends Activity implements ShakeListener {
+
+	private ShakeDetector mDetector;
+	private Settings mSettings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,32 @@ public class AbsActivity extends Activity {
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+
+		// Shake Detector
+		mDetector = ShakeDetector.getInstance(this);
+
+		// Settings
+		mSettings = Settings.getInstance(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (mSettings.getBoolean(Settings.SHAKE_TO_RETURN, true)) {
+			mDetector.addListener(this);
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mDetector.removeListener(this);
+	}
+
+	@Override
+	public void onShake() {
+		this.onBackPressed();
 	}
 
 }

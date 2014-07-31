@@ -47,6 +47,11 @@
 			android:key="fast_scroll"
 			android:title="@string/fast_scroll"
 			android:checked="false"/>
+
+		<CheckBoxPreference
+			android:key="shake_to_return"
+			android:title="@string/shake_to_return"
+			android:checked="true"/>
 		
 		<CheckBoxPreference
 			android:key="right_handed"

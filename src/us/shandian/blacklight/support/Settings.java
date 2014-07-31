@@ -31,6 +31,7 @@ public class Settings
 	
 	// Actions
 	public static final String FAST_SCROLL = "fast_scroll";
+	public static final String SHAKE_TO_RETURN = "shake_to_return";
 	public static final String RIGHT_HANDED = "right_handed";
 
 	// Notification

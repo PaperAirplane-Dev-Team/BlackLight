@@ -58,6 +58,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
+	private CheckBoxPreference mPrefShakeToReturn;
 	private CheckBoxPreference mPrefRightHanded;
 
 	// Notification
@@ -89,6 +90,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefVersion = findPreference(VERSION);
 		mPrefSourceCode = findPreference(SOURCE_CODE);
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
+		mPrefShakeToReturn = (CheckBoxPreference) findPreference(Settings.SHAKE_TO_RETURN);
 		mPrefRightHanded = (CheckBoxPreference) findPreference(Settings.RIGHT_HANDED);
 		mPrefLog = findPreference(DEBUG_LOG);
 		mPrefCrash = findPreference(DEBUG_CRASH);
@@ -107,6 +109,8 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefVersion.setSummary(version);
 		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL,
 				false));
+		mPrefShakeToReturn.setChecked(mSettings.getBoolean(
+				Settings.SHAKE_TO_RETURN, true));
 		mPrefRightHanded.setChecked(mSettings.getBoolean(
 				Settings.RIGHT_HANDED, false));
 		mPrefNotificationSound.setChecked(mSettings.getBoolean(
@@ -123,6 +127,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
+		mPrefShakeToReturn.setOnPreferenceChangeListener(this);
 		mPrefRightHanded.setOnPreferenceChangeListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
@@ -190,6 +195,10 @@ public class SettingsActivity extends PreferenceActivity implements
 			mSettings.putBoolean(Settings.RIGHT_HANDED,
 					Boolean.parseBoolean(newValue.toString()));
 			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (preference == mPrefShakeToReturn) {
+			mSettings.putBoolean(Settings.SHAKE_TO_RETURN,
+					Boolean.parseBoolean(newValue.toString()));
 			return true;
 		}
 
