@@ -32,6 +32,9 @@ function usage() {
 if [ $# != "1" ]; then
 	usage
 	exit 1
+elif [ $1 != "debug" ] && [ $1 != "release" ]; then
+	usage
+	exit 1
 fi
 
 # Clean up
@@ -106,3 +109,15 @@ fi
 
 # Finished
 echo "Apk built for $1: ${PWD}/build/bin/build.apk"
+
+# If built debug version, install it
+if [ ${1} = "debug" ]; then
+	echo 'Installing...'
+	if [ -f "/system/build.prop" ]; then
+		# Install on an Android device
+		pm install -r "${PWD}/build/bin/build.apk"
+	else
+		# Install from a PC
+		adb install -r "${PWD}/build/bin/build.apk"
+	fi
+fi
