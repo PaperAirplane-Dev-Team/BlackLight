@@ -148,7 +148,8 @@
 	    <item>3 分钟</item>
 	    <item>5 分钟</item>
 	    <item>10 分钟</item>
-	    <item>30 分钟</item>
+		<item>30 分钟</item>
+		<item>从不</item>
 	</string-array>
 	
 	<!-- Message -->

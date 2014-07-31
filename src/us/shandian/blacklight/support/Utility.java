@@ -129,16 +129,13 @@ public class Utility
 	}
 	
 	public static void startServices(Context context) {
-		Settings mSettings = Settings.getInstance(context);
-		startServiceAlarm(context,
-				CommentTimeLineFetcherService.class,
-				getIntervalTime(mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1))
-				);
-		startServiceAlarm(
-				context,
-				MentionsTimeLineFetcherService.class, 
-				getIntervalTime(mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1))
-				);
+		Settings settings = Settings.getInstance(context);
+		int interval = getIntervalTime(settings.getInt(Settings.NOTIFICATION_INTERVAL, 1));
+
+		if (interval > -1) {
+			startServiceAlarm(context, CommentTimeLineFetcherService.class, interval);
+			startServiceAlarm(context, MentionsTimeLineFetcherService.class, interval);
+		}
 	}
 	
 	public static void stopServices(Context context) {
@@ -168,6 +165,8 @@ public class Utility
 			return 10 * 60 * 1000;
 		case 4:
 			return 30 * 60 * 1000;
+		case 5:
+			return -1;
 		}
 		return -1;
 	}
