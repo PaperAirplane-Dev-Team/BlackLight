@@ -11,7 +11,7 @@
 *
 * BlackLight is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
@@ -24,15 +24,17 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:id="@+id/single_root"
+	sothree:paralaxOffset="100dp"
 	sothree:panelHeight="48dp"
 	sothree:shadowHeight="4dp"
 	sothree:dragView="@+id/single_drag"
-    android:fitsSystemWindows="true">
+	android:paddingBottom="?android:attr/actionBarSize">
 
 	<FrameLayout
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:id="@+id/single_content"/>
+		android:id="@+id/single_content"
+		android:paddingTop="?android:attr/actionBarSize"/>
 
 	<LinearLayout
 		android:layout_height="match_parent"
@@ -69,7 +71,7 @@
 				android:layout_height="match_parent">
 				
 				<ImageView
-				    android:id="@+id/iv_collapse"
+					android:id="@+id/iv_collapse"
 					android:layout_width="40dp"
 					android:layout_height="40dp"
 					android:layout_marginEnd="5dp"

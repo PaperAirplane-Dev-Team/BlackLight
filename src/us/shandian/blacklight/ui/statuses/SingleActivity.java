@@ -50,6 +50,7 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 import us.shandian.blacklight.ui.common.AbsActivity;
@@ -63,7 +64,7 @@ public class SingleActivity extends AbsActivity
 	private Fragment mRepostFragment;
 	
 	private ViewPager mPager;
-	private View mRoot;
+	private SlidingUpPanelLayout mRoot;
 	private View mContent;
 	
 	private TabHost mTabs;
@@ -90,7 +91,7 @@ public class SingleActivity extends AbsActivity
 		}
 		
 		// Init
-		mRoot = findViewById(R.id.single_root);
+		mRoot = (SlidingUpPanelLayout) findViewById(R.id.single_root);
 		mContent = findViewById(R.id.single_content);
 		
 		mMsgFragment = new HackyFragment();
@@ -120,11 +121,11 @@ public class SingleActivity extends AbsActivity
 
 		mCollapse = (ImageView) mRoot.findViewById(R.id.iv_collapse);
 		
-		((SlidingUpPanelLayout) mRoot).setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
+		mRoot.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
 
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
-				
+				Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
 			}
 
 			@Override

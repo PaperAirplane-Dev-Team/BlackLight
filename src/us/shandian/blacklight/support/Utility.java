@@ -184,13 +184,57 @@ public class Utility
 	public static void setActionBarTranslation(Activity activity, float y) {
 		ViewGroup vg = (ViewGroup) activity.findViewById(android.R.id.content).getParent();
 		int count = vg.getChildCount();
-		
+
+		if (DEBUG) {
+			Log.d(TAG, "==========================");
+		}
+
+		// Get the class of action bar
+		Class<?> actionBarContainer= null;
+		Field isSplit = null;
+
+		try {
+			actionBarContainer = Class.forName("com.android.internal.widget.ActionBarContainer");
+			isSplit = actionBarContainer.getDeclaredField("mIsSplit");
+			isSplit.setAccessible(true);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+
 		for (int i = 0; i < count; i++) {
 			View v = vg.getChildAt(i);
 			
 			if (v.getId() != android.R.id.content) {
-				v.setTranslationY(y);
+				if (DEBUG) {
+					Log.d(TAG, "Found View: " + v.getClass().getName());
+				}
+
+				try {
+					if (actionBarContainer.isInstance(v)) {
+						if (DEBUG) {
+							Log.d(TAG, "Found ActionBarContainer");
+						}
+
+						if (!isSplit.getBoolean(v)) {
+							v.setTranslationY(y);
+						} else {
+							if (DEBUG) {
+								Log.d(TAG, "Found Split Action Bar");
+							}
+						}
+					}
+				} catch (Exception e) {
+					if (DEBUG) {
+						Log.e(TAG, Log.getStackTraceString(e));
+					}
+				}
 			}
+		}
+
+		if (DEBUG) {
+			Log.d(TAG, "==========================");
 		}
 	}
 	
