@@ -101,10 +101,10 @@ cd ../..
 # Sign
 echo 'Signing...'
 if [ ${1} = "debug" ]; then
-	jarsigner -keystore keystore/debug.keystore -storepass android build/bin/build.apk my_alias
+	jarsigner -keystore keystore/debug.keystore -storepass android -sigalg MD5withRSA -digestalg SHA1 build/bin/build.apk my_alias
 elif [ ${1} = "release" ]; then
 	# Jarsigner will ask me for my passwords ^_^
-	jarsigner -keystore keystore/publish.keystore build/bin/build.apk peter
+	jarsigner -keystore keystore/publish.keystore -sigalg MD5withRSA -digestalg SHA1 build/bin/build.apk peter
 fi
 
 # Finished
