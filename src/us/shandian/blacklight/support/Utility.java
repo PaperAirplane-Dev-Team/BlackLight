@@ -26,6 +26,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.view.View;
@@ -236,6 +238,17 @@ public class Utility
 		if (DEBUG) {
 			Log.d(TAG, "==========================");
 		}
+	}
+
+	public static int getFontHeight(Context context, float fontSize) {
+		// Convert Dp To Px
+		float px = context.getResources().getDisplayMetrics().density * fontSize + 0.5f;
+
+		// Use Paint to get font height
+		Paint p = new Paint();
+		p.setTextSize(px);
+		FontMetrics fm = p.getFontMetrics();
+		return (int) Math.ceil(fm.descent - fm.ascent);
 	}
 	
 	@TargetApi(19)

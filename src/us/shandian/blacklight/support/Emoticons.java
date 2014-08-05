@@ -23,10 +23,14 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.util.Log;
 
 import java.util.HashMap;
+import java.io.InputStream;
 
 import us.shandian.blacklight.support.adapter.EmoticonAdapter;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /*
   This class maps emoticon strings to asset imgs
@@ -34,8 +38,11 @@ import us.shandian.blacklight.support.adapter.EmoticonAdapter;
 */
 public class Emoticons
 {
+	public static final String TAG = Emoticons.class.getSimpleName();
+
 	public static final HashMap<String, String> EMOTICONS = new HashMap<String, String>();
 	public static final HashMap<String, Bitmap> EMOTICON_BITMAPS = new HashMap<String, Bitmap>();
+	public static final HashMap<String, Bitmap> EMOTICON_BITMAPS_SCALED = new HashMap<String, Bitmap>();
 	
 	static {
 		EMOTICONS.put("[挖鼻屎]", "kbsa_org.png");
@@ -147,13 +154,34 @@ public class Emoticons
 	}
 	
 	public static void init(Context context) {
+		int size = Utility.getFontHeight(context, 16f);
+
+		if (DEBUG) {
+			Log.d(TAG, "Font size = " + size);
+		}
+
 		AssetManager am = context.getAssets();
 		for (String key : EMOTICONS.keySet()) {
 			try {
 				Bitmap bitmap = BitmapFactory.decodeStream(am.open(EMOTICONS.get(key)));
 				EMOTICON_BITMAPS.put(key, bitmap);
+
+				// Scale by font size
+				Matrix matrix = new Matrix();
+				matrix.postScale((float) size / bitmap.getWidth(), (float) size / bitmap.getHeight());
+
+				if (DEBUG) {
+					Log.d(TAG, "width = " + bitmap.getWidth() + " height = " + bitmap.getHeight());
+					Log.d(TAG, "scaleX = " + (float) size / bitmap.getWidth() + " scaleY = " + (float) size / bitmap.getHeight());
+				}
+
+				bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+				EMOTICON_BITMAPS_SCALED.put(key, bitmap);
 			} catch (Exception e) {
 				// just jump it
+				if (DEBUG) {
+					Log.d(TAG, Log.getStackTraceString(e));
+				}
 			}
 		}
 		EmoticonAdapter.init();

@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.model;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -36,14 +37,14 @@ public class CommentListModel extends MessageListModel
 	private List<CommentModel> comments = new ArrayList<CommentModel>();
 
 	@Override
-	public void spanAll() {
-		super.spanAll();
+	public void spanAll(Context context) {
+		super.spanAll(context);
 		
 		for (CommentModel comment : comments) {
 			if (comment.reply_comment != null) {
-				comment.reply_comment.origSpan = SpannableStringUtils.getOrigSpan(comment.reply_comment);
+				comment.reply_comment.origSpan = SpannableStringUtils.getOrigSpan(context, comment.reply_comment);
 			} else if (comment.status != null) {
-				comment.status.origSpan = SpannableStringUtils.getOrigSpan(comment.status);
+				comment.status.origSpan = SpannableStringUtils.getOrigSpan(context, comment.status);
 			}
 		}
 	}
@@ -74,7 +75,6 @@ public class CommentListModel extends MessageListModel
 			total_number = values.total_number;
 		}
 		
-		spanAll();
 	}
 
 	@Override

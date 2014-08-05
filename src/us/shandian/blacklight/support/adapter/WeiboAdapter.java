@@ -259,7 +259,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
-		content.setText(SpannableStringUtils.getSpan(msg));
+		content.setText(SpannableStringUtils.getSpan(mContext, msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
 		date.setText(mTimeUtils.buildTimeString(msg.created_at));
@@ -318,7 +318,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
 		h.getOriginParent().setVisibility(View.VISIBLE);
-		h.getOrigContent().setText(SpannableStringUtils.getOrigSpan(msg));
+		h.getOrigContent().setText(SpannableStringUtils.getOrigSpan(mContext, msg));
 		h.getOrigContent().setMovementMethod(HackyMovementMethod.getInstance());
 		
 		bindMultiPicLayout(h, msg, showPic);

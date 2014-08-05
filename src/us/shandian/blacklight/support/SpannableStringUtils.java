@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.support;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -47,7 +48,7 @@ public class SpannableStringUtils
 	private static final String TOPIC_SCHEME = "us.shandian.blacklight.topic://";
 	private static final String MENTION_SCHEME = "us.shandian.blacklight.user://";
 	
-	public static SpannableString span(String text) {
+	public static SpannableString span(Context context, String text) {
 		SpannableString ss = SpannableString.valueOf(text);
 		Linkify.addLinks(ss, PATTERN_WEB, HTTP_SCHEME);
 		Linkify.addLinks(ss, PATTERN_TOPIC, TOPIC_SCHEME);
@@ -69,10 +70,10 @@ public class SpannableStringUtils
 			// Don't be too long
 			if (matcher.end() - matcher.start() < 8) {
 				String iconName = matcher.group(0);
-				Bitmap bitmap = Emoticons.EMOTICON_BITMAPS.get(iconName);
+				Bitmap bitmap = Emoticons.EMOTICON_BITMAPS_SCALED.get(iconName);
 				
 				if (bitmap != null) {
-					ImageSpan span = new ImageSpan(bitmap, ImageSpan.ALIGN_BASELINE);
+					ImageSpan span = new ImageSpan(context, bitmap, ImageSpan.ALIGN_BASELINE);
 					ss.setSpan(span, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}
 			}
@@ -81,20 +82,20 @@ public class SpannableStringUtils
 		return ss;
 	}
 	
-	public static SpannableString getSpan(MessageModel msg) {
+	public static SpannableString getSpan(Context context, MessageModel msg) {
 		if (msg.span == null) {
 			
 			if (DEBUG) {
 				Log.d(TAG, msg.id + " span is null");
 			}
 			
-			msg.span = span(msg.text);
+			msg.span = span(context, msg.text);
 		}
 
 		return msg.span;
 	}
 
-	public static SpannableString getOrigSpan(MessageModel orig) {
+	public static SpannableString getOrigSpan(Context context, MessageModel orig) {
 		if (orig.origSpan == null) {
 			
 			if (DEBUG) {
@@ -108,7 +109,7 @@ public class SpannableStringUtils
 				username = "@" + username + ":";
 			}
 
-			orig.origSpan = span(username + orig.text);
+			orig.origSpan = span(context, username + orig.text);
 		}
 
 		return orig.origSpan;

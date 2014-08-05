@@ -91,7 +91,7 @@ public class DirectMessageAdapter extends BaseAdapter
 					container.setAlpha(0.8f);
 				}
 				
-				h.getContent().setText(SpannableStringUtils.span(msg.text));
+				h.getContent().setText(SpannableStringUtils.span(mContext, msg.text));
 				h.getContent().setMovementMethod(HackyMovementMethod.getInstance());
 				
 				mViews.put(msg, v);

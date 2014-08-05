@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.model;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -58,12 +59,12 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 	private List<MessageModel> statuses = new ArrayList<MessageModel>();
 	private List<AD> ad = new ArrayList<AD>();
 	
-	public void spanAll() {
+	public void spanAll(Context context) {
 		for (MessageModel msg : getList()) {
-			msg.span = SpannableStringUtils.getSpan(msg);
+			msg.span = SpannableStringUtils.getSpan(context, msg);
 			
 			if (msg.retweeted_status != null) {
-				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(msg.retweeted_status);
+				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(context, msg.retweeted_status);
 			}
 		}
 	}
@@ -93,8 +94,6 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 			}
 			total_number = values.total_number;
 		}
-		
-		spanAll();
 	}
 	
 	@Override

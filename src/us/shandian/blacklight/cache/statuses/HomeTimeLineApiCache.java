@@ -50,12 +50,15 @@ public class HomeTimeLineApiCache
 	protected FileCacheManager mManager;
 	
 	public MessageListModel mMessages;
+
+	private Context mContext;
 	
 	protected int mCurrentPage = 0;
 
 	public HomeTimeLineApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
 		mManager = FileCacheManager.instance(context);
+		mContext = context;
 	}
 	
 	public void loadFromCache() {
@@ -65,7 +68,7 @@ public class HomeTimeLineApiCache
 			cursor.moveToFirst();
 			mMessages = new Gson().fromJson(cursor.getString(1), getListClass());
 			mCurrentPage = mMessages.getSize() / Constants.HOME_TIMELINE_PAGE_SIZE;
-			mMessages.spanAll();
+			mMessages.spanAll(mContext);
 		} else {
 			try {
 				mMessages = getListClass().newInstance();
