@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -40,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Bundle;
+import android.os.Build;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -177,8 +179,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		// Initialize ActionBar Style
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayUseLogoEnabled(false);
-        getActionBar().setDisplayShowHomeEnabled(false);
+
+		if (Build.VERSION.SDK_INT >= 17) {
+    	    getActionBar().setDisplayUseLogoEnabled(false);
+    	    getActionBar().setDisplayShowHomeEnabled(false);
+		} else {
+			getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+		}
 
 		// Fragments
 		mFragments[0] = new HomeTimeLineFragment();
