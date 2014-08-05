@@ -180,7 +180,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-		if (Build.VERSION.SDK_INT >= 17) {
+		if (Build.VERSION.SDK_INT >= 19) {
     	    getActionBar().setDisplayUseLogoEnabled(false);
     	    getActionBar().setDisplayShowHomeEnabled(false);
 		} else {
