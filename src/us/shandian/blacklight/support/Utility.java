@@ -219,12 +219,12 @@ public class Utility
 							Log.d(TAG, "Found ActionBarContainer");
 						}
 
-						if (!isSplit.getBoolean(v)) {
-							v.setTranslationY(y);
-						} else {
+						if (isSplit.getBoolean(v)) {
 							if (DEBUG) {
 								Log.d(TAG, "Found Split Action Bar");
 							}
+
+							continue;
 						}
 					}
 				} catch (Exception e) {
@@ -232,6 +232,8 @@ public class Utility
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
 				}
+				
+				v.setTranslationY(y);
 			}
 		}
 
