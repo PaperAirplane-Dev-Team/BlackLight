@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.common;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import us.shandian.blacklight.support.Utility;
@@ -59,6 +60,8 @@ public class AbsActivity extends Activity implements ShakeListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		if (mSettings.getBoolean(Settings.SHAKE_TO_RETURN, true)) {
 			mDetector.addListener(this);
