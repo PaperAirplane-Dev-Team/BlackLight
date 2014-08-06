@@ -42,6 +42,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	private Canvas mCanvas;
 	private Bitmap mBitmap;
 	private int mWidth, mHeight, mProgressBarHeight;
+	private int mTopMargin;
 	
 	private boolean mIsDown = false;
 	private boolean mDownPriority = false;
@@ -99,6 +100,10 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		} catch (Exception e) {
 			return true;
 		}
+	}
+
+	public void setTopMargin(int margin) {
+		mTopMargin = margin;
 	}
 
 	@Override
@@ -173,7 +178,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 				
 			}
 			
-			canvas.drawBitmap(mBitmap, 0, isDown() ? mHeight - mProgressBarHeight : 0, null);
+			canvas.drawBitmap(mBitmap, 0, isDown() ? mHeight - mProgressBarHeight : mTopMargin, null);
 		}
 	}
 

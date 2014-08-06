@@ -182,6 +182,15 @@ public class Utility
 			return 0;
 		}
 	}
+
+	public static int getStatusBarHeight(Context context) {
+		int result = 0;
+		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = context.getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
+	}
 	
 	public static void setActionBarTranslation(Activity activity, float y) {
 		ViewGroup vg = (ViewGroup) activity.findViewById(android.R.id.content).getParent();

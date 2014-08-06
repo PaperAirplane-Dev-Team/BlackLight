@@ -27,9 +27,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.os.Bundle;
+import android.os.Build;
 import android.os.Vibrator;
 
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,6 +45,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+import us.shandian.blacklight.ui.main.MainActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
@@ -50,7 +53,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 													View.OnTouchListener, View.OnLongClickListener
 {
 	
-	private ListView mList;
+	protected ListView mList;
 	private View mNew;
 	private WeiboAdapter mAdapter;
 	private HomeTimeLineApiCache mCache;
@@ -76,6 +79,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
+
 		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		
@@ -89,9 +93,26 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		if (mCache.mMessages.getSize() == 0) {
 			new Refresher().execute(new Boolean[]{true});
 		}
+
+		// Content Margin
+		if (getActivity() instanceof MainActivity) {
+			View header = new View(getActivity());
+			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
+					Utility.getActionBarHeight(getActivity()));
+
+			if (Build.VERSION.SDK_INT >= 19) {
+				p.height += Utility.getStatusBarHeight(getActivity());
+			}
+
+			header.setLayoutParams(p);
+			mList.addHeaderView(header);
+			mSwipeRefresh.setTopMargin(p.height);
+		}
 		
 		// Floating "New" button
 		bindNewButton(v);
+
+		mList.setOnTouchListener(this);
 		
 		return v;
 	}
@@ -176,27 +197,39 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 				float y = ev.getY();
 				
 				if (!mNewHidden && y < mLastY) {
-					mNew.clearAnimation();
+					if (mNew != null) {
+						mNew.clearAnimation();
 					
-					TranslateAnimation anim = new TranslateAnimation(0, 0, 0, mList.getHeight() - mNew.getTop());
-					anim.setFillAfter(true);
-					anim.setDuration(400);
+						TranslateAnimation anim = new TranslateAnimation(0, 0, 0, mList.getHeight() - mNew.getTop());
+						anim.setFillAfter(true);
+						anim.setDuration(400);
 					
-					mNew.setAnimation(anim);
-					anim.startNow();
-					
+						mNew.setAnimation(anim);
+						anim.startNow();
+					}
+
 					mNewHidden = true;
+
+					if (getActivity() instanceof MainActivity) {
+						getActivity().getActionBar().hide();
+					}
 				} else if (mNewHidden && y > mLastY) {
-					mNew.clearAnimation();
+					if (mNew != null) {
+						mNew.clearAnimation();
 
-					TranslateAnimation anim = new TranslateAnimation(0, 0, mList.getHeight() - mNew.getTop(), 0);
-					anim.setFillAfter(true);
-					anim.setDuration(400);
+						TranslateAnimation anim = new TranslateAnimation(0, 0, mList.getHeight() - mNew.getTop(), 0);
+						anim.setFillAfter(true);
+						anim.setDuration(400);
 
-					mNew.setAnimation(anim);
-					anim.startNow();
+						mNew.setAnimation(anim);
+						anim.startNow();
+					}
 
 					mNewHidden = false;
+
+					if (getActivity() instanceof MainActivity) {
+						getActivity().getActionBar().show();
+					}
 				}
 				
 				mLastY = y;
@@ -231,17 +264,16 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 	
 	protected void bindNewButton(View v) {
-        mNew = v.findViewById(R.id.home_timeline_new);
-        if (!hasSmartBar()) {
-            mNew.setVisibility(View.VISIBLE);
-            mNew.bringToFront();
-            mNew.setOnClickListener(this);
-            mNew.setOnLongClickListener(this);
+		mNew = v.findViewById(R.id.home_timeline_new);
+		if (!hasSmartBar()) {
+			mNew.setVisibility(View.VISIBLE);
+			mNew.bringToFront();
+			mNew.setOnClickListener(this);
+			mNew.setOnLongClickListener(this);
 
-            mList.setOnTouchListener(this); // Listener to hide or show the button
-        } else {
-            mNew.setVisibility(View.INVISIBLE);
-        }
+		} else {
+			mNew.setVisibility(View.INVISIBLE);
+		}
 	}
 	
 	protected void newPost() {

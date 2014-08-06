@@ -34,7 +34,7 @@
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
 	
-	<style name="My.Theme.Holo.Light.TranslucentActionBar" parent="@style/My.Theme.Holo.Light.DarkActionBar.Translucent">
+	<style name="My.Theme.Holo.Light.TranslucentActionBar" parent="@style/My.Theme.Holo.Light.DarkActionBar">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 	

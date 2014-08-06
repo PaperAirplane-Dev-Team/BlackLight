@@ -22,9 +22,11 @@ package us.shandian.blacklight.ui.directmessage;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -33,6 +35,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.directmessages.DirectMessagesUserApiCache;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
@@ -63,6 +66,21 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mSwipeRefresh.setOnRefreshListener(this);
 		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
 		
+		// Content Margin
+		if (getActivity() instanceof MainActivity) {
+			View header = new View(getActivity());
+			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
+					Utility.getActionBarHeight(getActivity()));
+
+			if (Build.VERSION.SDK_INT >= 19) {
+				p.height += Utility.getStatusBarHeight(getActivity());
+			}
+
+			header.setLayoutParams(p);
+			mList.addHeaderView(header);
+			mSwipeRefresh.setTopMargin(p.height);
+		}
+
 		mApiCache = new DirectMessagesUserApiCache(getActivity());
 		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers);
 		mList.setAdapter(mAdapter);

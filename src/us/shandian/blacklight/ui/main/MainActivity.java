@@ -123,6 +123,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
+				getActionBar().show();
                 invalidateOptionsMenu();
 				if (mLastChoice == null) {
 					mLastChoice = (TextView) mMy.getChildAt(0);

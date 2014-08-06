@@ -59,7 +59,8 @@
 			android:name=".ui.main.MainActivity"
 			android:label="@string/app_name"
 			android:screenOrientation="portrait"
-			android:launchMode="singleTask" >
+			android:launchMode="singleTask"
+			android:theme="@style/My.Theme.Holo.Light.TranslucentActionBar" >
 			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT" />
 				<action android:name="android.intent.action.MAIN" />
