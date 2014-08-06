@@ -146,7 +146,7 @@ public class NewPostActivity extends AbsActivity
 		// Handle share intent
 		Intent i = getIntent();
 
-		if (i != null) {
+		if (i != null && i.getType() != null) {
 			if (i.getType().indexOf("text/plain") != -1) {
 				mText.setText(i.getStringExtra(Intent.EXTRA_TEXT));
 			} else if (i.getType().indexOf("image/") != -1) {
