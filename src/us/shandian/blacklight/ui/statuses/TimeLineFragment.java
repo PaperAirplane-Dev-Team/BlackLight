@@ -118,8 +118,8 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onDestroy() {
+		super.onDestroy();
 		
 		try {
 			mCache.cache();
