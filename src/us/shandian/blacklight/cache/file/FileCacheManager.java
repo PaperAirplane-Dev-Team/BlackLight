@@ -111,7 +111,12 @@ public class FileCacheManager
 	}
 	
 	public void clearUnavailable() {
-		clearUnavailable(mCacheDir);
+		try {
+			clearUnavailable(mCacheDir);
+		} catch (NullPointerException e) {
+			// NPE is caused by unmounted sdcard
+			// Just ignore
+		}
 	}
 	
 	private void clearUnavailable(File dir) {
