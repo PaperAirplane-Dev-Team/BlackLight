@@ -79,9 +79,6 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-
-		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
-		mList.setAdapter(mAdapter);
 		
 		mList.setDrawingCacheEnabled(true);
 		mList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
@@ -108,6 +105,10 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			mList.addHeaderView(header);
 			mSwipeRefresh.setTopMargin(p.height);
 		}
+
+		// Adapter
+		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
+		mList.setAdapter(mAdapter);
 		
 		// Floating "New" button
 		bindNewButton(v);
