@@ -27,6 +27,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.Menu;
@@ -44,6 +45,7 @@ import android.util.Log;
 
 import android.support.v4.widget.DrawerLayout;
 
+import java.io.IOException;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -140,6 +142,26 @@ public class NewPostActivity extends AbsActivity
 				}
 			}
 		});
+
+		// Handle share intent
+		Intent i = getIntent();
+
+		if (i != null) {
+			if (i.getType().indexOf("text/plain") != -1) {
+				mText.setText(i.getStringExtra(Intent.EXTRA_TEXT));
+			} else if (i.getType().indexOf("image/") != -1) {
+				Uri uri = (Uri) i.getParcelableExtra(Intent.EXTRA_STREAM);
+
+				try {
+					Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+					setPicture(bitmap);
+				} catch (IOException e) {
+					if (DEBUG) {
+						Log.d(TAG, Log.getStackTraceString(e));
+					}
+				}
+			}
+		}
 	}
 
 	@Override
