@@ -115,6 +115,10 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		if (getActivity() instanceof MainActivity) {
+			position--; // Count the header view in
+		}
+
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
 		i.setClass(getActivity(), UserTimeLineActivity.class);
