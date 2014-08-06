@@ -31,6 +31,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.io.InputStream;
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
@@ -166,14 +168,14 @@ public class UserApiCache
 	}
 	
 	public Bitmap getSmallAvatar(UserModel model) {
-		byte[] cache;
+		InputStream cache;
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, model.id);
 		} catch (Exception e) {
 			cache = null;
 		}
 		
-		if (cache == null || cache.length <= 1000) {
+		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, model.id, model.profile_image_url);
 			} catch (Exception e) {
@@ -184,8 +186,15 @@ public class UserApiCache
 		if (cache == null) {
 			return null;
 		} else {
-			Bitmap bmp = drawVipType(model, BitmapFactory.decodeByteArray(cache, 0, cache.length));
+			Bitmap bmp = drawVipType(model, BitmapFactory.decodeStream(cache));
 			mSmallAvatarCache.put(model.id, new SoftReference<Bitmap>(bmp));
+
+			try {
+				cache.close();
+			} catch (IOException e) {
+
+			}
+
 			return bmp;
 		}
 	}
@@ -199,14 +208,14 @@ public class UserApiCache
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {
-		byte[] cache;
+		InputStream cache;
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, model.id);
 		} catch (Exception e) {
 			cache = null;
 		}
 
-		if (cache == null || cache.length <= 1000) {
+		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, model.id, model.avatar_large);
 			} catch (Exception e) {
@@ -214,7 +223,19 @@ public class UserApiCache
 			}
 		}
 
-		return cache != null ? drawVipType(model, BitmapFactory.decodeByteArray(cache, 0, cache.length)) : null;
+		if (cache != null) {
+			Bitmap ret = drawVipType(model, BitmapFactory.decodeStream(cache));
+
+			try {
+				cache.close();
+			} catch (IOException e) {
+
+			}
+
+			return ret;
+		} else {
+			return null;
+		}
 	}
 	
 	public Bitmap getCover(UserModel model) {
@@ -222,14 +243,14 @@ public class UserApiCache
 			return null;
 		}
 		
-		byte[] cache;
+		InputStream cache;
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_COVER, model.id);
 		} catch (Exception e) {
 			cache = null;
 		}
 
-		if (cache == null || cache.length <= 1000) {
+		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image);
 			} catch (Exception e) {
@@ -237,7 +258,19 @@ public class UserApiCache
 			}
 		}
 
-		return cache != null ? BitmapFactory.decodeByteArray(cache, 0, cache.length) : null;
+		if (cache != null) {
+			Bitmap ret = BitmapFactory.decodeStream(cache);
+
+			try {
+				cache.close();
+			} catch (IOException e) {
+
+			}
+
+			return ret;
+		} else {
+			return null;
+		}
 	}
 	
 	private Bitmap drawVipType(UserModel model, Bitmap bitmap) {

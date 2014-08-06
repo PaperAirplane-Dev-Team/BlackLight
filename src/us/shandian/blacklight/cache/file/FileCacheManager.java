@@ -72,23 +72,26 @@ public class FileCacheManager
 		return dist + "/" + name;
 	}
 	
-	public byte[] createCacheFromNetwork(String type, String name, String url) throws IOException {
+	public InputStream createCacheFromNetwork(String type, String name, String url) throws IOException {
 		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 		conn.setRequestMethod("GET");
 		conn.setConnectTimeout(5000);
 		byte[] buf = readInputStream(conn.getInputStream());
 		createCache(type, name, buf);
-		return buf;
+		conn.disconnect();
+
+		// Read From file
+		return getCache(type, name);
 	}
 	
-	public byte[] getCache(String type, String name) throws IOException {
+	public InputStream getCache(String type, String name) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
 		File f = new File(path);
 		if (!f.exists()) {
 			return null;
 		} else {
 			FileInputStream ipt = new FileInputStream(path);
-			return readInputStream(ipt);
+			return ipt;
 		}
 	}
 	

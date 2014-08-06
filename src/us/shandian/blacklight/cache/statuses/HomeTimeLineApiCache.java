@@ -29,6 +29,8 @@ import android.graphics.Movie;
 
 import com.google.gson.Gson;
 
+import java.io.InputStream;
+import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
@@ -107,7 +109,7 @@ public class HomeTimeLineApiCache
 		}
 		
 		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
-		byte[] cache;
+		InputStream cache;
 		
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_PICS_SMALL, cacheName);
@@ -115,7 +117,7 @@ public class HomeTimeLineApiCache
 			cache = null;
 		}
 		
-		if (cache == null || cache.length <= 1000) {
+		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
 			} catch (Exception e) {
@@ -127,8 +129,17 @@ public class HomeTimeLineApiCache
 			return null;
 		}
 		
-		Bitmap bmp = BitmapFactory.decodeByteArray(cache, 0, cache.length);
+		Bitmap bmp = BitmapFactory.decodeStream(cache);
 		mThumnnailCache.put(msg.id * 10 + id, new SoftReference<Bitmap>(bmp));
+
+		try {
+			cache.close();
+		} catch (IOException e) {
+			// Do nothing
+			// But this exception might cause memory leak
+			// I have no idea about it
+		}
+
 		return bmp;
 	}
 	
@@ -157,7 +168,7 @@ public class HomeTimeLineApiCache
 		}
 
 		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
-		byte[] cache;
+		InputStream cache;
 
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_PICS_LARGE, cacheName);
@@ -165,7 +176,7 @@ public class HomeTimeLineApiCache
 			cache = null;
 		}
 
-		if (cache == null || cache.length <= 1000) {
+		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url);
 			} catch (Exception e) {
@@ -178,7 +189,7 @@ public class HomeTimeLineApiCache
 		}
 
 		if (cacheName.endsWith(".gif")) {
-			Movie movie = Movie.decodeByteArray(cache, 0, cache.length);
+			Movie movie = Movie.decodeStream(cache);
 			
 			// A real movie must have a dutation bigger than 0
 			// Or it is just a static picture
@@ -187,17 +198,26 @@ public class HomeTimeLineApiCache
 			}
 		} 
 		
+		Bitmap ret = null;
 		try {
-			return BitmapFactory.decodeByteArray(cache, 0, cache.length);
+			ret = BitmapFactory.decodeStream(cache);
 		} catch (OutOfMemoryError e) {
 			// If OOM, compress and decode.
 			BitmapFactory.Options opt = new BitmapFactory.Options();
 			opt.inJustDecodeBounds = true;
-			BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
+			BitmapFactory.decodeStream(cache, null, opt);
 			opt.inSampleSize = Utility.computeSampleSize(opt, 512, 1024 * 1024);
 			opt.inJustDecodeBounds = false;
-			return BitmapFactory.decodeByteArray(cache, 0, cache.length, opt);
+			ret = BitmapFactory.decodeStream(cache, null, opt);
 		}
+		
+		try {
+			cache.close();
+		} catch (IOException e) {
+			
+		}
+		
+		return ret;
 	}
 
 	public String saveLargePic(MessageModel msg, int id) {
