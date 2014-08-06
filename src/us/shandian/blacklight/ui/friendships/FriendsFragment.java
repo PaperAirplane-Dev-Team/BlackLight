@@ -22,10 +22,12 @@ package us.shandian.blacklight.ui.friendships;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.widget.AbsListView;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -37,7 +39,9 @@ import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+import us.shandian.blacklight.support.Utility;
 
 public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
 {
@@ -66,11 +70,27 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		// Init
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mUsers = new UserListModel();
+		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
+
+		// Content Margin
+		if (getActivity() instanceof MainActivity) {
+			View header = new View(getActivity());
+			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
+					Utility.getActionBarHeight(getActivity()));
+
+			if (Build.VERSION.SDK_INT >= 19) {
+				p.height += Utility.getStatusBarHeight(getActivity());
+			}
+
+			header.setLayoutParams(p);
+			mList.addHeaderView(header);
+			mSwipeRefresh.setTopMargin(p.height);
+		}
+
 		mAdapter = new UserAdapter(getActivity(), mUsers);
 		mList.setAdapter(mAdapter);
 		mList.setOnItemClickListener(this);
-		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
-
+		
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
 		v.removeViewInLayout(mList);
 		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
