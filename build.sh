@@ -105,6 +105,12 @@ if [ ${1} = "debug" ]; then
 elif [ ${1} = "release" ]; then
 	# Jarsigner will ask me for my passwords ^_^
 	jarsigner -keystore keystore/publish.keystore -sigalg MD5withRSA -digestalg SHA1 build/bin/build.apk peter
+
+	# Zipalign
+	echo "Zipaligning..."
+	zipalign 4 build/bin/build.apk build/bin/build_aligned.apk
+	rm -r build/bin/build.apk
+	mv build/bin/build_aligned.apk build/bin/build.apk
 fi
 
 # Finished
