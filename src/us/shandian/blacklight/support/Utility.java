@@ -279,7 +279,7 @@ public class Utility
 			String line = null;
 			if (tmp.length() >= 15) {
 				line = tmp.substring(0, 15);
-				tmp = tmp.substring(16, tmp.length());
+				tmp = tmp.substring(15, tmp.length());
 			} else {
 				line = tmp;
 				tmp = "";
