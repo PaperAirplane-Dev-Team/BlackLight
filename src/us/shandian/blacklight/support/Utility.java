@@ -86,16 +86,20 @@ public class Utility
 		int[] array = new int[1];
 		GLES10.glGetIntegerv(GLES10.GL_MAX_TEXTURE_SIZE, array, 0);
 		
-		if (array[0] == 0) {
-			GLES11.glGetIntegerv(GLES11.GL_MAX_TEXTURE_SIZE, array, 0);
-			
+		try {
 			if (array[0] == 0) {
-				GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, array, 0);
-				
+				GLES11.glGetIntegerv(GLES11.GL_MAX_TEXTURE_SIZE, array, 0);
+			
 				if (array[0] == 0) {
-					GLES30.glGetIntegerv(GLES30.GL_MAX_TEXTURE_SIZE, array, 0);
+					GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, array, 0);
+				
+					if (array[0] == 0) {
+						GLES30.glGetIntegerv(GLES30.GL_MAX_TEXTURE_SIZE, array, 0);
+					}
 				}
 			}
+		} catch (Exception e) {
+			// Ignore the exception
 		}
 		
 		return array[0] != 0 ? array[0] : 2048;
