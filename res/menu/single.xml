@@ -35,6 +35,12 @@
 		android:icon="@drawable/ic_action_discard"
 		android:title="@string/delete"
 		android:showAsAction="always"/>
+
+	<item
+		android:id="@+id/copy"
+		android:icon="@drawable/ic_action_copy"
+		android:title="@string/copy"
+		android:showAsAction="always"/>
 	
 	<item
 		android:id="@+id/fav"

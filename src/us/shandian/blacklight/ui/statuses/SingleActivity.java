@@ -22,6 +22,8 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.ClipboardManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +36,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.Toast;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
@@ -246,6 +249,15 @@ public class SingleActivity extends AbsActivity
 			if (!mFavTaskRunning) {
 				new FavTask().execute();
 			}
+			return true;
+		} else if (id == R.id.copy) {
+			ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+			ClipData data = ClipData.newPlainText("msg", mMsg.text);
+			cm.setPrimaryClip(data);
+
+			// Inform the user
+			Toast.makeText(this, R.string.copied, Toast.LENGTH_SHORT).show();
+
 			return true;
 		}
 		

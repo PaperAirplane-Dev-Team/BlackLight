@@ -101,6 +101,7 @@
 	<string name="delete">删除</string>
 	<string name="fav_add">收藏微博</string>
 	<string name="fav_del">取消收藏</string>
+	<string name="copy">复制微博</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
@@ -168,5 +169,6 @@
 	<string name="saved_to">图片已保存到 %s</string>
 	<string name="save_failed">图片保存失败</string>
 	<string name="needs_restart">设置将在重启软件后生效</string>
+	<string name="copied">内容已复制到剪贴板</string>
 
 </resources>
