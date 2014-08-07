@@ -268,7 +268,7 @@ public class Utility
 	public static Bitmap parseLongPost(Context context, String text) {
 		// Get width and height
 		int fontHeight = getFontHeight(context, 15.0f);
-		int width = fontHeight * 16;
+		int width = fontHeight * 17;
 		int height = -1; // We will calculate this later
 
 		// Create the paint first to measue text
@@ -287,7 +287,7 @@ public class Utility
 				line += tmp.substring(0, 1);
 				tmp = tmp.substring(1, tmp.length());
 
-				if (line.contains("\n") || paint.measureText(line) >= width - fontHeight) {
+				if (line.contains("\n") || paint.measureText(line) >= width - fontHeight * 2) {
 					break;
 				}
 			}
@@ -302,7 +302,7 @@ public class Utility
 		lines.add(from);
 
 		// Calculate height
-		height = fontHeight * (lines.size() + 1);
+		height = fontHeight * (lines.size() + 2);
 
 		// Create the bitmap and draw
 		Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -313,8 +313,8 @@ public class Utility
 
 		paint.setColor(context.getResources().getColor(R.color.darker_gray));
 
-		float y = fontHeight;
-		float x = fontHeight / 2;
+		float y = fontHeight * 1.5f;
+		float x = fontHeight;
 
 		for (String line : lines) {
 			if (DEBUG) {
