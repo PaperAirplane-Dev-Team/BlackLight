@@ -271,24 +271,25 @@ public class Utility
 		int width = fontHeight * 16;
 		int height = -1; // We will calculate this later
 
+		// Create the paint first to measue text
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setTextSize(15.0f);
+		
 		// Split the text into lines
 		ArrayList<String> lines = new ArrayList<String>();
 		String tmp = text;
 
 		while (tmp.length() > 0) {
-			String line = null;
-			if (tmp.length() >= 15) {
-				line = tmp.substring(0, 15);
-				tmp = tmp.substring(15, tmp.length());
-			} else {
-				line = tmp;
-				tmp = "";
-			}
+			String line = "";
 
-			if (line.contains("\n")) {
-				int index = line.indexOf("\n");
-				tmp = line.substring(index + 1, line.length()) + tmp;
-				line = line.substring(0, index);
+			while (tmp.length() > 0) {
+				line += tmp.substring(0, 1);
+				tmp = tmp.substring(1, tmp.length());
+
+				if (line.contains("\n") || paint.measureText(line) >= width - fontHeight) {
+					break;
+				}
 			}
 
 			lines.add(line);
@@ -306,9 +307,6 @@ public class Utility
 		// Create the bitmap and draw
 		Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bmp);
-		Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setTextSize(15.0f);
 		
 		paint.setColor(context.getResources().getColor(android.R.color.background_light));
 		canvas.drawRect(0, 0, width, height, paint);
