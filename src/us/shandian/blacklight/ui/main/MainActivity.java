@@ -97,9 +97,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
+		if (hasSmartBar()) {
+			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+		}
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -124,7 +124,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				getActionBar().show();
-                invalidateOptionsMenu();
+				invalidateOptionsMenu();
 				if (mLastChoice == null) {
 					mLastChoice = (TextView) mMy.getChildAt(0);
 					mLastChoice.getPaint().setFakeBoldText(true);
@@ -132,10 +132,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				}
 			}
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                invalidateOptionsMenu();
-            }
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				invalidateOptionsMenu();
+			}
 		};
 		mDrawer.setDrawerListener(mToggle);
 
@@ -178,12 +178,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		});
 		
 		// Initialize ActionBar Style
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
 
 		if (Build.VERSION.SDK_INT >= 19) {
-    	    getActionBar().setDisplayUseLogoEnabled(false);
-    	    getActionBar().setDisplayShowHomeEnabled(false);
+			getActionBar().setDisplayUseLogoEnabled(false);
+			getActionBar().setDisplayShowHomeEnabled(false);
 		} else {
 			getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 		}
@@ -229,16 +229,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mToggle.onConfigurationChanged(newConfig);
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return super.onCreateOptionsMenu(menu);
+	}
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        super.onPrepareOptionsMenu(menu);
-        return true;
-    }
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		super.onPrepareOptionsMenu(menu);
+		return true;
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
