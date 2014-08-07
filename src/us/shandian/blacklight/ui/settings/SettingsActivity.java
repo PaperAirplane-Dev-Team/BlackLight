@@ -45,6 +45,7 @@ public class SettingsActivity extends PreferenceActivity implements
 	private static final String DEBUG_LOG = "debug_log";
 	private static final String DEBUG_CRASH = "debug_crash";
 	private static final String DEVELOPERS = "developers";
+	private static final String GOOD = "good";
 
 	private Settings mSettings;
 
@@ -52,6 +53,7 @@ public class SettingsActivity extends PreferenceActivity implements
 	private Preference mPrefLicense;
 	private Preference mPrefVersion;
 	private Preference mPrefSourceCode;
+	private Preference mPrefGood;
 	private Preference mPrefLog;
 	private Preference mPrefCrash;
 	private Preference mPrefDevelopers;
@@ -89,6 +91,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefLicense = findPreference(LICENSE);
 		mPrefVersion = findPreference(VERSION);
 		mPrefSourceCode = findPreference(SOURCE_CODE);
+		mPrefGood = findPreference(GOOD);
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
 		mPrefShakeToReturn = (CheckBoxPreference) findPreference(Settings.SHAKE_TO_RETURN);
 		mPrefRightHanded = (CheckBoxPreference) findPreference(Settings.RIGHT_HANDED);
@@ -126,6 +129,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
+		mPrefGood.setOnPreferenceClickListener(this);
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
 		mPrefShakeToReturn.setOnPreferenceChangeListener(this);
 		mPrefRightHanded.setOnPreferenceChangeListener(this);
@@ -171,6 +175,12 @@ public class SettingsActivity extends PreferenceActivity implements
 			return true;
 		} else if (preference == mPrefInterval) {
 			showIntervalSetDialog();
+			return true;
+		} else if (preference == mPrefGood) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_VIEW);
+			i.setData(Uri.parse(getResources().getString(R.string.play_url)));
+			startActivity(i);
 			return true;
 		}
 

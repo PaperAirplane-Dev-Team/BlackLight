@@ -145,6 +145,9 @@
 	<string name="notification_vibrate">震动</string>
 	<string name="notification_interval">提醒间隔</string>
 	<string name="set_interval">设置提醒间隔</string>
+	<string name="good">给个好评</string>
+	<string name="good_sum">亲，去Play商店给个好评呗</string>
+	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
 	<string-array name="interval_name">
 		<item>1 分钟</item>
 		<item>3 分钟</item>

@@ -91,6 +91,11 @@
 			android:key="source_code"
 			android:title="@string/source_code_title"
 			android:summary="@string/source_code_summary"/>
+
+		<Preference
+			android:key="good"
+			android:title="@string/good"
+			android:summary="@string/good_sum"/>
 		
 		<Preference
 			android:key="license"
