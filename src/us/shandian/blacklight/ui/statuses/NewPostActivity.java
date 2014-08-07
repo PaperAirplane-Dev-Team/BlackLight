@@ -54,9 +54,12 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.comments.CommentOnActivity;
+import us.shandian.blacklight.ui.comments.ReplyToActivity;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
+import us.shandian.blacklight.ui.statuses.RepostActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class NewPostActivity extends AbsActivity
@@ -79,6 +82,9 @@ public class NewPostActivity extends AbsActivity
 	
 	// Picked picture
 	private Bitmap mBitmap;
+
+	// Long?
+	private boolean mIsLong = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,13 +136,22 @@ public class NewPostActivity extends AbsActivity
 						Log.d(TAG, "Text length = " + length);
 					}
 					
-					if (length > 140) {
-						mCount.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-					} else {
+					if (length <= 140 && !s.toString().contains("\n")) {
 						mCount.setTextColor(getResources().getColor(R.color.gray));
+						mCount.setText(String.valueOf(140 - length));
+						mIsLong = false;
+					} else if (!(NewPostActivity.this instanceof RepostActivity) 
+							&& !(NewPostActivity.this instanceof CommentOnActivity)
+							&& !(NewPostActivity.this instanceof ReplyToActivity)) {
+						mCount.setText(getResources().getString(R.string.long_post));
+						mIsLong = true;
+						setPicture(null);
+					} else {
+						mCount.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+						mCount.setText(String.valueOf(140 - length));
+						mIsLong = false;
 					}
 					
-					mCount.setText(String.valueOf(140 - length));
 				} catch (Exception e) {
 					
 				}
@@ -210,19 +225,17 @@ public class NewPostActivity extends AbsActivity
 			return true;
 		} else if (id == R.id.post_send) {
 			try {
-				if (Utility.lengthOfString(mText.getText().toString()) <= 140) {
-					if (!TextUtils.isEmpty(mText.getText().toString())) {
-						new Uploader().execute();
-					} else {
-						Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
-					}
+				if (!TextUtils.isEmpty(mText.getText().toString())) {
+					new Uploader().execute();
+				} else {
+					Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
 				}
 			} catch (Exception e) {
 					
 			}
 			return true;
 		} else if (id == R.id.post_pic) {
-			if (mBitmap == null){
+			if (mBitmap == null && !mIsLong){
                 showPicturePicker();
             } else {
                 // Delete picture
@@ -288,7 +301,12 @@ public class NewPostActivity extends AbsActivity
 	// if extended, this should be overridden
 	protected boolean post() {
 		if (mBitmap == null) {
-			return PostApi.newPost(mText.getText().toString());
+			if (!mIsLong) {
+				return PostApi.newPost(mText.getText().toString());
+			} else {
+				return PostApi.newPostWithPic(getResources().getString(R.string.long_post),
+						Utility.parseLongPost(this, mText.getText().toString()));
+			}
 		} else {
 			return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
 		}

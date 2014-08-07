@@ -66,6 +66,8 @@
 	<string name="new_picture">添加图片</string>
 	<string name="delete_picture">清除图片</string>
 	<string name="at">选择@的好友</string>
+	<string name="long_post">长微博</string>
+	<string name="long_from">由BlackLight生成</string>
 	<string-array name="picture_picker_array">
 		<item>从图库选择照片</item>
 		<item>拍照</item>
