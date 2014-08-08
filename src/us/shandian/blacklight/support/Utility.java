@@ -51,6 +51,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
@@ -282,14 +283,26 @@ public class Utility
 		
 		// Split the text into lines
 		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<HashMap<String, Integer>> bold = new ArrayList<HashMap<String, Integer>>();
 		String tmp = text;
 
 		while (tmp.length() > 0) {
 			String line = "";
 
 			while (tmp.length() > 0) {
-				line += tmp.substring(0, 1);
-				tmp = tmp.substring(1, tmp.length());
+				String str = tmp.substring(0, 1);
+
+				if (str.equals("_") && tmp.substring(1, 2).equals("_")) {
+					tmp = tmp.substring(2, tmp.length());
+					HashMap<String, Integer> map = new HashMap<String, Integer>();
+					map.put("line", lines.size());
+					map.put("pos", line.length());
+					bold.add(map);
+					continue;
+				} else {
+					line += str;
+					tmp = tmp.substring(1, tmp.length());
+				}
 
 				if (line.contains("\n") || paint.measureText(line) >= width - fontHeight * 2) {
 					break;
@@ -320,6 +333,8 @@ public class Utility
 		float y = fontHeight * 1.5f;
 		float x = fontHeight;
 
+		int i = 0;
+
 		for (String line : lines) {
 			if (DEBUG) {
 				Log.d(TAG, "line = " + line);
@@ -330,9 +345,30 @@ public class Utility
 				paint.setColor(context.getResources().getColor(R.color.gray));
 			}
 			
-			canvas.drawText(line, x, y, paint);
+			int lastPos = 0;
+
+			float xOffset = 0;
+			
+			while (bold.size() > 0) {
+				HashMap<String, Integer> map = bold.get(0);
+
+				if (map.get("line") != i) {
+					break;
+				} else {
+					bold.remove(0);
+					int pos = map.get("pos");
+					String str = line.substring(lastPos, pos);
+					canvas.drawText(str, x + xOffset, y, paint);
+					xOffset += paint.measureText(str);
+					lastPos = pos;
+					paint.setFakeBoldText(!paint.isFakeBoldText());
+				}
+			}
+
+			canvas.drawText(line.substring(lastPos, line.length()), x + xOffset, y, paint);
 
 			y += fontHeight;
+			i++;
 		}
 
 		// Finished, return
