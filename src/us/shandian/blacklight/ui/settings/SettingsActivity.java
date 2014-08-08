@@ -68,6 +68,9 @@ public class SettingsActivity extends PreferenceActivity implements
 			mPrefNotificationVibrate;
 	private Preference mPrefInterval;
 
+	// Network
+	private CheckBoxPreference mPrefAutoNoPic;
+
 	@SuppressWarnings("deprecation")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
+		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
 		
 		// Data
 		String version = "Unknown";
@@ -125,6 +129,7 @@ public class SettingsActivity extends PreferenceActivity implements
 				this.getResources()
 				.getStringArray(R.array.interval_name) [mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
 						);
+		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
@@ -138,6 +143,7 @@ public class SettingsActivity extends PreferenceActivity implements
 		mPrefCrash.setOnPreferenceClickListener(this);
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
+		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -209,6 +215,11 @@ public class SettingsActivity extends PreferenceActivity implements
 		} else if (preference == mPrefShakeToReturn) {
 			mSettings.putBoolean(Settings.SHAKE_TO_RETURN,
 					Boolean.parseBoolean(newValue.toString()));
+			return true;
+		} else if (preference == mPrefAutoNoPic) {
+			mSettings.putBoolean(Settings.AUTO_NOPIC,
+					Boolean.parseBoolean(newValue.toString()));
+			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;
 		}
 

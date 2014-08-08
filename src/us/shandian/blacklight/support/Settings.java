@@ -38,6 +38,9 @@ public class Settings
 	public static final String NOTIFICATION_SOUND = "notification_sound",
 			NOTIFICATION_VIBRATE = "notification_vibrate",
 			NOTIFICATION_INTERVAL = "notification_interval";
+
+	// Network
+	public static final String AUTO_NOPIC = "auto_nopic";
 	
 	private static Settings sInstance;
 	

@@ -60,6 +60,18 @@
 			android:checked="false"/>
 		
 	</PreferenceCategory>
+
+	<!-- Network -->
+	<PreferenceCategory
+		android:title="@string/network">
+
+		<CheckBoxPreference
+			android:key="auto_nopic"
+			android:title="@string/auto_nopic"
+			android:summary="@string/auto_nopic_sum"
+			android:checked="true"/>
+	
+	</PreferenceCategory>
 	
 	<!-- Debug -->
 	<PreferenceCategory

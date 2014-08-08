@@ -50,6 +50,7 @@ import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.HackyMovementMethod;
+import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.ui.common.ImageActivity;
@@ -57,6 +58,7 @@ import us.shandian.blacklight.ui.comments.ReplyToActivity;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
+import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
 
 /*
   This is a common adapter for all kinds of weibo data (Statuses / Comments)
@@ -86,6 +88,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
 	private boolean mScrolling = false;
+	private boolean mAutoNoPic = false;
 	
 	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
@@ -99,6 +102,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mContext = context;
 		mBindOrig = bindOrig;
 		mShowCommentStatus = showCommentStatus;
+		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
@@ -330,7 +334,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private void bindMultiPicLayout(ViewHolder h, final MessageModel msg, boolean showPic) {
 		HorizontalScrollView scroll = h.getScroll();
 
-		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0)) {
+		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
 			scroll.setVisibility(View.VISIBLE);
 
 			LinearLayout container = h.getContainer();
