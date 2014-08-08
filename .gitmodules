@@ -1,0 +1,3 @@
+[submodule "libs/SwipeBackLayout"]
+	path = libs/SwipeBackLayout
+	url = https://github.com/Issacw0ng/SwipeBackLayout.git

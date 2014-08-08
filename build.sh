@@ -49,9 +49,9 @@ mkdir build/bin
 mkdir build/bin/classes
 
 # Configurations
-res="-S res -S libs/SlidingUpPanel/res" # Resources
-ext_pkg='com.sothree.slidinguppanel.library' # Package that needs resources
-src='src libs/SlidingUpPanel/src libs/SystemBarTint/src build/gen' # Sources
+res="-S res -S libs/SlidingUpPanel/res -S libs/SwipeBackLayout/library/src/main/res" # Resources
+ext_pkg='com.sothree.slidinguppanel.library:me.imid.swipebacklayout.lib' # Package that needs resources
+src='src libs/SlidingUpPanel/src libs/SystemBarTint/src libs/SwipeBackLayout/library/src/main/java build/gen' # Sources
 jar="$ANDROID_JAR:libs/android-support-v4.jar:libs/gson-2.2.2.jar:libs/SlidingUpPanel/libs/nineoldandroids-2.4.0.jar" # JARs
 manifest='AndroidManifest.xml' # Manifest
 assets='assets' # Assets

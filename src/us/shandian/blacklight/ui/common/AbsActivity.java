@@ -19,9 +19,10 @@
 
 package us.shandian.blacklight.ui.common;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.Settings;
@@ -29,7 +30,7 @@ import us.shandian.blacklight.support.ShakeDetector;
 import us.shandian.blacklight.support.ShakeDetector.ShakeListener;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class AbsActivity extends Activity implements ShakeListener {
+public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 
 	private ShakeDetector mDetector;
 	private Settings mSettings;
