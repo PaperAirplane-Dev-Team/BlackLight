@@ -283,26 +283,60 @@ public class Utility
 		
 		// Split the text into lines
 		ArrayList<String> lines = new ArrayList<String>();
-		ArrayList<HashMap<String, Integer>> bold = new ArrayList<HashMap<String, Integer>>();
+		ArrayList<HashMap<String, Integer>> format = new ArrayList<HashMap<String, Integer>>();
 		String tmp = text;
 
 		while (tmp.length() > 0) {
 			String line = "";
 
+			boolean ignore = false;
+
 			while (tmp.length() > 0) {
 				String str = tmp.substring(0, 1);
 
-				if (str.equals("_") && tmp.substring(1, 2).equals("_")) {
+				// The escape character is "\"
+				if (str.equals("\\") && !ignore) {
+					// \*This is not Italic text \*
+					tmp = tmp.substring(1, tmp.length());
+					ignore = true;
+					continue;
+				}
+
+				// Simple text formatting
+				// Thanks to Markdown
+				if (str.equals("_") && tmp.length() > 1 && tmp.substring(1, 2).equals("_") && !ignore) {
+					// __This is bold text__
 					tmp = tmp.substring(2, tmp.length());
 					HashMap<String, Integer> map = new HashMap<String, Integer>();
 					map.put("line", lines.size());
 					map.put("pos", line.length());
-					bold.add(map);
+					map.put("type", 0);
+					format.add(map);
 					continue;
-				} else {
-					line += str;
+				} else if (str.equals("*") && !ignore) {
+					// *This is Italic text*
 					tmp = tmp.substring(1, tmp.length());
-				}
+					HashMap<String, Integer> map = new HashMap<String, Integer>();
+					map.put("line", lines.size());
+					map.put("pos", line.length());
+					map.put("type", 1);
+					format.add(map);
+					continue;
+				} else if (str.equals("~") && tmp.length() > 1 && tmp.substring(1, 2).equals("~") && !ignore) {
+					// ~~This is deleted text~~
+					tmp = tmp.substring(2, tmp.length());
+					HashMap<String, Integer> map = new HashMap<String, Integer>();
+					map.put("line", lines.size());
+					map.put("pos", line.length());
+					map.put("type", 2);
+					format.add(map);
+					continue;
+				} 
+				
+				ignore = false;
+
+				line += str;
+				tmp = tmp.substring(1, tmp.length());
 
 				if (line.contains("\n") || paint.measureText(line) >= width - fontHeight * 2) {
 					break;
@@ -349,19 +383,33 @@ public class Utility
 
 			float xOffset = 0;
 			
-			while (bold.size() > 0) {
-				HashMap<String, Integer> map = bold.get(0);
+			while (format.size() > 0) {
+				HashMap<String, Integer> map = format.get(0);
 
 				if (map.get("line") != i) {
 					break;
 				} else {
-					bold.remove(0);
+					format.remove(0);
 					int pos = map.get("pos");
 					String str = line.substring(lastPos, pos);
 					canvas.drawText(str, x + xOffset, y, paint);
 					xOffset += paint.measureText(str);
 					lastPos = pos;
-					paint.setFakeBoldText(!paint.isFakeBoldText());
+
+					switch (map.get("type")) {
+						case 0:
+							paint.setFakeBoldText(!paint.isFakeBoldText());
+							break;
+						case 1:
+							if (paint.getTextSkewX() >= 0.0f)
+								paint.setTextSkewX(-0.25f);
+							else
+								paint.setTextSkewX(0.0f);
+							break;
+						case 2:
+							paint.setStrikeThruText(!paint.isStrikeThruText());
+							break;
+					}
 				}
 			}
 
