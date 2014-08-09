@@ -34,6 +34,7 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 
 	private ShakeDetector mDetector;
 	private Settings mSettings;
+	private boolean mIsFinishing = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,16 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 	@Override
 	public void onShake() {
 		this.onBackPressed();
+	}
+
+	@Override
+	public void finish() {
+		if (!mIsFinishing) {
+			scrollToFinishActivity();
+			mIsFinishing = true;
+		} else {
+			super.finish();
+		}
 	}
 
 }
