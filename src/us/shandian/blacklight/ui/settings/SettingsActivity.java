@@ -26,9 +26,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import me.imid.swipebacklayout.lib.Utils;
+import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
@@ -36,7 +38,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class SettingsActivity extends PreferenceActivity implements
+public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		Preference.OnPreferenceClickListener,
 		Preference.OnPreferenceChangeListener {
 	private static final String VERSION = "version";
@@ -70,6 +72,9 @@ public class SettingsActivity extends PreferenceActivity implements
 
 	// Network
 	private CheckBoxPreference mPrefAutoNoPic;
+
+	// SwipeBack
+	private boolean mIsFinishing = false;
 
 	@SuppressWarnings("deprecation")
     @Override
@@ -224,6 +229,17 @@ public class SettingsActivity extends PreferenceActivity implements
 		}
 
 		return false;
+	}
+
+	@Override
+	public void finish() {
+		if (!mIsFinishing) {
+			Utils.convertActivityToTranslucent(this);
+			scrollToFinishActivity();
+			mIsFinishing = true;
+		} else {
+			super.finish();
+		}
 	}
 	
 	private void showIntervalSetDialog(){
