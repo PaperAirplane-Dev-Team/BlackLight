@@ -229,7 +229,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mToggle.onConfigurationChanged(newConfig);
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -238,7 +238,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 		return true;
-	}
+	}*/
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

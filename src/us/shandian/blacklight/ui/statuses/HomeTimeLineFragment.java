@@ -29,10 +29,11 @@ public class HomeTimeLineFragment extends TimeLineFragment{
 
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+	public void onPrepareOptionsMenu(Menu menu){
+		menu.clear();
 		if (hasSmartBar()){
 			Log.i("s", "onCreateOptionsMenu for SmartBar!");
-			inflater.inflate(R.menu.home_timeline, menu);
+			getActivity().getMenuInflater().inflate(R.menu.home_timeline, menu);
 		}
 	}
 
