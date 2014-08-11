@@ -29,9 +29,9 @@ import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
-import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class SearchStatusFragment extends HomeTimeLineFragment implements SearchFragment.Searcher
+public class SearchStatusFragment extends TimeLineFragment implements SearchFragment.Searcher
 {
 	private String mSearch;
 	
