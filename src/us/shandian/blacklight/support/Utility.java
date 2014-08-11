@@ -33,6 +33,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import android.util.TypedValue;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -476,6 +478,13 @@ public class Utility
 
 		// Finished
 		return bmp;
+	}
+
+	public static void notifyScanPhotos(Context context, String path) {
+		Intent i = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+		Uri uri = Uri.fromFile(new File(path));
+		i.setData(uri);
+		context.sendBroadcast(i);
 	}
 	
 	@TargetApi(19)

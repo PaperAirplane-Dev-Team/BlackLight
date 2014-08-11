@@ -230,10 +230,14 @@ public class HomeTimeLineApiCache
 		}
 
 		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
+		String ret = null;
 		try {
-			return mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName, "/sdcard/BlackLight");
+			ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName, "/sdcard/BlackLight");
 		} catch (Exception e) {
-			return null;
+			ret = null;
+		} finally {
+			Utility.notifyScanPhotos(mContext, ret);
+			return ret;
 		}
 	}
 	
