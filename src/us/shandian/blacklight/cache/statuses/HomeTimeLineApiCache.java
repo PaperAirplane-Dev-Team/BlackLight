@@ -202,13 +202,8 @@ public class HomeTimeLineApiCache
 		try {
 			ret = BitmapFactory.decodeStream(cache);
 		} catch (OutOfMemoryError e) {
-			// If OOM, compress and decode.
-			BitmapFactory.Options opt = new BitmapFactory.Options();
-			opt.inJustDecodeBounds = true;
-			BitmapFactory.decodeStream(cache, null, opt);
-			opt.inSampleSize = Utility.computeSampleSize(opt, 512, 1024 * 1024);
-			opt.inJustDecodeBounds = false;
-			ret = BitmapFactory.decodeStream(cache, null, opt);
+			// If OOM, decode by region
+			ret = Utility.decodeStreamByRegion(cache);
 		}
 		
 		try {
