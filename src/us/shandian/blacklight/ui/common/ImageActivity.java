@@ -98,6 +98,7 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 			}
 		});
 		mPager.setAdapter(mAdapter);
+		mPager.setOffscreenPageLimit(1);
 		mPager.setCurrentItem(def);
 		
 	}
