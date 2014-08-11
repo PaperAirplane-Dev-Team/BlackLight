@@ -219,6 +219,8 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 					}
 					
 					p.setImageBitmap(image);
+					p.setMaxScale(20.0f);
+					p.setMaximumScale(20.0f);
 					p.setOnPhotoTapListener(ImageActivity.this);
 					v.addView(p, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				} else if (img instanceof Movie) {
