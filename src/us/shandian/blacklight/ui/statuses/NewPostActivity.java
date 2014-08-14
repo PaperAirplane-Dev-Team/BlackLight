@@ -90,7 +90,7 @@ public class NewPostActivity extends AbsActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
 
-        super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_status);
 
 		mLoginCache = new LoginApiCache(this);
@@ -145,7 +145,6 @@ public class NewPostActivity extends AbsActivity
 							&& !(NewPostActivity.this instanceof ReplyToActivity)) {
 						mCount.setText(getResources().getString(R.string.long_post));
 						mIsLong = true;
-						setPicture(null);
 					} else {
 						mCount.setTextColor(getResources().getColor(android.R.color.holo_red_light));
 						mCount.setText(String.valueOf(140 - length));
@@ -194,22 +193,22 @@ public class NewPostActivity extends AbsActivity
 			setPicture(BitmapFactory.decodeFile(filePath));
 		}
 
-        // Captured photo
-        if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            setPicture((Bitmap) extras.get("data"));
-        }
+		// Captured photo
+		if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
+			Bundle extras = data.getExtras();
+			setPicture((Bitmap) extras.get("data"));
+		}
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
+		menu.clear();
 		getMenuInflater().inflate(R.menu.new_post, menu);
-        if (mBitmap != null){
-            menu.findItem(R.id.post_pic)
-                    .setTitle(R.string.delete_picture)
-                    .setIcon(android.R.drawable.ic_menu_delete);
-        }
+		if (mBitmap != null){
+			menu.findItem(R.id.post_pic)
+					.setTitle(R.string.delete_picture)
+					.setIcon(android.R.drawable.ic_menu_delete);
+		}
 		return true;
 	}
 
@@ -235,12 +234,9 @@ public class NewPostActivity extends AbsActivity
 			}
 			return true;
 		} else if (id == R.id.post_pic) {
-			if (mBitmap == null && !mIsLong){
-                showPicturePicker();
-            } else {
-                // Delete picture
-                setPicture(null);
-            }
+			if (mBitmap == null){
+				showPicturePicker();
+			}
 			return true;
 		} else if (id == R.id.post_emoticon) {
 			if (mDrawer.isDrawerOpen(Gravity.END)) {
@@ -264,51 +260,51 @@ public class NewPostActivity extends AbsActivity
 		}
 	}
 
-    private void showPicturePicker(){
-        new AlertDialog.Builder(this).setItems(getResources().getStringArray(R.array.picture_picker_array),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogInterface, int id) {
-                        switch (id) {
-                            case 0:
-                                Intent i = new Intent();
-                                i.setAction(Intent.ACTION_PICK);
-                                i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(i, REQUEST_PICK_IMG);
-                                break;
-                            case 1:
-                                Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
-                                break;
-                        }
-                    }
-                }
-        ).show();
-    }
+	private void showPicturePicker(){
+		new AlertDialog.Builder(this).setItems(getResources().getStringArray(R.array.picture_picker_array),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialogInterface, int id) {
+						switch (id) {
+							case 0:
+								Intent i = new Intent();
+								i.setAction(Intent.ACTION_PICK);
+								i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+								startActivityForResult(i, REQUEST_PICK_IMG);
+								break;
+							case 1:
+								Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+								startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
+								break;
+						}
+					}
+				}
+		).show();
+	}
 
-    private void setPicture(Bitmap bitmap){
-        mBitmap = bitmap;
-        if (bitmap != null) {
-            mBackground.setImageBitmap(bitmap);
-            mBackground.setVisibility(View.VISIBLE);
-            mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
-        } else {
-            mBackground.setVisibility(View.INVISIBLE);
-            mCount.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        }
-        invalidateOptionsMenu();
-    }
+	private void setPicture(Bitmap bitmap){
+		mBitmap = bitmap;
+		if (bitmap != null) {
+			mBackground.setImageBitmap(bitmap);
+			mBackground.setVisibility(View.VISIBLE);
+			mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+		} else {
+			mBackground.setVisibility(View.INVISIBLE);
+			mCount.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+		}
+		invalidateOptionsMenu();
+	}
 
 	// if extended, this should be overridden
 	protected boolean post() {
-		if (mBitmap == null) {
-			if (!mIsLong) {
+		if (!mIsLong) {
+			if (mBitmap == null) {
 				return PostApi.newPost(mText.getText().toString());
 			} else {
-				return PostApi.newPostWithPic(getResources().getString(R.string.long_post),
-						Utility.parseLongPost(this, mText.getText().toString()));
+				return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
 			}
 		} else {
-			return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
+			return PostApi.newPostWithPic(getResources().getString(R.string.long_post),
+					Utility.parseLongPost(this, mText.getText().toString(), mBitmap));
 		}
 	}
 	

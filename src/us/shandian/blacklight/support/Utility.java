@@ -275,11 +275,12 @@ public class Utility
 		return (int) Math.ceil(fm.descent - fm.ascent);
 	}
 
-	public static Bitmap parseLongPost(Context context, String text) {
+	public static Bitmap parseLongPost(Context context, String text, Bitmap pic) {
 		// Get width and height
 		int fontHeight = getFontHeight(context, 15.0f);
 		int width = fontHeight * 17;
 		int height = -1; // We will calculate this later
+		int picWidth = width - 20, picHeight = 0; // We will calculate this later
 
 		// Create the paint first to measue text
 		Paint paint = new Paint();
@@ -360,6 +361,17 @@ public class Utility
 		// Calculate height
 		height = fontHeight * (lines.size() + 2);
 
+		if (pic != null) {
+			picHeight = (int) (((float) picWidth / (float) pic.getWidth()) * pic.getHeight());
+			height += picHeight + 20;
+
+			if (DEBUG) {
+				Log.d(TAG, "picHeight = " + picHeight + "; height = " + height
+					   		+ "; pic.getHeight() = " + pic.getHeight());
+				Log.d(TAG, "picWidth = " + picWidth + "; pic.getWidth() = " + pic.getWidth());
+			}
+		}
+
 		// Create the bitmap and draw
 		Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bmp);
@@ -422,6 +434,12 @@ public class Utility
 
 			y += fontHeight;
 			i++;
+		}
+
+		// Draw the picture
+		if (pic != null) {
+			canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()), 
+					new Rect(10, (int) (y + 10), picWidth + 10, (int) (picHeight + y + 10)), paint);
 		}
 
 		// Finished, return
