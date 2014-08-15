@@ -141,7 +141,7 @@ release:
 # Install on phone
 install:
 	$(call target, Install)
-	@if [ -f "$(PM)" ]; then \
+	@if [ -f $(PM) ]; then \
 		$(PM) install -r $(OUT_APK);\
 	else \
 		$(ADB) install -r $(OUT_APK);\
