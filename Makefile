@@ -17,25 +17,42 @@ GEN_DIR		:= $(BUILD_DIR)/gen
 CLASSES_DIR	:= $(BIN_DIR)/classes
 APK_NAME	:= build.apk
 OUT_APK		:= $(BIN_DIR)/$(APK_NAME)
+# Path to directories that contain source
+# Including source directories of library projects
 SRC_DIR		:= \
 	src \
 	libs/SlidingUpPanel/src \
 	libs/SystemBarTint/src \
 	libs/SwipeBackLayout/library/src/main/java
+# Path to directories containing resources
+# Including library projects
 RES_DIR		:= \
 	res \
 	libs/SlidingUpPanel/res \
 	libs/SwipeBackLayout/library/src/main/res
+# External packages that need to generate R.java under.
+# Usually these are library projects' package names.
+# If a library does not contain any resource
+# We do not need to put it here.
 EXT_PKG		:= \
 	com.sothree.slidinguppanel.library \
 	me.imid.swipebacklayout.lib
+# Include all jar libraries needed
+# Including android.jar
+# Please set the $ANDROID_JAR environment variable
+# Pointing to your android.jar
 JAR_LIB		:= \
 	$(ANDROID_JAR) \
 	libs/android-support-v4.jar \
 	libs/gson-2.2.2.jar \
 	libs/SlidingUpPanel/libs/nineoldandroids-2.4.0.jar
+# Asset directory
 ASSET		:= assets
+# Packages that need to generate BuildConfig.java for.
+# If a library needs BuildConfig.java,
+# Please put it here also.
 PACKAGE		:= us.shandian.blacklight
+# The main AndroidManifest
 MANIFEST	:= AndroidManifest.xml
 
 # Keystores
