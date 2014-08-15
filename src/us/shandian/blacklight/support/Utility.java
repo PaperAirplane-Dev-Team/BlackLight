@@ -53,6 +53,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.io.InputStream;
+import java.lang.NoClassDefFoundError;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class Utility
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (NoClassDefFoundError e) {
 			// Ignore the exception
 		}
 		
