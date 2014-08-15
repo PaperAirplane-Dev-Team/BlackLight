@@ -29,6 +29,7 @@
 	<color name="selector_gray">#eaeaea</color>
 	<color name="link_blue">#9797ff</color>
 	<color name="action_gray">#aa000008</color>
+	<color name="white">#ffffff</color>
 	
 	<!-- Pull To Refresh -->
 	<color name="ptr_green">#44aa00</color>
