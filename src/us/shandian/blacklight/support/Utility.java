@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Rect;
@@ -338,7 +339,43 @@ public class Utility
 					map.put("type", 2);
 					format.add(map);
 					continue;
-				} 
+				} else if (str.equals("[") && tmp.length() > 1 && !ignore) {
+					// Inspired from shell's coloring
+					// [rRed Text[d
+					// [gGreen Text[d
+					// [bBlue Text[d
+					// [yYellow Text[d
+					// [cCyan Text[d
+					// [mMagenta Text[d
+					// [dDefault Color[d
+					String color = tmp.substring(1, 2);
+					int type = Integer.MIN_VALUE;
+					if (color.equals("r")) {
+						type = Color.RED;
+					} else if (color.equals("g")) {
+						type = Color.GREEN;
+					} else if (color.equals("b")) {
+						type = Color.BLUE;
+					} else if (color.equals("y")) {
+						type = Color.YELLOW;
+					} else if (color.equals("c")) {
+						type = Color.CYAN;
+					} else if (color.equals("m")) {
+						type = Color.MAGENTA;
+					} else if (color.equals("d")) {
+						type = -1;
+					}
+
+					if (type > Integer.MIN_VALUE) {
+						HashMap<String, Integer> map = new HashMap<String, Integer>();
+						map.put("line", lines.size());
+						map.put("pos", line.length());
+						map.put("type", type);
+						format.add(map);
+						tmp = tmp.substring(2, tmp.length());
+						continue;
+					}
+				}	
 				
 				ignore = false;
 
@@ -380,7 +417,8 @@ public class Utility
 		paint.setColor(context.getResources().getColor(android.R.color.background_light));
 		canvas.drawRect(0, 0, width, height, paint);
 
-		paint.setColor(context.getResources().getColor(R.color.darker_gray));
+		int defColor = context.getResources().getColor(R.color.darker_gray);
+		paint.setColor(defColor);
 
 		float y = fontHeight * 1.5f;
 		float x = fontHeight;
@@ -414,7 +452,8 @@ public class Utility
 					xOffset += paint.measureText(str);
 					lastPos = pos;
 
-					switch (map.get("type")) {
+					int type = map.get("type");
+					switch (type) {
 						case 0:
 							paint.setFakeBoldText(!paint.isFakeBoldText());
 							break;
@@ -426,6 +465,12 @@ public class Utility
 							break;
 						case 2:
 							paint.setStrikeThruText(!paint.isStrikeThruText());
+							break;
+						case -1:
+							paint.setColor(defColor);
+							break;
+						default:
+							paint.setColor(type);
 							break;
 					}
 				}
