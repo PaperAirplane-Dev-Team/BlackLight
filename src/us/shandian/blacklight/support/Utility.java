@@ -492,6 +492,15 @@ public class Utility
 		return bmp;
 	}
 
+	public static String parseLongContent(String content) {
+		String str = content.split("\n")[0];
+		if (str.length() < 140) {
+			return str;
+		} else {
+			return str.substring(0, 137) + "...";
+		}
+	}
+
 	public static Bitmap decodeStreamByRegion(InputStream in) {
 		// Initialize the decoder
 		BitmapRegionDecoder de = null;
