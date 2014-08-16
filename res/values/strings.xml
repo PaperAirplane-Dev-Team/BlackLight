@@ -29,7 +29,7 @@
 	
 	<!-- Left Drawer -->
 	<string name="my">My circle</string>
-	<string name="at_me">@ Me</string>
+	<string name="at_me">\@ Me</string>
 	<string-array name="my_array">
 		<item>Weibos</item>
 		<item>Comments</item>
@@ -76,7 +76,7 @@
 	</string-array>
 	
 	<!-- Time -->
-	<string name="just_now">Just noew</string>
+	<string name="just_now">Just now</string>
 	<string name="min"> minute(s) ago</string>
 	<string name="hour"> hour(s) ago</string>
 	<string name="day"> day(s) ago</string>
@@ -88,7 +88,7 @@
 	
 	<!-- User Time Line -->
 	<string name="user_info">User info</string>
-	<string name="user_statuses">User's weibo</string>
+	<string name="user_statuses">User\'s weibo</string>
 	<string name="followers">Followers</string>
 	<string name="following">Following</string>
 	<string name="msgs">Weibo</string>
@@ -150,7 +150,7 @@
 	<string name="notification_interval">Notification interval</string>
 	<string name="set_interval">Set notification interval</string>
 	<string name="good">Rate me</string>
-	<string name="good_sum">:-) You know I'll be really happy if you give me 5 stars.</string>
+	<string name="good_sum">:-) You know I\'ll be really happy if you give me 5 stars.</string>
 	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
 	<string name="network">Network</string>
 	<string name="auto_nopic">Auto save traffic</string>
@@ -170,7 +170,7 @@
 	<string name="expires_in">The token will be invalid in %d days.</string>
 	<string name="login_fail">:-( Login failed. Maybe due to wrong AppId/AppSecret/Username/Password.</string>
 	<string name="send_fail">Send failed.</string>
-	<string name="confirm_delete">Do you confirm?</string>
+	<string name="confirm_delete">Please select an action</string>
 	<string name="new_comment">%d new comments.</string>
 	<string name="new_at">%d new weibo(s) mentioned you.</string>
 	<string name="click_to_view">Click to view</string>
