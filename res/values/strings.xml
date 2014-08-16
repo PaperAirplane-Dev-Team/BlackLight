@@ -68,6 +68,8 @@
 	<string name="at">选择@的好友</string>
 	<string name="long_post">长微博</string>
 	<string name="long_from">由BlackLight生成</string>
+	<string name="comment_delete">删除评论</string>
+	<string name="comment_view_orig">查看原微博</string>
 	<string-array name="picture_picker_array">
 		<item>从图库选择照片</item>
 		<item>拍照</item>
@@ -168,7 +170,7 @@
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
 	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
 	<string name="send_fail">发送失败</string>
-	<string name="confirm_delete">确认删除?</string>
+	<string name="confirm_delete">请选择操作</string>
 	<string name="new_comment">%d 条新评论</string>
 	<string name="new_at">%d 条新提及</string>
 	<string name="click_to_view">点击查看</string>

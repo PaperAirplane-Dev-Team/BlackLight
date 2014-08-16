@@ -135,7 +135,6 @@
 	<string name="expires_in">本次登入授權將于 %d 天後失效</string>
 	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤</string>
 	<string name="send_fail">發送失敗</string>
-	<string name="confirm_delete">確認刪除？</string>
 	<string name="new_comment">%d 條新評論</string>
 	<string name="new_at">%d 條新提及</string>
 	<string name="click_to_view">點擊查看</string>

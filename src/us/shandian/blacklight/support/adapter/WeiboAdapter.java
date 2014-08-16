@@ -210,16 +210,20 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				new AlertDialog.Builder(mContext)
 					.setMessage(R.string.confirm_delete)
 					.setCancelable(true)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					.setPositiveButton(R.string.comment_delete, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							new DeleteTask().execute(comment);
 						}
 					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					.setNegativeButton(R.string.comment_view_orig, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
+							Intent i = new Intent();
+							i.setAction(Intent.ACTION_MAIN);
+							i.setClass(mContext, SingleActivity.class);
+							i.putExtra("msg", comment.status);
+							mContext.startActivity(i);
 						}
 					})
 					.show();
