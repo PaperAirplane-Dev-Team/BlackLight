@@ -126,7 +126,7 @@ define build-info
 	@echo -e "\033[36mTarget apk path:\033[0m  $(OUT_APK)"
 endef
 
-.PHONY: clean pre merge debug release install
+.PHONY: clean pre merge debug_make release_make debug release install
 # Clean up 
 clean:
 	$(call target, Clean)
@@ -141,7 +141,7 @@ pre:
 	@mkdir -p $(CLASSES_DIR)
 
 # Generate resources
-$(RES_TS): $(RES)
+$(RES_TS): $(RES) $(MANIFEST)
 	$(call target, Resources)
 	@$(AAPT) p -m -M $(MANIFEST) -A $(ASSET) -I $(ANDROID_JAR) $(AAPT_RES) --extra-packages $(AAPT_EXT) --auto-add-overlay -J $(GEN_DIR) -F $(OUT_APK) -f
 	@echo $(shell date) > $@
@@ -166,23 +166,31 @@ $(OUT_DEX): $(SRC_TS)
 # Merge the dex into apk
 merge: $(OUT_DEX)
 	$(call target, Merge)
-	$(shell $(AAPT) r $(OUT_APK) $(DEX_NAME) >& /dev/null)
+	$(shell $(AAPT) r $(OUT_APK) $(DEX_NAME) > /dev/null)
 	@cd $(BIN_DIR) && $(AAPT) a $(APK_NAME) $(DEX_NAME)
 
 # Debug package (do not zipalign)
-debug: pre $(RES_TS) $(PKG_TS)
+debug_make: pre $(RES_TS) $(PKG_TS)
 	@$(MAKE) merge DEBUG=true
 	$(call target, Debug)
 	@$(JARSIGNER) -keystore $(KEY_DEBUG) -storepass android -sigalg MD5withRSA -digestalg SHA1 $(OUT_APK) my_alias
 
 # Release package (zipalign)
-release: pre $(RES_TS) $(PKG_TS)
+release_make: pre $(RES_TS) $(PKG_TS)
 	@$(MAKE) merge DEBUG=false
 	$(call target, Release)
 	@$(JARSIGNER) -keystore $(KEY_RELEASE) -sigalg MD5withRSA -digestalg SHA1 $(OUT_APK) $(KEY_ALIAS)
 	@$(ZIPALIGN) 4 $(OUT_APK) $(OUT_APK)_zipalign
 	@rm -r $(OUT_APK)
 	@mv $(OUT_APK)_zipalign $(OUT_APK)
+
+# Wrapper for debug build
+debug:
+	@$(MAKE) debug_make DEBUG=true
+
+# Wrapper for release build
+release:
+	@$(MAKE) release_make DEBUG=false
 
 # Install on phone
 install:
