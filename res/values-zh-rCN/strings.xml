@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+	<string name="app_name">BlackLight</string>
+	
+	<!-- Login -->
+	<string name="login">登录</string>
+	<string name="tail">尾巴</string>
+	<string name="username">用户名</string>
+	<string name="passwd">密码</string>
+	
+	<!-- Left Drawer -->
+	<string name="my">我的圈子</string>
+	<string name="at_me">提到我的</string>
+	<string-array name="my_array">
+		<item>微博</item>
+		<item>评论</item>
+		<item>收藏</item>
+		<item>私信</item>
+	</string-array>
+	<string-array name="at_me_array">
+		<item>微博</item>
+		<item>评论</item>
+	</string-array>
+	<string-array name="other_array">
+		<item>搜索</item>
+		<item>设置</item>
+		<item>登出</item>
+	</string-array>
+	
+	<!-- Statuses -->
+	<string name="timeline">时间流</string>
+	<string name="retweet">转发</string>
+	<string name="comment">评论</string>
+	<string name="status_mention_me">提到我的微博</string>
+	<string name="comment_mention_me">提到我的评论</string>
+	<string name="loading_more">正在加载更多……</string>
+	<string name="new_post">发送微博</string>
+	<string name="comment_on">发表评论</string>
+	<string name="repost">转发微博</string>
+	<string name="reply_to">回复评论</string>
+	<string name="repost_and_comment">同时评论微博</string>
+	<string name="repost_and_comment_the_original">同时评论原微博</string>
+	<string name="comment_and_repost">同时转发微博</string>
+	<string name="comment_orig">同时评论原微博</string>
+	<string name="topics_info">话题信息</string>
+	<string name="emoticon">表情</string>
+	<string name="new_picture">添加图片</string>
+	<string name="delete_picture">清除图片</string>
+	<string name="at">选择@的好友</string>
+	<string name="long_post">长微博</string>
+	<string name="long_from">由BlackLight生成</string>
+	<string name="comment_delete">删除评论</string>
+	<string name="comment_view_orig">查看原微博</string>
+	<string-array name="picture_picker_array">
+		<item>从图库选择照片</item>
+		<item>拍照</item>
+	</string-array>
+	
+	<!-- Time -->
+	<string name="just_now">刚刚</string>
+	<string name="min">分钟前</string>
+	<string name="hour">小时前</string>
+	<string name="day">天前</string>
+	<string name="month">月前</string>
+	<string name="year">年前</string>
+	<string name="today">今天</string>
+	<string name="yesterday">昨天</string>
+	<string name="the_day_before_yesterday">前天</string>
+	
+	<!-- User Time Line -->
+	<string name="user_info">用户信息</string>
+	<string name="user_statuses">用户微博</string>
+	<string name="followers">粉丝</string>
+	<string name="following">关注</string>
+	<string name="msgs">微博</string>
+	<string name="like">收藏</string>
+	<string name="following_me">正关注我</string>
+	<string name="i_am_following">我正关注</string>
+	<string name="following_each_other">互相关注</string>
+	<string name="no_following">未关注</string>
+	<string name="follow">关注Ta</string>
+	<string name="unfollow">取消关注</string>
+	
+	<!-- Single -->
+	<string name="single_info">微博信息</string>
+	<string name="delete">删除</string>
+	<string name="fav_add">收藏微博</string>
+	<string name="fav_del">取消收藏</string>
+	<string name="copy">复制微博</string>
+	
+	<!-- Direct Message -->
+	<string name="direct_message">私信</string>
+	
+	<!-- Search -->
+	<string name="search">搜索</string>
+	<string-array name="search_type">
+		<item>微博</item>
+		<item>用户</item>
+	</string-array>
+	
+	<string-array name="developer_weibo_uids" translatable="false">
+		<item>1789004515</item>
+		<item>1870051034</item>
+		<item>1689129907</item>
+		<item>2984891190</item>
+		<item>1797272061</item>
+	</string-array>
+
+	<!-- Image -->
+	<string name="save">保存到手机</string>
+	
+	<!-- Settings -->
+	<string name="settings">设置</string>
+	<string name="about">关于</string>
+	<string name="version">版本</string>
+	<string name="developers_title">开发者与感谢名单</string>
+	<string name="source_code_title">源代码</string>
+	<string name="source_code_summary">https://github.com/PaperAirplane-Dev-Team/BlackLight</string>
+	<string name="license">开源协议</string>
+	<string name="actions">动作</string>
+	<string name="fast_scroll">列表快速滚动</string>
+	<string name="shake_to_return">晃动返回</string>
+	<string name="right_handed">右手习惯</string>
+	<string name="right_handed_des">将主界面的抽屉调整到界面右边，适用于大屏手机</string>
+	<string name="debug">调试</string>
+	<string name="debug_log">崩溃日志</string>
+	<string name="debug_crash">立即崩溃</string>
+	<string name="notification">通知</string>
+	<string name="notification_sound">声音</string>
+	<string name="notification_vibrate">震动</string>
+	<string name="notification_interval">提醒间隔</string>
+	<string name="set_interval">设置提醒间隔</string>
+	<string name="good">给个好评</string>
+	<string name="good_sum">亲，去Play商店给个好评呗</string>
+	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
+	<string name="network">网络</string>
+	<string name="auto_nopic">智能无图</string>
+	<string name="auto_nopic_sum">流量环境下不显示图片，WIFI环境下显示图片</string>
+	<string-array name="interval_name">
+		<item>1 分钟</item>
+		<item>3 分钟</item>
+		<item>5 分钟</item>
+		<item>10 分钟</item>
+		<item>30 分钟</item>
+		<item>从不</item>
+	</string-array>
+	
+	<!-- Message -->
+	<string name="plz_wait">请稍候……</string>
+	<string name="name_fetching">昵称获取中……</string>
+	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
+	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
+	<string name="send_fail">发送失败</string>
+	<string name="confirm_delete">请选择操作</string>
+	<string name="new_comment">%d 条新评论</string>
+	<string name="new_at">%d 条新提及</string>
+	<string name="click_to_view">点击查看</string>
+	<string name="empty_weibo">空微博</string>
+	<string name="not_loaded">请等待图片加载完成再试</string>
+	<string name="saved_to">图片已保存到 %s</string>
+	<string name="save_failed">图片保存失败</string>
+	<string name="needs_restart">设置将在重启软件后生效</string>
+	<string name="copied">内容已复制到剪贴板</string>
+
+</resources>
