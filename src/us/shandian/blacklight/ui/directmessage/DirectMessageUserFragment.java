@@ -36,12 +36,13 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.directmessages.DirectMessagesUserApiCache;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageUserAdapter;
 
-public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
+public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
 	private DirectMessagesUserApiCache mApiCache;
 	private ListView mList;
@@ -85,6 +86,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers);
 		mList.setAdapter(mAdapter);
 		mList.setOnItemClickListener(this);
+		mList.setOnItemLongClickListener(this);
 		
 		mApiCache.loadFromCache();
 		
@@ -154,6 +156,21 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		i.setClass(getActivity(), DirectMessageConversationActivity.class);
 		i.putExtra("user", mApiCache.mUsers.get(position).user);
 		startActivity(i);
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		if (getActivity() instanceof MainActivity) {
+			position--;
+		}
+
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(getActivity(), UserTimeLineActivity.class);
+		i.putExtra("user", mApiCache.mUsers.get(position).user);
+		startActivity(i);
+
+		return true;
 	}
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
