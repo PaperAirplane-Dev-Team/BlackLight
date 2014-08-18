@@ -364,6 +364,9 @@ public class Utility
 						type = Color.MAGENTA;
 					} else if (color.equals("d")) {
 						type = -1;
+					} else if (color.equals("#")) {
+						color = tmp.substring(1, 8);
+						type = Color.parseColor(color);
 					}
 
 					if (type > Integer.MIN_VALUE) {
