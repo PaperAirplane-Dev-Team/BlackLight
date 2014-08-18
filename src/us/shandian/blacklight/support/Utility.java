@@ -375,7 +375,7 @@ public class Utility
 						map.put("pos", line.length());
 						map.put("type", type);
 						format.add(map);
-						tmp = tmp.substring(2, tmp.length());
+						tmp = tmp.substring(color.length() + 1, tmp.length());
 						continue;
 					}
 				}	
