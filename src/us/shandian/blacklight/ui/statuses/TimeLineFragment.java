@@ -54,7 +54,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 {
 	
 	protected ListView mList;
-	private View mNew;
+	protected View mNew, mRefresh;
 	private WeiboAdapter mAdapter;
 	private HomeTimeLineApiCache mCache;
 	
@@ -110,7 +110,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 		
-		// Floating "New" button
+		// Floating "New" and "Refresh" button
 		bindNewButton(v);
 
 		mList.setOnTouchListener(this);
@@ -174,14 +174,18 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	public void onClick(View v) {
 		if (v == mNew) {
 			newPost();
+		} else if (v == mRefresh) {
+			mSwipeRefresh.setIsDown(false);
+			mList.smoothScrollToPosition(0);
+			onRefresh();
 		}
 	}
 
 	@Override
-	public boolean onLongClick(View arg0) {
+	public boolean onLongClick(View v) {
 		Vibrator vibrator = (Vibrator) getActivity().getApplication().getSystemService(Service.VIBRATOR_SERVICE);
 		vibrator.vibrate(50);
-		Toast.makeText(getActivity().getApplicationContext(), getString(R.string.new_post), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity().getApplicationContext(), getString(v == mNew ? R.string.new_post : R.string.refresh), Toast.LENGTH_SHORT).show();
 		return true;
 	}
 	
@@ -198,14 +202,16 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 				float y = ev.getY();
 				
 				if (!mNewHidden && y < mLastY) {
-					if (mNew != null) {
+					if (mNew != null && mRefresh != null) {
 						mNew.clearAnimation();
+						mRefresh.clearAnimation();
 					
 						TranslateAnimation anim = new TranslateAnimation(0, 0, 0, mList.getHeight() - mNew.getTop());
 						anim.setFillAfter(true);
 						anim.setDuration(400);
 					
 						mNew.setAnimation(anim);
+						mRefresh.setAnimation(anim);
 						anim.startNow();
 					}
 
@@ -215,14 +221,16 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 						getActivity().getActionBar().hide();
 					}
 				} else if (mNewHidden && y > mLastY) {
-					if (mNew != null) {
+					if (mNew != null && mRefresh != null) {
 						mNew.clearAnimation();
+						mRefresh.clearAnimation();
 
 						TranslateAnimation anim = new TranslateAnimation(0, 0, mList.getHeight() - mNew.getTop(), 0);
 						anim.setFillAfter(true);
 						anim.setDuration(400);
 
 						mNew.setAnimation(anim);
+						mRefresh.setAnimation(anim);
 						anim.startNow();
 					}
 
@@ -266,14 +274,19 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	
 	protected void bindNewButton(View v) {
 		mNew = v.findViewById(R.id.home_timeline_new);
+		mRefresh = v.findViewById(R.id.home_timeline_refresh);
 		if (!hasSmartBar()) {
 			mNew.setVisibility(View.VISIBLE);
 			mNew.bringToFront();
 			mNew.setOnClickListener(this);
 			mNew.setOnLongClickListener(this);
-
+			mRefresh.setVisibility(View.VISIBLE);
+			mRefresh.bringToFront();
+			mRefresh.setOnClickListener(this);
+			mRefresh.setOnLongClickListener(this);
 		} else {
 			mNew.setVisibility(View.INVISIBLE);
+			mRefresh.setVisibility(View.INVISIBLE);
 		}
 	}
 	

@@ -70,6 +70,7 @@
 	<string name="long_from">由BlackLight生成</string>
 	<string name="comment_delete">删除评论</string>
 	<string name="comment_view_orig">查看原微博</string>
+	<string name="refresh">刷新</string>
 	<string-array name="picture_picker_array">
 		<item>从图库选择照片</item>
 		<item>拍照</item>

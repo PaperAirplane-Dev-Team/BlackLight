@@ -6,6 +6,12 @@
         android:id="@+id/post_new"
         android:title="@string/new_post"
         android:icon="@drawable/ic_action_new"
-        android:showAsAction="always"/>
+		android:showAsAction="always"/>
+
+	<item
+		android:id="@+id/post_refresh"
+		android:title="@string/refresh"
+		android:icon="@drawable/ic_action_refresh"
+		android:showAsAction="always"/>
 
 </menu>

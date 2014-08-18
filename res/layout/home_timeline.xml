@@ -41,5 +41,18 @@
 		android:id="@+id/home_timeline_new"
 		android:visibility="gone"/>
 
+	<ImageButton
+		android:layout_height="60dp"
+		android:layout_width="60dp"
+        android:src="@drawable/ic_action_refresh"
+		android:background="@drawable/btn_new_post"
+		android:layout_marginLeft="15dp"
+		android:layout_marginBottom="15dp"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentBottom="true"
+		android:scaleType="centerInside"
+		android:id="@+id/home_timeline_refresh"
+		android:visibility="gone"/>
+
 </RelativeLayout>
 

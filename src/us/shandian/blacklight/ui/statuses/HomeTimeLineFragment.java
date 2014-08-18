@@ -45,6 +45,8 @@ public class HomeTimeLineFragment extends TimeLineFragment{
 			i.setClass(getActivity(), NewPostActivity.class);
 			startActivity(i);
 			return true;
+		} else if (menuItem.getItemId() == R.id.post_refresh) {
+			this.onClick(mRefresh);
 		}
 
 		return false;
