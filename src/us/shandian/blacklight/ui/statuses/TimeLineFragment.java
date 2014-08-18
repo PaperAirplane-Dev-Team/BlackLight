@@ -177,7 +177,12 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		} else if (v == mRefresh) {
 			mSwipeRefresh.setIsDown(false);
 			mList.smoothScrollToPosition(0);
-			onRefresh();
+			mList.post(new Runnable() {
+				@Override
+				public void run() {
+					onRefresh();
+				}
+			});
 		}
 	}
 
@@ -319,6 +324,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
+			mList.setSelection(0);
 			if (!result) {
 				mAdapter.notifyDataSetChanged();
 			} else {
