@@ -84,7 +84,7 @@ SRC			:= \
 GEN			:= $(foreach srcdir, $(shell find $(GEN_DIR) -maxdepth 10 -type d),$(wildcard $(srcdir)/*.java))
 RES			:= \
 	$(foreach dir, \
-		$(RES_DIR), \
+		$(RES_DIR) $(ASSET), \
 		$(foreach srcdir, \
 			$(shell find $(dir) -maxdepth 10 -type d), \
 			$(wildcard $(srcdir)/*.*) \
