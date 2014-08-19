@@ -176,7 +176,12 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			newPost();
 		} else if (v == mRefresh) {
 			mSwipeRefresh.setIsDown(false);
-			mList.smoothScrollToPosition(0);
+
+			if (mList.getFirstVisiblePosition() <= 30) {
+				mList.smoothScrollToPosition(0);
+			} else {
+				mList.setSelection(0);
+			}
 			mList.post(new Runnable() {
 				@Override
 				public void run() {
