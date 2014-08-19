@@ -262,6 +262,8 @@ public class NewPostActivity extends AbsActivity
 		} else if (id == R.id.post_pic) {
 			if (mBitmap == null){
 				showPicturePicker();
+			} else {
+				setPicture(null);
 			}
 			return true;
 		} else if (id == R.id.post_emoticon) {
