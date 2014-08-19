@@ -170,14 +170,16 @@ public class NewPostActivity extends AbsActivity
 					
 				}
 
-				if (mIsLong) {
-					getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mColorPickerFragment).commit();
-					mEmoticonMenu.setIcon(R.drawable.ic_action_edit);
-					mEmoticonMenu.setTitle(R.string.color);
-				} else {
-					getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
-					mEmoticonMenu.setIcon(R.drawable.ic_action_emoticon);
-					mEmoticonMenu.setTitle(R.string.emoticon);
+				if (mEmoticonMenu != null) {
+					if (mIsLong) {
+						getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mColorPickerFragment).commit();
+						mEmoticonMenu.setIcon(R.drawable.ic_action_edit);
+						mEmoticonMenu.setTitle(R.string.color);
+					} else {
+						getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
+						mEmoticonMenu.setIcon(R.drawable.ic_action_emoticon);
+						mEmoticonMenu.setTitle(R.string.emoticon);
+					}
 				}
 			}
 		});
