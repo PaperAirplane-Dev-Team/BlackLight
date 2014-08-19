@@ -3,4 +3,5 @@ libs/gson-2.2.2.jar
 libs/SwipeBackLayout/library/src/main/java
 libs/SlidingUpPanel/src
 libs/SystemBarTint/src
+libs/HoloColorPicker/src
 src

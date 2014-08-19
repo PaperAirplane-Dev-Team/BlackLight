@@ -63,6 +63,7 @@
 	<string name="comment_orig">同时评论原微博</string>
 	<string name="topics_info">话题信息</string>
 	<string name="emoticon">表情</string>
+	<string name="color">文本颜色</string>
 	<string name="new_picture">添加图片</string>
 	<string name="delete_picture">清除图片</string>
 	<string name="at">选择@的好友</string>
@@ -107,6 +108,7 @@
 	<string name="fav_add">收藏微博</string>
 	<string name="fav_del">取消收藏</string>
 	<string name="copy">复制微博</string>
+	<string name="okay">选好了</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>

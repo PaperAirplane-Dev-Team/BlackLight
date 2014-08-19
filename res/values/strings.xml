@@ -63,6 +63,7 @@
 	<string name="comment_orig">Also comment on the origin weibo</string>
 	<string name="topics_info">Topic info</string>
 	<string name="emoticon">Emoticon</string>
+	<string name="color">Text Color</string>
 	<string name="new_picture">Add picture</string>
 	<string name="delete_picture">Delete picture</string>
 	<string name="at">Choose the people to @</string>
@@ -107,6 +108,7 @@
 	<string name="fav_add">Add to favourites</string>
 	<string name="fav_del">Remove from favourites</string>
 	<string name="copy">Copy weibo</string>
+	<string name="okay">Okay</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">Messages</string>

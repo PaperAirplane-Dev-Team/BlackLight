@@ -57,6 +57,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.ReplyToActivity;
 import us.shandian.blacklight.ui.common.AbsActivity;
+import us.shandian.blacklight.ui.common.ColorPickerFragment;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import us.shandian.blacklight.ui.statuses.RepostActivity;
@@ -79,6 +80,10 @@ public class NewPostActivity extends AbsActivity
 	
 	// Fragments
 	private EmoticonFragment mEmoticonFragment;
+	private ColorPickerFragment mColorPickerFragment;
+
+	// Menu
+	private MenuItem mEmoticonMenu;
 	
 	// Picked picture
 	private Bitmap mBitmap;
@@ -105,6 +110,7 @@ public class NewPostActivity extends AbsActivity
 		
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();
+		mColorPickerFragment = new ColorPickerFragment();
 		getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
 		
 		// Listeners
@@ -113,6 +119,15 @@ public class NewPostActivity extends AbsActivity
 				public void onEmoticonSelected(String name) {
 					mText.getText().insert(mText.getSelectionStart(), name);
 				}
+		});
+
+		mColorPickerFragment.setOnColorSelectedListener(new ColorPickerFragment.OnColorSelectedListener() {
+			@Override
+			public void onSelected(String hex) {
+				int sel = mText.getSelectionStart();
+				mText.getText().insert(sel, "[" + hex + "  [d");
+				mText.setSelection(sel + 9);
+			}
 		});
 		
 		mText.addTextChangedListener(new TextWatcher() {
@@ -153,6 +168,16 @@ public class NewPostActivity extends AbsActivity
 					
 				} catch (Exception e) {
 					
+				}
+
+				if (mIsLong) {
+					getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mColorPickerFragment).commit();
+					mEmoticonMenu.setIcon(R.drawable.ic_action_edit);
+					mEmoticonMenu.setTitle(R.string.color);
+				} else {
+					getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
+					mEmoticonMenu.setIcon(R.drawable.ic_action_emoticon);
+					mEmoticonMenu.setTitle(R.string.emoticon);
 				}
 			}
 		});
@@ -209,6 +234,7 @@ public class NewPostActivity extends AbsActivity
 					.setTitle(R.string.delete_picture)
 					.setIcon(android.R.drawable.ic_menu_delete);
 		}
+		mEmoticonMenu = menu.findItem(R.id.post_emoticon);
 		return true;
 	}
 
