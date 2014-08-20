@@ -331,7 +331,7 @@ public class NewPostActivity extends AbsActivity
 				return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
 			}
 		} else {
-			return PostApi.newPostWithPic(Utility.parseLongContent(mText.getText().toString()),
+			return PostApi.newPostWithPic(Utility.parseLongContent(this, mText.getText().toString()),
 					Utility.parseLongPost(this, mText.getText().toString(), mBitmap));
 		}
 	}

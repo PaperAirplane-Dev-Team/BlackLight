@@ -36,6 +36,7 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -495,9 +496,13 @@ public class Utility
 		return bmp;
 	}
 
-	public static String parseLongContent(String content) {
+	public static String parseLongContent(Context context, String content) {
 		String str = content.split("\n")[0];
 		if (str.length() < 140) {
+			if (TextUtils.isEmpty(str)) {
+				str = context.getResources().getString(R.string.long_post);
+			}
+
 			return str;
 		} else {
 			return str.substring(0, 137) + "...";
