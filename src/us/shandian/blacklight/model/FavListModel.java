@@ -32,7 +32,8 @@ public class FavListModel
 		msg.previous_cursor = "";
 		msg.next_cursor = "";
 		
-		List<MessageModel> msgs = (List<MessageModel>) msg.getList();
+		@SuppressWarnings("unchecked")
+        List<MessageModel> msgs = (List<MessageModel>) msg.getList();
 		
 		for (FavModel fav : favorites) {
 			msgs.add(fav.status);

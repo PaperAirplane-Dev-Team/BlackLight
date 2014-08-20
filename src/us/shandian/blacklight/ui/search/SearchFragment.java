@@ -19,18 +19,17 @@
 
 package us.shandian.blacklight.ui.search;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import us.shandian.blacklight.R;
 
 public class SearchFragment extends Fragment
@@ -45,7 +44,9 @@ public class SearchFragment extends Fragment
 	
 	private Fragment[] mFragments = new Fragment[2];
 	
-	@Override
+    @SuppressLint("InflateParams")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		// Create action bar view first

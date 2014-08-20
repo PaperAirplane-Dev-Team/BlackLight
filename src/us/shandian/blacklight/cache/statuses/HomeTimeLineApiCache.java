@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.cache.statuses;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -26,14 +27,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Movie;
-
 import com.google.gson.Gson;
-
 import java.io.InputStream;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
-
 import us.shandian.blacklight.api.statuses.HomeTimeLineApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
@@ -46,6 +44,7 @@ import us.shandian.blacklight.support.Utility;
 /* Time Line of me and my friends */
 public class HomeTimeLineApiCache
 {
+    @SuppressLint("UseSparseArrays")
 	private static HashMap<Long, SoftReference<Bitmap>> mThumnnailCache = new HashMap<Long, SoftReference<Bitmap>>();
 	
 	protected DataBaseHelper mHelper;
@@ -215,7 +214,8 @@ public class HomeTimeLineApiCache
 		return ret;
 	}
 
-	public String saveLargePic(MessageModel msg, int id) {
+	@SuppressLint("SdCardPath")
+    public String saveLargePic(MessageModel msg, int id) {
 		String url = null;
 		if (msg.hasMultiplePictures()) {
 			url = msg.pic_urls.get(id).getLarge();
@@ -237,8 +237,8 @@ public class HomeTimeLineApiCache
 			ret = null;
 		} finally {
 			Utility.notifyScanPhotos(mContext, ret);
-			return ret;
 		}
+		return ret;
 	}
 	
 	public void cache() {

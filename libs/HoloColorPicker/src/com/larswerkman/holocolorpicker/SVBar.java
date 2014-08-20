@@ -40,7 +40,7 @@ public class SVBar extends View {
 	private static final String STATE_COLOR = "color";
 	private static final String STATE_SATURATION = "saturation";
 	private static final String STATE_VALUE = "value";
-	private static final String STATE_ORIENTATION = "orientation";
+	//private static final String STATE_ORIENTATION = "orientation";
 	
 	/**
 	 * Constants used to identify orientation.

@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.support;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -31,15 +32,17 @@ import us.shandian.blacklight.R;
 /*
   credits to: Sina Weibo SDK / qii / me
 */
+@SuppressLint("SimpleDateFormat")
 public class StatusTimeUtils
 {
-	private static final long MILLIS_MIN = 1000 * 60;
-	private static final long MILLIS_HOUR = MILLIS_MIN * 60;
-	
-	private static String JUST_NOW, MIN, HOUR, DAY, MONTH, YEAR,
+	//private static final long MILLIS_MIN = 1000 * 60;
+	//private static final long MILLIS_HOUR = MILLIS_MIN * 60;
+	//XXX Many unused vars
+    
+	private static String JUST_NOW, MIN, //HOUR, DAY, MONTH, YEAR,
 							YESTERDAY, THE_DAY_BEFORE_YESTERDAY, TODAY;
 	
-	private static SimpleDateFormat day_format = new SimpleDateFormat("HH:mm");
+    private static SimpleDateFormat day_format = new SimpleDateFormat("HH:mm");
 	private static SimpleDateFormat date_format = new SimpleDateFormat("M-d HH:mm");
 	private static SimpleDateFormat year_format = new SimpleDateFormat("yyyy-M-d HH:mm");
 	
@@ -50,10 +53,10 @@ public class StatusTimeUtils
 		Resources res = context.getResources();
 		JUST_NOW = res.getString(R.string.just_now);
 		MIN = res.getString(R.string.min);
-		HOUR = res.getString(R.string.hour);
-		DAY = res.getString(R.string.day);
-		MONTH = res.getString(R.string.month);
-		YEAR = res.getString(R.string.year);
+		//HOUR = res.getString(R.string.hour);
+		//DAY = res.getString(R.string.day);
+		//MONTH = res.getString(R.string.month);
+		//YEAR = res.getString(R.string.year);
 		YESTERDAY = res.getString(R.string.yesterday);
 		THE_DAY_BEFORE_YESTERDAY = res.getString(R.string.the_day_before_yesterday);
 		TODAY = res.getString(R.string.today);
@@ -95,7 +98,8 @@ public class StatusTimeUtils
 		return nowYear == msgYear;
 	}
 	
-	public String buildTimeString(String created_at) {
+	@SuppressWarnings("deprecation")
+    public String buildTimeString(String created_at) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(created_at));
 		long msg = cal.getTimeInMillis();

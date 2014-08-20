@@ -27,7 +27,6 @@ import android.graphics.Matrix;
 import android.util.Log;
 
 import java.util.HashMap;
-import java.io.InputStream;
 
 import us.shandian.blacklight.support.adapter.EmoticonAdapter;
 import static us.shandian.blacklight.BuildConfig.DEBUG;

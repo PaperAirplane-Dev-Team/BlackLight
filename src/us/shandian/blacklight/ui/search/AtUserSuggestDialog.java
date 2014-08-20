@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.search.SearchApi;
 import us.shandian.blacklight.support.AsyncTask;
-import android.widget.*;
 
 public class AtUserSuggestDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemClickListener
 {
@@ -113,7 +112,7 @@ public class AtUserSuggestDialog extends Dialog implements View.OnClickListener,
 		protected void onPostExecute(String[] result) {
 			super.onPostExecute(result);
 			
-			ArrayAdapter adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, result);
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, result);
 			
 			mList.setAdapter(adapter);
 			

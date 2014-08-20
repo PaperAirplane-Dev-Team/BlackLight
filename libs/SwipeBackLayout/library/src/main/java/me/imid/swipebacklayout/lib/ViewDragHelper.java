@@ -32,7 +32,7 @@ import java.util.Arrays;
  * and reposition views within their parent ViewGroup.
  */
 public class ViewDragHelper {
-    private static final String TAG = "ViewDragHelper";
+    //private static final String TAG = "ViewDragHelper";
 
     /**
      * A null/invalid pointer ID.

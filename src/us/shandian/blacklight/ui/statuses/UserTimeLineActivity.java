@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -33,11 +34,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Bundle;
-
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
 import us.shandian.blacklight.R;
-import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.friendships.FriendsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
@@ -47,7 +45,6 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
-
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class UserTimeLineActivity extends AbsActivity implements View.OnClickListener
@@ -272,7 +269,9 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 			return null;
 		}
 
-		@Override
+		@SuppressLint("NewApi")
+        @SuppressWarnings("deprecation")
+        @Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
 			

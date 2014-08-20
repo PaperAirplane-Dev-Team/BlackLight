@@ -22,19 +22,19 @@ package us.shandian.blacklight.support;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /*
   Real AsyncTask
 */
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class AsyncTask<Params, Progress, Result>
 {
 	private static final String TAG = AsyncTask.class.getSimpleName();
 	
 	private static class AsyncResult<Data> {
-		public AsyncTask task;
+        public AsyncTask task;
 		public Data[] data;
 		
 		public AsyncResult(AsyncTask task, Data... data) {
@@ -47,7 +47,6 @@ public abstract class AsyncTask<Params, Progress, Result>
 	private static final int MSG_PROGRESS = 1001;
 	
 	private static Handler sInternalHandler = new Handler() {
-		@SuppressWarnings({"unchecked", "RawUseOfParameterizedType"})
 		@Override
 		public void handleMessage(Message msg) {
 			AsyncResult result = (AsyncResult) msg.obj;

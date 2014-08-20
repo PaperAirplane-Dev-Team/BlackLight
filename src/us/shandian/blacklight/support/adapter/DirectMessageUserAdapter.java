@@ -34,10 +34,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.model.DirectMessageUserListModel;
-import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
-import us.shandian.blacklight.support.HackyMovementMethod;
-import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 
 public class DirectMessageUserAdapter extends BaseAdapter

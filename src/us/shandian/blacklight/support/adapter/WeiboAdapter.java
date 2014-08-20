@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.support.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -37,9 +38,7 @@ import android.widget.TextView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-
 import java.util.ArrayDeque;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.comments.NewCommentApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -65,6 +64,7 @@ import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
   Adapting them to ListViews.
   They share one common layout
 */
+@SuppressLint("InflateParams")
 public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener, 
 										View.OnClickListener, View.OnLongClickListener
 {
@@ -79,7 +79,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private String mUid;
 	
-	private int mGray;
+	//private int mGray;
+	//XXX 估摸着你哪里会用到这个变量但是还没实现
 	
 	private Context mContext;
 	
@@ -97,7 +98,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mUserApi = new UserApiCache(context);
 		mHomeApi = new HomeTimeLineApiCache(context);
 		mLogin = new LoginApiCache(context);
-		mGray = context.getResources().getColor(R.color.light_gray);
+		//mGray = context.getResources().getColor(R.color.light_gray);
 		mUid = mLogin.getUid();
 		mContext = context;
 		mBindOrig = bindOrig;
@@ -405,7 +406,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private class ImageDownloader extends AsyncTask<Object, Object, Void> {
 
 		@Override
-		protected Void doInBackground(Object[] params) {
+		protected Void doInBackground(Object... params) {
 			View v = (View) params[0];
 			ViewHolder h = (ViewHolder) v.getTag();
 			MessageModel msg = h.msg;
@@ -464,7 +465,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Object[] values) {
+		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
 			
 			View v = (View) values[0];
@@ -510,7 +511,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 
 		@Override
-		protected Void doInBackground(CommentModel[] params) {
+		protected Void doInBackground(CommentModel... params) {
 			NewCommentApi.deleteComment(params[0].id);
 			return null;
 		}
