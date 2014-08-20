@@ -333,6 +333,10 @@ public class NewPostActivity extends AbsActivity
 				return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
 			}
 		} else {
+			if (DEBUG) {
+				Log.d(TAG, "Preparing to post a long post");
+			}
+
 			return PostApi.newPostWithPic(Utility.parseLongContent(this, mText.getText().toString()),
 					Utility.parseLongPost(this, mText.getText().toString(), mBitmap));
 		}

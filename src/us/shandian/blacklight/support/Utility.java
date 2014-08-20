@@ -279,6 +279,11 @@ public class Utility
 	}
 
 	public static Bitmap parseLongPost(Context context, String text, Bitmap pic) {
+		if (DEBUG) {
+			Log.d(TAG, "parseLongPost");
+			Log.d(TAG, "text = " + text);
+		}
+
 		// Get width and height
 		int fontHeight = getFontHeight(context, 15.0f);
 		int width = fontHeight * 17;
@@ -296,6 +301,10 @@ public class Utility
 		String tmp = text;
 
 		while (tmp.length() > 0) {
+			if (DEBUG) {
+				Log.d(TAG, "tmp = " + tmp);
+			}
+
 			String line = "";
 
 			boolean ignore = false;
@@ -497,7 +506,17 @@ public class Utility
 	}
 
 	public static String parseLongContent(Context context, String content) {
-		String str = content.split("\n")[0];
+		if (DEBUG) {
+			Log.d(TAG, "parseLongContent");
+		}
+		
+		String[] strs = content.split("\n");
+		String str = "";
+
+		if (strs.length > 0) {
+			str = strs[0];
+		}
+
 		if (str.length() < 140) {
 			if (TextUtils.isEmpty(str)) {
 				str = context.getResources().getString(R.string.long_post);
