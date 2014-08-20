@@ -121,15 +121,15 @@ public class ShakeDetector implements SensorEventListener {
 				}
 
 				if (DEBUG) {
-					Log.d(TAG, "a = " + a);
+					/*Log.d(TAG, "a = " + a);*/
 				}
 			}
 
 			if (DEBUG) {
-				Log.d(TAG, "x = " + x + "; y = " + y + "; z = " + z);
+				/*Log.d(TAG, "x = " + x + "; y = " + y + "; z = " + z);
 				Log.d(TAG, "dX = " + dX + "; dY = " + dY + "; dZ = " + dZ);
 				Log.d(TAG, "mLastX = " + mLastX + "; mLastY = " + mLastY + "; mLastZ = " + mLastZ);
-				Log.d(TAG, "eV = " + eV + "; mLastV = " + mLastV);
+				Log.d(TAG, "eV = " + eV + "; mLastV = " + mLastV);*/
 			}
 			
 			mLastX = x;
