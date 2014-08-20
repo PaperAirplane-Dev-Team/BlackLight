@@ -83,7 +83,8 @@
 		
 		<Preference
 			android:key="debug_crash"
-			android:title="@string/debug_crash"/>
+			android:title="@string/debug_crash"
+			android:summary="@string/debug_crash_sum"/>
 		
 	</PreferenceCategory>
 	

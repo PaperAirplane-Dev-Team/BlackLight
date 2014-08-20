@@ -52,7 +52,7 @@
 	<string name="comment">Comment</string>
 	<string name="status_mention_me">Weibos that mentioned me</string>
 	<string name="comment_mention_me">Comments that mentioned me</string>
-	<string name="loading_more">Loading more...</string>
+	<string name="loading_more">Loading more……</string>
 	<string name="new_post">Post a new weibo</string>
 	<string name="comment_on">Make a comment</string>
 	<string name="repost">Repost weibo</string>
@@ -147,6 +147,7 @@
 	<string name="debug">Debug</string>
 	<string name="debug_log">Crash log</string>
 	<string name="debug_crash">(DANGER) Crash now</string>
+	<string name="debug_crash_sum">Please DON\'T report to developers if you click it.</string>
 	<string name="notification">Notification</string>
 	<string name="notification_sound">Sound</string>
 	<string name="notification_vibrate">Vibration</string>

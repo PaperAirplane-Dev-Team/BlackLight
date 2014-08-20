@@ -125,6 +125,7 @@
 	<string name="debug">調試</string>
 	<string name="debug_log">崩潰記錄</string>
 	<string name="debug_crash">立即崩潰</string>
+	<string name="debug_crash_sum">請不要向開發者報告該錯誤</string>
 	<string name="notification">通知</string>
 	<string name="notification_sound">音效</string>
 	<string name="notification_vibrate">震動</string>
