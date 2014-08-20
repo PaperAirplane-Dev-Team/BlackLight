@@ -147,6 +147,7 @@
 	<string name="debug">调试</string>
 	<string name="debug_log">崩溃日志</string>
 	<string name="debug_crash">立即崩溃</string>
+	<string name="debug_crash_sum">亲，戳了就不要再向我们报告错误了哟！</string>
 	<string name="notification">通知</string>
 	<string name="notification_sound">声音</string>
 	<string name="notification_vibrate">震动</string>
