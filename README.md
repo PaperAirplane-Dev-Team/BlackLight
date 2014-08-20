@@ -21,11 +21,12 @@ Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight
 ---
 1. __首先请保证你的Android开发环境拥有API Level 20的开发平台。__   
 2. 将项目Clone到一个临时文件夹(不能是Eclipse的Workspace中)。
-3. 在Eclipse中*__仅仅导入__*BlackLight项目，请不要选择子项目，并选中 'Copy projects into workspace' 选项。
-4. 在资源管理器中定位到Eclipse的Workspace目录，记下BlackLight项目的路径。
-4. 在Eclipse中进行导入操作，填入第4步记下的路径，导入所有的子项目。*__不要选中__* 'Copy projects into workspace' 选项。
-5. 如果需要，重启Eclipse并Clean所有项目。
-6. Enjoy it!
+3. 执行`git checkout eclipse`
+4. 在Eclipse中*__仅仅导入__*BlackLight项目，请不要选择子项目，并选中 'Copy projects into workspace' 选项。
+5. 在资源管理器中定位到Eclipse的Workspace目录，记下BlackLight项目的路径。
+6. 在Eclipse中进行导入操作，填入第4步记下的路径，导入所有的子项目。*__不要选中__* 'Copy projects into workspace' 选项。
+7. 如果需要，重启Eclipse并Clean所有项目。
+8. Enjoy it!
 
 感谢
 ---
