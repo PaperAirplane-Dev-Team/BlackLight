@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.support.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.BaseAdapter;
@@ -28,7 +27,9 @@ import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.HashMap;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
@@ -64,8 +65,7 @@ public class UserAdapter extends BaseAdapter
 		return position;
 	}
 
-	@SuppressLint("InflateParams")
-    @Override
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (position >= getCount()) {
 			return convertView;
@@ -111,7 +111,7 @@ public class UserAdapter extends BaseAdapter
 		}
 		
 		@Override
-		protected void onPostExecute(Object[] result) {
+		protected void onPostExecute(Object... result) {
 			if (result[0] != null && result[1] != null) {
 				((ImageView) result[0]).setImageBitmap((Bitmap) result[1]);
 			}

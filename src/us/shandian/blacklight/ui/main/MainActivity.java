@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.main;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -28,7 +29,10 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,8 +42,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.os.Build;
+
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+
+import java.util.concurrent.TimeUnit;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
@@ -52,11 +60,14 @@ import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
+import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.search.SearchFragment;
 import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
@@ -321,8 +332,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mDrawer.closeDrawer(mDrawerGravity);
 	}
 	
-	@SuppressWarnings({"rawtypes","unchecked"})
-    private void initList() {
+	private void initList() {
 		mLastChoice = null;
 		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
 		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
@@ -351,7 +361,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Void doInBackground(Void[] params) {
 			// Username first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
 			publishProgress(new Object[]{0});
@@ -366,7 +376,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 
 		@Override
-		protected void onProgressUpdate(Object... values) {
+		protected void onProgressUpdate(Object[] values) {
 			int value = Integer.parseInt(String.valueOf(values[0]));
 			switch (value) {
 				case 0:

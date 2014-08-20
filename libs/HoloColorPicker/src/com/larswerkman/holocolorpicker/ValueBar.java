@@ -16,7 +16,6 @@
 
 package com.larswerkman.holocolorpicker;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -40,7 +39,7 @@ public class ValueBar extends View {
 	private static final String STATE_PARENT = "parent";
 	private static final String STATE_COLOR = "color";
 	private static final String STATE_VALUE = "value";
-	//private static final String STATE_ORIENTATION = "orientation";
+	private static final String STATE_ORIENTATION = "orientation";
 	
 	/**
 	 * Constants used to identify orientation.
@@ -335,8 +334,7 @@ public class ValueBar extends View {
 		canvas.drawCircle(cX, cY, mBarPointerRadius, mBarPointerPaint);
 	};
 
-	@SuppressLint("ClickableViewAccessibility")
-    @Override
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		getParent().requestDisallowInterceptTouchEvent(true);
 

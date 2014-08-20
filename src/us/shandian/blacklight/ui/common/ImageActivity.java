@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.common;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Movie;
 import android.view.Gravity;
@@ -27,12 +28,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
@@ -43,6 +47,7 @@ import org.roisoleil.gifview.GifView;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
@@ -185,15 +190,14 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 	private class DownloadTask extends AsyncTask<Object, Void, Object[]> {
 
 		@Override
-		protected Object[] doInBackground(Object... params) {
+		protected Object[] doInBackground(Object[] params) {
 			int id = Integer.parseInt(params[1].toString());
 			Object img = mApiCache.getLargePic(mModel, id);
 			mLoaded[id] = true;
 			return new Object[]{params[0], img};
 		}
 
-		@SuppressWarnings("deprecation")
-        @Override
+		@Override
 		protected void onPostExecute(Object[] result) {
 			super.onPostExecute(result);
 			ViewGroup v = (ViewGroup) result[0];

@@ -19,11 +19,13 @@
 
 package us.shandian.blacklight.ui.friendships;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.AbsActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;

@@ -39,7 +39,7 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 {
 	private class AD {
 		public long id = -1;
-		//public String mark = "";
+		public String mark = "";
 
 		@Override
 		public boolean equals(Object o) {

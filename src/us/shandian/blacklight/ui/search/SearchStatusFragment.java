@@ -22,9 +22,12 @@ package us.shandian.blacklight.ui.search;
 import android.content.Context;
 import android.view.View;
 
+import java.util.List;
+
 import us.shandian.blacklight.api.search.SearchApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
+import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 

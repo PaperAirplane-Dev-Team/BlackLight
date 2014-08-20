@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.login;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -83,7 +85,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		mTailNames = getResources().getStringArray(R.array.bm_tails);
 		mKeys = getResources().getStringArray(R.array.bm_keys);
 		
-		mTail.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, mTailNames));
+		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
 		mTail.setOnItemSelectedListener(this);
 		
 		onItemSelected(null, null, 0, 0);
@@ -142,7 +144,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		}
 		
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Void doInBackground(String[] params) {
 			if (DEBUG) {
 				Log.d(TAG, "doInBackground...");
 			}

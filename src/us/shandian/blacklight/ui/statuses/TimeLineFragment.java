@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.ui.statuses;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.Service;
 import android.content.Intent;
@@ -34,8 +33,11 @@ import android.widget.Toast;
 import android.os.Bundle;
 import android.os.Build;
 import android.os.Vibrator;
+
 import android.support.v4.widget.SwipeRefreshLayout;
+
 import java.util.ConcurrentModificationException;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -44,6 +46,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
+
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
@@ -64,12 +67,10 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 	
-	//private int mLastCount = 0;
-	//XX Unused
+	private int mLastCount = 0;
 	private float mLastY = -1.0f;
 
-	@SuppressLint("InflateParams")
-    @Override
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		initTitle();
@@ -198,8 +199,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		return true;
 	}
 	
-	@SuppressLint("ClickableViewAccessibility")
-    @Override
+	@Override
 	public boolean onTouch(View v, MotionEvent ev) {
 		
 		switch (ev.getAction() & MotionEvent.ACTION_MASK) {
@@ -313,7 +313,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			//mLastCount = mCache.mMessages.getSize();
+			mLastCount = mCache.mMessages.getSize();
 			mRefreshing = true;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(true);

@@ -33,9 +33,7 @@ import java.util.Set;
 public class WeiboParameters extends HashMap<String, Object>
 {
 	
-    private static final long serialVersionUID = 3453824930034213774L;
-
-    // URL Encode
+	// URL Encode
 	public String encode() {
 		StringBuilder str = new StringBuilder();
 		Set<String> keys = keySet();

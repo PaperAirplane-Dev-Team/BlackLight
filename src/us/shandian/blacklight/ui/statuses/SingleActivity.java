@@ -38,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.Toast;
 import android.os.Bundle;
+
 import android.support.v4.view.ViewPager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
@@ -67,8 +68,7 @@ public class SingleActivity extends AbsActivity
 	
 	private ViewPager mPager;
 	private SlidingUpPanelLayout mRoot;
-	//private View mContent;
-	//XXX Unused
+	private View mContent;
 	
 	private TabHost mTabs;
 	private ImageView mCollapse;
@@ -95,7 +95,7 @@ public class SingleActivity extends AbsActivity
 		
 		// Init
 		mRoot = (SlidingUpPanelLayout) findViewById(R.id.single_root);
-		//mContent = findViewById(R.id.single_content);
+		mContent = findViewById(R.id.single_content);
 		
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
@@ -338,8 +338,7 @@ public class SingleActivity extends AbsActivity
 	}
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
-		@SuppressWarnings("unchecked")
-        public HackyApiCache(Context context) {
+		public HackyApiCache(Context context) {
 			super(context);
 			mMessages = new MessageListModel();
 			((List<MessageModel>) mMessages.getList()).add(mMsg);
