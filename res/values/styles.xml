@@ -43,7 +43,7 @@
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar</item>
 		<item name="android:windowBackground">@color/superdark_gray</item>
 		<item name="CardBackground">@color/darker_than_superdark_gray</item>
-		<item name="CardForeground">@color/light_gray</item>
+		<item name="CardForeground">@color/gray</item>
 		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
 		<item name="ShadowGray">@color/cant_be_darker_gray</item>
 		<item name="DragBackground">@color/cant_be_darker_gray</item>
