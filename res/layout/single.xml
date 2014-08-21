@@ -44,7 +44,7 @@
 		<LinearLayout
 			android:layout_height="48dp"
 			android:layout_width="match_parent"
-			android:background="@android:color/white"
+			android:background="@color/white"
 			android:orientation="horizontal">
 
 			<TabHost
