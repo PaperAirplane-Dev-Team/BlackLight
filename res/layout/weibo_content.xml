@@ -21,7 +21,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/white"
+	android:background="?attr/CardBackground"
 	android:layout_margin="2dp">
 
 	<ImageView
@@ -37,6 +37,7 @@
 		android:textSize="14.5sp"
 		android:layout_width="wrap_content"
 		android:textStyle="bold"
+		android:textColor="?attr/CardForeground"
 		android:id="@+id/weibo_name"
 		android:singleLine="true"
 		android:ellipsize="end"
@@ -50,6 +51,7 @@
 	<TextView
 		android:layout_height="wrap_content"
 		android:text="Date"
+		android:textColor="?attr/CardForeground"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:id="@+id/weibo_date"
@@ -60,6 +62,7 @@
 	<TextView
 		android:layout_height="wrap_content"
 		android:text="From"
+		android:textColor="?attr/CardForeground"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:layout_width="wrap_content"
 		android:layout_marginLeft="5dp"
@@ -83,6 +86,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:text="@string/retweet"
+			android:textColor="?attr/CardForeground"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="wrap_content"
 			android:textSize="10sp"/>
@@ -90,6 +94,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:text="0"
+			android:textColor="?attr/CardForeground"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="wrap_content"
 			android:layout_marginLeft="2dp"
@@ -100,6 +105,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:text="@string/comment"
+			android:textColor="?attr/CardForeground"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="wrap_content"
 			android:layout_marginLeft="4dp"
@@ -108,6 +114,7 @@
 		<TextView
 			android:layout_height="wrap_content"
 			android:text="0"
+			android:textColor="?attr/CardForeground"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="wrap_content"
 			android:layout_marginLeft="2dp"
@@ -123,6 +130,7 @@
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_content"
 		android:textSize="14.5sp"
+		android:textColor="?attr/CardForeground"
 		android:textColorLink="@color/link_blue"
 		android:lineSpacingExtra="2dp"
 		android:layout_below="@id/weibo_avatar"
@@ -134,7 +142,7 @@
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_origin"
-		android:background="@color/midium_gray"
+		android:background="?attr/CardOrigBackground"
 		android:layout_below="@id/weibo_content"
 		android:visibility="gone">
 
@@ -145,6 +153,7 @@
 			android:id="@+id/weibo_orig_content"
 			android:layout_margin="5dp"
 			android:textSize="14.5sp"
+			android:textColor="?attr/CardForeground"
 			android:textColorLink="@color/link_blue"
 			android:lineSpacingExtra="2dp"/>
 
@@ -153,7 +162,7 @@
 	<HorizontalScrollView
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:background="@color/midium_gray"
+		android:background="?attr/CardOrigBackground"
 		android:padding="5dp"
 		android:id="@+id/weibo_pics_scroll"
 		android:layout_below="@id/weibo_origin"

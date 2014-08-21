@@ -48,6 +48,7 @@
 				android:layout_width="match_parent"
 				android:textStyle="bold"
 				android:id="@+id/direct_message_name"
+				android:textColor="?attr/CardForeground"
 				android:textSize="15sp"
 				android:ellipsize="end"
 				android:singleLine="true"
@@ -60,6 +61,7 @@
 				android:layout_weight="0.2"
 				android:layout_gravity="right|top"
 				android:gravity="right|top"
+				android:textColor="?attr/CardForeground"
 				android:textSize="10sp"
 				android:singleLine="true"
 				android:id="@+id/direct_message_date"/>
@@ -71,6 +73,7 @@
 			android:text="Text"
 			android:layout_width="match_parent"
 			android:layout_marginTop="5dp"
+			android:textColor="?attr/CardForeground"
 			android:textSize="15sp"
 			android:ellipsize="end"
 			android:singleLine="true"

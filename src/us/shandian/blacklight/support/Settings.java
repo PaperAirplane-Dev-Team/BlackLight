@@ -41,6 +41,9 @@ public class Settings
 
 	// Network
 	public static final String AUTO_NOPIC = "auto_nopic";
+
+	// Theme
+	public static final String THEME_DARK = "theme_dark";
 	
 	private static Settings sInstance;
 	

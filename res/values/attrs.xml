@@ -25,6 +25,19 @@
     </declare-styleable>
     <declare-styleable name="CustomTheme">
         <attr name="gifViewStyle" format="reference" />
-    </declare-styleable>
+	</declare-styleable>
+
+	<!-- Theme -->
+	<declare-styleable name="BlackLight">
+		<attr name="CardBackground" format="reference" />
+		<attr name="CardForeground" format="reference" />
+		<attr name="CardOrigBackground" format="reference" />
+		<attr name="ShadowGray" format="reference" />
+		<attr name="DragBackground" format="reference" />
+		<attr name="IconCollapse" format="reference" />
+		<attr name="IconSendNow" format="reference" />
+		<attr name="IconEmoticon" format="reference" />
+		<attr name="UserBackground" format="reference" />
+	</declare-styleable>
 
 </resources>

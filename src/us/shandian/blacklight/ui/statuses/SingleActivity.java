@@ -168,6 +168,8 @@ public class SingleActivity extends AbsActivity
 		mTabs.addTab(tab2);
 		
 		mTabs.setCurrentTab(0);
+
+		Utility.initDarkTabHost(this, mTabs);
 		
 		// Connect the TabHost with the ViewPager
 		mTabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {

@@ -26,6 +26,9 @@
 	<string name="tail">Tail</string>
 	<string name="username">Username</string>
 	<string name="passwd">Password</string>
+
+	<!-- Main -->
+	<string name="switch_theme">Switch Theme</string>
 	
 	<!-- Left Drawer -->
 	<string name="my">My circle</string>

@@ -25,6 +25,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources.NotFoundException;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
@@ -43,6 +46,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.TabHost;
+import android.widget.TextView;
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
@@ -586,6 +591,65 @@ public class Utility
 		i.setData(uri);
 		context.sendBroadcast(i);
 	}
+
+	public static boolean isDarkMode(Context context) {
+		return Settings.getInstance(context).getBoolean(Settings.THEME_DARK, false);
+	}
+
+	public static void switchTheme(Context context) {
+		Settings.getInstance(context).putBoolean(Settings.THEME_DARK, !isDarkMode(context));
+	}
+
+	// Change theme to dark if dark mode is set
+	public static void initDarkMode(Activity activity) {
+		if (isDarkMode(activity)) {
+			int theme = 0;
+			
+			try {
+				theme = activity.getPackageManager().getActivityInfo(activity.getComponentName(), 0).theme;
+			} catch (NameNotFoundException e) {
+				return;
+			}
+
+			// Convert to dark theme
+			switch (theme) {
+				case R.style.My_Theme_Holo_Light_DarkActionBar:
+					theme = R.style.My_Theme_Holo_Dark_DarkActionBar;
+					break;
+				case R.style.My_Theme_Holo_Light_DarkActionBar_Translucent:
+					theme = R.style.My_Theme_Holo_Dark_DarkActionBar_Translucent;
+					break;
+				case R.style.My_Theme_Holo_Light_TranslucentActionBar_NoTranslucent:
+					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar_NoTranslucent;
+					break;
+				case R.style.My_Theme_Holo_Light_TranslucentActionBar:
+					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar;
+					break;
+			}
+
+			activity.setTheme(theme);
+		}
+	}
+
+	// Change tab host's theme
+	public static void initDarkTabHost(Activity activity, TabHost tabhost) {
+		if (isDarkMode(activity)) {
+			int textColor = 0;
+			
+			try {
+				TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+				textColor = array.getColor(R.styleable.BlackLight_CardForeground, 0);
+				array.recycle();
+			} catch (NotFoundException e) {
+				return;
+			}
+
+			for (int i = 0; i < tabhost.getTabWidget().getChildCount(); i++) {
+				TextView tv = (TextView) tabhost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+				tv.setTextColor(textColor);
+			}
+		}
+	}
 	
 	@TargetApi(19)
 	public static void enableTint(Activity activity) {
@@ -598,7 +662,7 @@ public class Utility
 		
 		SystemBarTintManager m = new SystemBarTintManager(activity);
 		m.setStatusBarTintEnabled(true);
-		m.setStatusBarTintResource(R.color.action_gray);
+		m.setStatusBarTintResource(isDarkMode(activity) ? R.color.dark_action_gray : R.color.action_gray);
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {

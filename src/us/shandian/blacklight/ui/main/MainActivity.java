@@ -101,6 +101,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
 		}
 
+		Utility.initDarkMode(this);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
@@ -229,12 +231,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mToggle.onConfigurationChanged(newConfig);
 	}
 
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 		return true;
@@ -248,6 +251,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			} else {
 				mDrawer.openDrawer(mDrawerGravity);
 			}
+			return true;
+		} else if (item.getItemId() == R.id.switch_theme) {
+			Utility.switchTheme(this);
+			finish();
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, MainActivity.class);
+			startActivity(i);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);

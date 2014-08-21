@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
 * Copyright (C) 2014 Peter Cai
 *
@@ -17,21 +16,9 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="match_parent"
-	android:layout_width="match_parent"
-	android:orientation="vertical"
-	android:background="?android:attr/windowBackground">
-
-	<GridView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:numColumns="auto_fit"
-		android:stretchMode="columnWidth"
-		android:columnWidth="40dp"
-		android:verticalSpacing="10dp"
-		android:id="@+id/emoticon_grid"/>
-
-</LinearLayout>
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/switch_theme"
+		android:title="@string/switch_theme"
+		android:showAsAction="never"/>
+</menu>

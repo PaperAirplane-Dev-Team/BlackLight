@@ -38,6 +38,8 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Utility.initDarkMode(this);
+
 		super.onCreate(savedInstanceState);
 		
 		// On SmartBar devices, allow all Acvities to tint statusbar

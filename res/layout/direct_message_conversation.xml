@@ -49,7 +49,7 @@
 		<LinearLayout
 			android:layout_height="288dp"
 			android:layout_width="match_parent"
-			android:background="@color/white"
+			android:background="?attr/DragBackground"
 			android:orientation="vertical">
 
 			<LinearLayout
@@ -68,14 +68,14 @@
 					android:layout_height="48dp"
 					style="?android:attr/buttonBarButtonStyle"
 					android:layout_width="48dp"
-					android:src="@drawable/ic_action_send_now_dark"
+					android:src="?attr/IconSendNow"
 					android:id="@+id/direct_message_send"/>
 
 				<ImageView
 					android:layout_height="48dp"
 					style="?android:attr/buttonBarButtonStyle"
 					android:layout_width="48dp"
-					android:src="@drawable/ic_action_emoticon_dark"
+					android:src="?attr/IconEmoticon"
 					android:id="@+id/direct_message_emoticon"/>
 
 			</LinearLayout>

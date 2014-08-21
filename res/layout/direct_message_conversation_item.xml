@@ -35,14 +35,14 @@
 			android:layout_height="fill_parent"
 			android:orientation="vertical"
 			android:layout_margin="5dp"
-			android:background="@color/shadow_gray">
+			android:background="?attr/ShadowGray">
 
 			<LinearLayout
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:orientation="vertical"
 				android:layout_margin="5dp"
-				android:background="@android:color/white">
+				android:background="?attr/CardBackground">
 
 				<TextView
 					android:layout_height="wrap_content"
@@ -50,6 +50,7 @@
 					android:layout_width="wrap_content"
 					android:layout_margin="5dp"
 					android:textSize="15sp"
+					android:textColor="?attr/CardForeground"
 					android:id="@+id/direct_message_conversation_content"/>
 
 				<TextView
