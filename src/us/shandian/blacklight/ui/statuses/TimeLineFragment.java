@@ -223,6 +223,18 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 						mNew.setAnimation(anim);
 						mRefresh.setAnimation(anim);
 						anim.startNow();
+
+						// Hide after animation
+						mNew.postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								mNew.clearAnimation();
+								mRefresh.clearAnimation();
+
+								mNew.setVisibility(View.GONE);
+								mRefresh.setVisibility(View.GONE);
+							}
+						}, 400);
 					}
 
 					mNewHidden = true;
@@ -232,6 +244,10 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 					}
 				} else if (mNewHidden && y > mLastY) {
 					if (mNew != null && mRefresh != null) {
+						// Show then first
+						mNew.setVisibility(View.VISIBLE);
+						mRefresh.setVisibility(View.VISIBLE);
+
 						mNew.clearAnimation();
 						mRefresh.clearAnimation();
 
