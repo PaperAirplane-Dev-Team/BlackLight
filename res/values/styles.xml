@@ -45,7 +45,7 @@
 		<item name="CardBackground">@color/darker_than_superdark_gray</item>
 		<item name="CardForeground">@color/light_gray</item>
 		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
-		<item name="ShadowGray">@color/black</item>
+		<item name="ShadowGray">@color/cant_be_darker_gray</item>
 		<item name="DragBackground">@color/cant_be_darker_gray</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse_dark</item>
 		<item name="IconSendNow">@drawable/ic_action_send_now</item>
