@@ -216,6 +216,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle bundle) {
+		// This is a dummy method
+		// To fix duplicate menu and fragments
+		// After a restart
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
@@ -254,11 +261,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			return true;
 		} else if (item.getItemId() == R.id.switch_theme) {
 			Utility.switchTheme(this);
-			finish();
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(this, MainActivity.class);
-			startActivity(i);
+
+			// This will re-create the whole activity
+			recreate();
+			
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
