@@ -36,8 +36,6 @@ import android.os.Vibrator;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import java.util.ConcurrentModificationException;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -118,17 +116,6 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mList.setOnTouchListener(this);
 		
 		return v;
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		
-		try {
-			mCache.cache();
-		} catch (ConcurrentModificationException e) {
-			
-		}
 	}
 
 	@Override
@@ -343,6 +330,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		@Override
 		protected Boolean doInBackground(Boolean... params) {
 			mCache.load(params[0]);
+			mCache.cache();
 			return params[0];
 		}
 

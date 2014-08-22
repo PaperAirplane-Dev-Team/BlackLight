@@ -133,12 +133,6 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	}
 	
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		mApiCache.cache();
-	}
-	
-	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
 			new Refresher().execute(!mSwipeRefresh.isDown());
@@ -190,6 +184,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			}
 			
 			mApiCache.load(params[0]);
+			mApiCache.cache();
 			return params[0];
 		}
 
