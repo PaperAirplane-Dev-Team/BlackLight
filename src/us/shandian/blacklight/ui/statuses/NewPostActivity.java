@@ -24,6 +24,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -91,6 +92,9 @@ public class NewPostActivity extends AbsActivity
 	// Long?
 	private boolean mIsLong = false;
 
+	// Filter color
+	private int mFilter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
@@ -112,6 +116,16 @@ public class NewPostActivity extends AbsActivity
 		mEmoticonFragment = new EmoticonFragment();
 		mColorPickerFragment = new ColorPickerFragment();
 		getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
+
+		// Filter
+		try {
+			TypedArray array = getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			mFilter = array.getColor(R.styleable.BlackLight_NewPostImgFilter, 0);
+			array.recycle();
+		} catch (Exception e) {
+			mFilter = 0;
+		}
+
 		
 		// Listeners
 		mEmoticonFragment.setEmoticonListener(new EmoticonFragment.EmoticonListener() {
@@ -316,7 +330,7 @@ public class NewPostActivity extends AbsActivity
 		if (bitmap != null) {
 			mBackground.setImageBitmap(bitmap);
 			mBackground.setVisibility(View.VISIBLE);
-			mCount.setBackgroundColor(getResources().getColor(R.color.gray_alpha_lighter));
+			mCount.setBackgroundColor(mFilter);
 		} else {
 			mBackground.setVisibility(View.INVISIBLE);
 			mCount.setBackgroundColor(getResources().getColor(android.R.color.transparent));

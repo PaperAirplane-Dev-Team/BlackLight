@@ -38,6 +38,7 @@
 		<attr name="IconSendNow" format="reference" />
 		<attr name="IconEmoticon" format="reference" />
 		<attr name="UserBackground" format="reference" />
+		<attr name="NewPostImgFilter" format="reference" />
 	</declare-styleable>
 
 </resources>
