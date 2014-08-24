@@ -44,6 +44,9 @@ public class Settings
 
 	// Theme
 	public static final String THEME_DARK = "theme_dark";
+
+	// Group
+	public static final String CURRENT_GROUP = "current_group";
 	
 	private static Settings sInstance;
 	
@@ -77,6 +80,15 @@ public class Settings
 	
 	public int getInt(String key, int defValue) {
 		return mPrefs.getInt(key, defValue);
+	}
+
+	public Settings putString(String key, String value) {
+		mPrefs.edit().putString(key, value).commit();
+		return this;
+	}
+
+	public String getString(String key, String defValue) {
+		return mPrefs.getString(key, defValue);
 	}
 	
 }

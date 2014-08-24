@@ -54,7 +54,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	protected ListView mList;
 	protected View mNew, mRefresh;
 	private WeiboAdapter mAdapter;
-	private HomeTimeLineApiCache mCache;
+	protected HomeTimeLineApiCache mCache;
 	
 	// Pull To Refresh
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
@@ -151,6 +151,22 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			}).start();
 		}
 	}
+
+	public void doRefresh() {
+		mSwipeRefresh.setIsDown(false);
+
+		if (mList.getFirstVisiblePosition() <= 30) {
+			mList.smoothScrollToPosition(0);
+		} else {
+			mList.setSelection(0);
+		}
+		mList.post(new Runnable() {
+			@Override
+			public void run() {
+				onRefresh();
+			}
+		});
+	}
 	
 	@Override
 	public void onRefresh() {
@@ -164,19 +180,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		if (v == mNew) {
 			newPost();
 		} else if (v == mRefresh) {
-			mSwipeRefresh.setIsDown(false);
-
-			if (mList.getFirstVisiblePosition() <= 30) {
-				mList.smoothScrollToPosition(0);
-			} else {
-				mList.setSelection(0);
-			}
-			mList.post(new Runnable() {
-				@Override
-				public void run() {
-					onRefresh();
-				}
-			});
+			doRefresh();
 		}
 	}
 
@@ -313,6 +317,11 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		i.setClass(getActivity(), NewPostActivity.class);
 		startActivity(i);
 	}
+
+	protected void load(boolean param) {
+		mCache.load(param);
+		mCache.cache();
+	}
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean>
 	{
@@ -329,8 +338,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		
 		@Override
 		protected Boolean doInBackground(Boolean... params) {
-			mCache.load(params[0]);
-			mCache.cache();
+			load(params[0]);
 			return params[0];
 		}
 

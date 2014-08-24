@@ -29,6 +29,7 @@
 
 	<!-- Main -->
 	<string name="switch_theme">Switch Theme</string>
+	<string name="group_all">All</string>
 	
 	<!-- Left Drawer -->
 	<string name="my">My circle</string>

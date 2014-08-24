@@ -27,6 +27,12 @@ public class HomeTimeLineFragment extends TimeLineFragment{
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
+	@Override
+	protected void initTitle() {
+		if (((MainActivity) getActivity()).mGroups == null) {
+			super.initTitle();
+		}
+	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu){
@@ -51,4 +57,9 @@ public class HomeTimeLineFragment extends TimeLineFragment{
 		return false;
 	}
 
+	@Override
+	protected void load(boolean param) {
+		mCache.load(param, ((MainActivity) getActivity()).mCurrentGroupId);
+		mCache.cache();
+	}
 }

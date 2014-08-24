@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
+import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.api.statuses.HomeTimeLineApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
@@ -79,13 +80,17 @@ public class HomeTimeLineApiCache
 			}
 		}
 	}
-	
+
 	public void load(boolean newWeibo) {
+		load(newWeibo, null);
+	}
+	
+	public void load(boolean newWeibo, String groupId) {
 		if (newWeibo) {
 			mCurrentPage = 0;
 		}
 		
-		MessageListModel list = load();
+		MessageListModel list = load(groupId);
 		
 		if (newWeibo) {
 			mMessages.getList().clear();
@@ -261,6 +266,14 @@ public class HomeTimeLineApiCache
 		return mHelper.getReadableDatabase().query(HomeTimeLineTable.NAME, null, null, null, null, null, null);
 	}
 	
+	protected MessageListModel load(String groupId) {
+		if (groupId == null) {
+			return load();
+		} else {
+			return GroupsApi.fetchGroupTimeLine(groupId, Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
+		}
+	}
+
 	protected MessageListModel load() {
 		return HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 	}

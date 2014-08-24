@@ -49,8 +49,11 @@ import android.support.v4.widget.DrawerLayout;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
+import us.shandian.blacklight.model.GroupModel;
+import us.shandian.blacklight.model.GroupListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
@@ -71,7 +74,7 @@ import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener, ActionBar.OnNavigationListener
 {
 	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
@@ -91,9 +94,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	// Fragments
 	private Fragment[] mFragments = new Fragment[7];
 	private FragmentManager mManager;
+
+	// Groups
+	public GroupListModel mGroups;
+	public String mCurrentGroupId = null;
 	
 	// Temp fields
 	private TextView mLastChoice;
+	private int mCurrent = 0;
+	private boolean mIgnore = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -277,6 +286,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			mLastChoice.getPaint().setFakeBoldText(false);
 			mLastChoice.invalidate();
 		}
+
+		if (mGroups != null && mGroups.getSize() > 0) {
+			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			getActionBar().setDisplayShowTitleEnabled(true);
+		}
 		
 		if (parent == mMy) {
 			TextView tv = (TextView) view;
@@ -291,6 +305,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 							switchTo(position);
 						} catch (Exception e) {
 							
+						}
+
+						if (position == 0 && mGroups != null && mGroups.getSize() > 0) {
+							getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+							getActionBar().setDisplayShowTitleEnabled(false);
+							updateActionSpinner();
 						}
 					}
 				}, 400);
@@ -348,6 +368,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		
 		mDrawer.closeDrawer(mDrawerGravity);
 	}
+
+	@Override
+	public boolean onNavigationItemSelected(int id, long itemId) {
+		if (mIgnore) {
+			mIgnore = false;
+			return false;
+		}
+
+		if (id == 0) {
+			mCurrentGroupId = null;
+		} else {
+			mCurrentGroupId = mGroups.get(id - 1).idstr;
+		}
+
+		Settings.getInstance(this).putString(Settings.CURRENT_GROUP, mCurrentGroupId);
+		
+		((HomeTimeLineFragment) mFragments[0]).doRefresh();
+
+		return true;
+	}
 	
 	private void initList() {
 		mLastChoice = null;
@@ -373,6 +413,25 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 		
 		ft.commit();
+
+		mCurrent = id;
+	}
+
+	private void updateActionSpinner() {
+		// Current Group
+		mCurrentGroupId = Settings.getInstance(MainActivity.this).getString(Settings.CURRENT_GROUP, null);
+		int curId = 0;
+
+		if (mCurrentGroupId != null) {
+			for (int i = 0; i < mGroups.getSize(); i++) {
+				if (mGroups.get(i).idstr.equals(mCurrentGroupId)) {
+					curId = i + 1;
+				}
+			}
+		}
+
+		mIgnore = true;
+		getActionBar().setSelectedNavigationItem(curId);
 	}
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
@@ -388,6 +447,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			if (avatar != null) {
 				publishProgress(new Object[]{1, avatar});
 			}
+
+			// Groups
+			mGroups = GroupsApi.getGroups();
 			
 			return null;
 		}
@@ -406,6 +468,32 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					break;
 			}
 			super.onProgressUpdate(values);
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+
+			if (mGroups != null && mGroups.getSize() > 0) {
+				// Get the name list
+				String[] names = new String[mGroups.getSize() + 1];
+
+				names[0] = getResources().getString(R.string.group_all);
+				for (int i = 0; i < mGroups.getSize(); i++) {
+					names[i + 1] = mGroups.get(i).name;
+				}
+
+				// Navigation
+				getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this, 
+							R.layout.action_spinner_item, names), MainActivity.this);
+
+				if (mCurrent == 0) {
+					mIgnore = true;
+					getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+					getActionBar().setDisplayShowTitleEnabled(false);
+					updateActionSpinner();
+				}
+			}
 		}
 		
 	}

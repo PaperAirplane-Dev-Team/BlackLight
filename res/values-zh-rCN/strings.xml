@@ -29,7 +29,8 @@
 
 	<!-- Main -->
 	<string name="switch_theme">切换主题</string>
-	
+	<string name="group_all">全部</string>
+
 	<!-- Left Drawer -->
 	<string name="my">我的圈子</string>
 	<string name="at_me">提到我的</string>
