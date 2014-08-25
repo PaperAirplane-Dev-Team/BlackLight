@@ -28,13 +28,6 @@ public class HomeTimeLineFragment extends TimeLineFragment{
 	}
 
 	@Override
-	protected void initTitle() {
-		if (((MainActivity) getActivity()).mGroups == null) {
-			super.initTitle();
-		}
-	}
-
-	@Override
 	public void onPrepareOptionsMenu(Menu menu){
 		if (hasSmartBar()){
 			Log.i("s", "onCreateOptionsMenu for SmartBar!");

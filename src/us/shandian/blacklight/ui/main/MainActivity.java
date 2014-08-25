@@ -199,6 +199,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 		}
 
+		// Ignore first spinner event
+		mIgnore = true;
+
 		// Fragments
 		mFragments[0] = new HomeTimeLineFragment();
 		mFragments[1] = new CommentTimeLineFragment();
@@ -430,7 +433,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			}
 		}
 
-		mIgnore = true;
 		getActionBar().setSelectedNavigationItem(curId);
 	}
 	
