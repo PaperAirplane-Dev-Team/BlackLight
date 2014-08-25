@@ -29,7 +29,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.AbsListView;
 import android.widget.AbsListView.LayoutParams;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.os.Bundle;
@@ -51,7 +53,8 @@ import us.shandian.blacklight.ui.main.MainActivity;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-													View.OnTouchListener, View.OnLongClickListener, GestureDetector.OnGestureListener
+													View.OnTouchListener, View.OnLongClickListener, GestureDetector.OnGestureListener,
+													OnScrollListener
 {
 	
 	protected ListView mList;
@@ -63,7 +66,6 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	private boolean mRefreshing = false;
-	private boolean mNewHidden = false;
 	
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
@@ -119,8 +121,10 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		// Gesture Detector
 		mDetector = new GestureDetector(getActivity(), this);
 
-		if (getActivity() instanceof MainActivity)
+		if (getActivity() instanceof MainActivity) {
 			mList.setOnTouchListener(this);
+			mList.setOnScrollListener(this);
+		}
 		
 		return v;
 	}
@@ -201,6 +205,19 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		Toast.makeText(getActivity().getApplicationContext(), getString(v == mNew ? R.string.new_post : R.string.refresh), Toast.LENGTH_SHORT).show();
 		return true;
 	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if (firstVisibleItem < 1) {
+			showFAB();
+			getActivity().getActionBar().show();
+		}
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+	}
 	
 	@Override
 	public boolean onTouch(View v, MotionEvent ev) {
@@ -227,12 +244,12 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+		if (Math.abs(distanceY) < 20) return false;
+
 		if (e1 == null || e2 == null || e1.getY() < e2.getY() || mList.getFirstVisiblePosition() < 1) {
-			mNewHidden = false;
 			showFAB();
 			getActivity().getActionBar().show();
 		} else {
-			mNewHidden = true;
 			hideFAB();
 			getActivity().getActionBar().hide();
 		}
