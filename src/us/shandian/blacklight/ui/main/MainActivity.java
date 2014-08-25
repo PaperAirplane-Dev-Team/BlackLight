@@ -121,7 +121,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
-		mDrawerGravity = rightHanded ? Gravity.END : Gravity.START;
+		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;
 
 		// Set gravity
 		View nav = findViewById(R.id.nav);
@@ -156,6 +156,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			}
 		};
 		mDrawer.setDrawerListener(mToggle);
+
+		if (mDrawerGravity == Gravity.LEFT) {
+			mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
+		}
 
 		mMy = (ListView) findViewById(R.id.list_my);
 		mAtMe = (ListView) findViewById(R.id.list_at_me);
