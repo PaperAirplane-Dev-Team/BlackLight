@@ -70,7 +70,7 @@
 		
 		<activity
 			android:name=".ui.common.ImageActivity"
-			android:theme="@style/My.Theme.Holo.Light.TranslucentActionBar" >
+			android:theme="@style/My.Theme.Holo.Light.GradientActionBar" >
 			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT" />
 				<action android:name="android.intent.action.MAIN" />
