@@ -132,8 +132,9 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		if (!hidden) {
 			initTitle();
 			resume();
+			showFAB();
 		} else {
-			pause();
+			hideFAB();
 		}
 	}
 
@@ -143,14 +144,8 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		
 		resume();
 	}
-
-	public void pause() {
-		hideFAB();
-	}
 	
 	public void resume() {
-		showFAB();
-
 		Settings settings = Settings.getInstance(getActivity());
 		
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
