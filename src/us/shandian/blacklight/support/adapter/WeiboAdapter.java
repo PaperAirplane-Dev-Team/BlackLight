@@ -38,8 +38,6 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.ArrayDeque;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.comments.NewCommentApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -83,8 +81,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private Context mContext;
 	
-	private ArrayDeque<View> mViewDeque = new ArrayDeque<View>(10);
-	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
 	private boolean mScrolling = false;
@@ -106,12 +102,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
-		
-		for (int i = 0; i < 10; i++) {
-			View v = mInflater.inflate(R.layout.weibo, null);
-			new ViewHolder(v, null);
-			mViewDeque.offer(v);
-		}
 	}
 	
 	@Override
@@ -144,10 +134,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	public void onMovedToScrapHeap(View v) {
 		if (v.getTag() instanceof ViewHolder) {
 			ViewHolder h = (ViewHolder) v.getTag();
-			
-			if (!h.sub) {
-				mViewDeque.offer(v);
-			}
 			
 			h.getAvatar().setImageBitmap(null);
 			h.getAvatar().setTag(true);
@@ -239,13 +225,13 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		boolean useExisted = true;
 		
 		// If not inflated before, then we have much work to do
-		v = convertView != null ? convertView : mViewDeque.poll();
+		v = convertView;
 		
 		if (v == null) {
 			useExisted = false;
 			v = mInflater.inflate(R.layout.weibo, null);
 		}
-		
+
 		if (!useExisted) {
 			h = new ViewHolder(v, msg);
 		} else {
