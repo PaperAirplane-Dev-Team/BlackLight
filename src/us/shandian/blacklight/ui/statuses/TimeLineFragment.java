@@ -119,7 +119,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		// Gesture Detector
 		mDetector = new GestureDetector(getActivity(), this);
 
-		if (mNew != null)
+		if (getActivity() instanceof MainActivity)
 			mList.setOnTouchListener(this);
 		
 		return v;
