@@ -22,6 +22,8 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Fragment;
 import android.app.Service;
 import android.content.Intent;
+import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,17 +44,18 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
+import us.shandian.blacklight.ui.common.FloatingActionButton;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-													View.OnTouchListener, View.OnLongClickListener
+													View.OnTouchListener, View.OnLongClickListener, GestureDetector.OnGestureListener
 {
 	
 	protected ListView mList;
-	protected View mNew, mRefresh;
+	protected FloatingActionButton mNew, mRefresh;
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
 	
@@ -64,11 +67,11 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
-	
-	private int mLastCount = 0;
-	private float mLastY = -1.0f;
 
-	private Runnable mCallback;
+	private int mLastCount = 0;
+
+	// Gesture
+	private GestureDetector mDetector;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -113,7 +116,11 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		// Floating "New" and "Refresh" button
 		bindNewButton(v);
 
-		mList.setOnTouchListener(this);
+		// Gesture Detector
+		mDetector = new GestureDetector(getActivity(), this);
+
+		if (mNew != null)
+			mList.setOnTouchListener(this);
 		
 		return v;
 	}
@@ -125,6 +132,8 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		if (!hidden) {
 			initTitle();
 			resume();
+		} else {
+			pause();
 		}
 	}
 
@@ -134,8 +143,14 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		
 		resume();
 	}
+
+	public void pause() {
+		hideFAB();
+	}
 	
 	public void resume() {
+		showFAB();
+
 		Settings settings = Settings.getInstance(getActivity());
 		
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
@@ -194,84 +209,53 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	
 	@Override
 	public boolean onTouch(View v, MotionEvent ev) {
-		
-		switch (ev.getAction() & MotionEvent.ACTION_MASK) {
-			case MotionEvent.ACTION_DOWN:
-				mLastY = ev.getY();
-				break;
-			case MotionEvent.ACTION_MOVE:
-				if (mLastY == -1.0f) break;
-				
-				float y = ev.getY();
-				
-				if (!mNewHidden && y < mLastY) {
-					if (mNew != null && mRefresh != null) {
-						mNew.removeCallbacks(mCallback);
-						mNew.clearAnimation();
-						mRefresh.clearAnimation();
-					
-						TranslateAnimation anim = new TranslateAnimation(0, 0, 0, mList.getHeight() - mNew.getTop());
-						anim.setFillAfter(true);
-						anim.setDuration(400);
-					
-						mNew.setAnimation(anim);
-						mRefresh.setAnimation(anim);
-						anim.startNow();
-
-						// Hide after animation
-						mNew.postDelayed((mCallback = new Runnable() {
-							@Override
-							public void run() {
-								mNew.clearAnimation();
-								mRefresh.clearAnimation();
-
-								mNew.setVisibility(View.GONE);
-								mRefresh.setVisibility(View.GONE);
-							}
-						}), 400);
-					}
-
-					mNewHidden = true;
-
-					if (getActivity() instanceof MainActivity) {
-						getActivity().getActionBar().hide();
-					}
-				} else if (mNewHidden && y > mLastY) {
-					if (mNew != null && mRefresh != null) {
-						// Show them first
-						mNew.removeCallbacks(mCallback);
-						mNew.setVisibility(View.VISIBLE);
-						mRefresh.setVisibility(View.VISIBLE);
-
-						mNew.clearAnimation();
-						mRefresh.clearAnimation();
-
-						TranslateAnimation anim = new TranslateAnimation(0, 0, mList.getHeight() - mNew.getTop(), 0);
-						anim.setFillAfter(true);
-						anim.setDuration(400);
-
-						mNew.setAnimation(anim);
-						mRefresh.setAnimation(anim);
-						anim.startNow();
-					}
-
-					mNewHidden = false;
-
-					if (getActivity() instanceof MainActivity) {
-						getActivity().getActionBar().show();
-					}
-				}
-				
-				mLastY = y;
-				break;
-			case MotionEvent.ACTION_UP:
-			case MotionEvent.ACTION_CANCEL:
-				mLastY = -1.0f;
-				break;
-		}
-		
+		mDetector.onTouchEvent(ev);
 		return false;
 	}
+
+	// Start Gesture Events
+	
+	@Override
+	public boolean onDown(MotionEvent e) {
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+		if (e1 == null || e2 == null || e1.getY() < e2.getY() || mList.getFirstVisiblePosition() < 1) {
+			mNewHidden = false;
+			showFAB();
+			getActivity().getActionBar().show();
+		} else {
+			mNewHidden = true;
+			hideFAB();
+			getActivity().getActionBar().hide();
+		}
+
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		return false;
+	}
+
+	// End Gesture Events
 	
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
@@ -294,20 +278,37 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 	
 	protected void bindNewButton(View v) {
-		mNew = v.findViewById(R.id.home_timeline_new);
-		mRefresh = v.findViewById(R.id.home_timeline_refresh);
 		if (!hasSmartBar()) {
-			mNew.setVisibility(View.VISIBLE);
-			mNew.bringToFront();
+			mNew = new FloatingActionButton.Builder(getActivity())
+				.withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
+				.withButtonColor(getResources().getColor(R.color.action_gray))
+				.withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+				.withMargins(0, 0, 16, 16)
+				.create();
 			mNew.setOnClickListener(this);
 			mNew.setOnLongClickListener(this);
-			mRefresh.setVisibility(View.VISIBLE);
-			mRefresh.bringToFront();
+			mRefresh = new FloatingActionButton.Builder(getActivity())
+				.withDrawable(getResources().getDrawable(R.drawable.ic_action_refresh))
+				.withButtonColor(getResources().getColor(R.color.action_gray))
+				.withGravity(Gravity.BOTTOM | Gravity.LEFT)
+				.withMargins(16, 0, 0, 16)
+				.create();
 			mRefresh.setOnClickListener(this);
 			mRefresh.setOnLongClickListener(this);
-		} else {
-			mNew.setVisibility(View.INVISIBLE);
-			mRefresh.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	public void hideFAB() {
+		if (mNew != null) {
+			mNew.hideFloatingActionButton();
+			mRefresh.hideFloatingActionButton();
+		}
+	}
+
+	public void showFAB() {
+		if (mNew != null) {
+			mNew.showFloatingActionButton();
+			mRefresh.showFloatingActionButton();
 		}
 	}
 	

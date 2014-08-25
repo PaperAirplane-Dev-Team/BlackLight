@@ -78,6 +78,14 @@
 	<style name="My.Theme.Holo.Dark.TranslucentActionBar" parent="@style/My.Theme.Holo.Dark.DarkActionBar">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
+
+	<style name="My.Theme.Holo.Light.GradientActionBar" parent="@style/My.Theme.Holo.Light.TranslucentActionBar">
+		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar.Gradient</item>
+	</style>
+
+	<style name="My.Theme.Holo.Dark.GradientActionBar" parent="@style/My.Theme.Holo.Dark.TranslucentActionBar">
+		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar.Gradient</item>
+	</style>
 	
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
 		<item name="android:background">@color/action_gray</item>
@@ -86,9 +94,17 @@
         <item name="android:backgroundSplit">@color/action_gray</item>
 	</style>
 
+	<style name="My.Widget.Holo.Light.ActionBar.Gradient" parent="@style/My.Widget.Holo.Light.ActionBar">
+		<item name="android:background">@drawable/action_gradient</item>
+	</style>
+
 	<style name="My.Widget.Holo.Dark.ActionBar" parent="@style/My.Widget.Holo.Light.ActionBar">
 		<item name="android:background">@color/dark_action_gray</item>
 		<item name="android:backgroundSplit">@color/dark_action_gray</item>
+	</style>
+
+	<style name="My.Widget.Holo.Dark.ActionBar.Gradient" parent="@style/My.Widget.Holo.Dark.ActionBar">
+		<item name="android:background">@drawable/action_gradient</item>
 	</style>
 	
 	<style name="TitleText">

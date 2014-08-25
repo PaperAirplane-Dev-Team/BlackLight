@@ -18,11 +18,13 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:shape="rectangle">
 
-    <solid android:color="@color/action_gray"/>
-    <size
-        android:width="60dp"
-        android:height="60dp"/>
+	<gradient
+		android:startColor="#9a000000"
+		android:endColor="#00000000"
+		android:angle="270"
+		android:type="linear"/>
+
 </shape>

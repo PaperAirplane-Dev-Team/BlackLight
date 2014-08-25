@@ -625,6 +625,9 @@ public class Utility
 				case R.style.My_Theme_Holo_Light_TranslucentActionBar:
 					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar;
 					break;
+				case R.style.My_Theme_Holo_Light_GradientActionBar:
+					theme = R.style.My_Theme_Holo_Dark_GradientActionBar;
+					break;
 			}
 
 			activity.setTheme(theme);

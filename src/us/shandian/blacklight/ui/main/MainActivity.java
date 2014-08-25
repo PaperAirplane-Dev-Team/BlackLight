@@ -102,6 +102,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	// Temp fields
 	private TextView mLastChoice;
 	private int mCurrent = 0;
+	private int mNext = 0;
 	private boolean mIgnore = false;
 	
 	@Override
@@ -141,11 +142,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					mLastChoice.getPaint().setFakeBoldText(true);
 					mLastChoice.invalidate();
 				}
+
+				((HomeTimeLineFragment) mFragments[0]).hideFAB();
 			}
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				invalidateOptionsMenu();
+
+				if (mNext == 0) {
+					((HomeTimeLineFragment) mFragments[0]).showFAB();
+				}
 			}
 		};
 		mDrawer.setDrawerListener(mToggle);
@@ -280,6 +287,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			tv.getPaint().setFakeBoldText(true);
 			tv.invalidate();
 			mLastChoice = tv;
+			mNext = position;
 			if (mFragments[position] != null) {
 				tv.postDelayed(new Runnable() {
 					@Override
@@ -303,6 +311,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			tv.getPaint().setFakeBoldText(true);
 			tv.invalidate();
 			mLastChoice = tv;
+			mNext = position + 4;
 			if (mFragments[4 + position] != null) {
 				tv.postDelayed(new Runnable() {
 					@Override
@@ -318,6 +327,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		} else if (parent == mOther) {
 			switch (position) {
 				case 0:{
+					mNext = 6;
 					view.postDelayed(new Runnable() {
 						@Override
 						public void run() {
@@ -371,6 +381,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 		return true;
 	}
+
 	
 	private void initList() {
 		mLastChoice = null;
@@ -398,6 +409,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		ft.commit();
 
 		mCurrent = id;
+		mNext = id;
 	}
 
 	private void updateActionSpinner() {
