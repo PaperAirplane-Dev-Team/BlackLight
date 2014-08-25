@@ -19,6 +19,9 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -39,8 +42,11 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.friendships.FriendsApi;
+import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
+import us.shandian.blacklight.model.GroupModel;
+import us.shandian.blacklight.model.GroupListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
@@ -71,6 +77,7 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 	private SlidingUpPanelLayout mSlide;
 	
 	private MenuItem mMenuFollow;
+	private MenuItem mMenuGroup;
 	
 	private UserApiCache mCache;
 
@@ -172,8 +179,10 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.user, menu);
 		mMenuFollow = menu.findItem(R.id.follow);
+		mMenuGroup = menu.findItem(R.id.group);
 		if (new LoginApiCache(this).getUid().equals(mModel.id)) {
 			mMenuFollow.setVisible(false);
+			mMenuGroup.setVisible(false);
 			menu.findItem(R.id.send_dm).setVisible(false);
 		} else {
 			resetFollowState();
@@ -196,6 +205,9 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 			i.setClass(this, DirectMessageConversationActivity.class);
 			i.putExtra("user", mModel);
 			startActivity(i);
+			return true;
+		} else if (id == R.id.group) {
+			new GroupLister().execute();
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -229,7 +241,103 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 		if (mMenuFollow != null) {
 			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 			mMenuFollow.setTitle(getString(mModel.following ? R.string.unfollow : R.string.follow));
+			mMenuGroup.setEnabled(mModel.following);
 		}
+	}
+
+	private class GroupLister extends AsyncTask<Void, Void, Void> {
+		private ProgressDialog prog;
+		private GroupModel[] groups;
+		private String[] titles;
+		private boolean[] checked;
+
+		@Override
+		protected void onPreExecute() {
+			prog = new ProgressDialog(UserTimeLineActivity.this);
+			prog.setMessage(getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			GroupListModel groupList = GroupsApi.getGroups();
+			groups = new GroupModel[groupList.getSize()];
+			titles = new String[groupList.getSize()];
+			checked = new boolean[groupList.getSize()];
+
+			for (int i = 0; i < groupList.getSize(); i++) {
+				GroupModel group = groupList.get(i);
+				groups[i] = group;
+				titles[i] = group.name;
+				checked[i] = GroupsApi.isMember(mModel.id, group.idstr);
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			prog.dismiss();
+
+			// New dialog
+			new AlertDialog.Builder(UserTimeLineActivity.this)
+					.setTitle(getResources().getString(R.string.change_group))
+					.setMultiChoiceItems(titles, checked, new DialogInterface.OnMultiChoiceClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+							checked[which] = isChecked;
+						}
+					})
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							new GroupChanger().execute(groups, checked);
+						}
+					})
+					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.show();
+		}
+	}
+
+	private class GroupChanger extends AsyncTask<Object, Void, Void> {
+		private ProgressDialog prog;
+
+		@Override
+		protected void onPreExecute() {
+			prog = new ProgressDialog(UserTimeLineActivity.this);
+			prog.setMessage(getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
+
+		@Override
+		protected Void doInBackground(Object... params) {
+			GroupModel[] groups = (GroupModel[]) params[0];
+			boolean[] checked = (boolean[]) params[1];
+			
+			for (int i = 0; i < groups.length; i++) {
+				if (checked[i]) {
+					GroupsApi.addMemberToGroup(mModel.id, groups[i].idstr);
+				} else {
+					GroupsApi.removeMemberFromGroup(mModel.id, groups[i].idstr);
+				}
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			prog.dismiss();
+		}
+
 	}
 	
 	private class Follower extends AsyncTask<Void, Void, Void> {

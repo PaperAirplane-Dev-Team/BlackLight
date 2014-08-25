@@ -66,7 +66,10 @@ public class Constants
 	public static final String FRIENDSHIPS_CREATE = SINA_BASE_URL + "friendships/create.json";
 	public static final String FRIENDSHIPS_DESTROY = SINA_BASE_URL + "friendships/destroy.json";
 	public static final String FRIENDSHIPS_GROUPS = SINA_BASE_URL + "friendships/groups.json";
+	public static final String FRIENDSHIPS_GROUPS_IS_MEMBER = SINA_BASE_URL + "friendships/groups/is_member.json";
 	public static final String FRIENDSHIPS_GROUPS_TIMELINE = SINA_BASE_URL + "friendships/groups/timeline.json";
+	public static final String FRIENDSHIPS_GROUPS_MEMBERS_ADD = SINA_BASE_URL + "friendships/groups/members/add.json";
+	public static final String FRIENDSHIPS_GROUPS_MEMBERS_DESTROY = SINA_BASE_URL + "friendships/groups/members/destroy.json";
 	
 	// Direct Message
 	public static final String DIRECT_MESSAGES_USER_LIST = SINA_BASE_URL + "direct_messages/user_list.json";

@@ -105,6 +105,7 @@
 	<string name="no_following">Now following</string>
 	<string name="follow">Follow</string>
 	<string name="unfollow">Unfollow</string>
+	<string name="change_group">Change group</string>
 	
 	<!-- Single -->
 	<string name="single_info">Weibo info</string>

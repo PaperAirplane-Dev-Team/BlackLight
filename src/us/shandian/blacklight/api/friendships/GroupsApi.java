@@ -51,6 +51,24 @@ public class GroupsApi extends BaseApi {
 		return null;
 	}
 
+	public static boolean isMember(String uid, String groupId) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		params.put("list_id", groupId);
+		
+		try {
+			JSONObject json = request(Constants.FRIENDSHIPS_GROUPS_IS_MEMBER, params, HTTP_GET);
+			return json.optBoolean("lists");
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot determine if user is a member");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+
+		return false;
+	}
+
 	public static MessageListModel fetchGroupTimeLine(String groupId, int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("list_id", groupId);
@@ -68,5 +86,35 @@ public class GroupsApi extends BaseApi {
 		}
 
 		return null;
+	}
+
+	public static void addMemberToGroup(String uid, String groupId) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		params.put("list_id", groupId);
+
+		try {
+			request(Constants.FRIENDSHIPS_GROUPS_MEMBERS_ADD, params, HTTP_POST);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot add user to group");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+	}
+
+	public static void removeMemberFromGroup(String uid, String groupId) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		params.put("list_id", groupId);
+
+		try {
+			request(Constants.FRIENDSHIPS_GROUPS_MEMBERS_DESTROY, params, HTTP_POST);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot remove user from group");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
 	}
 }

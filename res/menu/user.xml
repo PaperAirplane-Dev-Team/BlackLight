@@ -28,4 +28,11 @@
 		android:icon="@drawable/ic_action_not_important"
 		android:title="@string/follow"
 		android:showAsAction="always"/>
+
+	<item
+		android:id="@+id/group"
+		android:icon="@drawable/ic_action_group"
+		android:title="@string/change_group"
+		android:showAsAction="always"/>
+	
 </menu>
