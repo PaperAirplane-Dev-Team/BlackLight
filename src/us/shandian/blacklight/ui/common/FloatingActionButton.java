@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.ui.common;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -40,7 +41,7 @@ import android.widget.FrameLayout;
 /*
  * From GitHub Gist: https://gist.github.com/Jogan/9def6110edf3247825c9
  */
-public class FloatingActionButton extends View {
+public class FloatingActionButton extends View implements Animator.AnimatorListener {
  
 	final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
 	final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
@@ -96,6 +97,29 @@ public class FloatingActionButton extends View {
 		}
 		return super.onTouchEvent(event);
 	}
+
+	@Override
+	public void onAnimationCancel(Animator anim) {
+
+	}
+
+	@Override
+	public void onAnimationEnd(Animator anim) {
+		if (mHidden) {
+			setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void onAnimationRepeat(Animator anim) {
+
+	}
+
+	@Override
+	public void onAnimationStart(Animator anim) {
+
+	}
+
  
 	public void hideFloatingActionButton() {
 		if (!mHidden) {
@@ -106,12 +130,14 @@ public class FloatingActionButton extends View {
 			animSetXY.setInterpolator(accelerateInterpolator);
 			animSetXY.setDuration(100);
 			animSetXY.start();
+			animSetXY.addListener(this);
 			mHidden = true;
 		}
 	}
  
 	public void showFloatingActionButton() {
 		if (mHidden) {
+			setVisibility(View.VISIBLE);
 			ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 0, 1);
 			ObjectAnimator scaleY = ObjectAnimator.ofFloat(this, "scaleY", 0, 1);
 			AnimatorSet animSetXY = new AnimatorSet();
