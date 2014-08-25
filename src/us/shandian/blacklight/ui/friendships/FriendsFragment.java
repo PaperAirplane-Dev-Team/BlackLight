@@ -160,11 +160,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			if (result) {
-				mAdapter.notifyDataSetChangedAndClear();
-			} else {
-				mAdapter.notifyDataSetChanged();
-			}
+			mAdapter.notifyDataSetChanged();
 			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);

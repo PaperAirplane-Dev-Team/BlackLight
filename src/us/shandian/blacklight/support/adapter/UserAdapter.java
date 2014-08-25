@@ -28,8 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
@@ -41,8 +39,6 @@ public class UserAdapter extends BaseAdapter
 	private UserListModel mUsers;
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
-	
-	private HashMap<String, View> mViews = new HashMap<String, View>();
 	
 	public UserAdapter(Context context, UserListModel users) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -71,33 +67,21 @@ public class UserAdapter extends BaseAdapter
 			return convertView;
 		} else {
 			UserModel usr = mUsers.get(position);
-			
-			if (mViews.containsKey(usr.id)) {
-				return mViews.get(usr.id);
-			} else {
-				View v = mInflater.inflate(R.layout.user_list_item, null);
-				
-				ImageView avatar = (ImageView) v.findViewById(R.id.user_list_avatar);
-				TextView name = (TextView) v.findViewById(R.id.user_list_name);
-				TextView des = (TextView) v.findViewById(R.id.user_list_des);
-				
-				name.setText(usr.getName());
-				des.setText(usr.description);
-				
-				new AvatarDownloader().execute(avatar, usr);
-				
-				mViews.put(usr.id, v);
-				
-				return v;
-			}
-		}
-	}
-	
-	public void notifyDataSetChangedAndClear() {
-		super.notifyDataSetChanged();
 
-		// Fix memory leak
-		mViews.clear();
+			View v = convertView != null ? convertView : mInflater.inflate(R.layout.user_list_item, null);
+			
+			ImageView avatar = (ImageView) v.findViewById(R.id.user_list_avatar);
+			TextView name = (TextView) v.findViewById(R.id.user_list_name);
+			TextView des = (TextView) v.findViewById(R.id.user_list_des);
+				
+			name.setText(usr.getName());
+			des.setText(usr.description);
+			avatar.setImageBitmap(null);
+			
+			new AvatarDownloader().execute(avatar, usr);
+			
+			return v;
+		}
 	}
 	
 	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {

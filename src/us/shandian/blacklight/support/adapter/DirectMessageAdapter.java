@@ -28,8 +28,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.HashMap;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.model.DirectMessageListModel;
@@ -42,7 +40,6 @@ public class DirectMessageAdapter extends BaseAdapter
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private DirectMessageListModel mList;
-	private HashMap<DirectMessageModel, View> mViews = new HashMap<DirectMessageModel, View>();
 	private long mUid;
 	
 	public DirectMessageAdapter(Context context, DirectMessageListModel list, String uid) {
@@ -76,37 +73,24 @@ public class DirectMessageAdapter extends BaseAdapter
 			View v = null;
 			ViewHolder h = null;
 			
-			if (mViews.containsKey(msg)) {
-				v = mViews.get(msg);
-				h = (ViewHolder) v.getTag();
+			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_conversation_item, null);
+			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v);
+			
+			LinearLayout container = (LinearLayout) v.findViewById(R.id.direct_message_conversation_container);
+			if (msg.sender_id == mUid) {
+				container.setGravity(Gravity.LEFT);
 			} else {
-				v = mInflater.inflate(R.layout.direct_message_conversation_item, null);
-				h = new ViewHolder(v);
-				
-				LinearLayout container = (LinearLayout) v.findViewById(R.id.direct_message_conversation_container);
-				if (msg.sender_id == mUid) {
-					container.setGravity(Gravity.LEFT);
-				} else {
-					container.setGravity(Gravity.RIGHT);
-					container.setAlpha(0.8f);
-				}
-				
-				h.getContent().setText(SpannableStringUtils.span(mContext, msg.text));
-				h.getContent().setMovementMethod(HackyMovementMethod.getInstance());
-				
-				mViews.put(msg, v);
+				container.setGravity(Gravity.RIGHT);
+				container.setAlpha(0.8f);
 			}
+			
+			h.getContent().setText(SpannableStringUtils.span(mContext, msg.text));
+			h.getContent().setMovementMethod(HackyMovementMethod.getInstance());
 			
 			h.getDate().setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
 			
 			return v;
 		}
-	}
-	
-	public void notifyDataSetChangedAndClear() {
-		notifyDataSetChanged();
-
-		mViews.clear();
 	}
 	
 	// Convert position to real position (upside-down list)

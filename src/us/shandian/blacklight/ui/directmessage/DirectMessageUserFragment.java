@@ -194,12 +194,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
-			
-			if (result) {
-				mAdapter.notifyDataSetChangedAndClear();
-			} else {
-				mAdapter.notifyDataSetChanged();
-			}
+
+			mAdapter.notifyDataSetChanged();
 		}
 	}
 }

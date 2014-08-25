@@ -64,7 +64,7 @@ public class EmoticonAdapter extends BaseAdapter
 		if (position >= mNames.size()){
 			return convertView;
 		} else {
-			View v = mInflater.inflate(R.layout.emoticon_view, null);
+			View v = convertView != null ? convertView : mInflater.inflate(R.layout.emoticon_view, null);
 			ImageView iv = (ImageView) v.findViewById(R.id.emoticon_image);
 			iv.setImageBitmap(mBitmaps.get(position));
 			return v;

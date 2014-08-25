@@ -28,8 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.DirectMessageUserModel;
@@ -46,7 +44,6 @@ public class DirectMessageUserAdapter extends BaseAdapter
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
 	private Context mContext;
-	private HashMap<DirectMessageUserModel, View> mViews = new HashMap<DirectMessageUserModel, View>();
 	
 	public DirectMessageUserAdapter(Context context, DirectMessageUserListModel list) {
 		mList = list;
@@ -79,23 +76,18 @@ public class DirectMessageUserAdapter extends BaseAdapter
 			View v;
 			ViewHolder h;
 			
-			if (mViews.containsKey(user)) {
-				v = mViews.get(user);
-				h = (ViewHolder) v.getTag();
-			} else {
-				v = mInflater.inflate(R.layout.direct_message_user, null);
-				h = new ViewHolder(v, user);
-				
-				TextView name = h.getName();
-				TextView text = h.getText();
-				
-				name.setText(user.user.getName());
-				text.setText(user.direct_message.text);
-				
-				new AvatarDownloader().execute(v);
-				
-				mViews.put(user, v);
-			}
+			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_user, null);
+			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v, user);
+			h.user = user;
+			
+			TextView name = h.getName();
+			TextView text = h.getText();
+			
+			name.setText(user.user.getName());
+			text.setText(user.direct_message.text);
+			h.getAvatar().setImageBitmap(null);
+			
+			new AvatarDownloader().execute(v);
 			
 			TextView date = h.getDate();
 			
@@ -103,12 +95,6 @@ public class DirectMessageUserAdapter extends BaseAdapter
 			
 			return v;
 		}
-	}
-	
-	public void notifyDataSetChangedAndClear() {
-		notifyDataSetChanged();
-		
-		mViews.clear();
 	}
 	
 	private class AvatarDownloader extends AsyncTask<View, Void, Object[]> {

@@ -156,11 +156,7 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		public void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			
-			if (result) {
-				mAdapter.notifyDataSetChangedAndClear();
-			} else {
-				mAdapter.notifyDataSetChanged();
-			}
+			mAdapter.notifyDataSetChanged();
 			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
