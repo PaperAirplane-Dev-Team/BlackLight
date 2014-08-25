@@ -130,7 +130,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 		// Initialize naviagtion drawer
 		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
-		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer, 0, 0) {
+		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer_l, 0, 0) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
@@ -189,15 +189,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		});
 		
 		// Initialize ActionBar Style
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-
-		if (Build.VERSION.SDK_INT >= 19) {
-			getActionBar().setDisplayUseLogoEnabled(false);
-			getActionBar().setDisplayShowHomeEnabled(false);
-		} else {
-			getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-		}
 
 		// Ignore first spinner event
 		mIgnore = true;
@@ -222,12 +214,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		mToggle.syncState();
-	}
-
-	@Override
 	protected void onSaveInstanceState(Bundle bundle) {
 		// This is a dummy method
 		// To fix duplicate menu and fragments
@@ -242,12 +228,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			mLoginCache = new LoginApiCache(this);
 			initList();
 		}
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		mToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
