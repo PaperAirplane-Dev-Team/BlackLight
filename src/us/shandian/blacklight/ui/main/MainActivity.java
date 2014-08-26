@@ -342,7 +342,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			mLastChoice.invalidate();
 		}
 
-		if (mGroups != null && mGroups.getSize() > 0) {
+		if (mGroups != null && mGroups.getSize() > 0 && (parent != mOther || position != 1)) {
 			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			getActionBar().setDisplayShowTitleEnabled(true);
 		}
