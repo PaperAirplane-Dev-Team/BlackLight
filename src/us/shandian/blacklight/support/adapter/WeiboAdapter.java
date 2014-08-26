@@ -662,20 +662,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			this.msg = msg;
 			
 			v.setTag(this);
-			
-			getDate();
-			getComments();
-			getRetweets();
-			getName();
-			getFrom();
-			getContent();
-			getScroll();
-			getContainer();
-			getOriginParent();
-			getCommentAndRetweet();
-			getAvatar();
-			getOrigContent();
-			getSwipe();
 		}
 		
 		public TextView getDate() {
