@@ -185,6 +185,12 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
+
+			if (getActivity() instanceof MainActivity) {
+				showFAB();
+				getActivity().getActionBar().show();
+			}
+			
 			new Refresher().execute(new Boolean[]{!mSwipeRefresh.isDown()});
 		}
 	}
@@ -244,7 +250,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		if (Math.abs(distanceY) < 20) return false;
+		if (Math.abs(distanceY) < 20 || mRefreshing) return false;
 
 		if (e1 == null || e2 == null || e1.getY() < e2.getY() || mList.getFirstVisiblePosition() < 1) {
 			showFAB();
