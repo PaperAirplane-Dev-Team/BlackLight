@@ -31,13 +31,12 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.FriendsApi;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.UserAdapter;
+import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;

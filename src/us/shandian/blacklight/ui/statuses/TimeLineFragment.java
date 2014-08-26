@@ -38,8 +38,6 @@ import android.os.Bundle;
 import android.os.Build;
 import android.os.Vibrator;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -47,6 +45,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.FloatingActionButton;
+import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 

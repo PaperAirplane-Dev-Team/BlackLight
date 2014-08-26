@@ -29,11 +29,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 /*
   Adds Swipe Down To Refresh
 */
@@ -41,14 +36,11 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 {
 	private Canvas mCanvas;
 	private Bitmap mBitmap;
-	private int mWidth, mHeight, mProgressBarHeight;
 	private int mTopMargin;
+	private int mWidth, mHeight;
 	
 	private boolean mIsDown = false;
 	private boolean mDownPriority = false;
-	
-	private Field mTarget, mProgressBar, mReturningToStart, mDownEvent;
-	private Method mSetBounds, mDraw, mUpdateContentOffsetTop;
 	
 	public SwipeUpAndDownRefreshLayout(Context context) {
 		this(context, null);
@@ -56,15 +48,9 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	
 	public SwipeUpAndDownRefreshLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
-		try {
-			initFields();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
 	}
 	
-	private void initFields() throws NoSuchFieldException, NoSuchMethodException {
+	/*private void initFields() throws NoSuchFieldException, NoSuchMethodException {
 		mTarget = SwipeRefreshLayout.class.getDeclaredField("mTarget");
 		mTarget.setAccessible(true);
 		
@@ -79,7 +65,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 		
 		mUpdateContentOffsetTop = SwipeRefreshLayout.class.getDeclaredMethod("updateContentOffsetTop", int.class);
 		mUpdateContentOffsetTop.setAccessible(true);
-	}
+	}*/
 	
 	public boolean isDown() {
 		return mIsDown;
@@ -94,12 +80,7 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	}
 	
 	public boolean canChildScrollDown() {
-		try {
-			View v = (View) mTarget.get(this);
-			return v.canScrollVertically(1);
-		} catch (Exception e) {
-			return true;
-		}
+		return mTarget.canScrollVertically(1);
 	}
 
 	public void setTopMargin(int margin) {
@@ -109,17 +90,9 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
-		
+
 		mWidth = getMeasuredWidth();
 		mHeight = getMeasuredHeight();
-		
-		try {
-			Field f = SwipeRefreshLayout.class.getDeclaredField("mProgressBarHeight");
-			f.setAccessible(true);
-			mProgressBarHeight = Integer.parseInt(f.get(this).toString());
-		} catch (Exception e) {
-			mProgressBarHeight = 0;
-		}
 		
 		mBitmap = Bitmap.createBitmap(mWidth, mProgressBarHeight, Bitmap.Config.ARGB_8888);
 		mCanvas = new Canvas(mBitmap);
@@ -127,72 +100,25 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 
 	@Override
 	public void draw(Canvas canvas) {
-		Object progressBar = null;
-		
-		try {
-			progressBar = mProgressBar.get(this);
-		} catch (Exception e) {
-			
-		}
-		
-		Method m = mSetBounds;
-		
-		if (m == null && progressBar != null) {
-			try {
-				m = progressBar.getClass().getDeclaredMethod("setBounds", int.class, int.class, int.class, int.class);
-				m.setAccessible(true);
-			} catch (Exception e) {
-				
-			}
-		}
-		
-		if (m != null) {
-			mSetBounds = m;
-			
-			try {
-				m.invoke(progressBar, 0, 0, 0, 0);
-			} catch (Exception e) {
-				
-			}
-		}
+		// A little hack
+		mProgressBar.setBounds(0, 0, 0, 0);
 		
 		super.draw(canvas);
 		
-		if (m != null) {
-			Paint p = new Paint();
-			p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-			mCanvas.drawPaint(p);
-			try {
-				m.invoke(progressBar, 0, 0, mWidth, mProgressBarHeight);
-				
-				Method method = mDraw;
-				
-				if (method == null) {
-					method = progressBar.getClass().getDeclaredMethod("draw", Canvas.class);
-					method.setAccessible(true);
-				}
-				
-				mDraw = method;
-				method.invoke(progressBar, mCanvas);
-			} catch (Exception e) {
-				
-			}
+		Paint p = new Paint();
+		p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+		mCanvas.drawPaint(p);
+		mProgressBar.setBounds(0, 0, mWidth, mProgressBarHeight);
+		mProgressBar.draw(mCanvas);
 			
-			canvas.drawBitmap(mBitmap, 0, isDown() ? mHeight - mProgressBarHeight : mTopMargin, null);
-		}
+		canvas.drawBitmap(mBitmap, 0, isDown() ? mHeight - mProgressBarHeight : mTopMargin, null);
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		boolean handled = super.onInterceptTouchEvent(ev);
-		boolean returningToStart;
-		try {
-			returningToStart = Boolean.parseBoolean(mReturningToStart.get(this).toString());
-		} catch (Exception e) {
-			return handled;
-		}
 		
-		if (!handled && !returningToStart && !canChildScrollDown()) {
+		if (!handled && !mReturningToStart && !canChildScrollDown()) {
 			handled = onTouchEvent(ev);
 		}
 		
@@ -201,33 +127,29 @@ public class SwipeUpAndDownRefreshLayout extends SwipeRefreshLayout
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		boolean returningToStart = false;
-		MotionEvent downEvent = null;
-		try {
-			returningToStart = Boolean.parseBoolean(mReturningToStart.get(this).toString());
-			downEvent = (MotionEvent) mDownEvent.get(this);
-		} catch (Exception e) {
-			
-		}
 		
 		boolean ret;
 		
 		if (event.getAction() == MotionEvent.ACTION_MOVE
-			&& downEvent != null && !returningToStart && !canChildScrollDown() && (mDownPriority || canChildScrollUp())) {
-				downEvent.setLocation(downEvent.getX(), -downEvent.getY());
+			&& mDownEvent != null && !mReturningToStart && !canChildScrollDown() && (mDownPriority || canChildScrollUp())) {
+				mDownEvent.setLocation(mDownEvent.getX(), -mDownEvent.getY());
 				event.setLocation(event.getX(), -event.getY());
 				
 				ret = super.onTouchEvent(event);
 				
-				downEvent.setLocation(downEvent.getX(), -downEvent.getY());
+				mDownEvent.setLocation(mDownEvent.getX(), -mDownEvent.getY());
 				event.setLocation(event.getX(), -event.getY());
+
+				float yDiff = event.getY() - mDownEvent.getY() - mTouchSlop;
+
+				updateContentOffsetTop((int) yDiff, -1);
 				
 				// Abandon the offset animation when swiping up
-				try {
+				/*try {
 					mUpdateContentOffsetTop.invoke(this, -100);
 				} catch (Exception e) {
 					
-				}
+				}*/
 			
 		} else {
 			ret = super.onTouchEvent(event);

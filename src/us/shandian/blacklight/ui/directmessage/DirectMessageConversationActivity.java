@@ -29,8 +29,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ImageView;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.directmessages.DirectMessagesApi;
 import us.shandian.blacklight.model.DirectMessageListModel;
@@ -40,6 +38,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
+import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
