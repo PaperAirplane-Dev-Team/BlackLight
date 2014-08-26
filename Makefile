@@ -26,7 +26,8 @@ SRC_DIR		:= \
 	libs/SlidingUpPanel/src \
 	libs/SystemBarTint/src \
 	libs/SwipeBackLayout/library/src/main/java \
-	libs/HoloColorPicker/src
+	libs/HoloColorPicker/src \
+	libs/AndroidSwipeLayout/library/src/main/java
 # Timestamp file of java sources
 # Just a fake "target", doesn't matter in fact
 SRC_TS		:= $(BUILD_DIR)/sources.ts
@@ -36,7 +37,8 @@ RES_DIR		:= \
 	res \
 	libs/SlidingUpPanel/res \
 	libs/SwipeBackLayout/library/src/main/res \
-	libs/HoloColorPicker/res
+	libs/HoloColorPicker/res \
+	libs/AndroidSwipeLayout/library/src/main/res
 # Timestamp file of resources
 RES_TS		:= $(BUILD_DIR)/resources.ts
 # External packages that need to generate R.java under.
@@ -46,7 +48,8 @@ RES_TS		:= $(BUILD_DIR)/resources.ts
 EXT_PKG		:= \
 	com.sothree.slidinguppanel.library \
 	me.imid.swipebacklayout.lib \
-	com.larswerkman.holocolorpicker
+	com.larswerkman.holocolorpicker \
+	com.daimajia.swipe
 # Include all jar libraries needed
 # Including android.jar
 # Please set the $ANDROID_JAR environment variable

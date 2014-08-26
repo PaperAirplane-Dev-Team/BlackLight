@@ -253,12 +253,7 @@ public class SingleActivity extends AbsActivity
 			}
 			return true;
 		} else if (id == R.id.copy) {
-			ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-			ClipData data = ClipData.newPlainText("msg", mMsg.text);
-			cm.setPrimaryClip(data);
-
-			// Inform the user
-			Toast.makeText(this, R.string.copied, Toast.LENGTH_SHORT).show();
+			Utility.copyToClipboard(this, mMsg.text);
 
 			return true;
 		}

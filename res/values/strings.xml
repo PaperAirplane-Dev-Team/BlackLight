@@ -179,7 +179,7 @@
 	<string name="expires_in">The token will be invalid in %d days.</string>
 	<string name="login_fail">:-( Login failed. Maybe due to wrong AppId/AppSecret/Username/Password.</string>
 	<string name="send_fail">Send failed.</string>
-	<string name="confirm_delete">Please select an action</string>
+	<string name="confirm_delete">Confirm?</string>
 	<string name="new_comment">%d new comments.</string>
 	<string name="new_at">%d new weibo(s) mentioned you.</string>
 	<string name="click_to_view">Click to view</string>

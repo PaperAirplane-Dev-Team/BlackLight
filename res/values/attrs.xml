@@ -39,6 +39,7 @@
 		<attr name="IconEmoticon" format="reference" />
 		<attr name="UserBackground" format="reference" />
 		<attr name="NewPostImgFilter" format="reference" />
+		<attr name="BottomViewColor" format="reference" />
 	</declare-styleable>
 
 </resources>

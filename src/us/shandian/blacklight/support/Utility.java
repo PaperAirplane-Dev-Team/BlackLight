@@ -24,6 +24,8 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
@@ -48,6 +50,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
@@ -590,6 +593,15 @@ public class Utility
 		Uri uri = Uri.fromFile(new File(path));
 		i.setData(uri);
 		context.sendBroadcast(i);
+	}
+
+	public static void copyToClipboard(Context context, String data) {
+		ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+		ClipData cd = ClipData.newPlainText("msg", data);
+		cm.setPrimaryClip(cd);
+
+		// Inform the user
+		Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
 	}
 
 	public static boolean isDarkMode(Context context) {

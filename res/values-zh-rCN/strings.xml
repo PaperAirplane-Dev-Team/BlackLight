@@ -179,7 +179,7 @@
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
 	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
 	<string name="send_fail">发送失败</string>
-	<string name="confirm_delete">请选择操作</string>
+	<string name="confirm_delete">确认删除吗？</string>
 	<string name="new_comment">%d 条新评论</string>
 	<string name="new_at">%d 条新提及</string>
 	<string name="click_to_view">点击查看</string>
