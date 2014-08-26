@@ -145,6 +145,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.getAvatar().setTag(true);
 			h.getAvatar().setOnClickListener(null);
 			h.getCommentAndRetweet().setVisibility(View.VISIBLE);
+			h.getSwipe().close(false);
 			
 			LinearLayout container = h.getContainer();
 			
