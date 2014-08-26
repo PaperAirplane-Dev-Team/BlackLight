@@ -183,6 +183,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mUserCache = new UserApiCache(this);
 		initList();
 		new InitializerTask().execute();
+		new GroupsTask().execute();
 		
 		findViewById(R.id.my_account).setOnClickListener(new View.OnClickListener() {
 
@@ -446,9 +447,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				publishProgress(new Object[]{1, avatar});
 			}
 
-			// Groups
-			mGroups = GroupsApi.getGroups();
-			
 			return null;
 		}
 
@@ -466,6 +464,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					break;
 			}
 			super.onProgressUpdate(values);
+		}
+	}
+
+	private class GroupsTask extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			mGroups = GroupsApi.getGroups();
+			return null;
 		}
 
 		@Override
@@ -493,6 +499,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				}
 			}
 		}
-		
+
 	}
 }
