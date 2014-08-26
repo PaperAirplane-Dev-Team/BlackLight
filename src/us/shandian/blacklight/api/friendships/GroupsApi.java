@@ -117,4 +117,32 @@ public class GroupsApi extends BaseApi {
 			}
 		}
 	}
+
+	public static void createGroup(String name) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("name", name);
+
+		try {
+			request(Constants.FRIENDSHIPS_GROUPS_CREATE, params, HTTP_POST);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot create group");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+	}
+
+	public static void destroyGroup(String groupId) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("list_id", groupId);
+
+		try {
+			request(Constants.FRIENDSHIPS_GROUPS_DESTROY, params, HTTP_POST);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot destroy group");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+	}
 }

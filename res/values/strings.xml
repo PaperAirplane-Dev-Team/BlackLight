@@ -30,6 +30,8 @@
 	<!-- Main -->
 	<string name="switch_theme">Switch Theme</string>
 	<string name="group_all">All</string>
+	<string name="group_create">Create group</string>
+	<string name="group_destroy">Delete current group</string>
 	
 	<!-- Left Drawer -->
 	<string name="my">My circle</string>

@@ -21,9 +21,12 @@ package us.shandian.blacklight.ui.main;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -37,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -98,6 +102,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	// Groups
 	public GroupListModel mGroups;
 	public String mCurrentGroupId = null;
+	private MenuItem mGroupDestroy, mGroupCreate;
 	
 	// Temp fields
 	private TextView mLastChoice;
@@ -245,14 +250,31 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+
+		// Save some needed items
+		mGroupDestroy = menu.findItem(R.id.group_destroy);
+		mGroupCreate = menu.findItem(R.id.group_create);
+
+		mGroupDestroy.setEnabled(mCurrentGroupId != null);
 		return true;
 	}
 
-	/*@Override
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
+
+		if (mCurrent == 0) {
+			mGroupDestroy.setVisible(true);
+			mGroupCreate.setVisible(true);
+
+			mGroupDestroy.setEnabled(mCurrentGroupId != null);
+		} else {
+			mGroupDestroy.setVisible(false);
+			mGroupCreate.setVisible(false);
+		}
+
 		return true;
-	}*/
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -269,6 +291,44 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			// This will re-create the whole activity
 			recreate();
 			
+			return true;
+		} else if (item.getItemId() == R.id.group_destroy) {
+			new AlertDialog.Builder(this)
+				.setMessage(R.string.confirm_delete)
+				.setCancelable(true)
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						new GroupDeleteTask().execute();
+					}
+				})
+				.show();
+			return true;
+		} else if (item.getItemId() == R.id.group_create) {
+			final EditText text = new EditText(this);
+			new AlertDialog.Builder(this)
+				.setTitle(R.string.group_create)
+				.setCancelable(true)
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				})
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						new GroupCreateTask().execute(text.getText().toString().trim());
+					}
+				})
+				.setView(text)
+				.show();
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -430,6 +490,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			}
 		}
 
+		if (curId == 0) {
+			mCurrentGroupId = null;
+		}
+
 		getActionBar().setSelectedNavigationItem(curId);
 	}
 	
@@ -464,6 +528,55 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					break;
 			}
 			super.onProgressUpdate(values);
+		}
+	}
+
+	private class GroupDeleteTask extends AsyncTask<Void, Void, Void> {
+		ProgressDialog prog;
+
+		@Override
+		protected void onPreExecute() {
+			prog = new ProgressDialog(MainActivity.this);
+			prog.setMessage(getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			GroupsApi.destroyGroup(mCurrentGroupId);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			new GroupsTask().execute();
+			prog.dismiss();
+			onNavigationItemSelected(0, 0);
+		}
+	}
+
+	private class GroupCreateTask extends AsyncTask<String, Void, Void> {
+		ProgressDialog prog;
+
+		@Override
+		protected void onPreExecute() {
+			prog = new ProgressDialog(MainActivity.this);
+			prog.setMessage(getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			GroupsApi.createGroup(params[0]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			new GroupsTask().execute();
+			prog.dismiss();
 		}
 	}
 

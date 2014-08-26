@@ -30,6 +30,8 @@
 	<!-- Main -->
 	<string name="switch_theme">切换主题</string>
 	<string name="group_all">全部</string>
+	<string name="group_create">创建分组</string>
+	<string name="group_destroy">删除当前分组</string>
 
 	<!-- Left Drawer -->
 	<string name="my">我的圈子</string>

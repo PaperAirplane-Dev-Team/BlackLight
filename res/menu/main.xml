@@ -21,4 +21,15 @@
 		android:id="@+id/switch_theme"
 		android:title="@string/switch_theme"
 		android:showAsAction="never"/>
+
+	<item
+		android:id="@+id/group_create"
+		android:title="@string/group_create"
+		android:showAsAction="never"/>
+
+	<item
+		android:id="@+id/group_destroy"
+		android:title="@string/group_destroy"
+		android:showAsAction="never"/>
+	
 </menu>
