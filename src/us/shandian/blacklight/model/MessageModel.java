@@ -105,6 +105,7 @@ public class MessageModel implements Parcelable
 	public int attitudes_count;
 	
 	public transient SpannableString span, origSpan;
+	public transient long millis;
 	
 	// public Object visible; ignored. We do not need this field at all.
 	

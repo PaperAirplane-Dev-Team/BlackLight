@@ -72,6 +72,7 @@ public class HomeTimeLineApiCache
 			mMessages = new Gson().fromJson(cursor.getString(1), getListClass());
 			mCurrentPage = mMessages.getSize() / Constants.HOME_TIMELINE_PAGE_SIZE;
 			mMessages.spanAll(mContext);
+			mMessages.timestampAll(mContext);
 		} else {
 			try {
 				mMessages = getListClass().newInstance();
@@ -97,6 +98,8 @@ public class HomeTimeLineApiCache
 		}
 		
 		mMessages.addAll(false, list);
+		mMessages.spanAll(mContext);
+		mMessages.timestampAll(mContext);
 	}
 	
 	public Bitmap getThumbnailPic(MessageModel msg, int id) {

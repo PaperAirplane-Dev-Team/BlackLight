@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import us.shandian.blacklight.support.SpannableStringUtils;
+import us.shandian.blacklight.support.StatusTimeUtils;
 
 /*
   List of messages
@@ -66,6 +67,13 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 			if (msg.retweeted_status != null) {
 				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(context, msg.retweeted_status);
 			}
+		}
+	}
+
+	public void timestampAll(Context context) {
+		StatusTimeUtils utils = StatusTimeUtils.instance(context);
+		for (MessageModel msg : getList()) {
+			msg.millis = utils.parseTimeString(msg.created_at);
 		}
 	}
 	

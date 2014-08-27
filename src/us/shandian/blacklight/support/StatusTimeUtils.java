@@ -102,19 +102,27 @@ public class StatusTimeUtils
 
 		return nowYear == msgYear;
 	}
-	
-	public synchronized String buildTimeString(String created_at) {
-		Calendar cal = sCal1;
-		
+
+	public synchronized long parseTimeString(String created_at) {
 		try {
-			cal.setTime(orig_format.parse(created_at));
+			return orig_format.parse(created_at).getTime();
 		} catch (Exception e) {
 			if (DEBUG) {
-				Log.e(TAG, "Faild parsing time: " + created_at);
+				Log.e(TAG, "Failed parsing time: " + created_at);
 			}
-			
-			return "NaN";
+
+			return -1;
 		}
+	}
+
+	public synchronized String buildTimeString(String created_at) {
+		return buildTimeString(parseTimeString(created_at));
+	}
+	
+	public synchronized String buildTimeString(long millis) {
+		Calendar cal = sCal1;
+		
+		cal.setTimeInMillis(millis);
 		
 		long msg = cal.getTimeInMillis();
 		long now = System.currentTimeMillis();

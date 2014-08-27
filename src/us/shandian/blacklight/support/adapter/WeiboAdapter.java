@@ -384,7 +384,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		content.setText(SpannableStringUtils.getSpan(mContext, msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
-		date.setText(mTimeUtils.buildTimeString(msg.created_at));
+		date.setText(mTimeUtils.buildTimeString(msg.millis));
 
 		if (!mShowCommentStatus || msg instanceof CommentModel) {
 			h.getCommentAndRetweet().setVisibility(View.GONE);
