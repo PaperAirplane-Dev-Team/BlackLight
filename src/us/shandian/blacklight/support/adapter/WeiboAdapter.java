@@ -555,7 +555,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@Override
 		protected void onPostExecute(Boolean result) {
 			if (result) {
-				bindSwipeActions(h);
+				try {
+					bindSwipeActions(h);
+				} catch (NullPointerException e) {
+					// Ignore all NPEs
+				}
 			}
 		}
 	}
