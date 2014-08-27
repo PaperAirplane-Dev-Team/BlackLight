@@ -98,7 +98,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private static final View.OnClickListener sAvatarListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			MessageModel msg = (MessageModel) v.getTag();
+			MessageModel msg = (MessageModel) v.getTag(TAG_MSG);
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(v.getContext(), UserTimeLineActivity.class);
