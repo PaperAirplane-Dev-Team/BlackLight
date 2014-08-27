@@ -34,7 +34,7 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 public class DynamicGridLayout extends GridLayout {
 	private static final String TAG = DynamicGridLayout.class.getSimpleName();
 
-	private static int sHeight = -1;
+	private static int sHeight = -1, sWidth = -1;
 
 	private ArrayList<View> mViews = new ArrayList<View>();
 
@@ -59,7 +59,7 @@ public class DynamicGridLayout extends GridLayout {
 		}
 
 		for (View child : mViews) {
-			if (child.getVisibility() == View.GONE && child.getParent() != null) {
+			if (child.getVisibility() == View.GONE) {
 				removeView(child);
 			} else {
 				GridLayout.LayoutParams params = (GridLayout.LayoutParams) child.getLayoutParams();
@@ -89,6 +89,10 @@ public class DynamicGridLayout extends GridLayout {
 			sHeight = mViews.get(0).getMeasuredHeight();
 		}
 
+		if (sWidth == -1) {
+			sWidth = mViews.get(0).getMeasuredHeight() + mViews.get(0).getPaddingLeft();
+		}
+
 		int count = height / sHeight;
 
 		if (DEBUG) {
@@ -101,7 +105,20 @@ public class DynamicGridLayout extends GridLayout {
 
 		setRowCount(count);
 
-		super.onMeasure(widthSpec, heightSpec);
+		float r = (float) getChildCount() / count;
+		int column = (int) Math.floor(r);
+		
+		if (r > column) {
+			column += 1;
+		}
+
+		int width = column * sWidth;
+
+		if (DEBUG) {
+			Log.d(TAG, "count = " + count + "; column = " + column + "; childCount = " + getChildCount());
+		}
+
+		setMeasuredDimension(width, height);
 	}
 	
 	public View dynamicFindViewById(int id) {
