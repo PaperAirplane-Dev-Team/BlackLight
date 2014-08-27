@@ -207,6 +207,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		
 		// Initialize ActionBar Style
 		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setIcon(R.drawable.ic_drawer_l);
 
 		// Ignore first spinner event
 		mIgnore = true;
