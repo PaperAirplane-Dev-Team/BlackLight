@@ -40,6 +40,8 @@ import android.util.Log;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.util.ArrayList;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.comments.NewCommentApi;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -87,6 +89,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private int mGray;
 	
 	private Context mContext;
+
+	private ArrayList<AbsListView.OnScrollListener> mListeners = new ArrayList<AbsListView.OnScrollListener>();
 	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
@@ -168,11 +172,27 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	@Override
 	public void onScrollStateChanged(AbsListView v, int state) {
 		mScrolling = state != AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+
+		// Inform all listeners
+		for (AbsListView.OnScrollListener listener : mListeners) {
+			if (listener != null) {
+				listener.onScrollStateChanged(v, state);
+			}
+		}
 	}
 	
 	@Override
 	public void onScroll(AbsListView p1, int p2, int p3, int p4) {
-		// Do nothing
+		// Inform all listeners
+		for (AbsListView.OnScrollListener listener : mListeners) {
+			if (listener != null) {
+				listener.onScroll(p1, p2, p3, p4);
+			}
+		}
+	}
+
+	public void addOnScrollListener(AbsListView.OnScrollListener listener) {
+		mListeners.add(listener);
 	}
 
 	private void replyToComment(CommentModel comment) {
@@ -316,7 +336,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.msg = msg;
 		}
 
-		bindSwipeActions(h, msg);
+		new SwipeBinder().execute(h);
 		
 		TextView name = h.getName();
 		TextView from = h.getFrom();
@@ -404,7 +424,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getCopy().setOnLongClickListener(this);
 	}
 
-	private void bindSwipeActions(ViewHolder h, MessageModel msg) {
+	private void bindSwipeActions(ViewHolder h) {
+		MessageModel msg = h.msg;
+
 		// Hide all
 		h.getReply().setVisibility(View.GONE);
 		h.getShow().setVisibility(View.GONE);
@@ -517,6 +539,25 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 		
 		return true;
+	}
+
+	// Wait until user stops scrolling and then we create the swipe layout
+	private class SwipeBinder extends AsyncTask<ViewHolder, Void, Boolean> {
+		ViewHolder h;
+
+		@Override
+		protected Boolean doInBackground(ViewHolder... params) {
+			h = params[0];
+			
+			return waitUntilNotScrolling(h, h.msg);
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if (result) {
+				bindSwipeActions(h);
+			}
+		}
 	}
 	
 	// Downloads images including avatars

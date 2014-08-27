@@ -122,7 +122,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 		if (getActivity() instanceof MainActivity) {
 			mList.setOnTouchListener(this);
-			mList.setOnScrollListener(this);
+			mAdapter.addOnScrollListener(this);
 		}
 		
 		return v;
