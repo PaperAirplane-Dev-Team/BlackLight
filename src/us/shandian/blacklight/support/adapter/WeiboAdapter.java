@@ -55,6 +55,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.DynamicGridLayout;
 import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.ReplyToActivity;
@@ -657,6 +658,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		private SwipeLayout swipe;
 		private View reply, show, delete, repost, orig, copy;
 		private View card;
+		private DynamicGridLayout grid;
 		
 		public ViewHolder(View v, MessageModel msg) {
 			this.v = v;
@@ -779,9 +781,17 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			return swipe;
 		}
 
+		public DynamicGridLayout getGrid() {
+			if (grid == null) {
+				grid = (DynamicGridLayout) v.findViewById(R.id.bottom_grid);
+			}
+
+			return grid;
+		}
+
 		public View getReply() {
 			if (reply == null) {
-				reply = v.findViewById(R.id.bottom_reply);
+				reply = getGrid().dynamicFindViewById(R.id.bottom_reply);
 				reply.setTag(this);
 			}
 
@@ -790,7 +800,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		public View getShow() {
 			if (show == null) {
-				show = v.findViewById(R.id.bottom_show);
+				show = getGrid().dynamicFindViewById(R.id.bottom_show);
 				show.setTag(this);
 			}
 
@@ -799,7 +809,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		public View getDelete() {
 			if (delete == null) {
-				delete = v.findViewById(R.id.bottom_delete);
+				delete = getGrid().dynamicFindViewById(R.id.bottom_delete);
 				delete.setTag(this);
 			}
 
@@ -808,7 +818,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		public View getRepost() {
 			if (repost == null) {
-				repost = v.findViewById(R.id.bottom_repost);
+				repost = getGrid().dynamicFindViewById(R.id.bottom_repost);
 				repost.setTag(this);
 			}
 
@@ -817,7 +827,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		public View getOrig() {
 			if (orig == null) {
-				orig = v.findViewById(R.id.bottom_orig);
+				orig = getGrid().dynamicFindViewById(R.id.bottom_orig);
 				orig.setTag(this);
 			}
 			
@@ -826,7 +836,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		public View getCopy() {
 			if (copy == null) {
-				copy = v.findViewById(R.id.bottom_copy);
+				copy = getGrid().dynamicFindViewById(R.id.bottom_copy);
 				copy.setTag(this);
 			}
 

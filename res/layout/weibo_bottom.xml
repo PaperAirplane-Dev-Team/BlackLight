@@ -18,13 +18,14 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<LinearLayout
+<us.shandian.blacklight.ui.common.DynamicGridLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/bottom_grid"
 	android:layout_width="wrap_content"
 	android:layout_height="match_parent"
 	android:background="?attr/BottomViewColor"
-	android:gravity="center_vertical"
-	android:orientation="horizontal">
+	android:rowCount="1"
+	android:orientation="vertical">
 
 	<ImageView
 		android:id="@+id/bottom_show"
@@ -86,5 +87,5 @@
 		android:gravity="center"
 		android:src="@drawable/ic_action_copy"/>
 
-</LinearLayout>
+</us.shandian.blacklight.ui.common.DynamicGridLayout>
 
