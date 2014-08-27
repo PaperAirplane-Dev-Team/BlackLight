@@ -157,6 +157,7 @@ public class MessageModel implements Parcelable
 		dest.writeInt(comments_count);
 		dest.writeInt(attitudes_count);
 		dest.writeTypedList(pic_urls);
+		dest.writeLong(millis);
 	}
 	
 	public static final Parcelable.Creator<MessageModel> CREATOR = new Parcelable.Creator<MessageModel>() {
@@ -191,6 +192,8 @@ public class MessageModel implements Parcelable
 			ret.attitudes_count = in.readInt();
 			
 			in.readTypedList(ret.pic_urls, PictureUrl.CREATOR);
+
+			ret.millis = in.readLong();
 			
 			return ret;
 		}
