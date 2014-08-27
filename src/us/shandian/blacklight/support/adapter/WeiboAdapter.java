@@ -76,6 +76,23 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 										View.OnClickListener, View.OnLongClickListener
 {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
+
+	private static final int TAG_MSG = R.id.weibo_content;
+	private static final int TAG_ID = R.id.card;
+
+	private static final View.OnClickListener sImageListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			MessageModel msg = (MessageModel) v.getTag(TAG_MSG);
+			int id = Integer.parseInt(v.getTag(TAG_ID).toString());
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(v.getContext(), ImageActivity.class);
+			i.putExtra("model", msg);
+			i.putExtra("defaultId", id);
+			v.getContext().startActivity(i);
+		}
+	};
 	
 	private MessageListModel mList;
 	private LayoutInflater mInflater;
@@ -475,7 +492,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getOriginParent().setOnClickListener(this);
 	}
 	
-	private void bindMultiPicLayout(ViewHolder h, final MessageModel msg, boolean showPic) {
+	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
 		HorizontalScrollView scroll = h.getScroll();
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
@@ -498,24 +515,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 						iv.setTag(false);
 					}
 					
-					final int finalId = i;
+					iv.setTag(TAG_MSG, msg);
+					iv.setTag(TAG_ID, i);
 					
-					iv.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							Intent i = new Intent();
-							i.setAction(Intent.ACTION_MAIN);
-							i.setClass(mContext, ImageActivity.class);
-							i.putExtra("model", msg);
-							i.putExtra("defaultId", finalId);
-
-							if (DEBUG) {
-								Log.d(TAG, "defaultId = " + finalId);
-							}
-
-							mContext.startActivity(i);
-						}
-					});
+					iv.setOnClickListener(sImageListener);
 				}
 			}
 		}
