@@ -93,6 +93,18 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			v.getContext().startActivity(i);
 		}
 	};
+
+	private static final View.OnClickListener sAvatarListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			MessageModel msg = (MessageModel) v.getTag();
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(v.getContext(), UserTimeLineActivity.class);
+			i.putExtra("user", msg.user);
+			v.getContext().startActivity(i);
+		}
+	};
 	
 	private MessageListModel mList;
 	private LayoutInflater mInflater;
@@ -401,16 +413,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				h.getAvatar().setTag(false);
 			}
 			
-			h.getAvatar().setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent i = new Intent();
-					i.setAction(Intent.ACTION_MAIN);
-					i.setClass(mContext, UserTimeLineActivity.class);
-					i.putExtra("user", msg.user);
-					mContext.startActivity(i);
-				}
-			});
+			h.getAvatar().setTag(TAG_MSG, msg);
+			h.getAvatar().setOnClickListener(sAvatarListener);
 		}
 		
 		h.getCard().setOnClickListener(this);
