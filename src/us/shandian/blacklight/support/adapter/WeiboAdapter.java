@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Debug;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -340,6 +341,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	}
 	
 	private View bindView(final MessageModel msg, View convertView) {
+		/*if (DEBUG) {
+			Debug.startMethodTracing("TraceLog");
+		}*/
+
 		View v = null;
 		ViewHolder h = null;
 		boolean useExisted = true;
@@ -375,7 +380,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView comments = h.getComments();
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
-		from.setText(msg.source != null ? Html.fromHtml(msg.source).toString() : "");
+		from.setText(msg.source != null ? Utility.truncateSourceString(msg.source) : "");
 		content.setText(SpannableStringUtils.getSpan(mContext, msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
@@ -422,6 +427,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		new ImageDownloader().execute(new Object[]{v});
 		
+		/*if (DEBUG) {
+			Debug.stopMethodTracing();
+		}*/
+
 		return v;
 	}
 
