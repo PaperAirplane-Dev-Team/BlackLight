@@ -74,6 +74,10 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 		StatusTimeUtils utils = StatusTimeUtils.instance(context);
 		for (MessageModel msg : getList()) {
 			msg.millis = utils.parseTimeString(msg.created_at);
+
+			if (msg.retweeted_status != null) {
+				msg.retweeted_status.millis = utils.parseTimeString(msg.retweeted_status.created_at);
+			}
 		}
 	}
 	

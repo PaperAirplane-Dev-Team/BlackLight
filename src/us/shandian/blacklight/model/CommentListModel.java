@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import us.shandian.blacklight.support.SpannableStringUtils;
+import us.shandian.blacklight.support.StatusTimeUtils;
 
 /*
   A list of comments
@@ -45,6 +46,19 @@ public class CommentListModel extends MessageListModel
 				comment.reply_comment.origSpan = SpannableStringUtils.getOrigSpan(context, comment.reply_comment);
 			} else if (comment.status != null) {
 				comment.status.origSpan = SpannableStringUtils.getOrigSpan(context, comment.status);
+			}
+		}
+	}
+
+	@Override
+	public void timestampAll(Context context) {
+		super.timestampAll(context);
+
+		StatusTimeUtils utils = StatusTimeUtils.instance(context);
+
+		for (CommentModel comment : (List<CommentModel>) getList()) {
+			if (comment.status != null) {
+				comment.status.millis = utils.parseTimeString(comment.status.created_at);
 			}
 		}
 	}
