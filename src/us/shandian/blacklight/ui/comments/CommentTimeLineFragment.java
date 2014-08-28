@@ -22,6 +22,8 @@ package us.shandian.blacklight.ui.comments;
 import android.view.View;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.remind.RemindApi;
+import us.shandian.blacklight.api.remind.RemindApi.Type;
 import us.shandian.blacklight.cache.comments.CommentTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
@@ -47,5 +49,14 @@ public class CommentTimeLineFragment extends TimeLineFragment
 	@Override
 	protected void bindNewButton(View v) {
 
+	}
+
+	@Override
+	protected void load(boolean param) {
+		super.load(param);
+
+		if (param) {
+			RemindApi.clearUnread(Type.Cmt.str);
+		}
 	}
 }

@@ -22,6 +22,8 @@ package us.shandian.blacklight.ui.statuses;
 import android.view.View;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.remind.RemindApi;
+import us.shandian.blacklight.api.remind.RemindApi.Type;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 
@@ -40,5 +42,14 @@ public class MentionsTimeLineFragment extends TimeLineFragment
 	@Override
 	protected void bindNewButton(View v) {
 		
+	}
+
+	@Override
+	protected void load(boolean param) {
+		super.load(param);
+
+		if (param) {
+			RemindApi.clearUnread(Type.Mention_Status.str);
+		}
 	}
 }

@@ -31,6 +31,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.remind.RemindApi;
+import us.shandian.blacklight.api.remind.RemindApi.Type;
 import us.shandian.blacklight.cache.directmessages.DirectMessagesUserApiCache;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
@@ -184,6 +186,11 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			
 			mApiCache.load(params[0]);
 			mApiCache.cache();
+
+			if (params[0]) {
+				RemindApi.clearUnread(Type.Dm.str);
+			}
+
 			return params[0];
 		}
 

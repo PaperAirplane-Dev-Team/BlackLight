@@ -211,8 +211,7 @@
 			</intent-filter>
 		</activity>
 		
-		<service android:name=".service.CommentTimeLineFetcherService" />
-		<service android:name=".service.MentionsTimeLineFetcherService" />
+		<service android:name=".service.ReminderService" />
 		
 		<receiver android:name=".receiver.ConnectivityReceiver">
 			<intent-filter>

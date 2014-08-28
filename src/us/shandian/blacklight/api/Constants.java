@@ -77,4 +77,9 @@ public class Constants
 	public static final String DIRECT_MESSAGES_USER_LIST = SINA_BASE_URL + "direct_messages/user_list.json";
 	public static final String DIRECT_MESSAGES_CONVERSATION = SINA_BASE_URL + "direct_messages/conversation.json";
 	public static final String DIRECT_MESSAGES_SEND = SINA_BASE_URL + "direct_messages/new.json";
+
+	// Remind
+	public static final String REMIND_UNREAD_COUNT = "https://rm.api.weibo.com/2/remind/unread_count.json";
+	public static final String REMIND_UNREAD_SET_COUNT = "https://rm.api.weibo.com/2/remind/set_count.json";
+	
 }

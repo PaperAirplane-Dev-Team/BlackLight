@@ -184,6 +184,10 @@
 	<string name="confirm_delete">确认删除吗？</string>
 	<string name="new_comment">%d 条新评论</string>
 	<string name="new_at">%d 条新提及</string>
+	<string name="new_at_detail_weibo">%d 条微博</string>
+	<string name="new_at_detail_and">&#160;和&#160;</string>
+	<string name="new_at_detail_comment">%d 条评论</string>
+	<string name="new_dm">%d 条新私信</string>
 	<string name="click_to_view">点击查看</string>
 	<string name="empty_weibo">空微博</string>
 	<string name="not_loaded">请等待图片加载完成再试</string>

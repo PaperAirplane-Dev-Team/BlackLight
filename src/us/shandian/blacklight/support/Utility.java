@@ -70,8 +70,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
-import us.shandian.blacklight.service.CommentTimeLineFetcherService;
-import us.shandian.blacklight.service.MentionsTimeLineFetcherService;
+import us.shandian.blacklight.service.ReminderService;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */
@@ -164,14 +163,12 @@ public class Utility
 		int interval = getIntervalTime(settings.getInt(Settings.NOTIFICATION_INTERVAL, 1));
 
 		if (interval > -1) {
-			startServiceAlarm(context, CommentTimeLineFetcherService.class, interval);
-			startServiceAlarm(context, MentionsTimeLineFetcherService.class, interval);
+			startServiceAlarm(context, ReminderService.class, interval);
 		}
 	}
 	
 	public static void stopServices(Context context) {
-		stopServiceAlarm(context, CommentTimeLineFetcherService.class);
-		stopServiceAlarm(context, MentionsTimeLineFetcherService.class);
+		stopServiceAlarm(context, ReminderService.class);
 	}
 
 	public static void restartServices(Context context) {

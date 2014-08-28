@@ -183,7 +183,11 @@
 	<string name="send_fail">Send failed.</string>
 	<string name="confirm_delete">Confirm?</string>
 	<string name="new_comment">%d new comments.</string>
-	<string name="new_at">%d new weibo(s) mentioned you.</string>
+	<string name="new_at">%d new mentions you.</string>
+	<string name="new_at_detail_weibo">%d weibo(s)</string>
+	<string name="new_at_detail_and">&#160;and&#160;</string>
+	<string name="new_at_detail_comment">%d comment(s)</string>
+	<string name="new_dm">%d new direct messages.</string>
 	<string name="click_to_view">Click to view</string>
 	<string name="empty_weibo">Just say something before you click me!</string>
 	<string name="not_loaded">Please try again after the picture is loaded.</string>
