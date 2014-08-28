@@ -45,8 +45,7 @@ import java.util.ArrayList;
 
 import org.roisoleil.gifview.GifView;
 
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -55,7 +54,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class ImageActivity extends AbsActivity implements OnPhotoTapListener
+public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 {
 	private static final String TAG = ImageActivity.class.getSimpleName();
 	
@@ -135,14 +134,14 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onPhotoTap(View v, float x, float y) {
 		if (getActionBar().isShowing()) {
 			getActionBar().hide();
 		} else {
 			getActionBar().show();
 		}
-	}
+	}*/
 
 	private class ImageAdapter extends PagerAdapter {
 		private ArrayList<View> mViews = new ArrayList<View>();
@@ -205,25 +204,18 @@ public class ImageActivity extends AbsActivity implements OnPhotoTapListener
 			
 			if (img != null) {
 				v.removeAllViews();
-				if (img instanceof Bitmap) {
-					PhotoView p = new PhotoView(ImageActivity.this);
-					
-					// Disable hardware acceleration if too large
-					Bitmap image = (Bitmap) img;
-					int maxSize = Utility.getSupportedMaxPictureSize();
-					if (image.getWidth() > maxSize || image.getHeight() > maxSize) {
-						p.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-						
-						if (DEBUG) {
-							Log.d(TAG, "Image too large, hardware acceleration disabled. max size: " + maxSize);
-						}
+				if (img instanceof String) {
+					// If returned a String, it means that the image is a Bitmap
+					// So we can use the included SubsamplingScaleImageView
+					SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
+					iv.setImageFile((String) img);
+
+					if (DEBUG) {
+						Log.d(TAG, img.toString());
 					}
-					
-					p.setImageBitmap(image);
-					p.setMaxScale(20.0f);
-					p.setMaximumScale(20.0f);
-					p.setOnPhotoTapListener(ImageActivity.this);
-					v.addView(p, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+					iv.setMaxScale(3.0f);
+
+					v.addView(iv, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				} else if (img instanceof Movie) {
 					GifView g = new GifView(ImageActivity.this);
 					g.setMovie((Movie) img);

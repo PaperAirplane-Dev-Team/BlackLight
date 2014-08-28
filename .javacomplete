@@ -5,4 +5,5 @@ libs/SlidingUpPanel/src
 libs/SystemBarTint/src
 libs/HoloColorPicker/src
 libs/AndroidSwipeLayout/library/src/main/java
+libs/subsampling-scale-image-view/library/src
 src

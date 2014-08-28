@@ -94,6 +94,10 @@ public class FileCacheManager
 			return ipt;
 		}
 	}
+
+	public String getCachePath(String type, String name) {
+		return mCacheDir.getPath() + "/" + type + "/" + name;
+	}
 	
 	private byte[] readInputStream(InputStream in) throws IOException {
 		ByteArrayOutputStream opt = new ByteArrayOutputStream();

@@ -206,21 +206,13 @@ public class HomeTimeLineApiCache
 			}
 		} 
 		
-		Bitmap ret = null;
-		try {
-			ret = BitmapFactory.decodeStream(cache);
-		} catch (OutOfMemoryError e) {
-			// If OOM, decode by region
-			ret = Utility.decodeStreamByRegion(cache);
-		}
-		
 		try {
 			cache.close();
 		} catch (IOException e) {
 			
 		}
 		
-		return ret;
+		return mManager.getCachePath(Constants.FILE_CACHE_PICS_LARGE, cacheName);
 	}
 
 	public String saveLargePic(MessageModel msg, int id) {

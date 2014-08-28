@@ -32,7 +32,6 @@ import android.content.res.Resources.NotFoundException;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -540,58 +539,6 @@ public class Utility
 		} else {
 			return str.substring(0, 137) + "...";
 		}
-	}
-
-	public static Bitmap decodeStreamByRegion(InputStream in) {
-		// Initialize the decoder
-		BitmapRegionDecoder de = null;
-		
-		try {
-			de = BitmapRegionDecoder.newInstance(in, true);
-		} catch (Exception e) {
-			return null;
-		}
-		
-		// Create a empty Bitmap and a Canvas
-		Bitmap bmp = Bitmap.createBitmap(de.getWidth(), de.getHeight(), Bitmap.Config.RGB_565);
-		Canvas canvas = new Canvas(bmp);
-
-		// Decode by Region
-		int height = de.getHeight(), decodedHeight = 0;
-
-		BitmapFactory.Options op = new BitmapFactory.Options();
-		op.inPreferredConfig = Bitmap.Config.RGB_565;
-
-		while (decodedHeight < height) {
-
-			if (DEBUG) {
-				Log.d(TAG, "decodedHeight = " + decodedHeight);
-				Log.d(TAG, "height = " + height);
-			}
-
-			Rect rect = null;
-
-			if (height - decodedHeight < 100) {
-				rect = new Rect(0, decodedHeight, de.getWidth(), height);
-			} else {
-				rect = new Rect(0, decodedHeight, de.getWidth(), decodedHeight + 100);
-			}
-
-			Bitmap tmp = de.decodeRegion(rect, op);
-
-			if (tmp == null) {
-				break;
-			} else {
-				canvas.drawBitmap(tmp, new Rect(0, 0, tmp.getWidth(), tmp.getHeight()), rect, null);
-			}
-
-			tmp.recycle();
-
-			decodedHeight += 100;
-		}
-
-		// Finished
-		return bmp;
 	}
 
 	public static void notifyScanPhotos(Context context, String path) {
