@@ -501,8 +501,13 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		bindMultiPicLayout(h, msg, showPic);
 		
-		h.getOriginParent().setTag(msg);
-		h.getOriginParent().setOnClickListener(this);
+		if (!(msg instanceof CommentModel)) {
+			h.getOriginParent().setTag(msg);
+			h.getOriginParent().setOnClickListener(this);
+		} else {
+			h.getOriginParent().setTag(null);
+			h.getOriginParent().setOnClickListener(null);
+		}
 	}
 	
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
