@@ -104,7 +104,7 @@
 	<string name="following_me">Following me</string>
 	<string name="i_am_following">I am following</string>
 	<string name="following_each_other">Following each other</string>
-	<string name="no_following">Now following</string>
+	<string name="no_following">Not following</string>
 	<string name="follow">Follow</string>
 	<string name="unfollow">Unfollow</string>
 	<string name="change_group">Change group</string>
