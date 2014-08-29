@@ -4,9 +4,11 @@ seeds.txt
 unused.txt
 /build
 /bin
+/out
 /gen
 /obj
 /buck-out
+/.idea
 /.settings
 /.buckd
 /.directory
