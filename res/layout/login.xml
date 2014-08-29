@@ -51,11 +51,13 @@
 		android:layout_width="wrap_content"
 		android:layout_gravity="center_vertical"/>
 
-	<EditText
+	<us.shandian.blacklight.ui.common.EmailAutoCompleteTextView
 		android:layout_height="40dp"
 		android:ems="10"
 		android:layout_width="wrap_content"
 		android:id="@+id/username"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
 		android:layout_marginLeft="5dp"/>
 
 	<TextView
@@ -71,6 +73,7 @@
 		android:ems="10"
 		android:layout_width="wrap_content"
 		android:id="@+id/passwd"
+        android:imeOptions="actionDone"
 		android:layout_marginLeft="5dp"/>
 
 </GridLayout>

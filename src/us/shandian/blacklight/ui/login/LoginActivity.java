@@ -25,16 +25,19 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
@@ -47,8 +50,7 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* BlackMagic Login Activity */
-public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener
-{
+public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
 	private Spinner mTail;
@@ -87,6 +89,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		
 		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
 		mTail.setOnItemSelectedListener(this);
+        mPasswd.setOnEditorActionListener(this);
 		
 		onItemSelected(null, null, 0, 0);
 	}
@@ -114,12 +117,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		if (item == mMenuItem) {
-			new LoginTask().execute(new String[]{
-				mAppId,
-				mAppSecret,
-				mUsername.getText().toString(),
-				mPasswd.getText().toString()
-			});
+            login();
 			return true;
 		} else if (item.getItemId() == android.R.id.home) {
 			setResult(RESULT_CANCELED);
@@ -129,8 +127,42 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	private class LoginTask extends AsyncTask<String, Void, Void>
+
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (textView == mPasswd && actionId == EditorInfo.IME_ACTION_DONE) {
+            login();
+            return true;
+        }
+        return false;
+    }
+
+    private void login() {
+        if (mUsername.getText().length() < 1) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    getString(R.string.toast_empty_username),
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
+        if (mPasswd.getText().length() < 1) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    getString(R.string.toast_empty_password),
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
+        new LoginTask().execute(new String[]{
+                mAppId,
+                mAppSecret,
+                mUsername.getText().toString(),
+                mPasswd.getText().toString()
+        });
+    }
+
+    private class LoginTask extends AsyncTask<String, Void, Void>
 	{
 		private ProgressDialog progDialog;
 		

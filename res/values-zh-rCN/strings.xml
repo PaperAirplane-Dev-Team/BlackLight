@@ -26,6 +26,8 @@
 	<string name="tail">尾巴</string>
 	<string name="username">用户名</string>
 	<string name="passwd">密码</string>
+    <string name="toast_empty_username">请输入用户名</string>
+    <string name="toast_empty_password">请输入密码</string>
 
 	<!-- Main -->
 	<string name="switch_theme">切换主题</string>

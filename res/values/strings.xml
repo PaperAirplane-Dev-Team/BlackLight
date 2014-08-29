@@ -26,6 +26,8 @@
 	<string name="tail">Tail</string>
 	<string name="username">Username</string>
 	<string name="passwd">Password</string>
+    <string name="toast_empty_username">Please enter your username</string>
+    <string name="toast_empty_password">Please enter your password</string>
 
 	<!-- Main -->
 	<string name="switch_theme">Switch Theme</string>
@@ -126,7 +128,20 @@
 		<item>Weibo</item>
 		<item>User</item>
 	</string-array>
-	
+
+    <string-array name="email_auto_complete_tips" translatable="false">
+        <item>\@sina.com</item>
+        <item>\@163.com</item>
+        <item>\@qq.com</item>
+        <item>\@gmail.com</item>
+        <item>\@hotmail.com</item>
+        <item>\@126.com</item>
+        <item>\@sohu.com</item>
+        <item>\@vip.sina.com</item>
+        <item>\@vip.qq.com</item>
+        <item>\@yeah.net</item>
+    </string-array>
+
 	<string-array name="developer_weibo_uids" translatable="false">
 		<item>1789004515</item>
 		<item>1870051034</item>
