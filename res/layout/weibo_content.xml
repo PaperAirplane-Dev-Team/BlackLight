@@ -162,7 +162,7 @@
 
 	</RelativeLayout>
 
-	<HorizontalScrollView
+	<us.shandian.blacklight.ui.common.HackyHorizontalScrollView
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="?attr/CardOrigBackground"
@@ -206,7 +206,7 @@
 
 		</LinearLayout>
 
-	</HorizontalScrollView>
+	</us.shandian.blacklight.ui.common.HackyHorizontalScrollView>
 
 </RelativeLayout>
 

@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +58,7 @@ import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.DynamicGridLayout;
+import us.shandian.blacklight.ui.common.HackyHorizontalScrollView;
 import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.ReplyToActivity;
@@ -438,6 +438,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		SwipeLayout swipe = h.getSwipe();
 		swipe.setShowMode(SwipeLayout.ShowMode.LayDown);
 		swipe.setDragEdge(SwipeLayout.DragEdge.Right);
+		swipe.addSwipeDenier(h.getScroll());
 		
 		// Initialize all click events
 		h.getReply().setOnClickListener(this);
@@ -511,7 +512,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	}
 	
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
-		HorizontalScrollView scroll = h.getScroll();
+		HackyHorizontalScrollView scroll = h.getScroll();
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
 			scroll.setVisibility(View.VISIBLE);
@@ -714,7 +715,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		public boolean sub = false;
 		
 		private TextView date, retweets, comments, name, from, content;
-		private HorizontalScrollView scroll;
+		private HackyHorizontalScrollView scroll;
 		private LinearLayout container;
 		private View originParent;
 		private View comment_and_retweet;
@@ -781,9 +782,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			return content;
 		}
 		
-		public HorizontalScrollView getScroll() {
+		public HackyHorizontalScrollView getScroll() {
 			if (scroll == null) {
-				scroll = (HorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
+				scroll = (HackyHorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
 			}
 			
 			return scroll;
