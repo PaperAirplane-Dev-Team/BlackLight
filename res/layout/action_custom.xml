@@ -22,19 +22,50 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="horizontal"
+	android:layout_gravity="left"
 	android:gravity="center_vertical">
 
-	<Spinner
+	<LinearLayout
+		android:id="@+id/action_view"
+		android:layout_width="wrap_content"
 		android:layout_height="match_parent"
-		android:layout_width="80dp"
-		android:id="@+id/search_spinner"/>
+		android:orientation="horizontal"
+		android:layout_gravity="left"
+		android:gravity="center_vertical">
 
-	<EditText
+		<ImageView
+			android:id="@+id/action_hamburger"
+			style="?android:attr/buttonBarButtonStyle"
+			android:layout_width="40dp"
+			android:layout_height="match_parent"
+			android:layout_marginRight="5dp"
+			android:gravity="center_vertical"
+			android:scaleType="center"
+			android:src="@drawable/ic_drawer_l"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/action_search"
+		android:layout_width="wrap_content"
 		android:layout_height="match_parent"
-		android:ems="10"
-		android:layout_width="match_parent"
-		android:singleLine="true"
-		android:id="@+id/search_text"/>
+		android:orientation="horizontal"
+		android:gravity="center_vertical"
+		android:visibility="gone">
+
+		<Spinner
+			android:layout_height="match_parent"
+			android:layout_width="80dp"
+			android:id="@+id/search_spinner"/>
+
+		<EditText
+			android:layout_height="match_parent"
+			android:ems="10"
+			android:layout_width="match_parent"
+			android:singleLine="true"
+			android:id="@+id/search_text"/>
+
+	</LinearLayout>
 
 </LinearLayout>
 

@@ -38,6 +38,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -78,11 +79,16 @@ import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener, ActionBar.OnNavigationListener
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener, ActionBar.OnNavigationListener,
+	   												View.OnClickListener
 {
 	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
+
+	private ViewGroup mAction;
+	private View mTitle, mSpinner;
+	private ImageView mHamburger;
 	
 	// Drawer content
 	private TextView mName;
@@ -159,6 +165,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					((HomeTimeLineFragment) mFragments[0]).showFAB();
 				}
 			}
+
+			@Override
+			public void onDrawerSlide(View drawerView, float offset) {
+				mHamburger.setRotation(offset * 90);
+			}
 		};
 		mDrawer.setDrawerListener(mToggle);
 
@@ -206,8 +217,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		});
 		
 		// Initialize ActionBar Style
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setIcon(R.drawable.ic_drawer_l);
+		getActionBar().setHomeButtonEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayUseLogoEnabled(false);
+		getActionBar().setCustomView(R.layout.action_custom);
+		getActionBar().setDisplayShowCustomEnabled(true);
+		
+		mAction = (ViewGroup) getActionBar().getCustomView().findViewById(R.id.action_view);
+		mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
+		mHamburger = (ImageView) mAction.findViewById(R.id.action_hamburger);
+		mHamburger.setOnClickListener(this);
+
+		getActionBar().setDisplayShowTitleEnabled(false);
 
 		// Ignore first spinner event
 		mIgnore = true;
@@ -261,6 +282,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 
 	@Override
+	public void onClick(View v) {
+		if (v == mHamburger) {
+			if (mDrawer.isDrawerOpen(mDrawerGravity)) {
+				mDrawer.closeDrawer(mDrawerGravity);
+			} else {
+				mDrawer.openDrawer(mDrawerGravity);
+			}
+		}
+	}
+
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 
@@ -279,14 +311,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			if (mDrawer.isDrawerOpen(mDrawerGravity)) {
-				mDrawer.closeDrawer(mDrawerGravity);
-			} else {
-				mDrawer.openDrawer(mDrawerGravity);
-			}
-			return true;
-		} else if (item.getItemId() == R.id.switch_theme) {
+		if (item.getItemId() == R.id.switch_theme) {
 			Utility.switchTheme(this);
 
 			// This will re-create the whole activity
@@ -344,8 +369,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 
 		if (mGroups != null && mGroups.getSize() > 0 && (parent != mOther || position != 1)) {
-			getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-			getActionBar().setDisplayShowTitleEnabled(true);
+			//getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			//getActionBar().setDisplayShowTitleEnabled(true);
+			setShowTitle(true);
+			setShowSpinner(false);
 		}
 		
 		if (parent == mMy) {
@@ -365,8 +392,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 						}
 
 						if (position == 0 && mGroups != null && mGroups.getSize() > 0) {
-							getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-							getActionBar().setDisplayShowTitleEnabled(false);
+							setShowTitle(false);
+							setShowSpinner(true);
 							updateActionSpinner();
 						}
 					}
@@ -402,6 +429,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 							} catch (Exception e) {
 
 							}
+
+							setShowTitle(false);
 						}
 					}, 400);
 					break;
@@ -448,6 +477,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		return true;
 	}
 
+	private void setShowTitle(boolean show) {
+		if (mTitle != null) {
+			mTitle.setVisibility(show ? View.VISIBLE : View.GONE);
+		}
+	}
+
+	private void setShowSpinner(boolean show) {
+		if (mSpinner != null) {
+			mSpinner.setVisibility(show ? View.VISIBLE : View.GONE);
+		}
+	}
 	
 	private void initList() {
 		mLastChoice = null;
@@ -496,6 +536,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 
 		getActionBar().setSelectedNavigationItem(curId);
+
+		if (mSpinner == null) {
+			if (Build.VERSION.SDK_INT >= 18) {
+				mSpinner = Utility.addActionViewToCustom(this, Utility.action_bar_spinner, mAction);
+			} else {
+				mSpinner = Utility.addActionViewToCustom(Utility.findActionSpinner(this), mAction);
+			}
+		}
 	}
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
@@ -605,10 +653,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this, 
 							R.layout.action_spinner_item, names), MainActivity.this);
 
+				getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
 				if (mCurrent == 0) {
 					mIgnore = true;
-					getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-					getActionBar().setDisplayShowTitleEnabled(false);
+					setShowTitle(false);
 					updateActionSpinner();
 				}
 			}

@@ -47,11 +47,8 @@ public class SearchFragment extends Fragment
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
-		// Create action bar view first
-		getActivity().getActionBar().setCustomView(R.layout.search_action);
-		
-		mAction = getActivity().getActionBar().getCustomView();
+		// Get action bar view first	
+		mAction = getActivity().getActionBar().getCustomView().findViewById(R.id.action_search);
 		String[] types = getResources().getStringArray(R.array.search_type);
 		
 		mTypes = (Spinner) mAction.findViewById(R.id.search_spinner);
@@ -75,12 +72,12 @@ public class SearchFragment extends Fragment
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		
-		if (getActivity() == null || getActivity().getActionBar() == null) return;
+		if (getActivity() == null || getActivity().getActionBar() == null || mAction == null) return;
 		
 		if (!hidden) {
-			getActivity().getActionBar().setDisplayShowCustomEnabled(true);
+			mAction.setVisibility(View.VISIBLE);
 		} else {
-			getActivity().getActionBar().setDisplayShowCustomEnabled(false);
+			mAction.setVisibility(View.GONE);
 		}
 	}
 

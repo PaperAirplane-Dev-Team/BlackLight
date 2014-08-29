@@ -20,6 +20,7 @@
 package us.shandian.blacklight.support;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -79,6 +80,27 @@ public class Utility
 	private static final String TAG = Utility.class.getSimpleName();
 	
 	private static final int REQUEST_CODE = 100001;
+
+	public static int action_bar_title = -1;
+
+	public static int action_bar_spinner = -1;
+
+	static {
+		try {
+			Class<?> clazz = Class.forName("com.android.internal.R$id");
+			Field f = clazz.getDeclaredField("action_bar_title");
+			f.setAccessible(true);
+			action_bar_title = f.getInt(null);
+			f = clazz.getDeclaredField("action_bar_spinner");
+			f.setAccessible(true);
+			action_bar_spinner = f.getInt(null);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Reflection cannot access internal ids");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+	}
 	
 	public static int expireTimeInDays(long time) {
 		return (int) TimeUnit.MILLISECONDS.toDays(time - System.currentTimeMillis());
@@ -197,6 +219,56 @@ public class Utility
 			return -1;
 		}
 		return -1;
+	}
+
+	public static View addActionViewToCustom(Activity activity, int id, ViewGroup custom) {
+		View v = activity.findViewById(id);
+
+		if (v != null) {
+			return addActionViewToCustom(v, custom);
+		} else {
+			return null;
+		}
+	}
+
+	public static View addActionViewToCustom(View v, ViewGroup custom) {
+		if (v != null) {
+			ViewGroup parent = (ViewGroup) v.getParent();
+			parent.removeView(v);
+			parent.setVisibility(View.GONE);
+			ViewGroup.LayoutParams params = parent.getLayoutParams();
+			params.width = 0;
+			params.height = 0;
+			parent.setLayoutParams(params);
+			custom.addView(v);
+		}
+
+		return v;
+	}
+
+	// For SDK < 18
+	public static View findActionSpinner(Activity activity) {
+		ActionBar action = activity.getActionBar();
+
+		// Get ActionBarImpl class for ActionView object
+		// Then get spinner from ActionView
+		try {
+			Class<?> clazz = Class.forName("com.android.internal.app.ActionBarImpl");
+			Field f = clazz.getDeclaredField("mActionView");
+			f.setAccessible(true);
+			Object actionView = f.get(action);
+			clazz = Class.forName("com.android.internal.widget.ActionBarView");
+			f = clazz.getDeclaredField("mSpinner");
+			f.setAccessible(true);
+			return (View) f.get(actionView);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Failed to find spinner");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+
+			return null;
+		}
 	}
 	
 	public static int getActionBarHeight(Context context) {
