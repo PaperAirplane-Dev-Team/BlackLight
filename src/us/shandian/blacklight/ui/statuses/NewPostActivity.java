@@ -42,6 +42,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.Selection;
+import android.text.Spannable;
 import android.util.Log;
 
 import android.support.v4.widget.DrawerLayout;
@@ -298,7 +300,14 @@ public class NewPostActivity extends AbsActivity
 				}
 			});
 			diag.show();
-			return true;		
+			return true;	
+		} else if (id == R.id.post_topic) {
+			CharSequence text = mText.getText();
+			mText.getText().insert(mText.getSelectionStart(), "##");
+			if(text instanceof Spannable) {
+				Selection.setSelection((Spannable) text, text.length() - 1);
+			}
+			return true;	
 		} else {
 			return super.onOptionsItemSelected(item);
 		}

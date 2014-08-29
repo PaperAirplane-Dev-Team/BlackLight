@@ -29,7 +29,13 @@
 		android:title="@string/at"
 		android:icon="@drawable/ic_action_at"
 		android:showAsAction="always"/>
-	
+
+	<item 
+		android:id="@+id/post_topic"
+		android:title="@string/topic"
+		android:icon="@drawable/ic_action_topic"
+		android:showAsAction="always"/>
+
 	<item
 		android:id="@+id/post_emoticon"
 		android:title="@string/emoticon"

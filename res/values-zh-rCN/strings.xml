@@ -75,6 +75,7 @@
 	<string name="new_picture">添加图片</string>
 	<string name="delete_picture">清除图片</string>
 	<string name="at">选择@的好友</string>
+	<string name="topic">添加#</string>
 	<string name="long_post">长微博</string>
 	<string name="long_from">由BlackLight生成</string>
 	<string name="comment_delete">删除评论</string>
