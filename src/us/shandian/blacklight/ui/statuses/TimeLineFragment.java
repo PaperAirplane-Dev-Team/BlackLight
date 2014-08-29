@@ -251,6 +251,10 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		if (Math.abs(distanceY) < 20 || mRefreshing) return false;
 
+		if (mList.getTop() != 0) {
+			mList.setTop(0);
+		}
+
 		if (e1 == null || e2 == null || e1.getY() < e2.getY() || mList.getFirstVisiblePosition() < 1) {
 			showFAB();
 			getActivity().getActionBar().show();
