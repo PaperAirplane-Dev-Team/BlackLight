@@ -27,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -74,7 +73,6 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		
 		// ActionBar
 		getActionBar().setTitle("");
-		getActionBar().hide();
 
 		mApiCache = new HomeTimeLineApiCache(this);
 		
@@ -103,30 +101,6 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		mPager.setCurrentItem(def);
 		
 	}
-
-        @Override
-        public void onAttachedToWindow(){
-        	super.onAttachedToWindow();
-    	}
-
-    	@Override
-    	public boolean onKeyDown(int keyCode, KeyEvent event){
-        	return handleKeyDown(keyCode, event);
-    	}
-
-    	public boolean handleKeyDown(int keyCode, KeyEvent event) {
-        	switch(keyCode) {
-            	case KeyEvent.KEYCODE_MENU:
-                	if(getActionBar().isShowing()){
-                	    getActionBar().hide();
-                	}else{
-                	    getActionBar().show();
-                	}
-            	case KeyEvent.KEYCODE_BACK:
-                	return true;//avoid mistake operation
-        	}
-        	return super.onKeyDown(keyCode, event);
-    	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -226,12 +200,16 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					// So we can use the included SubsamplingScaleImageView
 					SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
 					iv.setImageFile((String) img);
-                    	                iv.setOnClickListener(new View.OnClickListener(){
-                        	             @Override
-                        	             public void onClick(View v){
-                        	             	finish();
-                        	             }
-                    	                });
+					iv.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							if (getActionBar().isShowing()) {
+								getActionBar().hide();
+							} else {
+								getActionBar().show();
+							}
+						}
+					});
 
 					if (DEBUG) {
 						Log.d(TAG, img.toString());
