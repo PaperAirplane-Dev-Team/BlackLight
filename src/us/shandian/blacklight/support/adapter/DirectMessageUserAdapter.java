@@ -87,7 +87,7 @@ public class DirectMessageUserAdapter extends BaseAdapter
 			text.setText(user.direct_message.text);
 			h.getAvatar().setImageBitmap(null);
 			
-			new AvatarDownloader().execute(v);
+			new AvatarDownloader().execute(v, user);
 			
 			TextView date = h.getDate();
 			
@@ -97,15 +97,15 @@ public class DirectMessageUserAdapter extends BaseAdapter
 		}
 	}
 	
-	private class AvatarDownloader extends AsyncTask<View, Void, Object[]> {
+	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {
 		@Override
-		protected Object[] doInBackground(View... params) {
+		protected Object[] doInBackground(Object... params) {
 			if (params[0] != null) {
-				DirectMessageUserModel u = ((ViewHolder) params[0].getTag()).user;
+				DirectMessageUserModel u = (DirectMessageUserModel) params[1];
 				
 				Bitmap img = mUserApi.getSmallAvatar(u.user);
 				
-				return new Object[] {params[0], img};
+				return new Object[] {params[0], img, params[1]};
 			}
 			
 			return null;
@@ -115,10 +115,14 @@ public class DirectMessageUserAdapter extends BaseAdapter
 		protected void onPostExecute(Object[] result) {
 			super.onPostExecute(result);
 			
-			if (result != null && result.length == 2) {
+			if (result != null) {
 				View v = (View) result[0];
 				Bitmap img = (Bitmap) result[1];
-				((ViewHolder) v.getTag()).getAvatar().setImageBitmap(img);
+				DirectMessageUserModel usr = (DirectMessageUserModel) result[2];
+				ViewHolder h = (ViewHolder) v.getTag();
+				if (h.user == usr) {
+					h.getAvatar().setImageBitmap(img);
+				}
 			}
 		}
 	}

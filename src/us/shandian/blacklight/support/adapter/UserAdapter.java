@@ -77,8 +77,9 @@ public class UserAdapter extends BaseAdapter
 			name.setText(usr.getName());
 			des.setText(usr.description);
 			avatar.setImageBitmap(null);
+			v.setTag(usr);
 			
-			new AvatarDownloader().execute(avatar, usr);
+			new AvatarDownloader().execute(avatar, usr, v);
 			
 			return v;
 		}
@@ -91,13 +92,17 @@ public class UserAdapter extends BaseAdapter
 			
 			Bitmap bmp = mUserApi.getSmallAvatar(usr);
 			
-			return new Object[]{params[0], bmp};
+			return new Object[]{params[0], bmp, params[2], usr};
 		}
 		
 		@Override
 		protected void onPostExecute(Object... result) {
 			if (result[0] != null && result[1] != null) {
-				((ImageView) result[0]).setImageBitmap((Bitmap) result[1]);
+				View v = (View) result[2];
+				UserModel usr = (UserModel) result[3];
+				if (v.getTag() == usr) {
+					((ImageView) result[0]).setImageBitmap((Bitmap) result[1]);
+				}
 			}
 		}
 	}
