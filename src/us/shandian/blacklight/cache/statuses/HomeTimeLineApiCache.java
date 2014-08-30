@@ -26,6 +26,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Movie;
+import android.os.Environment;
 
 import com.google.gson.Gson;
 
@@ -232,9 +233,10 @@ public class HomeTimeLineApiCache
 		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
 		String ret = null;
 		try {
-			ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName, "/sdcard/BlackLight");
+			ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName, 
+					Environment.getExternalStorageDirectory().getPath() + "/BlackLight");
 		} catch (Exception e) {
-			ret = null;
+			// Just ignore
 		} finally {
 			Utility.notifyScanPhotos(mContext, ret);
 			return ret;

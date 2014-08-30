@@ -67,7 +67,13 @@ public class FileCacheManager
 
 	public String copyCacheTo(String type, String name, String dist) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
-		new File(dist).mkdirs();
+
+		try {
+			new File(dist).mkdirs();
+		} catch (Exception e) {
+			Runtime.getRuntime().exec("mkdir -p " + dist);
+		}
+		
 		Runtime.getRuntime().exec("cp " + path + " " + dist);
 		return dist + "/" + name;
 	}
