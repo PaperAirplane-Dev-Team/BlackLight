@@ -63,6 +63,15 @@
 		android:gravity="center"
 		android:src="@drawable/ic_action_reply_all"/>
 
+    <ImageView
+        android:id="@+id/bottom_like"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:src="@drawable/ic_action_good"/>
+
 	<ImageView
 		android:id="@+id/bottom_orig"
 		style="?android:attr/buttonBarButtonStyle"

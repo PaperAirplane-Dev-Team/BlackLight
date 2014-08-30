@@ -43,6 +43,7 @@ import com.daimajia.swipe.SwipeLayout;
 import java.util.ArrayList;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.comments.NewCommentApi;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -275,6 +276,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			})
 			.show();
 	}
+
+    private void like(MessageModel msg){
+        new LikeTask().execute(msg);
+    }
 	
 	@Override
 	public void onClick(View v) {
@@ -302,6 +307,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					commentOnMsg(msg);
 				}
 				break;
+            case R.id.bottom_like:
+                like(msg);
+                break;
 			case R.id.bottom_delete:
 				delete(msg);
 				break;
@@ -359,7 +367,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		if (!useExisted) {
 			h = new ViewHolder(v, msg);
-			bindSwipe(h, msg);
+			bindSwipe(h);
 		} else {
 			h = (ViewHolder) v.getTag();
 			
@@ -378,6 +386,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView date = h.getDate();
 		TextView retweet = h.getRetweets();
 		TextView comments = h.getComments();
+        ImageView like = h.getLike();
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Utility.truncateSourceString(msg.source) : "");
@@ -391,11 +400,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		} else {
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
+            if(msg.liked){
+                like.setImageResource(R.drawable.ic_action_bad);
+            }
 		}
 		
 		bindMultiPicLayout(h, msg, true);
 		
-		// If this retweets/repies to others, show the original
+		// If this retweets/replies to others, show the original
 		if (mBindOrig) {
 			if (!(msg instanceof CommentModel) && msg.retweeted_status != null) {
 				bindOrig(h, msg.retweeted_status, true);
@@ -434,7 +446,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		return v;
 	}
 
-	private void bindSwipe(ViewHolder h, MessageModel msg) {
+	private void bindSwipe(ViewHolder h) {
 		SwipeLayout swipe = h.getSwipe();
 		swipe.setShowMode(SwipeLayout.ShowMode.LayDown);
 		swipe.setDragEdge(SwipeLayout.DragEdge.Right);
@@ -449,6 +461,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getDelete().setOnLongClickListener(this);
 		h.getRepost().setOnClickListener(this);
 		h.getRepost().setOnLongClickListener(this);
+        h.getLike().setOnClickListener(this);
+        h.getLike().setOnLongClickListener(this);
 		h.getOrig().setOnClickListener(this);
 		h.getOrig().setOnLongClickListener(this);
 		h.getCopy().setOnClickListener(this);
@@ -463,6 +477,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getShow().setVisibility(View.GONE);
 		h.getDelete().setVisibility(View.GONE);
 		h.getRepost().setVisibility(View.GONE);
+        h.getLike().setVisibility(View.GONE);
 		h.getOrig().setVisibility(View.GONE);
 		h.getCopy().setVisibility(View.GONE);
 
@@ -484,8 +499,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.getShow().setVisibility(View.VISIBLE);
 			h.getReply().setVisibility(View.VISIBLE);
 			h.getRepost().setVisibility(View.VISIBLE);
-			
-			if (msg.retweeted_status != null) {
+
+            Log.d(TAG,"liked:"+msg.liked);
+            if (msg.liked){
+                h.getLike().setImageResource(R.drawable.ic_action_bad);
+            }
+            h.getLike().setVisibility(View.VISIBLE);
+
+            if (msg.retweeted_status != null) {
 				h.getOrig().setVisibility(View.VISIBLE);
 			}
 
@@ -709,6 +730,33 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			prog.dismiss();
 		}
 	}
+
+    private class LikeTask extends AsyncTask<MessageModel, Void, Boolean>{
+        private MessageModel mm;
+
+        @Override
+        protected Boolean doInBackground(MessageModel... params) {
+            mm = params[0];
+            if (mm.liked){
+                return AttitudesApi.cancelLike(mm.id);
+            }else{
+                return AttitudesApi.like(mm.id);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result){
+            if (result){
+                if(mm.liked){
+                    -- mm.attitudes_count;
+                }else{
+                    ++ mm.attitudes_count;
+                }
+                mm.liked = !mm.liked; // Definitely wrong. Not working. I've got no idea here.
+                // notifyDataSetInvalidated();
+            }
+        }
+    }
 	
 	private static class ViewHolder {
 		public MessageModel msg;
@@ -719,7 +767,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		private LinearLayout container;
 		private View originParent;
 		private View comment_and_retweet;
-		private ImageView weibo_avatar;
+		private ImageView weibo_avatar, like;
 		private View v;
 		private TextView orig_content;
 		private SwipeLayout swipe;
@@ -892,6 +940,15 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			return repost;
 		}
 
+        public ImageView getLike(){
+            if (like == null) {
+                like = (ImageView)getGrid().dynamicFindViewById(R.id.bottom_like);
+                like.setTag(this);
+            }
+
+            return like;
+        }
+
 		public View getOrig() {
 			if (orig == null) {
 				orig = getGrid().dynamicFindViewById(R.id.bottom_orig);
@@ -909,6 +966,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 			return copy;
 		}
+
 	}
 
 }
