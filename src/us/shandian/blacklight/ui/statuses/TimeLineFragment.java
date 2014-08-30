@@ -61,7 +61,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
 
-    private Settings mSettings;
+	private Settings mSettings;
 
 	// Pull To Refresh
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
@@ -80,7 +80,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		initTitle();
-        mSettings = Settings.getInstance(getActivity().getApplicationContext());
+		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
 		View v = inflater.inflate(R.layout.home_timeline, null);
 		mList = (ListView) v.findViewById(R.id.home_timeline);
@@ -303,19 +303,19 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	
 	protected void bindNewButton(View v) {
 		if (!hasSmartBar()) {
-            boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED, false);
+			boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED, false);
 			mNew = new FloatingActionButton.Builder(getActivity())
 				.withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
 				.withButtonColor(getResources().getColor(R.color.action_gray))
 				.withGravity(Gravity.BOTTOM | (!isRightHand ? Gravity.RIGHT : Gravity.LEFT))
 				.withMargins(!isRightHand ? 0 : 16, 0, !isRightHand ? 16 : 0, 16)
 				.create();
-            mRefresh = new FloatingActionButton.Builder(getActivity())
-                    .withDrawable(getResources().getDrawable(R.drawable.ic_action_refresh))
-                    .withButtonColor(getResources().getColor(R.color.action_gray))
-                    .withGravity(Gravity.BOTTOM | (!isRightHand ? Gravity.LEFT : Gravity.RIGHT))
-                    .withMargins(!isRightHand ? 16 : 0, 0, !isRightHand ? 0 : 16, 16)
-                    .create();
+			mRefresh = new FloatingActionButton.Builder(getActivity())
+					.withDrawable(getResources().getDrawable(R.drawable.ic_action_refresh))
+					.withButtonColor(getResources().getColor(R.color.action_gray))
+					.withGravity(Gravity.BOTTOM | (!isRightHand ? Gravity.LEFT : Gravity.RIGHT))
+					.withMargins(!isRightHand ? 16 : 0, 0, !isRightHand ? 0 : 16, 16)
+					.create();
 			mNew.setOnClickListener(this);
 			mNew.setOnLongClickListener(this);
 			mRefresh.setOnClickListener(this);

@@ -69,9 +69,9 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
+		if (hasSmartBar()) {
+			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+		}
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
@@ -89,7 +89,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		
 		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
 		mTail.setOnItemSelectedListener(this);
-        mPasswd.setOnEditorActionListener(this);
+		mPasswd.setOnEditorActionListener(this);
 		
 		onItemSelected(null, null, 0, 0);
 	}
@@ -117,7 +117,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		if (item == mMenuItem) {
-            login();
+			login();
 			return true;
 		} else if (item.getItemId() == android.R.id.home) {
 			setResult(RESULT_CANCELED);
@@ -128,41 +128,41 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		}
 	}
 
-    @Override
-    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-        if (textView == mPasswd && actionId == EditorInfo.IME_ACTION_DONE) {
-            login();
-            return true;
-        }
-        return false;
-    }
+	@Override
+	public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+		if (textView == mPasswd && actionId == EditorInfo.IME_ACTION_DONE) {
+			login();
+			return true;
+		}
+		return false;
+	}
 
-    private void login() {
-        if (mUsername.getText().length() < 1) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    getString(R.string.toast_empty_username),
-                    Toast.LENGTH_SHORT
-            ).show();
-            return;
-        }
-        if (mPasswd.getText().length() < 1) {
-            Toast.makeText(
-                    getApplicationContext(),
-                    getString(R.string.toast_empty_password),
-                    Toast.LENGTH_SHORT
-            ).show();
-            return;
-        }
-        new LoginTask().execute(new String[]{
-                mAppId,
-                mAppSecret,
-                mUsername.getText().toString(),
-                mPasswd.getText().toString()
-        });
-    }
+	private void login() {
+		if (mUsername.getText().length() < 1) {
+			Toast.makeText(
+					getApplicationContext(),
+					getString(R.string.toast_empty_username),
+					Toast.LENGTH_SHORT
+			).show();
+			return;
+		}
+		if (mPasswd.getText().length() < 1) {
+			Toast.makeText(
+					getApplicationContext(),
+					getString(R.string.toast_empty_password),
+					Toast.LENGTH_SHORT
+			).show();
+			return;
+		}
+		new LoginTask().execute(new String[]{
+				mAppId,
+				mAppSecret,
+				mUsername.getText().toString(),
+				mPasswd.getText().toString()
+		});
+	}
 
-    private class LoginTask extends AsyncTask<String, Void, Void>
+	private class LoginTask extends AsyncTask<String, Void, Void>
 	{
 		private ProgressDialog progDialog;
 		

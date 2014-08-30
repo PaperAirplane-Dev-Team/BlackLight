@@ -11,7 +11,7 @@
 *
 * BlackLight is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
@@ -19,21 +19,21 @@
 -->
 <resources>
 
-    <string name="app_name">BlackLight</string>
+	<string name="app_name">BlackLight</string>
 	
 	<!-- Login -->
 	<string name="login">登入</string>
 	<string name="tail">尾巴</string>
 	<string name="username">用戶名</string>
 	<string name="passwd">密碼</string>
-    <string name="toast_empty_username">請輸入用戶名</string>
-    <string name="toast_empty_password">請輸入密碼</string>
+	<string name="toast_empty_username">請輸入用戶名</string>
+	<string name="toast_empty_password">請輸入密碼</string>
 
-    <!-- Main -->
-    <string name="switch_theme">更換主題</string>
-    <string name="group_all">全部</string>
-    <string name="group_create">創建分組</string>
-    <string name="group_destroy">刪除當前分組</string>
+	<!-- Main -->
+	<string name="switch_theme">更換主題</string>
+	<string name="group_all">全部</string>
+	<string name="group_create">創建分組</string>
+	<string name="group_destroy">刪除當前分組</string>
 
 	<!-- Left Drawer -->
 	<string name="my">我的圈子</string>
@@ -71,20 +71,20 @@
 	<string name="comment_orig">同時評論原微博</string>
 	<string name="topics_info">話題信息</string>
 	<string name="emoticon">表情</string>
-    <string name="color">文本顏色</string>
+	<string name="color">文本顏色</string>
 	<string name="new_picture">添加圖像</string>
-    <string name="delete_picture">移除圖像</string>
+	<string name="delete_picture">移除圖像</string>
 	<string name="at">選擇@的好友</string>
-    <string name="topic">添加#</string>
-    <string name="long_post">長微博</string>
-    <string name="long_from">由BlackLight生成</string>
-    <string name="comment_delete">刪除評論</string>
-    <string name="comment_view_orig">查看原微博</string>
-    <string name="refresh">刷新</string>
-    <string-array name="picture_picker_array">
-        <item>從圖片庫選擇圖像</item>
-        <item>拍照</item>
-    </string-array>
+	<string name="topic">添加#</string>
+	<string name="long_post">長微博</string>
+	<string name="long_from">由BlackLight生成</string>
+	<string name="comment_delete">刪除評論</string>
+	<string name="comment_view_orig">查看原微博</string>
+	<string name="refresh">刷新</string>
+	<string-array name="picture_picker_array">
+		<item>從圖片庫選擇圖像</item>
+		<item>拍照</item>
+	</string-array>
 	
 	<!-- Time -->
 	<string name="just_now">剛剛</string>
@@ -110,15 +110,15 @@
 	<string name="no_following">未關注</string>
 	<string name="follow">關注Ta</string>
 	<string name="unfollow">取消關注</string>
-    <string name="change_group">修改分組</string>
+	<string name="change_group">修改分組</string>
 	
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
 	<string name="delete">刪除</string>
 	<string name="fav_add">收藏微博</string>
 	<string name="fav_del">取消收藏</string>
-    <string name="copy">拷貝微博內容</string>
-    <string name="okay">選好了</string>
+	<string name="copy">拷貝微博內容</string>
+	<string name="okay">選好了</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
@@ -130,8 +130,8 @@
 		<item>用戶</item>
 	</string-array>
 
-    <!-- Image -->
-    <string name="save">儲存至手機</string>
+	<!-- Image -->
+	<string name="save">儲存至手機</string>
 
 	<!-- Settings -->
 	<string name="settings">設置</string>
@@ -143,9 +143,9 @@
 	<string name="license">開源協議</string>
 	<string name="actions">動作</string>
 	<string name="fast_scroll">列表快速滾動</string>
-    <string name="shake_to_return">晃動返回</string>
-    <string name="right_handed">右手習慣</string>
-    <string name="right_handed_des">將主介面的抽屜調整至介面右边並交換底部的浮游按鈕，適用於大螢幕手機</string>
+	<string name="shake_to_return">晃動返回</string>
+	<string name="right_handed">右手習慣</string>
+	<string name="right_handed_des">將主介面的抽屜調整至介面右边並交換底部的浮游按鈕，適用於大螢幕手機</string>
 	<string name="debug">調試</string>
 	<string name="debug_log">崩潰記錄</string>
 	<string name="debug_crash">立即崩潰</string>
@@ -153,22 +153,22 @@
 	<string name="notification">通知</string>
 	<string name="notification_sound">音效</string>
 	<string name="notification_vibrate">震動</string>
-    <string name="notification_interval">提醒間隔</string>
-    <string name="set_interval">設置提醒間隔</string>
-    <string name="good">給個好評</string>
-    <string name="good_sum">親，來Play商店給個好評吧</string>
-    <string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
-    <string name="network">網路</string>
-    <string name="auto_nopic">只能無圖</string>
-    <string name="auto_nopic_sum">移動網路環境下不顯示圖片，僅在WIFI環境下顯示圖片</string>
-    <string-array name="interval_name">
-        <item>1 分鐘</item>
-        <item>3 分鐘</item>
-        <item>5 分鐘</item>
-        <item>10 分鐘</item>
-        <item>30 分鐘</item>
-        <item>從不</item>
-    </string-array>
+	<string name="notification_interval">提醒間隔</string>
+	<string name="set_interval">設置提醒間隔</string>
+	<string name="good">給個好評</string>
+	<string name="good_sum">親，來Play商店給個好評吧</string>
+	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
+	<string name="network">網路</string>
+	<string name="auto_nopic">只能無圖</string>
+	<string name="auto_nopic_sum">移動網路環境下不顯示圖片，僅在WIFI環境下顯示圖片</string>
+	<string-array name="interval_name">
+		<item>1 分鐘</item>
+		<item>3 分鐘</item>
+		<item>5 分鐘</item>
+		<item>10 分鐘</item>
+		<item>30 分鐘</item>
+		<item>從不</item>
+	</string-array>
 	
 	<!-- Message -->
 	<string name="plz_wait">請稍候……</string>
@@ -176,19 +176,19 @@
 	<string name="expires_in">本次登入授權將于 %d 天後失效</string>
 	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤</string>
 	<string name="send_fail">發送失敗</string>
-    <string name="confirm_delete">確認刪除？</string>
+	<string name="confirm_delete">確認刪除？</string>
 	<string name="new_comment">%d 條新評論</string>
 	<string name="new_at">%d 條新提及</string>
 	<string name="click_to_view">點擊查看</string>
-    <string name="new_at_detail_weibo">%d 條微博</string>
-    <string name="new_at_detail_and">&#160;和&#160;</string>
-    <string name="new_at_detail_comment">%d 條評論</string>
-    <string name="new_dm">%d 條新私信</string>
-    <string name="empty_weibo">空微博</string>
-    <string name="not_loaded">請等待圖像載入完畢再試</string>
-    <string name="saved_to">圖像已儲存至 %s</string>
-    <string name="save_failed">圖像儲存失敗</string>
-    <string name="needs_restart">設置項將在重啟程式後生效</string>
-    <string name="copied">內容已拷貝至剪貼板</string>
+	<string name="new_at_detail_weibo">%d 條微博</string>
+	<string name="new_at_detail_and">&#160;和&#160;</string>
+	<string name="new_at_detail_comment">%d 條評論</string>
+	<string name="new_dm">%d 條新私信</string>
+	<string name="empty_weibo">空微博</string>
+	<string name="not_loaded">請等待圖像載入完畢再試</string>
+	<string name="saved_to">圖像已儲存至 %s</string>
+	<string name="save_failed">圖像儲存失敗</string>
+	<string name="needs_restart">設置項將在重啟程式後生效</string>
+	<string name="copied">內容已拷貝至剪貼板</string>
 
 </resources>

@@ -10,18 +10,18 @@
 *
 * BlackLight is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
+	
 	<item
-        android:id="@+id/post_pic"
-        android:title="@string/new_picture"
-        android:icon="@drawable/ic_action_new_picture"
+		android:id="@+id/post_pic"
+		android:title="@string/new_picture"
+		android:icon="@drawable/ic_action_new_picture"
 		android:showAsAction="always"/>
 	
 	<item
@@ -42,10 +42,10 @@
 		android:icon="@drawable/ic_action_emoticon"
 		android:showAsAction="always"/>
 	
-    <item
-        android:id="@+id/post_send"
-        android:title="@string/new_post"
-        android:icon="@drawable/ic_action_send_now"
+	<item
+		android:id="@+id/post_send"
+		android:title="@string/new_post"
+		android:icon="@drawable/ic_action_send_now"
 		android:showAsAction="always"/>
-    
+	
 </menu>
