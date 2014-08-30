@@ -56,6 +56,7 @@
 	
 	<!-- Statuses -->
 	<string name="timeline">Timeline</string>
+	<string name="attitudes">Like</string>
 	<string name="retweet">Repost</string>
 	<string name="comment">Comment</string>
 	<string name="status_mention_me">Weibos that mentioned me</string>
