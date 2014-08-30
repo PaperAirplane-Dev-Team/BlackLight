@@ -32,6 +32,7 @@
 		<attr name="CardBackground" format="reference" />
 		<attr name="CardForeground" format="reference" />
 		<attr name="CardOrigBackground" format="reference" />
+		<attr name="CardDivider" format="reference" />
 		<attr name="ShadowGray" format="reference" />
 		<attr name="DragBackground" format="reference" />
 		<attr name="IconCollapse" format="reference" />

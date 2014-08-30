@@ -146,6 +146,13 @@
 		android:layout_below="@id/weibo_content"
 		android:visibility="gone">
 
+		<View
+			android:id="@+id/card_divider"
+			android:layout_width="match_parent"
+			android:layout_height="1px"
+			android:background="?attr/CardDivider"
+			android:layout_alignParentTop="true"/>
+
 		<us.shandian.blacklight.ui.common.HackyTextView
 			android:layout_height="wrap_content"
 			android:text="Content"
