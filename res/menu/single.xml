@@ -36,6 +36,12 @@
 		android:title="@string/delete"
 		android:showAsAction="always"/>
 
+    <item
+        android:id="@+id/like"
+        android:icon="@drawable/ic_action_good"
+        android:title="@string/like"
+        android:showAsAction="always"/>
+
 	<item
 		android:id="@+id/copy"
 		android:icon="@drawable/ic_action_copy"

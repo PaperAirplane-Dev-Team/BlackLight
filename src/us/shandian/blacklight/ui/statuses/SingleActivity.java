@@ -47,6 +47,7 @@ import java.util.List;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -73,11 +74,13 @@ public class SingleActivity extends AbsActivity
 	private TabHost mTabs;
 	private ImageView mCollapse;
 	
-	private MenuItem mFav;
+	private MenuItem mFav, mLike;
 	
 	private boolean mIsMine = false;
 	private boolean mFavourited = false;
+    private boolean mLiked = false;
 	private boolean mFavTaskRunning = false;
+    private boolean mLikeTaskRunning = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class SingleActivity extends AbsActivity
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
 		mFavourited = mMsg.favorited;
+        mLiked = mMsg.liked;
 		if (mMsg.user != null && mMsg.user.id != null) {
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
@@ -206,6 +210,7 @@ public class SingleActivity extends AbsActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.single, menu);
 		mFav = menu.findItem(R.id.fav);
+        mLike = menu.findItem(R.id.like);
 		
 		// Can only delete statuses post by me
 		if (!mIsMine) {
@@ -214,6 +219,10 @@ public class SingleActivity extends AbsActivity
 		} else {
 			mFav.setVisible(false);
 		}
+
+        if (mLiked) {
+            setLikeIcon();
+        }
 		return true;
 	}
 	
@@ -256,7 +265,11 @@ public class SingleActivity extends AbsActivity
 			Utility.copyToClipboard(this, mMsg.text);
 
 			return true;
-		}
+		} else if (id == R.id.like) {
+            if (!mLikeTaskRunning){
+                new LikeTask().execute();
+            }
+        }
 		
 		return super.onOptionsItemSelected(item);
 	}
@@ -281,6 +294,11 @@ public class SingleActivity extends AbsActivity
 		mFav.setIcon(mFavourited ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 		mFav.setTitle(getString(mFavourited ? R.string.fav_del : R.string.fav_add));
 	}
+
+    private void setLikeIcon() {
+        mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
+        mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.like));
+    }
 	
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog prog;
@@ -333,6 +351,34 @@ public class SingleActivity extends AbsActivity
 			mFavTaskRunning = false;
 		}
 	}
+
+    private class LikeTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLikeTaskRunning = true;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (mLiked) {
+                AttitudesApi.cancelLike(mMsg.id);
+            } else {
+                AttitudesApi.like(mMsg.id);
+            }
+
+            mLiked = !mLiked;
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            setLikeIcon();
+            mLikeTaskRunning = false;
+        }
+    }
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
 		public HackyApiCache(Context context) {
