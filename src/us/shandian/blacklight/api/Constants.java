@@ -81,5 +81,8 @@ public class Constants
 	// Remind
 	public static final String REMIND_UNREAD_COUNT = "https://rm.api.weibo.com/2/remind/unread_count.json";
 	public static final String REMIND_UNREAD_SET_COUNT = "https://rm.api.weibo.com/2/remind/set_count.json";
-	
+
+    // Attitude
+    public static final String ATTITUDE_CREATE = SINA_BASE_URL + "attitudes/create.json";
+    public static final String ATTITUDE_DESTROY = SINA_BASE_URL + "attitudes/destroy.json";
 }
