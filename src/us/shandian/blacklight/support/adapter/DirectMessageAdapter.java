@@ -79,6 +79,7 @@ public class DirectMessageAdapter extends BaseAdapter
 			LinearLayout container = (LinearLayout) v.findViewById(R.id.direct_message_conversation_container);
 			if (msg.sender_id == mUid) {
 				container.setGravity(Gravity.LEFT);
+				container.setAlpha(1.0f);
 			} else {
 				container.setGravity(Gravity.RIGHT);
 				container.setAlpha(0.8f);
