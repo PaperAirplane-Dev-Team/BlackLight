@@ -48,7 +48,6 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
-import static us.shandian.blacklight.receiver.ConnectivityReceiver.isNet;
 
 /* BlackMagic Login Activity */
 public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener {
@@ -146,17 +145,11 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 					Toast.LENGTH_SHORT
 			).show();
 			return;
-		} else if (mPasswd.getText().length() < 1) {
+		}
+		if (mPasswd.getText().length() < 1) {
 			Toast.makeText(
 					getApplicationContext(),
 					getString(R.string.toast_empty_password),
-					Toast.LENGTH_SHORT
-			).show();
-			return;
-		} else if (!isNet) {
-			Toast.makeText(
-					getApplicationContext(),
-					getString(R.string.toast_plz_open_network),
 					Toast.LENGTH_SHORT
 			).show();
 			return;

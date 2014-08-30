@@ -28,7 +28,6 @@
 	<string name="passwd">Password</string>
 	<string name="toast_empty_username">Please enter your username</string>
 	<string name="toast_empty_password">Please enter your password</string>
-	<string name="toast_plz_open_network">Please open mobile data or wifi</string>
 
 	<!-- Main -->
 	<string name="switch_theme">Switch Theme</string>
