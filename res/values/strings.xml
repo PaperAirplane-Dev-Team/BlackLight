@@ -167,7 +167,7 @@
 	<string name="fast_scroll">List fast scroll</string>
 	<string name="shake_to_return">Shake to return</string>
 	<string name="right_handed">Right-handed mode</string>
-	<string name="right_handed_des">Move the drawer to the right side, better for phones with larger screen.</string>
+	<string name="right_handed_des">Move the drawer to the right side and swap the FABs, better for phones with larger screen.</string>
 	<string name="debug">Debug</string>
 	<string name="debug_log">Crash log</string>
 	<string name="debug_crash">(DANGER) Crash now</string>
