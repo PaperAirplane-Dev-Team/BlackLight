@@ -28,6 +28,7 @@
 	<string name="passwd">密码</string>
 	<string name="toast_empty_username">请输入用户名</string>
 	<string name="toast_empty_password">请输入密码</string>
+	<string name="toast_plz_open_network">请开启移动数据或者WIFI</string>
 
 	<!-- Main -->
 	<string name="switch_theme">切换主题</string>
