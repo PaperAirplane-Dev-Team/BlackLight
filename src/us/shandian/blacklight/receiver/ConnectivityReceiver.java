@@ -34,6 +34,8 @@ public class ConnectivityReceiver extends BroadcastReceiver
 	
 	public static boolean isWIFI = true;
 	
+	public static boolean isNet = true;
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -45,13 +47,17 @@ public class ConnectivityReceiver extends BroadcastReceiver
 			
 			Utility.startServices(context);
 
+			isNet = true;
+
 			isWIFI = (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI);
 		} else {
 			if (DEBUG) {
 				Log.d(TAG, "Network disconnected");
 			}
-			
+
 			Utility.stopServices(context);
+
+			isNet = false;
 		}
 	}
 }
