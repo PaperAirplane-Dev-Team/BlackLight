@@ -85,11 +85,32 @@
 
 		<TextView
 			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="@string/attitudes"
+			android:textColor="?attr/CardForeground"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textSize="10sp"/>
+
+		<TextView
+			android:id="@+id/weibo_attitudes"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="2dp"
+			android:textSize="10sp"
+			android:singleLine="true"
+			android:text="0"
+			android:textColor="?attr/CardForeground"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+			
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="4dp"
 			android:text="@string/retweet"
 			android:textColor="?attr/CardForeground"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="wrap_content"
-			android:textSize="10sp"/>
+	android:textSize="10sp"/>
 
 		<TextView
 			android:layout_height="wrap_content"

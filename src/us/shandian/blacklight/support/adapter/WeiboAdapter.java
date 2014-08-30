@@ -384,6 +384,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView from = h.getFrom();
 		TextView content = h.getContent();
 		TextView date = h.getDate();
+		TextView attitudes = h.getAttitudes();
 		TextView retweet = h.getRetweets();
 		TextView comments = h.getComments();
         ImageView like = h.getLike();
@@ -398,6 +399,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (!mShowCommentStatus || msg instanceof CommentModel) {
 			h.getCommentAndRetweet().setVisibility(View.GONE);
 		} else {
+			attitudes.setText(String.valueOf(msg.attitudes_count));
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
             if(msg.liked){
@@ -762,7 +764,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		public MessageModel msg;
 		public boolean sub = false;
 		
-		private TextView date, retweets, comments, name, from, content;
+		private TextView date, retweets, comments, name, from, content, attitudes;
 		private HackyHorizontalScrollView scroll;
 		private LinearLayout container;
 		private View originParent;
@@ -788,6 +790,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 			
 			return date;
+		}
+
+		public TextView getAttitudes() {
+			if (attitudes == null) {
+				attitudes = (TextView) v.findViewById(R.id.weibo_attitudes);
+			}
+
+			return attitudes;
 		}
 		
 		public TextView getComments() {
