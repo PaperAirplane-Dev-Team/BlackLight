@@ -115,6 +115,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private int mCurrent = 0;
 	private int mNext = 0;
 	private boolean mIgnore = false;
+	private int mCurrentFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -483,7 +484,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 	}
 
-	private void setShowSpinner(boolean show) {
+	public void setShowSpinner(boolean show) {
 		if (mSpinner != null) {
 			mSpinner.setVisibility(show ? View.VISIBLE : View.GONE);
 		}
@@ -497,6 +498,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 	
 	private void switchTo(int id) {
+		mCurrentFragment = id;
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
 		
@@ -544,6 +546,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				mSpinner = Utility.addActionViewToCustom(Utility.findActionSpinner(this), mAction);
 			}
 		}
+
 	}
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
@@ -659,6 +662,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 					mIgnore = true;
 					setShowTitle(false);
 					updateActionSpinner();
+				}
+				
+				if (mCurrentFragment != 0) {
+					Log.d("Spinner", "Will now hide the spinner");
+					setShowSpinner(false);
 				}
 			}
 		}
