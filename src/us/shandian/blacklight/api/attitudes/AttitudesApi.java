@@ -27,34 +27,34 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 public class AttitudesApi extends BaseApi{
 
-    public static boolean like(long id){
-        WeiboParameters params = new WeiboParameters();
-        params.put("attitude","smile");
-        params.put("id",id);
+	public static boolean like(long id){
+		WeiboParameters params = new WeiboParameters();
+		params.put("attitude","smile");
+		params.put("id",id);
 
-        try{
-            JSONObject json = request(Constants.ATTITUDE_CREATE,params,HTTP_POST);
-            if (json.getString("attitude").equals("smile")){
-                return true;
-            }
-        }catch (Exception e){
-            return false;
-        }
-        return false;
-    }
+		try{
+			JSONObject json = request(Constants.ATTITUDE_CREATE,params,HTTP_POST);
+			if (json.getString("attitude").equals("smile")){
+				return true;
+			}
+		}catch (Exception e){
+			return false;
+		}
+		return false;
+	}
 
-    public static boolean cancelLike(long id){
-        WeiboParameters params = new WeiboParameters();
-        params.put("id",id);
+	public static boolean cancelLike(long id){
+		WeiboParameters params = new WeiboParameters();
+		params.put("id",id);
 
-        try{
-            JSONObject json = request(Constants.ATTITUDE_DESTROY,params,HTTP_POST);
-            if(json.getBoolean("result")){
-                return true;
-            }
-        }catch (Exception e){
-            return false;
-        }
-        return false;
-    }
+		try{
+			JSONObject json = request(Constants.ATTITUDE_DESTROY,params,HTTP_POST);
+			if(json.getBoolean("result")){
+				return true;
+			}
+		}catch (Exception e){
+			return false;
+		}
+		return false;
+	}
 }

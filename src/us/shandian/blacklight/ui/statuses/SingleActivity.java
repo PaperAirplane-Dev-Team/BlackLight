@@ -78,9 +78,9 @@ public class SingleActivity extends AbsActivity
 	
 	private boolean mIsMine = false;
 	private boolean mFavourited = false;
-    private boolean mLiked = false;
+	private boolean mLiked = false;
 	private boolean mFavTaskRunning = false;
-    private boolean mLikeTaskRunning = false;
+	private boolean mLikeTaskRunning = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class SingleActivity extends AbsActivity
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
 		mFavourited = mMsg.favorited;
-        mLiked = mMsg.liked;
+		mLiked = mMsg.liked;
 		if (mMsg.user != null && mMsg.user.id != null) {
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
@@ -210,7 +210,7 @@ public class SingleActivity extends AbsActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.single, menu);
 		mFav = menu.findItem(R.id.fav);
-        mLike = menu.findItem(R.id.like);
+		mLike = menu.findItem(R.id.like);
 		
 		// Can only delete statuses post by me
 		if (!mIsMine) {
@@ -220,9 +220,9 @@ public class SingleActivity extends AbsActivity
 			mFav.setVisible(false);
 		}
 
-        if (mLiked) {
-            setLikeIcon();
-        }
+		if (mLiked) {
+			setLikeIcon();
+		}
 		return true;
 	}
 	
@@ -266,10 +266,10 @@ public class SingleActivity extends AbsActivity
 
 			return true;
 		} else if (id == R.id.like) {
-            if (!mLikeTaskRunning){
-                new LikeTask().execute();
-            }
-        }
+			if (!mLikeTaskRunning){
+				new LikeTask().execute();
+			}
+		}
 		
 		return super.onOptionsItemSelected(item);
 	}
@@ -295,10 +295,10 @@ public class SingleActivity extends AbsActivity
 		mFav.setTitle(getString(mFavourited ? R.string.fav_del : R.string.fav_add));
 	}
 
-    private void setLikeIcon() {
-        mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
-        mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.like));
-    }
+	private void setLikeIcon() {
+		mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
+		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.like));
+	}
 	
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog prog;
@@ -352,33 +352,33 @@ public class SingleActivity extends AbsActivity
 		}
 	}
 
-    private class LikeTask extends AsyncTask<Void, Void, Void> {
+	private class LikeTask extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLikeTaskRunning = true;
-        }
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mLikeTaskRunning = true;
+		}
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (mLiked) {
-                AttitudesApi.cancelLike(mMsg.id);
-            } else {
-                AttitudesApi.like(mMsg.id);
-            }
+		@Override
+		protected Void doInBackground(Void... params) {
+			if (mLiked) {
+				AttitudesApi.cancelLike(mMsg.id);
+			} else {
+				AttitudesApi.like(mMsg.id);
+			}
 
-            mLiked = !mLiked;
-            return null;
-        }
+			mLiked = !mLiked;
+			return null;
+		}
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            setLikeIcon();
-            mLikeTaskRunning = false;
-        }
-    }
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			setLikeIcon();
+			mLikeTaskRunning = false;
+		}
+	}
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
 		public HackyApiCache(Context context) {

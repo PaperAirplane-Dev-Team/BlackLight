@@ -277,9 +277,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			.show();
 	}
 
-    private void like(MessageModel msg){
-        new LikeTask().execute(msg);
-    }
+	private void like(MessageModel msg){
+		new LikeTask().execute(msg);
+	}
 	
 	@Override
 	public void onClick(View v) {
@@ -307,9 +307,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 					commentOnMsg(msg);
 				}
 				break;
-            case R.id.bottom_like:
-                like(msg);
-                break;
+			case R.id.bottom_like:
+				like(msg);
+				break;
 			case R.id.bottom_delete:
 				delete(msg);
 				break;
@@ -387,7 +387,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView attitudes = h.getAttitudes();
 		TextView retweet = h.getRetweets();
 		TextView comments = h.getComments();
-        ImageView like = h.getLike();
+		ImageView like = h.getLike();
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Utility.truncateSourceString(msg.source) : "");
@@ -402,9 +402,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			attitudes.setText(String.valueOf(msg.attitudes_count));
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
-            if(msg.liked){
-                like.setImageResource(R.drawable.ic_action_bad);
-            }
+			if(msg.liked){
+				like.setImageResource(R.drawable.ic_action_bad);
+			}
 		}
 		
 		bindMultiPicLayout(h, msg, true);
@@ -463,8 +463,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getDelete().setOnLongClickListener(this);
 		h.getRepost().setOnClickListener(this);
 		h.getRepost().setOnLongClickListener(this);
-        h.getLike().setOnClickListener(this);
-        h.getLike().setOnLongClickListener(this);
+		h.getLike().setOnClickListener(this);
+		h.getLike().setOnLongClickListener(this);
 		h.getOrig().setOnClickListener(this);
 		h.getOrig().setOnLongClickListener(this);
 		h.getCopy().setOnClickListener(this);
@@ -479,7 +479,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		h.getShow().setVisibility(View.GONE);
 		h.getDelete().setVisibility(View.GONE);
 		h.getRepost().setVisibility(View.GONE);
-        h.getLike().setVisibility(View.GONE);
+		h.getLike().setVisibility(View.GONE);
 		h.getOrig().setVisibility(View.GONE);
 		h.getCopy().setVisibility(View.GONE);
 
@@ -502,13 +502,13 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.getReply().setVisibility(View.VISIBLE);
 			h.getRepost().setVisibility(View.VISIBLE);
 
-            Log.d(TAG,"liked:"+msg.liked);
-            if (msg.liked){
-                h.getLike().setImageResource(R.drawable.ic_action_bad);
-            }
-            h.getLike().setVisibility(View.VISIBLE);
+			Log.d(TAG,"liked:"+msg.liked);
+			if (msg.liked){
+				h.getLike().setImageResource(R.drawable.ic_action_bad);
+			}
+			h.getLike().setVisibility(View.VISIBLE);
 
-            if (msg.retweeted_status != null) {
+			if (msg.retweeted_status != null) {
 				h.getOrig().setVisibility(View.VISIBLE);
 			}
 
@@ -733,32 +733,32 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 
-    private class LikeTask extends AsyncTask<MessageModel, Void, Boolean>{
-        private MessageModel mm;
+	private class LikeTask extends AsyncTask<MessageModel, Void, Boolean>{
+		private MessageModel mm;
 
-        @Override
-        protected Boolean doInBackground(MessageModel... params) {
-            mm = params[0];
-            if (mm.liked){
-                return AttitudesApi.cancelLike(mm.id);
-            }else{
-                return AttitudesApi.like(mm.id);
-            }
-        }
+		@Override
+		protected Boolean doInBackground(MessageModel... params) {
+			mm = params[0];
+			if (mm.liked){
+				return AttitudesApi.cancelLike(mm.id);
+			}else{
+				return AttitudesApi.like(mm.id);
+			}
+		}
 
-        @Override
-        protected void onPostExecute(Boolean result){
-            if (result){
-                if(mm.liked){
-                    -- mm.attitudes_count;
-                }else{
-                    ++ mm.attitudes_count;
-                }
-                mm.liked = !mm.liked; // Definitely wrong. Not working. I've got no idea here.
-                // notifyDataSetInvalidated();
-            }
-        }
-    }
+		@Override
+		protected void onPostExecute(Boolean result){
+			if (result){
+				if(mm.liked){
+					-- mm.attitudes_count;
+				}else{
+					++ mm.attitudes_count;
+				}
+				mm.liked = !mm.liked; // Definitely wrong. Not working. I've got no idea here.
+				// notifyDataSetInvalidated();
+			}
+		}
+	}
 	
 	private static class ViewHolder {
 		public MessageModel msg;
@@ -950,14 +950,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			return repost;
 		}
 
-        public ImageView getLike(){
-            if (like == null) {
-                like = (ImageView)getGrid().dynamicFindViewById(R.id.bottom_like);
-                like.setTag(this);
-            }
+		public ImageView getLike(){
+			if (like == null) {
+				like = (ImageView)getGrid().dynamicFindViewById(R.id.bottom_like);
+				like.setTag(this);
+			}
 
-            return like;
-        }
+			return like;
+		}
 
 		public View getOrig() {
 			if (orig == null) {
