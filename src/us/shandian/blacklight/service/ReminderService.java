@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.service;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -28,9 +29,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
-
 import java.lang.reflect.Method;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
 import us.shandian.blacklight.cache.comments.CommentMentionsTimeLineApiCache;
@@ -81,6 +80,16 @@ public class ReminderService extends IntentService {
 		Context c = getApplicationContext();
 
 		if (unread != null) {
+			Settings settings = Settings.getInstance(c);
+			String previous = settings.getString(Settings.NOTIFICATION_ONGOING, "");
+			String now = unread.toString();
+			if (now.equals(previous)) {
+				Log.d(TAG, "No actual unread notifications.");
+				return;
+			} else {
+				settings.putString(Settings.NOTIFICATION_ONGOING, now);
+			}
+			
 			int defaults = parseDefaults(c);
 			Intent i = new Intent(c, EntryActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -222,6 +231,7 @@ public class ReminderService extends IntentService {
 			Notification.DEFAULT_LIGHTS;
 	}
 
+	@SuppressLint("NewApi")
 	private static Notification buildNotification(Context context, String title, String text, int icon, int defaults, PendingIntent intent) {
 		return new Notification.Builder(context)
 			.setContentTitle(title)
@@ -231,6 +241,7 @@ public class ReminderService extends IntentService {
 			.setAutoCancel(true)
 			.setContentIntent(intent)
 			.build();
+		//FIXME 话说Lint报了个错说只有API 16+才能用啊
 	}
 
 	private static String format(Context context, int resId, int data) {

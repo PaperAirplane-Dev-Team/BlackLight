@@ -37,7 +37,8 @@ public class Settings
 	// Notification
 	public static final String NOTIFICATION_SOUND = "notification_sound",
 			NOTIFICATION_VIBRATE = "notification_vibrate",
-			NOTIFICATION_INTERVAL = "notification_interval";
+			NOTIFICATION_INTERVAL = "notification_interval",
+			NOTIFICATION_ONGOING = "notification_ongoing";
 
 	// Network
 	public static final String AUTO_NOPIC = "auto_nopic";

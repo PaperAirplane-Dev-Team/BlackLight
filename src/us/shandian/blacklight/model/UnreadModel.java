@@ -38,4 +38,15 @@ public class UnreadModel {
 				badge			= 0,
 				photo			= 0,
 				msgbox			= 0;
+
+	@Override
+	public String toString() {
+		return new StringBuilder(13).append(follower)
+				.append(cmt).append(dm).append(mention_status)
+				.append(mention_cmt).append(group).append(private_group)
+				.append(notice).append(invite).append(badge).append(photo)
+				.append(msgbox).toString();
+	}
+	
+	
 }

@@ -51,11 +51,11 @@ import us.shandian.blacklight.ui.main.MainActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-													View.OnTouchListener, View.OnLongClickListener, GestureDetector.OnGestureListener,
-													OnScrollListener
-{
-	
+public class TimeLineFragment extends Fragment implements
+		SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
+		View.OnTouchListener, View.OnLongClickListener,
+		GestureDetector.OnGestureListener, OnScrollListener {
+
 	protected ListView mList;
 	protected FloatingActionButton mNew, mRefresh;
 	private WeiboAdapter mAdapter;
@@ -65,9 +65,9 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 	// Pull To Refresh
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
-	
+
 	private boolean mRefreshing = false;
-	
+
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 
@@ -77,8 +77,9 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	private GestureDetector mDetector;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
 		initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
@@ -86,16 +87,17 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mList = (ListView) v.findViewById(R.id.home_timeline);
 		mCache = bindApiCache();
 		mCache.loadFromCache();
-		
+
 		mList.setDrawingCacheEnabled(true);
 		mList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-		mList.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE | ViewGroup.PERSISTENT_SCROLLING_CACHE);
-		
+		mList.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE
+				| ViewGroup.PERSISTENT_SCROLLING_CACHE);
+
 		// Swipe To Refresh
 		bindSwipeToRefresh((ViewGroup) v);
-		
+
 		if (mCache.mMessages.getSize() == 0) {
-			new Refresher().execute(new Boolean[]{true});
+			new Refresher().execute(new Boolean[] { true });
 		}
 
 		// Content Margin
@@ -114,9 +116,10 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		}
 
 		// Adapter
-		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages, mBindOrig, mShowCommentStatus);
+		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages,
+				mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
-		
+
 		// Floating "New" and "Refresh" button
 		bindNewButton(v);
 
@@ -127,18 +130,23 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			mList.setOnTouchListener(this);
 			mAdapter.addOnScrollListener(this);
 		}
-		
+
 		return v;
 	}
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
-		
+
 		if (!hidden) {
 			initTitle();
 			resume();
 			showFAB();
+			if (this instanceof HomeTimeLineFragment) {
+				((MainActivity) getActivity()).setShowSpinner(true);
+			} else {
+				((MainActivity) getActivity()).setShowSpinner(false);
+			}
 		} else {
 			hideFAB();
 		}
@@ -147,22 +155,24 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		resume();
 	}
-	
+
 	public void resume() {
 		Settings settings = Settings.getInstance(getActivity());
-		
+
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
 		mList.setFastScrollEnabled(fs);
-		
+
 		if (fs) {
 			// Scroller
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					while(!Utility.changeFastScrollColor(mList, getResources().getColor(R.color.gray)));
+					while (!Utility.changeFastScrollColor(mList, getResources()
+							.getColor(R.color.gray)))
+						;
 				}
 			}).start();
 		}
@@ -183,7 +193,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			}
 		});
 	}
-	
+
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
@@ -192,11 +202,11 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 				showFAB();
 				getActivity().getActionBar().show();
 			}
-			
-			new Refresher().execute(new Boolean[]{!mSwipeRefresh.isDown()});
+
+			new Refresher().execute(new Boolean[] { !mSwipeRefresh.isDown() });
 		}
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		if (v == mNew) {
@@ -208,14 +218,18 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 	@Override
 	public boolean onLongClick(View v) {
-		Vibrator vibrator = (Vibrator) getActivity().getApplication().getSystemService(Service.VIBRATOR_SERVICE);
+		Vibrator vibrator = (Vibrator) getActivity().getApplication()
+				.getSystemService(Service.VIBRATOR_SERVICE);
 		vibrator.vibrate(50);
-		Toast.makeText(getActivity().getApplicationContext(), getString(v == mNew ? R.string.new_post : R.string.refresh), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity().getApplicationContext(),
+				getString(v == mNew ? R.string.new_post : R.string.refresh),
+				Toast.LENGTH_SHORT).show();
 		return true;
 	}
 
 	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
 		if (firstVisibleItem < 1) {
 			showFAB();
 			getActivity().getActionBar().show();
@@ -226,7 +240,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 	}
-	
+
 	@Override
 	public boolean onTouch(View v, MotionEvent ev) {
 		mDetector.onTouchEvent(ev);
@@ -234,14 +248,15 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 
 	// Start Gesture Events
-	
+
 	@Override
 	public boolean onDown(MotionEvent e) {
 		return false;
 	}
 
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
 		return false;
 	}
 
@@ -251,14 +266,17 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 
 	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		if (Math.abs(distanceY) < 20 || mRefreshing) return false;
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		if (Math.abs(distanceY) < 20 || mRefreshing)
+			return false;
 
 		if (mList.getTop() != 0) {
 			mList.setTop(0);
 		}
 
-		if (e1 == null || e2 == null || e1.getY() < e2.getY() || mList.getFirstVisiblePosition() < 1) {
+		if (e1 == null || e2 == null || e1.getY() < e2.getY()
+				|| mList.getFirstVisiblePosition() < 1) {
 			showFAB();
 			getActivity().getActionBar().show();
 		} else {
@@ -280,42 +298,59 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 	}
 
 	// End Gesture Events
-	
+
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
 	}
-	
+
 	protected void initTitle() {
 		getActivity().getActionBar().setTitle(R.string.timeline);
 	}
-	
+
 	protected void bindSwipeToRefresh(ViewGroup v) {
 		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
-		
-		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
+
+		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root
+		// view
 		v.removeViewInLayout(mList);
-		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		mSwipeRefresh.addView(mList, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		
+		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
+		mSwipeRefresh.addView(mList, ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.MATCH_PARENT);
+
 		mSwipeRefresh.setOnRefreshListener(this);
-		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
+		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange,
+				R.color.ptr_red, R.color.ptr_blue);
 	}
-	
+
 	protected void bindNewButton(View v) {
 		if (!hasSmartBar()) {
-			boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED, false);
+			boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED,
+					false);
 			mNew = new FloatingActionButton.Builder(getActivity())
-				.withDrawable(getResources().getDrawable(R.drawable.ic_action_new))
-				.withButtonColor(getResources().getColor(R.color.action_gray))
-				.withGravity(Gravity.BOTTOM | (!isRightHand ? Gravity.RIGHT : Gravity.LEFT))
-				.withMargins(!isRightHand ? 0 : 16, 0, !isRightHand ? 16 : 0, 16)
-				.create();
+					.withDrawable(
+							getResources()
+									.getDrawable(R.drawable.ic_action_new))
+					.withButtonColor(
+							getResources().getColor(R.color.action_gray))
+					.withGravity(
+							Gravity.BOTTOM
+									| (!isRightHand ? Gravity.RIGHT
+											: Gravity.LEFT))
+					.withMargins(!isRightHand ? 0 : 16, 0,
+							!isRightHand ? 16 : 0, 16).create();
 			mRefresh = new FloatingActionButton.Builder(getActivity())
-					.withDrawable(getResources().getDrawable(R.drawable.ic_action_refresh))
-					.withButtonColor(getResources().getColor(R.color.action_gray))
-					.withGravity(Gravity.BOTTOM | (!isRightHand ? Gravity.LEFT : Gravity.RIGHT))
-					.withMargins(!isRightHand ? 16 : 0, 0, !isRightHand ? 0 : 16, 16)
-					.create();
+					.withDrawable(
+							getResources().getDrawable(
+									R.drawable.ic_action_refresh))
+					.withButtonColor(
+							getResources().getColor(R.color.action_gray))
+					.withGravity(
+							Gravity.BOTTOM
+									| (!isRightHand ? Gravity.LEFT
+											: Gravity.RIGHT))
+					.withMargins(!isRightHand ? 16 : 0, 0,
+							!isRightHand ? 0 : 16, 16).create();
 			mNew.setOnClickListener(this);
 			mNew.setOnLongClickListener(this);
 			mRefresh.setOnClickListener(this);
@@ -336,7 +371,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			mRefresh.showFloatingActionButton();
 		}
 	}
-	
+
 	protected void newPost() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -348,9 +383,8 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mCache.load(param);
 		mCache.cache();
 	}
-	
-	private class Refresher extends AsyncTask<Boolean, Void, Boolean>
-	{
+
+	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
 
 		@Override
 		protected void onPreExecute() {
@@ -361,7 +395,7 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 				mSwipeRefresh.setRefreshing(true);
 			}
 		}
-		
+
 		@Override
 		protected Boolean doInBackground(Boolean... params) {
 			load(params[0]);
@@ -383,6 +417,5 @@ public class TimeLineFragment extends Fragment implements SwipeRefreshLayout.OnR
 			}
 		}
 
-		
 	}
 }
