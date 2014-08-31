@@ -23,7 +23,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.ui.login.LoginActivity;
@@ -38,7 +37,7 @@ public class EntryActivity extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// Clear
 		FileCacheManager.instance(this).clearUnavailable();
 		
@@ -58,6 +57,7 @@ public class EntryActivity extends Activity
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, MainActivity.class);
+			i.putExtra(Intent.EXTRA_INTENT,getIntent().getIntExtra(Intent.EXTRA_INTENT,0));
 			startActivity(i);
 			finish();
 		}

@@ -41,16 +41,18 @@ import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 import us.shandian.blacklight.model.UnreadModel;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.ui.entry.EntryActivity;
+import us.shandian.blacklight.ui.main.MainActivity;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /*
  * A service class that fetches notifications
  * From sina's API
- * Should be started by AlaramManager
+ * Should be started by AlarmManager
  */
 public class ReminderService extends IntentService {
 	private static final String TAG = ReminderService.class.getSimpleName();
-	
+
 	private static final int ID = 100000;
 	private static final int ID_CMT = ID + 1;
 	private static final int ID_MENTION = ID + 2;
@@ -80,7 +82,9 @@ public class ReminderService extends IntentService {
 
 		if (unread != null) {
 			int defaults = parseDefaults(c);
-			PendingIntent i = PendingIntent.getActivity(c, 0, new Intent(c, EntryActivity.class), 0);
+			Intent i = new Intent(c, EntryActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			PendingIntent pi;
 			String clickToView = c.getString(R.string.click_to_view);
 			NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -89,12 +93,15 @@ public class ReminderService extends IntentService {
 					Log.d(TAG, "New comment: " + unread.cmt);
 				}
 
+				i.putExtra(Intent.EXTRA_INTENT, MainActivity.COMMENT);
+				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
 				Notification n = buildNotification(c,
 						format(c, R.string.new_comment, unread.cmt),
 						clickToView,
 						R.drawable.ic_action_chat,
 						defaults,
-						i);
+						pi);
 				nm.notify(ID_CMT, n);
 			}
 
@@ -105,6 +112,7 @@ public class ReminderService extends IntentService {
 				if (unread.mention_status > 0) {
 					detail += format(c, R.string.new_at_detail_weibo, unread.mention_status);
 					count += unread.mention_status;
+					i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
 				}
 
 				if (unread.mention_cmt > 0) {
@@ -114,18 +122,24 @@ public class ReminderService extends IntentService {
 
 					detail += format(c, R.string.new_at_detail_comment, unread.mention_cmt);
 					count += unread.mention_cmt;
+
+					if (unread.mention_status == 0){
+						i.putExtra(Intent.EXTRA_INTENT,MainActivity.CMT_MENTION);
+					}
 				}
 
 				if (DEBUG) {
 					Log.d(TAG, "New mentions: " + count);
 				}
 
+				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
 				Notification n = buildNotification(c,
 						format(c, R.string.new_at, count),
 						detail,
 						R.drawable.ic_action_reply_all,
 						defaults,
-						i);
+						pi);
 				nm.notify(ID_MENTION, n);
 			}
 
@@ -133,13 +147,16 @@ public class ReminderService extends IntentService {
 				if (DEBUG) {
 					Log.d(TAG, "New dm: " + unread.dm);
 				}
-					
+
+				i.putExtra(Intent.EXTRA_INTENT,MainActivity.DM);
+				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
 				Notification n = buildNotification(c,
 						format(c, R.string.new_dm, unread.dm),
 						clickToView,
 						R.drawable.ic_action_email,
 						defaults,
-						i);
+						pi);
 				nm.notify(ID_DM, n);
 			}
 		}

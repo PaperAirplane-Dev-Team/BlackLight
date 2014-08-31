@@ -29,13 +29,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,13 +47,10 @@ import android.os.Build;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 
-import java.util.concurrent.TimeUnit;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
-import us.shandian.blacklight.model.GroupModel;
 import us.shandian.blacklight.model.GroupListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
@@ -65,15 +58,14 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
+import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
-import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.search.SearchFragment;
 import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
-import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
@@ -82,6 +74,8 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener, ActionBar.OnNavigationListener,
 	   												View.OnClickListener
 {
+	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, CMT_MENTION = 5, SEARCH = 6;
+
 	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
@@ -234,13 +228,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mIgnore = true;
 
 		// Fragments
-		mFragments[0] = new HomeTimeLineFragment();
-		mFragments[1] = new CommentTimeLineFragment();
-		mFragments[2] = new FavListFragment();
-		mFragments[3] = new DirectMessageUserFragment();
-		mFragments[4] = new MentionsTimeLineFragment();
-		mFragments[5] = new CommentMentionsTimeLineFragment();
-		mFragments[6] = new SearchFragment();
+		mFragments[HOME] = new HomeTimeLineFragment();
+		mFragments[COMMENT] = new CommentTimeLineFragment();
+		mFragments[FAV] = new FavListFragment();
+		mFragments[DM] = new DirectMessageUserFragment();
+		mFragments[MENTION] = new MentionsTimeLineFragment();
+		mFragments[CMT_MENTION] = new CommentMentionsTimeLineFragment();
+		mFragments[SEARCH] = new SearchFragment();
 		mManager = getFragmentManager();
 		
 		FragmentTransaction ft = mManager.beginTransaction();
@@ -249,7 +243,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			ft.hide(f);
 		}
 		ft.commit();
-		switchTo(0);
+
+	}
+
+	@Override
+	protected void onResume(){
+		super.onResume();
+		int page = HOME;
+		if (getIntent() != null){
+			page = getIntent().getIntExtra(Intent.EXTRA_INTENT,HOME);
+		}
+		if (page == HOME){
+			switchTo(HOME);
+		}else{
+			switchAndRefresh(page);
+		}
+	}
+
+	@Override
+	protected void onNewIntent(Intent i){
+		setIntent(i);
 	}
 
 	@Override
@@ -475,6 +488,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		((HomeTimeLineFragment) mFragments[0]).doRefresh();
 
 		return true;
+	}
+
+	private void switchAndRefresh(int id){
+		if (id != 0){
+			((HomeTimeLineFragment) mFragments[0]).hideFAB();
+			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener)mFragments[id];
+			l.onRefresh();
+		}
+		switchTo(id);
 	}
 
 	private void setShowTitle(boolean show) {

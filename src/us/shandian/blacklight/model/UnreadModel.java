@@ -20,7 +20,7 @@
 package us.shandian.blacklight.model;
 
 /*
- * The simpliest model
+ * The simplest model
  * Maps the json object of unread count
  */
 
