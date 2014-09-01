@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -683,8 +684,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				if (mCurrent == 0) {
 					mIgnore = true;
 					setShowTitle(false);
-					updateActionSpinner();
 				}
+
+				updateActionSpinner();
 				
 				if (mCurrentFragment != 0) {
 					Log.d("Spinner", "Will now hide the spinner");
