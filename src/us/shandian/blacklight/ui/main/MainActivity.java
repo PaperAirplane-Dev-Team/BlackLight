@@ -110,7 +110,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private int mCurrent = 0;
 	private int mNext = 0;
 	private boolean mIgnore = false;
-	private int mCurrentFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -521,7 +520,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 	
 	private void switchTo(int id) {
-		mCurrentFragment = id;
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
 		
@@ -688,7 +686,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 				updateActionSpinner();
 				
-				if (mCurrentFragment != 0) {
+				if (mCurrent != 0) {
 					Log.d("Spinner", "Will now hide the spinner");
 					setShowSpinner(false);
 				}
