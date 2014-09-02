@@ -29,7 +29,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
+
 import java.lang.reflect.Method;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
 import us.shandian.blacklight.cache.comments.CommentMentionsTimeLineApiCache;
