@@ -244,21 +244,24 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			ft.hide(f);
 		}
 		ft.commit();
-
 	}
 
 	@Override
 	protected void onResume(){
 		super.onResume();
-		int page = HOME;
-		if (getIntent() != null){
-			page = getIntent().getIntExtra(Intent.EXTRA_INTENT,HOME);
-		}
+
+		Intent i = getIntent();
+
+		if (i == null) return;
+
+		int page = getIntent().getIntExtra(Intent.EXTRA_INTENT,HOME);
 		if (page == HOME){
 			switchTo(HOME);
 		}else{
 			switchAndRefresh(page);
 		}
+
+		setIntent(null);
 	}
 
 	@Override
