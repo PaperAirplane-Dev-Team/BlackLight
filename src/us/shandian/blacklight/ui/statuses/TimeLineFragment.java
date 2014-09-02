@@ -389,6 +389,7 @@ public class TimeLineFragment extends Fragment implements
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			Utility.clearOngoingUnreadCount(getActivity());
 			mLastCount = mCache.mMessages.getSize();
 			mRefreshing = true;
 			if (mSwipeRefresh != null) {

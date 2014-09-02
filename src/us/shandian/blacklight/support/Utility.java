@@ -165,6 +165,11 @@ public class Utility
 		int end = from.lastIndexOf("<");
 		return from.substring(start, end);
 	}
+
+	public static void clearOngoingUnreadCount(Context context) {
+		Settings s = Settings.getInstance(context);
+		s.putString(Settings.NOTIFICATION_ONGOING, "");
+	}
 	
 	public static void startServiceAlarm(Context context, Class<?> service, long interval) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

@@ -173,6 +173,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
+			Utility.clearOngoingUnreadCount(getActivity());
 			
 			mRefreshing = true;
 			mSwipeRefresh.setRefreshing(true);
