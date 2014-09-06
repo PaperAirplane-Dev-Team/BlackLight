@@ -29,6 +29,10 @@ SRC_DIR		:= \
 	libs/HoloColorPicker/src \
 	libs/AndroidSwipeLayout/library/src/main/java \
 	libs/subsampling-scale-image-view/library/src
+# Annonation Library Projects
+ANNONATIONS	:= libs/butterknife
+# Annonation Processors
+PROCESSORS	:= butterknife.internal.ButterKnifeProcessor
 # Timestamp file of java sources
 # Just a fake "target", doesn't matter in fact
 SRC_TS		:= $(BUILD_DIR)/sources.ts
@@ -114,6 +118,14 @@ AAPT_EXT	:= $(subst $(TAB),$(EMPTY),\
 JAVAC_CLASS	:= $(subst $(TAB),$(EMPTY),\
 	$(subst $(SPACE),$(COLON),$(JAR_LIB)))
 
+# Annonation arguments for javac
+ANNO_DIR	:= $(addsuffix /build/classes, $(ANNONATIONS))
+ANNO_CLASS	:= $(subst $(TAB),$(EMPTY),\
+	$(subst $(SPACE),$(COLON),$(ANNO_DIR)))
+
+JAVAC_CLASS	+= $(COLON)$(ANNO_CLASS)
+JAVAC_CLASS := $(subst $(SPACE),$(EMPTY),$(JAVAC_CLASS))
+
 # Default DEBUG Flag
 ifndef DEBUG
 	DEBUG	:= true
@@ -130,14 +142,24 @@ define target
 endef
 
 define build-info
-	@echo -e "\033[33mNOTICE: Please always do 'make clean' before you build release package!\033[0m"
+	@echo -e "\033[33mNOTICE: Please always do 'make clean' before you build release package or after upgrading any library!\033[0m"
 	@echo -e "\033[32mNOTICE: Ignore any warnings reported by 'find'. That doesn't matter.\033[0m"
 	@echo -e "\033[36mTarget apk path:\033[0m  $(OUT_APK)"
 endef
 
-.PHONY: clean pre merge debug_make release_make debug release install
+define anno
+	$(call target, $1)
+	@cd $1 && make classes
+endef
+
+define anno-clean
+	$(call target, $1)
+	@cd $1 && make clean
+endef
+
+.PHONY: clean pre merge debug_make release_make debug release install anno anno-clean
 # Clean up 
-clean:
+clean: anno-clean
 	$(call target, Clean)
 	@rm -rf $(BUILD_DIR)
 
@@ -164,13 +186,14 @@ $(PKG_TS):
 # Call javac to build classes
 $(SRC_TS): $(SRC) $(GEN)
 	$(call target, Classes)
-	@$(JAVAC) -encoding utf-8 -cp $(JAVAC_CLASS) -d $(CLASSES_DIR) $(SRC) $(GEN)
+	@$(MAKE) anno
+	@$(JAVAC) -encoding utf-8 -cp $(JAVAC_CLASS) -processor $(PROCESSORS) -d $(CLASSES_DIR) $(SRC) $(GEN)
 	@echo $(shell date) > $@
 
 # Convert the classes to dex format
 $(OUT_DEX): $(SRC_TS)
 	$(call target, Dex)
-	@$(DX) --dex --no-strict --output=$(OUT_DEX) $(CLASSES_DIR) $(subst $(ANDROID_JAR) ,$(EMPTY),$(JAR_LIB))
+	@$(DX) --dex --no-strict --output=$(OUT_DEX) $(CLASSES_DIR) $(subst $(ANDROID_JAR) ,$(EMPTY),$(JAR_LIB)) $(ANNO_DIR)
 
 # Merge the dex into apk
 merge: $(OUT_DEX)
@@ -209,3 +232,11 @@ install:
 	else \
 		$(ADB) install -r $(OUT_APK);\
 	fi
+
+# Annonations
+anno:
+	$(foreach lib, $(ANNONATIONS), $(call anno, $(lib)))
+
+# Clean up annonations
+anno-clean:
+	$(foreach lib, $(ANNONATIONS), $(call anno-clean, $(lib)))

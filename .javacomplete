@@ -6,4 +6,5 @@ libs/SystemBarTint/src
 libs/HoloColorPicker/src
 libs/AndroidSwipeLayout/library/src/main/java
 libs/subsampling-scale-image-view/library/src
+libs/butterknife/butterknife/src/main/java
 src

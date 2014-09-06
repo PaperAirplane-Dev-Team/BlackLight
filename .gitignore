@@ -17,6 +17,7 @@ unused.txt
 /libs/*/bin
 /libs/*/gen
 /libs/*/obj
+/libs/*/build
 /libs/*/.settings
 /libs/*/.directory
 /libs/*/libs/*/bin

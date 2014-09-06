@@ -48,6 +48,9 @@ import android.os.Build;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -77,7 +80,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 {
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, CMT_MENTION = 5, SEARCH = 6;
 
-	private DrawerLayout mDrawer;
+	@InjectView(R.id.drawer) DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
 
@@ -121,6 +124,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		// Inject
+		ButterKnife.inject(this);
 		
 		// Tint
 		Utility.enableTint(this);
@@ -136,7 +142,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		nav.setLayoutParams(p);
 
 		// Initialize naviagtion drawer
-		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
+		//mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer_l, 0, 0) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
