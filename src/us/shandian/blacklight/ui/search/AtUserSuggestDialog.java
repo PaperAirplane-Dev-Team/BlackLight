@@ -29,23 +29,26 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+
 import java.util.ArrayList;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.search.SearchApi;
 import us.shandian.blacklight.support.AsyncTask;
-import android.widget.*;
 
-public class AtUserSuggestDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemClickListener
-{
+public class AtUserSuggestDialog extends Dialog {
 	public static interface AtUserListener {
 		public void onChooseUser(String name);
 	}
 	
 	private Context mContext;
-	private EditText mText;
-	private View mSearch;
-	private ListView mList;
+	@InjectView(R.id.at_user_text) EditText mText;
+	@InjectView(R.id.at_user_search) View mSearch;
+	@InjectView(R.id.at_user_list) ListView mList;
 	
 	private String[] mStrs;
 	private boolean mLoading = false;
@@ -68,23 +71,18 @@ public class AtUserSuggestDialog extends Dialog implements View.OnClickListener,
 		// Views
 		setContentView(R.layout.at_user_dialog);
 		
-		mText = (EditText) findViewById(R.id.at_user_text);
-		mSearch = findViewById(R.id.at_user_search);
-		mList = (ListView) findViewById(R.id.at_user_list);
-		
-		mSearch.setOnClickListener(this);
-		mList.setOnItemClickListener(this);
+		ButterKnife.inject(this);
 	}
 
-	@Override
-	public void onClick(View v) {
+	@OnClick(R.id.at_user_search)
+	public void doSearch() {
 		if (mLoading) return;
 		
 		new SearchTask().execute(mText.getText().toString());
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	@OnItemClick(R.id.at_user_list)
+	public void chooseUser(AdapterView<?> parent, View view, int position, long id) {
 		if (mListener != null && mStrs != null && position < mStrs.length) {
 			mListener.onChooseUser(mStrs[position]);
 			dismiss();

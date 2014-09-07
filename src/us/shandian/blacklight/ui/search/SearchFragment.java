@@ -31,6 +31,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import us.shandian.blacklight.R;
 
 public class SearchFragment extends Fragment
@@ -39,20 +42,18 @@ public class SearchFragment extends Fragment
 		public void search(String q);
 	}
 	
-	private View mAction;
-	private Spinner mTypes;
-	private EditText mText;
+	@InjectView(R.id.action_search) View mAction;
+	@InjectView(R.id.search_spinner) Spinner mTypes;
+	@InjectView(R.id.search_text) EditText mText;
 	
 	private Fragment[] mFragments = new Fragment[2];
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Get action bar view first	
-		mAction = getActivity().getActionBar().getCustomView().findViewById(R.id.action_search);
+		// Inject
+		ButterKnife.inject(this, getActivity());
+
 		String[] types = getResources().getStringArray(R.array.search_type);
-		
-		mTypes = (Spinner) mAction.findViewById(R.id.search_spinner);
-		mText = (EditText) mAction.findViewById(R.id.search_text);
 		
 		mTypes.setAdapter(new ArrayAdapter(getActivity(), R.layout.action_spinner_item, types));
 		

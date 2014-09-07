@@ -26,6 +26,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.os.Bundle;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SVBar;
 import com.larswerkman.holocolorpicker.SaturationBar;
@@ -33,31 +37,26 @@ import com.larswerkman.holocolorpicker.ValueBar;
 
 import us.shandian.blacklight.R;
 
-public class ColorPickerFragment extends Fragment implements View.OnClickListener {
+public class ColorPickerFragment extends Fragment {
 
 	public static interface OnColorSelectedListener {
 		void onSelected(String hex);
 	}
 
-	private ColorPicker mPicker;
-	private Button mOkay;
+	@InjectView(R.id.picker) ColorPicker mPicker;
 	private OnColorSelectedListener mListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.color_picker, null);
 
-		// Main picker
-		mPicker = (ColorPicker) v.findViewById(R.id.picker);
+		// Inject
+		ButterKnife.inject(this, v);
 
 		// Color picker views
-		SVBar svb = (SVBar) v.findViewById(R.id.svbar);
-		SaturationBar sb = (SaturationBar) v.findViewById(R.id.saturationbar);
-		ValueBar vb = (ValueBar) v.findViewById(R.id.valuebar);
-
-		// Okay button
-		mOkay = (Button) v.findViewById(R.id.okay);
-		mOkay.setOnClickListener(this);
+		SVBar svb = ButterKnife.findById(v, R.id.svbar);
+		SaturationBar sb = ButterKnife.findById(v, R.id.saturationbar);
+		ValueBar vb = ButterKnife.findById(v, R.id.valuebar);
 
 		// Register
 		mPicker.addSVBar(svb);
@@ -73,8 +72,8 @@ public class ColorPickerFragment extends Fragment implements View.OnClickListene
 		return v;
 	}
 
-	@Override
-	public void onClick(View v) {
+	@OnClick(R.id.okay)
+	public void choose() {
 		String hex = String.format("#%06X", (0xFFFFFF & mPicker.getColor()));
 		mPicker.setOldCenterColor(mPicker.getColor());
 

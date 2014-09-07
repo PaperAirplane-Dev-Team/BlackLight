@@ -37,6 +37,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Bundle;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import us.shandian.blacklight.R;
@@ -56,25 +60,25 @@ import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class UserTimeLineActivity extends AbsActivity implements View.OnClickListener
+public class UserTimeLineActivity extends AbsActivity
 {
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
 	
-	private TextView mName;
-	private TextView mFollowState;
-	private TextView mDes;
-	private TextView mFollowers;
-	private TextView mFollowing;
-	private TextView mMsgs;
-	private TextView mLikes;
-	private TextView mGeo;
-	private ImageView mAvatar;
-	private View mCover;
-	private View mFollowingContainer;
-	private ImageView mCollapse;
+	@InjectView(R.id.user_name) TextView mName;
+	@InjectView(R.id.user_follow_state) TextView mFollowState;
+	@InjectView(R.id.user_des) TextView mDes;
+	@InjectView(R.id.user_followers) TextView mFollowers;
+	@InjectView(R.id.user_following) TextView mFollowing;
+	@InjectView(R.id.user_msgs) TextView mMsgs;
+	@InjectView(R.id.user_like) TextView mLikes;
+	@InjectView(R.id.user_geo) TextView mGeo;
+	@InjectView(R.id.user_avatar) ImageView mAvatar;
+	@InjectView(R.id.user_cover) View mCover;
+	@InjectView(R.id.user_following_container) View mFollowingContainer;
+	@InjectView(R.id.iv_collapse) ImageView mCollapse;
 	
-	private SlidingUpPanelLayout mSlide;
+	@InjectView(R.id.user_slide) SlidingUpPanelLayout mSlide;
 	
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
@@ -95,20 +99,8 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 		// Arguments
 		mModel = getIntent().getParcelableExtra("user");
 		
-		// Views
-		mName = (TextView) findViewById(R.id.user_name);
-		mFollowState = (TextView) findViewById(R.id.user_follow_state);
-		mDes = (TextView) findViewById(R.id.user_des);
-		mFollowers = (TextView) findViewById(R.id.user_followers);
-		mFollowing = (TextView) findViewById(R.id.user_following);
-		mMsgs = (TextView) findViewById(R.id.user_msgs);
-		mLikes = (TextView) findViewById(R.id.user_like);
-		mGeo = (TextView) findViewById(R.id.user_geo);
-		mAvatar = (ImageView) findViewById(R.id.user_avatar);
-		mCover = findViewById(R.id.user_cover);
-		mFollowingContainer = findViewById(R.id.user_following_container);
-		mSlide = (SlidingUpPanelLayout) findViewById(R.id.user_slide);
-		mCollapse = (ImageView) mSlide.findViewById(R.id.iv_collapse);
+		// Inject
+		ButterKnife.inject(this);
 		
 		// Init PanelSlideListener
 		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
@@ -138,8 +130,6 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 			}
 			
 		});
-		
-		mFollowingContainer.setOnClickListener(this);
 		
 		// View values
 		mName.setText(mModel.getName());
@@ -214,16 +204,12 @@ public class UserTimeLineActivity extends AbsActivity implements View.OnClickLis
 		}
 	}
 
-	@Override
-	public void onClick(View v) {
+	@OnClick(R.id.user_following_container)
+	public void viewFriends() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_VIEW);
 		i.putExtra("uid", mModel.id);
-		
-		if (v == mFollowingContainer) {
-			i.setClass(this, FriendsActivity.class);
-		}
-		
+		i.setClass(this, FriendsActivity.class);
 		startActivity(i);
 	}
 	

@@ -29,6 +29,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ImageView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.directmessages.DirectMessagesApi;
 import us.shandian.blacklight.model.DirectMessageListModel;
@@ -43,8 +47,7 @@ import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class DirectMessageConversationActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener
-{
+public class DirectMessageConversationActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener {
 	private static final String TAG = DirectMessageConversationActivity.class.getSimpleName();
 	
 	private UserModel mUser;
@@ -52,11 +55,11 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 	private int mPage = 0;
 	private boolean mRefreshing = false;
 	
-	private ListView mList;
-	private EditText mText;
-	private ImageView mSend;
+	@InjectView(R.id.direct_message_conversation) ListView mList;
+	@InjectView(R.id.direct_message_send_text) EditText mText;
+	@InjectView(R.id.direct_message_send) ImageView mSend;
 	private DirectMessageAdapter mAdapter;
-	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	@InjectView(R.id.direct_message_refresh) SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	private EmoticonFragment mEmoticons;
 	
@@ -72,22 +75,18 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		// Argument
 		mUser = getIntent().getParcelableExtra("user");
 		getActionBar().setTitle(mUser.getName());
+
+		// Inject
+		ButterKnife.inject(this);
 		
 		// View
-		mSwipeRefresh = (SwipeUpAndDownRefreshLayout) findViewById(R.id.direct_message_refresh);
 		mSwipeRefresh.setOnRefreshListener(this);
 		mSwipeRefresh.setDownHasPriority();
 		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
 		
-		mList = (ListView) findViewById(R.id.direct_message_conversation);
-		mText = (EditText) findViewById(R.id.direct_message_send_text);
-		mSend = (ImageView) findViewById(R.id.direct_message_send);
-		
 		mList.setStackFromBottom(true);
 		mAdapter = new DirectMessageAdapter(this, mMsgList, mUser.id);
 		mList.setAdapter(mAdapter);
-		
-		mSend.setOnClickListener(this);
 		
 		// Emoticon Picker
 		mEmoticons = new EmoticonFragment();
@@ -121,8 +120,8 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		}
 	}
 	
-	@Override
-	public void onClick(View v) {
+	@OnClick(R.id.direct_message_send)
+	public void send() {
 		if (!mRefreshing) {
 			new Sender().execute();
 		}
