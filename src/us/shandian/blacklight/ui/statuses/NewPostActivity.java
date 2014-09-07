@@ -48,6 +48,9 @@ import android.util.Log;
 
 import android.support.v4.widget.DrawerLayout;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import java.io.IOException;
 
 import us.shandian.blacklight.R;
@@ -72,10 +75,10 @@ public class NewPostActivity extends AbsActivity
 	
 	private static final int REQUEST_PICK_IMG = 1001, REQUEST_CAPTURE_PHOTO = 1002;
 	
-	protected EditText mText;
-	private ImageView mBackground;
-	private TextView mCount;
-	private DrawerLayout mDrawer;
+	@InjectView(R.id.post_edit) protected EditText mText;
+	@InjectView(R.id.post_back) ImageView mBackground;
+	@InjectView(R.id.post_count) TextView mCount;
+	@InjectView(R.id.post_drawer)  DrawerLayout mDrawer;
 
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
@@ -108,11 +111,8 @@ public class NewPostActivity extends AbsActivity
 		mUserCache = new UserApiCache(this);
 		new GetNameTask().execute();
 		
-		// Init
-		mText = (EditText) findViewById(R.id.post_edit);
-		mBackground = (ImageView) findViewById(R.id.post_back);
-		mCount = (TextView) findViewById(R.id.post_count);
-		mDrawer = (DrawerLayout) findViewById(R.id.post_drawer);
+		// Inject
+		ButterKnife.inject(this);
 		
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();

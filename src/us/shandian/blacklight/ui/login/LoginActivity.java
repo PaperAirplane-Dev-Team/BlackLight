@@ -39,6 +39,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnEditorAction;
+import butterknife.OnItemSelected;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -50,12 +55,12 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* BlackMagic Login Activity */
-public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener {
+public class LoginActivity extends AbsActivity {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
-	private Spinner mTail;
-	private TextView mUsername;
-	private TextView mPasswd;
+	@InjectView(R.id.tail) Spinner mTail;
+	@InjectView(R.id.username) TextView mUsername;
+	@InjectView(R.id.passwd) TextView mPasswd;
 	
 	private MenuItem mMenuItem;
 	
@@ -75,23 +80,20 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+
+		// Inject
+		ButterKnife.inject(this);
 		
 		// Create login instance
 		mLogin = new LoginApiCache(this);
 		
 		// Get views
-		mTail = (Spinner) findViewById(R.id.tail);
-		mUsername = (TextView) findViewById(R.id.username);
-		mPasswd = (TextView) findViewById(R.id.passwd);
-		
 		mTailNames = getResources().getStringArray(R.array.bm_tails);
 		mKeys = getResources().getStringArray(R.array.bm_keys);
 		
 		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
-		mTail.setOnItemSelectedListener(this);
-		mPasswd.setOnEditorActionListener(this);
 		
-		onItemSelected(null, null, 0, 0);
+		changeTail(null, null, 0, 0);
 	}
 
 	@Override
@@ -101,16 +103,11 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		return true;
 	}
 
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+	@OnItemSelected(R.id.tail)
+	public void changeTail(AdapterView<?> parent, View view, int position, long id) {
 		String[] key = mKeys[position].split("\\|");
 		mAppId = key[0];
 		mAppSecret = key[1];
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-		
 	}
 
 	@Override
@@ -128,8 +125,8 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		}
 	}
 
-	@Override
-	public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+	@OnEditorAction(R.id.username)
+	public boolean changeUsername(TextView textView, int actionId, KeyEvent keyEvent) {
 		if (textView == mPasswd && actionId == EditorInfo.IME_ACTION_DONE) {
 			login();
 			return true;

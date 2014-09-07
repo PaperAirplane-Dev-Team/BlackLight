@@ -50,6 +50,8 @@ import android.support.v4.widget.DrawerLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.GroupsApi;
@@ -75,8 +77,7 @@ import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener, ActionBar.OnNavigationListener,
-	   												View.OnClickListener
+public class MainActivity extends Activity implements ActionBar.OnNavigationListener
 {
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, CMT_MENTION = 5, SEARCH = 6;
 
@@ -84,16 +85,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
 
-	private ViewGroup mAction;
+	@InjectView(R.id.action_view) ViewGroup mAction;
 	private View mTitle, mSpinner;
-	private ImageView mHamburger;
+	@InjectView(R.id.action_hamburger) ImageView mHamburger;
 	
 	// Drawer content
-	private TextView mName;
-	private ImageView mAvatar;
-	private ListView mMy;
-	private ListView mAtMe;
-	private ListView mOther;
+	@InjectView(R.id.my_name) TextView mName;
+	@InjectView(R.id.my_avatar) ImageView mAvatar;
+	@InjectView(R.id.list_my) ListView mMy;
+	@InjectView(R.id.list_at_me) ListView mAtMe;
+	@InjectView(R.id.list_other) ListView mOther;
 	
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
@@ -124,6 +125,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		// Add custom view
+		getActionBar().setCustomView(R.layout.action_custom);
+		getActionBar().setDisplayShowCustomEnabled(true);
 
 		// Inject
 		ButterKnife.inject(this);
@@ -178,9 +183,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
 		}
 
-		mMy = (ListView) findViewById(R.id.list_my);
-		mAtMe = (ListView) findViewById(R.id.list_at_me);
-		mOther = (ListView) findViewById(R.id.list_other);
 		mMy.setVerticalScrollBarEnabled(false);
 		mMy.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mAtMe.setVerticalScrollBarEnabled(false);
@@ -188,46 +190,20 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		mOther.setVerticalScrollBarEnabled(false);
 		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		
-		mMy.setOnItemClickListener(this);
-		mAtMe.setOnItemClickListener(this);
-		mOther.setOnItemClickListener(this);
-		
 		// My account
-		mName = (TextView) findViewById(R.id.my_name);
 		mName.getPaint().setFakeBoldText(true);
-		mAvatar = (ImageView) findViewById(R.id.my_avatar);
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
 		initList();
 		new InitializerTask().execute();
 		new GroupsTask().execute();
 		
-		findViewById(R.id.my_account).setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if (mUser != null) {
-						Intent i = new Intent();
-						i.setAction(Intent.ACTION_MAIN);
-						i.setClass(MainActivity.this, UserTimeLineActivity.class);
-						i.putExtra("user", mUser);
-						startActivity(i);
-					}
-				}
-
-		});
-		
 		// Initialize ActionBar Style
 		getActionBar().setHomeButtonEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setCustomView(R.layout.action_custom);
-		getActionBar().setDisplayShowCustomEnabled(true);
 		
-		mAction = (ViewGroup) getActionBar().getCustomView().findViewById(R.id.action_view);
 		mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
-		mHamburger = (ImageView) mAction.findViewById(R.id.action_hamburger);
-		mHamburger.setOnClickListener(this);
 
 		getActionBar().setDisplayShowTitleEnabled(false);
 
@@ -305,17 +281,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (v == mHamburger) {
-			if (mDrawer.isDrawerOpen(mDrawerGravity)) {
-				mDrawer.closeDrawer(mDrawerGravity);
-			} else {
-				mDrawer.openDrawer(mDrawerGravity);
-			}
-		}
-	}
-
-	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 
@@ -330,6 +295,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 
 		return true;
+	}
+
+	@OnClick(R.id.my_account)
+	public void showMe() {
+		if (mUser != null) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, UserTimeLineActivity.class);
+			i.putExtra("user", mUser);
+			startActivity(i);
+		}
+	}
+
+	@OnClick(R.id.action_hamburger)
+	public void openOrCloseDrawer() {
+		if (mDrawer.isDrawerOpen(mDrawerGravity)) {
+			mDrawer.closeDrawer(mDrawerGravity);
+		} else {
+			mDrawer.openDrawer(mDrawerGravity);
+		}
 	}
 
 	@Override
@@ -384,8 +369,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		}
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+	@OnItemClick({R.id.list_my, R.id.list_at_me, R.id.list_other})
+	public void handlePageSwitch(AdapterView<?> parent, View view, final int position, long id) {
 		if ((parent != mOther || position == 0) && mLastChoice != null) {
 			mLastChoice.getPaint().setFakeBoldText(false);
 			mLastChoice.invalidate();
@@ -477,7 +462,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 			}
 		}
 		
-		mDrawer.closeDrawer(mDrawerGravity);
+		openOrCloseDrawer();
 	}
 
 	@Override

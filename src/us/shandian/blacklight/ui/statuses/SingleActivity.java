@@ -42,6 +42,9 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import java.util.List;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -67,12 +70,12 @@ public class SingleActivity extends AbsActivity
 	private Fragment mCommentFragment;
 	private Fragment mRepostFragment;
 	
-	private ViewPager mPager;
-	private SlidingUpPanelLayout mRoot;
-	private View mContent;
+	@InjectView(R.id.single_pager) ViewPager mPager;
+	@InjectView(R.id.single_root) SlidingUpPanelLayout mRoot;
+	@InjectView(R.id.single_content) View mContent;
 	
-	private TabHost mTabs;
-	private ImageView mCollapse;
+	@InjectView(R.id.single_tabs) TabHost mTabs;
+	@InjectView(R.id.iv_collapse) ImageView mCollapse;
 	
 	private MenuItem mFav, mLike;
 	
@@ -97,16 +100,14 @@ public class SingleActivity extends AbsActivity
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
 		
-		// Init
-		mRoot = (SlidingUpPanelLayout) findViewById(R.id.single_root);
-		mContent = findViewById(R.id.single_content);
+		// Inject
+		ButterKnife.inject(this);
 		
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
 		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
 		
-		mPager = (ViewPager) findViewById(R.id.single_pager);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 			@Override
 			public int getCount() {
@@ -126,8 +127,6 @@ public class SingleActivity extends AbsActivity
 			}
 		});
 
-		mCollapse = (ImageView) mRoot.findViewById(R.id.iv_collapse);
-		
 		mRoot.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
 
 			@Override
@@ -156,7 +155,6 @@ public class SingleActivity extends AbsActivity
 			
 		});
 		
-		mTabs = (TabHost) findViewById(R.id.single_tabs);
 		mTabs.setup();
 		
 		final String comment = getResources().getString(R.string.comment);

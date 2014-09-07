@@ -38,6 +38,10 @@ import android.os.Bundle;
 import android.os.Build;
 import android.os.Vibrator;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnTouch;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -53,10 +57,10 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class TimeLineFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-		View.OnTouchListener, View.OnLongClickListener,
-		GestureDetector.OnGestureListener, OnScrollListener {
+		View.OnLongClickListener, GestureDetector.OnGestureListener,
+		OnScrollListener {
 
-	protected ListView mList;
+	@InjectView(R.id.home_timeline) protected ListView mList;
 	protected FloatingActionButton mNew, mRefresh;
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
@@ -84,7 +88,10 @@ public class TimeLineFragment extends Fragment implements
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
 		View v = inflater.inflate(R.layout.home_timeline, null);
-		mList = (ListView) v.findViewById(R.id.home_timeline);
+		
+		// Inject
+		ButterKnife.inject(this, v);
+
 		mCache = bindApiCache();
 		mCache.loadFromCache();
 
@@ -127,7 +134,6 @@ public class TimeLineFragment extends Fragment implements
 		mDetector = new GestureDetector(getActivity(), this);
 
 		if (getActivity() instanceof MainActivity) {
-			mList.setOnTouchListener(this);
 			mAdapter.addOnScrollListener(this);
 		}
 
@@ -241,9 +247,11 @@ public class TimeLineFragment extends Fragment implements
 
 	}
 
-	@Override
-	public boolean onTouch(View v, MotionEvent ev) {
-		mDetector.onTouchEvent(ev);
+	@OnTouch(R.id.home_timeline)
+	public boolean handleTouch(View v, MotionEvent ev) {
+		if (getActivity() instanceof MainActivity) {
+			mDetector.onTouchEvent(ev);
+		}
 		return false;
 	}
 
