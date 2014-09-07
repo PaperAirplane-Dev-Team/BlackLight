@@ -28,6 +28,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
@@ -70,9 +72,9 @@ public class UserAdapter extends BaseAdapter
 
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.user_list_item, null);
 			
-			ImageView avatar = (ImageView) v.findViewById(R.id.user_list_avatar);
-			TextView name = (TextView) v.findViewById(R.id.user_list_name);
-			TextView des = (TextView) v.findViewById(R.id.user_list_des);
+			ImageView avatar = ButterKnife.findById(v, R.id.user_list_avatar);
+			TextView name = ButterKnife.findById(v, R.id.user_list_name);
+			TextView des = ButterKnife.findById(v, R.id.user_list_des);
 				
 			name.setText(usr.getName());
 			des.setText(usr.description);

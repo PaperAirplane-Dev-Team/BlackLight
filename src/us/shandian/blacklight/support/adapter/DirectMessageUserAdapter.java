@@ -28,6 +28,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.DirectMessageUserModel;
@@ -80,16 +83,16 @@ public class DirectMessageUserAdapter extends BaseAdapter
 			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v, user);
 			h.user = user;
 			
-			TextView name = h.getName();
-			TextView text = h.getText();
+			TextView name = h.name;
+			TextView text = h.text;
 			
 			name.setText(user.user.getName());
 			text.setText(user.direct_message.text);
-			h.getAvatar().setImageBitmap(null);
+			h.avatar.setImageBitmap(null);
 			
 			new AvatarDownloader().execute(v, user);
 			
-			TextView date = h.getDate();
+			TextView date = h.date;
 			
 			date.setText(StatusTimeUtils.instance(mContext).buildTimeString(user.direct_message.created_at));
 			
@@ -121,55 +124,27 @@ public class DirectMessageUserAdapter extends BaseAdapter
 				DirectMessageUserModel usr = (DirectMessageUserModel) result[2];
 				ViewHolder h = (ViewHolder) v.getTag();
 				if (h.user == usr) {
-					h.getAvatar().setImageBitmap(img);
+					h.avatar.setImageBitmap(img);
 				}
 			}
 		}
 	}
 	
-	private class ViewHolder {
+	class ViewHolder {
 		public DirectMessageUserModel user;
-		private ImageView avatar;
-		private TextView name, text, date;
+		@InjectView(R.id.direct_message_avatar) public ImageView avatar;
+		@InjectView(R.id.direct_message_name) public TextView name;
+		@InjectView(R.id.direct_message_text) public TextView text;
+		@InjectView(R.id.direct_message_date) public TextView date;
 		private View v;
 		
 		public ViewHolder(View v, DirectMessageUserModel user) {
 			this.v = v;
 			this.user = user;
 			
+			ButterKnife.inject(this, v);
 			v.setTag(this);
 		}
 		
-		public ImageView getAvatar() {
-			if (avatar == null) {
-				avatar = (ImageView) v.findViewById(R.id.direct_message_avatar);
-			}
-			
-			return avatar;
-		}
-		
-		public TextView getName() {
-			if (name == null) {
-				name = (TextView) v.findViewById(R.id.direct_message_name);
-			}
-			
-			return name;
-		}
-		
-		public TextView getText() {
-			if (text == null) {
-				text = (TextView) v.findViewById(R.id.direct_message_text);
-			}
-			
-			return text;
-		}
-		
-		public TextView getDate() {
-			if (date == null) {
-				date = (TextView) v.findViewById(R.id.direct_message_date);
-			}
-			
-			return date;
-		}
 	}
 }

@@ -38,6 +38,11 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
+
 import com.daimajia.swipe.SwipeLayout;
 
 import java.util.ArrayList;
@@ -74,9 +79,7 @@ import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener, 
-										View.OnClickListener, View.OnLongClickListener
-{
+public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 
 	private static final int TAG_MSG = R.id.weibo_content;
@@ -92,18 +95,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			i.setClass(v.getContext(), ImageActivity.class);
 			i.putExtra("model", msg);
 			i.putExtra("defaultId", id);
-			v.getContext().startActivity(i);
-		}
-	};
-
-	private static final View.OnClickListener sAvatarListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			MessageModel msg = (MessageModel) v.getTag(TAG_MSG);
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(v.getContext(), UserTimeLineActivity.class);
-			i.putExtra("user", msg.user);
 			v.getContext().startActivity(i);
 		}
 	};
@@ -177,24 +168,23 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (v.getTag() instanceof ViewHolder) {
 			ViewHolder h = (ViewHolder) v.getTag();
 			
-			h.getAvatar().setImageBitmap(null);
-			h.getAvatar().setTag(true);
-			h.getAvatar().setOnClickListener(null);
-			h.getCommentAndRetweet().setVisibility(View.VISIBLE);
-			h.getSwipe().close(false);
+			h.avatar.setImageBitmap(null);
+			h.avatar.setTag(true);
+			h.avatar.setOnClickListener(null);
+			h.comment_and_retweet.setVisibility(View.VISIBLE);
+			h.swipe.close(false);
 			
-			LinearLayout container = h.getContainer();
+			LinearLayout container = h.pics;
 			
 			for (int i = 0; i < 9; i++) {
 				ImageView iv = (ImageView) container.getChildAt(i);
 				iv.setImageBitmap(null);
 				iv.setVisibility(View.VISIBLE);
-				iv.setOnClickListener(null);
 				iv.setTag(true);
 			}
 			
-			h.getScroll().setVisibility(View.GONE);
-			h.getOriginParent().setVisibility(View.GONE);
+			h.scroll.setVisibility(View.GONE);
+			h.origin_parent.setVisibility(View.GONE);
 			
 			h.msg = null;
 		}
@@ -224,128 +214,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 	public void addOnScrollListener(AbsListView.OnScrollListener listener) {
 		mListeners.add(listener);
-	}
-
-	private void replyToComment(CommentModel comment) {
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(mContext, ReplyToActivity.class);
-		i.putExtra("comment", comment);
-		mContext.startActivity(i);
-	}
-
-	private void showMsg(MessageModel msg) {
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(mContext, SingleActivity.class);
-		i.putExtra("msg", msg);
-		mContext.startActivity(i);
-	}
-
-	private void repostMsg(MessageModel msg) {
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(mContext, RepostActivity.class);
-		i.putExtra("msg", msg);
-		mContext.startActivity(i);
-	}
-
-	private void commentOnMsg(MessageModel msg) {
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(mContext, CommentOnActivity.class);
-		i.putExtra("msg", msg);
-		mContext.startActivity(i);
-	}
-
-	private void delete(final MessageModel msg) {
-		new AlertDialog.Builder(mContext)
-			.setMessage(R.string.confirm_delete)
-			.setCancelable(true)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					new DeleteTask().execute(msg);
-				}
-			})
-			.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.dismiss();
-				}
-			})
-			.show();
-	}
-
-	private void like(MessageModel msg){
-		new LikeTask().execute(msg);
-	}
-	
-	@Override
-	public void onClick(View v) {
-		MessageModel msg = v.getTag() instanceof ViewHolder ? ((ViewHolder) v.getTag()).msg
-							: (MessageModel) v.getTag();
-
-		switch (v.getId()) {
-			case R.id.bottom_show:
-				showMsg(msg);
-				break;
-			case R.id.bottom_orig:
-				if (msg instanceof CommentModel) {
-					showMsg(((CommentModel) msg).status);
-				} else {
-					showMsg(msg.retweeted_status);
-				}
-				break;
-			case R.id.bottom_repost:
-				repostMsg(msg);
-				break;
-			case R.id.bottom_reply:
-				if (msg instanceof CommentModel) {
-					replyToComment((CommentModel) msg);
-				} else {
-					commentOnMsg(msg);
-				}
-				break;
-			case R.id.bottom_like:
-				like(msg);
-				break;
-			case R.id.bottom_delete:
-				delete(msg);
-				break;
-			case R.id.bottom_copy:
-				Utility.copyToClipboard(mContext, msg.text);
-				break;
-			default:
-				if (msg instanceof CommentModel) {
-					replyToComment((CommentModel) msg);
-				} else {
-					showMsg(msg);
-				}
-				break;
-		}
-	}
-
-	@Override
-	public boolean onLongClick(View v) {
-		MessageModel msg = v.getTag() instanceof ViewHolder ? ((ViewHolder) v.getTag()).msg
-							: (MessageModel) v.getTag();
-
-		if (v.getTag() instanceof ViewHolder) {
-			ViewHolder h = (ViewHolder) v.getTag();
-			
-			SwipeLayout.Status status = h.getSwipe().getOpenStatus();
-
-			if (status == SwipeLayout.Status.Close) {
-				h.getSwipe().open(true);
-			} else {
-				h.getSwipe().close(true);
-			}
-
-			return true;
-		}
-
-		return false;
 	}
 	
 	private View bindView(final MessageModel msg, View convertView) {
@@ -380,14 +248,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		new SwipeBinder().execute(h);
 		
-		TextView name = h.getName();
-		TextView from = h.getFrom();
-		TextView content = h.getContent();
-		TextView date = h.getDate();
-		TextView attitudes = h.getAttitudes();
-		TextView retweet = h.getRetweets();
-		TextView comments = h.getComments();
-		ImageView like = h.getLike();
+		TextView name = h.name;
+		TextView from = h.from;
+		TextView content = h.content;
+		TextView date = h.date;
+		TextView attitudes = h.attitudes;
+		TextView retweet = h.retweets;
+		TextView comments = h.comments;
+		ImageView like = h.like;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(msg.source != null ? Utility.truncateSourceString(msg.source) : "");
@@ -397,7 +265,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		date.setText(mTimeUtils.buildTimeString(msg.millis));
 
 		if (!mShowCommentStatus || msg instanceof CommentModel) {
-			h.getCommentAndRetweet().setVisibility(View.GONE);
+			h.comment_and_retweet.setVisibility(View.GONE);
 		} else {
 			attitudes.setText(String.valueOf(msg.attitudes_count));
 			retweet.setText(String.valueOf(msg.reposts_count));
@@ -428,16 +296,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			Bitmap bmp = mUserApi.getCachedSmallAvatar(msg.user);
 			
 			if (bmp != null) {
-				h.getAvatar().setImageBitmap(bmp);
-				h.getAvatar().setTag(false);
+				h.avatar.setImageBitmap(bmp);
+				h.avatar.setTag(false);
 			}
-			
-			h.getAvatar().setTag(TAG_MSG, msg);
-			h.getAvatar().setOnClickListener(sAvatarListener);
 		}
-		
-		h.getCard().setOnClickListener(this);
-		h.getCard().setOnLongClickListener(this);
 		
 		new ImageDownloader().execute(new Object[]{v});
 		
@@ -449,98 +311,79 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	}
 
 	private void bindSwipe(ViewHolder h) {
-		SwipeLayout swipe = h.getSwipe();
+		SwipeLayout swipe = h.swipe;
 		swipe.setShowMode(SwipeLayout.ShowMode.LayDown);
 		swipe.setDragEdge(SwipeLayout.DragEdge.Right);
-		swipe.addSwipeDenier(h.getScroll());
-		
-		// Initialize all click events
-		h.getReply().setOnClickListener(this);
-		h.getReply().setOnLongClickListener(this);
-		h.getShow().setOnClickListener(this);
-		h.getShow().setOnLongClickListener(this);
-		h.getDelete().setOnClickListener(this);
-		h.getDelete().setOnLongClickListener(this);
-		h.getRepost().setOnClickListener(this);
-		h.getRepost().setOnLongClickListener(this);
-		h.getLike().setOnClickListener(this);
-		h.getLike().setOnLongClickListener(this);
-		h.getOrig().setOnClickListener(this);
-		h.getOrig().setOnLongClickListener(this);
-		h.getCopy().setOnClickListener(this);
-		h.getCopy().setOnLongClickListener(this);
+		swipe.addSwipeDenier(h.scroll);
 	}
 
 	private void bindSwipeActions(ViewHolder h) {
 		MessageModel msg = h.msg;
 
 		// Hide all
-		h.getReply().setVisibility(View.GONE);
-		h.getShow().setVisibility(View.GONE);
-		h.getDelete().setVisibility(View.GONE);
-		h.getRepost().setVisibility(View.GONE);
-		h.getLike().setVisibility(View.GONE);
-		h.getOrig().setVisibility(View.GONE);
-		h.getCopy().setVisibility(View.GONE);
+		h.reply.setVisibility(View.GONE);
+		h.show.setVisibility(View.GONE);
+		h.delete.setVisibility(View.GONE);
+		h.repost.setVisibility(View.GONE);
+		h.like.setVisibility(View.GONE);
+		h.orig.setVisibility(View.GONE);
+		h.copy.setVisibility(View.GONE);
 
 		// Show only needed
 		if (msg instanceof CommentModel) {
 			CommentModel comment = (CommentModel) msg;
-			h.getCopy().setVisibility(View.VISIBLE);
-			h.getReply().setVisibility(View.VISIBLE);
-			h.getOrig().setVisibility(View.VISIBLE);
+			h.copy.setVisibility(View.VISIBLE);
+			h.reply.setVisibility(View.VISIBLE);
+			h.orig.setVisibility(View.VISIBLE);
 			
 			if (comment.user.id.equals(mUid)
 				|| (comment.status != null && comment.status.user.id != null
 				&& comment.status.user.id.equals(mUid))) {
 
-				h.getDelete().setVisibility(View.VISIBLE);
+				h.delete.setVisibility(View.VISIBLE);
 			}
 		} else {
-			h.getCopy().setVisibility(View.VISIBLE);
-			h.getShow().setVisibility(View.VISIBLE);
-			h.getReply().setVisibility(View.VISIBLE);
-			h.getRepost().setVisibility(View.VISIBLE);
+			h.copy.setVisibility(View.VISIBLE);
+			h.show.setVisibility(View.VISIBLE);
+			h.reply.setVisibility(View.VISIBLE);
+			h.repost.setVisibility(View.VISIBLE);
 
-			Log.d(TAG,"liked:"+msg.liked);
 			if (msg.liked){
-				h.getLike().setImageResource(R.drawable.ic_action_bad);
+				h.like.setImageResource(R.drawable.ic_action_bad);
 			}
-			h.getLike().setVisibility(View.VISIBLE);
+			h.like.setVisibility(View.VISIBLE);
 
 			if (msg.retweeted_status != null) {
-				h.getOrig().setVisibility(View.VISIBLE);
+				h.orig.setVisibility(View.VISIBLE);
 			}
 
 			if (msg.user.id.equals(mUid)) {
-				h.getDelete().setVisibility(View.VISIBLE);
+				h.delete.setVisibility(View.VISIBLE);
 			}
 		}
 	}
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
-		h.getOriginParent().setVisibility(View.VISIBLE);
-		h.getOrigContent().setText(SpannableStringUtils.getOrigSpan(mContext, msg));
-		h.getOrigContent().setMovementMethod(HackyMovementMethod.getInstance());
+		h.origin_parent.setVisibility(View.VISIBLE);
+		h.orig_content.setText(SpannableStringUtils.getOrigSpan(mContext, msg));
+		h.orig_content.setMovementMethod(HackyMovementMethod.getInstance());
 		
 		bindMultiPicLayout(h, msg, showPic);
 		
 		if (!(msg instanceof CommentModel)) {
-			h.getOriginParent().setTag(msg);
-			h.getOriginParent().setOnClickListener(this);
+			h.origin_parent.setTag(msg);
 		} else {
-			h.getOriginParent().setTag(null);
-			h.getOriginParent().setOnClickListener(null);
+			h.origin_parent.setTag(null);
 		}
 	}
 	
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
-		HackyHorizontalScrollView scroll = h.getScroll();
+		HackyHorizontalScrollView scroll = h.scroll;
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
 			scroll.setVisibility(View.VISIBLE);
 
-			LinearLayout container = h.getContainer();
+			LinearLayout container = h.pics;
 
 			int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
 
@@ -618,7 +461,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			ViewHolder h = (ViewHolder) v.getTag();
 			MessageModel msg = h.msg;
 			
-			Object tag = h.getAvatar().getTag();
+			Object tag = h.avatar.getTag();
 			
 			if (tag == null) {
 				tag = true;
@@ -643,7 +486,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			if (v != null && !(msg instanceof CommentModel) && (realMsg.pic_urls.size() > 0 || !TextUtils.isEmpty(msg.thumbnail_pic))) {
 				if (!waitUntilNotScrolling(h, msg)) return null;
 				
-				LinearLayout container = h.getContainer();
+				LinearLayout container = h.pics;
 				
 				int numChilds = realMsg.hasMultiplePictures() ? realMsg.pic_urls.size() : 1;
 				
@@ -688,7 +531,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				case 0:
 					Bitmap avatar = (Bitmap) values[2];
 					if (v != null) {
-						ImageView iv = ((ViewHolder) v.getTag()).getAvatar();
+						ImageView iv = ((ViewHolder) v.getTag()).avatar;
 						if (iv != null) {
 							iv.setImageBitmap(avatar);
 						}
@@ -760,221 +603,155 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 	
-	private static class ViewHolder {
-		public MessageModel msg;
+	class ViewHolder {
 		public boolean sub = false;
+
+		@InjectView(R.id.weibo_date) public TextView date;
+		@InjectView(R.id.weibo_retweet) public TextView retweets;
+		@InjectView(R.id.weibo_comments) public TextView comments;
+		@InjectView(R.id.weibo_name) public TextView name;
+		@InjectView(R.id.weibo_from) public TextView from;
+		@InjectView(R.id.weibo_content) public TextView content;
+		@InjectView(R.id.weibo_attitudes) public TextView attitudes;
+		@InjectView(R.id.weibo_orig_content) public TextView orig_content;
+		@InjectView(R.id.weibo_avatar) public ImageView avatar;
+		@InjectView(R.id.bottom_like) public ImageView like;
+		@InjectView(R.id.bottom_reply) public ImageView reply;
+		@InjectView(R.id.bottom_show) public ImageView show;
+		@InjectView(R.id.bottom_delete) public ImageView delete;
+		@InjectView(R.id.bottom_repost) public ImageView repost;
+		@InjectView(R.id.bottom_orig) public ImageView orig;
+		@InjectView(R.id.bottom_copy) public ImageView copy;
+		@InjectView(R.id.swipe) public SwipeLayout swipe;
+		@InjectView(R.id.weibo_pics_scroll) public HackyHorizontalScrollView scroll;
+		@InjectView(R.id.weibo_pics) public LinearLayout pics;
+		@InjectView(R.id.bottom_grid) public DynamicGridLayout grid;
+		@InjectView(R.id.card) public View card;
+		@InjectView(R.id.weibo_origin) public View origin_parent;
+		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
 		
-		private TextView date, retweets, comments, name, from, content, attitudes;
-		private HackyHorizontalScrollView scroll;
-		private LinearLayout container;
-		private View originParent;
-		private View comment_and_retweet;
-		private ImageView weibo_avatar, like;
-		private View v;
-		private TextView orig_content;
-		private SwipeLayout swipe;
-		private View reply, show, delete, repost, orig, copy;
-		private View card;
-		private DynamicGridLayout grid;
-		
+		public View v;
+		public MessageModel msg;
+		public Context context;
+
 		public ViewHolder(View v, MessageModel msg) {
 			this.v = v;
 			this.msg = msg;
-			
+			this.context = v.getContext();
+
 			v.setTag(this);
+			ButterKnife.inject(this, v);
 		}
-		
-		public TextView getDate() {
-			if (date == null) {
-				date = (TextView) v.findViewById(R.id.weibo_date);
+
+		@OnLongClick({
+			R.id.card, R.id.bottom_grid,
+			R.id.bottom_like, R.id.bottom_reply,
+			R.id.bottom_show, R.id.bottom_delete,
+			R.id.bottom_repost, R.id.bottom_orig,
+			R.id.bottom_copy,
+		})
+		boolean openOrClose() {
+			if (swipe.getOpenStatus() == SwipeLayout.Status.Close) {
+				swipe.open(true);
+			} else {
+				swipe.close(true);
+			}
+
+			return true;
+		}
+
+
+		@OnClick(R.id.weibo_avatar)
+		void showUser() {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(v.getContext(), UserTimeLineActivity.class);
+			i.putExtra("user", msg.user);
+			context.startActivity(i);
+		}
+
+		@OnClick({R.id.card, R.id.bottom_show})
+		void show() {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+
+			if (msg instanceof CommentModel) {
+				i.setClass(context, ReplyToActivity.class);
+				i.putExtra("comment", (CommentModel) msg);
+			} else {
+				i.setClass(context, SingleActivity.class);
+				i.putExtra("msg", msg);
+			}
+
+			context.startActivity(i);
+		}
+
+		@OnClick({R.id.weibo_origin, R.id.bottom_orig})
+		void showOrig() {
+			if (!(msg instanceof CommentModel) && msg.retweeted_status != null) {
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(context, SingleActivity.class);
+				i.putExtra("msg", msg.retweeted_status);
+				context.startActivity(i);
+			}
+		}
+
+		@OnClick(R.id.bottom_repost)
+		void repost() {
+			if(!(msg instanceof CommentModel)) {
+				Intent i = new Intent();
+				i.setAction(Intent.ACTION_MAIN);
+				i.setClass(context, RepostActivity.class);
+				i.putExtra("msg", msg);
+				context.startActivity(i);
+			}
+		}
+
+		@OnClick(R.id.bottom_copy)
+		void copy() {
+			Utility.copyToClipboard(context, msg.text);
+		}
+
+		@OnClick(R.id.bottom_reply)
+		void reply() {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+
+			if (msg instanceof CommentModel) {
+				i.setClass(context, ReplyToActivity.class);
+				i.putExtra("comment", (CommentModel) msg);
+			} else {
+				i.setClass(context, CommentOnActivity.class);
+				i.putExtra("msg", msg);
 			}
 			
-			return date;
+			context.startActivity(i);
 		}
 
-		public TextView getAttitudes() {
-			if (attitudes == null) {
-				attitudes = (TextView) v.findViewById(R.id.weibo_attitudes);
-			}
-
-			return attitudes;
-		}
-		
-		public TextView getComments() {
-			if (comments == null) {
-				comments = (TextView) v.findViewById(R.id.weibo_comments);
-			}
-
-			return comments;
-		}
-		
-		public TextView getRetweets() {
-			if (retweets == null) {
-				retweets = (TextView) v.findViewById(R.id.weibo_retweet);
-			}
-			
-			return retweets;
-		}
-		
-		public TextView getName() {
-			if (name == null) {
-				name = (TextView) v.findViewById(R.id.weibo_name);
-			}
-			
-			return name;
-		}
-		
-		public TextView getFrom() {
-			if (from == null) {
-				from = (TextView) v.findViewById(R.id.weibo_from);
-			}
-			
-			return from;
-		}
-		
-		public TextView getContent() {
-			if (content == null) {
-				content = (TextView) v.findViewById(R.id.weibo_content);
-			}
-			
-			return content;
-		}
-		
-		public HackyHorizontalScrollView getScroll() {
-			if (scroll == null) {
-				scroll = (HackyHorizontalScrollView) v.findViewById(R.id.weibo_pics_scroll);
-			}
-			
-			return scroll;
-		}
-		
-		public LinearLayout getContainer() {
-			if (container == null) {
-				container = (LinearLayout) getScroll().findViewById(R.id.weibo_pics);
-			}
-			
-			return container;
-		}
-		
-		public View getOriginParent() {
-			if (originParent == null) {
-				originParent = v.findViewById(R.id.weibo_origin);
-			}
-			
-			return originParent;
-		}
-		
-		public View getCommentAndRetweet() {
-			if (comment_and_retweet == null) {
-				comment_and_retweet = v.findViewById(R.id.weibo_comment_and_retweet);
-			}
-			
-			return comment_and_retweet;
-		}
-		
-		public ImageView getAvatar() {
-			if (weibo_avatar == null) {
-				weibo_avatar = (ImageView) v.findViewById(R.id.weibo_avatar);
-			}
-			
-			return weibo_avatar;
-		}
-		
-		public TextView getOrigContent() {
-			if (orig_content == null) {
-				orig_content = (TextView) v.findViewById(R.id.weibo_orig_content);
-			}
-			
-			return orig_content;
+		@OnClick(R.id.bottom_like)
+		void like() {
+			new LikeTask().execute(msg);
 		}
 
-		public View getCard() {
-			if (card == null) {
-				card = v.findViewById(R.id.card);
-				card.setTag(this);
-			}
-
-			return card;
-		}
-
-		public SwipeLayout getSwipe() {
-			if (swipe == null) {
-				swipe = (SwipeLayout) v.findViewById(R.id.swipe);
-				swipe.setTag(this);
-			}
-
-			return swipe;
-		}
-
-		public DynamicGridLayout getGrid() {
-			if (grid == null) {
-				grid = (DynamicGridLayout) v.findViewById(R.id.bottom_grid);
-			}
-
-			return grid;
-		}
-
-		public View getReply() {
-			if (reply == null) {
-				reply = getGrid().dynamicFindViewById(R.id.bottom_reply);
-				reply.setTag(this);
-			}
-
-			return reply;
-		}
-
-		public View getShow() {
-			if (show == null) {
-				show = getGrid().dynamicFindViewById(R.id.bottom_show);
-				show.setTag(this);
-			}
-
-			return show;
-		}
-
-		public View getDelete() {
-			if (delete == null) {
-				delete = getGrid().dynamicFindViewById(R.id.bottom_delete);
-				delete.setTag(this);
-			}
-
-			return delete;
-		}
-
-		public View getRepost() {
-			if (repost == null) {
-				repost = getGrid().dynamicFindViewById(R.id.bottom_repost);
-				repost.setTag(this);
-			}
-
-			return repost;
-		}
-
-		public ImageView getLike(){
-			if (like == null) {
-				like = (ImageView)getGrid().dynamicFindViewById(R.id.bottom_like);
-				like.setTag(this);
-			}
-
-			return like;
-		}
-
-		public View getOrig() {
-			if (orig == null) {
-				orig = getGrid().dynamicFindViewById(R.id.bottom_orig);
-				orig.setTag(this);
-			}
-			
-			return orig;
-		}
-
-		public View getCopy() {
-			if (copy == null) {
-				copy = getGrid().dynamicFindViewById(R.id.bottom_copy);
-				copy.setTag(this);
-			}
-
-			return copy;
+		@OnClick(R.id.bottom_delete)
+		void delete() {
+			new AlertDialog.Builder(context)
+				.setMessage(R.string.confirm_delete)
+				.setCancelable(true)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						new DeleteTask().execute(msg);
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				})
+				.show();
 		}
 
 	}

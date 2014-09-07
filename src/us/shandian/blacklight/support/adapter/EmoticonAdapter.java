@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import butterknife.ButterKnife;
+
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
@@ -65,7 +67,7 @@ public class EmoticonAdapter extends BaseAdapter
 			return convertView;
 		} else {
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.emoticon_view, null);
-			ImageView iv = (ImageView) v.findViewById(R.id.emoticon_image);
+			ImageView iv = ButterKnife.findById(v, R.id.emoticon_image);
 			iv.setImageBitmap(mBitmaps.get(position));
 			return v;
 		}

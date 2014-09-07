@@ -28,6 +28,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.model.DirectMessageListModel;
@@ -76,7 +79,7 @@ public class DirectMessageAdapter extends BaseAdapter
 			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_conversation_item, null);
 			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v);
 			
-			LinearLayout container = (LinearLayout) v.findViewById(R.id.direct_message_conversation_container);
+			LinearLayout container = h.container;
 			if (msg.sender_id == mUid) {
 				container.setGravity(Gravity.LEFT);
 				container.setAlpha(1.0f);
@@ -85,10 +88,10 @@ public class DirectMessageAdapter extends BaseAdapter
 				container.setAlpha(0.8f);
 			}
 			
-			h.getContent().setText(SpannableStringUtils.span(mContext, msg.text));
-			h.getContent().setMovementMethod(HackyMovementMethod.getInstance());
+			h.content.setText(SpannableStringUtils.span(mContext, msg.text));
+			h.content.setMovementMethod(HackyMovementMethod.getInstance());
 			
-			h.getDate().setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
+			h.date.setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
 			
 			return v;
 		}
@@ -99,27 +102,16 @@ public class DirectMessageAdapter extends BaseAdapter
 		return getCount() - position - 1;
 	}
 	
-	private class ViewHolder {
+	class ViewHolder {
 		private View v;
-		private TextView content, date;
+		@InjectView(R.id.direct_message_conversation_content) public TextView content;
+		@InjectView(R.id.direct_message_conversation_date) public TextView date;
+		@InjectView(R.id.direct_message_conversation_container) public LinearLayout container;
 		
 		public ViewHolder(View v) {
 			this.v = v;
+			ButterKnife.inject(this, v);
 			v.setTag(this);
-		}
-		
-		public TextView getContent() {
-			if (content == null) {
-				content = (TextView) v.findViewById(R.id.direct_message_conversation_content);
-			}
-			return content;
-		}
-		
-		public TextView getDate() {
-			if (date == null) {
-				date = (TextView) v.findViewById(R.id.direct_message_conversation_date);
-			}
-			return date;
 		}
 	}
 }
