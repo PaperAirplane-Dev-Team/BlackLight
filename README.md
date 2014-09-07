@@ -12,6 +12,7 @@ Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight
 
 用GNU Make编译
 ---
+__*你只能在'master'分支使用Makefile编译*__
 你可以使用我编写的 `Makefile` 来编译。  
 如果你要在手机上编译，请阅读 <http://typeblog.net/tech/2014/07/30/build-android-app-on-android.html>。在电脑上只需普通Linux bash环境即可。  
 1. 设置 `$ANDROID_JAR` 环境变量指向你的 `android.jar`。(其实这一步是为Android上编译设计的，因为Android上不是标准的sdk目录)  
