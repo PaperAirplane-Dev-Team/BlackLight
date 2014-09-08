@@ -33,7 +33,7 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.AbsActivity;
-import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
@@ -92,7 +92,7 @@ public class TopicsActivity extends AbsActivity
 		}
 	}
 	
-	private class HackyFragment extends  HomeTimeLineFragment {
+	private class HackyFragment extends TimeLineFragment {
 		@Override
 		protected HomeTimeLineApiCache bindApiCache() {
 			return new HackyApiCache(getActivity());
