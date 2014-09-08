@@ -687,13 +687,19 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		@OnClick({R.id.weibo_origin, R.id.bottom_orig})
 		void showOrig() {
-			if (!(msg instanceof CommentModel) && msg.retweeted_status != null) {
-				Intent i = new Intent();
-				i.setAction(Intent.ACTION_MAIN);
-				i.setClass(context, SingleActivity.class);
-				i.putExtra("msg", msg.retweeted_status);
-				context.startActivity(i);
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(context, SingleActivity.class);
+
+			if (!(msg instanceof CommentModel)) {
+				if (msg.retweeted_status != null) {
+					i.putExtra("msg", msg.retweeted_status);
+				}
+			} else {
+				i.putExtra("msg", ((CommentModel) msg).status);
 			}
+
+			context.startActivity(i);
 		}
 
 		@OnClick(R.id.bottom_repost)
