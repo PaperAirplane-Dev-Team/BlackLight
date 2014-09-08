@@ -34,6 +34,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -197,6 +198,14 @@ public class NewPostActivity extends AbsActivity
 						mEmoticonMenu.setTitle(R.string.emoticon);
 					}
 				}
+			}
+		});
+
+		getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				mText.requestFocus();
+				mText.requestFocusFromTouch();
 			}
 		});
 
