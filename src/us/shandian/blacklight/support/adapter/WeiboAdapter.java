@@ -170,7 +170,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.avatar.setImageBitmap(null);
 			h.avatar.setTag(true);
-			h.avatar.setOnClickListener(null);
 			h.comment_and_retweet.setVisibility(View.VISIBLE);
 			h.swipe.close(false);
 			
