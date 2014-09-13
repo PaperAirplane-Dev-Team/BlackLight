@@ -335,12 +335,12 @@ public class TimeLineFragment extends Fragment implements
 		if (!hasSmartBar()) {
 			boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED,
 					false);
+			int color = Utility.getLayerColor(getActivity());
 			mNew = new FloatingActionButton.Builder(getActivity())
 					.withDrawable(
 							getResources()
 									.getDrawable(R.drawable.ic_action_new))
-					.withButtonColor(
-							getResources().getColor(R.color.action_gray))
+					.withButtonColor(color)
 					.withGravity(
 							Gravity.BOTTOM
 									| (!isRightHand ? Gravity.RIGHT
@@ -351,8 +351,7 @@ public class TimeLineFragment extends Fragment implements
 					.withDrawable(
 							getResources().getDrawable(
 									R.drawable.ic_action_refresh))
-					.withButtonColor(
-							getResources().getColor(R.color.action_gray))
+					.withButtonColor(color)
 					.withGravity(
 							Gravity.BOTTOM
 									| (!isRightHand ? Gravity.LEFT

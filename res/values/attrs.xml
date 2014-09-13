@@ -41,6 +41,7 @@
 		<attr name="UserBackground" format="reference" />
 		<attr name="NewPostImgFilter" format="reference" />
 		<attr name="BottomViewColor" format="reference" />
+		<attr name="LayerColor" format="reference" />
 	</declare-styleable>
 
 </resources>
