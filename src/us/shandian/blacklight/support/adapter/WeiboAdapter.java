@@ -737,6 +737,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@OnClick(R.id.bottom_like)
 		void like() {
 			new LikeTask().execute(msg);
+			openOrClose();
 		}
 
 		@OnClick(R.id.bottom_delete)
