@@ -135,6 +135,7 @@ public class NewPostActivity extends AbsActivity
 				@Override
 				public void onEmoticonSelected(String name) {
 					mText.getText().insert(mText.getSelectionStart(), name);
+					mDrawer.closeDrawer(Gravity.RIGHT);
 				}
 		});
 
@@ -144,6 +145,7 @@ public class NewPostActivity extends AbsActivity
 				int sel = mText.getSelectionStart();
 				mText.getText().insert(sel, "[" + hex + "  [d");
 				mText.setSelection(sel + 9);
+				mDrawer.closeDrawer(Gravity.RIGHT);
 			}
 		});
 		
