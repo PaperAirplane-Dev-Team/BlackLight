@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -200,6 +201,14 @@ public class SingleActivity extends AbsActivity
 				public void onPageScrollStateChanged(int state) {
 					
 				}
+		});
+
+		// Expand the pane on startup
+		getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				mRoot.expandPane();
+			}
 		});
 		
 	}

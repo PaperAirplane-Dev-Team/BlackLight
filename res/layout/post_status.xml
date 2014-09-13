@@ -57,7 +57,9 @@
 			android:textColor="?attr/CardForeground"
 			android:id="@+id/post_edit"
 			android:gravity="top"
-			android:padding="5dp"/>
+			android:padding="5dp"
+			android:focusable="true"
+			android:focusableInTouchMode="true"/>
 
 	</RelativeLayout>
 

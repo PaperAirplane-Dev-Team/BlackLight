@@ -34,6 +34,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -134,6 +135,7 @@ public class NewPostActivity extends AbsActivity
 				@Override
 				public void onEmoticonSelected(String name) {
 					mText.getText().insert(mText.getSelectionStart(), name);
+					mDrawer.closeDrawer(Gravity.RIGHT);
 				}
 		});
 
@@ -143,6 +145,7 @@ public class NewPostActivity extends AbsActivity
 				int sel = mText.getSelectionStart();
 				mText.getText().insert(sel, "[" + hex + "  [d");
 				mText.setSelection(sel + 9);
+				mDrawer.closeDrawer(Gravity.RIGHT);
 			}
 		});
 		
@@ -197,6 +200,14 @@ public class NewPostActivity extends AbsActivity
 						mEmoticonMenu.setTitle(R.string.emoticon);
 					}
 				}
+			}
+		});
+
+		getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				mText.requestFocus();
+				mText.requestFocusFromTouch();
 			}
 		});
 

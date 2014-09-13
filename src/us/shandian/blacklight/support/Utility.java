@@ -692,6 +692,17 @@ public class Utility
 			}
 		}
 	}
+
+	public static int getLayerColor(Activity activity) {
+		try {
+			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_LayerColor, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
 	
 	@TargetApi(19)
 	public static void enableTint(Activity activity) {
