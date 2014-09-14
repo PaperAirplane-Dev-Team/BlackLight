@@ -170,18 +170,6 @@ public class TimeLineFragment extends Fragment implements
 
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
 		mList.setFastScrollEnabled(fs);
-
-		if (fs) {
-			// Scroller
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while (!Utility.changeFastScrollColor(mList, getResources()
-							.getColor(R.color.gray)))
-						;
-				}
-			}).start();
-		}
 	}
 
 	public void doRefresh() {

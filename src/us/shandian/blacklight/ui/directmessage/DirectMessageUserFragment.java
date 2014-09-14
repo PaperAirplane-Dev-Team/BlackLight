@@ -124,16 +124,6 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
 		mList.setFastScrollEnabled(fs);
-
-		if (fs) {
-			// Scroller
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while(!Utility.changeFastScrollColor(mList, getResources().getColor(R.color.gray)));
-				}
-			}).start();
-		}
 	}
 	
 	@Override

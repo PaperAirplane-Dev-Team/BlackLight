@@ -141,24 +141,6 @@ public class Utility
 		
 		return array[0] != 0 ? array[0] : 2048;
 	}
-	
-	public static boolean changeFastScrollColor(AbsListView v, int color) {
-		try {
-			Field f = AbsListView.class.getDeclaredField("mFastScroller");
-			f.setAccessible(true);
-			Object o = f.get(v);
-			f = f.getType().getDeclaredField("mThumbImage");
-			f.setAccessible(true);
-			o = f.get(o);
-			((ImageView) o).setColorFilter(color);
-			return true;
-		} catch (Exception e) {
-			if (DEBUG) {
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-			return false;
-		}
-	}
 
 	public static String truncateSourceString(String from) {
 		int start = from.indexOf(">") + 1;
