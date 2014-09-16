@@ -146,6 +146,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		p.gravity = mDrawerGravity;
 		nav.setLayoutParams(p);
 
+		// Adjust Padding for statusbar and navigation bar
+		nav.setPadding(0, Utility.getDecorPaddingTop(this), 0, 0);
+
 		// Initialize naviagtion drawer
 		//mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer_l, 0, 0) {

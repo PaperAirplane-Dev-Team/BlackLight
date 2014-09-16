@@ -271,10 +271,18 @@ public class Utility
 	public static int getStatusBarHeight(Context context) {
 		int result = 0;
 		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-		if (resourceId > 0) {
+if (resourceId > 0) {
 			result = context.getResources().getDimensionPixelSize(resourceId);
 		}
 		return result;
+	}
+
+	public static int getDecorPaddingTop(Context context) {
+		if (Build.VERSION.SDK_INT >= 19) {
+			return getStatusBarHeight(context) + getActionBarHeight(context);
+		} else {
+			return getActionBarHeight(context);
+		}
 	}
 	
 	public static void setActionBarTranslation(Activity activity, float y) {

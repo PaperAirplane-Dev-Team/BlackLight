@@ -37,8 +37,7 @@
 			android:layout_width="240dp"
 			android:layout_height="match_parent"
 			android:background="?attr/LayerColor"
-			android:orientation="vertical"
-			android:fitsSystemWindows="true">
+			android:orientation="vertical">
 
 			<include
 				layout="@layout/main_account"/>

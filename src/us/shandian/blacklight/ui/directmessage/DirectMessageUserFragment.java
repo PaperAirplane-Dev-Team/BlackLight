@@ -77,12 +77,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		if (getActivity() instanceof MainActivity) {
 			View header = new View(getActivity());
 			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
-					Utility.getActionBarHeight(getActivity()));
-
-			if (Build.VERSION.SDK_INT >= 19) {
-				p.height += Utility.getStatusBarHeight(getActivity());
-			}
-
+					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);
 			mList.addHeaderView(header);
 			mSwipeRefresh.setTopMargin(p.height);
