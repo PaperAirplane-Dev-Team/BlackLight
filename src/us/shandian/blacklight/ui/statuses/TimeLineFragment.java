@@ -142,14 +142,16 @@ public class TimeLineFragment extends Fragment implements
 		if (!hidden) {
 			initTitle();
 			resume();
-			showFAB();
 			if (this instanceof HomeTimeLineFragment) {
 				((MainActivity) getActivity()).setShowSpinner(true);
+				showFAB();
 			} else {
 				((MainActivity) getActivity()).setShowSpinner(false);
 			}
 		} else {
-			hideFAB();
+			if (this instanceof HomeTimeLineFragment) {
+				hideFAB();
+			}
 		}
 	}
 
