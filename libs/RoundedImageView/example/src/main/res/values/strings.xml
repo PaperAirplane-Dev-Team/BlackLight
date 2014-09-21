@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">RoundedImageView</string>
+  <string name="picasso_app_name">RoundedPicassoView</string>
+
+  <string-array name="action_list">
+    <item>Bitmap</item>
+    <item>Ovals</item>
+    <item>Picasso</item>
+    <item>Color</item>
+  </string-array>
+</resources>

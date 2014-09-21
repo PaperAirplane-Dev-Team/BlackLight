@@ -19,6 +19,7 @@
 -->
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/card"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -278,18 +279,23 @@
 		android:layout_marginTop="5dp"
 		android:layout_marginBottom="5dp"
 		android:layout_width="wrap_content"
-		android:layout_height="50dp">
+		android:layout_height="wrap_content">
 		
-		<ImageView
+		<com.makeramen.RoundedImageView
 			android:id="@+id/weibo_avatar"
-			android:layout_width="50dp"
+			android:layout_width="wrap_content"
 			android:layout_height="50dp"
+			android:scaleType="centerInside"
+			app:oval="false"
+			app:corner_radius="25dp"
+			app:border_width="0dp"
+			app:mutate_background="true"
 			style="?android:attr/buttonBarButtonStyle"/>
 		
 		<TextView
 			android:id="@+id/weibo_name"
 			android:layout_toRightOf="@id/weibo_avatar"
-			android:layout_marginLeft="10dp"
+			android:layout_marginLeft="5dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerVertical="true"
