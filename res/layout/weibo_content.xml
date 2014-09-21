@@ -24,7 +24,7 @@
 	android:layout_height="match_parent"
 	android:background="?attr/CardBackground">
 
-	<ImageView
+	<!--<ImageView
 		android:layout_height="50dp"
 		style="?android:attr/buttonBarButtonStyle"
 		android:layout_width="50dp"
@@ -143,28 +143,61 @@
 			android:textSize="10sp"
 			android:singleLine="true"/>
 
-	</LinearLayout>
+	</LinearLayout>-->
 
 	<us.shandian.blacklight.ui.common.HackyTextView
 		android:layout_height="wrap_content"
 		android:text="Content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_content"
-		android:textSize="14.5sp"
+		android:textSize="16sp"
 		android:textColor="?attr/CardForeground"
 		android:textColorLink="@color/link_blue"
-		android:lineSpacingExtra="2dp"
-		android:layout_below="@id/weibo_avatar"
-		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"
-		android:paddingBottom="5dp"/>
+		android:lineSpacingExtra="4dp"
+		android:layout_marginTop="15dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:paddingBottom="15dp"/>
+
+	<TextView
+		android:id="@+id/weibo_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Date"
+		android:textSize="12sp"
+		android:textColor="?attr/CardSubColor"
+		android:layout_below="@id/weibo_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="2dp"
+		android:paddingBottom="10dp"/>
+
+	<TextView
+		android:id="@+id/weibo_from_divide"
+		android:layout_below="@id/weibo_content"
+		android:layout_toRightOf="@id/weibo_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="12sp"
+		android:textColor="?attr/CardSubColor"
+		android:text="|"/>
+
+	<TextView
+		android:id="@+id/weibo_from"
+		android:layout_toRightOf="@id/weibo_from_divide"
+		android:layout_below="@id/weibo_content"
+		android:layout_marginLeft="2dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="12sp"
+		android:textColor="?attr/CardSubColor"
+		android:text="From"/>
 
 	<RelativeLayout
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_origin"
 		android:background="?attr/CardOrigBackground"
-		android:layout_below="@id/weibo_content"
+		android:layout_below="@id/weibo_date"
 		android:visibility="gone">
 
 		<View
@@ -179,14 +212,14 @@
 			android:text="Content"
 			android:layout_width="match_parent"
 			android:id="@+id/weibo_orig_content"
-			android:layout_marginLeft="5dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginRight="5dp"
-			android:paddingBottom="5dp"
-			android:textSize="14.5sp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginRight="10dp"
+			android:paddingBottom="10dp"
+			android:textSize="16sp"
 			android:textColor="?attr/CardForeground"
 			android:textColorLink="@color/link_blue"
-			android:lineSpacingExtra="2dp"/>
+			android:lineSpacingExtra="4dp"/>
 
 	</RelativeLayout>
 
@@ -194,7 +227,10 @@
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="?attr/CardOrigBackground"
-		android:padding="5dp"
+		android:paddingLeft="10dp"
+		android:paddingTop="5dp"
+		android:paddingRight="10dp"
+		android:paddingBottom="5dp"
 		android:id="@+id/weibo_pics_scroll"
 		android:layout_below="@id/weibo_origin"
 		android:visibility="gone">
@@ -235,6 +271,35 @@
 		</LinearLayout>
 
 	</us.shandian.blacklight.ui.common.HackyHorizontalScrollView>
+
+	<RelativeLayout
+		android:layout_below="@id/weibo_pics_scroll"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"
+		android:layout_width="wrap_content"
+		android:layout_height="50dp">
+		
+		<ImageView
+			android:id="@+id/weibo_avatar"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			style="?android:attr/buttonBarButtonStyle"/>
+		
+		<TextView
+			android:id="@+id/weibo_name"
+			android:layout_toRightOf="@id/weibo_avatar"
+			android:layout_marginLeft="10dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:textSize="15dp"
+			android:textColor="?attr/CardForeground"
+			android:text="Author Name"
+			android:singleLine="true"
+			android:ellipsize="end"/>
+	
+	</RelativeLayout>
 
 </RelativeLayout>
 

@@ -170,7 +170,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.avatar.setImageBitmap(null);
 			h.avatar.setTag(true);
-			h.comment_and_retweet.setVisibility(View.VISIBLE);
+			//h.comment_and_retweet.setVisibility(View.VISIBLE);
 			h.swipe.close(false);
 			
 			LinearLayout container = h.pics;
@@ -251,9 +251,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView from = h.from;
 		TextView content = h.content;
 		TextView date = h.date;
-		TextView attitudes = h.attitudes;
+		/*TextView attitudes = h.attitudes;
 		TextView retweet = h.retweets;
-		TextView comments = h.comments;
+		TextView comments = h.comments;*/
 		ImageView like = h.like;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
@@ -263,7 +263,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		date.setText(mTimeUtils.buildTimeString(msg.millis));
 
-		if (!mShowCommentStatus || msg instanceof CommentModel) {
+		/*if (!mShowCommentStatus || msg instanceof CommentModel) {
 			h.comment_and_retweet.setVisibility(View.GONE);
 		} else {
 			attitudes.setText(String.valueOf(msg.attitudes_count));
@@ -272,7 +272,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			if(msg.liked){
 				like.setImageResource(R.drawable.ic_action_bad);
 			}
-		}
+		}*/
 		
 		bindMultiPicLayout(h, msg, true);
 		
@@ -606,12 +606,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		public boolean sub = false;
 
 		@InjectView(R.id.weibo_date) public TextView date;
-		@InjectView(R.id.weibo_retweet) public TextView retweets;
-		@InjectView(R.id.weibo_comments) public TextView comments;
+		//@InjectView(R.id.weibo_retweet) public TextView retweets;
+		//@InjectView(R.id.weibo_comments) public TextView comments;
 		@InjectView(R.id.weibo_name) public TextView name;
 		@InjectView(R.id.weibo_from) public TextView from;
 		@InjectView(R.id.weibo_content) public TextView content;
-		@InjectView(R.id.weibo_attitudes) public TextView attitudes;
+		//@InjectView(R.id.weibo_attitudes) public TextView attitudes;
 		@InjectView(R.id.weibo_orig_content) public TextView orig_content;
 		@InjectView(R.id.weibo_avatar) public ImageView avatar;
 		@InjectView(R.id.bottom_like) public ImageView like;
@@ -627,7 +627,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.bottom_grid) public DynamicGridLayout grid;
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
-		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
+		//@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
 		
 		public View v;
 		public MessageModel msg;

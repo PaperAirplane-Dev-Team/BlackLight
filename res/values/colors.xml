@@ -33,6 +33,7 @@
 	<color name="shadow_gray">#ebebeb</color>
 	<color name="superlight_gray">#fcfcfc</color>
 	<color name="selector_gray">#eaeaea</color>
+	<color name="sub_gray">#bcbcbc</color>
 	<color name="link_blue">#9797ff</color>
 	<color name="action_gray">#444448</color>
 	<color name="white">#ffffff</color>
