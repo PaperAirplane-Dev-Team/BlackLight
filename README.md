@@ -32,6 +32,14 @@ __*你只能在'master'分支使用Makefile编译*__
 7. 如果需要，重启Eclipse并Clean所有项目。
 8. Enjoy it!
 
+在Chrome中运行
+---
+1. 首先参考 <https://github.com/vladikoff/chromeos-apk/blob/master/archon.md> 配置apk运行环境
+2. 在编译好apk以后执行 `make chrome`
+3. 在chrome中以 `unpacked plugin` 方式载入本项目的 `chrome` 目录
+4. 以后重新编译时只需再执行 `make chrome` 即可更新插件内的apk
+5. Enjoy it!
+
 感谢
 ---
 四次元(@qii)  

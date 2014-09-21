@@ -26,4 +26,5 @@ unused.txt
 /libs/*/libs/*/.settings
 /keystore/publish.keystore
 /keystore/publish.keystore.properties
+/chrome/vendor
 *.iml

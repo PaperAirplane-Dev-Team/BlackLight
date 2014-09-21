@@ -19,6 +19,7 @@ APK_NAME	:= build.apk
 DEX_NAME	:= classes.dex
 OUT_DEX		:= $(BIN_DIR)/$(DEX_NAME)
 OUT_APK		:= $(BIN_DIR)/$(APK_NAME)
+CHROME_DIR	:= chrome/vendor/chromium/crx
 # Path to directories that contain source
 # Including source directories of library projects
 SRC_DIR		:= \
@@ -157,7 +158,7 @@ define anno-clean
 	@cd $1 && make clean
 endef
 
-.PHONY: clean pre merge debug_make release_make debug release install anno anno-clean
+.PHONY: clean pre merge debug_make release_make debug release install anno anno-clean chrome
 # Clean up 
 clean: anno-clean
 	$(call target, Clean)
@@ -232,6 +233,12 @@ install:
 	else \
 		$(ADB) install -r $(OUT_APK);\
 	fi
+
+# Chrome Plugin
+chrome:
+	rm -rf $(CHROME_DIR)
+	mkdir -p $(CHROME_DIR)
+	cp $(OUT_APK) $(CHROME_DIR)
 
 # Annonations
 anno:
