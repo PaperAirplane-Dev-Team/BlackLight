@@ -208,6 +208,11 @@ public class Utility
 		return -1;
 	}
 
+	public static boolean hasTranslucentSystemBars() {
+		return Build.VERSION.SDK_INT >= 19 && !Build.BRAND.equals("chromium")
+				&& !Build.BRAND.equals("chrome");
+	}
+
 	public static View addActionViewToCustom(Activity activity, int id, ViewGroup custom) {
 		View v = activity.findViewById(id);
 
@@ -278,7 +283,7 @@ if (resourceId > 0) {
 	}
 
 	public static int getDecorPaddingTop(Context context) {
-		if (Build.VERSION.SDK_INT >= 19) {
+		if (hasTranslucentSystemBars()) {
 			return getStatusBarHeight(context) + getActionBarHeight(context);
 		} else {
 			return getActionBarHeight(context);
@@ -696,7 +701,7 @@ if (resourceId > 0) {
 	
 	@TargetApi(19)
 	public static void enableTint(Activity activity) {
-		if (Build.VERSION.SDK_INT < 19) return;
+		if (!hasTranslucentSystemBars()) return;
 		
 		Window w = activity.getWindow();
 		WindowManager.LayoutParams p = w.getAttributes();
