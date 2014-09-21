@@ -40,6 +40,9 @@ __*你只能在'master'分支使用Makefile编译*__
 4. 以后重新编译时只需再执行 `make chrome` 即可更新插件内的apk
 5. Enjoy it!
 
+Chrome中运行效果:  
+![Chrome](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/chrome-screenshot.png)
+
 感谢
 ---
 四次元(@qii)  
