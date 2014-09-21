@@ -238,7 +238,7 @@ public class NewPostActivity extends AbsActivity
 		
 		// Image picked, decode
 		if (requestCode == REQUEST_PICK_IMG && resultCode == RESULT_OK) {
-			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null, null);
+			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
 			cursor.moveToFirst();
 			String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 			cursor.close();
