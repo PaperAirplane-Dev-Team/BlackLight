@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Debug;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,7 +172,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.avatar.setImageBitmap(null);
 			h.avatar.setTag(true);
-			//h.comment_and_retweet.setVisibility(View.VISIBLE);
+			h.comment_and_retweet.setVisibility(View.VISIBLE);
+
+			if (h.attitudes_icon.getColorFilter() != null) {
+				h.attitudes_icon.setColorFilter(null);
+			}
+
 			h.swipe.close(false);
 			
 			LinearLayout container = h.pics;
@@ -251,9 +258,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView from = h.from;
 		TextView content = h.content;
 		TextView date = h.date;
-		/*TextView attitudes = h.attitudes;
+		TextView attitudes = h.attitudes;
 		TextView retweet = h.retweets;
-		TextView comments = h.comments;*/
+		TextView comments = h.comments;
 		ImageView like = h.like;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
@@ -263,16 +270,22 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		date.setText(mTimeUtils.buildTimeString(msg.millis));
 
-		/*if (!mShowCommentStatus || msg instanceof CommentModel) {
+		if (!mShowCommentStatus || msg instanceof CommentModel) {
 			h.comment_and_retweet.setVisibility(View.GONE);
 		} else {
 			attitudes.setText(String.valueOf(msg.attitudes_count));
 			retweet.setText(String.valueOf(msg.reposts_count));
 			comments.setText(String.valueOf(msg.comments_count));
-			if(msg.liked){
-				like.setImageResource(R.drawable.ic_action_bad);
-			}
-		}*/
+		}
+
+		if (!(msg instanceof CommentModel) && msg.liked) { 
+			h.attitudes_icon.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+			like.setImageResource(R.drawable.ic_action_bad);
+		}
+
+		if (DEBUG) {
+			Log.d(TAG, "liked = " + String.valueOf(msg.liked));
+		}
 		
 		bindMultiPicLayout(h, msg, true);
 		
@@ -575,12 +588,14 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 
-	private class LikeTask extends AsyncTask<MessageModel, Void, Boolean>{
+	private class LikeTask extends AsyncTask<Object, Void, Boolean>{
 		private MessageModel mm;
+		private ViewHolder h;
 
 		@Override
-		protected Boolean doInBackground(MessageModel... params) {
-			mm = params[0];
+		protected Boolean doInBackground(Object... params) {
+			mm = (MessageModel) params[0];
+			h = (ViewHolder) params[1];
 			if (mm.liked){
 				return AttitudesApi.cancelLike(mm.id);
 			}else{
@@ -590,14 +605,21 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		@Override
 		protected void onPostExecute(Boolean result){
-			if (result){
+			if (result && mm == h.msg){
 				if(mm.liked){
 					-- mm.attitudes_count;
 				}else{
 					++ mm.attitudes_count;
 				}
-				mm.liked = !mm.liked; // Definitely wrong. Not working. I've got no idea here.
-				// notifyDataSetInvalidated();
+				mm.liked = !mm.liked;
+
+				if (mm.liked) {
+					h.attitudes_icon.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+				} else {
+					h.attitudes_icon.setColorFilter(null);
+				}
+
+				h.attitudes.setText(String.valueOf(mm.attitudes_count));
 			}
 		}
 	}
@@ -606,12 +628,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		public boolean sub = false;
 
 		@InjectView(R.id.weibo_date) public TextView date;
-		//@InjectView(R.id.weibo_retweet) public TextView retweets;
-		//@InjectView(R.id.weibo_comments) public TextView comments;
+		@InjectView(R.id.weibo_retweet) public TextView retweets;
+		@InjectView(R.id.weibo_comments) public TextView comments;
 		@InjectView(R.id.weibo_name) public TextView name;
 		@InjectView(R.id.weibo_from) public TextView from;
 		@InjectView(R.id.weibo_content) public TextView content;
-		//@InjectView(R.id.weibo_attitudes) public TextView attitudes;
+		@InjectView(R.id.weibo_attitudes) public TextView attitudes;
 		@InjectView(R.id.weibo_orig_content) public TextView orig_content;
 		@InjectView(R.id.weibo_avatar) public ImageView avatar;
 		@InjectView(R.id.bottom_like) public ImageView like;
@@ -627,7 +649,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.bottom_grid) public DynamicGridLayout grid;
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
-		//@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
+		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
+		@InjectView(R.id.weibo_attitudes_icon) public ImageView attitudes_icon;
 		
 		public View v;
 		public MessageModel msg;
@@ -702,7 +725,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.bottom_repost)
+		@OnClick({R.id.bottom_repost, R.id.weibo_retweet_icon})
 		void repost() {
 			if(!(msg instanceof CommentModel)) {
 				Intent i = new Intent();
@@ -718,7 +741,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			Utility.copyToClipboard(context, msg.text);
 		}
 
-		@OnClick(R.id.bottom_reply)
+		@OnClick({R.id.bottom_reply, R.id.weibo_comments_icon})
 		void reply() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -734,10 +757,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.bottom_like)
+		@OnClick({R.id.bottom_like, R.id.weibo_attitudes_icon})
 		void like() {
-			new LikeTask().execute(msg);
-			openOrClose();
+			new LikeTask().execute(msg, this);
 		}
 
 		@OnClick(R.id.bottom_delete)

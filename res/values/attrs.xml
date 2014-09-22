@@ -34,6 +34,9 @@
 		<attr name="CardOrigBackground" format="reference" />
 		<attr name="CardDivider" format="reference" />
 		<attr name="CardSubColor" format="reference" />
+		<attr name="CardRatings" format="reference" />
+		<attr name="CardReposts" format="reference" />
+		<attr name="CardComments" format="reference" />
 		<attr name="ShadowGray" format="reference" />
 		<attr name="DragBackground" format="reference" />
 		<attr name="IconCollapse" format="reference" />

@@ -33,6 +33,9 @@
 		<item name="CardOrigBackground">@color/midium_gray</item>
 		<item name="CardDivider">@color/gray_alpha_lighter</item>
 		<item name="CardSubColor">@color/sub_gray</item>
+		<item name="CardRatings">@drawable/ic_action_good_dark</item>
+		<item name="CardReposts">@drawable/ic_action_reply_all_dark</item>
+		<item name="CardComments">@drawable/ic_fa_comments</item>
 		<item name="ShadowGray">@color/shadow_gray</item>
 		<item name="DragBackground">@color/white</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse</item>
@@ -52,6 +55,9 @@
 		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
 		<item name="CardDivider">@color/cant_be_darker_gray</item>
 		<item name="CardSubColor">@color/gray</item>
+		<item name="CardRatings">@drawable/ic_action_good</item>
+		<item name="CardReposts">@drawable/ic_action_reply_all</item>
+		<item name="CardComments">@drawable/ic_fa_comments_light</item>
 		<item name="ShadowGray">@color/cant_be_darker_gray</item>
 		<item name="DragBackground">@color/cant_be_darker_gray</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse_dark</item>
