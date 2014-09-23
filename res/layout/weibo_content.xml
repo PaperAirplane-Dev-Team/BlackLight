@@ -224,7 +224,7 @@
 
 	</RelativeLayout>
 
-	<us.shandian.blacklight.ui.common.HackyHorizontalScrollView
+	<HorizontalScrollView
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="?attr/CardOrigBackground"
@@ -271,7 +271,7 @@
 
 		</LinearLayout>
 
-	</us.shandian.blacklight.ui.common.HackyHorizontalScrollView>
+	</HorizontalScrollView>
 
 	<RelativeLayout
 		android:layout_below="@id/weibo_pics_scroll"

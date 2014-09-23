@@ -29,10 +29,13 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Debug;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,8 +68,6 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
-import us.shandian.blacklight.ui.common.DynamicGridLayout;
-import us.shandian.blacklight.ui.common.HackyHorizontalScrollView;
 import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.ReplyToActivity;
@@ -81,7 +82,7 @@ import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener {
+public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener, SwipeLayout.SwipeDenier {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 
 	private static final int TAG_MSG = R.id.weibo_content;
@@ -218,6 +219,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 
+	@Override
+	public boolean shouldDenySwipe(MotionEvent ev) {
+		return true;
+	}
+
 	public void addOnScrollListener(AbsListView.OnScrollListener listener) {
 		mListeners.add(listener);
 	}
@@ -325,8 +331,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private void bindSwipe(ViewHolder h) {
 		SwipeLayout swipe = h.swipe;
 		swipe.setShowMode(SwipeLayout.ShowMode.LayDown);
-		swipe.setDragEdge(SwipeLayout.DragEdge.Right);
-		swipe.addSwipeDenier(h.scroll);
+		swipe.setDragEdge(SwipeLayout.DragEdge.Bottom);
+		swipe.addSwipeDenier(this);
 	}
 
 	private void bindSwipeActions(ViewHolder h) {
@@ -390,7 +396,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	}
 	
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
-		HackyHorizontalScrollView scroll = h.scroll;
+		HorizontalScrollView scroll = h.scroll;
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
 			scroll.setVisibility(View.VISIBLE);
@@ -644,9 +650,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.bottom_orig) public ImageView orig;
 		@InjectView(R.id.bottom_copy) public ImageView copy;
 		@InjectView(R.id.swipe) public SwipeLayout swipe;
-		@InjectView(R.id.weibo_pics_scroll) public HackyHorizontalScrollView scroll;
+		@InjectView(R.id.weibo_pics_scroll) public HorizontalScrollView scroll;
 		@InjectView(R.id.weibo_pics) public LinearLayout pics;
-		@InjectView(R.id.bottom_grid) public DynamicGridLayout grid;
+		@InjectView(R.id.bottom_grid) public GridLayout grid;
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
 		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
