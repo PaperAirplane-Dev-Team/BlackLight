@@ -5,7 +5,6 @@
 		<item>微格iPhone客户端</item>
 		<item>随享iPhone</item>
 		<item>Weico.iPhone</item>
-		<item>webOS客户端</item>
 		<item>WeicoPro</item>
 	</string-array>
 	<string-array name="bm_keys">
@@ -13,7 +12,6 @@
 		<item>2027761570|5042214816d14b2d9e8ae8255f96180d</item>
 		<item>31024382|25c3e6b5763653d1e5b280884b45c51f</item>
 		<item>82966982|72d4545a28a46a6f329c4f2b1e949e6a</item>
-		<item>1262673699|6185cf040b403dfa35de9678b5e35baf</item>
 		<item>2323547071|16ed80cc77fea11f7f7e96eca178ada3</item>
 	</string-array>
 </resources>
