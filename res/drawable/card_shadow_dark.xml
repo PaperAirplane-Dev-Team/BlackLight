@@ -17,25 +17,22 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+		<shape android:shape="rectangle">
+			<solid android:color="@color/cant_be_darker_gray" />
+			<corners android:radius="2dp" />
+		</shape>
+	</item>
 
-	<com.daimajia.swipe.SwipeLayout
-		android:id="@+id/swipe"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_margin="5dp">
-
-		<!-- Bottom View -->
-		<include layout="@layout/weibo_bottom" />
-
-		<!-- Surface View -->
-		<include layout="@layout/weibo_content" />
-
-	</com.daimajia.swipe.SwipeLayout>
-
-</LinearLayout>
-
+	<item
+		android:left="2dp"
+		android:right="2dp"
+		android:top="2dp"
+		android:bottom="2dp">
+		<shape android:shape="rectangle">
+			<solid android:color="@color/darker_than_superdark_gray" />
+			<cornets android:radius="2dp" />
+		</shape>
+	</item>
+</layer-list>

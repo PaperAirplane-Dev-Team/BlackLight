@@ -30,19 +30,19 @@
 	<!-- Theme -->
 	<declare-styleable name="BlackLight">
 		<attr name="CardBackground" format="reference" />
-		<attr name="CardForeground" format="reference" />
-		<attr name="CardOrigBackground" format="reference" />
+		<attr name="CardForeground" format="color" />
+		<attr name="CardOrigBackground" format="color" />
 		<attr name="CardDivider" format="reference" />
-		<attr name="CardSubColor" format="reference" />
+		<attr name="CardSubColor" format="color" />
 		<attr name="CardRatings" format="reference" />
 		<attr name="CardReposts" format="reference" />
 		<attr name="CardComments" format="reference" />
-		<attr name="ShadowGray" format="reference" />
-		<attr name="DragBackground" format="reference" />
+		<attr name="ShadowGray" format="color" />
+		<attr name="DragBackground" format="color" />
 		<attr name="IconCollapse" format="reference" />
 		<attr name="IconSendNow" format="reference" />
 		<attr name="IconEmoticon" format="reference" />
-		<attr name="UserBackground" format="reference" />
+		<attr name="UserBackground" format="color" />
 		<attr name="NewPostImgFilter" format="reference" />
 		<attr name="BottomViewColor" format="reference" />
 		<attr name="LayerColor" format="reference" />

@@ -30,7 +30,7 @@
 	<color name="dark_action_gray">#002222</color>
 	<color name="light_gray">#eeeeee</color>
 	<color name="midium_gray">#fbfbfb</color>
-	<color name="shadow_gray">#ebebeb</color>
+	<color name="shadow_gray">#cabbbbbb</color>
 	<color name="superlight_gray">#fcfcfc</color>
 	<color name="selector_gray">#eaeaea</color>
 	<color name="sub_gray">#bcbcbc</color>

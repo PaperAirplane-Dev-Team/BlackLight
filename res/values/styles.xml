@@ -28,7 +28,7 @@
 		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 		<item name="android:windowBackground">@color/light_gray</item>
 		<item name="android:windowContentOverlay">@null</item>
-		<item name="CardBackground">@color/white</item>
+		<item name="CardBackground">@drawable/card_shadow</item>
 		<item name="CardForeground">@color/darker_gray</item>
 		<item name="CardOrigBackground">@color/midium_gray</item>
 		<item name="CardDivider">@color/gray_alpha_lighter</item>
@@ -36,7 +36,6 @@
 		<item name="CardRatings">@drawable/ic_action_good_dark</item>
 		<item name="CardReposts">@drawable/ic_action_reply_all_dark</item>
 		<item name="CardComments">@drawable/ic_fa_comments</item>
-		<item name="ShadowGray">@color/shadow_gray</item>
 		<item name="DragBackground">@color/white</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse</item>
 		<item name="IconSendNow">@drawable/ic_action_send_now_dark</item>
@@ -50,7 +49,7 @@
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar</item>
 		<item name="android:windowBackground">@color/superdark_gray</item>
-		<item name="CardBackground">@color/darker_than_superdark_gray</item>
+		<item name="CardBackground">@drawable/card_shadow_dark</item>
 		<item name="CardForeground">@color/gray</item>
 		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
 		<item name="CardDivider">@color/cant_be_darker_gray</item>
