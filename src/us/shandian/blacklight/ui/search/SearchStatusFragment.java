@@ -55,11 +55,6 @@ public class SearchStatusFragment extends TimeLineFragment implements SearchFrag
 	protected void initTitle() {
 
 	}
-
-	@Override
-	protected void bindNewButton(View v) {
-
-	}
 	
 	private class HackyApiCache extends HomeTimeLineApiCache {
 		public HackyApiCache(Context context) {

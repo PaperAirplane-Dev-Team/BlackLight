@@ -40,11 +40,6 @@ public class MentionsTimeLineFragment extends TimeLineFragment
 	}
 
 	@Override
-	protected void bindNewButton(View v) {
-		
-	}
-
-	@Override
 	protected void load(boolean param) {
 		super.load(param);
 

@@ -46,6 +46,8 @@
 		<attr name="NewPostImgFilter" format="reference" />
 		<attr name="BottomViewColor" format="reference" />
 		<attr name="LayerColor" format="reference" />
+		<attr name="FABBackground" format="color" />
+		<attr name="FABNewIcon" format="reference" />
 	</declare-styleable>
 
 </resources>

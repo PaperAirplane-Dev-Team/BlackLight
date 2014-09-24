@@ -49,10 +49,5 @@ public class StatusCommentFragment extends TimeLineFragment
 	protected void newPost() {
 		((SingleActivity) getActivity()).commentOn();
 	}
-
-	@Override
-	protected void bindNewButton(View v) {
-
-	}
 	
 }

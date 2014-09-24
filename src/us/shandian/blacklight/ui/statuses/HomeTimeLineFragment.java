@@ -19,37 +19,6 @@ import us.shandian.blacklight.support.Utility;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class HomeTimeLineFragment extends TimeLineFragment{
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		setHasOptionsMenu(true);
-
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu){
-		if (hasSmartBar()){
-			Log.i("s", "onCreateOptionsMenu for SmartBar!");
-			getActivity().getMenuInflater().inflate(R.menu.home_timeline, menu);
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem menuItem){
-		if (menuItem.getItemId() == R.id.post_new) {
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(getActivity(), NewPostActivity.class);
-			startActivity(i);
-			return true;
-		} else if (menuItem.getItemId() == R.id.post_refresh) {
-			doRefresh();
-		}
-
-		return false;
-	}
-
 	@Override
 	protected void load(boolean param) {
 		mCache.load(param, ((MainActivity) getActivity()).mCurrentGroupId);

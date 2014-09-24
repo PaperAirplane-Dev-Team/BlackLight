@@ -45,11 +45,6 @@ public class CommentTimeLineFragment extends TimeLineFragment
 	protected void initTitle() {
 		getActivity().getActionBar().setTitle(R.string.comment);
 	}
-	
-	@Override
-	protected void bindNewButton(View v) {
-
-	}
 
 	@Override
 	protected void load(boolean param) {

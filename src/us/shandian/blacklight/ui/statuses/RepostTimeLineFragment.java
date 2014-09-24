@@ -47,9 +47,4 @@ public class RepostTimeLineFragment extends TimeLineFragment
 	protected void newPost() {
 		((SingleActivity) getActivity()).repost();
 	}
-
-	@Override
-	protected void bindNewButton(View v) {
-
-	}
 }

@@ -42,9 +42,4 @@ public class UserTimeLineFragment extends TimeLineFragment
 	protected void initTitle() {
 		// Don't change my title
 	}
-	
-	@Override
-	protected void bindNewButton(View v) {
-
-	}
 }

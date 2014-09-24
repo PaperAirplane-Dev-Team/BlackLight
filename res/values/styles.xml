@@ -44,6 +44,8 @@
 		<item name="NewPostImgFilter">@color/gray_alpha_lighter</item>
 		<item name="BottomViewColor">@color/action_gray</item>
 		<item name="LayerColor">@color/action_gray</item>
+		<item name="FABBackground">@color/white</item>
+		<item name="FABNewIcon">@drawable/ic_action_new_dark</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
@@ -66,6 +68,8 @@
 		<item name="NewPostImgFilter">@color/darker_than_superdark_gray_alpha</item>
 		<item name="BottomViewColor">@color/dark_action_gray</item>
 		<item name="LayerColor">@color/dark_action_gray</item>
+		<item name="FABBackground">@color/cant_be_darker_gray</item>
+		<item name="FABNewIcon">@drawable/ic_action_new</item>
 	</style>
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">

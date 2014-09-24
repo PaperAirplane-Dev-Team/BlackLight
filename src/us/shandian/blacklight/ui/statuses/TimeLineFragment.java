@@ -48,7 +48,6 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
-import us.shandian.blacklight.ui.common.FloatingActionButton;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
@@ -56,12 +55,10 @@ import us.shandian.blacklight.ui.main.MainActivity;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class TimeLineFragment extends Fragment implements
-		SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-		View.OnLongClickListener, GestureDetector.OnGestureListener,
+		SwipeRefreshLayout.OnRefreshListener, GestureDetector.OnGestureListener,
 		OnScrollListener {
 
 	@InjectView(R.id.home_timeline) protected ListView mList;
-	protected FloatingActionButton mNew, mRefresh;
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
 
@@ -122,9 +119,6 @@ public class TimeLineFragment extends Fragment implements
 				mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 
-		// Floating "New" and "Refresh" button
-		bindNewButton(v);
-
 		// Gesture Detector
 		mDetector = new GestureDetector(getActivity(), this);
 
@@ -142,16 +136,14 @@ public class TimeLineFragment extends Fragment implements
 		if (!hidden) {
 			initTitle();
 			resume();
+			showFAB();
 			if (this instanceof HomeTimeLineFragment) {
 				((MainActivity) getActivity()).setShowSpinner(true);
-				showFAB();
 			} else {
 				((MainActivity) getActivity()).setShowSpinner(false);
 			}
 		} else {
-			if (this instanceof HomeTimeLineFragment) {
-				hideFAB();
-			}
+			hideFAB();
 		}
 	}
 
@@ -196,26 +188,6 @@ public class TimeLineFragment extends Fragment implements
 
 			new Refresher().execute(new Boolean[] { !mSwipeRefresh.isDown() });
 		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		if (v == mNew) {
-			newPost();
-		} else if (v == mRefresh) {
-			doRefresh();
-		}
-	}
-
-	@Override
-	public boolean onLongClick(View v) {
-		Vibrator vibrator = (Vibrator) getActivity().getApplication()
-				.getSystemService(Service.VIBRATOR_SERVICE);
-		vibrator.vibrate(50);
-		Toast.makeText(getActivity().getApplicationContext(),
-				getString(v == mNew ? R.string.new_post : R.string.refresh),
-				Toast.LENGTH_SHORT).show();
-		return true;
 	}
 
 	@Override
@@ -316,51 +288,15 @@ public class TimeLineFragment extends Fragment implements
 				R.color.ptr_red, R.color.ptr_blue);
 	}
 
-	protected void bindNewButton(View v) {
-		if (!hasSmartBar()) {
-			boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED,
-					false);
-			int color = Utility.getLayerColor(getActivity());
-			mNew = new FloatingActionButton.Builder(getActivity())
-					.withDrawable(
-							getResources()
-									.getDrawable(R.drawable.ic_action_new))
-					.withButtonColor(color)
-					.withGravity(
-							Gravity.BOTTOM
-									| (!isRightHand ? Gravity.RIGHT
-											: Gravity.LEFT))
-					.withMargins(!isRightHand ? 0 : 16, 0,
-							!isRightHand ? 16 : 0, 16).create();
-			mRefresh = new FloatingActionButton.Builder(getActivity())
-					.withDrawable(
-							getResources().getDrawable(
-									R.drawable.ic_action_refresh))
-					.withButtonColor(color)
-					.withGravity(
-							Gravity.BOTTOM
-									| (!isRightHand ? Gravity.LEFT
-											: Gravity.RIGHT))
-					.withMargins(!isRightHand ? 16 : 0, 0,
-							!isRightHand ? 0 : 16, 16).create();
-			mNew.setOnClickListener(this);
-			mNew.setOnLongClickListener(this);
-			mRefresh.setOnClickListener(this);
-			mRefresh.setOnLongClickListener(this);
-		}
-	}
-
 	public void hideFAB() {
-		if (mNew != null) {
-			mNew.hideFloatingActionButton();
-			mRefresh.hideFloatingActionButton();
+		if (getActivity() instanceof MainActivity) {
+			((MainActivity) getActivity()).hideFAB();
 		}
 	}
 
 	public void showFAB() {
-		if (mNew != null) {
-			mNew.showFloatingActionButton();
-			mRefresh.showFloatingActionButton();
+		if (getActivity() instanceof MainActivity) {
+			((MainActivity) getActivity()).showFAB();
 		}
 	}
 

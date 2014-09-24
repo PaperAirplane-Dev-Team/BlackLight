@@ -102,10 +102,5 @@ public class TopicsActivity extends AbsActivity
 		protected void initTitle() {
 
 		}
-
-		@Override
-		protected void bindNewButton(View v) {
-
-		}
 	}
 }

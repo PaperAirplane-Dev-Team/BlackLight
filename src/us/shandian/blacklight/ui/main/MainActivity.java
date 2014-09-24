@@ -64,6 +64,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
+import us.shandian.blacklight.ui.common.FloatingActionButton;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.entry.EntryActivity;
@@ -73,11 +74,13 @@ import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+import us.shandian.blacklight.ui.statuses.NewPostActivity;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
-public class MainActivity extends Activity implements ActionBar.OnNavigationListener
+public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, CMT_MENTION = 5, SEARCH = 6;
 
@@ -95,6 +98,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	@InjectView(R.id.list_my) ListView mMy;
 	@InjectView(R.id.list_at_me) ListView mAtMe;
 	@InjectView(R.id.list_other) ListView mOther;
+	private FloatingActionButton mFAB;
 	
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
@@ -163,16 +167,14 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 					mLastChoice.invalidate();
 				}
 
-				((HomeTimeLineFragment) mFragments[0]).hideFAB();
+				hideFAB();
 			}
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				invalidateOptionsMenu();
 
-				if (mNext == 0) {
-					((HomeTimeLineFragment) mFragments[0]).showFAB();
-				}
+				showFAB();
 			}
 
 			@Override
@@ -200,6 +202,17 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		initList();
 		new InitializerTask().execute();
 		new GroupsTask().execute();
+
+		// Initialize FAB
+		mFAB = new FloatingActionButton.Builder(this)
+			.withGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
+			.withMargins(0, 0, 36, 0)
+			.withDrawable(Utility.getFABNewIcon(this))
+			.withButtonColor(Utility.getFABBackground(this))
+			.withButtonSize(80)
+			.create();
+		mFAB.setOnClickListener(this);
+		mFAB.setOnLongClickListener(this);
 		
 		// Initialize ActionBar Style
 		getActionBar().setHomeButtonEnabled(false);
@@ -488,9 +501,35 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		return true;
 	}
 
+	@Override
+	public void onClick(View v) {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, NewPostActivity.class);
+		startActivity(i);
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		Fragment f = mFragments[mCurrent];
+
+		if (f instanceof TimeLineFragment) {
+			((TimeLineFragment) f).doRefresh();
+		}
+
+		return true;
+	}
+
+	public void hideFAB() {
+		mFAB.hideFloatingActionButton();
+	}
+
+	public void showFAB() {
+		mFAB.showFloatingActionButton();
+	}
+
 	private void switchAndRefresh(int id){
 		if (id != 0){
-			((HomeTimeLineFragment) mFragments[0]).hideFAB();
 			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener)mFragments[id];
 			l.onRefresh();
 		}

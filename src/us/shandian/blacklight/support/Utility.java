@@ -38,6 +38,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -696,6 +697,27 @@ if (resourceId > 0) {
 			return ret;
 		} catch (NotFoundException e) {
 			return 0;
+		}
+	}
+
+	public static int getFABBackground(Activity activity) {
+		try {
+			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_FABBackground, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
+	public static Drawable getFABNewIcon(Activity activity) {
+		try {
+			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			Drawable ret = array.getDrawable(R.styleable.BlackLight_FABNewIcon);
+			return ret;
+		} catch (NotFoundException e) {
+			return null;
 		}
 	}
 	

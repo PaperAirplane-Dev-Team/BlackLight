@@ -430,10 +430,5 @@ public class SingleActivity extends AbsActivity
 		protected void initTitle() {
 			
 		}
-		
-		@Override
-		protected void bindNewButton(View v) {
-
-		}
 	}
 }
