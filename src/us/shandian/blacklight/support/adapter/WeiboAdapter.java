@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -340,7 +339,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		// Hide all
 		h.reply.setVisibility(View.GONE);
-		h.show.setVisibility(View.GONE);
 		h.delete.setVisibility(View.GONE);
 		h.repost.setVisibility(View.GONE);
 		h.like.setVisibility(View.GONE);
@@ -362,7 +360,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		} else {
 			h.copy.setVisibility(View.VISIBLE);
-			h.show.setVisibility(View.VISIBLE);
 			h.reply.setVisibility(View.VISIBLE);
 			h.repost.setVisibility(View.VISIBLE);
 
@@ -370,10 +367,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				h.like.setImageResource(R.drawable.ic_action_bad);
 			}
 			h.like.setVisibility(View.VISIBLE);
-
-			if (msg.retweeted_status != null) {
-				h.orig.setVisibility(View.VISIBLE);
-			}
 
 			if (msg.user.id.equals(mUid)) {
 				h.delete.setVisibility(View.VISIBLE);
@@ -644,7 +637,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.weibo_avatar) public ImageView avatar;
 		@InjectView(R.id.bottom_like) public ImageView like;
 		@InjectView(R.id.bottom_reply) public ImageView reply;
-		@InjectView(R.id.bottom_show) public ImageView show;
 		@InjectView(R.id.bottom_delete) public ImageView delete;
 		@InjectView(R.id.bottom_repost) public ImageView repost;
 		@InjectView(R.id.bottom_orig) public ImageView orig;
@@ -652,7 +644,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.swipe) public SwipeLayout swipe;
 		@InjectView(R.id.weibo_pics_scroll) public HorizontalScrollView scroll;
 		@InjectView(R.id.weibo_pics) public LinearLayout pics;
-		@InjectView(R.id.bottom_grid) public GridLayout grid;
+		@InjectView(R.id.weibo_bottom) public View bottom;
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
 		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
@@ -672,11 +664,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 
 		@OnLongClick({
-			R.id.card, R.id.bottom_grid,
+			R.id.card, R.id.weibo_bottom,
 			R.id.bottom_like, R.id.bottom_reply,
-			R.id.bottom_show, R.id.bottom_delete,
-			R.id.bottom_repost, R.id.bottom_orig,
-			R.id.bottom_copy,
+			R.id.bottom_delete, R.id.bottom_repost,
+			R.id.bottom_orig, R.id.bottom_copy,
 		})
 		boolean openOrClose() {
 			if (swipe.getOpenStatus() == SwipeLayout.Status.Close) {
@@ -698,7 +689,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick({R.id.card, R.id.bottom_show})
+		@OnClick(R.id.card)
 		void show() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
