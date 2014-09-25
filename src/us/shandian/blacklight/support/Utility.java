@@ -59,8 +59,6 @@ import android.opengl.GLES30;
 import android.util.Log;
 import android.util.TypedValue;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.io.InputStream;
@@ -209,11 +207,6 @@ public class Utility
 		return -1;
 	}
 
-	public static boolean hasTranslucentSystemBars() {
-		return Build.VERSION.SDK_INT >= 19 && !Build.BRAND.equals("chromium")
-				&& !Build.BRAND.equals("chrome");
-	}
-
 	public static View addActionViewToCustom(Activity activity, int id, ViewGroup custom) {
 		View v = activity.findViewById(id);
 
@@ -274,21 +267,8 @@ public class Utility
 		}
 	}
 
-	public static int getStatusBarHeight(Context context) {
-		int result = 0;
-		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-if (resourceId > 0) {
-			result = context.getResources().getDimensionPixelSize(resourceId);
-		}
-		return result;
-	}
-
 	public static int getDecorPaddingTop(Context context) {
-		if (hasTranslucentSystemBars()) {
-			return getStatusBarHeight(context) + getActionBarHeight(context);
-		} else {
-			return getActionBarHeight(context);
-		}
+		return getActionBarHeight(context);
 	}
 	
 	public static void setActionBarTranslation(Activity activity, float y) {
@@ -719,20 +699,6 @@ if (resourceId > 0) {
 		} catch (NotFoundException e) {
 			return null;
 		}
-	}
-	
-	@TargetApi(19)
-	public static void enableTint(Activity activity) {
-		if (!hasTranslucentSystemBars()) return;
-		
-		Window w = activity.getWindow();
-		WindowManager.LayoutParams p = w.getAttributes();
-		p.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-		w.setAttributes(p);
-		
-		SystemBarTintManager m = new SystemBarTintManager(activity);
-		m.setStatusBarTintEnabled(true);
-		m.setStatusBarTintResource(isDarkMode(activity) ? R.color.dark_action_gray : R.color.action_gray);
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {

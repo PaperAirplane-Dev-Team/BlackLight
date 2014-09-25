@@ -82,11 +82,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 
-		if (hasSmartBar()) {
-			getListView().setFitsSystemWindows(true);
-			Utility.enableTint(this);
-		}
-
 		mSettings = Settings.getInstance(this);
 
 		// Action Bar

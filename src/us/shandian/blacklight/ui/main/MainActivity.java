@@ -137,9 +137,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		// Inject
 		ButterKnife.inject(this);
 		
-		// Tint
-		Utility.enableTint(this);
-
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
 		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;

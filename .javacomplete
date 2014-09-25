@@ -2,7 +2,6 @@ libs/android-support-v4.jar
 libs/gson-2.2.2.jar
 libs/SwipeBackLayout/library/src/main/java
 libs/SlidingUpPanel/src
-libs/SystemBarTint/src
 libs/HoloColorPicker/src
 libs/AndroidSwipeLayout/library/src/main/java
 libs/subsampling-scale-image-view/library/src

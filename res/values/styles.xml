@@ -27,7 +27,6 @@
 		<item name="android:titleTextStyle">@style/TitleText</item>
 		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 		<item name="android:windowBackground">@color/light_gray</item>
-		<item name="android:windowContentOverlay">@null</item>
 		<item name="CardBackground">@drawable/card_shadow</item>
 		<item name="CardForeground">@color/darker_gray</item>
 		<item name="CardOrigBackground">@color/midium_gray</item>
@@ -98,10 +97,12 @@
 
 	<style name="My.Theme.Holo.Light.GradientActionBar" parent="@style/My.Theme.Holo.Light.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar.Gradient</item>
+		<item name="android:windowContentOverlay">@null</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.GradientActionBar" parent="@style/My.Theme.Holo.Dark.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar.Gradient</item>
+		<item name="android:windowContentOverlay">@null</item>
 	</style>
 	
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">

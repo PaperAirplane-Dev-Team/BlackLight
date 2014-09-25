@@ -25,7 +25,6 @@ CHROME_DIR	:= chrome/vendor/chromium/crx
 SRC_DIR		:= \
 	src \
 	libs/SlidingUpPanel/src \
-	libs/SystemBarTint/src \
 	libs/SwipeBackLayout/library/src/main/java \
 	libs/HoloColorPicker/src \
 	libs/AndroidSwipeLayout/library/src/main/java \

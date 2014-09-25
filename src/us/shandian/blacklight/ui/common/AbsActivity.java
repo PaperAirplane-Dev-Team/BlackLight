@@ -24,11 +24,10 @@ import android.os.Bundle;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.ShakeDetector;
 import us.shandian.blacklight.support.ShakeDetector.ShakeListener;
-import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+import us.shandian.blacklight.support.Utility;
 
 public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 
@@ -41,12 +40,6 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
-		
-		// On SmartBar devices, allow all Acvities to tint statusbar
-		if (Utility.hasSmartBar() && !(this instanceof ImageActivity) &&
-			!(this instanceof UserTimeLineActivity)) {
-			Utility.enableTint(this);
-		}
 		
 		// Common ActionBar settings
 		getActionBar().setDisplayHomeAsUpEnabled(true);
