@@ -171,6 +171,11 @@
 		<item>30 分钟</item>
 		<item>从不</item>
 	</string-array>
+	<string name="appearance_title">外观</string>
+	<string name="font_size">字体大小</string>
+	<string name="font_size_option">启用自定义大小</string>
+	<string name="font_default">默认</string>
+	<string name="font_test">我能吞下玻璃而不受伤。</string>
 	
 	<!-- Message -->
 	<string name="plz_wait">请稍候……</string>
