@@ -193,11 +193,6 @@
 		<item>30 minutes</item>
 		<item>Never</item>
 	</string-array>
-	<string name="appearance_title">Appearance</string>
-	<string name="font_size">Font size</string>
-	<string name="font_size_option">Enable custom font size</string>
-	<string name="font_default">Default</string>
-	<string name="font_test">I can eat glass, it doesn\'t hurt me.</string>
 	
 	<!-- Message -->
 	<string name="plz_wait">Please wait……</string>

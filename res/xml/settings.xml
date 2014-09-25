@@ -72,18 +72,7 @@
 			android:checked="true"/>
 	
 	</PreferenceCategory>
-
-	<!-- Appearance -->
-	<PreferenceCategory
-		android:title="@string/appearance_title">
-
-		<Preference
-			android:key="font_size"
-			android:title="@string/font_size"
-			android:summary="@string/font_default"/>
-
-	</PreferenceCategory>
-
+	
 	<!-- Debug -->
 	<PreferenceCategory
 		android:title="@string/debug">

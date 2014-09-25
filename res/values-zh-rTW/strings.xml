@@ -85,11 +85,6 @@
 		<item>從圖片庫選擇圖像</item>
 		<item>拍照</item>
 	</string-array>
-	<string name="appearance_title">外觀</string>
-	<string name="font_size">字體大小</string>
-	<string name="font_size_option">啟用自訂大小</string>
-	<string name="font_default">默認值</string>
-	<string name="font_test">我可以吞埋d玻璃而且乜事都無。</string>
 	
 	<!-- Time -->
 	<string name="just_now">剛剛</string>

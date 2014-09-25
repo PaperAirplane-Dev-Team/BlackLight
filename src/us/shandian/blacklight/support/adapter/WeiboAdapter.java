@@ -120,7 +120,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private boolean mShowCommentStatus;
 	private boolean mScrolling = false;
 	private boolean mAutoNoPic = false;
-	private int mFontSize;
 	
 	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
@@ -135,7 +134,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mBindOrig = bindOrig;
 		mShowCommentStatus = showCommentStatus;
 		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
-		mFontSize = Settings.getInstance(context).getInt(Settings.FONT_SIZE, 0);
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
@@ -274,12 +272,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		from.setText(msg.source != null ? Utility.truncateSourceString(msg.source) : "");
 		content.setText(SpannableStringUtils.getSpan(mContext, msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
-
-		// TODO Set font size
-		if (mFontSize != 0) {
-			content.setTextSize(mFontSize);
-			retweet.setTextSize(mFontSize);
-		}
 		
 		date.setText(mTimeUtils.buildTimeString(msg.millis));
 

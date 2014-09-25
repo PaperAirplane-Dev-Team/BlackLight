@@ -26,14 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import me.imid.swipebacklayout.lib.Utils;
@@ -66,7 +59,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private Preference mPrefLog;
 	private Preference mPrefCrash;
 	private Preference mPrefDevelopers;
-	private Preference mPrefFontSize;
 
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
@@ -118,7 +110,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
-		mPrefFontSize = findPreference(Settings.FONT_SIZE);
 		
 		// Data
 		String version = "Unknown";
@@ -128,15 +119,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			// Keep the default value
 		}
 		mPrefVersion.setSummary(version);
-
-		// Font Size
-		String font_size = getString(R.string.font_default);
-		int font_size_int = mSettings.getInt(Settings.FONT_SIZE, 0);
-		if (font_size_int != 0) {
-			font_size = Integer.toString(font_size_int);
-		}
-		mPrefFontSize.setSummary(font_size);
-
 		mPrefFastScroll.setChecked(mSettings.getBoolean(Settings.FAST_SCROLL,
 				false));
 		mPrefShakeToReturn.setChecked(mSettings.getBoolean(
@@ -167,7 +149,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
-		mPrefFontSize.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -211,9 +192,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setAction(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(getResources().getString(R.string.play_url)));
 			startActivity(i);
-			return true;
-		} else if (preference == mPrefFontSize) {
-			showFontSizeSetDialog();
 			return true;
 		}
 
@@ -288,67 +266,5 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			.show();
 		
 	}
-
-	private void showFontSizeSetDialog(){
-		View view = View.inflate(new ContextThemeWrapper(getApplicationContext(), android.R.style.Theme_Holo_Light_Dialog), R.layout.dialog_set_font_type, null);
-
-		final CheckBox use_custom = (CheckBox) view.findViewById(R.id.cb_option);
-		final LinearLayout custom_layout = (LinearLayout) view.findViewById(R.id.custom_size_layout);
-		final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_size);
-		final TextView tv_size = (TextView) custom_layout.findViewById(R.id.tv_size);
-		final TextView tv_test = (TextView) view.findViewById(R.id.tv_test);
-
-		custom_layout.setVisibility(View.INVISIBLE);
-
-		use_custom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				if (b) {
-					custom_layout.setVisibility(View.VISIBLE);
-				} else {
-					custom_layout.setVisibility(View.INVISIBLE);
-				}
-			}
-		});
-
-		seekBar.setProgress(mSettings.getInt(Settings.FONT_SIZE, 3));
-		seekBar.setMax(18);
-		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-				tv_size.setText("" + (i + 12));
-				tv_test.setTextSize(i + 12);
-			}
-
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-
-			}
-
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-
-			}
-
-		});
-
-		new AlertDialog.Builder(this)
-				.setView(view)
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						if (!use_custom.isChecked()) {
-							mSettings.putInt(Settings.FONT_SIZE, 0);
-							mPrefFontSize.setSummary(getString(R.string.font_default));
-						} else {
-							mSettings.putInt(Settings.FONT_SIZE, Integer.parseInt(tv_size.getText().toString()));
-							mPrefFontSize.setSummary(tv_size.getText().toString());
-						}
-					}
-				})
-				.show();
-
-	}
-
+	
 }
