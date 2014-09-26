@@ -73,6 +73,7 @@ public class SingleActivity extends AbsActivity
 	
 	@InjectView(R.id.single_pager) ViewPager mPager;
 	@InjectView(R.id.single_root) SlidingUpPanelLayout mRoot;
+	@InjectView(R.id.single_dragger) View mDragger;
 	@InjectView(R.id.single_content) View mContent;
 	
 	@InjectView(R.id.single_tabs) TabHost mTabs;
@@ -86,12 +87,17 @@ public class SingleActivity extends AbsActivity
 	private boolean mFavTaskRunning = false;
 	private boolean mLikeTaskRunning = false;
 
+	private int mActionBarColor, mDragBackgroundColor;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
+
+		mActionBarColor = getResources().getColor(R.color.action_gray);
+		mDragBackgroundColor = getResources().getColor(R.color.white);
 		
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
@@ -133,6 +139,7 @@ public class SingleActivity extends AbsActivity
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
 				Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
+				mDragger.setBackgroundColor(Utility.getGradientColor(mActionBarColor,mDragBackgroundColor,slideOffset));
 			}
 
 			@Override

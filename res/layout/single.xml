@@ -45,6 +45,7 @@
 			android:layout_height="48dp"
 			android:layout_width="match_parent"
 			android:background="?attr/DragBackground"
+			android:id="@+id/single_dragger"
 			android:orientation="horizontal">
 
 			<TabHost

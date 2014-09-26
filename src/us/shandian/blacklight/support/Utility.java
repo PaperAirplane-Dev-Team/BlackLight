@@ -751,4 +751,22 @@ public class Utility
         return false;
     }
 
+	/**
+	 *
+	 * @param from color value in the form 0xAARRGGBB.
+	 * @param to color value in the form 0xAARRGGBB.
+	 */
+	public static int getGradientColor(int from, int to, float factor){
+		int r = calculateGradient(Color.red(from),Color.red(to),factor); // It's so annoying without lambda.
+		int g = calculateGradient(Color.green(from),Color.green(to),factor);
+		int b = calculateGradient(Color.blue(from),Color.blue(to),factor);
+		int a = calculateGradient(Color.alpha(from),Color.alpha(to),factor);
+
+		return Color.argb(a,r,g,b);
+	}
+
+	private static int calculateGradient(int from, int to, float factor){
+		return from + (int)((to - from) * factor);
+	}
+
 }
