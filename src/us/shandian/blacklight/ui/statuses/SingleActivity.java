@@ -139,7 +139,8 @@ public class SingleActivity extends AbsActivity
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
 				Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
-				mDragger.setBackgroundColor(Utility.getGradientColor(mActionBarColor,mDragBackgroundColor,slideOffset));
+				mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
+						mActionBarColor,1 - slideOffset));
 			}
 
 			@Override
