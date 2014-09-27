@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.Toast;
 import android.os.Bundle;
 
@@ -80,6 +82,8 @@ public class SingleActivity extends AbsActivity
 	@InjectView(R.id.iv_collapse) ImageView mCollapse;
 	
 	private MenuItem mFav, mLike;
+
+	private TabWidget mTabWidget;
 	
 	private boolean mIsMine = false;
 	private boolean mFavourited = false;
@@ -139,8 +143,15 @@ public class SingleActivity extends AbsActivity
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
 				Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
+
+				float gradientFactor = 1 - slideOffset;
 				mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
-						mActionBarColor,1 - slideOffset));
+						mActionBarColor,gradientFactor));
+				/*mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
+						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
+				mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
+						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
+						*/
 			}
 
 			@Override
@@ -165,7 +176,7 @@ public class SingleActivity extends AbsActivity
 		});
 		
 		mTabs.setup();
-		
+
 		final String comment = getResources().getString(R.string.comment);
 		TabHost.TabSpec tab1 = mTabs.newTabSpec(comment);
 		tab1.setIndicator(comment);
@@ -177,7 +188,12 @@ public class SingleActivity extends AbsActivity
 		tab2.setIndicator(repost);
 		tab2.setContent(android.R.id.tabcontent);
 		mTabs.addTab(tab2);
-		
+
+		mTabWidget = mTabs.getTabWidget();
+		mTabWidget.setLeftStripDrawable(new ColorDrawable(mActionBarColor));
+		mTabWidget.setRightStripDrawable(new ColorDrawable(mActionBarColor));
+		mTabWidget.setStripEnabled(false);
+
 		mTabs.setCurrentTab(0);
 
 		Utility.initDarkTabHost(this, mTabs);
