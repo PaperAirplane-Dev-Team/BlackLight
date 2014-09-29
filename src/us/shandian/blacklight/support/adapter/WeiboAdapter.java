@@ -257,7 +257,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		ImageView like = h.like;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
-		from.setText(msg.source != null ? Utility.truncateSourceString(msg.source) : "");
+		from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
 		content.setText(SpannableStringUtils.getSpan(mContext, msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
