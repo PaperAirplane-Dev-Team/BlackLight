@@ -186,7 +186,7 @@ public class UserApiCache
 		if (cache == null) {
 			return null;
 		} else {
-			Bitmap bmp = drawVipType(model, BitmapFactory.decodeStream(cache));
+			Bitmap bmp = BitmapFactory.decodeStream(cache);
 			mSmallAvatarCache.put(model.id, new SoftReference<Bitmap>(bmp));
 
 			try {
@@ -224,7 +224,7 @@ public class UserApiCache
 		}
 
 		if (cache != null) {
-			Bitmap ret = drawVipType(model, BitmapFactory.decodeStream(cache));
+			Bitmap ret = BitmapFactory.decodeStream(cache);
 
 			try {
 				cache.close();
@@ -271,24 +271,6 @@ public class UserApiCache
 		} else {
 			return null;
 		}
-	}
-	
-	private Bitmap drawVipType(UserModel model, Bitmap bitmap) {
-		if (!model.verified || model.verified_type < 0) return bitmap;
-		
-		BitmapDrawable drawable = mVipDrawable[model.verified_type > 1 ? 1 : model.verified_type];
-		Bitmap copy = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-		Canvas canvas = new Canvas(copy);
-		int w1 = bitmap.getWidth();
-		int w2 = w1 / 4;
-		int h1 = bitmap.getHeight();
-		int h2 = h1 / 4;
-		drawable.setBounds(w1 - w2, h1 - h2, w1, h1);
-		drawable.draw(canvas);
-		
-		bitmap.recycle();
-		
-		return copy;
 	}
 	
 }
