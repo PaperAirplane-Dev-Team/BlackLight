@@ -97,6 +97,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	// Drawer content
 	@InjectView(R.id.my_name) TextView mName;
 	@InjectView(R.id.my_avatar) ImageView mAvatar;
+	@InjectView(R.id.my_cover) ImageView mCover;
+	@InjectView(R.id.my_dim) View mDim;
 	@InjectViews({R.id.drawer_home_icon, R.id.drawer_at_icon, 
 		R.id.drawer_comment_icon, R.id.drawer_fav_icon,
 		R.id.drawer_dm_icon, R.id.drawer_settings_icon})
@@ -654,6 +656,12 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				publishProgress(new Object[]{1, avatar});
 			}
 
+			// My Cover
+			Bitmap cover = mUserCache.getCover(mUser);
+			if (cover != null) {
+				publishProgress(new Object[]{2, cover});
+			}
+
 			return null;
 		}
 
@@ -668,6 +676,11 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				case 1:
 					// Show avatar
 					mAvatar.setImageBitmap((Bitmap) values[1]);
+					break;
+				case 2:
+					// Show cover
+					mCover.setImageBitmap((Bitmap) values[1]);
+					mDim.setVisibility(View.VISIBLE);
 					break;
 			}
 			super.onProgressUpdate(values);
