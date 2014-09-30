@@ -371,6 +371,11 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				.setView(text)
 				.show();
 			return true;
+		} else if (item.getItemId() == R.id.search) {
+			setShowTitle(false);
+			setShowSpinner(false);
+			switchTo(SEARCH);
+			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}

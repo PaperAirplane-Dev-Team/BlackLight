@@ -31,5 +31,11 @@
 		android:id="@+id/group_destroy"
 		android:title="@string/group_destroy"
 		android:showAsAction="never"/>
+
+	<item
+		android:id="@+id/search"
+		android:icon="@drawable/ic_action_search"
+		android:title="@string/search"
+		android:showAsAction="always"/>
 	
 </menu>
