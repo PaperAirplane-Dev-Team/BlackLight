@@ -9,6 +9,7 @@
       "build.apk"
     ],
     "enableExternalDirectory": false,
+	"enableAdb": true,
     "formFactor": "phone",
     "name": "us.shandian.blacklight",
     "orientation": "portrait",
