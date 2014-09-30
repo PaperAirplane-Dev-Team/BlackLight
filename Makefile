@@ -29,7 +29,7 @@ SRC_DIR		:= \
 	libs/HoloColorPicker/src \
 	libs/AndroidSwipeLayout/library/src/main/java \
 	libs/subsampling-scale-image-view/library/src \
-	libs/RoundedImageView/roundedimageview/src/main/java
+	libs/CircleImageView/circleimageview/src/main/java
 # Annonation Library Projects
 ANNONATIONS	:= libs/butterknife
 # Annonation Processors
@@ -46,7 +46,7 @@ RES_DIR		:= \
 	libs/HoloColorPicker/res \
 	libs/AndroidSwipeLayout/library/src/main/res \
 	libs/subsampling-scale-image-view/library/res \
-	libs/RoundedImageView/roundedimageview/src/main/res
+	libs/CircleImageView/circleimageview/src/main/res
 # Timestamp file of resources
 RES_TS		:= $(BUILD_DIR)/resources.ts
 # External packages that need to generate R.java under.
@@ -59,7 +59,7 @@ EXT_PKG		:= \
 	com.larswerkman.holocolorpicker \
 	com.daimajia.swipe \
 	com.davemorrissey.labs.subscaleview \
-	com.makeramen
+	de.hdodenhof.circleimageview
 # Include all jar libraries needed
 # Including android.jar
 # Please set the $ANDROID_JAR environment variable
