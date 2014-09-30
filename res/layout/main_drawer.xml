@@ -26,9 +26,9 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingLeft="20dp"
+		android:paddingLeft="24dp"
 		android:paddingTop="40dp"
-		android:paddingRight="20dp"
+		android:paddingRight="24dp"
 		android:gravity="left"
 		android:orientation="vertical">
 
@@ -51,7 +51,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
+				android:layout_marginLeft="26dp"
 				android:text="@string/drawer_home"
 				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
@@ -78,7 +78,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
+				android:layout_marginLeft="26dp"
 				android:text="@string/drawer_at"
 				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
@@ -105,7 +105,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
+				android:layout_marginLeft="26dp"
 				android:text="@string/drawer_comments"
 				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
@@ -132,7 +132,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
+				android:layout_marginLeft="26dp"
 				android:text="@string/drawer_dm"
 				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
@@ -159,7 +159,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
+				android:layout_marginLeft="26dp"
 				android:text="@string/drawer_fav"
 				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
@@ -186,7 +186,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
+				android:layout_marginLeft="26dp"
 				android:text="@string/drawer_settings"
 				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
