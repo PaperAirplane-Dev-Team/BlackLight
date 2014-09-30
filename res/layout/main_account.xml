@@ -28,14 +28,12 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:scaleType="centerCrop"
-		android:src="?attr/LayerColor"/>
+		android:src="@drawable/public_bkg"/>
 
 	<View
-		android:id="@+id/my_dim"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@color/gray_alpha"
-		android:visibility="gone"/>
+		android:background="@color/dim_gray"/>
 
 	<LinearLayout
 		android:id="@+id/my_account"

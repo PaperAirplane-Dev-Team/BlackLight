@@ -21,6 +21,7 @@
 	<color name="gray">#aaaaaa</color>
 	<color name="gray_alpha">#bbaaaaaa</color>
 	<color name="gray_alpha_lighter">#eeeeeeee</color>
+	<color name="dim_gray">#88555555</color>
 	<color name="darker_gray">#666666</color>
 	<color name="superdark_gray">#233333</color>
 	<color name="darker_than_superdark_gray">#233233</color>
