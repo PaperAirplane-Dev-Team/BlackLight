@@ -164,7 +164,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			public void onDrawerClosed(View drawerView) {
 				invalidateOptionsMenu();
 
-				showFAB();
+				if (mCurrent != DM) {
+					showFAB();
+				}
 			}
 
 			@Override
