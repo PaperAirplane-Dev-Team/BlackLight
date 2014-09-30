@@ -162,6 +162,8 @@ public class SingleActivity extends AbsActivity
 					mIndicator.setForeground(foreground);
 					mCollapse.setColorFilter(foreground, PorterDuff.Mode.SRC_IN);
 				}
+
+				mCollapse.setRotation((1 - slideOffset) * -180);
 				/*mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
 						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
 				mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
@@ -171,16 +173,10 @@ public class SingleActivity extends AbsActivity
 
 			@Override
 			public void onPanelCollapsed(View panel) {
-				mCollapse.setRotation(180);
-				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
-				mCollapse.startAnimation(animation);
 			}
 
 			@Override
 			public void onPanelExpanded(View panel) {
-				mCollapse.setRotation(0);
-				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
-				mCollapse.startAnimation(animation);
 			}
 
 			@Override
