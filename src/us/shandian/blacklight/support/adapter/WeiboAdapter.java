@@ -44,6 +44,7 @@ import android.util.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
@@ -174,10 +175,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.avatar.setTag(true);
 			h.comment_and_retweet.setVisibility(View.VISIBLE);
 
-			if (h.attitudes_icon.getColorFilter() != null) {
-				h.attitudes_icon.setColorFilter(null);
-			}
-
 			h.swipe.close(false);
 			
 			LinearLayout container = h.pics;
@@ -284,7 +281,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 
 		if (!(msg instanceof CommentModel) && msg.liked) { 
-			h.attitudes_icon.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 			like.setImageResource(R.drawable.ic_action_bad);
 		}
 
@@ -612,12 +608,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				}
 				mm.liked = !mm.liked;
 
-				if (mm.liked) {
-					h.attitudes_icon.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-				} else {
-					h.attitudes_icon.setColorFilter(null);
-				}
-
 				h.attitudes.setText(String.valueOf(mm.attitudes_count));
 			}
 		}
@@ -648,7 +638,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
 		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
-		@InjectView(R.id.weibo_attitudes_icon) public ImageView attitudes_icon;
+		@InjectViews({R.id.weibo_attitudes_icon, R.id.weibo_retweet_icon, R.id.weibo_comments_icon})
+		ImageView[] icons;
 		
 		public View v;
 		public MessageModel msg;
@@ -661,6 +652,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 			v.setTag(this);
 			ButterKnife.inject(this, v);
+
+			// Set icon color filters
+			int color = Utility.getCardSubColor(v.getContext());
+			for (ImageView icon : icons) {
+				icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+			}
 		}
 
 		@OnLongClick({
@@ -722,7 +719,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick({R.id.bottom_repost, R.id.weibo_retweet_icon})
+		@OnClick(R.id.bottom_repost)
 		void repost() {
 			if(!(msg instanceof CommentModel)) {
 				Intent i = new Intent();
@@ -738,7 +735,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			Utility.copyToClipboard(context, msg.text);
 		}
 
-		@OnClick({R.id.bottom_reply, R.id.weibo_comments_icon})
+		@OnClick(R.id.bottom_reply)
 		void reply() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -754,7 +751,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick({R.id.bottom_like, R.id.weibo_attitudes_icon})
+		@OnClick(R.id.bottom_like)
 		void like() {
 			new LikeTask().execute(msg, this);
 		}

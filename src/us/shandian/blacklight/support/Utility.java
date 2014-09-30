@@ -669,9 +669,9 @@ public class Utility
 		}
 	}
 
-	public static int getLayerColor(Activity activity) {
+	public static int getLayerColor(Context context) {
 		try {
-			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
 			int ret = array.getColor(R.styleable.BlackLight_LayerColor, 0);
 			array.recycle();
 			return ret;
@@ -680,9 +680,9 @@ public class Utility
 		}
 	}
 
-	public static int getFABBackground(Activity activity) {
+	public static int getFABBackground(Context context) {
 		try {
-			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
 			int ret = array.getColor(R.styleable.BlackLight_FABBackground, 0);
 			array.recycle();
 			return ret;
@@ -691,9 +691,20 @@ public class Utility
 		}
 	}
 
-	public static Drawable getFABNewIcon(Activity activity) {
+	public static int getCardSubColor(Context context) {
 		try {
-			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_CardSubColor, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
+	public static Drawable getFABNewIcon(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
 			Drawable ret = array.getDrawable(R.styleable.BlackLight_FABNewIcon);
 			return ret;
 		} catch (NotFoundException e) {
