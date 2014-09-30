@@ -31,7 +31,7 @@
 		android:layout_weight="0.9"
 		android:id="@+id/single_root"
 		sothree:paralaxOffset="100dp"
-		sothree:panelHeight="36dp"
+		sothree:panelHeight="40dp"
 		sothree:shadowHeight="4dp"
 		sothree:dragView="@+id/single_drag">
 
@@ -46,14 +46,14 @@
 			android:orientation="vertical">
 
 			<LinearLayout
-				android:layout_height="36dp"
+				android:layout_height="40dp"
 				android:layout_width="match_parent"
 				android:background="?attr/DragBackground"
 				android:id="@+id/single_dragger"
 				android:orientation="horizontal">
 
 				<us.shandian.blacklight.ui.common.LinearViewPagerIndicator
-					android:layout_height="36dp"
+					android:layout_height="40dp"
 					android:layout_width="140dp"
 					android:id="@+id/single_indicator"
 					android:layout_marginLeft="5dp"/>
@@ -88,7 +88,7 @@
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="41dp"
+		android:layout_height="49dp"
 		android:layout_weight="0.1"
 		android:background="?attr/SingleDivider"
 		android:orientation="horizontal">
@@ -96,7 +96,7 @@
 		<LinearLayout
 			android:id="@+id/single_comment"
 			android:layout_width="match_parent"
-			android:layout_height="40dp"
+			android:layout_height="48dp"
 			android:layout_weight="1.0"
 			android:layout_marginTop="1dp"
 			android:layout_marginRight="1dp"
@@ -125,7 +125,7 @@
 		<LinearLayout
 			android:id="@+id/single_repost"
 			android:layout_width="match_parent"
-			android:layout_height="40dp"
+			android:layout_height="48dp"
 			android:layout_weight="1.0"
 			android:layout_marginTop="1dp"
 			android:layout_marginRight="1dp"
@@ -151,7 +151,7 @@
 
 		</LinearLayout>
 
-
 	</LinearLayout>
+	
 </LinearLayout>
 
