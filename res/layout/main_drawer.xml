@@ -62,7 +62,7 @@
 			android:id="@+id/drawer_at"
 			android:layout_width="match_parent"
 			android:layout_height="40dp"
-			android:layout_marginTop="5dp"
+			android:layout_marginTop="8dp"
 			android:clickable="true"
 			android:gravity="center_vertical"
 			android:background="@drawable/drawer_selector"
@@ -89,7 +89,7 @@
 			android:id="@+id/drawer_comment"
 			android:layout_width="match_parent"
 			android:layout_height="40dp"
-			android:layout_marginTop="5dp"
+			android:layout_marginTop="8dp"
 			android:clickable="true"
 			android:gravity="center_vertical"
 			android:background="@drawable/drawer_selector"
@@ -116,7 +116,7 @@
 			android:id="@+id/drawer_dm"
 			android:layout_width="match_parent"
 			android:layout_height="40dp"
-			android:layout_marginTop="5dp"
+			android:layout_marginTop="8dp"
 			android:clickable="true"
 			android:gravity="center_vertical"
 			android:background="@drawable/drawer_selector"
@@ -143,7 +143,7 @@
 			android:id="@+id/drawer_fav"
 			android:layout_width="match_parent"
 			android:layout_height="40dp"
-			android:layout_marginTop="5dp"
+			android:layout_marginTop="8dp"
 			android:clickable="true"
 			android:gravity="center_vertical"
 			android:background="@drawable/drawer_selector"
@@ -170,7 +170,7 @@
 			android:id="@+id/drawer_settings"
 			android:layout_width="match_parent"
 			android:layout_height="36dp"
-			android:layout_marginTop="5dp"
+			android:layout_marginTop="8dp"
 			android:clickable="true"
 			android:gravity="center_vertical"
 			android:background="@drawable/drawer_selector"
@@ -178,8 +178,8 @@
 
 			<ImageView
 				android:id="@+id/drawer_settings_icon"
-				android:layout_width="18dp"
-				android:layout_height="18dp"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
 				android:scaleType="fitXY"
 				android:src="@drawable/ic_drawer_set"/>
 
@@ -188,7 +188,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp"
 				android:text="@string/drawer_settings"
-				android:textSize="15sp"
+				android:textSize="16sp"
 				android:textColor="?attr/DrawerForeground"/>
 			
 		</LinearLayout>
