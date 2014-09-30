@@ -121,6 +121,8 @@
 	<string name="fav_del">取消收藏</string>
 	<string name="copy">复制微博</string>
 	<string name="okay">选好了</string>
+	<string name="single_comment">发表评论</string>
+	<string name="single_repost">转发微博</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>

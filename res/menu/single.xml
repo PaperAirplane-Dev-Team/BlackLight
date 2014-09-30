@@ -16,20 +16,7 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-	
-	<item
-		android:id="@+id/comment_on"
-		android:icon="@drawable/ic_action_chat"
-		android:title="@string/comment_on"
-		android:showAsAction="always"/>
-	
-	<item
-		android:id="@+id/repost"
-		android:icon="@drawable/ic_action_reply_all"
-		android:title="@string/repost"
-		android:showAsAction="always"/>
-	
+<menu xmlns:android="http://schemas.android.com/apk/res/android">	
 	<item
 		android:id="@+id/delete"
 		android:icon="@drawable/ic_action_discard"

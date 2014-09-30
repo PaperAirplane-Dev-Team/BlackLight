@@ -39,6 +39,8 @@
 		<attr name="CardComments" format="reference" />
 		<attr name="ShadowGray" format="color" />
 		<attr name="DragBackground" format="color" />
+		<attr name="SingleBottomColor" format="color" />
+		<attr name="SingleDivider" format="color" />
 		<attr name="IconCollapse" format="reference" />
 		<attr name="IconSendNow" format="reference" />
 		<attr name="IconEmoticon" format="reference" />
@@ -48,6 +50,7 @@
 		<attr name="LayerColor" format="reference" />
 		<attr name="FABBackground" format="color" />
 		<attr name="FABNewIcon" format="reference" />
+		<attr name="IndicatorForeground" format="color" />
 	</declare-styleable>
 
 </resources>

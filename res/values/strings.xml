@@ -120,6 +120,8 @@
 	<string name="fav_del">Remove from favourites</string>
 	<string name="copy">Copy weibo</string>
 	<string name="okay">Okay</string>
+	<string name="single_comment">Comment</string>
+	<string name="single_repost">Repost</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">Messages</string>

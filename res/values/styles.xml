@@ -24,6 +24,7 @@
 	<style name="My.Theme.Holo.Light.DarkActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar</item>
 		<item name="android:windowActionBarOverlay">false</item>
+		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
 		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 		<item name="android:windowBackground">@color/light_gray</item>
@@ -35,7 +36,9 @@
 		<item name="CardRatings">@drawable/ic_action_good_dark</item>
 		<item name="CardReposts">@drawable/ic_action_reply_all_dark</item>
 		<item name="CardComments">@drawable/ic_fa_comments</item>
-		<item name="DragBackground">@color/white</item>
+		<item name="DragBackground">@color/light_gray</item>
+		<item name="SingleBottomColor">@color/white</item>
+		<item name="SingleDivider">@color/sub_gray</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse</item>
 		<item name="IconSendNow">@drawable/ic_action_send_now_dark</item>
 		<item name="IconEmoticon">@drawable/ic_action_emoticon_dark</item>
@@ -45,11 +48,13 @@
 		<item name="LayerColor">@color/action_gray</item>
 		<item name="FABBackground">@color/white</item>
 		<item name="FABNewIcon">@drawable/ic_action_new_dark</item>
+		<item name="IndicatorForeground">@color/action_gray</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar</item>
 		<item name="android:windowBackground">@color/superdark_gray</item>
+		<item name="android:windowContentOverlay">@null</item>
 		<item name="CardBackground">@drawable/card_shadow_dark</item>
 		<item name="CardForeground">@color/gray</item>
 		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
@@ -60,6 +65,8 @@
 		<item name="CardComments">@drawable/ic_fa_comments_light</item>
 		<item name="ShadowGray">@color/cant_be_darker_gray</item>
 		<item name="DragBackground">@color/cant_be_darker_gray</item>
+		<item name="SingleBottomColor">@color/cant_be_darker_gray</item>
+		<item name="SingleDivider">@color/cant_be_darker_gray</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse_dark</item>
 		<item name="IconSendNow">@drawable/ic_action_send_now</item>
 		<item name="IconEmoticon">@drawable/ic_action_emoticon</item>
@@ -69,6 +76,7 @@
 		<item name="LayerColor">@color/dark_action_gray</item>
 		<item name="FABBackground">@color/cant_be_darker_gray</item>
 		<item name="FABNewIcon">@drawable/ic_action_new</item>
+		<item name="IndicatorForeground">@color/white</item>
 	</style>
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
@@ -97,12 +105,10 @@
 
 	<style name="My.Theme.Holo.Light.GradientActionBar" parent="@style/My.Theme.Holo.Light.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar.Gradient</item>
-		<item name="android:windowContentOverlay">@null</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.GradientActionBar" parent="@style/My.Theme.Holo.Dark.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar.Gradient</item>
-		<item name="android:windowContentOverlay">@null</item>
 	</style>
 	
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
