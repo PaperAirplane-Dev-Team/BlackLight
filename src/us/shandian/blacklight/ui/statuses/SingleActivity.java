@@ -246,15 +246,6 @@ public class SingleActivity extends AbsActivity
 					
 				}
 		});
-
-		// Expand the pane on startup
-		getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				mRoot.expandPane();
-			}
-		});
-		
 	}
 
 	@Override
