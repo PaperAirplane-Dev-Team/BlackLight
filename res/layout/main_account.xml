@@ -21,25 +21,24 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/my_account"
 	android:layout_width="match_parent"
-	android:layout_height="60dp"
-	android:orientation="horizontal"
-	android:gravity="center_vertical">
+	android:layout_height="140dp"
+	android:orientation="vertical"
+	android:gravity="center">
 
-	<ImageView
+	<de.hdodenhof.circleimageview.CircleImageView
 		android:id="@+id/my_avatar"
-		android:layout_gravity="left|center_vertical"
 		android:layout_width="50dp"
 		android:layout_height="50dp"
-		android:layout_marginLeft="5dp"/>
+		android:src="@color/gray"/>
 
 	<TextView
 		android:layout_height="wrap_content"
 		android:text="@string/name_fetching"
-		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:textSize="16sp"
 		android:layout_width="wrap_content"
 		android:id="@+id/my_name"
-		android:layout_marginLeft="5dp"
-		android:textColor="@android:color/white"/>
+		android:layout_marginTop="16dp"
+		android:textColor="@color/white"/>
 
 </LinearLayout>
 

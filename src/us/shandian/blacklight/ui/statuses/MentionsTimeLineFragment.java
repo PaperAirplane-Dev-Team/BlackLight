@@ -29,6 +29,11 @@ import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 
 public class MentionsTimeLineFragment extends TimeLineFragment
 {
+
+	public MentionsTimeLineFragment() {
+		mAllowHidingActionBar = false;
+	}
+
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new MentionsTimeLineApiCache(getActivity());
@@ -36,7 +41,6 @@ public class MentionsTimeLineFragment extends TimeLineFragment
 
 	@Override
 	protected void initTitle() {
-		getActivity().getActionBar().setTitle(R.string.status_mention_me);
 	}
 
 	@Override

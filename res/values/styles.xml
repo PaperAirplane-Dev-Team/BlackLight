@@ -49,6 +49,8 @@
 		<item name="FABBackground">@color/white</item>
 		<item name="FABNewIcon">@drawable/ic_action_new_dark</item>
 		<item name="IndicatorForeground">@color/action_gray</item>
+		<item name="DrawerBackground">@color/white</item>
+		<item name="DrawerForeground">@color/action_gray</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
@@ -77,6 +79,8 @@
 		<item name="FABBackground">@color/cant_be_darker_gray</item>
 		<item name="FABNewIcon">@drawable/ic_action_new</item>
 		<item name="IndicatorForeground">@color/white</item>
+		<item name="DrawerBackground">@color/cant_be_darker_gray</item>
+		<item name="DrawerForeground">@color/gray</item>
 	</style>
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">

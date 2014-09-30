@@ -71,6 +71,7 @@ public class TimeLineFragment extends Fragment implements
 
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
+	protected boolean mAllowHidingActionBar = true;
 
 	private int mLastCount = 0;
 
@@ -105,7 +106,7 @@ public class TimeLineFragment extends Fragment implements
 		}
 
 		// Content Margin
-		if (getActivity() instanceof MainActivity) {
+		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
 			View header = new View(getActivity());
 			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
@@ -243,10 +244,16 @@ public class TimeLineFragment extends Fragment implements
 		if (e1 == null || e2 == null || e1.getY() < e2.getY()
 				|| mList.getFirstVisiblePosition() < 1) {
 			showFAB();
-			getActivity().getActionBar().show();
+
+			if (mAllowHidingActionBar) {
+				getActivity().getActionBar().show();
+			}
 		} else {
 			hideFAB();
-			getActivity().getActionBar().hide();
+
+			if (mAllowHidingActionBar) {
+				getActivity().getActionBar().hide();
+			}
 		}
 
 		return false;

@@ -20,53 +20,178 @@
 <ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
-	android:layout_width="match_parent">
+	android:layout_width="match_parent"
+	android:background="?attr/DrawerBackground">
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:paddingLeft="20dp"
+		android:paddingTop="40dp"
+		android:paddingRight="20dp"
+		android:gravity="left"
 		android:orientation="vertical">
 
-		<TextView
+		<LinearLayout
+			android:id="@+id/drawer_home"
+			android:layout_width="match_parent"
 			android:layout_height="40dp"
-			android:text="@string/my"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="match_parent"
+			android:clickable="true"
 			android:gravity="center_vertical"
-			android:paddingLeft="10dp"
-			android:textStyle="bold"
-			android:textColor="@color/superlight_gray"/>
+			android:background="@drawable/drawer_selector"
+			android:orientation="horizontal">
 
-		<ListView
-			android:layout_height="180dp"
+			<ImageView
+				android:id="@+id/drawer_home_icon"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_drawer_home"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:text="@string/drawer_home"
+				android:textSize="16sp"
+				android:textColor="?attr/DrawerForeground"/>
+			
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/drawer_at"
 			android:layout_width="match_parent"
-			android:id="@+id/list_my"
-			android:divider="@null"
-			android:listSelector="@drawable/drawer_selector"/>
-
-		<TextView
 			android:layout_height="40dp"
-			android:text="@string/at_me"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="match_parent"
+			android:layout_marginTop="5dp"
+			android:clickable="true"
 			android:gravity="center_vertical"
-			android:paddingLeft="10dp"
-			android:textStyle="bold"
-			android:textColor="@color/superlight_gray"/>
+			android:background="@drawable/drawer_selector"
+			android:orientation="horizontal">
 
-		<ListView
-			android:layout_height="90dp"
-			android:layout_width="match_parent"
-			android:id="@+id/list_at_me"
-			android:divider="@null"
-			android:listSelector="@drawable/drawer_selector"/>
+			<ImageView
+				android:id="@+id/drawer_at_icon"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_drawer_at"/>
 
-		<ListView
-			android:layout_height="135dp"
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:text="@string/drawer_at"
+				android:textSize="16sp"
+				android:textColor="?attr/DrawerForeground"/>
+			
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/drawer_comment"
 			android:layout_width="match_parent"
-			android:id="@+id/list_other"
-			android:divider="@null"
-			android:listSelector="@drawable/drawer_selector"/>
+			android:layout_height="40dp"
+			android:layout_marginTop="5dp"
+			android:clickable="true"
+			android:gravity="center_vertical"
+			android:background="@drawable/drawer_selector"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/drawer_comment_icon"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_drawer_comment"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:text="@string/drawer_comments"
+				android:textSize="16sp"
+				android:textColor="?attr/DrawerForeground"/>
+			
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/drawer_dm"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="5dp"
+			android:clickable="true"
+			android:gravity="center_vertical"
+			android:background="@drawable/drawer_selector"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/drawer_dm_icon"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_drawer_pm"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:text="@string/drawer_dm"
+				android:textSize="16sp"
+				android:textColor="?attr/DrawerForeground"/>
+			
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/drawer_fav"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="5dp"
+			android:clickable="true"
+			android:gravity="center_vertical"
+			android:background="@drawable/drawer_selector"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/drawer_fav_icon"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_drawer_fav"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:text="@string/drawer_fav"
+				android:textSize="16sp"
+				android:textColor="?attr/DrawerForeground"/>
+			
+		</LinearLayout>
+		
+		<LinearLayout
+			android:id="@+id/drawer_settings"
+			android:layout_width="match_parent"
+			android:layout_height="36dp"
+			android:layout_marginTop="5dp"
+			android:clickable="true"
+			android:gravity="center_vertical"
+			android:background="@drawable/drawer_selector"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/drawer_settings_icon"
+				android:layout_width="18dp"
+				android:layout_height="18dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_drawer_set"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
+				android:text="@string/drawer_settings"
+				android:textSize="15sp"
+				android:textColor="?attr/DrawerForeground"/>
+			
+		</LinearLayout>
 
 	</LinearLayout>
 

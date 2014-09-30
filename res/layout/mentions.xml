@@ -11,19 +11,31 @@
 *
 * BlackLight is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TextView
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="45dp"
-	android:text="Item"
-	android:textAppearance="?android:attr/textAppearanceLarge"
 	android:layout_width="match_parent"
-	android:gravity="center_vertical"
-	android:paddingLeft="40dp"
-	android:textColor="@android:color/white"/>
+	android:layout_height="match_parent"
+	android:paddingTop="?android:attr/actionBarSize"
+	android:orientation="vertical">
 
+	<us.shandian.blacklight.ui.common.LinearViewPagerIndicator
+		android:layout_height="36dp"
+		android:layout_width="match_parent"
+		android:layout_weight="0.1"
+		android:background="?attr/LayerColor"
+		android:id="@+id/mentions_indicator"/>
+
+	<us.shandian.blacklight.ui.common.HackyViewPager
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:layout_weight="0.9"
+		android:id="@+id/mentions_pager"/>
+
+</LinearLayout>
+	

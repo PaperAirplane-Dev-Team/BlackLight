@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -50,6 +51,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 
@@ -72,7 +74,7 @@ import us.shandian.blacklight.ui.favorites.FavListFragment;
 import us.shandian.blacklight.ui.search.SearchFragment;
 import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
-import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.MentionsFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
@@ -82,7 +84,7 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 /* Main Container Activity */
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
-	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, CMT_MENTION = 5, SEARCH = 6;
+	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
 
 	@InjectView(R.id.drawer) DrawerLayout mDrawer;
 	private int mDrawerGravity;
@@ -95,9 +97,10 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	// Drawer content
 	@InjectView(R.id.my_name) TextView mName;
 	@InjectView(R.id.my_avatar) ImageView mAvatar;
-	@InjectView(R.id.list_my) ListView mMy;
-	@InjectView(R.id.list_at_me) ListView mAtMe;
-	@InjectView(R.id.list_other) ListView mOther;
+	@InjectViews({R.id.drawer_home_icon, R.id.drawer_at_icon, 
+		R.id.drawer_comment_icon, R.id.drawer_fav_icon,
+		R.id.drawer_dm_icon, R.id.drawer_settings_icon})
+		ImageView[] mIcons;
 	private FloatingActionButton mFAB;
 	
 	private LoginApiCache mLoginCache;
@@ -105,7 +108,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	private UserModel mUser;
 	
 	// Fragments
-	private Fragment[] mFragments = new Fragment[7];
+	private Fragment[] mFragments = new Fragment[6];
 	private FragmentManager mManager;
 
 	// Groups
@@ -114,17 +117,12 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	private MenuItem mGroupDestroy, mGroupCreate;
 	
 	// Temp fields
-	private TextView mLastChoice;
 	private int mCurrent = 0;
 	private int mNext = 0;
 	private boolean mIgnore = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (hasSmartBar()) {
-			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-		}
-
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
@@ -158,12 +156,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				super.onDrawerOpened(drawerView);
 				getActionBar().show();
 				invalidateOptionsMenu();
-				if (mLastChoice == null) {
-					mLastChoice = (TextView) mMy.getChildAt(0);
-					mLastChoice.getPaint().setFakeBoldText(true);
-					mLastChoice.invalidate();
-				}
-
 				hideFAB();
 			}
 
@@ -185,20 +177,24 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
 		}
 
-		mMy.setVerticalScrollBarEnabled(false);
+		/*mMy.setVerticalScrollBarEnabled(false);
 		mMy.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mAtMe.setVerticalScrollBarEnabled(false);
 		mAtMe.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mOther.setVerticalScrollBarEnabled(false);
-		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);
+		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);*/
 		
 		// My account
-		mName.getPaint().setFakeBoldText(true);
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
-		initList();
 		new InitializerTask().execute();
 		new GroupsTask().execute();
+
+		// Tint icons
+		int color = Utility.getDrawerForeground(this);
+		for (ImageView icon : mIcons) {
+			icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+		}
 
 		// Initialize FAB
 		mFAB = new FloatingActionButton.Builder(this)
@@ -228,8 +224,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mFragments[COMMENT] = new CommentTimeLineFragment();
 		mFragments[FAV] = new FavListFragment();
 		mFragments[DM] = new DirectMessageUserFragment();
-		mFragments[MENTION] = new MentionsTimeLineFragment();
-		mFragments[CMT_MENTION] = new CommentMentionsTimeLineFragment();
+		mFragments[MENTION] = new MentionsFragment();
 		mFragments[SEARCH] = new SearchFragment();
 		mManager = getFragmentManager();
 		
@@ -277,7 +272,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		
 		if (resultCode == RESULT_OK) {
 			mLoginCache = new LoginApiCache(this);
-			initList();
 		}
 	}
 
@@ -382,7 +376,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 	}
 
-	@OnItemClick({R.id.list_my, R.id.list_at_me, R.id.list_other})
+	/*@OnItemClick({R.id.list_my, R.id.list_at_me, R.id.list_other})
 	public void handlePageSwitch(AdapterView<?> parent, View view, final int position, long id) {
 		if ((parent != mOther || position == 0) && mLastChoice != null) {
 			mLastChoice.getPaint().setFakeBoldText(false);
@@ -476,6 +470,49 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 		
 		openOrCloseDrawer();
+	}*/
+
+	@OnClick(R.id.drawer_home)
+	public void home() {
+		setShowTitle(false);
+		setShowSpinner(true);
+		switchTo(HOME);
+	}
+
+	@OnClick(R.id.drawer_comment)
+	public void comments() {
+		switchTo(COMMENT);
+		setShowTitle(true);
+		setShowSpinner(false);
+	}
+
+	@OnClick(R.id.drawer_dm)
+	public void dm() {
+		switchTo(DM);
+		setShowTitle(true);
+		setShowSpinner(false);
+	}
+
+	@OnClick(R.id.drawer_fav)
+	public void fav() {
+		switchTo(FAV);
+		setShowTitle(true);
+		setShowSpinner(false);
+	}
+
+	@OnClick(R.id.drawer_settings)
+	public void settings() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, SettingsActivity.class);
+		startActivity(i);
+	}
+
+	@OnClick(R.id.drawer_at)
+	public void mentions() {
+		switchTo(MENTION);
+		setShowTitle(true);
+		setShowSpinner(false);
 	}
 
 	@Override
@@ -545,13 +582,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 	}
 	
-	private void initList() {
-		mLastChoice = null;
-		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
-		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
-		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
-	}
-	
 	private void switchTo(int id) {
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
@@ -572,6 +602,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		mCurrent = id;
 		mNext = id;
+
+		mDrawer.closeDrawer(mDrawerGravity);
 	}
 
 	private void updateActionSpinner() {

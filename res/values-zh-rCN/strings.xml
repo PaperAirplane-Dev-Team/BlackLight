@@ -36,23 +36,12 @@
 	<string name="group_destroy">删除当前分组</string>
 
 	<!-- Left Drawer -->
-	<string name="my">我的圈子</string>
-	<string name="at_me">提到我的</string>
-	<string-array name="my_array">
-		<item>微博</item>
-		<item>评论</item>
-		<item>收藏</item>
-		<item>私信</item>
-	</string-array>
-	<string-array name="at_me_array">
-		<item>微博</item>
-		<item>评论</item>
-	</string-array>
-	<string-array name="other_array">
-		<item>搜索</item>
-		<item>设置</item>
-		<item>登出</item>
-	</string-array>
+	<string name="drawer_home">首页</string>
+	<string name="drawer_at">提及</string>
+	<string name="drawer_comments">评论</string>
+	<string name="drawer_dm">私信</string>
+	<string name="drawer_fav">收藏</string>
+	<string name="drawer_settings">设置</string>
 	
 	<!-- Statuses -->
 	<string name="timeline">时间流</string>

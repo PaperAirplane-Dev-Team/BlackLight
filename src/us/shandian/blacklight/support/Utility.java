@@ -702,6 +702,18 @@ public class Utility
 		}
 	}
 
+	public static int getDrawerForeground(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_DrawerForeground, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+
+	}
+
 	public static Drawable getFABNewIcon(Context context) {
 		try {
 			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);

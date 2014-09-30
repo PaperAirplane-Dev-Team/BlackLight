@@ -51,6 +51,8 @@
 		<attr name="FABBackground" format="color" />
 		<attr name="FABNewIcon" format="reference" />
 		<attr name="IndicatorForeground" format="color" />
+		<attr name="DrawerBackground" format="color" />
+		<attr name="DrawerForeground" format="color" />
 	</declare-styleable>
 
 </resources>

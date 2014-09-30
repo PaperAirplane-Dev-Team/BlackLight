@@ -31,6 +31,10 @@ import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 public class CommentMentionsTimeLineFragment extends TimeLineFragment
 {
 
+	public CommentMentionsTimeLineFragment() {
+		mAllowHidingActionBar = false;
+	}
+
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new CommentMentionsTimeLineApiCache(getActivity());
@@ -38,7 +42,6 @@ public class CommentMentionsTimeLineFragment extends TimeLineFragment
 
 	@Override
 	protected void initTitle() {
-		getActivity().getActionBar().setTitle(R.string.comment_mention_me);
 	}
 
 	@Override
