@@ -667,7 +667,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			publishProgress(new Object[]{0});
 			
 			// My avatar
-			Bitmap avatar = mUserCache.getSmallAvatar(mUser);
+			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
 			if (avatar != null) {
 				publishProgress(new Object[]{1, avatar});
 			}
