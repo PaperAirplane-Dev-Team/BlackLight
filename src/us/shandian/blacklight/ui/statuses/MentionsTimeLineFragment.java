@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
@@ -30,8 +31,21 @@ import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 public class MentionsTimeLineFragment extends TimeLineFragment
 {
 
+	public boolean mDoRefresh = false;
+
 	public MentionsTimeLineFragment() {
 		mAllowHidingActionBar = false;
+	}
+
+	@Override
+	protected void bindSwipeToRefresh(ViewGroup vg) {
+		super.bindSwipeToRefresh(vg);
+
+		if (mDoRefresh) {
+			onRefresh();
+			mDoRefresh = false;
+		}
+
 	}
 
 	@Override

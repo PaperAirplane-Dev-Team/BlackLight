@@ -43,7 +43,8 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 	@InjectView(R.id.mentions_indicator) LinearViewPagerIndicator mIndicator;
 	@InjectView(R.id.mentions_pager) ViewPager mPager;
 
-	private Fragment mRetweet, mComment;
+	private MentionsTimeLineFragment mRetweet;
+	private CommentMentionsTimeLineFragment mComment;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 			}
 		});
 
-	return v;
+		return v;
 	}
 
 	@Override
@@ -93,7 +94,8 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 	@Override
 	public void onRefresh() {
-		((SwipeRefreshLayout.OnRefreshListener) mRetweet).onRefresh();
-		((SwipeRefreshLayout.OnRefreshListener) mComment).onRefresh();
+		// Will be called by MainActivity
+		mRetweet.mDoRefresh = true;
+		mComment.mDoRefresh = true;
 	}
 }
