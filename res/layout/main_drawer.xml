@@ -17,7 +17,7 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ScrollView
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
@@ -27,8 +27,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingLeft="24dp"
-		android:paddingTop="40dp"
 		android:paddingRight="24dp"
+		android:layout_gravity="left|center_vertical"
 		android:gravity="left"
 		android:orientation="vertical">
 
@@ -195,5 +195,5 @@
 
 	</LinearLayout>
 
-</ScrollView>
+</FrameLayout>
 

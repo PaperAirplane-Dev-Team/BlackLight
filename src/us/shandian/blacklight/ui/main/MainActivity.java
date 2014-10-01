@@ -26,6 +26,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -33,6 +34,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -129,15 +131,28 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		// Inflate custom decor
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View customDecor = inflater.inflate(R.layout.decor, null);
+
+		// Replace the original layout
+		// Learned from SlidingMenu
+		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+		ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
+		decor.removeView(decorChild);
+		decor.addView(customDecor);
+		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
+
 		// Add custom view
 		getActionBar().setCustomView(R.layout.action_custom);
 		getActionBar().setDisplayShowCustomEnabled(true);
 
 		// Inject
-		ButterKnife.inject(this);
+		ButterKnife.inject(this, customDecor);
 		
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
+
 		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;
 
 		// Set gravity
@@ -147,7 +162,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		nav.setLayoutParams(p);
 
 		// Adjust Padding for statusbar and navigation bar
-		nav.setPadding(0, Utility.getDecorPaddingTop(this), 0, 0);
+		nav.setPadding(0, Utility.getStatusBarHeight(this), 0, 0);
 
 		// Initialize naviagtion drawer
 		//mDrawer = (DrawerLayout) findViewById(R.id.drawer);

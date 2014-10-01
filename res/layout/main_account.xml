@@ -21,7 +21,7 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="140dp">
+	android:layout_height="200dp">
 
 	<ImageView
 		android:id="@+id/my_cover"
@@ -38,7 +38,7 @@
 	<LinearLayout
 		android:id="@+id/my_account"
 		android:layout_width="match_parent"
-		android:layout_height="140dp"
+		android:layout_height="match_parent"
 		android:orientation="vertical"
 		android:gravity="center">
 
