@@ -17,24 +17,14 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout
+<shape
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:shape="rectangle">
 
-	<us.shandian.blacklight.ui.common.HackyListView
-		android:layout_height="match_parent"
-		android:layout_width="match_parent"
-		android:id="@+id/home_timeline"
-		android:scrollingCache="false"
-		android:animationCache="false"
-		android:divider="@null"/>
+	<gradient
+		android:startColor="#44000000"
+		android:endColor="#00000000"
+		android:angle="270"
+		android:type="linear"/>
 
-	<View
-		android:id="@+id/action_shadow"
-		android:layout_width="match_parent"
-		android:layout_height="3dp"
-		android:background="@drawable/action_shadow"/>
-
-</RelativeLayout>
-
+</shape>

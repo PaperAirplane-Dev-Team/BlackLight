@@ -59,6 +59,7 @@ public class TimeLineFragment extends Fragment implements
 		OnScrollListener {
 
 	@InjectView(R.id.home_timeline) protected ListView mList;
+	@InjectView(R.id.action_shadow) protected View mShadow;
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
 
@@ -125,6 +126,12 @@ public class TimeLineFragment extends Fragment implements
 
 		if (getActivity() instanceof MainActivity) {
 			mAdapter.addOnScrollListener(this);
+		}
+
+		mShadow.bringToFront();
+
+		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
+			mShadow.setTranslationY(Utility.getActionBarHeight(getActivity()));
 		}
 
 		return v;
@@ -247,12 +254,14 @@ public class TimeLineFragment extends Fragment implements
 
 			if (mAllowHidingActionBar) {
 				getActivity().getActionBar().show();
+				mShadow.setVisibility(View.VISIBLE);
 			}
 		} else {
 			hideFAB();
 
 			if (mAllowHidingActionBar) {
 				getActivity().getActionBar().hide();
+				mShadow.setVisibility(View.GONE);
 			}
 		}
 
