@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 import butterknife.ButterKnife;
@@ -35,6 +34,7 @@ import butterknife.InjectView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
+import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 
 /*
  * This class combines MentionsTimeLine and CommentMentionsTimeLine together
