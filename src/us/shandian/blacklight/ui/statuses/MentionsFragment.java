@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 import butterknife.ButterKnife;
@@ -38,7 +39,7 @@ import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
 /*
  * This class combines MentionsTimeLine and CommentMentionsTimeLine together
  * */
-public class MentionsFragment extends Fragment {
+public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 	@InjectView(R.id.mentions_indicator) LinearViewPagerIndicator mIndicator;
 	@InjectView(R.id.mentions_pager) ViewPager mPager;
 
@@ -78,7 +79,7 @@ public class MentionsFragment extends Fragment {
 			}
 		});
 
-		return v;
+	return v;
 	}
 
 	@Override
@@ -88,5 +89,11 @@ public class MentionsFragment extends Fragment {
 		if (!hidden) {
 			getActivity().getActionBar().setTitle(getString(R.string.drawer_at));
 		}
+	}
+
+	@Override
+	public void onRefresh() {
+		((SwipeRefreshLayout.OnRefreshListener) mRetweet).onRefresh();
+		((SwipeRefreshLayout.OnRefreshListener) mComment).onRefresh();
 	}
 }
