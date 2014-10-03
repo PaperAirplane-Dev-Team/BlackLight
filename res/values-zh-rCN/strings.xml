@@ -167,7 +167,7 @@
 	<string name="plz_wait">请稍候……</string>
 	<string name="name_fetching">昵称获取中……</string>
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
-	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
+	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误或网络故障</string>
 	<string name="send_fail">发送失败</string>
 	<string name="confirm_delete">确认删除吗？</string>
 	<string name="new_comment">%d 条新评论</string>

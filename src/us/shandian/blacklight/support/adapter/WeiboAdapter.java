@@ -284,10 +284,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			like.setImageResource(R.drawable.ic_action_bad);
 		}
 
-		if (DEBUG) {
-			Log.d(TAG, "liked = " + String.valueOf(msg.liked));
-		}
-		
 		bindMultiPicLayout(h, msg, true);
 		
 		// If this retweets/replies to others, show the original

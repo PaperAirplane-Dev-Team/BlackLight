@@ -42,6 +42,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,9 @@ import java.io.InputStream;
 import java.lang.NoClassDefFoundError;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -79,6 +82,8 @@ public class Utility
 	private static final String TAG = Utility.class.getSimpleName();
 	
 	private static final int REQUEST_CODE = 100001;
+
+	public static String lastPicPath;
 
 	public static int action_bar_title = -1;
 
@@ -800,6 +805,39 @@ public class Utility
 
 	private static int calculateGradient(int from, int to, float factor){
 		return from + (int)((to - from) * factor);
+	}
+
+	/** Create a file Uri for saving an image*/
+	public static Uri getOutputMediaFileUri(){
+		Uri uri = Uri.fromFile(getOutputImageFile());
+		lastPicPath = uri.getPath();
+		return uri;
+	}
+
+	/** Create a File for saving an image*/
+	private static File getOutputImageFile(){
+		// To be safe, you should check that the SDCard is mounted
+		// using Environment.getExternalStorageState() before doing this.
+
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_PICTURES), "BlackLight");
+		// This location works best if you want the created images to be shared
+		// between applications and persist after your app has been uninstalled.
+
+		// Create the storage directory if it does not exist
+		if (! mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
+				Log.d(TAG, "failed to create directory");
+				return null;
+			}
+		}
+
+		// Create a media file name
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		File mediaFile;
+		mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+				"IMG_"+ timeStamp + ".jpg");
+		return mediaFile;
 	}
 
 }

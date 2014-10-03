@@ -215,9 +215,9 @@ public class NewPostActivity extends AbsActivity
 		Intent i = getIntent();
 
 		if (i != null && i.getType() != null) {
-			if (i.getType().indexOf("text/plain") != -1) {
+			if (i.getType().contains("text/plain")) {
 				mText.setText(i.getStringExtra(Intent.EXTRA_TEXT));
-			} else if (i.getType().indexOf("image/") != -1) {
+			} else if (i.getType().contains("image/")) {
 				Uri uri = (Uri) i.getParcelableExtra(Intent.EXTRA_STREAM);
 
 				try {
@@ -238,7 +238,7 @@ public class NewPostActivity extends AbsActivity
 		
 		// Image picked, decode
 		if (requestCode == REQUEST_PICK_IMG && resultCode == RESULT_OK) {
-			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null, null);
+			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
 			cursor.moveToFirst();
 			String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 			cursor.close();
@@ -249,8 +249,7 @@ public class NewPostActivity extends AbsActivity
 
 		// Captured photo
 		if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
-			Bundle extras = data.getExtras();
-			setPicture((Bitmap) extras.get("data"));
+			setPicture(BitmapFactory.decodeFile(Utility.lastPicPath));
 		}
 	}
 
@@ -337,6 +336,8 @@ public class NewPostActivity extends AbsActivity
 								break;
 							case 1:
 								Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+								Uri uri = Utility.getOutputMediaFileUri();
+								captureIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
 								startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
 								break;
 						}

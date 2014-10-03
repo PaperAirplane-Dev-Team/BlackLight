@@ -189,7 +189,7 @@
 	<string name="plz_wait">Please wait……</string>
 	<string name="name_fetching">Fetching names……</string>
 	<string name="expires_in">The token will be invalid in %d days.</string>
-	<string name="login_fail">:-( Login failed. Maybe due to wrong AppId/AppSecret/Username/Password.</string>
+	<string name="login_fail">:-( Login failed. Maybe due to wrong AppId/AppSecret/Username/Password or unavailable network.</string>
 	<string name="send_fail">Send failed.</string>
 	<string name="confirm_delete">Confirm?</string>
 	<string name="new_comment">%d new comments.</string>
