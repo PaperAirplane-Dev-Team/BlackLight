@@ -257,8 +257,10 @@ public class NewPostActivity extends AbsActivity
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.clear();
 		getMenuInflater().inflate(R.menu.new_post, menu);
-		if (mBitmap == null){
-			menu.findItem(R.id.post_pic).getSubMenu().removeItem(R.id.post_remove_photo);
+		if (mBitmap != null){
+			menu.findItem(R.id.post_pic)
+					.setTitle(R.string.delete_picture)
+					.setIcon(android.R.drawable.ic_menu_delete);
 		}
 		mEmoticonMenu = menu.findItem(R.id.post_emoticon);
 		return true;
@@ -285,20 +287,12 @@ public class NewPostActivity extends AbsActivity
 					
 			}
 			return true;
-		} else if (id == R.id.post_remove_photo) {
-			setPicture(null);
-			return true;
-		} else if (id == R.id.post_capture_photo){
-			Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			Uri uri = Utility.getOutputMediaFileUri();
-			captureIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
-			startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
-			return true;
-		} else if (id == R.id.post_pick_photo){
-			Intent i = new Intent();
-			i.setAction(Intent.ACTION_PICK);
-			i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-			startActivityForResult(i, REQUEST_PICK_IMG);
+		} else if (id == R.id.post_pic) {
+			if (mBitmap == null){
+				showPicturePicker();
+			} else {
+				setPicture(null);
+			}
 			return true;
 		} else if (id == R.id.post_emoticon) {
 			if (mDrawer.isDrawerOpen(Gravity.END)) {
@@ -327,6 +321,29 @@ public class NewPostActivity extends AbsActivity
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void showPicturePicker(){
+		new AlertDialog.Builder(this).setItems(getResources().getStringArray(R.array.picture_picker_array),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialogInterface, int id) {
+						switch (id) {
+							case 0:
+								Intent i = new Intent();
+								i.setAction(Intent.ACTION_PICK);
+								i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+								startActivityForResult(i, REQUEST_PICK_IMG);
+								break;
+							case 1:
+								Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+								Uri uri = Utility.getOutputMediaFileUri();
+								captureIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+								startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
+								break;
+						}
+					}
+				}
+		).show();
 	}
 
 	private void setPicture(Bitmap bitmap){

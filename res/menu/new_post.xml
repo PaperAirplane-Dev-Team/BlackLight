@@ -17,30 +17,12 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+	
 	<item
 		android:id="@+id/post_pic"
 		android:title="@string/new_picture"
 		android:icon="@drawable/ic_action_new_picture"
-		android:showAsAction="always">
-		<menu>
-			<item
-				android:id="@+id/post_pick_photo"
-				android:icon="@android:drawable/ic_menu_gallery"
-				android:showAsAction="withText"
-				android:title="@string/photo_pick"/>
-			<item
-				android:id="@+id/post_capture_photo"
-				android:icon="@android:drawable/ic_menu_camera"
-				android:showAsAction="withText"
-				android:title="@string/photo_capture"/>
-			<item
-				android:id="@+id/post_remove_photo"
-				android:icon="@android:drawable/ic_menu_delete"
-				android:showAsAction="withText"
-				android:title="@string/delete_picture"/>
-		</menu>
-	</item>
+		android:showAsAction="always"/>
 	
 	<item
 		android:id="@+id/post_at"
