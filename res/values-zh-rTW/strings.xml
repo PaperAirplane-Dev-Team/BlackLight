@@ -81,8 +81,10 @@
 	<string name="comment_delete">刪除評論</string>
 	<string name="comment_view_orig">查看原微博</string>
 	<string name="refresh">刷新</string>
-	<string name="photo_pick">從圖片庫選擇圖像</string>
-	<string name="photo_capture">拍照</string>
+	<string-array name="picture_picker_array">
+		<item>從圖片庫選擇圖像</item>
+		<item>拍照</item>
+	</string-array>
 	
 	<!-- Time -->
 	<string name="just_now">剛剛</string>

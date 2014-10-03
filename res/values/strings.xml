@@ -71,8 +71,10 @@
 	<string name="comment_delete">Delete comment</string>
 	<string name="comment_view_orig">View origin weibo</string>
 	<string name="refresh">Refresh</string>
-	<string name="photo_pick">Choose picture(s) from Photo Gallery</string>
-	<string name="photo_capture">Take picture(s)</string>
+	<string-array name="picture_picker_array">
+		<item>Choose picture(s) from Photo Gallery</item>
+		<item>Take picture(s)</item>
+	</string-array>
 	
 	<!-- Time -->
 	<string name="just_now">Just now</string>
