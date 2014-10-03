@@ -34,25 +34,6 @@
 	<string name="group_all">全部</string>
 	<string name="group_create">創建分組</string>
 	<string name="group_destroy">刪除當前分組</string>
-
-	<!-- Left Drawer -->
-	<string name="my">我的圈子</string>
-	<string name="at_me">提及我的</string>
-	<string-array name="my_array">
-		<item>微博</item>
-		<item>評論</item>
-		<item>收藏</item>
-		<item>私信</item>
-	</string-array>
-	<string-array name="at_me_array">
-		<item>微博</item>
-		<item>評論</item>
-	</string-array>
-	<string-array name="other_array">
-		<item>搜尋</item>
-		<item>設置</item>
-		<item>登出</item>
-	</string-array>
 	
 	<!-- Statuses -->
 	<string name="timeline">時間軸</string>
