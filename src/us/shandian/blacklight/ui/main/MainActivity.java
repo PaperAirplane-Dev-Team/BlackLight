@@ -39,11 +39,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.os.Build;
@@ -97,6 +99,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	@InjectView(R.id.action_hamburger) ImageView mHamburger;
 	
 	// Drawer content
+	@InjectView(R.id.drawer_wrapper) View mDrawerWrapper;
+	@InjectView(R.id.drawer_scroll) ScrollView mDrawerScroll;
 	@InjectView(R.id.my_name) TextView mName;
 	@InjectView(R.id.my_avatar) ImageView mAvatar;
 	@InjectView(R.id.my_cover) ImageView mCover;
@@ -242,6 +246,19 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			ft.hide(f);
 		}
 		ft.commit();
+
+		// Adjust drawer layout params
+		mDrawerWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				if (mDrawerScroll.getMeasuredHeight() > mDrawerWrapper.getMeasuredHeight()) {
+					// On poor screens, we add a scroll over the drawer content
+					ViewGroup.LayoutParams lp = mDrawerScroll.getLayoutParams();
+					lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+					mDrawerScroll.setLayoutParams(lp);
+				}
+			}
+		});
 	}
 
 	@Override
