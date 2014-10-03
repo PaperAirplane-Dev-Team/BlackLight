@@ -37,6 +37,8 @@
 	<color name="sub_gray">#bcbcbc</color>
 	<color name="link_blue">#9797ff</color>
 	<color name="action_gray">#444448</color>
+	<color name="divider_gray">#bababa</color>
+	<color name="selector_gray_lighter">#ececec</color>
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
 	

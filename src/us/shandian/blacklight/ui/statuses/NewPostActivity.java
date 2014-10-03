@@ -51,6 +51,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 import java.io.IOException;
 
@@ -80,6 +81,14 @@ public class NewPostActivity extends AbsActivity
 	@InjectView(R.id.post_back) ImageView mBackground;
 	@InjectView(R.id.post_count) TextView mCount;
 	@InjectView(R.id.post_drawer)  DrawerLayout mDrawer;
+	@InjectView(R.id.post_avatar) ImageView mAvatar;
+
+	// Actions
+	@InjectView(R.id.post_pic) protected ImageView mPic;
+	@InjectView(R.id.post_emoji) protected ImageView mEmoji;
+	@InjectView(R.id.post_at) protected ImageView mAt;
+	@InjectView(R.id.post_topic) protected ImageView mTopic;
+	@InjectView(R.id.post_send) protected ImageView mSend;
 
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
@@ -89,9 +98,6 @@ public class NewPostActivity extends AbsActivity
 	private EmoticonFragment mEmoticonFragment;
 	private ColorPickerFragment mColorPickerFragment;
 
-	// Menu
-	private MenuItem mEmoticonMenu;
-	
 	// Picked picture
 	private Bitmap mBitmap;
 
@@ -101,10 +107,11 @@ public class NewPostActivity extends AbsActivity
 	// Filter color
 	private int mFilter;
 
+	// Foreground
+	private int mForeground;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.post_status);
 
@@ -124,12 +131,12 @@ public class NewPostActivity extends AbsActivity
 		try {
 			TypedArray array = getTheme().obtainStyledAttributes(R.styleable.BlackLight);
 			mFilter = array.getColor(R.styleable.BlackLight_NewPostImgFilter, 0);
+			mForeground = array.getColor(R.styleable.BlackLight_NewPostForeground, 0);
 			array.recycle();
 		} catch (Exception e) {
 			mFilter = 0;
 		}
 
-		
 		// Listeners
 		mEmoticonFragment.setEmoticonListener(new EmoticonFragment.EmoticonListener() {
 				@Override
@@ -171,7 +178,7 @@ public class NewPostActivity extends AbsActivity
 					}
 					
 					if (length <= 140 && !s.toString().contains("\n")) {
-						mCount.setTextColor(getResources().getColor(R.color.gray));
+						mCount.setTextColor(mForeground);
 						mCount.setText(String.valueOf(140 - length));
 						mIsLong = false;
 					} else if (!(NewPostActivity.this instanceof RepostActivity) 
@@ -189,15 +196,14 @@ public class NewPostActivity extends AbsActivity
 					
 				}
 
-				if (mEmoticonMenu != null) {
+				if (mEmoji != null) {
 					if (mIsLong) {
 						getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mColorPickerFragment).commit();
-						mEmoticonMenu.setIcon(R.drawable.ic_action_edit);
-						mEmoticonMenu.setTitle(R.string.color);
+						mEmoji.setImageResource(R.drawable.ic_action_edit);
 					} else {
 						getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
-						mEmoticonMenu.setIcon(R.drawable.ic_action_emoticon);
-						mEmoticonMenu.setTitle(R.string.emoticon);
+						mEmoji.setImageResource(R.drawable.ic_emoji);
+
 					}
 				}
 			}
@@ -254,19 +260,6 @@ public class NewPostActivity extends AbsActivity
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getMenuInflater().inflate(R.menu.new_post, menu);
-		if (mBitmap != null){
-			menu.findItem(R.id.post_pic)
-					.setTitle(R.string.delete_picture)
-					.setIcon(android.R.drawable.ic_menu_delete);
-		}
-		mEmoticonMenu = menu.findItem(R.id.post_emoticon);
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.isCheckable() && item.isEnabled()) {
 			item.setChecked(!item.isChecked());
@@ -276,50 +269,61 @@ public class NewPostActivity extends AbsActivity
 		if (id == android.R.id.home) {
 			finish();
 			return true;
-		} else if (id == R.id.post_send) {
-			try {
-				if (!TextUtils.isEmpty(mText.getText().toString())) {
-					new Uploader().execute();
-				} else {
-					Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
-				}
-			} catch (Exception e) {
-					
-			}
-			return true;
-		} else if (id == R.id.post_pic) {
-			if (mBitmap == null){
-				showPicturePicker();
-			} else {
-				setPicture(null);
-			}
-			return true;
-		} else if (id == R.id.post_emoticon) {
-			if (mDrawer.isDrawerOpen(Gravity.END)) {
-				mDrawer.closeDrawer(Gravity.END);
-			} else {
-				mDrawer.openDrawer(Gravity.END);
-			}
-			return true;
-		} else if (id == R.id.post_at) {
-			AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
-			diag.setListener(new AtUserSuggestDialog.AtUserListener() {
-				@Override
-				public void onChooseUser(String name) {
-					mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
-				}
-			});
-			diag.show();
-			return true;	
-		} else if (id == R.id.post_topic) {
-			CharSequence text = mText.getText();
-			mText.getText().insert(mText.getSelectionStart(), "##");
-			if(text instanceof Spannable) {
-				Selection.setSelection((Spannable) text, text.length() - 1);
-			}
-			return true;	
 		} else {
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+
+	@OnClick(R.id.post_send)
+	public void send() {
+		try {
+			if (!TextUtils.isEmpty(mText.getText().toString())) {
+				new Uploader().execute();
+			} else {
+				Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
+			}
+		} catch (Exception e) {
+					
+		}
+	} 
+	
+	@OnClick(R.id.post_pic) 
+	public void pic() {
+		if (mBitmap == null){
+			showPicturePicker();
+		} else {
+			setPicture(null);
+		}
+	}
+	
+	@OnClick(R.id.post_emoji)
+	public void emoji() {
+		if (mDrawer.isDrawerOpen(Gravity.END)) {
+			mDrawer.closeDrawer(Gravity.END);
+		} else {
+			mDrawer.openDrawer(Gravity.END);
+		}
+	}
+	
+	@OnClick(R.id.post_at) 
+	public void at() {
+		AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
+		diag.setListener(new AtUserSuggestDialog.AtUserListener() {
+			@Override
+			public void onChooseUser(String name) {
+				mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
+			}
+		});
+		diag.show();
+	}
+
+	@OnClick(R.id.post_topic)
+	public void topic() {
+		CharSequence text = mText.getText();
+		mText.getText().insert(mText.getSelectionStart(), "##");
+		if(text instanceof Spannable) {
+			Selection.setSelection((Spannable) text, text.length() - 1);
 		}
 	}
 
@@ -351,12 +355,9 @@ public class NewPostActivity extends AbsActivity
 		if (bitmap != null) {
 			mBackground.setImageBitmap(bitmap);
 			mBackground.setVisibility(View.VISIBLE);
-			mCount.setBackgroundColor(mFilter);
 		} else {
 			mBackground.setVisibility(View.INVISIBLE);
-			mCount.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 		}
-		invalidateOptionsMenu();
 	}
 
 	// if extended, this should be overridden
@@ -426,14 +427,26 @@ public class NewPostActivity extends AbsActivity
 		protected Void doInBackground(Void... params) {
 			// Username first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
-			publishProgress();
+			publishProgress(0);
+
+			// Avatar
+			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
+			if (avatar != null)
+				publishProgress(1, avatar);
 			
 			return null;
 		}
 
 		@Override
 		protected void onProgressUpdate(Object... values) {
-			getActionBar().setSubtitle(mUser.getName());
+			switch (Integer.valueOf(values[0].toString())) {
+				case 0:
+					getActionBar().setSubtitle(mUser.getName());
+					break;
+				case 1:
+					mAvatar.setImageBitmap((Bitmap) values[1]);
+					break;
+			}
 			super.onProgressUpdate();
 		}
 		

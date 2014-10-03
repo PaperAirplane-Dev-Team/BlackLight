@@ -21,6 +21,7 @@ package us.shandian.blacklight.ui.comments;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.os.Bundle;
 
 import us.shandian.blacklight.R;
@@ -40,16 +41,15 @@ public class CommentOnActivity extends NewPostActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		mPic.setVisibility(View.GONE);
+
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		
-		// Disable picture uploading, because comments cannot contain pictures
-		menu.findItem(R.id.post_pic).setVisible(false);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
 		
 		// Other items
 		mCommentOrig = menu.add(R.string.comment_orig);

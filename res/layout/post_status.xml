@@ -18,7 +18,8 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true">
@@ -39,7 +40,7 @@
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"/>
 
-		<TextView
+		<!--<TextView
 			android:id="@+id/post_count"
 			android:layout_height="match_parent"
 			android:text="140"
@@ -47,19 +48,135 @@
 			android:textAppearance="?android:attr/textAppearanceLarge"
 			android:layout_width="match_parent"
 			android:gravity="bottom|right"
-			android:textSize="40sp"/>
+			android:textSize="40sp"/>-->
 
-		<EditText
-			android:layout_height="match_parent"
-			android:inputType="textMultiLine"
-			android:ems="10"
+		<LinearLayout
+			android:background="?attr/NewPostDivider"
 			android:layout_width="match_parent"
-			android:textColor="?attr/CardForeground"
-			android:id="@+id/post_edit"
-			android:gravity="top"
-			android:padding="5dp"
-			android:focusable="true"
-			android:focusableInTouchMode="true"/>
+			android:layout_height="match_parent"
+			android:layout_marginLeft="50dp"
+			android:paddingLeft="1dp"
+			android:orientation="vertical">
+			
+			<EditText
+				android:layout_height="match_parent"
+				android:layout_weight="0.9"
+				android:inputType="textMultiLine"
+				android:ems="10"
+				android:layout_width="match_parent"
+				android:textColor="?attr/CardForeground"
+				android:id="@+id/post_edit"
+				android:gravity="top"
+				android:paddingTop="10dp"
+				android:paddingBottom="10dp"
+				android:paddingRight="10dp"
+				android:paddingLeft="40dp"
+				android:focusable="true"
+				android:focusableInTouchMode="true"
+				android:background="?attr/NewPostBackground"/>
+
+			<LinearLayout
+				android:layout_height="56dp"
+				android:layout_width="match_parent"
+				android:layout_weight="0.1"
+				android:layout_marginTop="1dp"
+				android:paddingLeft="10dp"
+				android:orientation="horizontal"
+				android:background="?attr/NewPostBottom">
+				<HorizontalScrollView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_weight="0.9">
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:orientation="horizontal"
+						android:gravity="center_vertical">
+						<us.shandian.blacklight.ui.common.TintImageView
+							android:id="@+id/post_pic"
+							android:layout_width="40dp"
+							android:layout_height="40dp"
+							android:scaleType="centerInside"
+							android:src="@drawable/ic_camera"
+							app:tintColor="?attr/NewPostForeground"
+							style="?android:attr/buttonBarButtonStyle"/>
+
+						<us.shandian.blacklight.ui.common.TintImageView
+							android:id="@+id/post_emoji"
+							android:layout_width="40dp"
+							android:layout_height="40dp"
+							android:layout_marginLeft="10dp"
+							android:scaleType="centerInside"
+							android:src="@drawable/ic_emoji"
+							app:tintColor="?attr/NewPostForeground"
+							style="?android:attr/buttonBarButtonStyle"/>
+
+						<us.shandian.blacklight.ui.common.TintImageView
+							android:id="@+id/post_at"
+							android:layout_width="40dp"
+							android:layout_height="40dp"
+							android:layout_marginLeft="10dp"
+							android:scaleType="centerInside"
+							android:src="@drawable/ic_drawer_at"
+							app:tintColor="?attr/NewPostForeground"
+							style="?android:attr/buttonBarButtonStyle"/>
+
+						<us.shandian.blacklight.ui.common.TintImageView
+							android:id="@+id/post_topic"
+							android:layout_width="40dp"
+							android:layout_height="40dp"
+							android:layout_marginLeft="10dp"
+							android:scaleType="centerInside"
+							android:src="@drawable/ic_action_topic"
+							app:tintColor="?attr/NewPostForeground"
+							style="?android:attr/buttonBarButtonStyle"/>
+					</LinearLayout>
+				</HorizontalScrollView>
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="0.1"
+					android:orientation="horizontal"
+					android:gravity="center_vertical">
+
+					<TextView
+						android:id="@+id/post_count"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="13sp"
+						android:textColor="?attr/NewPostForeground"
+						android:text="140"/>
+
+					<us.shandian.blacklight.ui.common.TintImageView
+						android:id="@+id/post_send"
+						android:layout_width="48dp"
+						android:layout_height="48dp"
+						android:layout_marginLeft="3dp"
+						android:scaleType="centerInside"
+						android:src="@drawable/ic_action_send_now"
+						app:tintColor="?attr/NewPostForeground"
+						style="?android:attr/buttonBarButtonStyle"/>
+					
+				</LinearLayout>
+
+			</LinearLayout>
+		</LinearLayout>
+
+		<de.hdodenhof.circleimageview.CircleImageView
+			android:id="@+id/post_avatar"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:layout_marginLeft="20dp"
+			android:layout_marginTop="20dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:src="@color/gray"/>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="3dp"
+			android:background="@drawable/action_shadow"/>
 
 	</RelativeLayout>
 

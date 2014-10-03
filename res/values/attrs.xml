@@ -57,6 +57,10 @@
 		<attr name="IndicatorForeground" format="color" />
 		<attr name="DrawerBackground" format="color" />
 		<attr name="DrawerForeground" format="color" />
+		<attr name="NewPostBackground" format="color" />
+		<attr name="NewPostForeground" format="color" />
+		<attr name="NewPostDivider" format="color" />
+		<attr name="NewPostBottom" format="color" />
 	</declare-styleable>
 
 </resources>

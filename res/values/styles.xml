@@ -51,6 +51,10 @@
 		<item name="IndicatorForeground">@color/action_gray</item>
 		<item name="DrawerBackground">@color/white</item>
 		<item name="DrawerForeground">@color/action_gray</item>
+		<item name="NewPostBackground">@color/midium_gray</item>
+		<item name="NewPostForeground">@color/sub_gray</item>
+		<item name="NewPostDivider">@color/divider_gray</item>
+		<item name="NewPostBottom">@color/selector_gray_lighter</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
