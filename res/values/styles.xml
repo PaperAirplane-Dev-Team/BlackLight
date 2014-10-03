@@ -85,6 +85,10 @@
 		<item name="IndicatorForeground">@color/white</item>
 		<item name="DrawerBackground">@color/cant_be_darker_gray</item>
 		<item name="DrawerForeground">@color/gray</item>
+		<item name="NewPostBackground">@color/superdark_gray</item>
+		<item name="NewPostForeground">@color/light_gray</item>
+		<item name="NewPostDivider">@color/cant_be_darker_gray</item>
+		<item name="NewPostBottom">@color/cant_be_darker_gray</item>
 	</style>
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
