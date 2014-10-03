@@ -638,8 +638,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
 		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
-		@InjectViews({R.id.weibo_attitudes_icon, R.id.weibo_retweet_icon, R.id.weibo_comments_icon})
-		ImageView[] icons;
 		
 		public View v;
 		public MessageModel msg;
@@ -652,12 +650,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 			v.setTag(this);
 			ButterKnife.inject(this, v);
-
-			// Set icon color filters
-			int color = Utility.getCardSubColor(v.getContext());
-			for (ImageView icon : icons) {
-				icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-			}
 		}
 
 		@OnLongClick({

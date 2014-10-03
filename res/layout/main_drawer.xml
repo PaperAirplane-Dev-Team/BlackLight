@@ -19,6 +19,7 @@
 -->
 <FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
 	android:background="?attr/DrawerBackground">
@@ -41,12 +42,12 @@
 			android:background="@drawable/drawer_selector"
 			android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/drawer_home_icon"
+			<us.shandian.blacklight.ui.common.TintImageView
 				android:layout_width="20dp"
 				android:layout_height="20dp"
 				android:scaleType="fitXY"
-				android:src="@drawable/ic_drawer_home"/>
+				android:src="@drawable/ic_drawer_home"
+				app:tintColor="?attr/DrawerForeground"/>
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -68,12 +69,12 @@
 			android:background="@drawable/drawer_selector"
 			android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/drawer_at_icon"
+			<us.shandian.blacklight.ui.common.TintImageView
 				android:layout_width="20dp"
 				android:layout_height="20dp"
 				android:scaleType="fitXY"
-				android:src="@drawable/ic_drawer_at"/>
+				android:src="@drawable/ic_drawer_at"
+				app:tintColor="?attr/DrawerForeground"/>
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -95,12 +96,12 @@
 			android:background="@drawable/drawer_selector"
 			android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/drawer_comment_icon"
+			<us.shandian.blacklight.ui.common.TintImageView
 				android:layout_width="20dp"
 				android:layout_height="20dp"
 				android:scaleType="fitXY"
-				android:src="@drawable/ic_drawer_comment"/>
+				android:src="@drawable/ic_drawer_comment"
+				app:tintColor="?attr/DrawerForeground"/>
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -122,12 +123,12 @@
 			android:background="@drawable/drawer_selector"
 			android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/drawer_dm_icon"
+			<us.shandian.blacklight.ui.common.TintImageView
 				android:layout_width="20dp"
 				android:layout_height="20dp"
 				android:scaleType="fitXY"
-				android:src="@drawable/ic_drawer_pm"/>
+				android:src="@drawable/ic_drawer_pm"
+				app:tintColor="?attr/DrawerForeground"/>
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -149,12 +150,12 @@
 			android:background="@drawable/drawer_selector"
 			android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/drawer_fav_icon"
+			<us.shandian.blacklight.ui.common.TintImageView
 				android:layout_width="20dp"
 				android:layout_height="20dp"
 				android:scaleType="fitXY"
-				android:src="@drawable/ic_drawer_fav"/>
+				android:src="@drawable/ic_drawer_fav"
+				app:tintColor="?attr/DrawerForeground"/>
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -176,12 +177,12 @@
 			android:background="@drawable/drawer_selector"
 			android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/drawer_settings_icon"
+			<us.shandian.blacklight.ui.common.TintImageView
 				android:layout_width="20dp"
 				android:layout_height="20dp"
 				android:scaleType="fitXY"
-				android:src="@drawable/ic_drawer_set"/>
+				android:src="@drawable/ic_drawer_set"
+				app:tintColor="?attr/DrawerForeground"/>
 
 			<TextView
 				android:layout_width="wrap_content"

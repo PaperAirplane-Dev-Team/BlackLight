@@ -100,10 +100,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	@InjectView(R.id.my_name) TextView mName;
 	@InjectView(R.id.my_avatar) ImageView mAvatar;
 	@InjectView(R.id.my_cover) ImageView mCover;
-	@InjectViews({R.id.drawer_home_icon, R.id.drawer_at_icon, 
-		R.id.drawer_comment_icon, R.id.drawer_fav_icon,
-		R.id.drawer_dm_icon, R.id.drawer_settings_icon})
-		ImageView[] mIcons;
 	private FloatingActionButton mFAB;
 	
 	private LoginApiCache mLoginCache;
@@ -207,12 +203,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mUserCache = new UserApiCache(this);
 		new InitializerTask().execute();
 		new GroupsTask().execute();
-
-		// Tint icons
-		int color = Utility.getDrawerForeground(this);
-		for (ImageView icon : mIcons) {
-			icon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-		}
 
 		// Initialize FAB
 		mFAB = new FloatingActionButton.Builder(this)

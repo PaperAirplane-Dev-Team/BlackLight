@@ -203,13 +203,13 @@
 		android:orientation="horizontal"
 		android:gravity="center_vertical">
 
-		<ImageView
-			android:id="@+id/weibo_attitudes_icon"
+		<us.shandian.blacklight.ui.common.TintImageView
 			android:src="@drawable/ic_like"
 			android:scaleType="centerInside"
 			android:layout_width="18dp"
 			android:layout_height="18dp"
-			android:layout_marginRight="2dp"/>
+			android:layout_marginRight="2dp"
+			app:tintColor="?attr/CardSubColor"/>
 
 		<TextView
 			android:id="@+id/weibo_attitudes"
@@ -221,13 +221,13 @@
 			android:layout_marginRight="2dp"/>
 
 
-		<ImageView
-			android:id="@+id/weibo_retweet_icon"
+		<us.shandian.blacklight.ui.common.TintImageView
 			android:src="@drawable/ic_repost"
 			android:scaleType="centerInside"
 			android:layout_width="18dp"
 			android:layout_height="18dp"
-			android:layout_marginRight="2dp"/>
+			android:layout_marginRight="2dp"
+			app:tintColor="?attr/CardSubColor"/>
 
 		<TextView
 			android:id="@+id/weibo_retweet"
@@ -239,13 +239,13 @@
 			android:layout_marginRight="2dp"/>
 
 
-		<ImageView
-			android:id="@+id/weibo_comments_icon"
+		<us.shandian.blacklight.ui.common.TintImageView
 			android:src="@drawable/ic_comment_1"
 			android:scaleType="centerInside"
 			android:layout_width="18dp"
 			android:layout_height="18dp"
-			android:layout_marginRight="2dp"/>
+			android:layout_marginRight="2dp"
+			app:tintColor="?attr/CardSubColor"/>
 
 		<TextView
 			android:id="@+id/weibo_comments"
