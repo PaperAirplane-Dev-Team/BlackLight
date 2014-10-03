@@ -72,14 +72,36 @@
 			android:checked="true"/>
 	
 	</PreferenceCategory>
+
+	<!-- Feedback -->
+	<PreferenceCategory
+		android:title="@string/feedback">
+
+		<Preference
+			android:key="feedback"
+			android:title="@string/feedback_send"/>
+
+	</PreferenceCategory>
 	
 	<!-- Debug -->
 	<PreferenceCategory
 		android:title="@string/debug">
-		
+
+		<CheckBoxPreference
+			android:key="debug_autosubmit"
+		    android:title="@string/debug_autosubmit"
+		    android:summary="@string/debug_autosubmit_sum"
+		    android:defaultValue="false"/>
+
 		<Preference
 			android:key="debug_log"
-			android:title="@string/debug_log"/>
+			android:title="@string/debug_log"
+			android:summary="@string/feedback_sum"/>
+
+		<Preference
+			android:key="debug_submit_log"
+		    android:title="@string/debug_submit_log"
+		    />
 		
 		<Preference
 			android:key="debug_crash"

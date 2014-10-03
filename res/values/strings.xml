@@ -36,12 +36,23 @@
 	<string name="group_destroy">Delete current group</string>
 	
 	<!-- Left Drawer -->
-	<string name="drawer_home">Home</string>
-	<string name="drawer_at">Mentions</string>
-	<string name="drawer_comments">Comments</string>
-	<string name="drawer_dm">Direct Messages</string>
-	<string name="drawer_fav">Favorites</string>
-	<string name="drawer_settings">Settings</string>
+	<string name="my">My circle</string>
+	<string name="at_me">\@ Me</string>
+	<string-array name="my_array">
+		<item>Weibos</item>
+		<item>Comments</item>
+		<item>Favourites</item>
+		<item>Messages</item>
+	</string-array>
+	<string-array name="at_me_array">
+		<item>Weibos</item>
+		<item>Comments</item>
+	</string-array>
+	<string-array name="other_array">
+		<item>Search</item>
+		<item>Settings</item>
+		<item>Logout</item>
+	</string-array>
 	
 	<!-- Statuses -->
 	<string name="timeline">Timeline</string>
@@ -71,8 +82,10 @@
 	<string name="comment_delete">Delete comment</string>
 	<string name="comment_view_orig">View origin weibo</string>
 	<string name="refresh">Refresh</string>
-	<string name="photo_pick">Choose picture(s) from Photo Gallery</string>
-	<string name="photo_capture">Take picture(s)</string>
+	<string-array name="picture_picker_array">
+		<item>Choose picture(s) from Photo Gallery</item>
+		<item>Take picture(s)</item>
+	</string-array>
 	
 	<!-- Time -->
 	<string name="just_now">Just now</string>
@@ -107,8 +120,6 @@
 	<string name="fav_del">Remove from favourites</string>
 	<string name="copy">Copy weibo</string>
 	<string name="okay">Okay</string>
-	<string name="single_comment">Comment</string>
-	<string name="single_repost">Repost</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">Messages</string>
@@ -159,8 +170,14 @@
 	<string name="shake_to_return">Shake to return</string>
 	<string name="right_handed">Right-handed mode</string>
 	<string name="right_handed_des">Move the drawer to the right side and swap the FABs, better for phones with larger screen.</string>
+	<string name="feedback">Feedback</string>
+	<string name="feedback_send">Send Feedback</string>
+	<string name="feedback_sum">Tell us anything about this app</string>
 	<string name="debug">Debug</string>
+	<string name="debug_autosubmit">Automatically submit crash log</string>
+	<string name="debug_autosubmit_sum">Check this means that you have known that we will collect and send your device info and Weibo uid to our server without informing you every time.</string>
 	<string name="debug_log">Crash log</string>
+	<string name="debug_submit_log">Submit crash log</string>
 	<string name="debug_crash">(DANGER) Crash now</string>
 	<string name="debug_crash_sum">Please DON\'T report to developers if you click it.</string>
 	<string name="notification">Notification</string>
@@ -187,7 +204,7 @@
 	<string name="plz_wait">Please wait……</string>
 	<string name="name_fetching">Fetching names……</string>
 	<string name="expires_in">The token will be invalid in %d days.</string>
-	<string name="login_fail">:-( Login failed. Maybe due to wrong AppId/AppSecret/Username/Password or unavailable network.</string>
+	<string name="login_fail">:-( Login failed. Maybe due to wrong AppId/AppSecret/Username/Password.</string>
 	<string name="send_fail">Send failed.</string>
 	<string name="confirm_delete">Confirm?</string>
 	<string name="new_comment">%d new comments.</string>

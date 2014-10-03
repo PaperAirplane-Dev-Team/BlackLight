@@ -36,6 +36,8 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.support.feedback.SubmitLogTask;
+
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class SettingsActivity extends SwipeBackPreferenceActivity implements
@@ -45,8 +47,10 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
 	private static final String DEBUG_LOG = "debug_log";
+	private static final String DEBUG_SUBMIT = "debug_submit_log";
 	private static final String DEBUG_CRASH = "debug_crash";
 	private static final String DEVELOPERS = "developers";
+	private static final String FEEDBACK = "feedback";
 	private static final String GOOD = "good";
 
 	private Settings mSettings;
@@ -56,9 +60,16 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private Preference mPrefVersion;
 	private Preference mPrefSourceCode;
 	private Preference mPrefGood;
-	private Preference mPrefLog;
 	private Preference mPrefCrash;
 	private Preference mPrefDevelopers;
+
+	// Debug
+	private Preference mPrefLog;
+	private Preference mPrefSubmitLog;
+	private CheckBoxPreference mPrefAutoSubmitLog;
+
+	// Feedback
+	private Preference mPrefFeedback;
 
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
@@ -82,6 +93,10 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 
+		if (hasSmartBar()) {
+			getListView().setFitsSystemWindows(true);
+		}
+
 		mSettings = Settings.getInstance(this);
 
 		// Action Bar
@@ -98,7 +113,10 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
 		mPrefShakeToReturn = (CheckBoxPreference) findPreference(Settings.SHAKE_TO_RETURN);
 		mPrefRightHanded = (CheckBoxPreference) findPreference(Settings.RIGHT_HANDED);
+		mPrefFeedback = findPreference(FEEDBACK);
+		mPrefAutoSubmitLog = (CheckBoxPreference) findPreference(Settings.AUTO_SUBMIT_LOG);
 		mPrefLog = findPreference(DEBUG_LOG);
+		mPrefSubmitLog = findPreference(DEBUG_SUBMIT);
 		mPrefCrash = findPreference(DEBUG_CRASH);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
@@ -124,6 +142,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 				Settings.NOTIFICATION_SOUND, true));
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
+		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
+				Settings.AUTO_SUBMIT_LOG,false));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
 		mPrefInterval.setSummary(
 				this.getResources()
@@ -140,6 +160,9 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefRightHanded.setOnPreferenceChangeListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
+		mPrefFeedback.setOnPreferenceClickListener(this);
+		mPrefAutoSubmitLog.setOnPreferenceChangeListener(this);
+		mPrefSubmitLog.setOnPreferenceClickListener(this);
 		mPrefCrash.setOnPreferenceClickListener(this);
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
@@ -170,6 +193,15 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setAction(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
+			return true;
+		} else if (preference == mPrefFeedback) {
+			// TODO send feedback
+
+			return true;
+		} else if (preference == mPrefSubmitLog) {
+			SubmitLogTask task = new SubmitLogTask();
+			task.init(this);
+			task.execute();
 			return true;
 		} else if (preference == mPrefCrash) {
 			throw new RuntimeException("Debug crash");
@@ -218,6 +250,11 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			return true;
 		} else if (preference == mPrefAutoNoPic) {
 			mSettings.putBoolean(Settings.AUTO_NOPIC,
+					Boolean.parseBoolean(newValue.toString()));
+			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (preference == mPrefAutoSubmitLog) {
+			mSettings.putBoolean(Settings.AUTO_SUBMIT_LOG,
 					Boolean.parseBoolean(newValue.toString()));
 			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;

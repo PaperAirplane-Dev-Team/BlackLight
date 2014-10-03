@@ -46,6 +46,9 @@ public class Settings
 	// Theme
 	public static final String THEME_DARK = "theme_dark";
 
+	// Debug
+	public static final String AUTO_SUBMIT_LOG = "debug_autosubmit";
+
 	// Group
 	public static final String CURRENT_GROUP = "current_group";
 	

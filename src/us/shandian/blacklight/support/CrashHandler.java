@@ -20,30 +20,40 @@
 package us.shandian.blacklight.support;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Environment;
 
 import java.io.File;
 import java.io.PrintWriter;
 
+import us.shandian.blacklight.support.feedback.SubmitLogTask;
+
 public class CrashHandler implements Thread.UncaughtExceptionHandler
 {
 	public static String CRASH_DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/";
 	public static String CRASH_LOG = CRASH_DIR + "last_crash.log";
-	
+
 	private static String ANDROID = Build.VERSION.RELEASE;
 	private static String MODEL = Build.MODEL;
 	private static String MANUFACTURER = Build.MANUFACTURER;
 	private static String VERSION = "Unknown";
-	
+
+	private static boolean AUTO_SEND = false;
+	private static Context CONTEXT;
+
 	private Thread.UncaughtExceptionHandler mPrevious;
-	
+
 	public static void init(Context context) {
+		CONTEXT = context;
 		try {
-			VERSION = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			VERSION = info.versionName + info.versionCode;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		Settings settings = Settings.getInstance(context);
+		AUTO_SEND = settings.getBoolean(Settings.AUTO_SUBMIT_LOG,false);
 	}
 	
 	public static void register() {
@@ -82,8 +92,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 		p.write("App Version: " + VERSION + "\n");
 		p.write("-------------------------------\n");
 		throwable.printStackTrace(p);
-		
+
 		p.close();
+
+		if (AUTO_SEND){
+			SubmitLogTask task = new SubmitLogTask();
+			task.init(CONTEXT);
+			task.execute(null);
+		}
 		
 		if (mPrevious != null) {
 			mPrevious.uncaughtException(thread, throwable);
