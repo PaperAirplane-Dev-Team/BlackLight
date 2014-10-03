@@ -162,7 +162,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		nav.setLayoutParams(p);
 
 		// Adjust Padding for statusbar and navigation bar
-		nav.setPadding(0, Utility.getStatusBarHeight(this), 0, 0);
+		if (!Utility.isChrome()) {
+			nav.setPadding(0, Utility.getStatusBarHeight(this), 0, 0);
+		}
 
 		// Initialize naviagtion drawer
 		//mDrawer = (DrawerLayout) findViewById(R.id.drawer);

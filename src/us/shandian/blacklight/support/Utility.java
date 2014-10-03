@@ -261,6 +261,10 @@ public class Utility
 			return null;
 		}
 	}
+	
+	public static boolean isChrome() {
+		return Build.BRAND.equals("chromium") || Build.BRAND.equals("chrome");
+	}
 
 	public static int getStatusBarHeight(Context context) {
 		int result = 0;
