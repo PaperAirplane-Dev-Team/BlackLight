@@ -98,7 +98,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 		if (AUTO_SEND){
 			SubmitLogTask task = new SubmitLogTask();
 			task.init(CONTEXT);
-			task.execute(null);
+			task.execute();
 		}
 		
 		if (mPrevious != null) {
