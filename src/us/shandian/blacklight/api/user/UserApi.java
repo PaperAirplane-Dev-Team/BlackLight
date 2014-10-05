@@ -42,7 +42,7 @@ public class UserApi extends BaseApi
 		
 		try {
 			JSONObject json = request(Constants.USER_SHOW, params, HTTP_GET);
-			UserModel user = new Gson().fromJson(json.toString(), UserModel.class);
+			UserModel user = new Gson().fromJson(json.toString().replaceAll("-Weibo", ""), UserModel.class);
 			return user;
 		} catch (Exception e) {
 			if (DEBUG) {
@@ -58,7 +58,7 @@ public class UserApi extends BaseApi
 
 		try {
 			JSONObject json = request(Constants.USER_SHOW, params, HTTP_GET);
-			UserModel user = new Gson().fromJson(json.toString(), UserModel.class);
+			UserModel user = new Gson().fromJson(json.toString().replaceAll("-Weibo", ""), UserModel.class);
 			return user;
 		} catch (Exception e) {
 			if (DEBUG) {
