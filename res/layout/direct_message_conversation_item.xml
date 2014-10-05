@@ -27,7 +27,7 @@
 
 	<LinearLayout
 		android:layout_height="match_parent"
-		android:layout_width="match_parent"
+		android:layout_width="240dp"
 		android:orientation="vertical"
 		android:layout_margin="5dp"
 		android:background="?attr/CardBackground">
