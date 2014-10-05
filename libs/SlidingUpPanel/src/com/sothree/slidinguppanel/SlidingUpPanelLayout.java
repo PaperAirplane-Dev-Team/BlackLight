@@ -152,7 +152,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
      * How far the panel is offset from its expanded position.
      * range [0, 1] where 0 = expanded, 1 = collapsed.
      */
-    private float mSlideOffset;
+    protected float mSlideOffset;
 
     /**
      * How far in pixels the slideable panel may move.

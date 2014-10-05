@@ -67,7 +67,7 @@ public class GenerousSlidingUpPanelLayout extends SlidingUpPanelLayout {
 				super.onInterceptTouchEvent(ev);
 				return false;
 			case MotionEvent.ACTION_MOVE:
-				if ((y > mStartY && mChild.canScrollVertically(-1)) || (y < mStartY && this.getCurrentParalaxOffset() != 0)) {
+				if (mSlideOffset == 0 && !(y > mStartY && !mChild.canScrollVertically(-1)) || (y > mStartY && mSlideOffset == 1)) {
 					return false;
 				} else {
 					return super.onInterceptTouchEvent(ev);
