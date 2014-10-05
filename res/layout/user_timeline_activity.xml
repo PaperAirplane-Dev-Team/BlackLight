@@ -23,13 +23,12 @@
 	android:layout_width="match_parent"
 	android:orientation="vertical">
 
-	<com.sothree.slidinguppanel.SlidingUpPanelLayout
+	<us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout
 		xmlns:sothree="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/user_slide"
 		android:gravity="bottom"
-		sothree:dragView="@+id/user_timeline_drag"
 		sothree:panelHeight="300dp"
 		sothree:paralaxOffset="100dp"
 		sothree:shadowHeight="4dp">
@@ -313,7 +312,7 @@
 
 		</LinearLayout>
 
-	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+	</us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout>
 
 </LinearLayout>
 

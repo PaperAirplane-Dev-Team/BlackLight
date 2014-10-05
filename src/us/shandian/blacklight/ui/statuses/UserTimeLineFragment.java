@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.view.View;
+import android.widget.ListView;
 
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.UserTimeLineApiCache;
@@ -41,5 +42,9 @@ public class UserTimeLineFragment extends TimeLineFragment
 	@Override
 	protected void initTitle() {
 		// Don't change my title
+	}
+
+	public ListView getList() {
+		return mList;
 	}
 }

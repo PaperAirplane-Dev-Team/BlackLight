@@ -55,6 +55,7 @@ import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.common.AbsActivity;
+import us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
@@ -78,7 +79,7 @@ public class UserTimeLineActivity extends AbsActivity
 	@InjectView(R.id.user_following_container) View mFollowingContainer;
 	@InjectView(R.id.iv_collapse) ImageView mCollapse;
 	
-	@InjectView(R.id.user_slide) SlidingUpPanelLayout mSlide;
+	@InjectView(R.id.user_slide) GenerousSlidingUpPanelLayout mSlide;
 	
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
@@ -159,6 +160,7 @@ public class UserTimeLineActivity extends AbsActivity
 				int containerHeight = container.getMeasuredHeight();
 				int slideHeight = mSlide.getMeasuredHeight();
 				mSlide.setPanelHeight(slideHeight - containerHeight - 20);
+				mSlide.setChildListView(mFragment.getList());
 				return true;
 			}
 		});
