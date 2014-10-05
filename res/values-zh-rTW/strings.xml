@@ -34,7 +34,15 @@
 	<string name="group_all">全部</string>
 	<string name="group_create">創建分組</string>
 	<string name="group_destroy">刪除當前分組</string>
-	
+
+	<!-- Left Drawer -->
+	<string name="drawer_home">首頁</string>
+	<string name="drawer_at">提及</string>
+	<string name="drawer_comments">評論</string>
+	<string name="drawer_dm">私信</string>
+	<string name="drawer_fav">收藏</string>
+	<string name="drawer_settings">設定</string>
+
 	<!-- Statuses -->
 	<string name="timeline">時間軸</string>
 	<string name="retweet">轉發</string>
@@ -100,6 +108,8 @@
 	<string name="fav_del">取消收藏</string>
 	<string name="copy">拷貝微博內容</string>
 	<string name="okay">選好了</string>
+	<string name="single_comment">發佈評論</string>
+	<string name="single_repost">轉發微博</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
@@ -140,7 +150,7 @@
 	<string name="good_sum">親，來Play商店給個好評吧</string>
 	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
 	<string name="network">網路</string>
-	<string name="auto_nopic">只能無圖</string>
+	<string name="auto_nopic">智能無圖</string>
 	<string name="auto_nopic_sum">移動網路環境下不顯示圖片，僅在WIFI環境下顯示圖片</string>
 	<string-array name="interval_name">
 		<item>1 分鐘</item>
@@ -155,7 +165,7 @@
 	<string name="plz_wait">請稍候……</string>
 	<string name="name_fetching">暱稱獲取中……</string>
 	<string name="expires_in">本次登入授權將于 %d 天後失效</string>
-	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤</string>
+	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤或網絡故障</string>
 	<string name="send_fail">發送失敗</string>
 	<string name="confirm_delete">確認刪除？</string>
 	<string name="new_comment">%d 條新評論</string>
