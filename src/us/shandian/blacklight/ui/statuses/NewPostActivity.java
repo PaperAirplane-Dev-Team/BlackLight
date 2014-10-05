@@ -36,7 +36,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
@@ -54,6 +56,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -71,7 +74,7 @@ import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 import us.shandian.blacklight.ui.statuses.RepostActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class NewPostActivity extends AbsActivity
+public class NewPostActivity extends AbsActivity implements View.OnLongClickListener
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
 	
@@ -82,6 +85,8 @@ public class NewPostActivity extends AbsActivity
 	@InjectView(R.id.post_count) TextView mCount;
 	@InjectView(R.id.post_drawer)  DrawerLayout mDrawer;
 	@InjectView(R.id.post_avatar) ImageView mAvatar;
+	@InjectView(R.id.post_scroll) HorizontalScrollView mScroll;
+	@InjectView(R.id.post_pics) LinearLayout mPicsParent;
 
 	// Actions
 	@InjectView(R.id.post_pic) protected ImageView mPic;
@@ -89,6 +94,8 @@ public class NewPostActivity extends AbsActivity
 	@InjectView(R.id.post_at) protected ImageView mAt;
 	@InjectView(R.id.post_topic) protected ImageView mTopic;
 	@InjectView(R.id.post_send) protected ImageView mSend;
+	
+	private ImageView[] mPics = new ImageView[9];
 
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
@@ -99,7 +106,7 @@ public class NewPostActivity extends AbsActivity
 	private ColorPickerFragment mColorPickerFragment;
 
 	// Picked picture
-	private Bitmap mBitmap;
+	private ArrayList<Bitmap> mBitmaps = new ArrayList<Bitmap>();
 
 	// Long?
 	private boolean mIsLong = false;
@@ -217,6 +224,12 @@ public class NewPostActivity extends AbsActivity
 			}
 		});
 
+		// Imgs
+		for (int i = 0; i < 9; i++) {
+			mPics[i] = (ImageView) mPicsParent.getChildAt(i);
+			mPics[i].setOnLongClickListener(this);
+		}
+
 		// Handle share intent
 		Intent i = getIntent();
 
@@ -228,7 +241,7 @@ public class NewPostActivity extends AbsActivity
 
 				try {
 					Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-					setPicture(bitmap);
+					addPicture(bitmap);
 				} catch (IOException e) {
 					if (DEBUG) {
 						Log.d(TAG, Log.getStackTraceString(e));
@@ -250,13 +263,24 @@ public class NewPostActivity extends AbsActivity
 			cursor.close();
 			
 			// Then decode
-			setPicture(BitmapFactory.decodeFile(filePath));
+			addPicture(BitmapFactory.decodeFile(filePath));
 		}
 
 		// Captured photo
 		if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
-			setPicture(BitmapFactory.decodeFile(Utility.lastPicPath));
+			addPicture(BitmapFactory.decodeFile(Utility.lastPicPath));
 		}
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		for (int i = 0; i < 9; i++) {
+			if (mPics[i] == v) {
+				removePicture(i);
+				break;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -290,10 +314,8 @@ public class NewPostActivity extends AbsActivity
 	
 	@OnClick(R.id.post_pic) 
 	public void pic() {
-		if (mBitmap == null){
+		if (mBitmaps.size() < 9) {
 			showPicturePicker();
-		} else {
-			setPicture(null);
 		}
 	}
 	
@@ -350,32 +372,81 @@ public class NewPostActivity extends AbsActivity
 		).show();
 	}
 
-	private void setPicture(Bitmap bitmap){
-		mBitmap = bitmap;
-		if (bitmap != null) {
-			mBackground.setImageBitmap(bitmap);
-			mBackground.setVisibility(View.VISIBLE);
+	private void addPicture(Bitmap bitmap){
+		mBitmaps.add(bitmap);
+		updatePictureView();
+	}
+
+	private void removePicture(int id) {
+		mBitmaps.remove(id);
+		updatePictureView();
+	}
+
+	private void updatePictureView() {
+		if (mBitmaps.size() > 0) {
+			mScroll.setVisibility(View.VISIBLE);
 		} else {
-			mBackground.setVisibility(View.INVISIBLE);
+			mScroll.setVisibility(View.GONE);
+		}
+
+		for (int i = 0; i < 9; i++) {
+			Bitmap bmp = mBitmaps.size() > i ? mBitmaps.get(i) : null;
+			if (bmp != null) {
+				mPics[i].setVisibility(View.VISIBLE);
+				mPics[i].setImageBitmap(bmp);
+			} else {
+				mPics[i].setVisibility(View.GONE);
+				mPics[i].setImageBitmap(null);
+			}
 		}
 	}
 
 	// if extended, this should be overridden
 	protected boolean post() {
 		if (!mIsLong) {
-			if (mBitmap == null) {
+			if (mBitmaps.size() == 0) {
 				return PostApi.newPost(mText.getText().toString());
 			} else {
-				return PostApi.newPostWithPic(mText.getText().toString(), mBitmap);
+				return postPics(mText.getText().toString());
 			}
 		} else {
 			if (DEBUG) {
 				Log.d(TAG, "Preparing to post a long post");
 			}
 
-			return PostApi.newPostWithPic(Utility.parseLongContent(this, mText.getText().toString()),
-					Utility.parseLongPost(this, mText.getText().toString(), mBitmap));
+			Bitmap bmp = null;
+
+			// Post the first picture with long post
+			if (mBitmaps.size() > 0) {
+				bmp = mBitmaps.get(0);
+				mBitmaps.remove(0);
+			}
+
+			bmp = Utility.parseLongPost(this, mText.getText().toString(), bmp);
+			mBitmaps.add(0, bmp);
+
+			return postPics(Utility.parseLongContent(this, mText.getText().toString()));
 		}
+	}
+
+	private boolean postPics(String status) {
+		// Upload pictures first
+		String pics = "";
+		
+		for (int i = 0; i < mBitmaps.size(); i++) {
+			Bitmap bmp = mBitmaps.get(i);
+			String id = PostApi.uploadPicture(bmp);
+			if (id == null || id.trim().equals("")) return false;
+
+			pics += id;
+
+			if (i < mBitmaps.size() - 1) {
+				pics += ",";
+			}
+		}
+
+		// Upload text
+		return PostApi.newPostWithMultiPics(status, pics);
 	}
 	
 	private class Uploader extends AsyncTask<Void, Void, Boolean> {

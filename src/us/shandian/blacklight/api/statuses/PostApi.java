@@ -130,4 +130,37 @@ public class PostApi extends BaseApi
 			
 		}
 	}
+
+	// Upload pictures
+	public static String uploadPicture(Bitmap picture) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("pic", picture);
+
+		try {
+			JSONObject json = request(Constants.UPLOAD_PIC, params, HTTP_POST);
+			return json.optString("pic_id");
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	// Post with multi pictures
+	// @param pics: ids returned by uploadPicture, split with ","
+	public static boolean newPostWithMultiPics(String status, String pics) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("status", status);
+		params.put("pic_id", pics);
+
+		try {
+			JSONObject json = request(Constants.UPLOAD_URL_TEXT, params, HTTP_POST);
+			MessageModel msg = new Gson().fromJson(json.toString(), MessageModel.class);
+			if (msg == null || msg.idstr == null || msg.idstr.trim().equals("")) {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
 }

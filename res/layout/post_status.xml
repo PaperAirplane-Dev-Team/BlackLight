@@ -75,6 +75,54 @@
 				android:focusableInTouchMode="true"
 				android:background="?attr/NewPostBackground"/>
 
+			<HorizontalScrollView
+				android:id="@+id/post_scroll"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:layout_weight="0.1"
+				android:paddingLeft="5dp"
+				android:paddingBottom="3dp"
+				android:background="?attr/NewPostBackground"
+				android:visibility="gone">
+
+				<LinearLayout
+					android:id="@+id/post_pics"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:gravity="center_vertical"
+					android:orientation="horizontal">
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+
+					<include
+						layout="@layout/post_img_item"/>
+					
+				</LinearLayout>
+
+			</HorizontalScrollView>
+				
+
 			<LinearLayout
 				android:layout_height="56dp"
 				android:layout_width="match_parent"
