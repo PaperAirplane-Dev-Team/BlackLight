@@ -139,8 +139,13 @@
 	<string name="shake_to_return">晃动返回</string>
 	<string name="right_handed">右手习惯</string>
 	<string name="right_handed_des">将主界面的抽屉调整到界面右边并交换底部的浮动按钮，适用于大屏手机</string>
+	<string name="feedback">反馈</string>
+	<string name="feedback_send">发送反馈&amp;建议</string>
 	<string name="debug">调试</string>
+	<string name="debug_autosubmit">自动提交错误日志</string>
+	<string name="debug_autosubmit_sum">选定该项意味着你同意我们在没有通知的情況下自动收集并提交您的设备信息、微博ID和错误日志</string>
 	<string name="debug_log">崩溃日志</string>
+	<string name="debug_submit_log">提交崩溃日志</string>
 	<string name="debug_crash">立即崩溃</string>
 	<string name="debug_crash_sum">亲，戳了就不要再向我们报告错误了哟！</string>
 	<string name="notification">通知</string>

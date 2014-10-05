@@ -137,8 +137,13 @@
 	<string name="shake_to_return">晃動返回</string>
 	<string name="right_handed">右手習慣</string>
 	<string name="right_handed_des">將主介面的抽屜調整至介面右边並交換底部的浮游按鈕，適用於大螢幕手機</string>
+	<string name="feedback">反饋</string>
+	<string name="feedback_send">發送反饋意見</string>
 	<string name="debug">調試</string>
+	<string name="debug_autosubmit">自動上交崩潰記錄</string>
+	<string name="debug_autosubmit_sum">選定此項意味著你同意我們在沒有通知的情況下自動收集並上交您的設備資料、微博ID和崩潰記錄</string>
 	<string name="debug_log">崩潰記錄</string>
+	<string name="debug_submit_log">上交崩潰記錄</string>
 	<string name="debug_crash">立即崩潰</string>
 	<string name="debug_crash_sum">親，毋須向開發者報告該測試產生的錯誤</string>
 	<string name="notification">通知</string>
