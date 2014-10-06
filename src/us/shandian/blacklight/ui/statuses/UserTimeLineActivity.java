@@ -416,7 +416,7 @@ public class UserTimeLineActivity extends AbsActivity
 			// Avatar
 			Bitmap avatar = mCache.getLargeAvatar(mModel);
 			publishProgress(new Object[]{0, avatar});
-			
+
 			// Cover
 			if (!mModel.cover_image.trim().equals("")) {
 				Bitmap cover = mCache.getCover(mModel);
@@ -424,6 +424,10 @@ public class UserTimeLineActivity extends AbsActivity
 					publishProgress(new Object[]{1, cover});
 				}
 			}
+
+			// Refresh state
+			mModel = mCache.getUser(mModel.id);
+			publishProgress(2);
 			
 			return null;
 		}
@@ -442,6 +446,9 @@ public class UserTimeLineActivity extends AbsActivity
 					if (mCover != null) {
 						mCover.setImageBitmap((Bitmap) values[1]);
 					}
+					break;
+				case 2:
+					resetFollowState();
 					break;
 			}
 		}
