@@ -70,7 +70,7 @@
 		android:layout_height="wrap_content"
 		android:padding="10dp"
 		android:gravity="center"
-		android:src="@drawable/ic_action_search"/>
+		android:src="@drawable/ic_action_search_holo"/>
 
 	<ImageView
 		android:id="@+id/bottom_copy"
