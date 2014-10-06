@@ -34,6 +34,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.os.Bundle;
@@ -80,6 +81,7 @@ public class UserTimeLineActivity extends AbsActivity
 	@InjectView(R.id.user_avatar) ImageView mAvatar;
 	@InjectView(R.id.user_cover) ImageView mCover;
 	@InjectView(R.id.user_following_container) View mFollowingContainer;
+	@InjectView(R.id.user_follow) LinearLayout mLayoutFollowState;
 	
 	@InjectView(R.id.user_slide) GenerousSlidingUpPanelLayout mSlide;
 	
@@ -133,6 +135,9 @@ public class UserTimeLineActivity extends AbsActivity
 		
 		// Follower state (following/followed/each other)
 		resetFollowState();
+		if (mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
+			mLayoutFollowState.setVisibility(View.INVISIBLE);
+		}
 		
 		// Also view values
 		mDes.setText(mModel.description);
