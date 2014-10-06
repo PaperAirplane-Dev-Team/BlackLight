@@ -124,7 +124,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
-		new GetNameTask().execute();
+		new GetAvatarTask().execute();
 		
 		// Inject
 		ButterKnife.inject(this);
@@ -492,13 +492,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	}
 	
-	private class GetNameTask extends AsyncTask<Void, Object, Void> {
+	private class GetAvatarTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			// Username first
+			// User first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
-			publishProgress(0);
 
 			// Avatar
 			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
@@ -511,9 +510,6 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			switch (Integer.valueOf(values[0].toString())) {
-				case 0:
-					getActionBar().setSubtitle(mUser.getName());
-					break;
 				case 1:
 					mAvatar.setImageBitmap((Bitmap) values[1]);
 					break;
