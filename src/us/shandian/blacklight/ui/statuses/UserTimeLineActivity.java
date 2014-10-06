@@ -32,8 +32,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.os.Bundle;
 
@@ -66,18 +67,19 @@ public class UserTimeLineActivity extends AbsActivity
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
 	
-	@InjectView(R.id.user_name) TextView mName;
+	//@InjectView(R.id.user_name) TextView mName;
 	@InjectView(R.id.user_follow_state) TextView mFollowState;
+	@InjectView(R.id.user_follow_img) ImageView mFollowImg;
 	@InjectView(R.id.user_des) TextView mDes;
+	@InjectView(R.id.user_des_scroll) ScrollView mDesScroll;
 	@InjectView(R.id.user_followers) TextView mFollowers;
 	@InjectView(R.id.user_following) TextView mFollowing;
 	@InjectView(R.id.user_msgs) TextView mMsgs;
-	@InjectView(R.id.user_like) TextView mLikes;
-	@InjectView(R.id.user_geo) TextView mGeo;
+	//@InjectView(R.id.user_like) TextView mLikes;
+	//@InjectView(R.id.user_geo) TextView mGeo;
 	@InjectView(R.id.user_avatar) ImageView mAvatar;
-	@InjectView(R.id.user_cover) View mCover;
+	@InjectView(R.id.user_cover) ImageView mCover;
 	@InjectView(R.id.user_following_container) View mFollowingContainer;
-	@InjectView(R.id.iv_collapse) ImageView mCollapse;
 	
 	@InjectView(R.id.user_slide) GenerousSlidingUpPanelLayout mSlide;
 	
@@ -88,10 +90,6 @@ public class UserTimeLineActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
-
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_timeline_activity);
 
@@ -102,27 +100,25 @@ public class UserTimeLineActivity extends AbsActivity
 		
 		// Inject
 		ButterKnife.inject(this);
+
+		getActionBar().setTitle(mModel.name);
 		
 		// Init PanelSlideListener
 		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
 
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
-				Utility.setActionBarTranslation(UserTimeLineActivity.this, mSlide.getCurrentParalaxOffset());
+				//Utility.setActionBarTranslation(UserTimeLineActivity.this, mSlide.getCurrentParalaxOffset());
 			}
 
 			@Override
 			public void onPanelCollapsed(View panel) {
-				mCollapse.setRotation(180);
-				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
-				mCollapse.startAnimation(animation);
+
 			}
 
 			@Override
 			public void onPanelExpanded(View panel) {
-				mCollapse.setRotation(0);
-				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
-				mCollapse.startAnimation(animation);
+				
 			}
 
 			@Override
@@ -133,18 +129,18 @@ public class UserTimeLineActivity extends AbsActivity
 		});
 		
 		// View values
-		mName.setText(mModel.getName());
+		//mName.setText(mModel.getName());
 		
 		// Follower state (following/followed/each other)
 		resetFollowState();
 		
 		// Also view values
 		mDes.setText(mModel.description);
-		mFollowers.setText(String.valueOf(mModel.followers_count));
-		mFollowing.setText(String.valueOf(mModel.friends_count));
-		mMsgs.setText(String.valueOf(mModel.statuses_count));
-		mLikes.setText(String.valueOf(mModel.favourites_count));
-		mGeo.setText(mModel.location);
+		mFollowers.setText(parseCountString(mModel.followers_count));
+		mFollowing.setText(parseCountString(mModel.friends_count));
+		mMsgs.setText(parseCountString(mModel.statuses_count));
+		//mLikes.setText(String.valueOf(mModel.favourites_count));
+		//mGeo.setText(mModel.location);
 		
 		new Downloader().execute();
 		
@@ -159,7 +155,7 @@ public class UserTimeLineActivity extends AbsActivity
 			public boolean onPreDraw() {
 				int containerHeight = container.getMeasuredHeight();
 				int slideHeight = mSlide.getMeasuredHeight();
-				mSlide.setPanelHeight(slideHeight - containerHeight - 20);
+				mSlide.setPanelHeight((int) (slideHeight - containerHeight + Utility.dp2px(UserTimeLineActivity.this, 20.0f)));
 				mSlide.setChildListView(mFragment.getList());
 				return true;
 			}
@@ -189,7 +185,7 @@ public class UserTimeLineActivity extends AbsActivity
 			finish();
 			return true;
 		} else if (id == R.id.follow) {
-			new Follower().execute();
+			follow();
 			return true;
 		} else if (id == R.id.send_dm) {
 			Intent i = new Intent();
@@ -214,15 +210,69 @@ public class UserTimeLineActivity extends AbsActivity
 		i.setClass(this, FriendsActivity.class);
 		startActivity(i);
 	}
+
+	@OnClick(R.id.user_follow)
+	public void follow() {
+		new Follower().execute();
+	}
+
+	@OnClick(R.id.user_info_button)
+	public void showOrHideInfo() {
+		mDesScroll.clearAnimation();
+
+		AlphaAnimation anim = null;
+		
+		final int start = mDesScroll.getVisibility();
+
+		if (start == View.VISIBLE) {
+			mDesScroll.setAlpha(0.5f);
+			anim = new AlphaAnimation(0.5f, 0.0f);
+		} else {
+			mDesScroll.setAlpha(0.5f);
+			mDesScroll.setVisibility(View.VISIBLE);
+			anim = new AlphaAnimation(0.0f, 0.5f);
+		}
+
+		anim.setDuration(400);
+		anim.setFillAfter(true);
+		anim.setFillBefore(false);
+
+		anim.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationEnd(Animation anim) {
+				mDesScroll.clearAnimation();
+				if (start == View.VISIBLE) {
+					mDesScroll.setVisibility(View.GONE);
+				} else {
+					mDesScroll.setVisibility(View.VISIBLE);
+				}
+			}
+
+			@Override
+			public void onAnimationStart(Animation anim) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation anim) {
+			}
+		});
+
+		mDesScroll.setAnimation(anim);
+		anim.start();
+	}
 	
 	private void resetFollowState() {
 		if (mModel.follow_me && mModel.following) {
+			mFollowImg.setImageResource(R.drawable.ic_checkmark);
 			mFollowState.setText(R.string.following_each_other);
 		} else if (mModel.follow_me) {
+			mFollowImg.setImageResource(R.drawable.ic_cross);
 			mFollowState.setText(R.string.following_me);
 		} else if (mModel.following) {
+			mFollowImg.setImageResource(R.drawable.ic_checkmark);
 			mFollowState.setText(R.string.i_am_following);
 		} else {
+			mFollowImg.setImageResource(R.drawable.ic_cross);
 			mFollowState.setText(R.string.no_following);
 		}
 		
@@ -230,6 +280,16 @@ public class UserTimeLineActivity extends AbsActivity
 			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 			mMenuFollow.setTitle(getString(mModel.following ? R.string.unfollow : R.string.follow));
 			mMenuGroup.setEnabled(mModel.following);
+		}
+	}
+
+	private String parseCountString(int count) {
+		if (count < 10000) {
+			return String.valueOf(count);
+		} else if (count < 1000000) {
+			return String.valueOf((int) (count / 10000)) + getString(R.string.mega);
+		} else {
+			return String.valueOf((int) (count / 1000000)) + getString(R.string.million);
 		}
 	}
 
@@ -380,7 +440,7 @@ public class UserTimeLineActivity extends AbsActivity
 					break;
 				case 1:
 					if (mCover != null) {
-						mCover.setBackground(new BitmapDrawable((Bitmap) values[1]));
+						mCover.setImageBitmap((Bitmap) values[1]);
 					}
 					break;
 			}

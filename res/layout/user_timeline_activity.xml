@@ -17,292 +17,223 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
-	android:layout_width="match_parent"
-	android:orientation="vertical">
+	android:layout_width="match_parent">
 
 	<us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout
-		xmlns:sothree="http://schemas.android.com/apk/res-auto"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_marginTop="-80dp"
 		android:id="@+id/user_slide"
 		android:gravity="bottom"
-		sothree:panelHeight="300dp"
-		sothree:paralaxOffset="100dp"
-		sothree:shadowHeight="4dp">
-
-		<LinearLayout
-			android:id="@+id/user_container"
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:orientation="vertical">
+		app:panelHeight="300dp"
+		app:paralaxOffset="100dp"
+		app:shadowHeight="0dp"
+		app:overlay="true">
 
 			<LinearLayout
-				android:layout_height="wrap_content"
+				android:id="@+id/user_container"
 				android:layout_width="match_parent"
-				android:paddingTop="?android:attr/actionBarSize"
-				android:orientation="horizontal"
-				android:background="?attr/UserBackground"
-				android:id="@+id/user_cover"
-				android:gravity="center_vertical">
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
 
-				<LinearLayout
-					android:layout_height="100dp"
-					android:layout_width="100dp"
-					android:orientation="vertical"
-					android:layout_marginLeft="10dp"
-					android:layout_marginTop="10dp"
-					android:layout_marginBottom="10dp"
-					android:background="@color/darker_gray"
-					android:gravity="center">
-
-					<LinearLayout
-						android:layout_height="98dp"
-						android:layout_width="98dp"
-						android:orientation="vertical"
-						android:background="@android:color/white"
-						android:gravity="center">
-
-						<ImageView
-							android:layout_height="90dp"
-							style="?android:attr/buttonBarButtonStyle"
-							android:layout_width="90dp"
-							android:id="@+id/user_avatar"
-							android:scaleType="centerCrop"/>
-
-					</LinearLayout>
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:layout_height="match_parent"
+				<RelativeLayout
 					android:layout_width="match_parent"
-					android:orientation="vertical"
-					android:layout_margin="10dp"
-					android:background="@color/gray_alpha"
-					android:padding="2dp">
+					android:layout_height="240dp"
+					android:paddingTop="79dp">
 
-					<TextView
-						android:layout_height="wrap_content"
-						android:text="Name"
-						android:textAppearance="?android:attr/textAppearanceMedium"
-						android:layout_width="wrap_content"
-						android:id="@+id/user_name"
-						android:textStyle="bold"
-						android:textColor="@android:color/white"/>
+					<ImageView
+						android:id="@+id/user_cover"
+						android:scaleType="centerCrop"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:src="@drawable/public_bkg"/>
 
-					<LinearLayout
-						android:layout_height="wrap_content"
-						android:layout_width="wrap_content"
-						android:orientation="horizontal"
-						android:layout_marginTop="2dp">
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:background="@color/dim_gray"/>
 
-						<TextView
-							android:layout_height="wrap_content"
-							android:text="Geo"
-							android:textAppearance="?android:attr/textAppearanceSmall"
-							android:layout_width="wrap_content"
-							android:id="@+id/user_geo"
-							android:textSize="9sp"/>
-
-						<TextView
-							android:layout_height="wrap_content"
-							android:text="Following"
-							android:textAppearance="?android:attr/textAppearanceSmall"
-							android:layout_width="wrap_content"
-							android:id="@+id/user_follow_state"
-							android:textColor="@color/darker_gray"
-							android:textSize="10sp"
-							android:layout_marginLeft="4dp"/>
-
-					</LinearLayout>
+					<ImageView
+						android:id="@+id/user_info_button"
+						android:scaleType="centerInside"
+						android:layout_width="20dp"
+						android:layout_height="20dp"
+						android:layout_alignParentRight="true"
+						android:layout_alignParentBottom="true"
+						android:layout_marginRight="5dp"
+						android:layout_marginBottom="5dp"
+						android:src="@drawable/ic_fa_info_circle"/>
 
 					<ScrollView
-						android:layout_height="match_parent"
-						android:layout_width="match_parent"
-						android:layout_marginTop="3dp">
+						android:id="@+id/user_des_scroll"
+						android:layout_width="200dp"
+						android:layout_height="100dp"
+						android:layout_alignParentRight="true"
+						android:layout_alignParentBottom="true"
+						android:layout_marginRight="5dp"
+						android:layout_marginBottom="30dp"
+						android:background="@color/white"
+						android:visibility="gone">
 
 						<TextView
-							android:layout_height="wrap_content"
-							android:text="Description"
-							android:textAppearance="?android:attr/textAppearanceSmall"
-							android:layout_width="match_parent"
 							android:id="@+id/user_des"
-							android:textSize="12sp"/>
+							android:layout_width="200dp"
+							android:layout_height="wrap_content"
+							android:padding="5dp"
+							android:gravity="center"
+							android:background="@color/white"
+							android:textSize="14sp"
+							android:textColor="@color/action_gray"/>
 
 					</ScrollView>
-
-				</LinearLayout>
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:layout_height="45dp"
-				android:layout_width="match_parent"
-				android:orientation="horizontal"
-				android:background="?android:attr/windowBackground"
-				android:paddingTop="5dp">
-
-				<LinearLayout
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:orientation="vertical"
-					android:layout_weight="0.25">
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="@string/followers"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:gravity="center"
-						android:textStyle="bold"
-						android:layout_weight="0.5"/>
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="0"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:layout_weight="0.5"
-						android:gravity="center"
-						android:id="@+id/user_followers"/>
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:orientation="vertical"
-					android:layout_weight="0.25"
-					android:id="@+id/user_following_container">
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="@string/following"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:gravity="center"
-						android:textStyle="bold"
-						android:layout_weight="0.5"/>
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="0"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:layout_weight="0.5"
-						android:gravity="center"
-						android:id="@+id/user_following"/>
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:orientation="vertical"
-					android:layout_weight="0.25">
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="@string/msgs"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:gravity="center"
-						android:textStyle="bold"
-						android:layout_weight="0.5"/>
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="0"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:layout_weight="0.5"
-						android:gravity="center"
-						android:id="@+id/user_msgs"/>
-
-				</LinearLayout>
-
-				<LinearLayout
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:orientation="vertical"
-					android:layout_weight="0.25">
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="@string/like"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:gravity="center"
-						android:textStyle="bold"
-						android:layout_weight="0.5"/>
-
-					<TextView
-						android:layout_height="match_parent"
-						android:text="0"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textColor="?attr/CardForeground"
-						android:layout_width="match_parent"
-						android:layout_weight="0.5"
-						android:gravity="center"
-						android:id="@+id/user_like"/>
-
-				</LinearLayout>
+					
+				</RelativeLayout>
 
 			</LinearLayout>
-
-		</LinearLayout>
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:background="?attr/DragBackground"
 			android:orientation="vertical">
 
-			<LinearLayout
-			    android:id="@+id/user_timeline_drag"
-			    android:layout_width="match_parent"
-				android:layout_height="?android:attr/actionBarSize"
-				android:background="?attr/DragBackground"
-			    android:orientation="horizontal">
-				
-				<TextView
-				    android:layout_width="wrap_content"
-				    android:layout_height="match_parent"
-					android:textSize="18sp"
-					android:textColor="?attr/CardForeground"
-				    android:gravity="left|center_vertical"
-				    android:paddingLeft="10dp"
-				    android:text="@string/user_statuses"/>
-				
-				<RelativeLayout
-				    android:id="@+id/single_drag"
-				    android:layout_width="match_parent"
-				    android:layout_height="match_parent"
-				    android:gravity="right">
-					
-					<ImageView
-					    android:id="@+id/iv_collapse"
-					    android:layout_width="40dp"
-					    android:layout_height="40dp"
-					    android:layout_marginEnd="5dp"
-					    android:layout_alignParentEnd="true"
-					    android:layout_centerVertical="true"
-						android:src="?attr/IconCollapse"
-					    android:scaleType="centerInside"/>
-				
-				</RelativeLayout>
-				
-			</LinearLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="80dp">
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginBottom="1dp"
+					android:paddingLeft="90dp"
+					android:background="?attr/UserInfoBackground"
+					android:orientation="horizontal">
+
+					<LinearLayout
+						android:id="@+id/user_following_container"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="0.5"
+						android:orientation="vertical"
+						android:background="?attr/UserInfoDivider"
+						android:gravity="center">
+						
+						<TextView
+							android:id="@+id/user_following"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:singleLine="true"
+							android:textSize="20sp"
+							android:textColor="?attr/UserInfoText"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textSize="10sp"
+							android:textColor="?attr/CardForeground"
+							android:text="@string/following"/>
+
+					</LinearLayout>
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="0.5"
+						android:orientation="vertical"
+						android:background="?attr/UserInfoDivider"
+						android:gravity="center">
+						
+						<TextView
+							android:id="@+id/user_followers"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:singleLine="true"
+							android:textSize="20sp"
+							android:textColor="?attr/UserInfoText"
+							android:text="0"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textSize="10sp"
+							android:textColor="?attr/CardForeground"
+							android:text="@string/followers"/>
+
+					</LinearLayout>
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_weight="0.5"
+						android:orientation="vertical"
+						android:background="?attr/UserInfoDivider"
+						android:gravity="center">
+						
+						<TextView
+							android:id="@+id/user_msgs"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:gravity="center"
+							android:singleLine="true"
+							android:textSize="20sp"
+							android:textColor="?attr/UserInfoText"
+							android:text="0"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textSize="10sp"
+							android:textColor="?attr/CardForeground"
+							android:text="@string/msgs"/>
+
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/user_follow"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_marginRight="5dp"
+						android:layout_weight="0.4"
+						android:clickable="true"
+						android:background="@drawable/drawer_selector"
+						android:gravity="center"
+						android:orientation="horizontal">
+
+						<us.shandian.blacklight.ui.common.TintImageView
+							android:id="@+id/user_follow_img"
+							android:scaleType="centerInside"
+							android:layout_width="25dp"
+							android:layout_height="25dp"
+							android:layout_marginRight="5dp"
+							android:src="@drawable/ic_cross"
+							app:tintColor="?attr/CardForeground"/>
+						
+						<TextView
+							android:id="@+id/user_follow_state"
+							android:layout_width="40dp"
+							android:layout_height="wrap_content"
+							android:textSize="12sp"
+							android:textColor="?attr/CardForeground"
+							android:text="@string/no_following"/>
+					</LinearLayout>
+
+				</LinearLayout>
+
+				<de.hdodenhof.circleimageview.CircleImageView
+					android:id="@+id/user_avatar"
+					android:layout_width="70dp"
+					android:layout_height="70dp"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentLeft="true"
+					android:layout_marginBottom="10dp"
+					android:layout_marginLeft="10dp"
+					android:src="@color/gray"/>
+
+			</RelativeLayout>
 
 			<FrameLayout
 				android:id="@+id/user_timeline_container"
@@ -314,5 +245,11 @@
 
 	</us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout>
 
-</LinearLayout>
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="3dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/action_shadow"/>
+	
+</RelativeLayout>
 

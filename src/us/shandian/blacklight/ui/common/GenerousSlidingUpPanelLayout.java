@@ -46,14 +46,11 @@ public class GenerousSlidingUpPanelLayout extends SlidingUpPanelLayout {
 
 	public GenerousSlidingUpPanelLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
-		// OK, Me myself is the drag view
-		// ^_^
-		setDragView(this);
 	}
 
 	public void setChildListView(AbsListView list) {
 		mChild = list;
+		setDragView(list);
 	}
 
 	@Override

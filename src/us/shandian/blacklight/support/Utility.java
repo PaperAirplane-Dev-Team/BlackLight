@@ -349,6 +349,10 @@ public class Utility
 		}
 	}
 
+	public static float dp2px(Context context, float dp) {
+		return context.getResources().getDisplayMetrics().density * dp + 0.5f;
+	}
+
 	public static int getFontHeight(Context context, float fontSize) {
 		// Convert Dp To Px
 		float px = context.getResources().getDisplayMetrics().density * fontSize + 0.5f;

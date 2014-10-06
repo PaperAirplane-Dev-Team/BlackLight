@@ -61,6 +61,9 @@
 		<attr name="NewPostForeground" format="color" />
 		<attr name="NewPostDivider" format="color" />
 		<attr name="NewPostBottom" format="color" />
+		<attr name="UserInfoBackground" format="color" />
+		<attr name="UserInfoText" format="color" />
+		<attr name="UserInfoDivider" format="reference" />
 	</declare-styleable>
 
 </resources>

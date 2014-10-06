@@ -95,13 +95,15 @@
 	<string name="following">Following</string>
 	<string name="msgs">Weibo</string>
 	<string name="like">Favourites</string>
-	<string name="following_me">Following me</string>
-	<string name="i_am_following">I am following</string>
-	<string name="following_each_other">Following each other</string>
-	<string name="no_following">Not following</string>
+	<string name="following_me">Followed</string>
+	<string name="i_am_following">Following</string>
+	<string name="following_each_other">Friend</string>
+	<string name="no_following">Stranger</string>
 	<string name="follow">Follow</string>
 	<string name="unfollow">Unfollow</string>
 	<string name="change_group">Change group</string>
+	<string name="mega">M</string>
+	<string name="million">Mil</string>
 	
 	<!-- Single -->
 	<string name="single_info">Weibo info</string>

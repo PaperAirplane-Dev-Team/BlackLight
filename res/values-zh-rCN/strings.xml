@@ -102,6 +102,8 @@
 	<string name="follow">关注Ta</string>
 	<string name="unfollow">取消关注</string>
 	<string name="change_group">修改分组</string>
+	<string name="mega">万</string>
+	<string name="million">百万</string>
 	
 	<!-- Single -->
 	<string name="single_info">微博信息</string>

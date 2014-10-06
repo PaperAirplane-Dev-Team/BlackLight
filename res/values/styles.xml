@@ -55,6 +55,9 @@
 		<item name="NewPostForeground">@color/sub_gray</item>
 		<item name="NewPostDivider">@color/divider_gray</item>
 		<item name="NewPostBottom">@color/selector_gray_lighter</item>
+		<item name="UserInfoBackground">@color/white</item>
+		<item name="UserInfoText">@color/black</item>
+		<item name="UserInfoDivider">@drawable/user_info_divider</item>
 	</style>
 
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
@@ -89,6 +92,9 @@
 		<item name="NewPostForeground">@color/light_gray</item>
 		<item name="NewPostDivider">@color/cant_be_darker_gray</item>
 		<item name="NewPostBottom">@color/cant_be_darker_gray</item>
+		<item name="UserInfoBackground">@color/cant_be_darker_gray</item>
+		<item name="UserInfoText">@color/white</item>
+		<item name="UserInfoDivider">@drawable/user_info_divider_dark</item>
 	</style>
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
