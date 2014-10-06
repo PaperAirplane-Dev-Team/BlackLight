@@ -28,6 +28,7 @@
 		<item name="android:titleTextStyle">@style/TitleText</item>
 		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 		<item name="android:windowBackground">@color/light_gray</item>
+		<item name="android:actionOverflowButtonStyle">@style/My.Widget.Holo.ActionButton.Overflow</item>
 		<item name="CardBackground">@drawable/card_shadow</item>
 		<item name="CardForeground">@color/darker_gray</item>
 		<item name="CardOrigBackground">@color/midium_gray</item>
@@ -63,6 +64,7 @@
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar</item>
 		<item name="android:windowBackground">@color/superdark_gray</item>
+		<item name="android:actionOverflowButtonStyle">@style/My.Widget.Holo.ActionButton.Overflow</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="CardBackground">@drawable/card_shadow_dark</item>
 		<item name="CardForeground">@color/gray</item>
@@ -148,7 +150,11 @@
 	<style name="My.Widget.Holo.Dark.ActionBar.Gradient" parent="@style/My.Widget.Holo.Dark.ActionBar">
 		<item name="android:background">@drawable/action_gradient</item>
 	</style>
-	
+
+	<style name="My.Widget.Holo.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+		<item name="android:src">@drawable/ic_menu_more</item>
+	</style>
+
 	<style name="TitleText">
 		<item name="android:textColor">@android:color/white</item>
 		<item name="android:textSize">18sp</item>
