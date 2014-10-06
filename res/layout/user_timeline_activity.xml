@@ -60,12 +60,12 @@
 					<ImageView
 						android:id="@+id/user_info_button"
 						android:scaleType="centerInside"
-						android:layout_width="20dp"
-						android:layout_height="20dp"
+						android:layout_width="15dp"
+						android:layout_height="15dp"
 						android:layout_alignParentRight="true"
 						android:layout_alignParentBottom="true"
-						android:layout_marginRight="5dp"
-						android:layout_marginBottom="5dp"
+						android:layout_marginRight="8dp"
+						android:layout_marginBottom="8dp"
 						android:src="@drawable/ic_info"/>
 
 					<ScrollView
@@ -218,6 +218,7 @@
 							android:layout_height="wrap_content"
 							android:textSize="12sp"
 							android:textColor="?attr/CardForeground"
+							android:gravity="center"
 							android:text="@string/no_following"/>
 					</LinearLayout>
 
