@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -146,6 +147,12 @@ public class UserTimeLineActivity extends AbsActivity
 		mMsgs.setText(parseCountString(mModel.statuses_count));
 		//mLikes.setText(String.valueOf(mModel.favourites_count));
 		//mGeo.setText(mModel.location);
+
+		// This way can support API 15.
+		Typeface mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Condensed.ttf");
+		mFollowers.setTypeface(mTypeface);
+		mFollowing.setTypeface(mTypeface);
+		mMsgs.setTypeface(mTypeface);
 		
 		new Downloader().execute();
 		
