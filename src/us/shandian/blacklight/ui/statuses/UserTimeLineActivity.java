@@ -136,7 +136,7 @@ public class UserTimeLineActivity extends AbsActivity
 		// Follower state (following/followed/each other)
 		resetFollowState();
 		if (mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
-			mLayoutFollowState.setVisibility(View.INVISIBLE);
+			mLayoutFollowState.setVisibility(View.GONE);
 		}
 		
 		// Also view values
