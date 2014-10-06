@@ -93,9 +93,9 @@
 	<string name="following">關注</string>
 	<string name="msgs">微博</string>
 	<string name="like">收藏</string>
-	<string name="following_me">正關注我</string>
-	<string name="i_am_following">我正關注</string>
-	<string name="following_each_other">互相關注</string>
+	<string name="following_me">被關注</string>
+	<string name="i_am_following">正關注</string>
+	<string name="following_each_other">已互粉</string>
 	<string name="no_following">未關注</string>
 	<string name="follow">關注Ta</string>
 	<string name="unfollow">取消關注</string>
