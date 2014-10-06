@@ -30,6 +30,8 @@ import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.support.feedback.SubmitLogTask;
+import us.shandian.blacklight.support.http.FeedbackUtility;
 
 public class EntryActivity extends Activity
 {
@@ -45,6 +47,11 @@ public class EntryActivity extends Activity
 		CrashHandler.init(this);
 		CrashHandler.register();
 		Emoticons.init(this);
+
+		// Crash Log
+		if (FeedbackUtility.shouldSendLog(this)) {
+			new SubmitLogTask(this).execute();
+		}
 		
 		LoginApiCache login = new LoginApiCache(this);
 		if (needsLogin(login)) {

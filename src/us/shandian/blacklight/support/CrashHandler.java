@@ -33,19 +33,16 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 {
 	public static String CRASH_DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/";
 	public static String CRASH_LOG = CRASH_DIR + "last_crash.log";
+	public static String CRASH_TAG = CRASH_DIR + ".crashed";
 
 	private static String ANDROID = Build.VERSION.RELEASE;
 	private static String MODEL = Build.MODEL;
 	private static String MANUFACTURER = Build.MANUFACTURER;
 	private static String VERSION = "Unknown";
 
-	private static boolean AUTO_SEND = false;
-	private static Context CONTEXT;
-
 	private Thread.UncaughtExceptionHandler mPrevious;
 
 	public static void init(Context context) {
-		CONTEXT = context;
 		try {
 			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			VERSION = info.versionName + info.versionCode;
@@ -53,7 +50,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 			throw new RuntimeException(e);
 		}
 		Settings settings = Settings.getInstance(context);
-		AUTO_SEND = settings.getBoolean(Settings.AUTO_SUBMIT_LOG,false);
 	}
 	
 	public static void register() {
@@ -95,10 +91,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 
 		p.close();
 
-		if (AUTO_SEND){
-			SubmitLogTask task = new SubmitLogTask();
-			task.init(CONTEXT);
-			task.execute();
+		try {
+			new File(CRASH_TAG).createNewFile();
+		} catch (Exception e) {
+			return;
 		}
 		
 		if (mPrevious != null) {

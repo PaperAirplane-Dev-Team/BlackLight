@@ -19,41 +19,39 @@
 
 package us.shandian.blacklight.support.http;
 
-import android.net.http.AndroidHttpClient;
+import android.content.Context;
+import android.util.Log;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-
+import java.io.File;
 import java.io.IOException;
+
+import us.shandian.blacklight.support.CrashHandler;
+import us.shandian.blacklight.support.Settings;
 
 public class FeedbackUtility {
 
-	private final static String LOG_API = "http://bbug.typeblog.net/bl-crashlog";
+	private static final String TAG = FeedbackUtility.class.getSimpleName(); 
+	private static final String LOG_API = "http://bbug.typeblog.net/bl-crashlog";
 
-	public static void sendLog(String user,String contact,String log){
-		BasicHttpParams params = new BasicHttpParams();
-		if(user != null){
-			params.setParameter("user",user);
-		}
-		if(contact != null){
-			params.setParameter("contact",contact);
-		}
-		params.setParameter("log",log);
-
-		HttpUriRequest request = new HttpPost(LOG_API);
-		request.setParams(params);
-		HttpClient client = new DefaultHttpClient();
+	public static void sendLog(String user,String contact,String log) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("user", user);
+		params.put("contact", contact);
+		params.put("log", log);
 		try {
-			client.execute(request);
-		} catch (IOException e) {
-			e.printStackTrace();
+			HttpUtility.doRequest(LOG_API, params, HttpUtility.POST);
+		} catch (Exception e) {
+			Log.e(TAG, "WTF?! Send log failed?");
 		}
 	}
 
 	public static void sendFeedback(String user,String contact,String feedback){
 
+	}
+
+	public static boolean shouldSendLog(Context context) {
+		return Settings.getInstance(context)
+			.getBoolean(Settings.AUTO_SUBMIT_LOG, false) &&
+			new File(CrashHandler.CRASH_TAG).exists();
 	}
 }

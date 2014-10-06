@@ -37,8 +37,8 @@ public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
 
 	private Context mContext;
 
-	public void init(Context ctx){
-		mContext = ctx;
+	public SubmitLogTask(Context context) {
+		mContext = context;
 	}
 
 	@Override
@@ -60,6 +60,11 @@ public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
 		}
 
 		return null;
+	}
+
+	@Override
+	protected void onPostExecute(Void result) {
+		new File(CrashHandler.CRASH_TAG).delete();
 	}
 
 	private String readLog(){

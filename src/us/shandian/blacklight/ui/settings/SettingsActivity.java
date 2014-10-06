@@ -32,6 +32,8 @@ import android.widget.Toast;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 
+import java.io.File;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
@@ -196,12 +198,11 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			return true;
 		} else if (preference == mPrefFeedback) {
 			// TODO send feedback
-
 			return true;
 		} else if (preference == mPrefSubmitLog) {
-			SubmitLogTask task = new SubmitLogTask();
-			task.init(this);
-			task.execute();
+			if (new File(CrashHandler.CRASH_TAG).exists()) {
+				new SubmitLogTask(this).execute();
+			}
 			return true;
 		} else if (preference == mPrefCrash) {
 			throw new RuntimeException("Debug crash");
