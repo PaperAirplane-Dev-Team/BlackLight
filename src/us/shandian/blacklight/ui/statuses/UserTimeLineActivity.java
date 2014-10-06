@@ -263,7 +263,7 @@ public class UserTimeLineActivity extends AbsActivity
 	
 	private void resetFollowState() {
 		if (mModel.follow_me && mModel.following) {
-			mFollowImg.setImageResource(R.drawable.ic_checkmark);
+			mFollowImg.setImageResource(R.drawable.ic_arrow);
 			mFollowState.setText(R.string.following_each_other);
 		} else if (mModel.follow_me) {
 			mFollowImg.setImageResource(R.drawable.ic_cross);
