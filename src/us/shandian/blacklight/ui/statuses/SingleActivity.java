@@ -337,7 +337,7 @@ public class SingleActivity extends AbsActivity
 
 	private void setLikeIcon() {
 		mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
-		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.like));
+		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.attitudes));
 	}
 	
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {

@@ -21,23 +21,23 @@
 		android:id="@+id/delete"
 		android:icon="@drawable/ic_action_discard"
 		android:title="@string/delete"
-		android:showAsAction="always"/>
+		android:showAsAction="never"/>
 
 	<item
 		android:id="@+id/like"
 		android:icon="@drawable/ic_action_good"
-		android:title="@string/like"
-		android:showAsAction="always"/>
+		android:title="@string/attitudes"
+		android:showAsAction="never"/>
 
 	<item
 		android:id="@+id/copy"
 		android:icon="@drawable/ic_action_copy"
 		android:title="@string/copy"
-		android:showAsAction="always"/>
+		android:showAsAction="never"/>
 	
 	<item
 		android:id="@+id/fav"
 		android:icon="@drawable/ic_action_not_important"
 		android:title="@string/fav_add"
-		android:showAsAction="always"/>
+		android:showAsAction="never"/>
 </menu>
