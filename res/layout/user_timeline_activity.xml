@@ -209,7 +209,7 @@
 							android:layout_width="25dp"
 							android:layout_height="25dp"
 							android:layout_marginRight="5dp"
-							android:src="@drawable/ic_cross"
+							android:src="@drawable/ic_action_new"
 							app:tintColor="?attr/CardForeground"/>
 						
 						<TextView
