@@ -142,9 +142,9 @@ public class UserTimeLineActivity extends AbsActivity
 		
 		// Also view values
 		mDes.setText(mModel.description);
-		mFollowers.setText(parseCountString(mModel.followers_count));
-		mFollowing.setText(parseCountString(mModel.friends_count));
-		mMsgs.setText(parseCountString(mModel.statuses_count));
+		mFollowers.setText(Utility.addUnitToInt(this, mModel.followers_count));
+		mFollowing.setText(Utility.addUnitToInt(this, mModel.friends_count));
+		mMsgs.setText(Utility.addUnitToInt(this, mModel.statuses_count));
 		//mLikes.setText(String.valueOf(mModel.favourites_count));
 		//mGeo.setText(mModel.location);
 
@@ -292,16 +292,6 @@ public class UserTimeLineActivity extends AbsActivity
 			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 			mMenuFollow.setTitle(getString(mModel.following ? R.string.unfollow : R.string.follow));
 			mMenuGroup.setEnabled(mModel.following);
-		}
-	}
-
-	private String parseCountString(int count) {
-		if (count < 10000) {
-			return String.valueOf(count);
-		} else if (count < 1000000) {
-			return String.valueOf((int) (count / 10000)) + getString(R.string.mega);
-		} else {
-			return String.valueOf((int) (count / 1000000)) + getString(R.string.million);
 		}
 	}
 

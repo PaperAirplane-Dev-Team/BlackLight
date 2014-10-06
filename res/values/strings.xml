@@ -102,8 +102,13 @@
 	<string name="follow">Follow</string>
 	<string name="unfollow">Unfollow</string>
 	<string name="change_group">Change group</string>
-	<string name="mega">M</string>
-	<string name="million">Mil</string>
+
+	<!-- Units -->
+	<string name="ten_thousand">0K</string>
+	<string name="million">M</string>
+	<string name="ten_million">0M</string>
+	<string name="hundred_million">hM</string>
+	<string name="billion">B</string>
 	
 	<!-- Single -->
 	<string name="single_info">Weibo info</string>

@@ -349,6 +349,22 @@ public class Utility
 		}
 	}
 
+	public static String addUnitToInt(Context context, int i) {
+		if (i < 10000) {
+			return String.valueOf(i);
+		} else if (i < 1000000) {
+			return (int) (i / 10000) + context.getString(R.string.ten_thousand);
+		} else if (i < 10000000) {
+			return (int) (i / 1000000) + context.getString(R.string.million);
+		} else if (i < 100000000) {
+			return (int) (i / 10000000) + context.getString(R.string.ten_million);
+		} else if (i < 1000000000) {
+			return (int) (i / 100000000) + context.getString(R.string.hundred_million);
+		} else {
+			return (int) (i / 1000000000) + context.getString(R.string.billion);
+		}
+	}
+
 	public static float dp2px(Context context, float dp) {
 		return context.getResources().getDisplayMetrics().density * dp + 0.5f;
 	}

@@ -275,9 +275,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (!mShowCommentStatus || msg instanceof CommentModel) {
 			h.comment_and_retweet.setVisibility(View.GONE);
 		} else {
-			attitudes.setText(String.valueOf(msg.attitudes_count));
-			retweet.setText(String.valueOf(msg.reposts_count));
-			comments.setText(String.valueOf(msg.comments_count));
+			attitudes.setText(Utility.addUnitToInt(mContext, msg.attitudes_count));
+			retweet.setText(Utility.addUnitToInt(mContext, msg.reposts_count));
+			comments.setText(Utility.addUnitToInt(mContext, msg.comments_count));
 		}
 
 		if (!(msg instanceof CommentModel) && msg.liked) { 
