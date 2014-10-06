@@ -278,13 +278,13 @@ public class UserTimeLineActivity extends AbsActivity
 			mFollowImg.setImageResource(R.drawable.ic_arrow);
 			mFollowState.setText(R.string.following_each_other);
 		} else if (mModel.follow_me) {
-			mFollowImg.setImageResource(R.drawable.ic_cross);
+			mFollowImg.setImageResource(R.drawable.ic_action_new);
 			mFollowState.setText(R.string.following_me);
 		} else if (mModel.following) {
 			mFollowImg.setImageResource(R.drawable.ic_checkmark);
 			mFollowState.setText(R.string.i_am_following);
 		} else {
-			mFollowImg.setImageResource(R.drawable.ic_cross);
+			mFollowImg.setImageResource(R.drawable.ic_action_new);
 			mFollowState.setText(R.string.no_following);
 		}
 		
