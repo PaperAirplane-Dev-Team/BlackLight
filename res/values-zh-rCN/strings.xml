@@ -174,7 +174,14 @@
 		<item>30 分钟</item>
 		<item>从不</item>
 	</string-array>
-	
+
+	<!-- Feedback -->
+	<string name="fb">反馈</string>
+	<string name="fb_title">反馈标题</string>
+	<string name="fb_content">反馈内容</string>
+	<string name="fb_sent">您的反馈已与上次崩溃日志一起发送。如果我们需要更多信息，可能会联系您。</string> 
+	<string name="fb_send">发送</string>
+
 	<!-- Message -->
 	<string name="plz_wait">请稍候……</string>
 	<string name="name_fetching">昵称获取中……</string>

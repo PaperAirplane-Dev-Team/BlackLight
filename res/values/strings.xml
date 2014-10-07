@@ -198,6 +198,13 @@
 		<item>30 minutes</item>
 		<item>Never</item>
 	</string-array>
+
+	<!-- Feedback -->
+	<string name="fb">Feedback</string>
+	<string name="fb_title">Feedback title</string>
+	<string name="fb_content">Feedback content</string>
+	<string name="fb_sent">Feedback sent along with your last crash log. We will contact you if we need more information.</string> 
+	<string name="fb_send">Send</string>
 	
 	<!-- Message -->
 	<string name="plz_wait">Please wait……</string>

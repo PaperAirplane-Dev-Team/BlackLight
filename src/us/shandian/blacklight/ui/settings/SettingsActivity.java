@@ -39,6 +39,7 @@ import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.feedback.SubmitLogTask;
+import us.shandian.blacklight.ui.feedback.FeedbackActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
@@ -197,7 +198,11 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			startActivity(i);
 			return true;
 		} else if (preference == mPrefFeedback) {
-			// TODO send feedback
+			// Send feedback
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, FeedbackActivity.class);
+			startActivity(i);
 			return true;
 		} else if (preference == mPrefSubmitLog) {
 			if (new File(CrashHandler.CRASH_TAG).exists()) {

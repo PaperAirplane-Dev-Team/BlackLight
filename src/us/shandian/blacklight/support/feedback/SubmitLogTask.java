@@ -21,8 +21,6 @@ package us.shandian.blacklight.support.feedback;
 
 import android.content.Context;
 
-import org.apache.http.util.EncodingUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -43,20 +41,18 @@ public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		String log = readLog();
-
 		LoginApiCache logincache = new LoginApiCache(mContext);
 		UserApiCache usercache = new UserApiCache(mContext);
 		String uid = logincache.getUid();
 
 		if(uid == null){
-			FeedbackUtility.sendLog(null, null, log);
+			FeedbackUtility.sendLog(null, null);
 		}else{
 			String username,contact;
 			UserModel user = usercache.getUser(uid);
 			username = user.screen_name;
 			contact = user.url;
-			FeedbackUtility.sendLog(username, contact, log);
+			FeedbackUtility.sendLog(username, contact);
 		}
 
 		return null;
@@ -65,29 +61,5 @@ public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
 	@Override
 	protected void onPostExecute(Void result) {
 		new File(CrashHandler.CRASH_TAG).delete();
-	}
-
-	private String readLog(){
-		String res="";
-
-		try{
-			FileInputStream fin = new FileInputStream(CrashHandler.CRASH_LOG);
-
-			int length = fin.available();
-
-			byte [] buffer = new byte[length];
-
-			fin.read(buffer);
-
-			res = EncodingUtils.getString(buffer, "UTF-8");
-
-			fin.close();
-
-		}catch(Exception e){
-
-			e.printStackTrace();
-
-		}
-		return res;
 	}
 }

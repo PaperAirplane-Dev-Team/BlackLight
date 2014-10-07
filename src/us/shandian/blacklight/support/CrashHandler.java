@@ -38,7 +38,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 	private static String ANDROID = Build.VERSION.RELEASE;
 	private static String MODEL = Build.MODEL;
 	private static String MANUFACTURER = Build.MANUFACTURER;
-	private static String VERSION = "Unknown";
+	
+	public static String VERSION = "Unknown";
 
 	private Thread.UncaughtExceptionHandler mPrevious;
 
