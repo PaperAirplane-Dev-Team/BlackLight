@@ -239,8 +239,12 @@ public class UserApiCache
 	}
 	
 	public Bitmap getCover(UserModel model) {
-		if (model.cover_image == null) {
+		if (model.cover_image_phone.trim().equals("")) {
 			return null;
+		}
+
+		if (DEBUG) {
+			Log.d(TAG, "cover_image_phone = " + model.cover_image_phone);
 		}
 		
 		InputStream cache;
@@ -252,7 +256,7 @@ public class UserApiCache
 
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image_phone);
 			} catch (Exception e) {
 				cache = null;
 			}
