@@ -420,7 +420,7 @@ public class UserTimeLineActivity extends AbsActivity
 			publishProgress(new Object[]{0, avatar});
 
 			// Cover
-			if (!mModel.cover_image_phone.trim().equals("")) {
+			if (!mModel.getCover().trim().equals("")) {
 				Bitmap cover = mCache.getCover(mModel);
 				if (cover != null) {
 					publishProgress(new Object[]{1, cover});

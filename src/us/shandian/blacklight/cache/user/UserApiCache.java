@@ -168,16 +168,17 @@ public class UserApiCache
 	}
 	
 	public Bitmap getSmallAvatar(UserModel model) {
+		String cacheName = model.id + model.profile_image_url.substring(model.profile_image_url.lastIndexOf("/") + 1, model.profile_image_url.length());
 		InputStream cache;
 		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, model.id);
+			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, cacheName);
 		} catch (Exception e) {
 			cache = null;
 		}
 		
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, model.id, model.profile_image_url);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, cacheName, model.profile_image_url);
 			} catch (Exception e) {
 				cache = null;
 			}
@@ -208,16 +209,17 @@ public class UserApiCache
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {
+		String cacheName = model.id + model.avatar_large.substring(model.avatar_large.lastIndexOf("/") + 1, model.avatar_large.length());
 		InputStream cache;
 		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, model.id);
+			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, cacheName);
 		} catch (Exception e) {
 			cache = null;
 		}
 
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, model.id, model.avatar_large);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, cacheName, model.avatar_large);
 			} catch (Exception e) {
 				cache = null;
 			}
@@ -239,24 +241,27 @@ public class UserApiCache
 	}
 	
 	public Bitmap getCover(UserModel model) {
-		if (model.cover_image_phone.trim().equals("")) {
+		String url = model.getCover();
+		if (url.trim().equals("")) {
 			return null;
 		}
 
 		if (DEBUG) {
-			Log.d(TAG, "cover_image_phone = " + model.cover_image_phone);
+			Log.d(TAG, "url = " + url);
 		}
+
+		String cacheName = model.id + url.substring(url.lastIndexOf("/") + 1, url.length());
 		
 		InputStream cache;
 		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_COVER, model.id);
+			cache = mManager.getCache(Constants.FILE_CACHE_COVER, cacheName);
 		} catch (Exception e) {
 			cache = null;
 		}
 
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image_phone);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, cacheName, url);
 			} catch (Exception e) {
 				cache = null;
 			}

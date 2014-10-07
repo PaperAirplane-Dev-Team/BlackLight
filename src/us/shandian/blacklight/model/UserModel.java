@@ -57,10 +57,15 @@ public class UserModel implements Parcelable
 	public boolean follow_me = false;
 	public int online_status = 0;
 	public int bi_followers_count = 0;
+	public String cover_image = "";
 	public String cover_image_phone = "";
 	
 	public String getName() {
 		return screen_name == null ? name : screen_name;
+	}
+
+	public String getCover() {
+		return cover_image.trim().equals("") ? cover_image_phone : cover_image;
 	}
 
 	@Override
@@ -92,6 +97,7 @@ public class UserModel implements Parcelable
 		dest.writeInt(online_status);
 		dest.writeInt(bi_followers_count);
 		dest.writeString(cover_image_phone);
+		dest.writeString(cover_image);
 		dest.writeBooleanArray(new boolean[]{following, allow_all_act_msg, geo_enabled, verified, allow_all_comment});
 	}
 	
@@ -121,6 +127,7 @@ public class UserModel implements Parcelable
 			ret.online_status = input.readInt();
 			ret.bi_followers_count = input.readInt();
 			ret.cover_image_phone = input.readString();
+			ret.cover_image = input.readString();
 			
 			boolean[] array = new boolean[5];
 			input.readBooleanArray(array);
