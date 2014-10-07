@@ -27,6 +27,8 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import me.imid.swipebacklayout.lib.Utils;
@@ -93,6 +95,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	@SuppressWarnings("deprecation")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Utility.initDarkMode(this);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 
@@ -103,10 +106,23 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mSettings = Settings.getInstance(this);
 
 		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setCustomView(R.layout.action_custom_up);
+		getActionBar().setDisplayShowCustomEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActionBar().setHomeButtonEnabled(false);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+
+		// Custom View (MD Up Button)
+		ViewGroup custom = (ViewGroup) getActionBar().getCustomView();
+		Utility.addActionViewToCustom(this, Utility.action_bar_title, custom);
+		custom.findViewById(R.id.action_up).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		getActionBar().setDisplayShowTitleEnabled(false);
 
 		// Init
 		mPrefLicense = findPreference(LICENSE);
