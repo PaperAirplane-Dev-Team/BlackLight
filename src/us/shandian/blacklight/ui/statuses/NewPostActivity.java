@@ -57,6 +57,7 @@ import butterknife.OnClick;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -94,6 +95,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	@InjectView(R.id.post_at) protected ImageView mAt;
 	@InjectView(R.id.post_topic) protected ImageView mTopic;
 	@InjectView(R.id.post_send) protected ImageView mSend;
+
+	// Funny hints
+	private String[] mHints;
 	
 	private ImageView[] mPics = new ImageView[9];
 
@@ -128,6 +132,10 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		
 		// Inject
 		ButterKnife.inject(this);
+
+		// Hints
+		mHints = getResources().getStringArray(R.array.splashes);
+		mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 		
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();
