@@ -51,7 +51,7 @@ public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
 			String username,contact;
 			UserModel user = usercache.getUser(uid);
 			username = user.screen_name;
-			contact = user.url;
+			contact = "http://weibo.com/u/" + uid;
 			FeedbackUtility.sendLog(username, contact);
 		}
 
