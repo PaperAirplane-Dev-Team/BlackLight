@@ -99,7 +99,7 @@ public class FeedbackActivity extends AbsActivity {
 		protected void onPostExecute(Void result) {
 			prog.dismiss();
 
-			Toast.makeText(FeedbackActivity.this, R.string.fb_sent, Toast.LENGTH_SHORT);
+			Toast.makeText(FeedbackActivity.this, R.string.fb_sent, Toast.LENGTH_SHORT).show();
 
 			finish();
 		}
