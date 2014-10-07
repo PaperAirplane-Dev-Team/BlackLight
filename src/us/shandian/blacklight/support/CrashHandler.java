@@ -87,7 +87,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 		p.write("Device Model: " + MODEL + "\n");
 		p.write("Device Manufacturer: " + MANUFACTURER + "\n");
 		p.write("App Version: " + VERSION + "\n");
-		p.write("-------------------------------\n");
+		p.write("*********************");
 		throwable.printStackTrace(p);
 
 		p.close();
