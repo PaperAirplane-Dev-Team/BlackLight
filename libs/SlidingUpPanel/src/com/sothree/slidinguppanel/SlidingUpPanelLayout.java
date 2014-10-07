@@ -740,8 +740,12 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (!mCanSlide || !mIsSlidingEnabled) {
             return super.onTouchEvent(ev);
         }
-
-        mDragHelper.processTouchEvent(ev);
+        
+        try {
+            mDragHelper.processTouchEvent(ev);
+        } catch (Exception e) {
+            // Ignore
+        }
 
         final int action = ev.getAction();
         boolean wantTouchEvents = true;
