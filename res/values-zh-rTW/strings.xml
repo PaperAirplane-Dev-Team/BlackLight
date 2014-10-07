@@ -45,6 +45,7 @@
 
 	<!-- Statuses -->
 	<string name="timeline">時間軸</string>
+	<string name="attitudes">點贊</string>
 	<string name="retweet">轉發</string>
 	<string name="comment">評論</string>
 	<string name="status_mention_me">提及我的微博</string>
@@ -54,6 +55,7 @@
 	<string name="comment_on">發送評論</string>
 	<string name="repost">轉發微博</string>
 	<string name="reply_to">回覆評論</string>
+	<string name="remove_attitude">撤銷點贊</string>
 	<string name="repost_and_comment">同時評論微博</string>
 	<string name="repost_and_comment_the_original">同時評論原微博</string>
 	<string name="comment_and_repost">同時轉發微博</string>
@@ -100,7 +102,14 @@
 	<string name="follow">關注Ta</string>
 	<string name="unfollow">取消關注</string>
 	<string name="change_group">修改分組</string>
-	
+
+	<!-- Units -->
+	<string name="ten_thousand">W</string>
+	<string name="million">M</string>
+	<string name="ten_million">0M</string>
+	<string name="hundred_million">00M</string>
+	<string name="billion">B</string>
+
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
 	<string name="delete">刪除</string>
@@ -165,7 +174,14 @@
 		<item>30 分鐘</item>
 		<item>從不</item>
 	</string-array>
-	
+
+	<!-- Feedback -->
+	<string name="fb">反饋</string>
+	<string name="fb_title">反饋標題</string>
+	<string name="fb_content">反饋內容</string>
+	<string name="fb_sent">您的反饋已與上一次崩潰記錄同時發送。如果我們需要更多資料，可能會聯絡您。</string>
+	<string name="fb_send">發送</string>
+
 	<!-- Message -->
 	<string name="plz_wait">請稍候……</string>
 	<string name="name_fetching">暱稱獲取中……</string>
