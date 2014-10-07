@@ -42,7 +42,7 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.feedback.SubmitLogTask;
 import us.shandian.blacklight.ui.feedback.FeedbackActivity;
-
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class SettingsActivity extends SwipeBackPreferenceActivity implements
@@ -182,7 +182,10 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefFeedback.setOnPreferenceClickListener(this);
 		mPrefAutoSubmitLog.setOnPreferenceChangeListener(this);
 		mPrefSubmitLog.setOnPreferenceClickListener(this);
-		mPrefCrash.setOnPreferenceClickListener(this);
+		mPrefCrash.setEnabled(DEBUG);
+		if (DEBUG) {
+			mPrefCrash.setOnPreferenceClickListener(this);
+		}
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
