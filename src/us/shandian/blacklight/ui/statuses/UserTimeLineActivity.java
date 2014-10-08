@@ -228,7 +228,7 @@ public class UserTimeLineActivity extends AbsActivity
 		new Follower().execute();
 	}
 
-	@OnClick(R.id.user_info_button)
+	@OnClick({R.id.user_info_button, R.id.user_dim})
 	public void showOrHideInfo() {
 		mDesScroll.clearAnimation();
 
