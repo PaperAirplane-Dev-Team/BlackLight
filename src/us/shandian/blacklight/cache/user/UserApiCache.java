@@ -168,7 +168,7 @@ public class UserApiCache
 	}
 	
 	public Bitmap getSmallAvatar(UserModel model) {
-		String cacheName = model.id + model.profile_image_url.substring(model.profile_image_url.lastIndexOf("/") + 1, model.profile_image_url.length());
+		String cacheName = model.id + model.profile_image_url.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, cacheName);
@@ -209,7 +209,7 @@ public class UserApiCache
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {
-		String cacheName = model.id + model.avatar_large.substring(model.avatar_large.lastIndexOf("/") + 1, model.avatar_large.length());
+		String cacheName = model.id + model.avatar_large.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, cacheName);
