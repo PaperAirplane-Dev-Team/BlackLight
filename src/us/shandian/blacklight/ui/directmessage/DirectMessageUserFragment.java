@@ -88,6 +88,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mList.setAdapter(mAdapter);
 		
 		mApiCache.loadFromCache();
+		mAdapter.notifyDataSetChanged();
 		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();

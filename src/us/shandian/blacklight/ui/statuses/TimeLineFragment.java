@@ -351,11 +351,7 @@ public class TimeLineFragment extends Fragment implements
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			mList.setSelection(0);
-			if (!result) {
-				mAdapter.notifyDataSetChanged();
-			} else {
-				mAdapter.notifyDataSetChangedAndClear();
-			}
+			mAdapter.notifyDataSetChanged();
 			mRefreshing = false;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);

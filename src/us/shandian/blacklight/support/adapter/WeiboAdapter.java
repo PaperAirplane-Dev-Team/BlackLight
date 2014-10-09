@@ -103,6 +103,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	};
 	
 	private MessageListModel mList;
+	private MessageListModel mClone;
 	private LayoutInflater mInflater;
 	private StatusTimeUtils mTimeUtils;
 	private UserApiCache mUserApi;
@@ -138,21 +139,22 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
+		notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getCount() {
-		return mList.getSize();
+		return mClone.getSize();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mList.get(position);
+		return mClone.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return mList.get(position).id;
+		return mClone.get(position).id;
 	}
 
 	@Override
@@ -160,7 +162,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (position >= getCount()) {
 			return convertView;
 		} else {
-			MessageModel msg = mList.get(position);
+			MessageModel msg = mClone.get(position);
 			
 			return bindView(msg, convertView);
 		}
@@ -412,7 +414,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 	
-	public void notifyDataSetChangedAndClear() {
+	public void notifyDataSetChanged() {
+		mClone = mList.clone();
 		super.notifyDataSetChanged();
 	}
 	
