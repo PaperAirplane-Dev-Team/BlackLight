@@ -88,7 +88,7 @@ public class FeedbackActivity extends AbsActivity {
 			if (uid != null) {
 				UserModel m = user.getUser(uid);
 				String name = m.screen_name;
-				String contact = m.url;
+				String contact = "http://weibo.com/u/" + uid;
 				FeedbackUtility.sendFeedback(name, contact, params[0], params[1]);
 			}
 
