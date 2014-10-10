@@ -37,6 +37,7 @@ import android.widget.Toast;
 import android.os.Bundle;
 import android.os.Build;
 import android.os.Vibrator;
+import android.util.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,11 +53,14 @@ import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public abstract class TimeLineFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener, GestureDetector.OnGestureListener,
 		OnScrollListener {
+	
+	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
 	@InjectView(R.id.home_timeline) protected ListView mList;
 	@InjectView(R.id.action_shadow) protected View mShadow;
@@ -73,8 +77,11 @@ public abstract class TimeLineFragment extends Fragment implements
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 	protected boolean mAllowHidingActionBar = true;
+	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
+	private int mLastTop = 0;
+	private int mLastFirst = 0;
 
 	// Gesture
 	private GestureDetector mDetector;
@@ -241,29 +248,49 @@ public abstract class TimeLineFragment extends Fragment implements
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
-		if (Math.abs(distanceY) < 20 || mRefreshing)
-			return false;
 
 		if (mList.getTop() != 0) {
 			mList.setTop(0);
 		}
 
-		if (e1 == null || e2 == null || e1.getY() < e2.getY()
-				|| mList.getFirstVisiblePosition() < 1) {
-			showFAB();
+		View v = mList.getChildAt(0);
+		int top = (v == null) ? 0 : v.getTop();
+		int first = mList.getFirstVisiblePosition();
 
-			if (mAllowHidingActionBar) {
-				getActivity().getActionBar().show();
-				mShadow.setVisibility(View.VISIBLE);
-			}
-		} else {
-			hideFAB();
+		boolean shouldShow = first < 1 || mRefreshing;
 
-			if (mAllowHidingActionBar) {
-				getActivity().getActionBar().hide();
-				mShadow.setVisibility(View.GONE);
+		if (!shouldShow) {
+			if (first == mLastFirst) {
+				shouldShow = top > mLastTop;
+			} else {
+				shouldShow = first < mLastFirst;
 			}
 		}
+
+		if (shouldShow != mFABShowing) {
+
+			if (shouldShow) {
+				showFAB();
+			} else {
+				hideFAB();
+			}
+
+			if (mAllowHidingActionBar) {
+				if (shouldShow) {
+					getActivity().getActionBar().show();
+					mShadow.setVisibility(View.VISIBLE);
+				} else {
+					getActivity().getActionBar().hide();
+					mShadow.setVisibility(View.GONE);
+				}
+			}
+
+		}
+		
+		mLastTop = top;
+		mLastFirst = first;
+
+		mFABShowing = shouldShow;
 
 		return false;
 	}
