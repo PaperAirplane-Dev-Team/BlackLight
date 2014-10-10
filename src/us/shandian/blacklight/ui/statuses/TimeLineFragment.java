@@ -54,7 +54,7 @@ import us.shandian.blacklight.ui.main.MainActivity;
 
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
-public class TimeLineFragment extends Fragment implements
+public abstract class TimeLineFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener, GestureDetector.OnGestureListener,
 		OnScrollListener {
 
