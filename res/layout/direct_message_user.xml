@@ -24,12 +24,14 @@
 	android:orientation="horizontal"
 	android:gravity="center_vertical">
 
-	<ImageView
+	<de.hdodenhof.circleimageview.CircleImageView
+		android:id="@+id/direct_message_avatar"
 		android:layout_height="50dp"
 		android:layout_width="50dp"
-		android:scaleType="fitXY"
+		android:layout_centerVertical="true"
 		android:layout_margin="10dp"
-		android:id="@+id/direct_message_avatar"/>
+		android:src="@color/gray"
+		style="?android:attr/buttonBarButtonStyle"/>
 
 	<LinearLayout
 		android:layout_height="match_parent"
