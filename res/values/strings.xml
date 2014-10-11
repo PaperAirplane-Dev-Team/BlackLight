@@ -169,7 +169,7 @@
 	<string name="fast_scroll">List fast scroll</string>
 	<string name="shake_to_return">Shake to return</string>
 	<string name="right_handed">Right-handed mode</string>
-	<string name="right_handed_des">Move the drawer to the right side and swap the FABs, better for phones with larger screen.</string>
+	<string name="right_handed_des">Move the drawer to the right side, better for phones with larger screen.</string>
 	<string name="feedback">Feedback</string>
 	<string name="feedback_send">Send Feedback</string>
 	<string name="feedback_sum">Tell us anything about this app</string>
