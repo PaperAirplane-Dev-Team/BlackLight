@@ -171,13 +171,9 @@ public class UserApiCache
 		String cacheName = model.id + model.profile_image_url.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
 		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, cacheName);
+			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, cacheName);
 		} catch (Exception e) {
-			try {
-				cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, cacheName);
-			} catch (Exception e1) {
-				cache = null;
-			}
+			cache = null;
 		}
 		
 		if (cache == null) {
