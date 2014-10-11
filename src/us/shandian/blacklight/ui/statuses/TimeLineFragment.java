@@ -22,7 +22,6 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.Fragment;
 import android.app.Service;
 import android.content.Intent;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -57,8 +56,7 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public abstract class TimeLineFragment extends Fragment implements
-		SwipeRefreshLayout.OnRefreshListener, GestureDetector.OnGestureListener,
-		OnScrollListener {
+		SwipeRefreshLayout.OnRefreshListener, OnScrollListener {
 	
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
@@ -80,11 +78,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
-	private int mLastTop = 0;
 	private int mLastFirst = 0;
-
-	// Gesture
-	private GestureDetector mDetector;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,9 +122,7 @@ public abstract class TimeLineFragment extends Fragment implements
 				mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 
-		// Gesture Detector
-		mDetector = new GestureDetector(getActivity(), this);
-
+		// Listener
 		if (getActivity() instanceof MainActivity) {
 			mAdapter.addOnScrollListener(this);
 		}
@@ -208,67 +200,12 @@ public abstract class TimeLineFragment extends Fragment implements
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		if (firstVisibleItem < 1) {
-			showFAB();
-			getActivity().getActionBar().show();
-		}
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-	}
-
-	@OnTouch(R.id.home_timeline)
-	public boolean handleTouch(View v, MotionEvent ev) {
-		if (getActivity() instanceof MainActivity) {
-			mDetector.onTouchEvent(ev);
-		}
-		return false;
-	}
-
-	// Start Gesture Events
-
-	@Override
-	public boolean onDown(MotionEvent e) {
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-
-		if (mList.getTop() != 0) {
-			mList.setTop(0);
-		}
-
-		View v = mList.getChildAt(0);
-		int top = (v == null) ? 0 : v.getTop();
-		int first = mList.getFirstVisiblePosition();
-
-		boolean shouldShow = first < 1 || mRefreshing;
-
-		if (!shouldShow) {
-			if (first == mLastFirst) {
-				shouldShow = top > mLastTop;
-			} else {
-				shouldShow = first < mLastFirst;
-			}
+		boolean shouldShow = firstVisibleItem < 1 || mRefreshing || firstVisibleItem < mLastFirst;
+		if (firstVisibleItem > 1 && firstVisibleItem == mLastFirst) {
+			shouldShow = mFABShowing;
 		}
 
 		if (shouldShow != mFABShowing) {
-
 			if (shouldShow) {
 				showFAB();
 			} else {
@@ -284,28 +221,16 @@ public abstract class TimeLineFragment extends Fragment implements
 					mShadow.setVisibility(View.GONE);
 				}
 			}
-
 		}
-		
-		mLastTop = top;
-		mLastFirst = first;
 
+		mLastFirst = firstVisibleItem;
 		mFABShowing = shouldShow;
-
-		return false;
 	}
 
 	@Override
-	public void onShowPress(MotionEvent e) {
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		return false;
-	}
-
-	// End Gesture Events
 
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
