@@ -229,7 +229,7 @@
 	<string name="copied">Contents copied to clipboard</string>
 
 	<!-- Funny things -->
-	<string-array name="splashes" translatable="false">
+	<string-array name="splashes">
 		<item>§1C§2o§3l§4o§5r§6m§7a§8t§9i§ac</item>
 		<item>§kFUNKY LOL</item>
 		<item>Γεια σου Ελλάδα!</item>
@@ -586,7 +586,7 @@
 		<item>The Canaries are migrating</item>
 		<item>The creeper is a spy!</item>
 		<item>The killer\'s IP address is 127.0.0.1!</item>
-		<item>The quick brown fox jumps over the lazy dog</item>
+		<item>The quick brown fox jumps over the lazy dog.</item>
 		<item>The sky is the limit!</item>
 		<item>The sum of its parts!</item>
 		<item>The Work of Notch!</item>
@@ -628,6 +628,7 @@
 		<item>Vote for net neutrality!</item>
 		<item>Voxelicious!</item>
 		<item>Warning: May cause EvilSeph to explode</item>
+		<item>WAR IS PEACE\nFREEDOM IS SLAVERY\nINORANCE IS STRENGTH</item>
 		<item>Washer not included</item>
 		<item>Water proof!</item>
 		<item>We don\'t tolerate failures!</item>

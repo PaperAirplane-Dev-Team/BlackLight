@@ -134,8 +134,10 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		ButterKnife.inject(this);
 
 		// Hints
-		mHints = getResources().getStringArray(R.array.splashes);
-		mText.setHint(mHints[new Random().nextInt(mHints.length)]);
+		if (Math.random() > 0.8){ // Make this a matter of possibility.
+			mHints = getResources().getStringArray(R.array.splashes);
+			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
+		}
 		
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();

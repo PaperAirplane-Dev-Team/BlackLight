@@ -203,4 +203,64 @@
 	<string name="needs_restart">设置将在重启软件后生效</string>
 	<string name="copied">内容已复制到剪贴板</string>
 
+	<!-- Funny Things -->
+	<string-array name="splashes">
+		<item>Stay hungry, stay foolish.</item>
+		<item>BlackLight 官方中文译名暂定为 ”黑灯“</item>
+		<item>BlackLight 官方中文译名暂定为 ”瞎火“</item>
+		<item>BL，才是真爱</item>
+		<item>BlackLight,可能是东半球最好用的为发烧而生的最有情怀的微博客户端。</item>
+		<item>BlackLight,岂止于赞。</item>
+		<item>你这不是大中小三个杯子吗？我要这个中杯</item>
+		<item>那么问题来了，挖掘机学校到底哪家强？？</item>
+		<item>The Big Brother is watching you.</item>
+		<item>WAR IS PEACE\nFREEDOM IS SLAVERY\nINORANCE IS STRENGTH</item>
+		<item>Who controls the past controls the future. Who controls the present controls the past.</item>
+		<item>Freedom is the freedom to say that two plus two make four. If that is granted, all else follows.</item>
+		<item>战争即和平\n自由即奴役\n无知即力量</item>
+		<item>我能吞下玻璃而不伤身体</item>
+		<item>I can eat glass. It doesn\'t hurt me.</item>
+		<item>All your base are belong to us.</item>
+		<item>IU·V = PV = nTR 由此可见 哎呦喂意思是被NTR了……</item>
+		<item>goto fail;\ngoto fail;</item>
+		<item>中国智造，惠及全球。</item>
+		<item>The quick brown fox jumps over the lazy dog.</item>
+		<item>VIM 是最好的文本编辑器！</item>
+		<item>emacs 是最好的文本编辑器!</item>
+		<item>记事本是最好的文本编辑器！</item>
+		<item>PHP 是最好的编程语言！</item>
+		<item>Java 的垃圾回收特别棒！</item>
+		<item>微软大法好！</item>
+		<item>索尼大法好！</item>
+		<item>FSF大法好！</item>
+		<item>烫烫烫烫烫</item>
+		<item>屯屯屯屯屯</item>
+		<item>锟斤拷锟斤拷</item>
+		<item>手拿两把锟斤拷，口中直呼烫烫烫</item>
+		<item>Oct 31 = Dec 25</item>
+		<item>我今天没吃药，感觉自己萌萌哒！</item>
+		<item>Tahiti is a magical palce.</item>
+		<item>千万不要按 Ctrl + W</item>
+		<item>690战术核显卡</item>
+		<item>1970年01月01日08:00 GMT +8</item>
+		<item>是上清华还是上北大呢？ [思考]</item>
+		<item>com.sun.java.swing.plaf.nimbus.InternalFrameInternalFrameTitlePane</item>
+		<item>com.sun.java.swing.plaf.nimbus.InternalFrameTitlePaneMaximizeButtonWindowNotFocusedState</item>
+		<item>不转不是中国人!!</item>
+		<item>看到这条微博就在原地转三圈，不转不是中国人！！</item>
+		<item>我们收集用户隐私是为了更好地提供服务</item>
+		<item>卧槽情怀接地气，神马浮云很给力。十动然拒又撕逼，也是醉了你麻痹。</item>
+		<item>哈哈哈哈2 3 3，看脸拉黑果取关。元芳你丫怎么看，碉堡神烦瀑布汗。</item>
+		<item>直男癌干绿茶婊，矮油不错这个屌。美分五毛细软跑，快递开门查水表。</item>
+		<item>累觉不爱小鲜肉，男神女神呵呵后。沙发板凳打酱油，土豪我们做朋友。</item>
+		<item>菜鸟给跪战五渣，感觉自己萌萌哒。逗比备胎么么哒，啪啪啪后来一发。</item>
+		<item>42是生命、宇宙以及任何事情的终极答案</item>
+		<item>不要回复！不要回复！不要回复！</item>
+		<item>对于任何应用程序512KB内存都足够了</item>
+		<item>你是个好人，但是我们不合适。我们还是做朋友吧。</item>
+		<item>MIUI Is not UI</item>
+		<item>本公司所生产的饮料中富含一千多种微量元素。</item>
+		<item>本公司所生产的饮料中绝不添加任何化学物质。</item>
+	</string-array>
+
 </resources>
