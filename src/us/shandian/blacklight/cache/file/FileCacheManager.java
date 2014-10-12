@@ -74,8 +74,24 @@ public class FileCacheManager
 			Runtime.getRuntime().exec("mkdir -p " + dist);
 		}
 		
-		Runtime.getRuntime().exec("cp " + path + " " + dist);
-		return dist + "/" + name;
+		File origFile = new File(path);
+		File distFile = new File(dist + "/" + name);
+		if (distFile.createNewFile()) {
+			FileInputStream ipt = new FileInputStream(origFile);
+			FileOutputStream opt = new FileOutputStream(distFile);
+			
+			byte[] buf = new byte[1024];
+			int len = 0;
+
+			while ((len = ipt.read(buf)) != -1) {
+				opt.write(buf, 0, len);
+			}
+
+			opt.close();
+			ipt.close();
+		}
+
+		return distFile.getAbsolutePath();
 	}
 	
 	public InputStream createCacheFromNetwork(String type, String name, String url) throws IOException {
@@ -86,7 +102,7 @@ public class FileCacheManager
 		createCache(type, name, buf);
 		conn.disconnect();
 
-		// Read From file
+// Read From file
 		return getCache(type, name);
 	}
 	
