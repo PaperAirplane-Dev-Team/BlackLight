@@ -29,8 +29,7 @@
 		android:layout_height="50dp"
 		android:layout_width="50dp"
 		android:layout_margin="5dp"
-		android:src="@color/gray"
-		style="?android:attr/buttonBarButtonStyle"/>
+		android:src="@color/gray"/>
 
 	<LinearLayout
 		android:layout_height="match_parent"
