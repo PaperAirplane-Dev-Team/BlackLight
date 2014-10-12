@@ -56,7 +56,7 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public abstract class TimeLineFragment extends Fragment implements
-		SwipeRefreshLayout.OnRefreshListener, OnScrollListener {
+		SwipeRefreshLayout.OnRefreshListener, OnScrollListener, MainActivity.Refresher {
 	
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
@@ -168,6 +168,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		mList.setFastScrollEnabled(fs);
 	}
 
+	@Override
 	public void doRefresh() {
 		mSwipeRefresh.setIsDown(false);
 
@@ -200,8 +201,8 @@ public abstract class TimeLineFragment extends Fragment implements
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		boolean shouldShow = firstVisibleItem < 1 || mRefreshing || firstVisibleItem < mLastFirst;
-		if (firstVisibleItem > 1 && firstVisibleItem == mLastFirst) {
+		boolean shouldShow = mRefreshing || firstVisibleItem < mLastFirst;
+		if (firstVisibleItem == mLastFirst) {
 			shouldShow = mFABShowing;
 		}
 

@@ -35,11 +35,12 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
+import us.shandian.blacklight.ui.main.MainActivity;
 
 /*
  * This class combines MentionsTimeLine and CommentMentionsTimeLine together
  * */
-public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher {
 	@InjectView(R.id.mentions_indicator) LinearViewPagerIndicator mIndicator;
 	@InjectView(R.id.mentions_pager) ViewPager mPager;
 
@@ -97,5 +98,11 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 		// Will be called by MainActivity
 		mRetweet.mDoRefresh = true;
 		mComment.mDoRefresh = true;
+	}
+
+	@Override
+	public void doRefresh() {
+		mRetweet.doRefresh();
+		mComment.doRefresh();
 	}
 }

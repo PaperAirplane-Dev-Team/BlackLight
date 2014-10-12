@@ -162,7 +162,7 @@ public class HomeTimeLineApiCache
 		}
 	}
 	
-	public Object getLargePic(MessageModel msg, int id) {
+	public Object getLargePic(MessageModel msg, int id, FileCacheManager.ProgressCallback callback) {
 		String url = null;
 		if (msg.hasMultiplePictures()) {
 			url = msg.pic_urls.get(id).getLarge();
@@ -187,7 +187,7 @@ public class HomeTimeLineApiCache
 
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url, callback);
 			} catch (Exception e) {
 				cache = null;
 			}

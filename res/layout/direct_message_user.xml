@@ -30,8 +30,7 @@
 		android:layout_width="50dp"
 		android:layout_centerVertical="true"
 		android:layout_margin="10dp"
-		android:src="@color/gray"
-		style="?android:attr/buttonBarButtonStyle"/>
+		android:src="@color/gray"/>
 
 	<LinearLayout
 		android:layout_height="match_parent"
