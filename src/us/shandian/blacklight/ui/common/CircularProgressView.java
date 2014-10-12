@@ -22,6 +22,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.View;
 
@@ -30,7 +31,10 @@ public class CircularProgressView extends View {
 
 	private int mForeground = Color.WHITE;
 	private int mBackground = Color.GRAY;
+	private int mTextColor = Color.BLACK;
+	private int mFontSize = 10;
 	private float mProgress = 0.0f;
+	private String mText;
 
 	public CircularProgressView(Context context) {
 		super(context);
@@ -45,6 +49,16 @@ public class CircularProgressView extends View {
 
 	public void setProgress(float value) {
 		mProgress = value;
+		invalidate();
+	}
+
+	public void setText(String text) {
+		mText = text;
+		invalidate();
+	}
+
+	public void setFontSize(int size) {
+		mFontSize = size;
 		invalidate();
 	}
 
@@ -71,6 +85,15 @@ public class CircularProgressView extends View {
 		p.setStrokeWidth(2.0f);
 		p.setColor(mForeground);
 		canvas.drawArc(r, 0, 360.0f, false, p);
+
+		if (mText != null) {
+			p.setTextSize(mFontSize);
+			p.setStyle(Paint.Style.FILL);
+			p.setColor(mTextColor);
+			Rect bounds = new Rect();
+			p.getTextBounds(mText, 0, mText.length(), bounds);
+			canvas.drawText(mText, getWidth() / 2 - bounds.exactCenterX(), getHeight() / 2 - bounds.exactCenterY(), p);
+		}
 	}
 
 }

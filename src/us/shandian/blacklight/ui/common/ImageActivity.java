@@ -151,6 +151,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 				@Override
 				public void run() {
 					p.setProgress((float) read / total);
+					p.setText(String.format("%.1f/%.1fM", (float) read / 1024 / 1024, (float) total / 1024 / 1024));
 				}
 			});
 		}
