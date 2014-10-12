@@ -35,6 +35,11 @@ import us.shandian.blacklight.support.Utility;
 
 public class FileCacheManager
 {
+
+	public static interface ProgressCallback {
+		void onProgressChanged(int read, int total);
+	}
+
 	private static FileCacheManager mInstance;
 	
 	private File mCacheDir;
@@ -93,12 +98,16 @@ public class FileCacheManager
 
 		return distFile.getAbsolutePath();
 	}
-	
+
 	public InputStream createCacheFromNetwork(String type, String name, String url) throws IOException {
+		return createCacheFromNetwork(type, name, url, null);
+	}
+	
+	public InputStream createCacheFromNetwork(String type, String name, String url, ProgressCallback callback) throws IOException {
 		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 		conn.setRequestMethod("GET");
 		conn.setConnectTimeout(5000);
-		byte[] buf = readInputStream(conn.getInputStream());
+		byte[] buf = readInputStream(conn.getInputStream(), conn.getContentLength(), callback);
 		createCache(type, name, buf);
 		conn.disconnect();
 
@@ -121,12 +130,17 @@ public class FileCacheManager
 		return mCacheDir.getPath() + "/" + type + "/" + name;
 	}
 	
-	private byte[] readInputStream(InputStream in) throws IOException {
+	private byte[] readInputStream(InputStream in, int total, ProgressCallback callback) throws IOException {
 		ByteArrayOutputStream opt = new ByteArrayOutputStream();
 		byte[] buf = new byte[1024];
-		int len = 0;
+		int len = 0, read = 0;
 		while ((len = in.read(buf)) != -1) {
 			opt.write(buf, 0, len);
+			read += len;
+
+			if (callback != null) {
+				callback.onProgressChanged(read, total);
+			}
 		}
 		in.close();
 		byte[] ret;
