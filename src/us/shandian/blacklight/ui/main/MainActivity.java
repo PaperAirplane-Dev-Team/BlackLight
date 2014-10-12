@@ -88,6 +88,11 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 /* Main Container Activity */
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
+
+	public static interface Refresher {
+		void doRefresh();
+	}
+
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
 
 	@InjectView(R.id.drawer) DrawerLayout mDrawer;
@@ -579,8 +584,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	public boolean onLongClick(View v) {
 		Fragment f = mFragments[mCurrent];
 
-		if (f instanceof TimeLineFragment) {
-			((TimeLineFragment) f).doRefresh();
+		if (f instanceof Refresher) {
+			((Refresher) f).doRefresh();
 		}
 
 		return true;

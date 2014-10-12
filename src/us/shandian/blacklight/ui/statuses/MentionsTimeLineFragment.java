@@ -43,8 +43,9 @@ public class MentionsTimeLineFragment extends TimeLineFragment
 
 		if (mDoRefresh) {
 			onRefresh();
-			mDoRefresh = false;
 		}
+
+		mDoRefresh = true;
 
 	}
 
