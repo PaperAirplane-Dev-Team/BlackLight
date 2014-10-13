@@ -20,18 +20,26 @@
 package us.shandian.blacklight.api.statuses;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.MessageModel;
+import us.shandian.blacklight.support.Emoticons.SinaEmotion;
 import us.shandian.blacklight.support.http.WeiboParameters;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class PostApi extends BaseApi
 {
+	public static final String TAG = PostApi.class.getSimpleName();
+
 	public static final int EXTRA_NONE = 0;
 	public static final int EXTRA_COMMENT = 1;
 	public static final int EXTRA_COMMENT_ORIG = 2;
@@ -162,5 +170,26 @@ public class PostApi extends BaseApi
 		}
 
 		return true;
+	}
+
+	public static ArrayList<SinaEmotion> getEmoticons(String type) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("type", type);
+
+		try {
+			String json = requestString(Constants.EMOTIONS, params, HTTP_GET);
+			ArrayList<SinaEmotion> emo = new Gson().fromJson(json, new TypeToken<ArrayList<SinaEmotion>>(){}.getType());
+
+			if (DEBUG) {
+				Log.d(TAG, "json = " + json);
+			}
+
+			return emo;
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+			return null;
+		}
 	}
 }

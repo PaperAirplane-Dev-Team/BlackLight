@@ -227,6 +227,7 @@
 	<string name="save_failed">Save failed.</string>
 	<string name="needs_restart">Will not take effect before you restart the app.</string>
 	<string name="copied">Contents copied to clipboard</string>
+	<string name="download_emoticons">Downloading emoticons...</string>
 
 	<!-- Funny things -->
 	<string-array name="splashes">

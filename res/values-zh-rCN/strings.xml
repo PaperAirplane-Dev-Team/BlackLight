@@ -202,6 +202,7 @@
 	<string name="save_failed">图片保存失败</string>
 	<string name="needs_restart">设置将在重启软件后生效</string>
 	<string name="copied">内容已复制到剪贴板</string>
+	<string name="download_emoticons">正在下载表情包...</string>
 
 	<!-- Funny Things -->
 	<string-array name="splashes">

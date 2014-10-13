@@ -46,7 +46,7 @@ public class EntryActivity extends Activity
 		// Init
 		CrashHandler.init(this);
 		CrashHandler.register();
-		Emoticons.init(this);
+		//Emoticons.init(this);
 
 		// Crash Log
 		if (FeedbackUtility.shouldSendLog(this)) {

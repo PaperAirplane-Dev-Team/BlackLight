@@ -49,9 +49,9 @@ public class EmoticonFragment extends Fragment implements AdapterView.OnItemClic
 		mGrid = (GridView) v.findViewById(R.id.emoticon_grid);
 
 		// Ensure Emoticons are not null
-		if (Emoticons.EMOTICON_BITMAPS.size() == 0) {
+		/*if (Emoticons.EMOTICON_BITMAPS.size() == 0) {
 			Emoticons.init(getActivity());
-		}
+		}*/
 		
 		// adapter
 		mAdapter = new EmoticonAdapter(getActivity());

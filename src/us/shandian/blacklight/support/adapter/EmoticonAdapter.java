@@ -74,12 +74,12 @@ public class EmoticonAdapter extends BaseAdapter
 	}
 	
 	public static void init() {
-		for (Entry<String, Bitmap> entry : Emoticons.EMOTICON_BITMAPS.entrySet()) {
+		/*for (Entry<String, Bitmap> entry : Emoticons.EMOTICON_BITMAPS.entrySet()) {
 			if (!mNames.contains(entry.getKey()) && !mBitmaps.contains(entry.getValue())) {
 				mNames.add(entry.getKey());
 				mBitmaps.add(entry.getValue());
 			}
-		}
+		}*/
 	}
 
 }

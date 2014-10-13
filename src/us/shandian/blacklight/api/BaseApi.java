@@ -40,14 +40,18 @@ public abstract class BaseApi
 	private static String mAccessToken;
 	
 	protected static JSONObject request(String url, WeiboParameters params, String method) throws Exception {
-		return request(mAccessToken, url, params, method, JSONObject.class);
+		return (JSONObject) request(mAccessToken, url, params, method, JSONObject.class);
 	}
 	
 	protected static JSONArray requestArray(String url, WeiboParameters params, String method) throws Exception {
-		return request(mAccessToken, url, params, method, JSONArray.class);
+		return (JSONArray) request(mAccessToken, url, params, method, JSONArray.class);
+	}
+
+	protected static String requestString(String url, WeiboParameters params, String method) throws Exception {
+		return (String) request(mAccessToken, url, params, method, null);
 	}
 	
-	protected static <T> T request(String token, String url, WeiboParameters params, String method, Class<T> jsonClass) throws Exception {
+	protected static Object request(String token, String url, WeiboParameters params, String method, Class<?> jsonClass) throws Exception {
 		if (token == null) {
 			return null;
 		} else {
@@ -59,9 +63,13 @@ public abstract class BaseApi
 			}
 			
 			if (jsonData != null && jsonData.contains("{")) {
-				return jsonClass.getConstructor(String.class).newInstance(jsonData);
+				try {
+					return jsonClass.getConstructor(String.class).newInstance(jsonData);
+				} catch (Exception e) {
+					return jsonData;
+				}
 			} else {
-				return null;
+				return jsonData;
 			}
 		}
 	}

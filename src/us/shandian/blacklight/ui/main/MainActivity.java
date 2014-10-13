@@ -82,7 +82,7 @@ import us.shandian.blacklight.ui.statuses.MentionsFragment;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
-
+import us.shandian.blacklight.support.Emoticons;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
@@ -135,6 +135,11 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		// Emoticons
+		if (!Emoticons.downloaded()) {
+			Emoticons.startDownload(this);
+		}
 
 		// Inflate custom decor
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -66,7 +66,7 @@ public class SpannableStringUtils
 		
 		// Match Emoticons
 		Matcher matcher = PATTERN_EMOTICON.matcher(ss);
-		while (matcher.find()) {
+		/*while (matcher.find()) {
 			// Don't be too long
 			if (matcher.end() - matcher.start() < 8) {
 				String iconName = matcher.group(0);
@@ -77,7 +77,7 @@ public class SpannableStringUtils
 					ss.setSpan(span, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}
 			}
-		}
+		}*/
 		
 		return ss;
 	}
