@@ -36,10 +36,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Emoticons;
 
 public class EmoticonAdapter extends BaseAdapter
-{
-	private static ArrayList<String> mNames = new ArrayList<String>();
-	private static ArrayList<Bitmap> mBitmaps = new ArrayList<Bitmap>();
-	
+{	
 	private LayoutInflater mInflater;
 	
 	public EmoticonAdapter(Context context) {
@@ -48,12 +45,12 @@ public class EmoticonAdapter extends BaseAdapter
 	
 	@Override
 	public int getCount() {
-		return mNames.size();
+		return Emoticons.EMOTICON_NAMES.size();
 	}
 
 	@Override
 	public String getItem(int position) {
-		return mNames.get(position);
+		return Emoticons.EMOTICON_NAMES.get(position);
 	}
 
 	@Override
@@ -63,23 +60,14 @@ public class EmoticonAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position >= mNames.size()){
+		if (position >= Emoticons.EMOTICON_NAMES.size()){
 			return convertView;
 		} else {
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.emoticon_view, null);
 			ImageView iv = ButterKnife.findById(v, R.id.emoticon_image);
-			iv.setImageBitmap(mBitmaps.get(position));
+			iv.setImageBitmap(Emoticons.getEmoticonBitmap(getItem(position)));
 			return v;
 		}
-	}
-	
-	public static void init() {
-		/*for (Entry<String, Bitmap> entry : Emoticons.EMOTICON_BITMAPS.entrySet()) {
-			if (!mNames.contains(entry.getKey()) && !mBitmaps.contains(entry.getValue())) {
-				mNames.add(entry.getKey());
-				mBitmaps.add(entry.getValue());
-			}
-		}*/
 	}
 
 }

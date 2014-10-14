@@ -66,18 +66,18 @@ public class SpannableStringUtils
 		
 		// Match Emoticons
 		Matcher matcher = PATTERN_EMOTICON.matcher(ss);
-		/*while (matcher.find()) {
+		while (matcher.find()) {
 			// Don't be too long
 			if (matcher.end() - matcher.start() < 8) {
 				String iconName = matcher.group(0);
-				Bitmap bitmap = Emoticons.EMOTICON_BITMAPS_SCALED.get(iconName);
+				Bitmap bitmap = Emoticons.getEmoticonBitmap(iconName);
 				
 				if (bitmap != null) {
 					ImageSpan span = new ImageSpan(context, bitmap, ImageSpan.ALIGN_BASELINE);
 					ss.setSpan(span, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}
 			}
-		}*/
+		}
 		
 		return ss;
 	}

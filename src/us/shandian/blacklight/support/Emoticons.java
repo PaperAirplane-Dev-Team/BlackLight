@@ -21,15 +21,23 @@ package us.shandian.blacklight.support;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Environment;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -59,6 +67,11 @@ public class Emoticons {
 	private static final String DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/emoticons/";
 	private static final String CONFIG = DIR + "config.json";
 
+	public static final ArrayList<String> EMOTICON_NAMES = new ArrayList<String>();
+	private static final HashMap<String, String> sUrls = new HashMap<String, String>();
+	private static final HashMap<String, WeakReference<Bitmap>> sBitmaps = new HashMap<String, WeakReference<Bitmap>>();
+	private static int sFontSize = 0;
+
 	public static boolean downloaded() {
 		File f = new File(CONFIG);
 		return f.exists();
@@ -66,6 +79,61 @@ public class Emoticons {
 
 	public static void startDownload(Context context) {
 		new Downloader(context).execute();
+	}
+
+	public static void init(Context context) {
+		sFontSize = Utility.getFontHeight(context, 16.0f);
+
+		String json = null;
+		try {
+			BufferedReader buf= new BufferedReader(new FileReader(CONFIG));
+			StringBuilder str = new StringBuilder();
+			String line = null;
+
+			while ((line = buf.readLine()) != null) {
+				str.append(line).append("\n");
+			}
+
+			json = str.toString();
+
+		} catch (IOException e) {
+			return;
+		}
+
+		ArrayList<EmoticonCategory> ca = new Gson().fromJson(json, new TypeToken<ArrayList<EmoticonCategory>>(){}.getType());
+
+		for (EmoticonCategory c : ca) {
+			for (Emoticon e : c.emoticons) {
+				EMOTICON_NAMES.add(e.name);
+				sUrls.put(e.name, e.file);
+			}
+		}
+	}
+
+	public static Bitmap getEmoticonBitmap(String name) {
+		WeakReference<Bitmap> ref = sBitmaps.get(name);
+		if (ref != null && ref.get() != null) {
+			return ref.get();
+		}
+
+		String url = sUrls.get(name);
+		if (url == null) {
+			return null;
+		}
+
+		Bitmap bmp = BitmapFactory.decodeFile(url);
+
+		if (bmp != null) {
+			Matrix matrix = new Matrix();
+			matrix.postScale((float) sFontSize / bmp.getWidth(), (float) sFontSize / bmp.getHeight());
+			bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+		}
+
+		ref = new WeakReference<Bitmap>(bmp);
+		sBitmaps.put(name, ref);
+
+		return bmp;
+
 	}
 
 	private static void processEmoticon(SinaEmotion emo, ArrayList<EmoticonCategory> categories) {
@@ -97,18 +165,18 @@ public class Emoticons {
 		File f = new File(emoticon.file);
 		if (!f.exists()) {
 			f.createNewFile();
+
+			FileOutputStream opt = new FileOutputStream(f);
+			byte[] buf = new byte[1024];
+			int len;
+
+			while ((len = ipt.read(buf)) != -1) {
+				opt.write(buf, 0, len);
+			}
+
+			opt.close();
+			ipt.close();
 		}
-
-		FileOutputStream opt = new FileOutputStream(f);
-		byte[] buf = new byte[1024];
-		int len;
-
-		while ((len = ipt.read(buf)) != -1) {
-			opt.write(buf, 0, len);
-		}
-
-		opt.close();
-		ipt.close();
 	}
 
 	private static EmoticonCategory getEmoticonCategory(ArrayList<EmoticonCategory> categories, String name) {
@@ -145,6 +213,10 @@ public class Emoticons {
 
 			ArrayList<SinaEmotion> face = PostApi.getEmoticons("face");
 			ArrayList<SinaEmotion> cartoon = PostApi.getEmoticons("cartoon");
+
+			if (face == null || cartoon == null || face.size() < 100 || cartoon.size() < 100)
+				return null;
+
 			publishProgress(0, face.size() + cartoon.size());
 
 			ArrayList<EmoticonCategory> categories = new ArrayList<EmoticonCategory>();
@@ -172,6 +244,8 @@ public class Emoticons {
 				}
 			} catch (IOException e) {
 			}
+
+			init(context);
 
 			return null;
 		}
