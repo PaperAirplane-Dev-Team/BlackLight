@@ -762,6 +762,20 @@ public class Utility
 			return null;
 		}
 	}
+
+	public static void deleteDirectory(File dir) {
+		File[] files = dir.listFiles();
+
+		for (File f : files) {
+			if (f.isDirectory()) {
+				deleteDirectory(f);
+			} else {
+				f.delete();
+			}
+		}
+
+		dir.delete();
+	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
 		int initialSize = computeInitialSampleSize(options, minSideLength, maxNumOfPixels);

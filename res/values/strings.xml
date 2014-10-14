@@ -180,6 +180,7 @@
 	<string name="debug_submit_log">Submit crash log</string>
 	<string name="debug_crash">(DANGER) Crash now</string>
 	<string name="debug_crash_sum">Please DON\'T report to developers if you click it.</string>
+	<string name="debug_emo_redownload">Re-download emoticons</string>
 	<string name="notification">Notification</string>
 	<string name="notification_sound">Sound</string>
 	<string name="notification_vibrate">Vibration</string>

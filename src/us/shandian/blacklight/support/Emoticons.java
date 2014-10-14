@@ -136,6 +136,10 @@ public class Emoticons {
 
 	}
 
+	public static void delete() {
+		Utility.deleteDirectory(new File(DIR));
+	}
+
 	private static void processEmoticon(SinaEmotion emo, ArrayList<EmoticonCategory> categories) {
 		EmoticonCategory ca = getEmoticonCategory(categories, emo.category);
 		if (ca == null) {

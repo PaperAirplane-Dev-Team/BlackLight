@@ -87,6 +87,10 @@
 	<PreferenceCategory
 		android:title="@string/debug">
 
+		<Preference
+			android:key="debug_emo_redownload"
+			android:title="@string/debug_emo_redownload"/>
+
 		<CheckBoxPreference
 			android:key="debug_autosubmit"
 		    android:title="@string/debug_autosubmit"

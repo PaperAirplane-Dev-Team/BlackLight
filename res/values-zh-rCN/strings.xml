@@ -155,6 +155,7 @@
 	<string name="debug_submit_log">提交崩溃日志</string>
 	<string name="debug_crash">立即崩溃</string>
 	<string name="debug_crash_sum">亲，戳了就不要再向我们报告错误了哟！</string>
+	<string name="debug_emo_redownload">重新下载表情包</string>
 	<string name="notification">通知</string>
 	<string name="notification_sound">声音</string>
 	<string name="notification_vibrate">震动</string>
