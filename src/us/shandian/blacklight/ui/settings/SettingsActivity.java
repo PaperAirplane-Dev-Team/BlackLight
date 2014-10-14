@@ -195,7 +195,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
-		mPrefRedownload);
+		mPrefRedownload.setOnPreferenceClickListener(this);
 	}
 
 	@Override
