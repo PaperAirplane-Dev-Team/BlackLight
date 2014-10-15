@@ -82,7 +82,7 @@ public class Emoticons {
 	}
 
 	public static void init(Context context) {
-		sFontSize = Utility.getFontHeight(context, 16.0f);
+		sFontSize = Utility.getFontHeight(context, 18.0f);
 
 		String json = null;
 		try {
