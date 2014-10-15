@@ -51,6 +51,7 @@ public class EmoticonFragment extends Fragment implements AdapterView.OnItemClic
 		// adapter
 		mAdapter = new EmoticonAdapter(getActivity());
 		mGrid.setAdapter(mAdapter);
+		mGrid.setFastScrollEnabled(true);
 		
 		// listener
 		mGrid.setOnItemClickListener(this);
