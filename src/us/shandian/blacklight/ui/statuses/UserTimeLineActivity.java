@@ -153,6 +153,7 @@ public class UserTimeLineActivity extends AbsActivity
 		mFollowers.setTypeface(mTypeface);
 		mFollowing.setTypeface(mTypeface);
 		mMsgs.setTypeface(mTypeface);
+		mFollowState.setTypeface(mTypeface);
 		
 		new Downloader().execute();
 		
