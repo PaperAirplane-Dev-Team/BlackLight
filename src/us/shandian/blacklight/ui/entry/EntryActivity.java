@@ -25,6 +25,7 @@ import android.os.Bundle;
 
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.file.FileCacheManager;
+import us.shandian.blacklight.receiver.ConnectivityReceiver;
 import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.CrashHandler;
@@ -44,6 +45,7 @@ public class EntryActivity extends Activity
 		FileCacheManager.instance(this).clearUnavailable();
 		
 		// Init
+		ConnectivityReceiver.readNetworkState(this);
 		CrashHandler.init(this);
 		CrashHandler.register();
 		if (Emoticons.downloaded()) {
