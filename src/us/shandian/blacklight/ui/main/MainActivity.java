@@ -514,6 +514,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		openOrCloseDrawer();
 	}*/
 
+	@Override
+	public void onBackPressed() {
+		if (mCurrent != HOME) {
+			home();
+		} else {
+			super.onBackPressed();
+		}
+	}
+
 	@OnClick(R.id.drawer_home)
 	public void home() {
 		setShowTitle(false);
