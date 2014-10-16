@@ -285,6 +285,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		if (page == HOME){
 			switchTo(HOME);
 		}else{
+			setShowTitle(true);
+			setShowSpinner(false);
 			switchAndRefresh(page);
 		}
 
