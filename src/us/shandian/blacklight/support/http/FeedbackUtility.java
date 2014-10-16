@@ -30,6 +30,7 @@ import java.io.IOException;
 
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class FeedbackUtility {
 
@@ -43,7 +44,11 @@ public class FeedbackUtility {
 		params.put("contact", contact);
 		params.put("log", readLog());
 		try {
-			HttpUtility.doRequest(LOG_API, params, HttpUtility.POST);
+			String r = HttpUtility.doRequest(LOG_API, params, HttpUtility.POST);
+
+			if (DEBUG) {
+				Log.d(TAG, "Server response: " + r);
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "WTF?! Send log failed?");
 		}
@@ -58,7 +63,11 @@ public class FeedbackUtility {
 		params.put("version", CrashHandler.VERSION);
 
 		try {
-			HttpUtility.doRequest(FEEDBACK_API, params, HttpUtility.POST);
+			String r = HttpUtility.doRequest(FEEDBACK_API, params, HttpUtility.POST);
+
+			if (DEBUG) {
+				Log.d(TAG, "Server response: " + r);
+			}
 		} catch (Exception e) {
 			Log.e(TAG, "WTF?! Send feedback failed?!");
 		}
