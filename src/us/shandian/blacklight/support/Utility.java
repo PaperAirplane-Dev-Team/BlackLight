@@ -350,18 +350,27 @@ public class Utility
 	}
 
 	public static String addUnitToInt(Context context, int i) {
-		if (i < 10000) {
-			return String.valueOf(i);
-		} else if (i < 1000000) {
-			return (int) (i / 10000) + context.getString(R.string.ten_thousand);
-		} else if (i < 10000000) {
-			return (int) (i / 1000000) + context.getString(R.string.million);
-		} else if (i < 100000000) {
-			return (int) (i / 10000000) + context.getString(R.string.ten_million);
-		} else if (i < 1000000000) {
-			return (int) (i / 100000000) + context.getString(R.string.hundred_million);
-		} else {
-			return (int) (i / 1000000000) + context.getString(R.string.billion);
+		String tenThousand = context.getString(R.string.ten_thousand);
+		String million = context.getString(R.string.million);
+		String hundredMillion = context.getString(R.string.hundred_million);
+		String billion = context.getString(R.string.billion);
+
+		if (tenThousand.equals("null")) { // English-styled number format
+			if (i < 1000000) {
+				return String.valueOf(i);
+			} else if (i < 1000000000) { // million
+				return String.valueOf(i / 1000000) + million;
+			} else { // billion
+				return String.valueOf(i / 1000000000) + billion;
+			}
+		} else { // Chinese-styled number format
+			if (i < 10000) {
+				return String.valueOf(i);
+			} else if (i < 100000000) {
+				return String.valueOf(i / 10000) + tenThousand;
+			} else {
+				return String.valueOf(i / 100000000) + hundredMillion;
+			}
 		}
 	}
 

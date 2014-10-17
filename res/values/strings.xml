@@ -104,10 +104,9 @@
 	<string name="change_group">Change group</string>
 
 	<!-- Units -->
-	<string name="ten_thousand">0K</string>
+	<string name="ten_thousand">null</string>
 	<string name="million">M</string>
-	<string name="ten_million">0M</string>
-	<string name="hundred_million">hM</string>
+	<string name="hundred_million">null</string>
 	<string name="billion">B</string>
 	
 	<!-- Single -->
