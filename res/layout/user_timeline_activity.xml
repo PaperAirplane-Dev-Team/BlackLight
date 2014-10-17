@@ -128,7 +128,7 @@
 							android:layout_height="wrap_content"
 							android:gravity="center"
 							android:singleLine="true"
-							android:textSize="20sp"
+							android:textSize="19sp"
 							android:textColor="?attr/UserInfoText"/>
 
 						<TextView
@@ -154,7 +154,7 @@
 							android:layout_height="wrap_content"
 							android:gravity="center"
 							android:singleLine="true"
-							android:textSize="20sp"
+							android:textSize="19sp"
 							android:textColor="?attr/UserInfoText"
 							android:text="0"/>
 
@@ -180,7 +180,7 @@
 							android:layout_height="wrap_content"
 							android:gravity="center"
 							android:singleLine="true"
-							android:textSize="20sp"
+							android:textSize="19sp"
 							android:textColor="?attr/UserInfoText"
 							android:text="0"/>
 
