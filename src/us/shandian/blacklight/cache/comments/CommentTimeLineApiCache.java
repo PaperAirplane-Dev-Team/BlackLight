@@ -33,11 +33,12 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.CommentListModel;
 import us.shandian.blacklight.model.MessageListModel;
 
-public class CommentTimeLineApiCache extends HomeTimeLineApiCache {
+public class CommentTimeLineApiCache extends HomeTimeLineApiCache
+{
 	public CommentTimeLineApiCache(Context context) {
 		super(context);
 	}
-
+	
 	@Override
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -69,5 +70,5 @@ public class CommentTimeLineApiCache extends HomeTimeLineApiCache {
 	protected Class<? extends MessageListModel> getListClass() {
 		return CommentListModel.class;
 	}
-
+	
 }

@@ -27,6 +27,19 @@ public class GroupModel implements Parcelable {
 	public long id;
 	public String idstr;
 	public String name;
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(id);
+		dest.writeString(idstr);
+		dest.writeString(name);
+	}
+
 	public static final Parcelable.Creator<GroupModel> CREATOR = new Parcelable.Creator<GroupModel>() {
 		@Override
 		public GroupModel createFromParcel(Parcel in) {
@@ -42,16 +55,4 @@ public class GroupModel implements Parcelable {
 			return new GroupModel[size];
 		}
 	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeString(idstr);
-		dest.writeString(name);
-	}
 }

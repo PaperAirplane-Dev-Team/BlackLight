@@ -46,39 +46,40 @@ import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class UserApiCache {
+public class UserApiCache
+{
 	private static String TAG = UserApiCache.class.getSimpleName();
-
+	
 	private static BitmapDrawable[] mVipDrawable;
-
+	
 	private static HashMap<String, SoftReference<Bitmap>> mSmallAvatarCache = new HashMap<String, SoftReference<Bitmap>>();
-
+	
 	private DataBaseHelper mHelper;
 	private FileCacheManager mManager;
-
+	
 	public UserApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
 		mManager = FileCacheManager.instance(context);
-
+		
 		if (mVipDrawable == null) {
 			mVipDrawable = new BitmapDrawable[]{
-					(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_personal_vip),
-					(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_enterprise_vip)
+				(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_personal_vip),
+				(BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_enterprise_vip)
 			};
 		}
 	}
-
+	
 	public UserModel getUser(String uid) {
 		UserModel model;
-
+		
 		model = UserApi.getUser(uid);
 
 		if (model == null) {
-			Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[]{
-					UsersTable.UID,
-					UsersTable.TIMESTAMP,
-					UsersTable.USERNAME,
-					UsersTable.JSON
+			Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[] {
+				UsersTable.UID,
+				UsersTable.TIMESTAMP,
+				UsersTable.USERNAME,
+				UsersTable.JSON
 			}, UsersTable.UID + "=?", new String[]{uid}, null, null, null);
 
 			if (cursor.getCount() >= 1) {
@@ -97,7 +98,7 @@ public class UserApiCache {
 				}
 			}
 		} else {
-
+			
 			// Insert into database
 			ContentValues values = new ContentValues();
 			values.put(UsersTable.UID, uid);
@@ -111,23 +112,23 @@ public class UserApiCache {
 			db.insert(UsersTable.NAME, null, values);
 			db.setTransactionSuccessful();
 			db.endTransaction();
-
+		
 		}
-
+		
 		return model;
 	}
-
+	
 	public UserModel getUserByName(String name) {
 		UserModel model;
-
+		
 		model = UserApi.getUserByName(name);
 
 		if (model == null) {
-			Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[]{
-					UsersTable.UID,
-					UsersTable.TIMESTAMP,
-					UsersTable.USERNAME,
-					UsersTable.JSON
+			Cursor cursor = mHelper.getReadableDatabase().query(UsersTable.NAME, new String[] {
+				UsersTable.UID,
+				UsersTable.TIMESTAMP,
+				UsersTable.USERNAME,
+				UsersTable.JSON
 			}, UsersTable.USERNAME + "=?", new String[]{name}, null, null, null);
 
 			if (cursor.getCount() >= 1) {
@@ -162,10 +163,10 @@ public class UserApiCache {
 			db.endTransaction();
 
 		}
-
+		
 		return model;
 	}
-
+	
 	public Bitmap getSmallAvatar(UserModel model) {
 		String cacheName = model.id + model.profile_image_url.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
@@ -174,7 +175,7 @@ public class UserApiCache {
 		} catch (Exception e) {
 			cache = null;
 		}
-
+		
 		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, cacheName, model.profile_image_url);
@@ -182,7 +183,7 @@ public class UserApiCache {
 				cache = null;
 			}
 		}
-
+		
 		if (cache == null) {
 			return null;
 		} else {
@@ -198,7 +199,7 @@ public class UserApiCache {
 			return bmp;
 		}
 	}
-
+	
 	public Bitmap getCachedSmallAvatar(UserModel model) {
 		if (mSmallAvatarCache.containsKey(model.id)) {
 			return mSmallAvatarCache.get(model.id).get();
@@ -206,7 +207,7 @@ public class UserApiCache {
 			return null;
 		}
 	}
-
+	
 	public Bitmap getLargeAvatar(UserModel model) {
 		String cacheName = model.id + model.avatar_large.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
@@ -238,7 +239,7 @@ public class UserApiCache {
 			return null;
 		}
 	}
-
+	
 	public Bitmap getCover(UserModel model) {
 		String url = model.getCover();
 		if (url.trim().equals("")) {
@@ -250,7 +251,7 @@ public class UserApiCache {
 		}
 
 		String cacheName = model.id + url.substring(url.lastIndexOf("/") + 1, url.length());
-
+		
 		InputStream cache;
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_COVER, cacheName);
@@ -280,5 +281,5 @@ public class UserApiCache {
 			return null;
 		}
 	}
-
+	
 }

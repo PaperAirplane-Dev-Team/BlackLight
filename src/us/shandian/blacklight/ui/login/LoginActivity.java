@@ -55,22 +55,19 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 /* BlackMagic Login Activity */
 public class LoginActivity extends AbsActivity {
 	private static final String TAG = LoginActivity.class.getSimpleName();
-
-	@InjectView(R.id.tail)
-	Spinner mTail;
-	@InjectView(R.id.username)
-	TextView mUsername;
-	@InjectView(R.id.passwd)
-	TextView mPasswd;
-
+	
+	@InjectView(R.id.tail) Spinner mTail;
+	@InjectView(R.id.username) TextView mUsername;
+	@InjectView(R.id.passwd) TextView mPasswd;
+	
 	private MenuItem mMenuItem;
-
+	
 	private String[] mTailNames;
 	private String[] mKeys;
-
+	
 	private String mAppId;
 	private String mAppSecret;
-
+	
 	private LoginApiCache mLogin;
 
 	@Override
@@ -84,16 +81,16 @@ public class LoginActivity extends AbsActivity {
 
 		// Inject
 		ButterKnife.inject(this);
-
+		
 		// Create login instance
 		mLogin = new LoginApiCache(this);
-
+		
 		// Get views
 		mTailNames = getResources().getStringArray(R.array.bm_tails);
 		mKeys = getResources().getStringArray(R.array.bm_keys);
-
+		
 		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
-
+		
 		changeTail(null, null, 0, 0);
 	}
 
@@ -112,7 +109,8 @@ public class LoginActivity extends AbsActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
 		if (item == mMenuItem) {
 			login();
 			return true;
@@ -159,9 +157,10 @@ public class LoginActivity extends AbsActivity {
 		});
 	}
 
-	private class LoginTask extends AsyncTask<String, Void, Void> {
+	private class LoginTask extends AsyncTask<String, Void, Void>
+	{
 		private ProgressDialog progDialog;
-
+		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -170,7 +169,7 @@ public class LoginActivity extends AbsActivity {
 			progDialog.setCancelable(false);
 			progDialog.show();
 		}
-
+		
 		@Override
 		protected Void doInBackground(String[] params) {
 			if (DEBUG) {
@@ -184,7 +183,7 @@ public class LoginActivity extends AbsActivity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			progDialog.dismiss();
-
+			
 			if (mLogin.getAccessToken() != null) {
 				if (DEBUG) {
 					Log.d(TAG, "Access Token:" + mLogin.getAccessToken());
@@ -192,34 +191,34 @@ public class LoginActivity extends AbsActivity {
 				}
 				mLogin.cache();
 				BaseApi.setAccessToken(mLogin.getAccessToken());
-
+				
 				// Expire date
 				String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(mLogin.getExpireDate()));
 				new AlertDialog.Builder(LoginActivity.this)
-						.setMessage(msg)
-						.setCancelable(false)
-						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.dismiss();
-								Intent i = new Intent();
-								i.setAction(Intent.ACTION_MAIN);
-								i.setClass(LoginActivity.this, MainActivity.class);
-								startActivity(i);
-								finish();
-							}
-						})
-						.create()
-						.show();
+								.setMessage(msg)
+								.setCancelable(false)
+								.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int id) {
+										dialog.dismiss();
+										Intent i = new Intent();
+										i.setAction(Intent.ACTION_MAIN);
+										i.setClass(LoginActivity.this, MainActivity.class);
+										startActivity(i);
+										finish();
+									}
+								})
+								.create()
+								.show();
 			} else {
 				// Wrong username or password
 				new AlertDialog.Builder(LoginActivity.this)
-						.setMessage(R.string.login_fail)
-						.setCancelable(true)
-						.create()
-						.show();
+								.setMessage(R.string.login_fail)
+								.setCancelable(true)
+								.create()
+								.show();
 			}
 		}
-
+		
 	}
 }

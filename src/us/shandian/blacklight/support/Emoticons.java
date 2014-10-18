@@ -43,14 +43,31 @@ import java.util.HashMap;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
-
 /*
  * Support class for loading emoticons
  */
 public class Emoticons {
-	public static final ArrayList<String> EMOTICON_NAMES = new ArrayList<String>();
+	// Sina's emoticon format
+	public static class SinaEmotion {
+		public String category;
+		public String url;
+		public String value;
+	}
+
+	public static class Emoticon {
+		public String name;
+		public String file;
+	}
+
+	public static class EmoticonCategory {
+		public String name;
+		public ArrayList<Emoticon> emoticons = new ArrayList<Emoticon>();
+	}
+
 	private static final String DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/emoticons/";
 	private static final String CONFIG = DIR + "config.json";
+
+	public static final ArrayList<String> EMOTICON_NAMES = new ArrayList<String>();
 	private static final HashMap<String, String> sUrls = new HashMap<String, String>();
 	private static final HashMap<String, WeakReference<Bitmap>> sBitmaps = new HashMap<String, WeakReference<Bitmap>>();
 	private static int sFontSize = 0;
@@ -69,7 +86,7 @@ public class Emoticons {
 
 		String json = null;
 		try {
-			BufferedReader buf = new BufferedReader(new FileReader(CONFIG));
+			BufferedReader buf= new BufferedReader(new FileReader(CONFIG));
 			StringBuilder str = new StringBuilder();
 			String line = null;
 
@@ -83,8 +100,7 @@ public class Emoticons {
 			return;
 		}
 
-		ArrayList<EmoticonCategory> ca = new Gson().fromJson(json, new TypeToken<ArrayList<EmoticonCategory>>() {
-		}.getType());
+		ArrayList<EmoticonCategory> ca = new Gson().fromJson(json, new TypeToken<ArrayList<EmoticonCategory>>(){}.getType());
 
 		for (EmoticonCategory c : ca) {
 			for (Emoticon e : c.emoticons) {
@@ -175,23 +191,6 @@ public class Emoticons {
 		}
 
 		return null;
-	}
-
-	// Sina's emoticon format
-	public static class SinaEmotion {
-		public String category;
-		public String url;
-		public String value;
-	}
-
-	public static class Emoticon {
-		public String name;
-		public String file;
-	}
-
-	public static class EmoticonCategory {
-		public String name;
-		public ArrayList<Emoticon> emoticons = new ArrayList<Emoticon>();
 	}
 
 	private static class Downloader extends AsyncTask<Void, Object, Void> {

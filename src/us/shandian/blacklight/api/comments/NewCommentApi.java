@@ -28,7 +28,8 @@ import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.support.http.WeiboParameters;
 
-public class NewCommentApi extends BaseApi {
+public class NewCommentApi extends BaseApi
+{
 	public static boolean commentOn(long id, String comment, boolean commentOrig) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("comment", comment);
@@ -48,7 +49,7 @@ public class NewCommentApi extends BaseApi {
 
 		return true;
 	}
-
+	
 	public static boolean replyTo(long id, long cid, String comment, boolean commentOrig) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("comment", comment);
@@ -69,15 +70,15 @@ public class NewCommentApi extends BaseApi {
 
 		return true;
 	}
-
+	
 	public static void deleteComment(long cid) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("cid", cid);
-
+		
 		try {
 			request(Constants.COMMENTS_DESTROY, params, HTTP_POST);
 		} catch (Exception e) {
-
+			
 		}
 	}
 }

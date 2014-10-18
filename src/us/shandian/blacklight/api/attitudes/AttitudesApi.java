@@ -25,34 +25,34 @@ import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.support.http.WeiboParameters;
 
-public class AttitudesApi extends BaseApi {
+public class AttitudesApi extends BaseApi{
 
-	public static boolean like(long id) {
+	public static boolean like(long id){
 		WeiboParameters params = new WeiboParameters();
-		params.put("attitude", "smile");
-		params.put("id", id);
+		params.put("attitude","smile");
+		params.put("id",id);
 
-		try {
-			JSONObject json = request(Constants.ATTITUDE_CREATE, params, HTTP_POST);
-			if (json.getString("attitude").equals("smile")) {
+		try{
+			JSONObject json = request(Constants.ATTITUDE_CREATE,params,HTTP_POST);
+			if (json.getString("attitude").equals("smile")){
 				return true;
 			}
-		} catch (Exception e) {
+		}catch (Exception e){
 			return false;
 		}
 		return false;
 	}
 
-	public static boolean cancelLike(long id) {
+	public static boolean cancelLike(long id){
 		WeiboParameters params = new WeiboParameters();
-		params.put("id", id);
+		params.put("id",id);
 
-		try {
-			JSONObject json = request(Constants.ATTITUDE_DESTROY, params, HTTP_POST);
-			if (json.getBoolean("result")) {
+		try{
+			JSONObject json = request(Constants.ATTITUDE_DESTROY,params,HTTP_POST);
+			if(json.getBoolean("result")){
 				return true;
 			}
-		} catch (Exception e) {
+		}catch (Exception e){
 			return false;
 		}
 		return false;

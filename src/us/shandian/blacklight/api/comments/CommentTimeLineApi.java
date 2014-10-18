@@ -33,9 +33,10 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Fetches Comments Time Line */
-public class CommentTimeLineApi extends BaseApi {
+public class CommentTimeLineApi extends BaseApi
+{
 	private static String TAG = CommentTimeLineApi.class.getSimpleName();
-
+	
 	public static CommentListModel fetchCommentTimeLine(int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("count", count);
@@ -51,7 +52,7 @@ public class CommentTimeLineApi extends BaseApi {
 			return null;
 		}
 	}
-
+	
 	public static CommentListModel fetchCommentTimeLineSince(long id) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("since_id", id);
@@ -66,5 +67,5 @@ public class CommentTimeLineApi extends BaseApi {
 			return null;
 		}
 	}
-
+	
 }

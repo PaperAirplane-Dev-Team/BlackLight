@@ -26,7 +26,8 @@ import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.support.http.WeiboParameters;
 
 /* Current Account Api of Sina Weibo */
-public class AccountApi extends BaseApi {
+public class AccountApi extends BaseApi
+{
 	public static String getUid() {
 		try {
 			JSONObject json = request(Constants.GET_UID, new WeiboParameters(), HTTP_GET);

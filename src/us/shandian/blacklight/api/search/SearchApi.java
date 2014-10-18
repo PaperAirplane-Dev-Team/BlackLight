@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+ 
 package us.shandian.blacklight.api.search;
 
 import android.util.Log;
@@ -36,9 +36,10 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class SearchApi extends BaseApi {
+public class SearchApi extends BaseApi
+{
 	public static final String TAG = SearchApi.class.getSimpleName();
-
+	
 	public static MessageListModel searchStatus(String q, int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("q", q);
@@ -55,7 +56,7 @@ public class SearchApi extends BaseApi {
 			return null;
 		}
 	}
-
+	
 	public static UserListModel searchUser(String q, int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("q", q);
@@ -72,22 +73,22 @@ public class SearchApi extends BaseApi {
 			return null;
 		}
 	}
-
+	
 	public static ArrayList<String> suggestAtUser(String q, int count) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("q", q);
 		params.put("count", count);
 		params.put("type", 0);
 		params.put("range", 0);
-
+		
 		try {
 			JSONArray json = requestArray(Constants.SEARCH_SUGGESTIONS_AT_USERS, params, HTTP_GET);
 			ArrayList<String> ret = new ArrayList<String>();
-
+			
 			for (int i = 0; i < json.length(); i++) {
 				ret.add(json.getJSONObject(i).optString("nickname"));
 			}
-
+			
 			return ret;
 		} catch (Exception e) {
 			if (DEBUG) {

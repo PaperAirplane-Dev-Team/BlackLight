@@ -25,10 +25,23 @@ import android.os.Parcelable;
 /*
   This is a connection between DirectMessage and User
 */
-public class DirectMessageUserModel implements Parcelable {
+public class DirectMessageUserModel implements Parcelable
+{
 	// JSON Mapping
 	public UserModel user;
 	public DirectMessageModel direct_message;
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(user, flags);
+		dest.writeParcelable(direct_message, flags);
+	}
+	
 	public static final Parcelable.Creator<DirectMessageUserModel> CREATOR = new Parcelable.Creator<DirectMessageUserModel>() {
 		@Override
 		public DirectMessageUserModel createFromParcel(Parcel in) {
@@ -43,16 +56,5 @@ public class DirectMessageUserModel implements Parcelable {
 			return new DirectMessageUserModel[size];
 		}
 	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(user, flags);
-		dest.writeParcelable(direct_message, flags);
-	}
 
 }

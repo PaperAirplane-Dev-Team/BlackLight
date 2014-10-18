@@ -33,33 +33,14 @@ import us.shandian.blacklight.support.StatusTimeUtils;
   A list of comments
 */
 
-public class CommentListModel extends MessageListModel {
+public class CommentListModel extends MessageListModel
+{
 	private List<CommentModel> comments = new ArrayList<CommentModel>();
-	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
-
-		@Override
-		public CommentListModel createFromParcel(Parcel in) {
-			CommentListModel ret = new CommentListModel();
-			ret.total_number = in.readInt();
-			ret.previous_cursor = in.readString();
-			ret.next_cursor = in.readString();
-			in.readTypedList(ret.comments, CommentModel.CREATOR);
-
-			return ret;
-		}
-
-		@Override
-		public CommentListModel[] newArray(int size) {
-			return new CommentListModel[size];
-		}
-
-
-	};
 
 	@Override
 	public void spanAll(Context context) {
 		super.spanAll(context);
-
+		
 		for (CommentModel comment : comments) {
 			if (comment.reply_comment != null) {
 				comment.reply_comment.origSpan = SpannableStringUtils.getOrigSpan(context, comment.reply_comment);
@@ -81,7 +62,7 @@ public class CommentListModel extends MessageListModel {
 			}
 		}
 	}
-
+	
 	@Override
 	public int getSize() {
 		return comments.size();
@@ -107,7 +88,7 @@ public class CommentListModel extends MessageListModel {
 			}
 			total_number = values.total_number;
 		}
-
+		
 	}
 
 	@Override
@@ -123,4 +104,25 @@ public class CommentListModel extends MessageListModel {
 		dest.writeTypedList(comments);
 	}
 
+	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
+
+		@Override
+		public CommentListModel createFromParcel(Parcel in) {
+			CommentListModel ret = new CommentListModel();
+			ret.total_number = in.readInt();
+			ret.previous_cursor = in.readString();
+			ret.next_cursor = in.readString();
+			in.readTypedList(ret.comments, CommentModel.CREATOR);
+
+			return ret;
+		}
+
+		@Override
+		public CommentListModel[] newArray(int size) {
+			return new CommentListModel[size];
+		}
+
+
+	};
+	
 }

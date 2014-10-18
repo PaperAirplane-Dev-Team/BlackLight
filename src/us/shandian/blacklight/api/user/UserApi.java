@@ -33,13 +33,14 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Apis to read / write user info */
-public class UserApi extends BaseApi {
+public class UserApi extends BaseApi
+{
 	private static String TAG = UserApi.class.getSimpleName();
-
+	
 	public static UserModel getUser(String uid) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
-
+		
 		try {
 			JSONObject json = request(Constants.USER_SHOW, params, HTTP_GET);
 			UserModel user = new Gson().fromJson(json.toString().replaceAll("-Weibo", ""), UserModel.class);
@@ -51,7 +52,7 @@ public class UserApi extends BaseApi {
 			return null;
 		}
 	}
-
+	
 	public static UserModel getUserByName(String name) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("screen_name", name);

@@ -32,7 +32,8 @@ import us.shandian.blacklight.cache.database.tables.FavListTable;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageListModel;
 
-public class FavListApiCache extends HomeTimeLineApiCache {
+public class FavListApiCache extends HomeTimeLineApiCache
+{
 	public FavListApiCache(Context context) {
 		super(context);
 	}

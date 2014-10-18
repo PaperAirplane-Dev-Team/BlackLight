@@ -22,7 +22,8 @@ package us.shandian.blacklight.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavListModel {
+public class FavListModel
+{
 	private List<FavModel> favorites = new ArrayList<FavModel>();
 
 	public MessageListModel toMsgList() {
@@ -30,13 +31,13 @@ public class FavListModel {
 		msg.total_number = 0;
 		msg.previous_cursor = "";
 		msg.next_cursor = "";
-
+		
 		List<MessageModel> msgs = (List<MessageModel>) msg.getList();
-
+		
 		for (FavModel fav : favorites) {
 			msgs.add(fav.status);
 		}
-
+		
 		return msg;
 	}
 }

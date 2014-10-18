@@ -27,7 +27,8 @@ import us.shandian.blacklight.cache.comments.CommentMentionsTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class CommentMentionsTimeLineFragment extends TimeLineFragment {
+public class CommentMentionsTimeLineFragment extends TimeLineFragment
+{
 
 	public boolean mDoRefresh = false;
 
@@ -62,5 +63,5 @@ public class CommentMentionsTimeLineFragment extends TimeLineFragment {
 			RemindApi.clearUnread(Type.Mention_Cmt.str);
 		}
 	}
-
+	
 }

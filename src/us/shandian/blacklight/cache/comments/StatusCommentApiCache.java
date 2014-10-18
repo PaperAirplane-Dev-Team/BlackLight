@@ -33,9 +33,10 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.CommentListModel;
 import us.shandian.blacklight.model.MessageListModel;
 
-public class StatusCommentApiCache extends HomeTimeLineApiCache {
+public class StatusCommentApiCache extends HomeTimeLineApiCache
+{
 	private long mId;
-
+	
 	public StatusCommentApiCache(Context context, long id) {
 		super(context);
 		mId = id;
@@ -45,7 +46,7 @@ public class StatusCommentApiCache extends HomeTimeLineApiCache {
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
-
+		
 		db.delete(StatusCommentTable.NAME, StatusCommentTable.MSGID + "=?", new String[]{String.valueOf(mId)});
 
 		ContentValues values = new ContentValues();
@@ -61,8 +62,8 @@ public class StatusCommentApiCache extends HomeTimeLineApiCache {
 	@Override
 	protected Cursor query() {
 		return mHelper.getReadableDatabase().query(StatusCommentTable.NAME, new String[]{
-				StatusCommentTable.MSGID,
-				StatusCommentTable.JSON
+			StatusCommentTable.MSGID,
+			StatusCommentTable.JSON
 		}, StatusCommentTable.MSGID + "=?", new String[]{String.valueOf(mId)}, null, null, null);
 	}
 

@@ -31,7 +31,8 @@ import us.shandian.blacklight.ui.statuses.TimeLineFragment;
   Similar with HomeTimeLine, so we just extend this from HomeTimeLine
   To avoid unnecessary extra work
  */
-public class CommentTimeLineFragment extends TimeLineFragment {
+public class CommentTimeLineFragment extends TimeLineFragment
+{
 
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {

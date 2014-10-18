@@ -26,11 +26,12 @@ import android.view.MotionEvent;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class HackyViewPager extends ViewPager {
+public class HackyViewPager extends ViewPager
+{
 	public HackyViewPager(Context context) {
 		super(context);
 	}
-
+	
 	public HackyViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}

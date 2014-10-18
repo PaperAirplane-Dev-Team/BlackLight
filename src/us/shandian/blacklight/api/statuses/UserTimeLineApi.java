@@ -29,7 +29,8 @@ import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.http.WeiboParameters;
 
 /* Fetches messages published by an exact user */
-public class UserTimeLineApi extends BaseApi {
+public class UserTimeLineApi extends BaseApi
+{
 	public static MessageListModel fetchUserTimeLine(String uid, int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);

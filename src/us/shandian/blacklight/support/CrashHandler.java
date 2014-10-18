@@ -27,20 +27,19 @@ import android.os.Environment;
 import java.io.File;
 import java.io.PrintWriter;
 
-public class CrashHandler implements Thread.UncaughtExceptionHandler {
+public class CrashHandler implements Thread.UncaughtExceptionHandler
+{
 	public static String CRASH_DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/";
 	public static String CRASH_LOG = CRASH_DIR + "last_crash.log";
 	public static String CRASH_TAG = CRASH_DIR + ".crashed";
-	public static String VERSION = "Unknown";
+
 	private static String ANDROID = Build.VERSION.RELEASE;
 	private static String MODEL = Build.MODEL;
 	private static String MANUFACTURER = Build.MANUFACTURER;
-	private Thread.UncaughtExceptionHandler mPrevious;
+	
+	public static String VERSION = "Unknown";
 
-	private CrashHandler() {
-		mPrevious = Thread.currentThread().getUncaughtExceptionHandler();
-		Thread.currentThread().setUncaughtExceptionHandler(this);
-	}
+	private Thread.UncaughtExceptionHandler mPrevious;
 
 	public static void init(Context context) {
 		try {
@@ -51,11 +50,16 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		}
 		Settings settings = Settings.getInstance(context);
 	}
-
+	
 	public static void register() {
 		new CrashHandler();
 	}
-
+	
+	private CrashHandler() {
+		mPrevious = Thread.currentThread().getUncaughtExceptionHandler();
+		Thread.currentThread().setUncaughtExceptionHandler(this);
+	}
+	
 	@Override
 	public void uncaughtException(Thread thread, Throwable throwable) {
 		File f = new File(CRASH_LOG);
@@ -69,14 +73,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 				return;
 			}
 		}
-
+		
 		PrintWriter p;
 		try {
 			p = new PrintWriter(f);
 		} catch (Exception e) {
 			return;
 		}
-
+		
 		p.write("Android Version: " + ANDROID + "\n");
 		p.write("Device Model: " + MODEL + "\n");
 		p.write("Device Manufacturer: " + MANUFACTURER + "\n");
@@ -91,7 +95,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		} catch (Exception e) {
 			return;
 		}
-
+		
 		if (mPrevious != null) {
 			mPrevious.uncaughtException(thread, throwable);
 		}

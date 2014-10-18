@@ -35,38 +35,6 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 public class RemindApi extends BaseApi {
 	private static final String TAG = RemindApi.class.getSimpleName();
 
-	public static UnreadModel getUnread(String uid) {
-		WeiboParameters params = new WeiboParameters();
-		params.put("uid", uid);
-		params.put("unread_message", 0);
-
-		try {
-			JSONObject json = request(Constants.REMIND_UNREAD_COUNT, params, HTTP_GET);
-			return new Gson().fromJson(json.toString(), UnreadModel.class);
-		} catch (Exception e) {
-			if (DEBUG) {
-				Log.e(TAG, "Failed to get unread count");
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-		}
-
-		return null;
-	}
-
-	public static void clearUnread(String type) {
-		WeiboParameters params = new WeiboParameters();
-		params.put("type", type);
-
-		try {
-			request(Constants.REMIND_UNREAD_SET_COUNT, params, HTTP_POST);
-		} catch (Exception e) {
-			if (DEBUG) {
-				Log.e(TAG, "Cannot clear unread count");
-				Log.e(TAG, Log.getStackTraceString(e));
-			}
-		}
-	}
-
 	public enum Type {
 		Follower("follower"),
 		Cmt("cmt"),
@@ -83,6 +51,38 @@ public class RemindApi extends BaseApi {
 
 		Type(String str) {
 			this.str = str;
+		}
+	}
+
+	public static UnreadModel getUnread(String uid) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("uid", uid);
+		params.put("unread_message", 0);
+
+		try {
+			JSONObject json = request(Constants.REMIND_UNREAD_COUNT, params, HTTP_GET);
+			return new Gson().fromJson(json.toString(), UnreadModel.class);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Failed to get unread count");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+		
+		return null;
+	}
+
+	public static void clearUnread(String type) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("type", type);
+
+		try {
+			request(Constants.REMIND_UNREAD_SET_COUNT, params, HTTP_POST);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, "Cannot clear unread count");
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
 	}
 }

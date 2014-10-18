@@ -24,9 +24,10 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class StatusCommentFragment extends TimeLineFragment {
+public class StatusCommentFragment extends TimeLineFragment
+{
 	private long mId;
-
+	
 	public StatusCommentFragment(long id) {
 		mBindOrig = false;
 		mId = id;
@@ -39,12 +40,12 @@ public class StatusCommentFragment extends TimeLineFragment {
 
 	@Override
 	protected void initTitle() {
-
+		
 	}
-
+	
 	@Override
 	protected void newPost() {
 		((SingleActivity) getActivity()).commentOn();
 	}
-
+	
 }

@@ -32,28 +32,29 @@ import us.shandian.blacklight.cache.database.DataBaseHelper;
 import us.shandian.blacklight.cache.database.tables.DirectMessageUserTable;
 import us.shandian.blacklight.model.DirectMessageUserListModel;
 
-public class DirectMessagesUserApiCache {
+public class DirectMessagesUserApiCache
+{
 	public DirectMessageUserListModel mUsers = new DirectMessageUserListModel();
 	private DataBaseHelper mHelper;
-
+	
 	public DirectMessagesUserApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
 	}
-
+	
 	public void loadFromCache() {
 		Cursor cursor = mHelper.getReadableDatabase().query(DirectMessageUserTable.NAME, null, null, null, null, null, null);
-
+		
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			String json = cursor.getString(cursor.getColumnIndex(DirectMessageUserTable.JSON));
-
+			
 			DirectMessageUserListModel m = new Gson().fromJson(json, DirectMessageUserListModel.class);
 			if (m != null) {
 				mUsers.addAll(true, m);
 			}
 		}
 	}
-
+	
 	public void load(boolean toTop) {
 		DirectMessageUserListModel m;
 		if (toTop) {
@@ -61,14 +62,14 @@ public class DirectMessagesUserApiCache {
 		} else {
 			m = DirectMessagesApi.getUserList(Constants.HOME_TIMELINE_PAGE_SIZE, Integer.parseInt(mUsers.next_cursor));
 		}
-
+		
 		if (m != null) {
 			if (toTop || Integer.parseInt(mUsers.next_cursor) != 0) {
 				mUsers.addAll(toTop, m);
 			}
 		}
 	}
-
+	
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();

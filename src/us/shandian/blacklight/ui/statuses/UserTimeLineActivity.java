@@ -58,58 +58,50 @@ import us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
 
-public class UserTimeLineActivity extends AbsActivity {
-	//@InjectView(R.id.user_name) TextView mName;
-	@InjectView(R.id.user_follow_state)
-	TextView mFollowState;
-	@InjectView(R.id.user_follow_img)
-	ImageView mFollowImg;
-	@InjectView(R.id.user_des)
-	TextView mDes;
-	@InjectView(R.id.user_des_scroll)
-	ScrollView mDesScroll;
-	@InjectView(R.id.user_followers)
-	TextView mFollowers;
-	@InjectView(R.id.user_following)
-	TextView mFollowing;
-	@InjectView(R.id.user_msgs)
-	TextView mMsgs;
-	//@InjectView(R.id.user_like) TextView mLikes;
-	//@InjectView(R.id.user_geo) TextView mGeo;
-	@InjectView(R.id.user_avatar)
-	ImageView mAvatar;
-	@InjectView(R.id.user_cover)
-	ImageView mCover;
-	@InjectView(R.id.user_following_container)
-	View mFollowingContainer;
-	@InjectView(R.id.user_follow)
-	LinearLayout mLayoutFollowState;
-	@InjectView(R.id.user_slide)
-	GenerousSlidingUpPanelLayout mSlide;
+public class UserTimeLineActivity extends AbsActivity
+{
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
+	
+	//@InjectView(R.id.user_name) TextView mName;
+	@InjectView(R.id.user_follow_state) TextView mFollowState;
+	@InjectView(R.id.user_follow_img) ImageView mFollowImg;
+	@InjectView(R.id.user_des) TextView mDes;
+	@InjectView(R.id.user_des_scroll) ScrollView mDesScroll;
+	@InjectView(R.id.user_followers) TextView mFollowers;
+	@InjectView(R.id.user_following) TextView mFollowing;
+	@InjectView(R.id.user_msgs) TextView mMsgs;
+	//@InjectView(R.id.user_like) TextView mLikes;
+	//@InjectView(R.id.user_geo) TextView mGeo;
+	@InjectView(R.id.user_avatar) ImageView mAvatar;
+	@InjectView(R.id.user_cover) ImageView mCover;
+	@InjectView(R.id.user_following_container) View mFollowingContainer;
+	@InjectView(R.id.user_follow) LinearLayout mLayoutFollowState;
+	
+	@InjectView(R.id.user_slide) GenerousSlidingUpPanelLayout mSlide;
+	
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
-
+	
 	private UserApiCache mCache;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_timeline_activity);
 
 		mCache = new UserApiCache(this);
 
 		// Arguments
 		mModel = getIntent().getParcelableExtra("user");
-
+		
 		// Inject
 		ButterKnife.inject(this);
 
 		getActionBar().setTitle(mModel.name);
-
+		
 		// Init PanelSlideListener
-		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
 
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
@@ -123,25 +115,25 @@ public class UserTimeLineActivity extends AbsActivity {
 
 			@Override
 			public void onPanelExpanded(View panel) {
-
+				
 			}
 
 			@Override
 			public void onPanelAnchored(View panel) {
-
+				
 			}
-
+			
 		});
-
+		
 		// View values
 		//mName.setText(mModel.getName());
-
+		
 		// Follower state (following/followed/each other)
 		resetFollowState();
-		if (mModel.id.equals((new UserApiCache(this).getUser((new LoginApiCache(this).getUid())).id))) {
+		if (mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
 			mLayoutFollowState.setVisibility(View.GONE);
 		}
-
+		
 		// Also view values
 		mDes.setText(mModel.description);
 		mFollowers.setText(Utility.addUnitToInt(this, mModel.followers_count));
@@ -156,9 +148,9 @@ public class UserTimeLineActivity extends AbsActivity {
 		mFollowing.setTypeface(mTypeface);
 		mMsgs.setTypeface(mTypeface);
 		mFollowState.setTypeface(mTypeface);
-
+		
 		new Downloader().execute();
-
+		
 		mFragment = new UserTimeLineFragment(mModel.id);
 		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
 
@@ -192,7 +184,7 @@ public class UserTimeLineActivity extends AbsActivity {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -236,7 +228,7 @@ public class UserTimeLineActivity extends AbsActivity {
 		mDesScroll.clearAnimation();
 
 		AlphaAnimation anim = null;
-
+		
 		final int start = mDesScroll.getVisibility();
 
 		if (start == View.VISIBLE) {
@@ -275,7 +267,7 @@ public class UserTimeLineActivity extends AbsActivity {
 		mDesScroll.setAnimation(anim);
 		anim.start();
 	}
-
+	
 	private void resetFollowState() {
 		if (mModel.follow_me && mModel.following) {
 			mFollowImg.setImageResource(R.drawable.ic_arrow);
@@ -290,7 +282,7 @@ public class UserTimeLineActivity extends AbsActivity {
 			mFollowImg.setImageResource(R.drawable.ic_action_new);
 			mFollowState.setText(R.string.no_following);
 		}
-
+		
 		if (mMenuFollow != null) {
 			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 			mMenuFollow.setTitle(getString(mModel.following ? R.string.unfollow : R.string.follow));
@@ -374,7 +366,7 @@ public class UserTimeLineActivity extends AbsActivity {
 		protected Void doInBackground(Object... params) {
 			GroupModel[] groups = (GroupModel[]) params[0];
 			boolean[] checked = (boolean[]) params[1];
-
+			
 			for (int i = 0; i < groups.length; i++) {
 				if (checked[i]) {
 					GroupsApi.addMemberToGroup(mModel.id, groups[i].idstr);
@@ -392,7 +384,7 @@ public class UserTimeLineActivity extends AbsActivity {
 		}
 
 	}
-
+	
 	private class Follower extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -401,7 +393,7 @@ public class UserTimeLineActivity extends AbsActivity {
 			} else {
 				FriendsApi.follow(mModel.id);
 			}
-
+			
 			mModel.following = !mModel.following;
 			return null;
 		}
@@ -409,11 +401,11 @@ public class UserTimeLineActivity extends AbsActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-
+			
 			resetFollowState();
 		}
 	}
-
+	
 	private class Downloader extends AsyncTask<Void, Object, Void> {
 
 		@Override
@@ -433,14 +425,14 @@ public class UserTimeLineActivity extends AbsActivity {
 			// Refresh state
 			mModel = mCache.getUser(mModel.id);
 			publishProgress(2);
-
+			
 			return null;
 		}
 
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
-
+			
 			switch (Integer.parseInt(String.valueOf(values[0]))) {
 				case 0:
 					if (mAvatar != null) {

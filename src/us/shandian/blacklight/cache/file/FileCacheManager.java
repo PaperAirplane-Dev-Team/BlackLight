@@ -33,23 +33,29 @@ import java.net.URL;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.support.Utility;
 
-public class FileCacheManager {
+public class FileCacheManager
+{
+
+	public static interface ProgressCallback {
+		void onProgressChanged(int read, int total);
+	}
 
 	private static FileCacheManager mInstance;
+	
 	private File mCacheDir;
-
+	
 	private FileCacheManager(Context context) {
 		mCacheDir = context.getExternalCacheDir();
 	}
-
+	
 	public static synchronized FileCacheManager instance(Context context) {
 		if (mInstance == null) {
 			mInstance = new FileCacheManager(context);
 		}
-
+		
 		return mInstance;
 	}
-
+	
 	public void createCache(String type, String name, byte[] data) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
 		File f = new File(path);
@@ -58,7 +64,7 @@ public class FileCacheManager {
 		}
 		f.getParentFile().mkdirs();
 		f.createNewFile();
-
+		
 		FileOutputStream opt = new FileOutputStream(path);
 		opt.write(data);
 		opt.close();
@@ -72,13 +78,13 @@ public class FileCacheManager {
 		} catch (Exception e) {
 			Runtime.getRuntime().exec("mkdir -p " + dist);
 		}
-
+		
 		File origFile = new File(path);
 		File distFile = new File(dist + "/" + name);
 		if (distFile.createNewFile()) {
 			FileInputStream ipt = new FileInputStream(origFile);
 			FileOutputStream opt = new FileOutputStream(distFile);
-
+			
 			byte[] buf = new byte[1024];
 			int len = 0;
 
@@ -96,7 +102,7 @@ public class FileCacheManager {
 	public InputStream createCacheFromNetwork(String type, String name, String url) throws IOException {
 		return createCacheFromNetwork(type, name, url, null);
 	}
-
+	
 	public InputStream createCacheFromNetwork(String type, String name, String url, ProgressCallback callback) throws IOException {
 		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 		conn.setRequestMethod("GET");
@@ -108,7 +114,7 @@ public class FileCacheManager {
 		// Read From file
 		return getCache(type, name);
 	}
-
+	
 	public InputStream getCache(String type, String name) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
 		File f = new File(path);
@@ -123,7 +129,7 @@ public class FileCacheManager {
 	public String getCachePath(String type, String name) {
 		return mCacheDir.getPath() + "/" + type + "/" + name;
 	}
-
+	
 	private byte[] readInputStream(InputStream in, int total, ProgressCallback callback) throws IOException {
 		ByteArrayOutputStream opt = new ByteArrayOutputStream();
 		byte[] buf = new byte[1024];
@@ -146,7 +152,7 @@ public class FileCacheManager {
 		opt.close();
 		return ret;
 	}
-
+	
 	public void clearUnavailable() {
 		try {
 			clearUnavailable(mCacheDir);
@@ -155,7 +161,7 @@ public class FileCacheManager {
 			// Just ignore
 		}
 	}
-
+	
 	private void clearUnavailable(File dir) {
 		File[] files = dir.listFiles();
 		for (File f : files) {
@@ -168,9 +174,5 @@ public class FileCacheManager {
 				}
 			}
 		}
-	}
-
-	public static interface ProgressCallback {
-		void onProgressChanged(int read, int total);
 	}
 }

@@ -35,19 +35,20 @@ import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 
-public class UserAdapter extends BaseAdapter {
+public class UserAdapter extends BaseAdapter
+{
 	private UserListModel mUsers;
 	private UserListModel mClone;
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
-
+	
 	public UserAdapter(Context context, UserListModel users) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);
 		mUsers = users;
 		notifyDataSetChanged();
 	}
-
+	
 	@Override
 	public int getCount() {
 		return mClone.getSize();
@@ -71,18 +72,18 @@ public class UserAdapter extends BaseAdapter {
 			UserModel usr = mClone.get(position);
 
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.user_list_item, null);
-
+			
 			ImageView avatar = ButterKnife.findById(v, R.id.user_list_avatar);
 			TextView name = ButterKnife.findById(v, R.id.user_list_name);
 			TextView des = ButterKnife.findById(v, R.id.user_list_des);
-
+				
 			name.setText(usr.getName());
 			des.setText(usr.description);
 			avatar.setImageBitmap(null);
 			v.setTag(usr);
-
+			
 			new AvatarDownloader().execute(avatar, usr, v);
-
+			
 			return v;
 		}
 	}
@@ -92,17 +93,17 @@ public class UserAdapter extends BaseAdapter {
 		mClone = mUsers.clone();
 		super.notifyDataSetChanged();
 	}
-
+	
 	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {
 		@Override
 		protected Object[] doInBackground(Object... params) {
 			UserModel usr = (UserModel) params[1];
-
+			
 			Bitmap bmp = mUserApi.getSmallAvatar(usr);
-
+			
 			return new Object[]{params[0], bmp, params[2], usr};
 		}
-
+		
 		@Override
 		protected void onPostExecute(Object... result) {
 			if (result[0] != null && result[1] != null) {

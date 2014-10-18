@@ -33,14 +33,15 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Fetches a Home Timeline */
-public class HomeTimeLineApi extends BaseApi {
+public class HomeTimeLineApi extends BaseApi
+{
 	private static final String TAG = HomeTimeLineApi.class.getSimpleName();
-
+	
 	public static MessageListModel fetchHomeTimeLine(int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("count", count);
 		params.put("page", page);
-
+		
 		try {
 			JSONObject json = request(Constants.HOME_TIMELINE, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), MessageListModel.class);

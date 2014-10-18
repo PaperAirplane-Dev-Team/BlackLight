@@ -35,7 +35,8 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 /*
   Searches for statuses with an exact topic
 */
-public class TopicsApi extends BaseApi {
+public class TopicsApi extends BaseApi
+{
 	private static final String TAG = TopicsApi.class.getSimpleName();
 
 	public static MessageListModel searchTopic(String q, int count, int page) {

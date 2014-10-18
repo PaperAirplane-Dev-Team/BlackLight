@@ -29,11 +29,12 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 /*
   Tiny hack of ListView. Prevents crash when refreshing.
 */
-public class HackyListView extends ListView {
+public class HackyListView extends ListView
+{
 	public HackyListView(Context context) {
 		super(context);
 	}
-
+	
 	public HackyListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -47,7 +48,7 @@ public class HackyListView extends ListView {
 			if (DEBUG) {
 				e.printStackTrace();
 			}
-
+			
 			return false;
 		}
 	}

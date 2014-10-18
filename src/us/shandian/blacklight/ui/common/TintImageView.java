@@ -34,7 +34,7 @@ import us.shandian.blacklight.R;
  */
 
 public class TintImageView extends ImageView {
-
+	
 	public TintImageView(Context context) {
 		this(context, null);
 	}

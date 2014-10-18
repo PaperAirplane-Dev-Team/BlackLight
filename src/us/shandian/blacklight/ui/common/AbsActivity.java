@@ -42,7 +42,7 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
-
+		
 		// Common ActionBar settings
 		getActionBar().setCustomView(R.layout.action_custom_up);
 		getActionBar().setDisplayShowCustomEnabled(true);

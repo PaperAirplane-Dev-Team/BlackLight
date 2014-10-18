@@ -23,18 +23,19 @@ import us.shandian.blacklight.api.search.SearchApi;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.ui.friendships.FriendsFragment;
 
-public class SearchUserFragment extends FriendsFragment implements SearchFragment.Searcher {
+public class SearchUserFragment extends FriendsFragment implements SearchFragment.Searcher
+{
 	private String mSearch;
 	private int mPage = 0;
-
+	
 	@Override
 	public void search(String q) {
 		mSearch = q;
-
+		
 		try {
 			onRefresh();
 		} catch (NullPointerException e) {
-
+			
 		}
 	}
 
@@ -44,9 +45,9 @@ public class SearchUserFragment extends FriendsFragment implements SearchFragmen
 			mPage = 0;
 			mUsers.getList().clear();
 		}
-
+		
 		UserListModel user = SearchApi.searchUser(mSearch, 50, ++mPage);
-
+		
 		mUsers.addAll(param, user);
 	}
 

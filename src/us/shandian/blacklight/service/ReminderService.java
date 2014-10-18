@@ -55,8 +55,137 @@ public class ReminderService extends IntentService {
 	private static final int ID_MENTION = ID + 2;
 	private static final int ID_DM = ID + 3;
 
+	private void doFetchRemind() {
+		LoginApiCache cache = new LoginApiCache(this);
+		String uid = cache.getUid();
+
+		if (!TextUtils.isEmpty(uid)) {
+			UnreadModel unread = RemindApi.getUnread(uid);
+
+			if (DEBUG) {
+				Log.d(TAG, "unread got: " + (unread != null));
+			}
+
+			doUpdateNotifications(unread);
+		}
+	}
+
+	private void doUpdateNotifications(UnreadModel unread) {
+		if (DEBUG) {
+			Log.d(TAG, "update notifications");
+		}
+
+		Context c = getApplicationContext();
+
+		if (unread != null) {
+			Settings settings = Settings.getInstance(c);
+			String previous = settings.getString(Settings.NOTIFICATION_ONGOING, "");
+			String now = unread.toString();
+			if (now.equals(previous)) {
+				Log.d(TAG, "No actual unread notifications.");
+				return;
+			} else {
+				settings.putString(Settings.NOTIFICATION_ONGOING, now);
+			}
+			
+			int defaults = parseDefaults(c);
+			Intent i = new Intent(c, EntryActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			PendingIntent pi;
+			String clickToView = c.getString(R.string.click_to_view);
+			NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+
+			if (unread.cmt > 0) {
+				if (DEBUG) {
+					Log.d(TAG, "New comment: " + unread.cmt);
+				}
+
+				i.putExtra(Intent.EXTRA_INTENT, MainActivity.COMMENT);
+				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+				Notification n = buildNotification(c,
+						format(c, R.string.new_comment, unread.cmt),
+						clickToView,
+						R.drawable.ic_action_chat,
+						defaults,
+						pi);
+				nm.notify(ID_CMT, n);
+			}
+
+			if (unread.mention_status > 0 || unread.mention_cmt > 0) {
+				String detail = "";
+				int count = 0;
+				
+				if (unread.mention_status > 0) {
+					detail += format(c, R.string.new_at_detail_weibo, unread.mention_status);
+					count += unread.mention_status;
+					i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
+				}
+
+				if (unread.mention_cmt > 0) {
+					if (count > 0) {
+						detail += c.getString(R.string.new_at_detail_and);
+					}
+
+					detail += format(c, R.string.new_at_detail_comment, unread.mention_cmt);
+					count += unread.mention_cmt;
+
+					if (unread.mention_status == 0){
+						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
+					}
+				}
+
+				if (DEBUG) {
+					Log.d(TAG, "New mentions: " + count);
+				}
+
+				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
+				Notification n = buildNotification(c,
+						format(c, R.string.new_at, count),
+						detail,
+						R.drawable.ic_action_reply_all,
+						defaults,
+						pi);
+				nm.notify(ID_MENTION, n);
+			}
+
+			if (unread.dm > 0) {
+				if (DEBUG) {
+					Log.d(TAG, "New dm: " + unread.dm);
+				}
+
+				i.putExtra(Intent.EXTRA_INTENT,MainActivity.DM);
+				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
+				Notification n = buildNotification(c,
+						format(c, R.string.new_dm, unread.dm),
+						clickToView,
+						R.drawable.ic_action_email,
+						defaults,
+						pi);
+				nm.notify(ID_DM, n);
+			}
+		}
+	}
+
 	public ReminderService() {
 		super(TAG);
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return null;
+	}
+
+	@Override
+	public void onHandleIntent(Intent intent) {
+		if (DEBUG) {
+			Log.d(TAG, "start");
+		}
+
+		doFetchRemind();
+
 	}
 
 	private static void updateTimeLine(Object obj) {
@@ -96,153 +225,24 @@ public class ReminderService extends IntentService {
 		Settings settings = Settings.getInstance(context);
 
 		return (settings.getBoolean(Settings.NOTIFICATION_SOUND, true) ? Notification.DEFAULT_SOUND : 0) |
-				(settings.getBoolean(Settings.NOTIFICATION_VIBRATE, true) ? Notification.DEFAULT_VIBRATE : 0) |
-				Notification.DEFAULT_LIGHTS;
+			(settings.getBoolean(Settings.NOTIFICATION_VIBRATE, true) ? Notification.DEFAULT_VIBRATE : 0) |
+			Notification.DEFAULT_LIGHTS;
 	}
 
 	@SuppressLint("NewApi")
 	private static Notification buildNotification(Context context, String title, String text, int icon, int defaults, PendingIntent intent) {
 		return new Notification.Builder(context)
-				.setContentTitle(title)
-				.setContentText(text)
-				.setSmallIcon(icon)
-				.setDefaults(defaults)
-				.setAutoCancel(true)
-				.setContentIntent(intent)
-				.build();
+			.setContentTitle(title)
+			.setContentText(text)
+			.setSmallIcon(icon)
+			.setDefaults(defaults)
+			.setAutoCancel(true)
+			.setContentIntent(intent)
+			.build();
 		//FIXME 话说Lint报了个错说只有API 16+才能用啊
 	}
 
 	private static String format(Context context, int resId, int data) {
 		return String.format(context.getString(resId), data);
-	}
-
-	private void doFetchRemind() {
-		LoginApiCache cache = new LoginApiCache(this);
-		String uid = cache.getUid();
-
-		if (!TextUtils.isEmpty(uid)) {
-			UnreadModel unread = RemindApi.getUnread(uid);
-
-			if (DEBUG) {
-				Log.d(TAG, "unread got: " + (unread != null));
-			}
-
-			doUpdateNotifications(unread);
-		}
-	}
-
-	private void doUpdateNotifications(UnreadModel unread) {
-		if (DEBUG) {
-			Log.d(TAG, "update notifications");
-		}
-
-		Context c = getApplicationContext();
-
-		if (unread != null) {
-			Settings settings = Settings.getInstance(c);
-			String previous = settings.getString(Settings.NOTIFICATION_ONGOING, "");
-			String now = unread.toString();
-			if (now.equals(previous)) {
-				Log.d(TAG, "No actual unread notifications.");
-				return;
-			} else {
-				settings.putString(Settings.NOTIFICATION_ONGOING, now);
-			}
-
-			int defaults = parseDefaults(c);
-			Intent i = new Intent(c, EntryActivity.class);
-			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent pi;
-			String clickToView = c.getString(R.string.click_to_view);
-			NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-
-			if (unread.cmt > 0) {
-				if (DEBUG) {
-					Log.d(TAG, "New comment: " + unread.cmt);
-				}
-
-				i.putExtra(Intent.EXTRA_INTENT, MainActivity.COMMENT);
-				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-				Notification n = buildNotification(c,
-						format(c, R.string.new_comment, unread.cmt),
-						clickToView,
-						R.drawable.ic_action_chat,
-						defaults,
-						pi);
-				nm.notify(ID_CMT, n);
-			}
-
-			if (unread.mention_status > 0 || unread.mention_cmt > 0) {
-				String detail = "";
-				int count = 0;
-
-				if (unread.mention_status > 0) {
-					detail += format(c, R.string.new_at_detail_weibo, unread.mention_status);
-					count += unread.mention_status;
-					i.putExtra(Intent.EXTRA_INTENT, MainActivity.MENTION);
-				}
-
-				if (unread.mention_cmt > 0) {
-					if (count > 0) {
-						detail += c.getString(R.string.new_at_detail_and);
-					}
-
-					detail += format(c, R.string.new_at_detail_comment, unread.mention_cmt);
-					count += unread.mention_cmt;
-
-					if (unread.mention_status == 0) {
-						i.putExtra(Intent.EXTRA_INTENT, MainActivity.MENTION);
-					}
-				}
-
-				if (DEBUG) {
-					Log.d(TAG, "New mentions: " + count);
-				}
-
-				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-				Notification n = buildNotification(c,
-						format(c, R.string.new_at, count),
-						detail,
-						R.drawable.ic_action_reply_all,
-						defaults,
-						pi);
-				nm.notify(ID_MENTION, n);
-			}
-
-			if (unread.dm > 0) {
-				if (DEBUG) {
-					Log.d(TAG, "New dm: " + unread.dm);
-				}
-
-				i.putExtra(Intent.EXTRA_INTENT, MainActivity.DM);
-				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-				Notification n = buildNotification(c,
-						format(c, R.string.new_dm, unread.dm),
-						clickToView,
-						R.drawable.ic_action_email,
-						defaults,
-						pi);
-				nm.notify(ID_DM, n);
-			}
-		}
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
-
-	@Override
-	public void onHandleIntent(Intent intent) {
-		if (DEBUG) {
-			Log.d(TAG, "start");
-		}
-
-		doFetchRemind();
-
 	}
 }

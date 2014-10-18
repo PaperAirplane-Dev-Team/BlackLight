@@ -47,21 +47,20 @@ import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-	@InjectView(R.id.home_timeline)
-	ListView mList;
 	private DirectMessagesUserApiCache mApiCache;
+	@InjectView(R.id.home_timeline) ListView mList;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	private DirectMessageUserAdapter mAdapter;
 	private boolean mRefreshing = false;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Share the view
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
-
+		
 		// Inject
 		ButterKnife.inject(this, v);
-
+		
 		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
 
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
@@ -71,7 +70,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 		mSwipeRefresh.setOnRefreshListener(this);
 		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
-
+		
 		// Content Margin
 		if (getActivity() instanceof MainActivity) {
 			View header = new View(getActivity());
@@ -85,21 +84,21 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mApiCache = new DirectMessagesUserApiCache(getActivity());
 		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers);
 		mList.setAdapter(mAdapter);
-
+		
 		mApiCache.loadFromCache();
 		mAdapter.notifyDataSetChanged();
-
+		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();
 		}
-
+		
 		return v;
 	}
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
-
+		
 		if (!hidden) {
 			getActivity().getActionBar().setTitle(R.string.direct_message);
 			resume();
@@ -109,18 +108,18 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		
 		resume();
 	}
-
+	
 	public void resume() {
-
+		
 		Settings settings = Settings.getInstance(getActivity());
 
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
 		mList.setFastScrollEnabled(fs);
 	}
-
+	
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
@@ -155,24 +154,24 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 		return true;
 	}
-
+	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			Utility.clearOngoingUnreadCount(getActivity());
-
+			
 			mRefreshing = true;
 			mSwipeRefresh.setRefreshing(true);
 		}
-
+		
 		@Override
 		protected Boolean doInBackground(Boolean... params) {
 			if (params[0]) {
 				mApiCache.mUsers.getList().clear();
 			}
-
+			
 			mApiCache.load(params[0]);
 			mApiCache.cache();
 
@@ -186,7 +185,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-
+			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
 

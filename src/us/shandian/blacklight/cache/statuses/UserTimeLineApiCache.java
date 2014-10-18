@@ -32,9 +32,10 @@ import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.model.MessageListModel;
 
 /* Cache api for exact user timeline */
-public class UserTimeLineApiCache extends HomeTimeLineApiCache {
+public class UserTimeLineApiCache extends HomeTimeLineApiCache
+{
 	private String mUid;
-
+	
 	public UserTimeLineApiCache(Context context, String uid) {
 		super(context);
 		mUid = uid;
@@ -43,25 +44,25 @@ public class UserTimeLineApiCache extends HomeTimeLineApiCache {
 	@Override
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
-
+		
 		db.beginTransaction();
 		db.delete(UserTimeLineTable.NAME, UserTimeLineTable.UID + "=?", new String[]{mUid});
-
+		
 		ContentValues values = new ContentValues();
 		values.put(UserTimeLineTable.UID, mUid);
 		values.put(UserTimeLineTable.JSON, new Gson().toJson(mMessages));
-
+		
 		db.insert(UserTimeLineTable.NAME, null, values);
 		db.setTransactionSuccessful();
 		db.endTransaction();
-
+		
 	}
 
 	@Override
 	protected Cursor query() {
 		return mHelper.getReadableDatabase().query(UserTimeLineTable.NAME, new String[]{
-				UserTimeLineTable.UID,
-				UserTimeLineTable.JSON
+			UserTimeLineTable.UID,
+			UserTimeLineTable.JSON
 		}, UserTimeLineTable.UID + "=?", new String[]{mUid}, null, null, null);
 	}
 

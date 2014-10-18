@@ -36,34 +36,34 @@ import us.shandian.blacklight.support.StatusTimeUtils;
   credits to: qii
   author: PeterCxy
 */
-public class MessageListModel extends BaseListModel<MessageModel, MessageListModel> {
-	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
+public class MessageListModel extends BaseListModel<MessageModel, MessageListModel>
+{
+	private class AD {
+		public long id = -1;
+		public String mark = "";
 
 		@Override
-		public MessageListModel createFromParcel(Parcel in) {
-			MessageListModel ret = new MessageListModel();
-			ret.total_number = in.readInt();
-			ret.previous_cursor = in.readString();
-			ret.next_cursor = in.readString();
-			in.readTypedList(ret.statuses, MessageModel.CREATOR);
-
-			return ret;
+		public boolean equals(Object o) {
+			if (o instanceof AD) {
+				return ((AD) o).id == id;
+			} else {
+				return super.equals(o);
+			}
 		}
 
 		@Override
-		public MessageListModel[] newArray(int size) {
-			return new MessageListModel[size];
+		public int hashCode() {
+			return String.valueOf(id).hashCode();
 		}
-
-
-	};
+	}
+	
 	private List<MessageModel> statuses = new ArrayList<MessageModel>();
 	private List<AD> ad = new ArrayList<AD>();
-
+	
 	public void spanAll(Context context) {
 		for (MessageModel msg : getList()) {
 			msg.span = SpannableStringUtils.getSpan(context, msg);
-
+			
 			if (msg.retweeted_status != null) {
 				msg.retweeted_status.origSpan = SpannableStringUtils.getOrigSpan(context, msg.retweeted_status);
 			}
@@ -80,7 +80,7 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 			}
 		}
 	}
-
+	
 	@Override
 	public int getSize() {
 		return statuses.size();
@@ -107,7 +107,7 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 			total_number = values.total_number;
 		}
 	}
-
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -120,24 +120,26 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 		dest.writeString(next_cursor);
 		dest.writeTypedList(statuses);
 	}
-
-	private class AD {
-		public long id = -1;
-		public String mark = "";
+	
+	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
 
 		@Override
-		public boolean equals(Object o) {
-			if (o instanceof AD) {
-				return ((AD) o).id == id;
-			} else {
-				return super.equals(o);
-			}
+		public MessageListModel createFromParcel(Parcel in) {
+			MessageListModel ret = new MessageListModel();
+			ret.total_number = in.readInt();
+			ret.previous_cursor = in.readString();
+			ret.next_cursor = in.readString();
+			in.readTypedList(ret.statuses, MessageModel.CREATOR);
+			
+			return ret;
 		}
 
 		@Override
-		public int hashCode() {
-			return String.valueOf(id).hashCode();
+		public MessageListModel[] newArray(int size) {
+			return new MessageListModel[size];
 		}
-	}
+
+		
+	};
 
 }

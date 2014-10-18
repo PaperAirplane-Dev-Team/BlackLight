@@ -38,7 +38,7 @@ public class GroupsApi extends BaseApi {
 
 	public static GroupListModel getGroups() {
 		WeiboParameters params = new WeiboParameters();
-
+		
 		try {
 			JSONObject json = request(Constants.FRIENDSHIPS_GROUPS, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), GroupListModel.class);
@@ -56,7 +56,7 @@ public class GroupsApi extends BaseApi {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
 		params.put("list_id", groupId);
-
+		
 		try {
 			JSONObject json = request(Constants.FRIENDSHIPS_GROUPS_IS_MEMBER, params, HTTP_GET);
 			return json.optBoolean("lists");

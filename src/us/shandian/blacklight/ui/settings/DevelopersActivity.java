@@ -35,7 +35,8 @@ import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class DevelopersActivity extends AbsActivity implements AdapterView.OnItemClickListener {
+public class DevelopersActivity extends AbsActivity implements AdapterView.OnItemClickListener
+{
 	private UserAdapter mAdapterOfDevelopers;
 	private UserListModel mUserListOfDevelopers;
 	private ListView mDevelopers;
@@ -49,11 +50,37 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		mDevelopers.setOnItemClickListener(this);
 
 		setContentView(mDevelopers);
-
+		
 		new UserGetter().execute();
-
+		
 	}
+	
+	private class UserGetter extends AsyncTask<Void, Void, Boolean>{
 
+		@Override
+		protected Boolean doInBackground(Void... args) {
+			String[] developerWeiboUids=getResources().getStringArray(R.array.developer_weibo_uids);
+			for(String uid : developerWeiboUids){
+				try{
+					UserModel m = UserApi.getUser(uid);
+					if (m != null) {
+						mUserListOfDevelopers.getList().add(m);
+					}
+				} catch(Exception e) {
+					
+				}
+			}
+			return true;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers);
+			mDevelopers.setAdapter(mAdapterOfDevelopers);
+		}
+		
+	}
+	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Intent i = new Intent();
@@ -62,7 +89,7 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		i.putExtra("user", mUserListOfDevelopers.get(position));
 		startActivity(i);
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
@@ -71,31 +98,5 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	private class UserGetter extends AsyncTask<Void, Void, Boolean> {
-
-		@Override
-		protected Boolean doInBackground(Void... args) {
-			String[] developerWeiboUids = getResources().getStringArray(R.array.developer_weibo_uids);
-			for (String uid : developerWeiboUids) {
-				try {
-					UserModel m = UserApi.getUser(uid);
-					if (m != null) {
-						mUserListOfDevelopers.getList().add(m);
-					}
-				} catch (Exception e) {
-
-				}
-			}
-			return true;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers);
-			mDevelopers.setAdapter(mAdapterOfDevelopers);
-		}
-
 	}
 }

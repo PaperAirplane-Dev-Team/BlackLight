@@ -34,11 +34,11 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class FeedbackUtility {
 
-	private static final String TAG = FeedbackUtility.class.getSimpleName();
+	private static final String TAG = FeedbackUtility.class.getSimpleName(); 
 	private static final String LOG_API = "http://bbug.typeblog.net/bl-crashlog";
 	private static final String FEEDBACK_API = "http://bbug.typeblog.net/bl-feedback";
 
-	public static void sendLog(String user, String contact) {
+	public static void sendLog(String user,String contact) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("user", user);
 		params.put("contact", contact);
@@ -76,19 +76,19 @@ public class FeedbackUtility {
 
 	public static boolean shouldSendLog(Context context) {
 		return Settings.getInstance(context)
-				.getBoolean(Settings.AUTO_SUBMIT_LOG, false) &&
-				new File(CrashHandler.CRASH_TAG).exists();
+			.getBoolean(Settings.AUTO_SUBMIT_LOG, false) &&
+			new File(CrashHandler.CRASH_TAG).exists();
 	}
 
-	private static String readLog() {
-		String res = "";
+	private static String readLog(){
+		String res="";
 
-		try {
+		try{
 			FileInputStream fin = new FileInputStream(CrashHandler.CRASH_LOG);
 
 			int length = fin.available();
 
-			byte[] buffer = new byte[length];
+			byte [] buffer = new byte[length];
 
 			fin.read(buffer);
 
@@ -96,7 +96,7 @@ public class FeedbackUtility {
 
 			fin.close();
 
-		} catch (Exception e) {
+		}catch(Exception e){
 
 			e.printStackTrace();
 			return "";

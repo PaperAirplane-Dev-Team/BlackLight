@@ -31,9 +31,10 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* BlackMagic Login Api */
 
-public class LoginApi extends BaseApi {
+public class LoginApi extends BaseApi
+{
 	private static final String TAG = LoginApi.class.getSimpleName();
-
+	
 	// Returns token and expire date
 	public static String[] login(String appId, String appSecret, String username, String passwd) {
 		WeiboParameters params = new WeiboParameters();
@@ -42,7 +43,7 @@ public class LoginApi extends BaseApi {
 		params.put("client_id", appId);
 		params.put("client_secret", appSecret);
 		params.put("grant_type", "password");
-
+		
 		try {
 			JSONObject json = requestWithoutAccessToken(Constants.OAUTH2_ACCESS_TOKEN, params, HTTP_POST);
 			return new String[]{json.optString("access_token"), json.optString("expires_in")};

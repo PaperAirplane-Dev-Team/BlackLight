@@ -43,20 +43,21 @@ import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-	protected UserListModel mUsers;
-	@InjectView(R.id.home_timeline)
-	ListView mList;
+public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+{
 	private String mUid;
+	protected UserListModel mUsers;
 	private int mNextCursor = 0;
 	private boolean mRefreshing = false;
+	
+	@InjectView(R.id.home_timeline) ListView mList;
 	private UserAdapter mAdapter;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
-
+	
 	public FriendsFragment() {
 		this(null);
 	}
-
+	
 	public FriendsFragment(String uid) {
 		mUid = uid;
 	}
@@ -65,7 +66,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Share the layout of Home Time Line
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
-
+		
 		// Inject
 		ButterKnife.inject(this, v);
 
@@ -85,7 +86,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 		mAdapter = new UserAdapter(getActivity(), mUsers);
 		mList.setAdapter(mAdapter);
-
+		
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
 		v.removeViewInLayout(mList);
 		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -93,11 +94,11 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 		mSwipeRefresh.setOnRefreshListener(this);
 		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
-
+		
 		if (mUid != null) {
-			onRefresh();
+			onRefresh(); 
 		}
-
+		
 		return v;
 	}
 
@@ -120,7 +121,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		i.putExtra("user", mUsers.get(position));
 		startActivity(i);
 	}
-
+	
 	protected void doRefresh(boolean param) {
 		if (param) {
 			mNextCursor = 0;
@@ -136,27 +137,27 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 				mUsers.addAll(param, usr);
 			}
 		}
-
+		
 	}
-
+	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
 		@Override
 		protected void onPreExecute() {
 			mRefreshing = true;
 			mSwipeRefresh.setRefreshing(true);
 		}
-
+		
 		@Override
 		protected Boolean doInBackground(Boolean... params) {
 			doRefresh(params[0]);
-
+			
 			return params[0];
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 			mAdapter.notifyDataSetChanged();
-
+			
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
 		}

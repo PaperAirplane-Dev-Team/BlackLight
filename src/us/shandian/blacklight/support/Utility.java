@@ -71,9 +71,10 @@ import us.shandian.blacklight.service.ReminderService;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */
-public class Utility {
+public class Utility
+{
 	private static final String TAG = Utility.class.getSimpleName();
-
+	
 	private static final int REQUEST_CODE = 100001;
 
 	public static String lastPicPath;
@@ -98,35 +99,35 @@ public class Utility {
 			}
 		}
 	}
-
+	
 	public static int expireTimeInDays(long time) {
 		return (int) TimeUnit.MILLISECONDS.toDays(time - System.currentTimeMillis());
 	}
-
+	
 	public static boolean isTokenExpired(long time) {
 		return time <= System.currentTimeMillis();
 	}
-
+	
 	public static boolean isCacheAvailable(long createTime, int availableDays) {
 		return System.currentTimeMillis() <= createTime + TimeUnit.DAYS.toMillis(availableDays);
 	}
-
+	
 	public static int lengthOfString(String str) throws UnsupportedEncodingException {
 		// Considers 1 Chinese character as 2 English characters
 		return (str.getBytes("GB2312").length + 1) / 2;
 	}
-
+	
 	public static int getSupportedMaxPictureSize() {
 		int[] array = new int[1];
 		GLES10.glGetIntegerv(GLES10.GL_MAX_TEXTURE_SIZE, array, 0);
-
+		
 		try {
 			if (array[0] == 0) {
 				GLES11.glGetIntegerv(GLES11.GL_MAX_TEXTURE_SIZE, array, 0);
-
+			
 				if (array[0] == 0) {
 					GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, array, 0);
-
+				
 					if (array[0] == 0) {
 						GLES30.glGetIntegerv(GLES30.GL_MAX_TEXTURE_SIZE, array, 0);
 					}
@@ -135,7 +136,7 @@ public class Utility {
 		} catch (NoClassDefFoundError e) {
 			// Ignore the exception
 		}
-
+		
 		return array[0] != 0 ? array[0] : 2048;
 	}
 
@@ -149,21 +150,21 @@ public class Utility {
 		Settings s = Settings.getInstance(context);
 		s.putString(Settings.NOTIFICATION_ONGOING, "");
 	}
-
+	
 	public static void startServiceAlarm(Context context, Class<?> service, long interval) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, service);
 		PendingIntent p = PendingIntent.getService(context, REQUEST_CODE, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 0, interval, p);
 	}
-
+	
 	public static void stopServiceAlarm(Context context, Class<?> service) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, service);
 		PendingIntent p = PendingIntent.getService(context, REQUEST_CODE, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		am.cancel(p);
 	}
-
+	
 	public static void startServices(Context context) {
 		Settings settings = Settings.getInstance(context);
 		int interval = getIntervalTime(settings.getInt(Settings.NOTIFICATION_INTERVAL, 1));
@@ -172,7 +173,7 @@ public class Utility {
 			startServiceAlarm(context, ReminderService.class, interval);
 		}
 	}
-
+	
 	public static void stopServices(Context context) {
 		stopServiceAlarm(context, ReminderService.class);
 	}
@@ -186,21 +187,21 @@ public class Utility {
 			startServices(context);
 		}
 	}
-
+	
 	public static int getIntervalTime(int id) {
-		switch (id) {
-			case 0:
-				return 1 * 60 * 1000;
-			case 1:
-				return 3 * 60 * 1000;
-			case 2:
-				return 5 * 60 * 1000;
-			case 3:
-				return 10 * 60 * 1000;
-			case 4:
-				return 30 * 60 * 1000;
-			case 5:
-				return -1;
+		switch (id){
+		case 0:
+			return 1 * 60 * 1000;
+		case 1:
+			return 3 * 60 * 1000;
+		case 2:
+			return 5 * 60 * 1000;
+		case 3:
+			return 10 * 60 * 1000;
+		case 4:
+			return 30 * 60 * 1000;
+		case 5:
+			return -1;
 		}
 		return -1;
 	}
@@ -254,7 +255,7 @@ public class Utility {
 			return null;
 		}
 	}
-
+	
 	public static boolean isChrome() {
 		return Build.BRAND.equals("chromium") || Build.BRAND.equals("chrome");
 	}
@@ -271,7 +272,7 @@ public class Utility {
 
 	public static int getActionBarHeight(Context context) {
 		TypedValue v = new TypedValue();
-
+		
 		if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, v, true)) {
 			return TypedValue.complexToDimensionPixelSize(v.data, context.getResources().getDisplayMetrics());
 		} else {
@@ -282,7 +283,7 @@ public class Utility {
 	public static int getDecorPaddingTop(Context context) {
 		return getActionBarHeight(context);
 	}
-
+	
 	public static void setActionBarTranslation(Activity activity, float y) {
 		ViewGroup vg = (ViewGroup) activity.findViewById(android.R.id.content).getParent();
 		int count = vg.getChildCount();
@@ -292,7 +293,7 @@ public class Utility {
 		}
 
 		// Get the class of action bar
-		Class<?> actionBarContainer = null;
+		Class<?> actionBarContainer= null;
 		Field isSplit = null;
 
 		try {
@@ -307,7 +308,7 @@ public class Utility {
 
 		for (int i = 0; i < count; i++) {
 			View v = vg.getChildAt(i);
-
+			
 			if (v.getId() != android.R.id.content) {
 				if (DEBUG) {
 					Log.d(TAG, "Found View: " + v.getClass().getName());
@@ -332,7 +333,7 @@ public class Utility {
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
 				}
-
+				
 				v.setTranslationY(y);
 			}
 		}
@@ -398,7 +399,7 @@ public class Utility {
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setTextSize(15.0f);
-
+		
 		// Split the text into lines
 		ArrayList<String> lines = new ArrayList<String>();
 		ArrayList<HashMap<String, Integer>> format = new ArrayList<HashMap<String, Integer>>();
@@ -492,8 +493,8 @@ public class Utility {
 						tmp = tmp.substring(color.length() + 1, tmp.length());
 						continue;
 					}
-				}
-
+				}	
+				
 				ignore = false;
 
 				line += str;
@@ -522,7 +523,7 @@ public class Utility {
 
 			if (DEBUG) {
 				Log.d(TAG, "picHeight = " + picHeight + "; height = " + height
-						+ "; pic.getHeight() = " + pic.getHeight());
+					   		+ "; pic.getHeight() = " + pic.getHeight());
 				Log.d(TAG, "picWidth = " + picWidth + "; pic.getWidth() = " + pic.getWidth());
 			}
 		}
@@ -530,7 +531,7 @@ public class Utility {
 		// Create the bitmap and draw
 		Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bmp);
-
+		
 		paint.setColor(context.getResources().getColor(android.R.color.background_light));
 		canvas.drawRect(0, 0, width, height, paint);
 
@@ -551,11 +552,11 @@ public class Utility {
 			if (line.equals(from)) {
 				paint.setColor(context.getResources().getColor(R.color.gray));
 			}
-
+			
 			int lastPos = 0;
 
 			float xOffset = 0;
-
+			
 			while (format.size() > 0) {
 				HashMap<String, Integer> map = format.get(0);
 
@@ -601,7 +602,7 @@ public class Utility {
 
 		// Draw the picture
 		if (pic != null) {
-			canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()),
+			canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()), 
 					new Rect(10, (int) (y + 10), picWidth + 10, (int) (picHeight + y + 10)), paint);
 		}
 
@@ -613,7 +614,7 @@ public class Utility {
 		if (DEBUG) {
 			Log.d(TAG, "parseLongContent");
 		}
-
+		
 		String[] strs = content.split("\n");
 		String str = "";
 
@@ -660,7 +661,7 @@ public class Utility {
 	public static void initDarkMode(Activity activity) {
 		if (isDarkMode(activity)) {
 			int theme = 0;
-
+			
 			try {
 				theme = activity.getPackageManager().getActivityInfo(activity.getComponentName(), 0).theme;
 			} catch (NameNotFoundException e) {
@@ -694,7 +695,7 @@ public class Utility {
 	public static void initDarkTabHost(Activity activity, TabHost tabhost) {
 		if (isDarkMode(activity)) {
 			int textColor = 0;
-
+			
 			try {
 				TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
 				textColor = array.getColor(R.styleable.BlackLight_CardForeground, 0);
@@ -778,7 +779,7 @@ public class Utility {
 
 		dir.delete();
 	}
-
+	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
 		int initialSize = computeInitialSampleSize(options, minSideLength, maxNumOfPixels);
 		int roundedSize;
@@ -792,17 +793,17 @@ public class Utility {
 		}
 		return roundedSize;
 	}
-
+	
 	private static int computeInitialSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
 		double w = options.outWidth;
 		double h = options.outHeight;
 		int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math.sqrt(w * h / maxNumOfPixels));
 		int upperBound = (minSideLength == -1) ? 128 : (int) Math.min(Math.floor(w / minSideLength),
-				Math.floor(h / minSideLength));
+		Math.floor(h / minSideLength));
 		if (upperBound < lowerBound) {
 			return lowerBound;
 		}
-
+		
 		if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
 			return 1;
 		} else if (minSideLength == -1) {
@@ -812,53 +813,50 @@ public class Utility {
 		}
 	}
 
-	// SmartBar Support
-	public static boolean hasSmartBar() {
-		try {
-			Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
-			return ((Boolean) method.invoke(null)).booleanValue();
-		} catch (Exception e) {
-		}
+    // SmartBar Support
+    public static boolean hasSmartBar() {
+        try {
+            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+        }
 
-		if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3")) {
-			return true;
-		} else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {
-			return false;
-		}
+        if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3")) {
+            return true;
+        } else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {
+            return false;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 	/**
+	 *
 	 * @param from color value in the form 0xAARRGGBB.
-	 * @param to   color value in the form 0xAARRGGBB.
+	 * @param to color value in the form 0xAARRGGBB.
 	 */
-	public static int getGradientColor(int from, int to, float factor) {
-		int r = calculateGradient(Color.red(from), Color.red(to), factor); // It's so annoying without lambda.
-		int g = calculateGradient(Color.green(from), Color.green(to), factor);
-		int b = calculateGradient(Color.blue(from), Color.blue(to), factor);
-		int a = calculateGradient(Color.alpha(from), Color.alpha(to), factor);
+	public static int getGradientColor(int from, int to, float factor){
+		int r = calculateGradient(Color.red(from),Color.red(to),factor); // It's so annoying without lambda.
+		int g = calculateGradient(Color.green(from),Color.green(to),factor);
+		int b = calculateGradient(Color.blue(from),Color.blue(to),factor);
+		int a = calculateGradient(Color.alpha(from),Color.alpha(to),factor);
 
-		return Color.argb(a, r, g, b);
+		return Color.argb(a,r,g,b);
 	}
 
-	private static int calculateGradient(int from, int to, float factor) {
-		return from + (int) ((to - from) * factor);
+	private static int calculateGradient(int from, int to, float factor){
+		return from + (int)((to - from) * factor);
 	}
 
-	/**
-	 * Create a file Uri for saving an image
-	 */
-	public static Uri getOutputMediaFileUri() {
+	/** Create a file Uri for saving an image*/
+	public static Uri getOutputMediaFileUri(){
 		Uri uri = Uri.fromFile(getOutputImageFile());
 		lastPicPath = uri.getPath();
 		return uri;
 	}
 
-	/**
-	 * Create a File for saving an image
-	 */
-	private static File getOutputImageFile() {
+	/** Create a File for saving an image*/
+	private static File getOutputImageFile(){
 		// To be safe, you should check that the SDCard is mounted
 		// using Environment.getExternalStorageState() before doing this.
 
@@ -868,8 +866,8 @@ public class Utility {
 		// between applications and persist after your app has been uninstalled.
 
 		// Create the storage directory if it does not exist
-		if (!mediaStorageDir.exists()) {
-			if (!mediaStorageDir.mkdirs()) {
+		if (! mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
 				Log.d(TAG, "failed to create directory");
 				return null;
 			}
@@ -879,7 +877,7 @@ public class Utility {
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		File mediaFile;
 		mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-				"IMG_" + timeStamp + ".jpg");
+				"IMG_"+ timeStamp + ".jpg");
 		return mediaFile;
 	}
 

@@ -25,9 +25,10 @@ import android.content.SharedPreferences;
 /*
   Settings Provider
 */
-public class Settings {
+public class Settings
+{
 	public static final String XML_NAME = "settings";
-
+	
 	// Actions
 	public static final String FAST_SCROLL = "fast_scroll";
 	public static final String SHAKE_TO_RETURN = "shake_to_return";
@@ -50,37 +51,37 @@ public class Settings {
 
 	// Group
 	public static final String CURRENT_GROUP = "current_group";
-
+	
 	private static Settings sInstance;
-
+	
 	private SharedPreferences mPrefs;
-
-	private Settings(Context context) {
-		mPrefs = context.getSharedPreferences(XML_NAME, Context.MODE_PRIVATE);
-	}
-
+	
 	public static Settings getInstance(Context context) {
 		if (sInstance == null) {
 			sInstance = new Settings(context);
 		}
-
+		
 		return sInstance;
 	}
-
+	
+	private Settings(Context context) {
+		mPrefs = context.getSharedPreferences(XML_NAME, Context.MODE_PRIVATE);
+	}
+	
 	public Settings putBoolean(String key, boolean value) {
 		mPrefs.edit().putBoolean(key, value).commit();
 		return this;
 	}
-
+	
 	public boolean getBoolean(String key, boolean def) {
 		return mPrefs.getBoolean(key, def);
 	}
-
+	
 	public Settings putInt(String key, int value) {
 		mPrefs.edit().putInt(key, value).commit();
 		return this;
 	}
-
+	
 	public int getInt(String key, int defValue) {
 		return mPrefs.getInt(key, defValue);
 	}
@@ -93,5 +94,5 @@ public class Settings {
 	public String getString(String key, String defValue) {
 		return mPrefs.getString(key, defValue);
 	}
-
+	
 }

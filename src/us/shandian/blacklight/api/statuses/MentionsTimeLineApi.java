@@ -32,9 +32,10 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class MentionsTimeLineApi extends BaseApi {
+public class MentionsTimeLineApi extends BaseApi
+{
 	private static final String TAG = MentionsTimeLineApi.class.getSimpleName();
-
+	
 	public static MessageListModel fetchMentionsTimeLine(int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("count", count);
@@ -50,7 +51,7 @@ public class MentionsTimeLineApi extends BaseApi {
 			return null;
 		}
 	}
-
+	
 	public static MessageListModel fetchMentionsTimeLineSince(long id) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("since_id", id);
