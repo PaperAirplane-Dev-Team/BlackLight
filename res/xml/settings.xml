@@ -73,6 +73,16 @@
 	
 	</PreferenceCategory>
 
+	<!-- Account -->
+	<PreferenceCategory
+		android:title="@string/account">
+
+		<Preference
+			android:key="logout"
+		    android:title="@string/account_logout"/>
+
+		</PreferenceCategory>
+
 	<!-- Feedback -->
 	<PreferenceCategory
 		android:title="@string/feedback">

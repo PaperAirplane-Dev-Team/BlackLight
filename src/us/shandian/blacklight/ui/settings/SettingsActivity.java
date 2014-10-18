@@ -38,12 +38,14 @@ import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 import java.io.File;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.feedback.SubmitLogTask;
+import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.feedback.FeedbackActivity;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
@@ -54,6 +56,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private static final String VERSION = "version";
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
+	private static final String LOGOUT = "logout";
 	private static final String DEBUG_EMO_REDOWNLOAD = "debug_emo_redownload";
 	private static final String DEBUG_LOG = "debug_log";
 	private static final String DEBUG_SUBMIT = "debug_submit_log";
@@ -71,6 +74,9 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private Preference mPrefGood;
 	private Preference mPrefCrash;
 	private Preference mPrefDevelopers;
+
+	// Account
+	private Preference mPrefLogout;
 
 	// Debug
 	private Preference mPrefRedownload;
@@ -137,6 +143,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
 		mPrefShakeToReturn = (CheckBoxPreference) findPreference(Settings.SHAKE_TO_RETURN);
 		mPrefRightHanded = (CheckBoxPreference) findPreference(Settings.RIGHT_HANDED);
+		mPrefLogout = findPreference(LOGOUT);
 		mPrefFeedback = findPreference(FEEDBACK);
 		mPrefAutoSubmitLog = (CheckBoxPreference) findPreference(Settings.AUTO_SUBMIT_LOG);
 		mPrefLog = findPreference(DEBUG_LOG);
@@ -183,6 +190,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
 		mPrefShakeToReturn.setOnPreferenceChangeListener(this);
 		mPrefRightHanded.setOnPreferenceChangeListener(this);
+		mPrefLogout.setOnPreferenceClickListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
 		mPrefFeedback.setOnPreferenceClickListener(this);
@@ -223,6 +231,14 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
 			return true;
+		} else if (preference == mPrefLogout){
+			LoginApiCache loginCache = new LoginApiCache(this);
+			loginCache.logout();
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, EntryActivity.class);
+			startActivity(i);
+			finish();
 		} else if (preference == mPrefFeedback) {
 			// Send feedback
 			Intent i = new Intent();
