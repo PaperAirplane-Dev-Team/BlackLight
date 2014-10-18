@@ -22,12 +22,16 @@ package us.shandian.blacklight.ui.search;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -47,7 +51,6 @@ public class AtUserSuggestDialog extends Dialog {
 	
 	private Context mContext;
 	@InjectView(R.id.at_user_text) EditText mText;
-	@InjectView(R.id.at_user_search) View mSearch;
 	@InjectView(R.id.at_user_list) ListView mList;
 	
 	private String[] mStrs;
@@ -72,9 +75,25 @@ public class AtUserSuggestDialog extends Dialog {
 		setContentView(R.layout.at_user_dialog);
 		
 		ButterKnife.inject(this);
+
+		mText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+				doSearch();
+			}
+
+			@Override
+			public void afterTextChanged(Editable editable) {
+
+			}
+		});
 	}
 
-	@OnClick(R.id.at_user_search)
 	public void doSearch() {
 		if (mLoading) return;
 		

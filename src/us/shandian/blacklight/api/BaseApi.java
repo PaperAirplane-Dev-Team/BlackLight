@@ -62,7 +62,7 @@ public abstract class BaseApi
 				Log.d(TAG, "jsonData = " + jsonData);
 			}
 			
-			if (jsonData != null && jsonData.contains("{")) {
+			if (jsonData != null && (jsonData.contains("{") || jsonData.contains("["))) {
 				try {
 					return jsonClass.getConstructor(String.class).newInstance(jsonData);
 				} catch (Exception e) {
