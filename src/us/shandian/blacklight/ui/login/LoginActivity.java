@@ -125,9 +125,9 @@ public class LoginActivity extends AbsActivity {
 		}
 	}
 
-	@OnEditorAction(R.id.username)
-	public boolean changeUsername(TextView textView, int actionId, KeyEvent keyEvent) {
-		if (textView == mPasswd && actionId == EditorInfo.IME_ACTION_DONE) {
+	@OnEditorAction(R.id.passwd)
+	public boolean finishEnteringPasswd(TextView textView, int actionId, KeyEvent keyEvent) {
+		if (actionId == EditorInfo.IME_ACTION_DONE) {
 			login();
 			return true;
 		}
