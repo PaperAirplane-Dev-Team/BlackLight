@@ -25,9 +25,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.os.Debug;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,20 +36,15 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.InjectViews;
-import butterknife.OnClick;
-import butterknife.OnLongClick;
 
 import com.daimajia.swipe.SwipeLayout;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.comments.NewCommentApi;
@@ -60,21 +53,21 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.CommentModel;
-import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
-import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.ReplyToActivity;
+import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.statuses.RepostActivity;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
-import static us.shandian.blacklight.BuildConfig.DEBUG;
+
 import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
 
 /*

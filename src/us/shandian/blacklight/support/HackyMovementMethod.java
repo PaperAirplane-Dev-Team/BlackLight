@@ -30,6 +30,7 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import us.shandian.blacklight.R;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /*

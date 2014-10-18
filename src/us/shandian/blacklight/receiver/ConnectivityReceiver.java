@@ -26,6 +26,7 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 
 import us.shandian.blacklight.support.Utility;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class ConnectivityReceiver extends BroadcastReceiver

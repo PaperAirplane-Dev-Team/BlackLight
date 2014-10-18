@@ -19,8 +19,6 @@
 
 package us.shandian.blacklight.ui.favorites;
 
-import android.view.View;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.favorites.FavListApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;

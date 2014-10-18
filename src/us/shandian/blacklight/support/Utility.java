@@ -19,14 +19,13 @@
 
 package us.shandian.blacklight.support;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
@@ -41,29 +40,23 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
+import android.os.Build;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.io.InputStream;
-import java.lang.NoClassDefFoundError;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -74,6 +67,7 @@ import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.service.ReminderService;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */

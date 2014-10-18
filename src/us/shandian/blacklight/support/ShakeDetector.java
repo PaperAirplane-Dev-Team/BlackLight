@@ -26,7 +26,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Vibrator;
 import android.util.FloatMath;
-import android.util.Log;
 
 import java.util.ArrayList;
 

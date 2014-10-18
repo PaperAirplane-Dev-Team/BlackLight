@@ -22,7 +22,6 @@ package us.shandian.blacklight.support.feedback;
 import android.content.Context;
 
 import java.io.File;
-import java.io.FileInputStream;
 
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;

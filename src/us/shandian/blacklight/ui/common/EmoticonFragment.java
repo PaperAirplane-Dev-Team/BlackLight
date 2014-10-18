@@ -20,15 +20,14 @@
 package us.shandian.blacklight.ui.common;
 
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.os.Bundle;
 
 import us.shandian.blacklight.R;
-import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.adapter.EmoticonAdapter;
 
 public class EmoticonFragment extends Fragment implements AdapterView.OnItemClickListener

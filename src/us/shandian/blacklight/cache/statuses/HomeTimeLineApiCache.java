@@ -19,8 +19,8 @@
 
 package us.shandian.blacklight.cache.statuses;
 
-import android.content.Context;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -30,8 +30,8 @@ import android.os.Environment;
 
 import com.google.gson.Gson;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
@@ -41,8 +41,8 @@ import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 import us.shandian.blacklight.cache.file.FileCacheManager;
-import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.Utility;
 
 /* Time Line of me and my friends */

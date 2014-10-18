@@ -32,11 +32,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import me.imid.swipebacklayout.lib.Utils;
-import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
-
 import java.io.File;
 
+import me.imid.swipebacklayout.lib.Utils;
+import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -47,6 +46,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.feedback.SubmitLogTask;
 import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.feedback.FeedbackActivity;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 

@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import us.shandian.blacklight.support.http.HttpUtility;
 import us.shandian.blacklight.support.http.WeiboParameters;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public abstract class BaseApi

@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.support.http.WeiboParameters;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* BlackMagic Login Api */

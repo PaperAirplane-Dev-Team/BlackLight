@@ -21,14 +21,14 @@ package us.shandian.blacklight.cache.file;
 
 import android.content.Context;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.URL;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.support.Utility;

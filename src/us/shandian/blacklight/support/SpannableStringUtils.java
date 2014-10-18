@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import us.shandian.blacklight.model.MessageModel;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* This class is modified from qii/weiciyuan */

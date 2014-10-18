@@ -21,14 +21,15 @@ package us.shandian.blacklight.api.user;
 
 import android.util.Log;
 
-import org.json.JSONObject;
-
 import com.google.gson.Gson;
 
-import us.shandian.blacklight.api.Constants;
+import org.json.JSONObject;
+
 import us.shandian.blacklight.api.BaseApi;
+import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.http.WeiboParameters;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Apis to read / write user info */

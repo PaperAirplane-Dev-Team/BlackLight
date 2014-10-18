@@ -19,10 +19,8 @@
 
 package us.shandian.blacklight.ui.statuses;
 
-import android.view.View;
 import android.view.ViewGroup;
 
-import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
 import us.shandian.blacklight.api.remind.RemindApi.Type;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;

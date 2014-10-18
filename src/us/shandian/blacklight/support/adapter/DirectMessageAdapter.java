@@ -30,10 +30,9 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
-import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.model.DirectMessageListModel;
+import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;

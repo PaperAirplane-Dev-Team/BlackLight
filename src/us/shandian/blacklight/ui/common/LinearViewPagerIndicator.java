@@ -25,20 +25,17 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
-
-import android.support.v4.view.ViewPager;
 
 import us.shandian.blacklight.R;
-import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-import java.lang.IllegalStateException;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /*
  * A pager indicator implemented by extending LinearLayout

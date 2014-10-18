@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.ShakeDetector;

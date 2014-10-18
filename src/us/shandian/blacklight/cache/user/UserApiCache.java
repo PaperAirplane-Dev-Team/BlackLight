@@ -19,20 +19,19 @@
 
 package us.shandian.blacklight.cache.user;
 
-import android.content.Context;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
@@ -44,6 +43,7 @@ import us.shandian.blacklight.cache.database.tables.UsersTable;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.Utility;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class UserApiCache

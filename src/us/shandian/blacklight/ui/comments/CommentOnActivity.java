@@ -19,10 +19,10 @@
 
 package us.shandian.blacklight.ui.comments;
 
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.os.Bundle;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.comments.NewCommentApi;

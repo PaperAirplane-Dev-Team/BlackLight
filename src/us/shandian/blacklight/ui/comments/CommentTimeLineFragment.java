@@ -19,8 +19,6 @@
 
 package us.shandian.blacklight.ui.comments;
 
-import android.view.View;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
 import us.shandian.blacklight.api.remind.RemindApi.Type;

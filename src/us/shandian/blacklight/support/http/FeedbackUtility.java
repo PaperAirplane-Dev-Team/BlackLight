@@ -26,10 +26,10 @@ import org.apache.http.util.EncodingUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Settings;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class FeedbackUtility {

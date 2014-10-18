@@ -32,7 +32,6 @@ import android.widget.Spinner;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
 
 public class SearchFragment extends Fragment

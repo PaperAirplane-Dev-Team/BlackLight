@@ -20,28 +20,18 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
-import android.app.Service;
 import android.content.Intent;
-import android.view.Gravity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.os.Bundle;
-import android.os.Build;
-import android.os.Vibrator;
-import android.util.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnTouch;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -51,9 +41,6 @@ import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
-
-import static us.shandian.blacklight.BuildConfig.DEBUG;
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public abstract class TimeLineFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener, OnScrollListener, MainActivity.Refresher {

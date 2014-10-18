@@ -19,10 +19,9 @@
 
 package us.shandian.blacklight.ui.comments;
 
-import android.view.View;
 import android.os.Bundle;
+import android.view.View;
 
-import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.comments.NewCommentApi;
 import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;

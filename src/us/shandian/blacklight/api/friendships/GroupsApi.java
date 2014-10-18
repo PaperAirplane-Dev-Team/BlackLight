@@ -22,14 +22,15 @@ package us.shandian.blacklight.api.friendships;
 import android.util.Log;
 
 import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
-import us.shandian.blacklight.model.GroupModel;
 import us.shandian.blacklight.model.GroupListModel;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.support.http.WeiboParameters;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class GroupsApi extends BaseApi {

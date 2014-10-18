@@ -19,8 +19,6 @@
 
 package us.shandian.blacklight.ui.comments;
 
-import android.view.View;
-
 import us.shandian.blacklight.cache.comments.StatusCommentApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.ui.statuses.SingleActivity;

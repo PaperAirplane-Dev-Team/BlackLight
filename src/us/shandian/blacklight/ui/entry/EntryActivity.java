@@ -23,16 +23,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.file.FileCacheManager;
+import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.receiver.ConnectivityReceiver;
-import us.shandian.blacklight.ui.login.LoginActivity;
-import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.feedback.SubmitLogTask;
 import us.shandian.blacklight.support.http.FeedbackUtility;
+import us.shandian.blacklight.ui.login.LoginActivity;
+import us.shandian.blacklight.ui.main.MainActivity;
 
 public class EntryActivity extends Activity
 {

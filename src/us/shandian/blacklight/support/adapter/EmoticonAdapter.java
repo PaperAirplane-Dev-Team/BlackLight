@@ -20,7 +20,6 @@
 package us.shandian.blacklight.support.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import butterknife.ButterKnife;
-
-import java.util.ArrayList;
-import java.util.Map.Entry;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Emoticons;
 

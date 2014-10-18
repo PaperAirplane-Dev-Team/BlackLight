@@ -20,10 +20,10 @@
 package us.shandian.blacklight.ui.common;
 
 import android.content.Context;
+import android.text.method.MovementMethod;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
-import android.text.method.MovementMethod;
 
 import us.shandian.blacklight.support.HackyMovementMethod;
 

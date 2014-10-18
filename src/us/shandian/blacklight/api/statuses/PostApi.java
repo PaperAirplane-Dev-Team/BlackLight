@@ -34,6 +34,7 @@ import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.Emoticons.SinaEmotion;
 import us.shandian.blacklight.support.http.WeiboParameters;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class PostApi extends BaseApi

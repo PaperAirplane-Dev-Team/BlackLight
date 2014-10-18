@@ -23,37 +23,33 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.os.Bundle;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
 import us.shandian.blacklight.R;
-import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.friendships.FriendsApi;
 import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
-import us.shandian.blacklight.model.GroupModel;
 import us.shandian.blacklight.model.GroupListModel;
+import us.shandian.blacklight.model.GroupModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
@@ -61,8 +57,6 @@ import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import us.shandian.blacklight.ui.friendships.FriendsActivity;
-
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class UserTimeLineActivity extends AbsActivity
 {

@@ -27,8 +27,6 @@ import android.os.Environment;
 import java.io.File;
 import java.io.PrintWriter;
 
-import us.shandian.blacklight.support.feedback.SubmitLogTask;
-
 public class CrashHandler implements Thread.UncaughtExceptionHandler
 {
 	public static String CRASH_DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/";

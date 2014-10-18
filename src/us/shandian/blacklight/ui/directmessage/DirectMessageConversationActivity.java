@@ -19,31 +19,28 @@
 
 package us.shandian.blacklight.ui.directmessage;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.directmessages.DirectMessagesApi;
 import us.shandian.blacklight.model.DirectMessageListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
-import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 

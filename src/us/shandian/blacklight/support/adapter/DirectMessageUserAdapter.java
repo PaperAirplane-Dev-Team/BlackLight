@@ -21,24 +21,20 @@ package us.shandian.blacklight.support.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
-import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.model.DirectMessageUserListModel;
-import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.support.AsyncTask;
-import us.shandian.blacklight.support.HackyMovementMethod;
-import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 
 public class DirectMessageUserAdapter extends BaseAdapter

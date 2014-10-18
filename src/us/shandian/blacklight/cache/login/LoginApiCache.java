@@ -22,9 +22,11 @@ package us.shandian.blacklight.cache.login;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.login.LoginApi;
 import us.shandian.blacklight.api.user.AccountApi;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class LoginApiCache
