@@ -35,8 +35,8 @@ import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.UsersTable;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-	private static String DB_NAME = "weibo_data";
-	private static int DB_VER = 14;
+	private final static String DB_NAME = "weibo_data";
+	private final static int DB_VER = 14;
 
 	private static DataBaseHelper instance;
 
