@@ -29,10 +29,9 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.UserTimeLineApiCache;
 
 /* Little modification from HomeTimeLineFragment to UserTimeLineFragment */
-public class UserTimeLineFragment extends TimeLineFragment
-{
+public class UserTimeLineFragment extends TimeLineFragment {
 	private String mUid;
-	
+
 	public UserTimeLineFragment(String uid) {
 		mUid = uid;
 	}
@@ -45,7 +44,7 @@ public class UserTimeLineFragment extends TimeLineFragment
 
 		return v;
 	}
-	
+
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new UserTimeLineApiCache(getActivity(), mUid);

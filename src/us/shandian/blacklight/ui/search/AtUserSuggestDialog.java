@@ -41,35 +41,31 @@ import us.shandian.blacklight.api.search.SearchApi;
 import us.shandian.blacklight.support.AsyncTask;
 
 public class AtUserSuggestDialog extends Dialog {
-	public static interface AtUserListener {
-		public void onChooseUser(String name);
-	}
-	
+	@InjectView(R.id.at_user_text)
+	EditText mText;
+	@InjectView(R.id.at_user_list)
+	ListView mList;
 	private Context mContext;
-	@InjectView(R.id.at_user_text) EditText mText;
-	@InjectView(R.id.at_user_list) ListView mList;
-	
 	private String[] mStrs;
 	private boolean mLoading = false;
-	
 	private AtUserListener mListener;
-	
+
 	public AtUserSuggestDialog(Context context) {
 		super(context);
-		
+
 		mContext = context;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// Hide title
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-		
+
 		// Views
 		setContentView(R.layout.at_user_dialog);
-		
+
 		ButterKnife.inject(this);
 
 		mText.addTextChangedListener(new TextWatcher() {
@@ -92,7 +88,7 @@ public class AtUserSuggestDialog extends Dialog {
 
 	public void doSearch() {
 		if (mLoading) return;
-		
+
 		new SearchTask().execute(mText.getText().toString());
 	}
 
@@ -103,11 +99,15 @@ public class AtUserSuggestDialog extends Dialog {
 			dismiss();
 		}
 	}
-	
+
 	public void setListener(AtUserListener listener) {
 		mListener = listener;
 	}
-	
+
+	public static interface AtUserListener {
+		public void onChooseUser(String name);
+	}
+
 	private class SearchTask extends AsyncTask<String, Void, String[]> {
 
 		@Override
@@ -115,7 +115,7 @@ public class AtUserSuggestDialog extends Dialog {
 			super.onPreExecute();
 			mLoading = true;
 		}
-		
+
 		@Override
 		protected String[] doInBackground(String... params) {
 			ArrayList<String> a = SearchApi.suggestAtUser(params[0], 5);
@@ -125,11 +125,11 @@ public class AtUserSuggestDialog extends Dialog {
 		@Override
 		protected void onPostExecute(String[] result) {
 			super.onPostExecute(result);
-			
+
 			ArrayAdapter adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, result);
-			
+
 			mList.setAdapter(adapter);
-			
+
 			mStrs = result;
 			mLoading = false;
 		}

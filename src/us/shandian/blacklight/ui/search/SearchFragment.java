@@ -34,45 +34,43 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import us.shandian.blacklight.R;
 
-public class SearchFragment extends Fragment
-{
-	public static interface Searcher {
-		public void search(String q);
-	}
-	
-	@InjectView(R.id.action_search) View mAction;
-	@InjectView(R.id.search_spinner) Spinner mTypes;
-	@InjectView(R.id.search_text) EditText mText;
-	
+public class SearchFragment extends Fragment {
+	@InjectView(R.id.action_search)
+	View mAction;
+	@InjectView(R.id.search_spinner)
+	Spinner mTypes;
+	@InjectView(R.id.search_text)
+	EditText mText;
 	private Fragment[] mFragments = new Fragment[2];
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inject
 		ButterKnife.inject(this, getActivity());
 
 		String[] types = getResources().getStringArray(R.array.search_type);
-		
+
 		mTypes.setAdapter(new ArrayAdapter(getActivity(), R.layout.action_spinner_item, types));
-		
+
 		setHasOptionsMenu(true);
-		
+
 		// Then the main layout
 		View v = inflater.inflate(R.layout.empty_frame, null);
 
 		// Fragments
 		mFragments[0] = new SearchStatusFragment();
 		mFragments[1] = new SearchUserFragment();
-		
+
 		return v;
 	}
-	
+
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
-		
-		if (getActivity() == null || getActivity().getActionBar() == null || mAction == null) return;
-		
+
+		if (getActivity() == null || getActivity().getActionBar() == null || mAction == null)
+			return;
+
 		if (!hidden) {
 			mAction.setVisibility(View.VISIBLE);
 		} else {
@@ -90,15 +88,19 @@ public class SearchFragment extends Fragment
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.do_search) {
 			Fragment f = mFragments[mTypes.getSelectedItemPosition()];
-			
+
 			if (f instanceof Searcher) {
 				((Searcher) f).search(mText.getText().toString());
 				getFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
 			}
-			
+
 			return true;
 		}
 
-        return false;
+		return false;
+	}
+
+	public static interface Searcher {
+		public void search(String q);
 	}
 }

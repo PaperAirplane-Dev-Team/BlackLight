@@ -26,8 +26,7 @@ import us.shandian.blacklight.api.remind.RemindApi.Type;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 
-public class MentionsTimeLineFragment extends TimeLineFragment
-{
+public class MentionsTimeLineFragment extends TimeLineFragment {
 
 	public boolean mDoRefresh = false;
 

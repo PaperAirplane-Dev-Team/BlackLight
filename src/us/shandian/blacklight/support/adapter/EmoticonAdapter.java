@@ -30,14 +30,13 @@ import butterknife.ButterKnife;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Emoticons;
 
-public class EmoticonAdapter extends BaseAdapter
-{	
+public class EmoticonAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
-	
+
 	public EmoticonAdapter(Context context) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-	
+
 	@Override
 	public int getCount() {
 		return Emoticons.EMOTICON_NAMES.size();
@@ -55,7 +54,7 @@ public class EmoticonAdapter extends BaseAdapter
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position >= Emoticons.EMOTICON_NAMES.size()){
+		if (position >= Emoticons.EMOTICON_NAMES.size()) {
 			return convertView;
 		} else {
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.emoticon_view, null);

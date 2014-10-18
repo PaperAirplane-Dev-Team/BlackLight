@@ -29,9 +29,27 @@ import java.util.List;
  A list of reposts
 */
 
-public class RepostListModel extends MessageListModel
-{
+public class RepostListModel extends MessageListModel {
 	private List<MessageModel> reposts = new ArrayList<MessageModel>();
+	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
+
+		@Override
+		public RepostListModel createFromParcel(Parcel in) {
+			RepostListModel ret = new RepostListModel();
+			ret.total_number = in.readInt();
+			ret.previous_cursor = in.readString();
+			ret.next_cursor = in.readString();
+			in.readTypedList(ret.reposts, MessageModel.CREATOR);
+
+			return ret;
+		}
+
+		@Override
+		public RepostListModel[] newArray(int size) {
+			return new RepostListModel[size];
+		}
+
+	};
 
 	@Override
 	public int getSize() {
@@ -67,24 +85,4 @@ public class RepostListModel extends MessageListModel
 		dest.writeString(next_cursor);
 		dest.writeTypedList(reposts);
 	}
-
-	public static final Parcelable.Creator<MessageListModel> CREATOR = new Parcelable.Creator<MessageListModel>() {
-
-		@Override
-		public RepostListModel createFromParcel(Parcel in) {
-			RepostListModel ret = new RepostListModel();
-			ret.total_number = in.readInt();
-			ret.previous_cursor = in.readString();
-			ret.next_cursor = in.readString();
-			in.readTypedList(ret.reposts, MessageModel.CREATOR);
-
-			return ret;
-		}
-
-		@Override
-		public RepostListModel[] newArray(int size) {
-			return new RepostListModel[size];
-		}
-
-	};
 }

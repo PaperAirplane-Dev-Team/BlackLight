@@ -37,8 +37,10 @@ import us.shandian.blacklight.support.http.FeedbackUtility;
 import us.shandian.blacklight.ui.common.AbsActivity;
 
 public class FeedbackActivity extends AbsActivity {
-	@InjectView(R.id.fb_title) EditText mTitle;
-	@InjectView(R.id.fb_content) EditText mContent;
+	@InjectView(R.id.fb_title)
+	EditText mTitle;
+	@InjectView(R.id.fb_content)
+	EditText mContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

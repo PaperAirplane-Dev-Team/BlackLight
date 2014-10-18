@@ -46,7 +46,7 @@ public class EmailAutoCompleteTextView extends AutoCompleteTextView {
 	}
 
 	public EmailAutoCompleteTextView(Context context, AttributeSet attrs,
-									 int defStyle) {
+	                                 int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
 	}

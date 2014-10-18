@@ -59,7 +59,7 @@ public class LinearViewPagerIndicator extends LinearLayout implements ViewPager.
 	}
 
 	public LinearViewPagerIndicator(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);	
+		this(context, attrs, 0);
 	}
 
 	public LinearViewPagerIndicator(Context context, AttributeSet attrs, int defStyle) {
@@ -86,7 +86,7 @@ public class LinearViewPagerIndicator extends LinearLayout implements ViewPager.
 		if (mMeasured) {
 			throw new IllegalStateException("Cannot add tabs when measured");
 		}
-		
+
 		TextView tv = new TextView(mContext);
 		tv.setText(title);
 		tv.setTextColor(mForeground);
@@ -142,7 +142,7 @@ public class LinearViewPagerIndicator extends LinearLayout implements ViewPager.
 
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setColor(mForeground);
-		
+
 		canvas.drawRect(position, (mHeight - mHeight / 18), position + mTabWidth, mHeight, paint);
 
 		if (DEBUG) {

@@ -25,19 +25,19 @@ package us.shandian.blacklight.model;
  */
 
 public class UnreadModel {
-	public int	status			= 0,
-				follower		= 0,
-				cmt				= 0,
-				dm				= 0,
-				mention_status	= 0,
-				mention_cmt		= 0,
-				group			= 0,
-				private_group	= 0,
-				notice			= 0,
-				invite			= 0,
-				badge			= 0,
-				photo			= 0,
-				msgbox			= 0;
+	public int status = 0,
+			follower = 0,
+			cmt = 0,
+			dm = 0,
+			mention_status = 0,
+			mention_cmt = 0,
+			group = 0,
+			private_group = 0,
+			notice = 0,
+			invite = 0,
+			badge = 0,
+			photo = 0,
+			msgbox = 0;
 
 	@Override
 	public String toString() {
@@ -47,6 +47,6 @@ public class UnreadModel {
 				.append(notice).append(invite).append(badge).append(photo)
 				.append(msgbox).toString();
 	}
-	
-	
+
+
 }

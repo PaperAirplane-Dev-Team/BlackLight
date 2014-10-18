@@ -33,9 +33,8 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.CommentListModel;
 import us.shandian.blacklight.model.MessageListModel;
 
-public class CommentMentionsTimeLineApiCache extends HomeTimeLineApiCache
-{
-	
+public class CommentMentionsTimeLineApiCache extends HomeTimeLineApiCache {
+
 	public CommentMentionsTimeLineApiCache(Context context) {
 		super(context);
 	}
@@ -71,5 +70,5 @@ public class CommentMentionsTimeLineApiCache extends HomeTimeLineApiCache
 	protected Class<? extends MessageListModel> getListClass() {
 		return CommentListModel.class;
 	}
-	
+
 }

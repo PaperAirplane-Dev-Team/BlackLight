@@ -26,6 +26,19 @@ import java.util.List;
 
 public class GroupListModel extends BaseListModel<GroupModel, GroupListModel> {
 	private List<GroupModel> lists = new ArrayList<GroupModel>();
+	public static final Parcelable.Creator<GroupListModel> CREATOR = new Parcelable.Creator<GroupListModel>() {
+		@Override
+		public GroupListModel createFromParcel(Parcel in) {
+			GroupListModel ret = new GroupListModel();
+			in.readTypedList(ret.lists, GroupModel.CREATOR);
+			return ret;
+		}
+
+		@Override
+		public GroupListModel[] newArray(int size) {
+			return new GroupListModel[size];
+		}
+	};
 
 	@Override
 	public int getSize() {
@@ -56,19 +69,5 @@ public class GroupListModel extends BaseListModel<GroupModel, GroupListModel> {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeTypedList(lists);
 	}
-
-	public static final Parcelable.Creator<GroupListModel> CREATOR = new Parcelable.Creator<GroupListModel>() {
-		@Override
-		public GroupListModel createFromParcel(Parcel in) {
-			GroupListModel ret = new GroupListModel();
-			in.readTypedList(ret.lists, GroupModel.CREATOR);
-			return ret;
-		}
-
-		@Override
-		public GroupListModel[] newArray(int size) {
-			return new GroupListModel[size];
-		}
-	};
 }
 

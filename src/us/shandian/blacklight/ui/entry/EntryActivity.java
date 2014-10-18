@@ -34,8 +34,7 @@ import us.shandian.blacklight.support.http.FeedbackUtility;
 import us.shandian.blacklight.ui.login.LoginActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
 
-public class EntryActivity extends Activity
-{
+public class EntryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class EntryActivity extends Activity
 
 		// Clear
 		FileCacheManager.instance(this).clearUnavailable();
-		
+
 		// Init
 		ConnectivityReceiver.readNetworkState(this);
 		CrashHandler.init(this);
@@ -56,7 +55,7 @@ public class EntryActivity extends Activity
 		if (FeedbackUtility.shouldSendLog(this)) {
 			new SubmitLogTask(this).execute();
 		}
-		
+
 		LoginApiCache login = new LoginApiCache(this);
 		if (needsLogin(login)) {
 			Intent i = new Intent();
@@ -68,13 +67,13 @@ public class EntryActivity extends Activity
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, MainActivity.class);
-			i.putExtra(Intent.EXTRA_INTENT,getIntent().getIntExtra(Intent.EXTRA_INTENT,0));
+			i.putExtra(Intent.EXTRA_INTENT, getIntent().getIntExtra(Intent.EXTRA_INTENT, 0));
 			startActivity(i);
 			finish();
 		}
-		
+
 	}
-	
+
 	private boolean needsLogin(LoginApiCache login) {
 		return login.getAccessToken() == null || Utility.isTokenExpired(login.getExpireDate());
 	}

@@ -27,18 +27,17 @@ import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class SearchStatusFragment extends TimeLineFragment implements SearchFragment.Searcher
-{
+public class SearchStatusFragment extends TimeLineFragment implements SearchFragment.Searcher {
 	private String mSearch;
-	
+
 	@Override
 	public void search(String q) {
 		mSearch = q;
-		
+
 		try {
 			onRefresh();
 		} catch (NullPointerException e) {
-			
+
 		}
 	}
 
@@ -51,7 +50,7 @@ public class SearchStatusFragment extends TimeLineFragment implements SearchFrag
 	protected void initTitle() {
 
 	}
-	
+
 	private class HackyApiCache extends HomeTimeLineApiCache {
 		public HackyApiCache(Context context) {
 			super(context);

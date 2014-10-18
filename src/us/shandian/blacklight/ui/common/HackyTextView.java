@@ -30,12 +30,11 @@ import us.shandian.blacklight.support.HackyMovementMethod;
 /*
   Hack to fix conflict between MovementMethod and OnClickListener
 */
-public class HackyTextView extends TextView
-{
+public class HackyTextView extends TextView {
 	public HackyTextView(Context context) {
 		super(context);
 	}
-	
+
 	public HackyTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -43,12 +42,12 @@ public class HackyTextView extends TextView
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		boolean ret = super.onTouchEvent(event);
-		
+
 		MovementMethod method = getMovementMethod();
 		if (method instanceof HackyMovementMethod) {
 			return ((HackyMovementMethod) method).isLinkHit();
 		}
-		
+
 		return ret;
 	}
 }

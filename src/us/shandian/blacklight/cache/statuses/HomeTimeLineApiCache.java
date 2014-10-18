@@ -46,28 +46,23 @@ import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.Utility;
 
 /* Time Line of me and my friends */
-public class HomeTimeLineApiCache
-{
+public class HomeTimeLineApiCache {
 	private static HashMap<Long, SoftReference<Bitmap>> mThumnnailCache = new HashMap<Long, SoftReference<Bitmap>>();
-	
+	public MessageListModel mMessages;
 	protected DataBaseHelper mHelper;
 	protected FileCacheManager mManager;
-	
-	public MessageListModel mMessages;
-
-	private Context mContext;
-	
 	protected int mCurrentPage = 0;
+	private Context mContext;
 
 	public HomeTimeLineApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
 		mManager = FileCacheManager.instance(context);
 		mContext = context;
 	}
-	
+
 	public void loadFromCache() {
 		Cursor cursor = query();
-		
+
 		if (cursor.getCount() == 1) {
 			cursor.moveToFirst();
 			mMessages = new Gson().fromJson(cursor.getString(1), getListClass());
@@ -86,23 +81,23 @@ public class HomeTimeLineApiCache
 	public void load(boolean newWeibo) {
 		load(newWeibo, null);
 	}
-	
+
 	public void load(boolean newWeibo, String groupId) {
 		if (newWeibo) {
 			mCurrentPage = 0;
 		}
-		
+
 		MessageListModel list = load(groupId);
-		
+
 		if (newWeibo) {
 			mMessages.getList().clear();
 		}
-		
+
 		mMessages.addAll(false, list);
 		mMessages.spanAll(mContext);
 		mMessages.timestampAll(mContext);
 	}
-	
+
 	public Bitmap getThumbnailPic(MessageModel msg, int id) {
 		String url = null;
 		if (msg.hasMultiplePictures()) {
@@ -112,20 +107,20 @@ public class HomeTimeLineApiCache
 		} else {
 			return null;
 		}
-		
+
 		if (url == null) {
 			return null;
 		}
-		
+
 		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
 		InputStream cache;
-		
+
 		try {
 			cache = mManager.getCache(Constants.FILE_CACHE_PICS_SMALL, cacheName);
 		} catch (Exception e) {
 			cache = null;
 		}
-		
+
 		if (cache == null) {
 			try {
 				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
@@ -133,11 +128,11 @@ public class HomeTimeLineApiCache
 				cache = null;
 			}
 		}
-		
+
 		if (cache == null) {
 			return null;
 		}
-		
+
 		Bitmap bmp = BitmapFactory.decodeStream(cache);
 		mThumnnailCache.put(msg.id * 10 + id, new SoftReference<Bitmap>(bmp));
 
@@ -151,17 +146,17 @@ public class HomeTimeLineApiCache
 
 		return bmp;
 	}
-	
+
 	public Bitmap getCachedThumbnail(MessageModel msg, int id) {
 		long key = msg.id * 10 + id;
-		
+
 		if (mThumnnailCache.containsKey(key)) {
 			return mThumnnailCache.get(key).get();
 		} else {
 			return null;
 		}
 	}
-	
+
 	public Object getLargePic(MessageModel msg, int id, FileCacheManager.ProgressCallback callback) {
 		String url = null;
 		if (msg.hasMultiplePictures()) {
@@ -199,20 +194,20 @@ public class HomeTimeLineApiCache
 
 		if (cacheName.endsWith(".gif")) {
 			Movie movie = Movie.decodeStream(cache);
-			
+
 			// A real movie must have a dutation bigger than 0
 			// Or it is just a static picture
 			if (movie.duration() > 0) {
 				return movie;
 			}
-		} 
-		
+		}
+
 		try {
 			cache.close();
 		} catch (IOException e) {
-			
+
 		}
-		
+
 		return mManager.getCachePath(Constants.FILE_CACHE_PICS_LARGE, cacheName);
 	}
 
@@ -233,7 +228,7 @@ public class HomeTimeLineApiCache
 		String cacheName = url.substring(url.lastIndexOf("/") + 1, url.length());
 		String ret = null;
 		try {
-			ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName, 
+			ret = mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName,
 					Environment.getExternalStorageDirectory().getPath() + "/BlackLight");
 		} catch (Exception e) {
 			// Just ignore
@@ -242,27 +237,27 @@ public class HomeTimeLineApiCache
 			return ret;
 		}
 	}
-	
+
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
 		db.beginTransaction();
 		db.execSQL(Constants.SQL_DROP_TABLE + HomeTimeLineTable.NAME);
 		db.execSQL(HomeTimeLineTable.CREATE);
-		
+
 		ContentValues values = new ContentValues();
 		values.put(HomeTimeLineTable.ID, 1);
 		values.put(HomeTimeLineTable.JSON, new Gson().toJson(mMessages));
-		
+
 		db.insert(HomeTimeLineTable.NAME, null, values);
-		
+
 		db.setTransactionSuccessful();
 		db.endTransaction();
 	}
-	
+
 	protected Cursor query() {
 		return mHelper.getReadableDatabase().query(HomeTimeLineTable.NAME, null, null, null, null, null, null);
 	}
-	
+
 	protected MessageListModel load(String groupId) {
 		if (groupId == null) {
 			return load();
@@ -274,7 +269,7 @@ public class HomeTimeLineApiCache
 	protected MessageListModel load() {
 		return HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 	}
-	
+
 	protected Class<? extends MessageListModel> getListClass() {
 		return MessageListModel.class;
 	}

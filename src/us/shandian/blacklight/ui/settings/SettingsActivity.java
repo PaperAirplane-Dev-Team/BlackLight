@@ -104,7 +104,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private boolean mIsFinishing = false;
 
 	@SuppressWarnings("deprecation")
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Utility.initDarkMode(this);
 		super.onCreate(savedInstanceState);
@@ -155,7 +155,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
 		mPrefRedownload = findPreference(DEBUG_EMO_REDOWNLOAD);
-		
+
 		// Data
 		String version = "Unknown";
 		try {
@@ -175,14 +175,14 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
 		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
-				Settings.AUTO_SUBMIT_LOG,false));
+				Settings.AUTO_SUBMIT_LOG, false));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
 		mPrefInterval.setSummary(
 				this.getResources()
-				.getStringArray(R.array.interval_name) [mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
-						);
+						.getStringArray(R.array.interval_name)[mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
+		);
 		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
-		
+
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
@@ -231,7 +231,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
 			return true;
-		} else if (preference == mPrefLogout){
+		} else if (preference == mPrefLogout) {
 			LoginApiCache loginCache = new LoginApiCache(this);
 			loginCache.logout();
 			Intent i = new Intent();
@@ -346,30 +346,30 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			super.finish();
 		}
 	}
-	
-	private void showIntervalSetDialog(){
+
+	private void showIntervalSetDialog() {
 		new AlertDialog.Builder(this)
-			.setTitle(getString(R.string.set_interval))
-			.setSingleChoiceItems(
-					getResources().getStringArray(R.array.interval_name),
-					mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1),
-					new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							mSettings.putInt(Settings.NOTIFICATION_INTERVAL, which);
-							mPrefInterval.setSummary(
-									getResources()
-									.getStringArray(R.array.interval_name) [
-									mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)
-									]
-											);
-							Utility.restartServices(SettingsActivity.this);
-							dialog.dismiss();
-						}
-					})
-			.show();
-		
+				.setTitle(getString(R.string.set_interval))
+				.setSingleChoiceItems(
+						getResources().getStringArray(R.array.interval_name),
+						mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1),
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								mSettings.putInt(Settings.NOTIFICATION_INTERVAL, which);
+								mPrefInterval.setSummary(
+										getResources()
+												.getStringArray(R.array.interval_name)[
+												mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)
+												]
+								);
+								Utility.restartServices(SettingsActivity.this);
+								dialog.dismiss();
+							}
+						})
+				.show();
+
 	}
-	
+
 }

@@ -42,44 +42,44 @@ import android.widget.FrameLayout;
  * From GitHub Gist: https://gist.github.com/Jogan/9def6110edf3247825c9
  */
 public class FloatingActionButton extends View implements Animator.AnimatorListener {
- 
+
 	final static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
 	final static AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
- 
+
 	Context context;
 	Paint mButtonPaint;
 	Paint mDrawablePaint;
 	Bitmap mBitmap;
 	boolean mHidden = false;
- 
+
 	public FloatingActionButton(Context context) {
 		super(context);
 		this.context = context;
 		init(Color.WHITE);
 	}
- 
+
 	public void setFloatingActionButtonColor(int FloatingActionButtonColor) {
 		init(FloatingActionButtonColor);
 	}
- 
+
 	public void setFloatingActionButtonDrawable(Drawable FloatingActionButtonDrawable) {
 		mBitmap = ((BitmapDrawable) FloatingActionButtonDrawable).getBitmap();
 		invalidate();
 	}
- 
+
 	public void init(int FloatingActionButtonColor) {
 		setWillNotDraw(false);
 		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
- 
+
 		mButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mButtonPaint.setColor(FloatingActionButtonColor);
 		mButtonPaint.setStyle(Paint.Style.FILL);
 		mButtonPaint.setShadowLayer(10.0f, 0.0f, 3.5f, Color.argb(100, 0, 0, 0));
 		mDrawablePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
- 
+
 		invalidate();
 	}
- 
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		setClickable(true);
@@ -87,7 +87,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 		canvas.drawBitmap(mBitmap, (getWidth() - mBitmap.getWidth()) / 2,
 				(getHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
 	}
- 
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -120,7 +120,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 
 	}
 
- 
+
 	public void hideFloatingActionButton() {
 		if (!mHidden) {
 			ObjectAnimator scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1, 0);
@@ -134,7 +134,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			mHidden = true;
 		}
 	}
- 
+
 	public void showFloatingActionButton() {
 		if (mHidden) {
 			setVisibility(View.VISIBLE);
@@ -148,29 +148,29 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			mHidden = false;
 		}
 	}
- 
+
 	public boolean isHidden() {
 		return mHidden;
 	}
- 
+
 	static public class Builder {
-		private FrameLayout.LayoutParams params;
 		private final Activity activity;
 		int gravity = Gravity.BOTTOM | Gravity.RIGHT; // default bottom right
 		Drawable drawable;
 		int color = Color.WHITE;
 		int size = 0;
 		float scale = 0;
- 
+		private FrameLayout.LayoutParams params;
+
 		public Builder(Activity context) {
 			scale = context.getResources().getDisplayMetrics().density;
 			size = convertToPixels(72, scale); // default size is 72dp by 72dp
 			params = new FrameLayout.LayoutParams(size, size);
 			params.gravity = gravity;
- 
+
 			this.activity = context;
 		}
- 
+
 		/**
 		 * Sets the gravity for the FAB
 		 */
@@ -178,7 +178,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			this.gravity = gravity;
 			return this;
 		}
- 
+
 		/**
 		 * Sets the margins for the FAB in dp
 		 */
@@ -190,7 +190,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 					convertToPixels(bottom, scale));
 			return this;
 		}
- 
+
 		/**
 		 * Sets the FAB drawable
 		 */
@@ -198,7 +198,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			this.drawable = drawable;
 			return this;
 		}
- 
+
 		/**
 		 * Sets the FAB color
 		 */
@@ -206,7 +206,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			this.color = color;
 			return this;
 		}
- 
+
 		/**
 		 * Sets the FAB size in dp
 		 */
@@ -215,7 +215,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			params = new FrameLayout.LayoutParams(size, size);
 			return this;
 		}
- 
+
 		public FloatingActionButton create() {
 			final FloatingActionButton button = new FloatingActionButton(activity);
 			button.setFloatingActionButtonColor(this.color);
@@ -225,12 +225,12 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			root.addView(button, params);
 			return button;
 		}
- 
+
 		// The calculation (value * scale + 0.5f) is a widely used to convert to dps to pixel units
 		// based on density scale
 		// see developer.android.com (Supporting Multiple Screen Sizes)
-		private int convertToPixels(int dp, float scale){
-			return (int) (dp * scale + 0.5f) ;
+		private int convertToPixels(int dp, float scale) {
+			return (int) (dp * scale + 0.5f);
 		}
 	}
 }

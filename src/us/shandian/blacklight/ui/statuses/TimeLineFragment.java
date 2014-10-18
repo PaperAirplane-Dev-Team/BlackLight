@@ -44,24 +44,22 @@ import us.shandian.blacklight.ui.main.MainActivity;
 
 public abstract class TimeLineFragment extends Fragment implements
 		SwipeRefreshLayout.OnRefreshListener, OnScrollListener, MainActivity.Refresher {
-	
+
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
-	@InjectView(R.id.home_timeline) protected ListView mList;
-	@InjectView(R.id.action_shadow) protected View mShadow;
-	private WeiboAdapter mAdapter;
+	@InjectView(R.id.home_timeline)
+	protected ListView mList;
+	@InjectView(R.id.action_shadow)
+	protected View mShadow;
 	protected HomeTimeLineApiCache mCache;
-
-	private Settings mSettings;
-
-	// Pull To Refresh
-	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
-
-	private boolean mRefreshing = false;
-
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 	protected boolean mAllowHidingActionBar = true;
+	private WeiboAdapter mAdapter;
+	private Settings mSettings;
+	// Pull To Refresh
+	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	private boolean mRefreshing = false;
 	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
@@ -69,13 +67,13 @@ public abstract class TimeLineFragment extends Fragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	                         Bundle savedInstanceState) {
 
 		initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
 		View v = inflater.inflate(R.layout.home_timeline, null);
-		
+
 		// Inject
 		ButterKnife.inject(this, v);
 
@@ -91,7 +89,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		bindSwipeToRefresh((ViewGroup) v);
 
 		if (mCache.mMessages.getSize() == 0) {
-			new Refresher().execute(new Boolean[] { true });
+			new Refresher().execute(new Boolean[]{true});
 		}
 
 		// Content Margin
@@ -181,13 +179,13 @@ public abstract class TimeLineFragment extends Fragment implements
 				getActivity().getActionBar().show();
 			}
 
-			new Refresher().execute(new Boolean[] { !mSwipeRefresh.isDown() });
+			new Refresher().execute(new Boolean[]{!mSwipeRefresh.isDown()});
 		}
 	}
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
+	                     int visibleItemCount, int totalItemCount) {
 		boolean shouldShow = mRefreshing || firstVisibleItem < mLastFirst;
 		if (firstVisibleItem == mLastFirst) {
 			shouldShow = mFABShowing;

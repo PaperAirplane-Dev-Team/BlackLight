@@ -32,8 +32,7 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class CommentMentionsTimeLineApi extends BaseApi
-{
+public class CommentMentionsTimeLineApi extends BaseApi {
 	private static String TAG = CommentMentionsTimeLineApi.class.getSimpleName();
 
 	public static CommentListModel fetchCommentMentionsTimeLine(int count, int page) {

@@ -32,8 +32,7 @@ import us.shandian.blacklight.cache.database.tables.RepostTimeLineTable;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.model.RepostListModel;
 
-public class RepostTimeLineApiCache extends HomeTimeLineApiCache
-{
+public class RepostTimeLineApiCache extends HomeTimeLineApiCache {
 	private long mId;
 
 	public RepostTimeLineApiCache(Context context, long id) {
@@ -61,8 +60,8 @@ public class RepostTimeLineApiCache extends HomeTimeLineApiCache
 	@Override
 	protected Cursor query() {
 		return mHelper.getReadableDatabase().query(RepostTimeLineTable.NAME, new String[]{
-			RepostTimeLineTable.MSGID,
-			RepostTimeLineTable.JSON
+				RepostTimeLineTable.MSGID,
+				RepostTimeLineTable.JSON
 		}, RepostTimeLineTable.MSGID + "=?", new String[]{String.valueOf(mId)}, null, null, null);
 	}
 

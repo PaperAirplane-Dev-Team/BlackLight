@@ -24,8 +24,7 @@ import us.shandian.blacklight.cache.favorites.FavListApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 
-public class FavListFragment extends TimeLineFragment
-{
+public class FavListFragment extends TimeLineFragment {
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new FavListApiCache(getActivity());

@@ -74,49 +74,45 @@ import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 /* Main Container Activity */
-public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
-{
+public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener {
 
-	public static interface Refresher {
-		void doRefresh();
-	}
-
-	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
-
-	@InjectView(R.id.drawer) DrawerLayout mDrawer;
-	private int mDrawerGravity;
-	private ActionBarDrawerToggle mToggle;
-
-	@InjectView(R.id.action_view) ViewGroup mAction;
-	private View mTitle, mSpinner;
-	@InjectView(R.id.action_hamburger) ImageView mHamburger;
-	
-	// Drawer content
-	@InjectView(R.id.drawer_wrapper) View mDrawerWrapper;
-	@InjectView(R.id.drawer_scroll) ScrollView mDrawerScroll;
-	@InjectView(R.id.my_name) TextView mName;
-	@InjectView(R.id.my_avatar) ImageView mAvatar;
-	@InjectView(R.id.my_cover) ImageView mCover;
-	private FloatingActionButton mFAB;
-	
-	private LoginApiCache mLoginCache;
-	private UserApiCache mUserCache;
-	private UserModel mUser;
-	
-	// Fragments
-	private Fragment[] mFragments = new Fragment[6];
-	private FragmentManager mManager;
-
+	public static final int HOME = 0, COMMENT = 1, FAV = 2, DM = 3, MENTION = 4, SEARCH = 5;
 	// Groups
 	public GroupListModel mGroups;
 	public String mCurrentGroupId = null;
+	@InjectView(R.id.drawer)
+	DrawerLayout mDrawer;
+	@InjectView(R.id.action_view)
+	ViewGroup mAction;
+	@InjectView(R.id.action_hamburger)
+	ImageView mHamburger;
+	// Drawer content
+	@InjectView(R.id.drawer_wrapper)
+	View mDrawerWrapper;
+	@InjectView(R.id.drawer_scroll)
+	ScrollView mDrawerScroll;
+	@InjectView(R.id.my_name)
+	TextView mName;
+	@InjectView(R.id.my_avatar)
+	ImageView mAvatar;
+	@InjectView(R.id.my_cover)
+	ImageView mCover;
+	private int mDrawerGravity;
+	private ActionBarDrawerToggle mToggle;
+	private View mTitle, mSpinner;
+	private FloatingActionButton mFAB;
+	private LoginApiCache mLoginCache;
+	private UserApiCache mUserCache;
+	private UserModel mUser;
+	// Fragments
+	private Fragment[] mFragments = new Fragment[6];
+	private FragmentManager mManager;
 	private MenuItem mGroupDestroy, mGroupCreate;
-	
 	// Temp fields
 	private int mCurrent = 0;
 	private int mNext = 0;
 	private boolean mIgnore = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Utility.initDarkMode(this);
@@ -147,7 +143,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		// Inject
 		ButterKnife.inject(this, customDecor);
-		
+
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
 
@@ -201,7 +197,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mAtMe.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mOther.setVerticalScrollBarEnabled(false);
 		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);*/
-		
+
 		// My account
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
@@ -210,20 +206,20 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		// Initialize FAB
 		mFAB = new FloatingActionButton.Builder(this)
-			.withGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
-			.withMargins(0, 0, 36, 0)
-			.withDrawable(Utility.getFABNewIcon(this))
-			.withButtonColor(Utility.getFABBackground(this))
-			.withButtonSize(80)
-			.create();
+				.withGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
+				.withMargins(0, 0, 36, 0)
+				.withDrawable(Utility.getFABNewIcon(this))
+				.withButtonColor(Utility.getFABBackground(this))
+				.withButtonSize(80)
+				.create();
 		mFAB.setOnClickListener(this);
 		mFAB.setOnLongClickListener(this);
-		
+
 		// Initialize ActionBar Style
 		getActionBar().setHomeButtonEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
 		getActionBar().setDisplayUseLogoEnabled(false);
-		
+
 		mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
 
 		getActionBar().setDisplayShowTitleEnabled(false);
@@ -239,7 +235,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mFragments[MENTION] = new MentionsFragment();
 		mFragments[SEARCH] = new SearchFragment();
 		mManager = getFragmentManager();
-		
+
 		FragmentTransaction ft = mManager.beginTransaction();
 		for (Fragment f : mFragments) {
 			ft.add(R.id.container, f);
@@ -262,17 +258,17 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	}
 
 	@Override
-	protected void onResume(){
+	protected void onResume() {
 		super.onResume();
 
 		Intent i = getIntent();
 
 		if (i == null) return;
 
-		int page = getIntent().getIntExtra(Intent.EXTRA_INTENT,HOME);
-		if (page == HOME){
+		int page = getIntent().getIntExtra(Intent.EXTRA_INTENT, HOME);
+		if (page == HOME) {
 			switchTo(HOME);
-		}else{
+		} else {
 			setShowTitle(true);
 			setShowSpinner(false);
 			switchAndRefresh(page);
@@ -282,7 +278,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	}
 
 	@Override
-	protected void onNewIntent(Intent i){
+	protected void onNewIntent(Intent i) {
 		setIntent(i);
 	}
 
@@ -296,7 +292,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if (resultCode == RESULT_OK) {
 			mLoginCache = new LoginApiCache(this);
 		}
@@ -315,7 +311,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu){
+	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
 		if (mCurrent == 0) {
@@ -358,45 +354,45 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 			// This will re-create the whole activity
 			recreate();
-			
+
 			return true;
 		} else if (item.getItemId() == R.id.group_destroy) {
 			new AlertDialog.Builder(this)
-				.setMessage(R.string.confirm_delete)
-				.setCancelable(true)
-				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				})
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						new GroupDeleteTask().execute();
-					}
-				})
-				.show();
+					.setMessage(R.string.confirm_delete)
+					.setCancelable(true)
+					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							new GroupDeleteTask().execute();
+						}
+					})
+					.show();
 			return true;
 		} else if (item.getItemId() == R.id.group_create) {
 			final EditText text = new EditText(this);
 			new AlertDialog.Builder(this)
-				.setTitle(R.string.group_create)
-				.setCancelable(true)
-				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				})
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						new GroupCreateTask().execute(text.getText().toString().trim());
-					}
-				})
-				.setView(text)
-				.show();
+					.setTitle(R.string.group_create)
+					.setCancelable(true)
+					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							new GroupCreateTask().execute(text.getText().toString().trim());
+						}
+					})
+					.setView(text)
+					.show();
 			return true;
 		} else if (item.getItemId() == R.id.search) {
 			setShowTitle(false);
@@ -405,6 +401,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mCurrent != HOME) {
+			home();
+		} else {
+			super.onBackPressed();
 		}
 	}
 
@@ -504,15 +509,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		openOrCloseDrawer();
 	}*/
 
-	@Override
-	public void onBackPressed() {
-		if (mCurrent != HOME) {
-			home();
-		} else {
-			super.onBackPressed();
-		}
-	}
-
 	@OnClick(R.id.drawer_home)
 	public void home() {
 		setShowTitle(false);
@@ -570,7 +566,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 
 		Settings.getInstance(this).putString(Settings.CURRENT_GROUP, mCurrentGroupId);
-		
+
 		((HomeTimeLineFragment) mFragments[0]).doRefresh();
 
 		return true;
@@ -603,9 +599,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mFAB.showFloatingActionButton();
 	}
 
-	private void switchAndRefresh(int id){
-		if (id != 0){
-			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener)mFragments[id];
+	private void switchAndRefresh(int id) {
+		if (id != 0) {
+			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener) mFragments[id];
 			l.onRefresh();
 		}
 		switchTo(id);
@@ -622,14 +618,14 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			mSpinner.setVisibility(show ? View.VISIBLE : View.GONE);
 		}
 	}
-	
+
 	private void switchTo(int id) {
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
-		
+
 		for (int i = 0; i < mFragments.length; i++) {
 			Fragment f = mFragments[i];
-			
+
 			if (f != null) {
 				if (i != id) {
 					ft.hide(f);
@@ -638,7 +634,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				}
 			}
 		}
-		
+
 		ft.commit();
 
 		mCurrent = id;
@@ -675,7 +671,11 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 
 	}
-	
+
+	public static interface Refresher {
+		void doRefresh();
+	}
+
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
@@ -683,7 +683,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			// Username first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
 			publishProgress(new Object[]{0});
-			
+
 			// My avatar
 			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
 			if (avatar != null) {
@@ -790,8 +790,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				}
 
 				// Navigation
-				getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this, 
-							R.layout.action_spinner_item, names), MainActivity.this);
+				getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this,
+						R.layout.action_spinner_item, names), MainActivity.this);
 
 				getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
@@ -801,7 +801,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				}
 
 				updateActionSpinner();
-				
+
 				if (mCurrent != 0) {
 					Log.d("Spinner", "Will now hide the spinner");
 					setShowSpinner(false);

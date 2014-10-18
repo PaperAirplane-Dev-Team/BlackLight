@@ -26,10 +26,9 @@ import us.shandian.blacklight.api.comments.NewCommentApi;
 import us.shandian.blacklight.model.CommentModel;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 
-public class ReplyToActivity extends NewPostActivity
-{
+public class ReplyToActivity extends NewPostActivity {
 	private CommentModel mComment;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

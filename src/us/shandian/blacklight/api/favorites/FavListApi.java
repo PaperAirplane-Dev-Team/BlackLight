@@ -33,8 +33,7 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class FavListApi extends BaseApi
-{
+public class FavListApi extends BaseApi {
 	private static final String TAG = FavListApi.class.getSimpleName();
 
 	public static MessageListModel fetchFavList(int count, int page) {

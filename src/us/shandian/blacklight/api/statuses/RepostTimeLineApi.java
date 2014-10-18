@@ -32,8 +32,7 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class RepostTimeLineApi extends BaseApi
-{
+public class RepostTimeLineApi extends BaseApi {
 	private static final String TAG = RepostTimeLineApi.class.getSimpleName();
 
 	public static RepostListModel fetchRepostTimeLine(long msgId, int count, int page) {

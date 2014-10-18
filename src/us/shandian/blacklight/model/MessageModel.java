@@ -34,52 +34,8 @@ import java.util.ArrayList;
   credits to: qii(github.com/qii/weiciyuan)
   author: PeterCxy
 */
-public class MessageModel implements Parcelable
-{
-	
-	public static class PictureUrl implements Parcelable {
-		// Picture url
-		// OMG Sina why you use a special class for a simple data!
-		
-		private String thumbnail_pic;
-		
-		public String getThumbnail() {
-			return thumbnail_pic;
-		}
-		
-		public String getLarge() {
-			return thumbnail_pic.replace("thumbnail", "large");
-		}
-		
-		@Override
-		public int describeContents() {
-			return 0;
-		}
+public class MessageModel implements Parcelable {
 
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
-			dest.writeString(thumbnail_pic);
-		}
-		
-		public static final Parcelable.Creator<PictureUrl> CREATOR = new Parcelable.Creator<PictureUrl>() {
-
-			@Override
-			public MessageModel.PictureUrl createFromParcel(Parcel in) {
-				MessageModel.PictureUrl ret = new MessageModel.PictureUrl();
-				ret.thumbnail_pic = in.readString();
-				return ret;
-			}
-
-			@Override
-			public MessageModel.PictureUrl[] newArray(int size) {
-				return new MessageModel.PictureUrl[size];
-			}
-
-			
-		};
-		
-	}
-	
 	// Json mapping fields
 	public String created_at;
 	public long id;
@@ -89,34 +45,30 @@ public class MessageModel implements Parcelable
 	public String source;
 	public boolean favorited;
 	public boolean truncated;
-    public boolean liked;
+	public boolean liked;
 	public String in_reply_to_status_id;
 	public String in_reply_to_user_id;
 	public String in_reply_to_screen_name;
 	public String thumbnail_pic;
 	public String bmiddle_pic;
 	public String original_pic;
-	
 	public GeoModel geo;
 	public UserModel user;
 	public MessageModel retweeted_status; // if retweeted, this field will be the original post
-	
 	public int reposts_count;
 	public int comments_count;
 	public int attitudes_count;
-	
 	public transient SpannableString span, origSpan;
 	public transient long millis;
-	
-	// public Object visible; ignored. We do not need this field at all.
-	
 	// Array field
 	public ArrayList<PictureUrl> pic_urls = new ArrayList<PictureUrl>();
+
+	// public Object visible; ignored. We do not need this field at all.
 
 	public boolean hasMultiplePictures() {
 		return pic_urls.size() > 1;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof MessageModel) {
@@ -130,7 +82,7 @@ public class MessageModel implements Parcelable
 	public int hashCode() {
 		return idstr.hashCode();
 	}
-	
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -160,7 +112,49 @@ public class MessageModel implements Parcelable
 		dest.writeTypedList(pic_urls);
 		dest.writeLong(millis);
 	}
-	
+
+	public static class PictureUrl implements Parcelable {
+		// Picture url
+		// OMG Sina why you use a special class for a simple data!
+
+		private String thumbnail_pic;
+		public static final Parcelable.Creator<PictureUrl> CREATOR = new Parcelable.Creator<PictureUrl>() {
+
+			@Override
+			public MessageModel.PictureUrl createFromParcel(Parcel in) {
+				MessageModel.PictureUrl ret = new MessageModel.PictureUrl();
+				ret.thumbnail_pic = in.readString();
+				return ret;
+			}
+
+			@Override
+			public MessageModel.PictureUrl[] newArray(int size) {
+				return new MessageModel.PictureUrl[size];
+			}
+
+
+		};
+
+		public String getThumbnail() {
+			return thumbnail_pic;
+		}
+
+		public String getLarge() {
+			return thumbnail_pic.replace("thumbnail", "large");
+		}
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(thumbnail_pic);
+		}
+
+	}
+
 	public static final Parcelable.Creator<MessageModel> CREATOR = new Parcelable.Creator<MessageModel>() {
 
 		@Override
@@ -172,14 +166,14 @@ public class MessageModel implements Parcelable
 			ret.idstr = in.readString();
 			ret.text = in.readString();
 			ret.source = in.readString();
-			
+
 			boolean[] array = new boolean[3];
 			in.readBooleanArray(array);
-			
+
 			ret.favorited = array[0];
 			ret.truncated = array[1];
-            ret.liked = array[2];
-			
+			ret.liked = array[2];
+
 			ret.in_reply_to_status_id = in.readString();
 			ret.in_reply_to_user_id = in.readString();
 			ret.in_reply_to_screen_name = in.readString();
@@ -192,11 +186,11 @@ public class MessageModel implements Parcelable
 			ret.reposts_count = in.readInt();
 			ret.comments_count = in.readInt();
 			ret.attitudes_count = in.readInt();
-			
+
 			in.readTypedList(ret.pic_urls, PictureUrl.CREATOR);
 
 			ret.millis = in.readLong();
-			
+
 			return ret;
 		}
 
@@ -205,7 +199,7 @@ public class MessageModel implements Parcelable
 			return new MessageModel[size];
 		}
 
-		
+
 	};
-	
+
 }

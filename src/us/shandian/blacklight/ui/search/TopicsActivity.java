@@ -37,22 +37,21 @@ import static us.shandian.blacklight.support.Utility.hasSmartBar;
 /*
   Shows the topics
 */
-public class TopicsActivity extends AbsActivity
-{
+public class TopicsActivity extends AbsActivity {
 	private String mTopic;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
+		if (hasSmartBar()) {
+			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
+		}
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.empty_frame);
 
 		// Argument
 		mTopic = getIntent().getStringExtra("topic");
-		
+
 		// Fragment
 		getFragmentManager().beginTransaction().replace(R.id.frame, new HackyFragment()).commit();
 	}
@@ -66,7 +65,7 @@ public class TopicsActivity extends AbsActivity
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	private class HackyApiCache extends HomeTimeLineApiCache {
 		public HackyApiCache(Context context) {
 			super(context);
@@ -88,7 +87,7 @@ public class TopicsActivity extends AbsActivity
 			// We don't need to cache
 		}
 	}
-	
+
 	private class HackyFragment extends TimeLineFragment {
 		@Override
 		protected HomeTimeLineApiCache bindApiCache() {

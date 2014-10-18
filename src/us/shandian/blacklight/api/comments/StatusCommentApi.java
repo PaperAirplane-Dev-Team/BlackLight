@@ -32,8 +32,7 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class StatusCommentApi extends BaseApi
-{
+public class StatusCommentApi extends BaseApi {
 	private static String TAG = StatusCommentApi.class.getSimpleName();
 
 	public static CommentListModel fetchCommentOfStatus(long msgId, int count, int page) {

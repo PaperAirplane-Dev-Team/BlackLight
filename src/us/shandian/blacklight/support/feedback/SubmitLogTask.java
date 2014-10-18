@@ -30,7 +30,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.CrashHandler;
 import us.shandian.blacklight.support.http.FeedbackUtility;
 
-public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
+public class SubmitLogTask extends AsyncTask<Void, Void, Void> {
 
 	private Context mContext;
 
@@ -44,10 +44,10 @@ public class SubmitLogTask extends AsyncTask<Void,Void,Void> {
 		UserApiCache usercache = new UserApiCache(mContext);
 		String uid = logincache.getUid();
 
-		if(uid == null){
+		if (uid == null) {
 			FeedbackUtility.sendLog(null, null);
-		}else{
-			String username,contact;
+		} else {
+			String username, contact;
 			UserModel user = usercache.getUser(uid);
 			username = user.screen_name;
 			contact = "http://weibo.com/u/" + uid;

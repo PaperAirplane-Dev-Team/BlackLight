@@ -50,10 +50,9 @@ import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
-{
+public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/ {
 	private static final String TAG = ImageActivity.class.getSimpleName();
-	
+
 	private ImageAdapter mAdapter;
 	private ViewPager mPager;
 	private MessageModel mModel;
@@ -62,21 +61,21 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 	private TextView mPage;
 
 	private boolean[] mLoaded;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// ActionBar
 		getActionBar().setTitle("");
 
 		mApiCache = new HomeTimeLineApiCache(this);
-		
+
 		mModel = getIntent().getParcelableExtra("model");
 		int def = getIntent().getIntExtra("defaultId", 0);
-		
+
 		setContentView(R.layout.image_activity);
-		
+
 		// Initialize the adapter
 		mAdapter = new ImageAdapter();
 		mLoaded = new boolean[mAdapter.getCount()];
@@ -95,7 +94,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		mPager.setAdapter(mAdapter);
 		mPager.setOffscreenPageLimit(1);
 		mPager.setCurrentItem(def);
-		
+
 	}
 
 	@Override
@@ -104,7 +103,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		inflater.inflate(R.menu.image, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -155,13 +154,13 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 	private class ImageAdapter extends PagerAdapter {
 		private ArrayList<View> mViews = new ArrayList<View>();
-		
+
 		public ImageAdapter() {
 			for (int i = 0; i < getCount(); i++) {
 				mViews.add(null);
 			}
 		}
-		
+
 		@Override
 		public int getCount() {
 			return mModel.hasMultiplePictures() ? mModel.pic_urls.size() : 1;
@@ -195,9 +194,9 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			container.removeView((View) object);
 		}
-		
+
 	}
-	
+
 	private class DownloadTask extends AsyncTask<Object, Void, Object[]> {
 
 		@Override
@@ -213,7 +212,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 			super.onPostExecute(result);
 			ViewGroup v = (ViewGroup) result[0];
 			Object img = result[1];
-			
+
 			if (img != null) {
 				v.removeAllViews();
 				if (img instanceof String) {
@@ -247,5 +246,5 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		}
 
 	}
-	
+
 }

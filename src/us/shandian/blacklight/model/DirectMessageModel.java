@@ -25,8 +25,7 @@ import android.os.Parcelable;
 /*
   A map of Direct Message from Weibo Api
 */
-public class DirectMessageModel implements Parcelable
-{
+public class DirectMessageModel implements Parcelable {
 	// JSON Mapping
 	public long id;
 	public String idstr;
@@ -36,24 +35,6 @@ public class DirectMessageModel implements Parcelable
 	public long recipient_id;
 	public String sender_screen_name;
 	public String recipient_screen_name;
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeString(idstr);
-		dest.writeString(created_at);
-		dest.writeString(text);
-		dest.writeLong(sender_id);
-		dest.writeLong(recipient_id);
-		dest.writeString(sender_screen_name);
-		dest.writeString(recipient_screen_name);
-	}
-	
 	public static final Parcelable.Creator<DirectMessageModel> CREATOR = new Parcelable.Creator<DirectMessageModel>() {
 		@Override
 		public DirectMessageModel createFromParcel(Parcel in) {
@@ -74,4 +55,21 @@ public class DirectMessageModel implements Parcelable
 			return new DirectMessageModel[size];
 		}
 	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(id);
+		dest.writeString(idstr);
+		dest.writeString(created_at);
+		dest.writeString(text);
+		dest.writeLong(sender_id);
+		dest.writeLong(recipient_id);
+		dest.writeString(sender_screen_name);
+		dest.writeString(recipient_screen_name);
+	}
 }

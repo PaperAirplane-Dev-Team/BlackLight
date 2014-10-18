@@ -39,12 +39,14 @@ import us.shandian.blacklight.ui.main.MainActivity;
  * This class combines MentionsTimeLine and CommentMentionsTimeLine together
  * */
 public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher {
-	@InjectView(R.id.mentions_indicator) LinearViewPagerIndicator mIndicator;
-	@InjectView(R.id.mentions_pager) ViewPager mPager;
+	@InjectView(R.id.mentions_indicator)
+	LinearViewPagerIndicator mIndicator;
+	@InjectView(R.id.mentions_pager)
+	ViewPager mPager;
 
 	private MentionsTimeLineFragment mRetweet;
 	private CommentMentionsTimeLineFragment mComment;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.mentions, null);

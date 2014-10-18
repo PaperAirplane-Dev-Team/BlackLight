@@ -37,11 +37,8 @@ import us.shandian.blacklight.R;
 
 public class ColorPickerFragment extends Fragment {
 
-	public static interface OnColorSelectedListener {
-		void onSelected(String hex);
-	}
-
-	@InjectView(R.id.picker) ColorPicker mPicker;
+	@InjectView(R.id.picker)
+	ColorPicker mPicker;
 	private OnColorSelectedListener mListener;
 
 	@Override
@@ -66,7 +63,7 @@ public class ColorPickerFragment extends Fragment {
 		mPicker.setOldCenterColor(color);
 		mPicker.setNewCenterColor(color);
 		mPicker.setColor(color);
-		
+
 		return v;
 	}
 
@@ -82,5 +79,9 @@ public class ColorPickerFragment extends Fragment {
 
 	public void setOnColorSelectedListener(OnColorSelectedListener listener) {
 		mListener = listener;
+	}
+
+	public static interface OnColorSelectedListener {
+		void onSelected(String hex);
 	}
 }

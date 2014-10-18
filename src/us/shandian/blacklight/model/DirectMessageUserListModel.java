@@ -28,11 +28,28 @@ import java.util.List;
 /*
   Long-long class name. Pain.
 */
-public class DirectMessageUserListModel extends BaseListModel<DirectMessageUserModel, DirectMessageUserListModel>
-{
-	
+public class DirectMessageUserListModel extends BaseListModel<DirectMessageUserModel, DirectMessageUserListModel> {
+
 	public List<DirectMessageUserModel> user_list = new ArrayList<DirectMessageUserModel>();
-	
+	public static final Parcelable.Creator<DirectMessageUserListModel> CREATOR = new Parcelable.Creator<DirectMessageUserListModel>() {
+		@Override
+		public DirectMessageUserListModel createFromParcel(Parcel in) {
+			DirectMessageUserListModel ret = new DirectMessageUserListModel();
+			ret.total_number = in.readInt();
+			ret.previous_cursor = in.readString();
+			ret.next_cursor = in.readString();
+			in.readTypedList(ret.user_list, DirectMessageUserModel.CREATOR);
+			return ret;
+		}
+
+		@Override
+		public DirectMessageUserListModel[] newArray(int size) {
+			return new DirectMessageUserListModel[size];
+		}
+
+
+	};
+
 	@Override
 	public int getSize() {
 		return user_list.size();
@@ -74,23 +91,4 @@ public class DirectMessageUserListModel extends BaseListModel<DirectMessageUserM
 		dest.writeString(next_cursor);
 		dest.writeTypedList(user_list);
 	}
-	
-	public static final Parcelable.Creator<DirectMessageUserListModel> CREATOR = new Parcelable.Creator<DirectMessageUserListModel>() {
-		@Override
-		public DirectMessageUserListModel createFromParcel(Parcel in) {
-			DirectMessageUserListModel ret = new DirectMessageUserListModel();
-			ret.total_number = in.readInt();
-			ret.previous_cursor = in.readString();
-			ret.next_cursor = in.readString();
-			in.readTypedList(ret.user_list, DirectMessageUserModel.CREATOR);
-			return ret;
-		}
-
-		@Override
-		public DirectMessageUserListModel[] newArray(int size) {
-			return new DirectMessageUserListModel[size];
-		}
-
-		
-	};
 }

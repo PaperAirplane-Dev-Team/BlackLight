@@ -33,15 +33,14 @@ import us.shandian.blacklight.support.http.WeiboParameters;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class DirectMessagesApi extends BaseApi
-{
+public class DirectMessagesApi extends BaseApi {
 	private static final String TAG = DirectMessagesApi.class.getSimpleName();
-	
+
 	public static DirectMessageUserListModel getUserList(int count, int cursor) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("count", count);
 		params.put("cursor", cursor);
-		
+
 		try {
 			JSONObject json = request(Constants.DIRECT_MESSAGES_USER_LIST, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), DirectMessageUserListModel.class);
@@ -50,16 +49,16 @@ public class DirectMessagesApi extends BaseApi
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static DirectMessageListModel getConversation(String uid, int count, int page) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
 		params.put("count", count);
 		params.put("page", page);
-		
+
 		try {
 			JSONObject json = request(Constants.DIRECT_MESSAGES_CONVERSATION, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), DirectMessageListModel.class);
@@ -68,15 +67,15 @@ public class DirectMessagesApi extends BaseApi
 				Log.d(TAG, Log.getStackTraceString(e));
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static boolean send(String uid, String text) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
 		params.put("text", text);
-		
+
 		try {
 			request(Constants.DIRECT_MESSAGES_SEND, params, HTTP_POST);
 			return true;
@@ -85,7 +84,7 @@ public class DirectMessagesApi extends BaseApi
 				Log.d(TAG, Log.getStackTraceString(e));
 			}
 		}
-		
+
 		return false;
 	}
 }

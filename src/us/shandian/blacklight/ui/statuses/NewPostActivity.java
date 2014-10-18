@@ -71,36 +71,45 @@ import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class NewPostActivity extends AbsActivity implements View.OnLongClickListener
-{
+public class NewPostActivity extends AbsActivity implements View.OnLongClickListener {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
-	
+
 	private static final int REQUEST_PICK_IMG = 1001, REQUEST_CAPTURE_PHOTO = 1002;
-	
-	@InjectView(R.id.post_edit) protected EditText mText;
-	@InjectView(R.id.post_back) ImageView mBackground;
-	@InjectView(R.id.post_count) TextView mCount;
-	@InjectView(R.id.post_drawer)  DrawerLayout mDrawer;
-	@InjectView(R.id.post_avatar) ImageView mAvatar;
-	@InjectView(R.id.post_scroll) HorizontalScrollView mScroll;
-	@InjectView(R.id.post_pics) LinearLayout mPicsParent;
 
+	@InjectView(R.id.post_edit)
+	protected EditText mText;
 	// Actions
-	@InjectView(R.id.post_pic) protected ImageView mPic;
-	@InjectView(R.id.post_emoji) protected ImageView mEmoji;
-	@InjectView(R.id.post_at) protected ImageView mAt;
-	@InjectView(R.id.post_topic) protected ImageView mTopic;
-	@InjectView(R.id.post_send) protected ImageView mSend;
-
+	@InjectView(R.id.post_pic)
+	protected ImageView mPic;
+	@InjectView(R.id.post_emoji)
+	protected ImageView mEmoji;
+	@InjectView(R.id.post_at)
+	protected ImageView mAt;
+	@InjectView(R.id.post_topic)
+	protected ImageView mTopic;
+	@InjectView(R.id.post_send)
+	protected ImageView mSend;
+	@InjectView(R.id.post_back)
+	ImageView mBackground;
+	@InjectView(R.id.post_count)
+	TextView mCount;
+	@InjectView(R.id.post_drawer)
+	DrawerLayout mDrawer;
+	@InjectView(R.id.post_avatar)
+	ImageView mAvatar;
+	@InjectView(R.id.post_scroll)
+	HorizontalScrollView mScroll;
+	@InjectView(R.id.post_pics)
+	LinearLayout mPicsParent;
 	// Funny hints
 	private String[] mHints;
-	
+
 	private ImageView[] mPics = new ImageView[9];
 
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
 	private UserModel mUser;
-	
+
 	// Fragments
 	private EmoticonFragment mEmoticonFragment;
 	private ColorPickerFragment mColorPickerFragment;
@@ -125,16 +134,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
 		new GetAvatarTask().execute();
-		
+
 		// Inject
 		ButterKnife.inject(this);
 
 		// Hints
-		if (Math.random() > 0.8){ // Make this a matter of possibility.
+		if (Math.random() > 0.8) { // Make this a matter of possibility.
 			mHints = getResources().getStringArray(R.array.splashes);
 			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 		}
-		
+
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();
 		mColorPickerFragment = new ColorPickerFragment();
@@ -152,11 +161,11 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 		// Listeners
 		mEmoticonFragment.setEmoticonListener(new EmoticonFragment.EmoticonListener() {
-				@Override
-				public void onEmoticonSelected(String name) {
-					mText.getText().insert(mText.getSelectionStart(), name);
-					mDrawer.closeDrawer(Gravity.RIGHT);
-				}
+			@Override
+			public void onEmoticonSelected(String name) {
+				mText.getText().insert(mText.getSelectionStart(), name);
+				mDrawer.closeDrawer(Gravity.RIGHT);
+			}
 		});
 
 		mColorPickerFragment.setOnColorSelectedListener(new ColorPickerFragment.OnColorSelectedListener() {
@@ -168,16 +177,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				mDrawer.closeDrawer(Gravity.RIGHT);
 			}
 		});
-		
+
 		mText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				
+
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
+
 			}
 
 			@Override
@@ -185,16 +194,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				// How many Chinese characters (1 Chinses character = 2 English characters)
 				try {
 					int length = Utility.lengthOfString(s.toString());
-					
+
 					if (DEBUG) {
 						Log.d(TAG, "Text length = " + length);
 					}
-					
+
 					if (length <= 140 && !s.toString().contains("\n")) {
 						mCount.setTextColor(mForeground);
 						mCount.setText(String.valueOf(140 - length));
 						mIsLong = false;
-					} else if (!(NewPostActivity.this instanceof RepostActivity) 
+					} else if (!(NewPostActivity.this instanceof RepostActivity)
 							&& !(NewPostActivity.this instanceof CommentOnActivity)
 							&& !(NewPostActivity.this instanceof ReplyToActivity)) {
 						mCount.setText(getResources().getString(R.string.long_post));
@@ -204,9 +213,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 						mCount.setText(String.valueOf(140 - length));
 						mIsLong = false;
 					}
-					
+
 				} catch (Exception e) {
-					
+
 				}
 
 				if (mEmoji != null) {
@@ -260,14 +269,14 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		// Image picked, decode
 		if (requestCode == REQUEST_PICK_IMG && resultCode == RESULT_OK) {
 			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
 			cursor.moveToFirst();
 			String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
 			cursor.close();
-			
+
 			// Then decode
 			addPicture(BitmapFactory.decodeFile(filePath));
 		}
@@ -294,7 +303,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		if (item.isCheckable() && item.isEnabled()) {
 			item.setChecked(!item.isChecked());
 		}
-		
+
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			finish();
@@ -314,17 +323,17 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
 			}
 		} catch (Exception e) {
-					
+
 		}
-	} 
-	
-	@OnClick(R.id.post_pic) 
+	}
+
+	@OnClick(R.id.post_pic)
 	public void pic() {
 		if (mBitmaps.size() < 9) {
 			showPicturePicker();
 		}
 	}
-	
+
 	@OnClick(R.id.post_emoji)
 	public void emoji() {
 		if (mDrawer.isDrawerOpen(Gravity.END)) {
@@ -333,14 +342,14 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			mDrawer.openDrawer(Gravity.END);
 		}
 	}
-	
-	@OnClick(R.id.post_at) 
+
+	@OnClick(R.id.post_at)
 	public void at() {
 		AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
 		diag.setListener(new AtUserSuggestDialog.AtUserListener() {
 			@Override
 			public void onChooseUser(String name) {
-				mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
+				mText.getText().insert(mText.getSelectionStart(), " @" + name + " ");
 			}
 		});
 		diag.show();
@@ -350,12 +359,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	public void topic() {
 		CharSequence text = mText.getText();
 		mText.getText().insert(mText.getSelectionStart(), "##");
-		if(text instanceof Spannable) {
+		if (text instanceof Spannable) {
 			Selection.setSelection((Spannable) text, text.length() - 1);
 		}
 	}
 
-	private void showPicturePicker(){
+	private void showPicturePicker() {
 		new AlertDialog.Builder(this).setItems(getResources().getStringArray(R.array.picture_picker_array),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialogInterface, int id) {
@@ -369,7 +378,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 							case 1:
 								Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 								Uri uri = Utility.getOutputMediaFileUri();
-								captureIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+								captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 								startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
 								break;
 						}
@@ -378,7 +387,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		).show();
 	}
 
-	private void addPicture(Bitmap bitmap){
+	private void addPicture(Bitmap bitmap) {
 		mBitmaps.add(bitmap);
 		updatePictureView();
 	}
@@ -438,7 +447,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	private boolean postPics(String status) {
 		// Upload pictures first
 		String pics = "";
-		
+
 		for (int i = 0; i < mBitmaps.size(); i++) {
 			Bitmap bmp = mBitmaps.get(i);
 			String id = PostApi.uploadPicture(bmp);
@@ -454,20 +463,20 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		// Upload text
 		return PostApi.newPostWithMultiPics(status, pics);
 	}
-	
+
 	private class Uploader extends AsyncTask<Void, Void, Boolean> {
 		private ProgressDialog prog;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			
+
 			prog = new ProgressDialog(NewPostActivity.this);
 			prog.setMessage(getResources().getString(R.string.plz_wait));
 			prog.setCancelable(false);
 			prog.show();
 		}
-		
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			return post();
@@ -476,28 +485,28 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-			
+
 			prog.dismiss();
-			
+
 			if (result) {
 				finish();
 			} else {
 				new AlertDialog.Builder(NewPostActivity.this)
-								.setMessage(R.string.send_fail)
-								.setCancelable(true)
-								.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int index) {
-										dialog.dismiss();
-									}
-								})
-								.create()
-								.show();
+						.setMessage(R.string.send_fail)
+						.setCancelable(true)
+						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int index) {
+								dialog.dismiss();
+							}
+						})
+						.create()
+						.show();
 			}
 		}
 
 	}
-	
+
 	private class GetAvatarTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
@@ -509,7 +518,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
 			if (avatar != null)
 				publishProgress(1, avatar);
-			
+
 			return null;
 		}
 
@@ -522,6 +531,6 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			}
 			super.onProgressUpdate();
 		}
-		
+
 	}
 }

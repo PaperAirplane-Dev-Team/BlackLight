@@ -25,11 +25,26 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListModel extends BaseListModel<UserModel, UserListModel>
-{
-	
+public class UserListModel extends BaseListModel<UserModel, UserListModel> {
+
 	private List<UserModel> users = new ArrayList<UserModel>();
-	
+	public static final Parcelable.Creator<UserListModel> CREATOR = new Parcelable.Creator<UserListModel>() {
+		@Override
+		public UserListModel createFromParcel(Parcel in) {
+			UserListModel ret = new UserListModel();
+			ret.total_number = in.readInt();
+			ret.previous_cursor = in.readString();
+			ret.next_cursor = in.readString();
+			in.readTypedList(ret.users, UserModel.CREATOR);
+			return ret;
+		}
+
+		@Override
+		public UserListModel[] newArray(int size) {
+			return new UserListModel[size];
+		}
+	};
+
 	@Override
 	public int getSize() {
 		return users.size();
@@ -69,22 +84,5 @@ public class UserListModel extends BaseListModel<UserModel, UserListModel>
 		dest.writeString(next_cursor);
 		dest.writeTypedList(users);
 	}
-	
-	public static final Parcelable.Creator<UserListModel> CREATOR = new Parcelable.Creator<UserListModel>() {
-		@Override
-		public UserListModel createFromParcel(Parcel in) {
-			UserListModel ret = new UserListModel();
-			ret.total_number = in.readInt();
-			ret.previous_cursor = in.readString();
-			ret.next_cursor = in.readString();
-			in.readTypedList(ret.users, UserModel.CREATOR);
-			return ret;
-		}
-
-		@Override
-		public UserListModel[] newArray(int size) {
-			return new UserListModel[size];
-		}
-	};
 
 }

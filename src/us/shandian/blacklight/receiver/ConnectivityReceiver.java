@@ -29,25 +29,19 @@ import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
-public class ConnectivityReceiver extends BroadcastReceiver
-{
+public class ConnectivityReceiver extends BroadcastReceiver {
 	private static final String TAG = ConnectivityReceiver.class.getSimpleName();
-	
+
 	public static boolean isWIFI = true;
-	
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		readNetworkState(context);
-	}
 
 	public static void readNetworkState(Context context) {
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
+
 		if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
 			if (DEBUG) {
 				Log.d(TAG, "Network connected");
 			}
-			
+
 			Utility.startServices(context);
 
 			isWIFI = (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI);
@@ -55,8 +49,13 @@ public class ConnectivityReceiver extends BroadcastReceiver
 			if (DEBUG) {
 				Log.d(TAG, "Network disconnected");
 			}
-			
+
 			Utility.stopServices(context);
 		}
+	}
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		readNetworkState(context);
 	}
 }

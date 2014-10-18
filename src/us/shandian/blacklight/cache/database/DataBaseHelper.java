@@ -34,17 +34,24 @@ import us.shandian.blacklight.cache.database.tables.StatusCommentTable;
 import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.UsersTable;
 
-public class DataBaseHelper extends SQLiteOpenHelper
-{
+public class DataBaseHelper extends SQLiteOpenHelper {
 	private static String DB_NAME = "weibo_data";
 	private static int DB_VER = 14;
-	
+
 	private static DataBaseHelper instance;
-	
+
 	private DataBaseHelper(Context context) {
 		super(context, DB_NAME, null, DB_VER);
 	}
-	
+
+	public static synchronized DataBaseHelper instance(Context context) {
+		if (instance == null) {
+			instance = new DataBaseHelper(context);
+		}
+
+		return instance;
+	}
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(UsersTable.CREATE);
@@ -64,14 +71,6 @@ public class DataBaseHelper extends SQLiteOpenHelper
 		if (from == 13) {
 			db.execSQL(DirectMessageUserTable.CREATE);
 		}
-	}
-	
-	public static synchronized DataBaseHelper instance(Context context) {
-		if (instance == null) {
-			instance = new DataBaseHelper(context);
-		}
-		
-		return instance;
 	}
 
 }

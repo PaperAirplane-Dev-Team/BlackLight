@@ -30,31 +30,25 @@ import android.widget.GridView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.adapter.EmoticonAdapter;
 
-public class EmoticonFragment extends Fragment implements AdapterView.OnItemClickListener
-{
-	public static interface EmoticonListener {
-		public void onEmoticonSelected(String name);
-	}
-	
+public class EmoticonFragment extends Fragment implements AdapterView.OnItemClickListener {
 	private GridView mGrid;
 	private EmoticonAdapter mAdapter;
-	
 	// listener
 	private EmoticonListener mListener;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.emoticon_fragment, null);
 		mGrid = (GridView) v.findViewById(R.id.emoticon_grid);
-		
+
 		// adapter
 		mAdapter = new EmoticonAdapter(getActivity());
 		mGrid.setAdapter(mAdapter);
 		mGrid.setFastScrollEnabled(true);
-		
+
 		// listener
 		mGrid.setOnItemClickListener(this);
-		
+
 		return v;
 	}
 
@@ -64,8 +58,12 @@ public class EmoticonFragment extends Fragment implements AdapterView.OnItemClic
 			mListener.onEmoticonSelected(mAdapter.getItem(position));
 		}
 	}
-	
+
 	public void setEmoticonListener(EmoticonListener listener) {
 		mListener = listener;
+	}
+
+	public static interface EmoticonListener {
+		public void onEmoticonSelected(String name);
 	}
 }

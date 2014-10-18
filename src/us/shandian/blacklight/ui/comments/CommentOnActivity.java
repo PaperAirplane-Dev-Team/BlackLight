@@ -30,17 +30,16 @@ import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 
-public class CommentOnActivity extends NewPostActivity
-{
+public class CommentOnActivity extends NewPostActivity {
 	private MessageModel mMsg;
-	
+
 	private MenuItem mCommentOrig;
 	private MenuItem mRepost;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		mPic.setVisibility(View.GONE);
 
 		// Arguments
@@ -50,19 +49,19 @@ public class CommentOnActivity extends NewPostActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		
+
 		// Other items
 		mCommentOrig = menu.add(R.string.comment_orig);
 		mCommentOrig.setCheckable(true);
 		mCommentOrig.setChecked(false);
 		mCommentOrig.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		mCommentOrig.setEnabled(mMsg.retweeted_status != null);
-		
+
 		mRepost = menu.add(R.string.comment_and_repost);
 		mRepost.setCheckable(true);
 		mRepost.setChecked(false);
 		mRepost.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		
+
 		return true;
 	}
 

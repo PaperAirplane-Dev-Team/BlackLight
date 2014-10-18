@@ -57,24 +57,25 @@ import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
 
-public class SingleActivity extends AbsActivity
-{
+public class SingleActivity extends AbsActivity {
+	@InjectView(R.id.single_pager)
+	ViewPager mPager;
+	@InjectView(R.id.single_root)
+	SlidingUpPanelLayout mRoot;
+	@InjectView(R.id.single_dragger)
+	View mDragger;
+	@InjectView(R.id.single_content)
+	View mContent;
+	@InjectView(R.id.single_indicator)
+	LinearViewPagerIndicator mIndicator;
+	@InjectView(R.id.iv_collapse)
+	ImageView mCollapse;
+	@InjectViews({R.id.single_comment_img, R.id.single_repost_img})
+	ImageView[] mIcons;
 	private MessageModel mMsg;
-	
 	private Fragment mMsgFragment;
 	private Fragment mCommentFragment;
 	private Fragment mRepostFragment;
-	
-	@InjectView(R.id.single_pager) ViewPager mPager;
-	@InjectView(R.id.single_root) SlidingUpPanelLayout mRoot;
-	@InjectView(R.id.single_dragger) View mDragger;
-	@InjectView(R.id.single_content) View mContent;
-	
-	@InjectView(R.id.single_indicator) LinearViewPagerIndicator mIndicator;
-	@InjectView(R.id.iv_collapse) ImageView mCollapse;
-
-	@InjectViews({R.id.single_comment_img, R.id.single_repost_img}) ImageView[] mIcons;
-	
 	private MenuItem mFav, mLike;
 
 	private boolean mIsMine = false;
@@ -102,7 +103,7 @@ public class SingleActivity extends AbsActivity
 		if (mMsg.user != null && mMsg.user.id != null) {
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
-		
+
 		// Inject
 		ButterKnife.inject(this);
 
@@ -112,12 +113,12 @@ public class SingleActivity extends AbsActivity
 				v.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
 			}
 		}
-		
+
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
 		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
-		
+
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 			@Override
 			public int getCount() {
@@ -137,17 +138,17 @@ public class SingleActivity extends AbsActivity
 			}
 		});
 
-		mRoot.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
+		mRoot.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
 				//Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
-				
+
 				// Gradient color if in light mode
 				if (!mDark) {
 					float gradientFactor = 1 - slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
-							mActionBarColor,gradientFactor));
+							mActionBarColor, gradientFactor));
 					int foreground = Utility.getGradientColor(mActionBarColor, mDragBackgroundColor, gradientFactor);
 					mIndicator.setForeground(foreground);
 					mCollapse.setColorFilter(foreground, PorterDuff.Mode.SRC_IN);
@@ -171,9 +172,9 @@ public class SingleActivity extends AbsActivity
 
 			@Override
 			public void onPanelAnchored(View panel) {
-				
+
 			}
-			
+
 		});
 
 		// Indicator
@@ -215,22 +216,22 @@ public class SingleActivity extends AbsActivity
 					}
 				}
 		});*/
-		
+
 		mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-				@Override
-				public void onPageScrolled(int position, float positonOffset, int positionOffsetPixels) {
-					
-				}
+			@Override
+			public void onPageScrolled(int position, float positonOffset, int positionOffsetPixels) {
 
-				@Override
-				public void onPageSelected(int position) {
-					//mTabs.setCurrentTab(position);
-				}
+			}
 
-				@Override
-				public void onPageScrollStateChanged(int state) {
-					
-				}
+			@Override
+			public void onPageSelected(int position) {
+				//mTabs.setCurrentTab(position);
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int state) {
+
+			}
 		});
 	}
 
@@ -239,7 +240,7 @@ public class SingleActivity extends AbsActivity
 		getMenuInflater().inflate(R.menu.single, menu);
 		mFav = menu.findItem(R.id.fav);
 		mLike = menu.findItem(R.id.like);
-		
+
 		// Can only delete statuses post by me
 		if (!mIsMine) {
 			menu.findItem(R.id.delete).setVisible(false);
@@ -253,7 +254,7 @@ public class SingleActivity extends AbsActivity
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -268,21 +269,21 @@ public class SingleActivity extends AbsActivity
 			return true;*/
 		} else if (id == R.id.delete) {
 			new AlertDialog.Builder(this)
-							.setMessage(R.string.confirm_delete)
-							.setCancelable(true)
-							.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									new DeleteTask().execute();
-								}
-							})
-							.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									dialog.dismiss();
-								}
-							})
-							.show();
+					.setMessage(R.string.confirm_delete)
+					.setCancelable(true)
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							new DeleteTask().execute();
+						}
+					})
+					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+						}
+					})
+					.show();
 			return true;
 		} else if (id == R.id.fav) {
 			if (!mFavTaskRunning) {
@@ -294,14 +295,14 @@ public class SingleActivity extends AbsActivity
 
 			return true;
 		} else if (id == R.id.like) {
-			if (!mLikeTaskRunning){
+			if (!mLikeTaskRunning) {
 				new LikeTask().execute();
 			}
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@OnClick(R.id.single_comment)
 	public void commentOn() {
 		Intent i = new Intent();
@@ -310,7 +311,7 @@ public class SingleActivity extends AbsActivity
 		i.putExtra("msg", mMsg);
 		startActivity(i);
 	}
-	
+
 	@OnClick(R.id.single_repost)
 	public void repost() {
 		Intent i = new Intent();
@@ -319,7 +320,7 @@ public class SingleActivity extends AbsActivity
 		i.putExtra("msg", mMsg);
 		startActivity(i);
 	}
-	
+
 	private void setFavouriteIcon() {
 		mFav.setIcon(mFavourited ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 		mFav.setTitle(getString(mFavourited ? R.string.fav_del : R.string.fav_add));
@@ -329,10 +330,10 @@ public class SingleActivity extends AbsActivity
 		mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
 		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.attitudes));
 	}
-	
+
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog prog;
-		
+
 		@Override
 		protected void onPreExecute() {
 			prog = new ProgressDialog(SingleActivity.this);
@@ -340,20 +341,20 @@ public class SingleActivity extends AbsActivity
 			prog.setCancelable(false);
 			prog.show();
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			PostApi.deletePost(mMsg.id);
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Void result) {
 			prog.dismiss();
 			finish();
 		}
 	}
-	
+
 	private class FavTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -361,7 +362,7 @@ public class SingleActivity extends AbsActivity
 			super.onPreExecute();
 			mFavTaskRunning = true;
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			if (mFavourited) {
@@ -369,7 +370,7 @@ public class SingleActivity extends AbsActivity
 			} else {
 				PostApi.fav(mMsg.id);
 			}
-			
+
 			mFavourited = !mFavourited;
 			return null;
 		}
@@ -409,7 +410,7 @@ public class SingleActivity extends AbsActivity
 			mLikeTaskRunning = false;
 		}
 	}
-	
+
 	private class HackyApiCache extends HomeTimeLineApiCache {
 		public HackyApiCache(Context context) {
 			super(context);
@@ -419,39 +420,39 @@ public class SingleActivity extends AbsActivity
 
 		@Override
 		public void loadFromCache() {
-			
+
 		}
 
 		@Override
 		public void load(boolean newWeibo) {
-			
+
 		}
-		
+
 		@Override
 		public void cache() {
-			
+
 		}
 	}
-	
+
 	private class HackyFragment extends TimeLineFragment {
-		
+
 		public HackyFragment() {
 			mShowCommentStatus = false;
 		}
 
 		@Override
 		protected void bindSwipeToRefresh(ViewGroup v) {
-			
+
 		}
 
 		@Override
 		protected HomeTimeLineApiCache bindApiCache() {
 			return new HackyApiCache(getActivity());
 		}
-		
+
 		@Override
 		protected void initTitle() {
-			
+
 		}
 	}
 }

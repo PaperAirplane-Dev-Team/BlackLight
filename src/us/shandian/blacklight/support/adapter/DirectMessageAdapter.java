@@ -37,14 +37,13 @@ import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 
-public class DirectMessageAdapter extends BaseAdapter
-{
+public class DirectMessageAdapter extends BaseAdapter {
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private DirectMessageListModel mList;
 	private DirectMessageListModel mClone;
 	private long mUid;
-	
+
 	public DirectMessageAdapter(Context context, DirectMessageListModel list, String uid) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,7 +51,7 @@ public class DirectMessageAdapter extends BaseAdapter
 		mUid = Long.parseLong(uid);
 		notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public int getCount() {
 		return mClone.getSize();
@@ -76,10 +75,10 @@ public class DirectMessageAdapter extends BaseAdapter
 			DirectMessageModel msg = mClone.get(calcPos(position));
 			View v = null;
 			ViewHolder h = null;
-			
+
 			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_conversation_item, null);
 			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v);
-			
+
 			LinearLayout container = h.container;
 			if (msg.sender_id == mUid) {
 				container.setGravity(Gravity.LEFT);
@@ -88,12 +87,12 @@ public class DirectMessageAdapter extends BaseAdapter
 				container.setGravity(Gravity.RIGHT);
 				container.setAlpha(0.8f);
 			}
-			
+
 			h.content.setText(SpannableStringUtils.span(mContext, msg.text));
 			h.content.setMovementMethod(HackyMovementMethod.getInstance());
-			
+
 			h.date.setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
-			
+
 			return v;
 		}
 	}
@@ -103,18 +102,21 @@ public class DirectMessageAdapter extends BaseAdapter
 		mClone = mList.clone();
 		super.notifyDataSetChanged();
 	}
-	
+
 	// Convert position to real position (upside-down list)
 	private int calcPos(int position) {
 		return getCount() - position - 1;
 	}
-	
+
 	class ViewHolder {
+		@InjectView(R.id.direct_message_conversation_content)
+		public TextView content;
+		@InjectView(R.id.direct_message_conversation_date)
+		public TextView date;
+		@InjectView(R.id.direct_message_conversation_container)
+		public LinearLayout container;
 		private View v;
-		@InjectView(R.id.direct_message_conversation_content) public TextView content;
-		@InjectView(R.id.direct_message_conversation_date) public TextView date;
-		@InjectView(R.id.direct_message_conversation_container) public LinearLayout container;
-		
+
 		public ViewHolder(View v) {
 			this.v = v;
 			ButterKnife.inject(this, v);

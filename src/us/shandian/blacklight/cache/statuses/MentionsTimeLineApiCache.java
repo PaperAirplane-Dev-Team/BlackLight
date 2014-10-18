@@ -33,13 +33,12 @@ import us.shandian.blacklight.model.MessageListModel;
 
 /* Mainly similiar with Home Time Line, 
    but it only shows messages metioning me */
-public class MentionsTimeLineApiCache extends HomeTimeLineApiCache
-{
-	
+public class MentionsTimeLineApiCache extends HomeTimeLineApiCache {
+
 	public MentionsTimeLineApiCache(Context context) {
 		super(context);
 	}
-	
+
 	@Override
 	public void cache() {
 		SQLiteDatabase db = mHelper.getWritableDatabase();
@@ -66,5 +65,5 @@ public class MentionsTimeLineApiCache extends HomeTimeLineApiCache
 	protected MessageListModel load() {
 		return MentionsTimeLineApi.fetchMentionsTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 	}
-	
+
 }

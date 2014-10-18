@@ -25,10 +25,22 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DirectMessageListModel extends BaseListModel<DirectMessageModel, DirectMessageListModel>
-{
+public class DirectMessageListModel extends BaseListModel<DirectMessageModel, DirectMessageListModel> {
 	private List<DirectMessageModel> direct_messages = new ArrayList<DirectMessageModel>();
-	
+	public static final Parcelable.Creator<DirectMessageListModel> CREATOR = new Parcelable.Creator<DirectMessageListModel>() {
+		@Override
+		public DirectMessageListModel createFromParcel(Parcel in) {
+			DirectMessageListModel ret = new DirectMessageListModel();
+			in.readTypedList(ret.direct_messages, DirectMessageModel.CREATOR);
+			return ret;
+		}
+
+		@Override
+		public DirectMessageListModel[] newArray(int size) {
+			return new DirectMessageListModel[size];
+		}
+	};
+
 	@Override
 	public int getSize() {
 		return direct_messages.size();
@@ -65,19 +77,5 @@ public class DirectMessageListModel extends BaseListModel<DirectMessageModel, Di
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeTypedList(direct_messages);
 	}
-	
-	public static final Parcelable.Creator<DirectMessageListModel> CREATOR = new Parcelable.Creator<DirectMessageListModel>() {
-		@Override
-		public DirectMessageListModel createFromParcel(Parcel in) {
-			DirectMessageListModel ret = new DirectMessageListModel();
-			in.readTypedList(ret.direct_messages, DirectMessageModel.CREATOR);
-			return ret;
-		}
-
-		@Override
-		public DirectMessageListModel[] newArray(int size) {
-			return new DirectMessageListModel[size];
-		}
-	};
 
 }

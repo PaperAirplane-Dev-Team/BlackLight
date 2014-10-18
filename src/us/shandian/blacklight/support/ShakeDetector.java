@@ -37,37 +37,18 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
  * modifier: Peter Cai
  */
 public class ShakeDetector implements SensorEventListener {
-	
+
 	private static final String TAG = ShakeDetector.class.getSimpleName();
-
-	public static interface ShakeListener {
-		public void onShake();
-	}
-
 	private static final int INTERVAL = 100;
 	private static final int THRESHOLD = 10; // detecting threshold
-
 	private static ShakeDetector sInstance = null; // Single instance
-
 	private long mLastTime;
-
 	// Last position
 	// And this is a 3-D world
 	private float mLastX, mLastY, mLastZ;
-
 	private float mLastV = -1;
-
 	private Vibrator mVibrator;
-
 	private ArrayList<ShakeListener> mListeners = new ArrayList<ShakeListener>();
-
-	public synchronized static ShakeDetector getInstance(Context context) {
-		if (sInstance == null) {
-			sInstance = new ShakeDetector(context);
-		}
-
-		return sInstance;
-	}
 
 	// Private constructor, should not be called outside
 	private ShakeDetector(Context context) {
@@ -79,6 +60,14 @@ public class ShakeDetector implements SensorEventListener {
 			manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_UI);
 		}
 
+	}
+
+	public synchronized static ShakeDetector getInstance(Context context) {
+		if (sInstance == null) {
+			sInstance = new ShakeDetector(context);
+		}
+
+		return sInstance;
 	}
 
 	public void addListener(ShakeListener listener) {
@@ -101,12 +90,12 @@ public class ShakeDetector implements SensorEventListener {
 		if (diff >= INTERVAL) {
 			mLastTime = millis;
 			float x = event.values[0],
-				  y = event.values[1],
-				  z = event.values[2];
+					y = event.values[1],
+					z = event.values[2];
 
 			float dX = x - mLastX,
-				  dY = y - mLastY,
-				  dZ = z - mLastZ;
+					dY = y - mLastY,
+					dZ = z - mLastZ;
 
 			float eV = FloatMath.sqrt(dX * dX + dY * dY + dZ * dZ) / diff * 10000;
 
@@ -130,7 +119,7 @@ public class ShakeDetector implements SensorEventListener {
 				Log.d(TAG, "mLastX = " + mLastX + "; mLastY = " + mLastY + "; mLastZ = " + mLastZ);
 				Log.d(TAG, "eV = " + eV + "; mLastV = " + mLastV);*/
 			}
-			
+
 			mLastX = x;
 			mLastY = y;
 			mLastZ = z;
@@ -148,5 +137,9 @@ public class ShakeDetector implements SensorEventListener {
 				listener.onShake();
 			}
 		}
+	}
+
+	public static interface ShakeListener {
+		public void onShake();
 	}
 }

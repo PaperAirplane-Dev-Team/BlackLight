@@ -27,23 +27,22 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.common.AbsActivity;
 
 
-public class LicenseActivity extends AbsActivity
-{
+public class LicenseActivity extends AbsActivity {
 	private WebView mWebView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// This activity shares the same view with the login activity
 		setContentView(R.layout.web_login);
-		
+
 		mWebView = (WebView) findViewById(R.id.login_web);
-		
+
 		// The license is in assets
 		mWebView.loadUrl("file:///android_asset/licenses.html");
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
