@@ -308,7 +308,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	@OnClick(R.id.post_send)
 	public void send() {
 		try {
-			if (!TextUtils.isEmpty(mText.getText().toString())) {
+			if (!TextUtils.isEmpty(mText.getText().toString().trim())) {
 				new Uploader().execute();
 			} else {
 				Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
