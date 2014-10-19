@@ -26,6 +26,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.View;
 
+import us.shandian.blacklight.support.Utility;
+
 // This cannot be inflated by LayoutInflater.
 public class CircularProgressView extends View {
 
@@ -38,6 +40,7 @@ public class CircularProgressView extends View {
 
 	public CircularProgressView(Context context) {
 		super(context);
+		mFontSize = (int) Utility.dp2px(context, 10.0f);
 		setWillNotDraw(false);
 	}
 
