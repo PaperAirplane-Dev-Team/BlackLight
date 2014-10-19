@@ -326,10 +326,10 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	
 	@OnClick(R.id.post_emoji)
 	public void emoji() {
-		if (mDrawer.isDrawerOpen(Gravity.END)) {
-			mDrawer.closeDrawer(Gravity.END);
+		if (mDrawer.isDrawerOpen(Gravity.RIGHT)) {
+			mDrawer.closeDrawer(Gravity.RIGHT);
 		} else {
-			mDrawer.openDrawer(Gravity.END);
+			mDrawer.openDrawer(Gravity.RIGHT);
 		}
 	}
 	
