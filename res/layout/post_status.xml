@@ -65,6 +65,7 @@
 				android:ems="10"
 				android:layout_width="match_parent"
 				android:textColor="?attr/CardForeground"
+				android:textSize="18sp"
 				android:id="@+id/post_edit"
 				android:gravity="top"
 				android:paddingTop="10dp"
