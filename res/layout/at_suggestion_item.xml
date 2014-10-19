@@ -17,42 +17,13 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<TextView
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="240dp"
 	android:layout_height="wrap_content"
-	android:orientation="vertical">
-
-	<LinearLayout
-		android:layout_height="wrap_content"
-		android:layout_width="240dp"
-		android:orientation="horizontal">
-
-		<ImageView
-			android:layout_height="45dp"
-			style="?android:attr/buttonBarButtonStyle"
-			android:layout_width="45dp"
-			android:src="@drawable/ic_action_search_dark"
-			android:scaleType="centerInside"/>
-
-		<EditText
-			android:layout_height="45dp"
-			android:ems="10"
-			android:layout_width="200dp"
-			android:singleLine="true"
-			android:layout_marginRight="10dp"
-			android:id="@+id/at_user_text">
-
-			<requestFocus/>
-
-		</EditText>
-
-	</LinearLayout>
-
-	<ListView
-		android:layout_height="wrap_content"
-		android:layout_width="240dp"
-		android:id="@+id/at_user_list"/>
-
-</LinearLayout>
+	android:text="Text"
+	android:textAppearance="?android:attr/textAppearanceMedium"
+	android:layout_width="160dp"
+	android:ellipsize="end"
+	android:gravity="center_vertical"
+	android:padding="10dp"/>
 

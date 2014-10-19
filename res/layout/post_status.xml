@@ -58,7 +58,7 @@
 			android:paddingLeft="1dp"
 			android:orientation="vertical">
 			
-			<EditText
+			<us.shandian.blacklight.ui.search.AtUserSuggestTextView
 				android:layout_height="match_parent"
 				android:layout_weight="0.9"
 				android:inputType="textMultiLine"
@@ -73,6 +73,8 @@
 				android:paddingLeft="40dp"
 				android:focusable="true"
 				android:focusableInTouchMode="true"
+				android:dropDownWidth="160dp"
+				android:dropDownHeight="wrap_content"
 				android:background="?attr/NewPostBackground"/>
 
 			<HorizontalScrollView

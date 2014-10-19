@@ -67,7 +67,6 @@ import us.shandian.blacklight.ui.comments.ReplyToActivity;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.ColorPickerFragment;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
-import us.shandian.blacklight.ui.search.AtUserSuggestDialog;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -336,14 +335,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	
 	@OnClick(R.id.post_at) 
 	public void at() {
-		AtUserSuggestDialog diag = new AtUserSuggestDialog(this);
-		diag.setListener(new AtUserSuggestDialog.AtUserListener() {
-			@Override
-			public void onChooseUser(String name) {
-				mText.getText().insert(mText.getSelectionStart(), " @" + name +" ");
-			}
-		});
-		diag.show();
+		mText.getText().insert(mText.getSelectionStart(), "@");
 	}
 
 	@OnClick(R.id.post_topic)
