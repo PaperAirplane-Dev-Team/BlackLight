@@ -48,7 +48,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		Settings settings = Settings.getInstance(context);
 	}
 	
 	public static void register() {
