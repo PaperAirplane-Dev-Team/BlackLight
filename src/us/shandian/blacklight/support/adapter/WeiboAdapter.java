@@ -27,6 +27,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +37,8 @@ import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
-
-import com.daimajia.swipe.SwipeLayout;
 
 import java.util.ArrayList;
 
@@ -75,7 +76,7 @@ import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener, SwipeLayout.SwipeDenier {
+public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 
 	private static final int TAG_MSG = R.id.weibo_content;
@@ -169,9 +170,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			h.avatar.setImageResource(R.color.gray);
 			h.avatar.setTag(true);
 			h.comment_and_retweet.setVisibility(View.VISIBLE);
-
-			h.swipe.close(false);
-			
 			LinearLayout container = h.pics;
 			
 			for (int i = 0; i < 9; i++) {
@@ -210,11 +208,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 
-	@Override
-	public boolean shouldDenySwipe(MotionEvent ev) {
-		return true;
-	}
-
 	public void addOnScrollListener(AbsListView.OnScrollListener listener) {
 		mListeners.add(listener);
 	}
@@ -238,7 +231,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		if (!useExisted) {
 			h = new ViewHolder(v, msg);
-			bindSwipe(h);
 		} else {
 			h = (ViewHolder) v.getTag();
 			
@@ -248,8 +240,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.msg = msg;
 		}
-
-		new SwipeBinder().execute(h);
 		
 		TextView name = h.name;
 		TextView from = h.from;
@@ -258,7 +248,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView attitudes = h.attitudes;
 		TextView retweet = h.retweets;
 		TextView comments = h.comments;
-		ImageView like = h.like;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
@@ -273,10 +262,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			attitudes.setText(Utility.addUnitToInt(mContext, msg.attitudes_count));
 			retweet.setText(Utility.addUnitToInt(mContext, msg.reposts_count));
 			comments.setText(Utility.addUnitToInt(mContext, msg.comments_count));
-		}
-
-		if (!(msg instanceof CommentModel) && msg.liked) { 
-			like.setImageResource(R.drawable.ic_action_bad);
 		}
 
 		bindMultiPicLayout(h, msg, true);
@@ -312,53 +297,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}*/
 
 		return v;
-	}
-
-	private void bindSwipe(ViewHolder h) {
-		SwipeLayout swipe = h.swipe;
-		swipe.setShowMode(SwipeLayout.ShowMode.LayDown);
-		swipe.setDragEdge(SwipeLayout.DragEdge.Bottom);
-		swipe.addSwipeDenier(this);
-	}
-
-	private void bindSwipeActions(ViewHolder h) {
-		MessageModel msg = h.msg;
-
-		// Hide all
-		h.reply.setVisibility(View.GONE);
-		h.delete.setVisibility(View.GONE);
-		h.repost.setVisibility(View.GONE);
-		h.like.setVisibility(View.GONE);
-		h.orig.setVisibility(View.GONE);
-		h.copy.setVisibility(View.GONE);
-
-		// Show only needed
-		if (msg instanceof CommentModel) {
-			CommentModel comment = (CommentModel) msg;
-			h.copy.setVisibility(View.VISIBLE);
-			h.reply.setVisibility(View.VISIBLE);
-			h.orig.setVisibility(View.VISIBLE);
-			
-			if (comment.user.id.equals(mUid)
-				|| (comment.status != null && comment.status.user.id != null
-				&& comment.status.user.id.equals(mUid))) {
-
-				h.delete.setVisibility(View.VISIBLE);
-			}
-		} else {
-			h.copy.setVisibility(View.VISIBLE);
-			h.reply.setVisibility(View.VISIBLE);
-			h.repost.setVisibility(View.VISIBLE);
-
-			if (msg.liked){
-				h.like.setImageResource(R.drawable.ic_action_bad);
-			}
-			h.like.setVisibility(View.VISIBLE);
-
-			if (msg.user.id.equals(mUid)) {
-				h.delete.setVisibility(View.VISIBLE);
-			}
-		}
 	}
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
@@ -406,6 +344,66 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		}
 	}
+
+	void buildPopup(final ViewHolder h) {
+		PopupMenu p = new PopupMenu(mContext, h.popup);
+		p.inflate(R.menu.popup);
+		final Menu m = p.getMenu();
+
+		// Show needed items
+		m.findItem(R.id.popup_copy).setVisible(true);
+		if (h.msg instanceof CommentModel) {
+			m.findItem(R.id.popup_reply).setVisible(true);
+
+			CommentModel cmt = (CommentModel) h.msg;
+			if (cmt.user.id.equals(mUid) || (cmt.status != null && cmt.status.user != null && cmt.status.user.id.equals(mUid))) {
+				m.findItem(R.id.popup_delete).setVisible(true);
+			}
+		} else {
+			m.findItem(R.id.popup_repost).setVisible(true);
+			m.findItem(R.id.popup_comment).setVisible(true);
+
+			if (h.msg.liked) {
+				m.findItem(R.id.popup_unlike).setVisible(true);
+			} else {
+				m.findItem(R.id.popup_like).setVisible(true);
+			}
+
+			if (h.msg.user.id.equals(mUid)) {
+				m.findItem(R.id.popup_delete).setVisible(true);
+			}
+		}
+
+		p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+					case R.id.popup_delete:
+						h.delete();
+						break;
+					case R.id.popup_copy:
+						h.copy();
+						break;
+					case R.id.popup_comment:
+					case R.id.popup_reply:
+						h.reply();
+						break;
+					case R.id.popup_repost:
+						h.repost();
+						break;
+					case R.id.popup_like:
+					case R.id.popup_unlike:
+						new LikeTask().execute(h.msg, h, m);
+						break;
+				}
+
+				return true;
+			}
+		});
+
+		// Pop up!
+		p.show();
+	}
 	
 	public void notifyDataSetChanged() {
 		mClone = mList.clone();
@@ -426,29 +424,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 		
 		return true;
-	}
-
-	// Wait until user stops scrolling and then we create the swipe layout
-	private class SwipeBinder extends AsyncTask<ViewHolder, Void, Boolean> {
-		ViewHolder h;
-
-		@Override
-		protected Boolean doInBackground(ViewHolder... params) {
-			h = params[0];
-			
-			return waitUntilNotScrolling(h, h.msg);
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if (result) {
-				try {
-					bindSwipeActions(h);
-				} catch (NullPointerException e) {
-					// Ignore all NPEs
-				}
-			}
-		}
 	}
 	
 	// Downloads images including avatars
@@ -578,11 +553,13 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private class LikeTask extends AsyncTask<Object, Void, Boolean>{
 		private MessageModel mm;
 		private ViewHolder h;
+		private Menu m;
 
 		@Override
 		protected Boolean doInBackground(Object... params) {
 			mm = (MessageModel) params[0];
 			h = (ViewHolder) params[1];
+			m = (Menu) params[2];
 			if (mm.liked){
 				return AttitudesApi.cancelLike(mm.id);
 			}else{
@@ -601,6 +578,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				mm.liked = !mm.liked;
 
 				h.attitudes.setText(String.valueOf(mm.attitudes_count));
+
+				m.findItem(R.id.popup_unlike).setVisible(mm.liked);
+				m.findItem(R.id.popup_like).setVisible(!mm.liked);
 			}
 		}
 	}
@@ -617,16 +597,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.weibo_attitudes) public TextView attitudes;
 		@InjectView(R.id.weibo_orig_content) public TextView orig_content;
 		@InjectView(R.id.weibo_avatar) public ImageView avatar;
-		@InjectView(R.id.bottom_like) public ImageView like;
-		@InjectView(R.id.bottom_reply) public ImageView reply;
-		@InjectView(R.id.bottom_delete) public ImageView delete;
-		@InjectView(R.id.bottom_repost) public ImageView repost;
-		@InjectView(R.id.bottom_orig) public ImageView orig;
-		@InjectView(R.id.bottom_copy) public ImageView copy;
-		@InjectView(R.id.swipe) public SwipeLayout swipe;
+		@InjectView(R.id.weibo_popup) public ImageView popup;
 		@InjectView(R.id.weibo_pics_scroll) public HorizontalScrollView scroll;
 		@InjectView(R.id.weibo_pics) public LinearLayout pics;
-		@InjectView(R.id.weibo_bottom) public View bottom;
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
 		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
@@ -644,22 +617,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			ButterKnife.inject(this, v);
 		}
 
-		@OnLongClick({
-			R.id.card, R.id.weibo_bottom,
-			R.id.bottom_like, R.id.bottom_reply,
-			R.id.bottom_delete, R.id.bottom_repost,
-			R.id.bottom_orig, R.id.bottom_copy,
-		})
-		boolean openOrClose() {
-			if (swipe.getOpenStatus() == SwipeLayout.Status.Close) {
-				swipe.open(true);
-			} else {
-				swipe.close(true);
-			}
-
-			return true;
+		@OnClick(R.id.weibo_popup)
+		void popup() {
+			buildPopup(this);
 		}
-
 
 		@OnClick(R.id.weibo_avatar)
 		void showUser() {
@@ -686,7 +647,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick({R.id.weibo_origin, R.id.bottom_orig})
+		@OnClick(R.id.weibo_origin)
 		void showOrig() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -703,7 +664,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.bottom_repost)
 		void repost() {
 			if(!(msg instanceof CommentModel)) {
 				Intent i = new Intent();
@@ -714,12 +674,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		}
 
-		@OnClick(R.id.bottom_copy)
 		void copy() {
 			Utility.copyToClipboard(context, msg.text);
 		}
 
-		@OnClick(R.id.bottom_reply)
 		void reply() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -735,12 +693,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.bottom_like)
-		void like() {
-			new LikeTask().execute(msg, this);
-		}
-
-		@OnClick(R.id.bottom_delete)
 		void delete() {
 			new AlertDialog.Builder(context)
 				.setMessage(R.string.confirm_delete)

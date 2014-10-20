@@ -27,7 +27,6 @@ SRC_DIR		:= \
 	libs/SlidingUpPanel/src \
 	libs/SwipeBackLayout/library/src/main/java \
 	libs/HoloColorPicker/src \
-	libs/AndroidSwipeLayout/library/src/main/java \
 	libs/subsampling-scale-image-view/library/src \
 	libs/CircleImageView/circleimageview/src/main/java
 # Annonation Library Projects
@@ -44,7 +43,6 @@ RES_DIR		:= \
 	libs/SlidingUpPanel/res \
 	libs/SwipeBackLayout/library/src/main/res \
 	libs/HoloColorPicker/res \
-	libs/AndroidSwipeLayout/library/src/main/res \
 	libs/subsampling-scale-image-view/library/res \
 	libs/CircleImageView/circleimageview/src/main/res
 # Timestamp file of resources
@@ -57,7 +55,6 @@ EXT_PKG		:= \
 	com.sothree.slidinguppanel.library \
 	me.imid.swipebacklayout.lib \
 	com.larswerkman.holocolorpicker \
-	com.daimajia.swipe \
 	com.davemorrissey.labs.subscaleview \
 	de.hdodenhof.circleimageview
 # Include all jar libraries needed

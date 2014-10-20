@@ -55,6 +55,7 @@
 	<string name="comment_on">Make a comment</string>
 	<string name="repost">Repost weibo</string>
 	<string name="reply_to">Reply to the comment</string>
+	<string name="reply">Reply</string>
 	<string name="remove_attitude">Unlike</string>
 	<string name="repost_and_comment">Also make a comment</string>
 	<string name="repost_and_comment_the_original">Also comment on the origin weibo</string>

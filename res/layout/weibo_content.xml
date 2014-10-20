@@ -23,6 +23,7 @@
 	android:id="@+id/card"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:layout_margin="5dp"
 	android:background="?attr/CardBackground">
 
 	<us.shandian.blacklight.ui.common.HackyTextView
@@ -238,6 +239,7 @@
 		<TextView
 			android:id="@+id/weibo_name"
 			android:layout_toRightOf="@id/weibo_avatar"
+			android:layout_toLeftOf="@+id/weibo_popup"
 			android:layout_marginLeft="10dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -247,6 +249,18 @@
 			android:text="Author Name"
 			android:singleLine="true"
 			android:ellipsize="end"/>
+
+		<us.shandian.blacklight.ui.common.TintImageView
+			android:id="@+id/weibo_popup"
+			android:layout_width="26dp"
+			android:layout_height="40dp"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="5dp"
+			android:scaleType="centerInside"
+			android:src="@drawable/ic_menu_more"
+			app:tintColor="?attr/CardForeground"
+			style="?android:attr/buttonBarButtonStyle"/>
 	
 	</RelativeLayout>
 
