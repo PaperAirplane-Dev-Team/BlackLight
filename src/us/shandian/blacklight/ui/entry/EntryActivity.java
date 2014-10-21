@@ -59,6 +59,7 @@ public class EntryActivity extends Activity
 		
 		LoginApiCache login = new LoginApiCache(this);
 		if (needsLogin(login)) {
+			login.logout();
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 			i.setClass(this, LoginActivity.class);
