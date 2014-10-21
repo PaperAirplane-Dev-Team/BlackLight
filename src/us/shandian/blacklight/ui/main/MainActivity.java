@@ -705,7 +705,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			switch (value) {
 				case 0:
 					// Show user name
-					mName.setText(mUser.getName());
+					mName.setText(mUser != null ? mUser.getName() : "");
 					break;
 				case 1:
 					// Show avatar
