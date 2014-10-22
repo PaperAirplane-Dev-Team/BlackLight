@@ -26,50 +26,35 @@
 	android:orientation="horizontal">
 
 	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-		
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:orientation="vertical"
+		android:layout_height="match_parent"
+		android:layout_width="240dp"
+		android:orientation="vertical"
+		android:layout_margin="5dp"
+		android:background="?attr/CardBackground">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Content"
+			android:layout_width="wrap_content"
 			android:layout_margin="5dp"
-			android:background="?attr/ShadowGray">
+			android:textSize="15sp"
+			android:textColor="?attr/CardForeground"
+			android:id="@+id/direct_message_conversation_content"/>
 
-			<LinearLayout
-				android:layout_height="match_parent"
-				android:layout_width="match_parent"
-				android:orientation="vertical"
-				android:layout_margin="5dp"
-				android:background="?attr/CardBackground">
-
-				<TextView
-					android:layout_height="wrap_content"
-					android:text="Content"
-					android:layout_width="wrap_content"
-					android:layout_margin="5dp"
-					android:textSize="15sp"
-					android:textColor="?attr/CardForeground"
-					android:id="@+id/direct_message_conversation_content"/>
-
-				<TextView
-					android:layout_height="wrap_content"
-					android:text="Text"
-					android:layout_width="wrap_content"
-					android:layout_marginLeft="5dp"
-					android:layout_marginBottom="5dp"
-					android:layout_marginRight="5dp"
-					android:textColor="@color/gray"
-					android:id="@+id/direct_message_conversation_date"
-					android:textSize="12sp"
-					android:gravity="center_vertical"/>
-
-			</LinearLayout>
-
-		</LinearLayout>
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Text"
+			android:layout_width="wrap_content"
+			android:layout_marginLeft="5dp"
+			android:layout_marginBottom="5dp"
+			android:layout_marginRight="5dp"
+			android:textColor="@color/gray"
+			android:id="@+id/direct_message_conversation_date"
+			android:textSize="12sp"
+			android:gravity="center_vertical"/>
 
 	</LinearLayout>
+
 
 </LinearLayout>
 

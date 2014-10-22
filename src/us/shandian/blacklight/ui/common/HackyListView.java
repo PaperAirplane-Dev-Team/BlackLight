@@ -20,9 +20,9 @@
 package us.shandian.blacklight.ui.common;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ListView;
-import android.util.AttributeSet;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 

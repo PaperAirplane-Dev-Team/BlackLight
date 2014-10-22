@@ -23,12 +23,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import us.shandian.blacklight.R;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /*

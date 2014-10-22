@@ -30,10 +30,9 @@ import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
-import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.model.DirectMessageListModel;
+import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
@@ -43,6 +42,7 @@ public class DirectMessageAdapter extends BaseAdapter
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private DirectMessageListModel mList;
+	private DirectMessageListModel mClone;
 	private long mUid;
 	
 	public DirectMessageAdapter(Context context, DirectMessageListModel list, String uid) {
@@ -50,16 +50,17 @@ public class DirectMessageAdapter extends BaseAdapter
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mList = list;
 		mUid = Long.parseLong(uid);
+		notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getCount() {
-		return mList.getSize();
+		return mClone.getSize();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mList.get(calcPos(position));
+		return mClone.get(calcPos(position));
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class DirectMessageAdapter extends BaseAdapter
 		if (position >= getCount()) {
 			return convertView;
 		} else {
-			DirectMessageModel msg = mList.get(calcPos(position));
+			DirectMessageModel msg = mClone.get(calcPos(position));
 			View v = null;
 			ViewHolder h = null;
 			
@@ -95,6 +96,12 @@ public class DirectMessageAdapter extends BaseAdapter
 			
 			return v;
 		}
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		mClone = mList.clone();
+		super.notifyDataSetChanged();
 	}
 	
 	// Convert position to real position (upside-down list)

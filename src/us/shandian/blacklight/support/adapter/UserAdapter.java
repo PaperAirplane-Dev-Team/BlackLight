@@ -21,24 +21,24 @@ package us.shandian.blacklight.support.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
-import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.model.UserListModel;
+import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 
 public class UserAdapter extends BaseAdapter
 {
 	private UserListModel mUsers;
+	private UserListModel mClone;
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
 	
@@ -46,16 +46,17 @@ public class UserAdapter extends BaseAdapter
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);
 		mUsers = users;
+		notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getCount() {
-		return mUsers.getSize();
+		return mClone.getSize();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mUsers.get(position);
+		return mClone.get(position);
 	}
 
 	@Override
@@ -68,7 +69,7 @@ public class UserAdapter extends BaseAdapter
 		if (position >= getCount()) {
 			return convertView;
 		} else {
-			UserModel usr = mUsers.get(position);
+			UserModel usr = mClone.get(position);
 
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.user_list_item, null);
 			
@@ -85,6 +86,12 @@ public class UserAdapter extends BaseAdapter
 			
 			return v;
 		}
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		mClone = mUsers.clone();
+		super.notifyDataSetChanged();
 	}
 	
 	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {

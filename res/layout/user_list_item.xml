@@ -24,11 +24,12 @@
 	android:orientation="horizontal"
 	android:gravity="center_vertical">
 
-	<ImageView
+	<de.hdodenhof.circleimageview.CircleImageView
+		android:id="@+id/user_list_avatar"
 		android:layout_height="50dp"
 		android:layout_width="50dp"
 		android:layout_margin="5dp"
-		android:id="@+id/user_list_avatar"/>
+		android:src="@color/gray"/>
 
 	<LinearLayout
 		android:layout_height="match_parent"

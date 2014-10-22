@@ -19,20 +19,19 @@
 
 package us.shandian.blacklight.cache.user;
 
-import android.content.Context;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
@@ -44,6 +43,7 @@ import us.shandian.blacklight.cache.database.tables.UsersTable;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.Utility;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class UserApiCache
@@ -168,16 +168,17 @@ public class UserApiCache
 	}
 	
 	public Bitmap getSmallAvatar(UserModel model) {
+		String cacheName = model.id + model.profile_image_url.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
 		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, model.id);
+			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_SMALL, cacheName);
 		} catch (Exception e) {
 			cache = null;
 		}
 		
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, model.id, model.profile_image_url);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_SMALL, cacheName, model.profile_image_url);
 			} catch (Exception e) {
 				cache = null;
 			}
@@ -186,7 +187,7 @@ public class UserApiCache
 		if (cache == null) {
 			return null;
 		} else {
-			Bitmap bmp = drawVipType(model, BitmapFactory.decodeStream(cache));
+			Bitmap bmp = BitmapFactory.decodeStream(cache);
 			mSmallAvatarCache.put(model.id, new SoftReference<Bitmap>(bmp));
 
 			try {
@@ -208,51 +209,17 @@ public class UserApiCache
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {
+		String cacheName = model.id + model.avatar_large.replaceAll("/", ".").replaceAll(":", "");
 		InputStream cache;
 		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, model.id);
+			cache = mManager.getCache(Constants.FILE_CACHE_AVATAR_LARGE, cacheName);
 		} catch (Exception e) {
 			cache = null;
 		}
 
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, model.id, model.avatar_large);
-			} catch (Exception e) {
-				cache = null;
-			}
-		}
-
-		if (cache != null) {
-			Bitmap ret = drawVipType(model, BitmapFactory.decodeStream(cache));
-
-			try {
-				cache.close();
-			} catch (IOException e) {
-
-			}
-
-			return ret;
-		} else {
-			return null;
-		}
-	}
-	
-	public Bitmap getCover(UserModel model) {
-		if (model.cover_image == null) {
-			return null;
-		}
-		
-		InputStream cache;
-		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_COVER, model.id);
-		} catch (Exception e) {
-			cache = null;
-		}
-
-		if (cache == null) {
-			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, model.id, model.cover_image);
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_AVATAR_LARGE, cacheName, model.avatar_large);
 			} catch (Exception e) {
 				cache = null;
 			}
@@ -273,22 +240,46 @@ public class UserApiCache
 		}
 	}
 	
-	private Bitmap drawVipType(UserModel model, Bitmap bitmap) {
-		if (!model.verified || model.verified_type < 0) return bitmap;
+	public Bitmap getCover(UserModel model) {
+		String url = model.getCover();
+		if (url.trim().equals("")) {
+			return null;
+		}
+
+		if (DEBUG) {
+			Log.d(TAG, "url = " + url);
+		}
+
+		String cacheName = model.id + url.substring(url.lastIndexOf("/") + 1, url.length());
 		
-		BitmapDrawable drawable = mVipDrawable[model.verified_type > 1 ? 1 : model.verified_type];
-		Bitmap copy = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-		Canvas canvas = new Canvas(copy);
-		int w1 = bitmap.getWidth();
-		int w2 = w1 / 4;
-		int h1 = bitmap.getHeight();
-		int h2 = h1 / 4;
-		drawable.setBounds(w1 - w2, h1 - h2, w1, h1);
-		drawable.draw(canvas);
-		
-		bitmap.recycle();
-		
-		return copy;
+		InputStream cache;
+		try {
+			cache = mManager.getCache(Constants.FILE_CACHE_COVER, cacheName);
+		} catch (Exception e) {
+			cache = null;
+		}
+
+		if (cache == null) {
+			try {
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_COVER, cacheName, url);
+			} catch (Exception e) {
+				cache = null;
+			}
+		}
+
+		if (cache != null) {
+			Bitmap ret = BitmapFactory.decodeStream(cache);
+
+			try {
+				cache.close();
+			} catch (IOException e) {
+
+			}
+
+			return ret;
+		} else {
+			return null;
+		}
 	}
 	
 }

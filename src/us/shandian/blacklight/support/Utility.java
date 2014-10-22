@@ -19,14 +19,13 @@
 
 package us.shandian.blacklight.support;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources.NotFoundException;
@@ -38,40 +37,37 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
+import android.os.Build;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
-
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.io.InputStream;
-import java.lang.NoClassDefFoundError;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.service.ReminderService;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* Helper functions */
@@ -80,6 +76,8 @@ public class Utility
 	private static final String TAG = Utility.class.getSimpleName();
 	
 	private static final int REQUEST_CODE = 100001;
+
+	public static String lastPicPath;
 
 	public static int action_bar_title = -1;
 
@@ -208,11 +206,6 @@ public class Utility
 		return -1;
 	}
 
-	public static boolean hasTranslucentSystemBars() {
-		return Build.VERSION.SDK_INT >= 19 && !Build.BRAND.equals("chromium")
-				&& !Build.BRAND.equals("chrome");
-	}
-
 	public static View addActionViewToCustom(Activity activity, int id, ViewGroup custom) {
 		View v = activity.findViewById(id);
 
@@ -263,6 +256,20 @@ public class Utility
 		}
 	}
 	
+	public static boolean isChrome() {
+		return Build.BRAND.equals("chromium") || Build.BRAND.equals("chrome");
+	}
+
+	public static int getStatusBarHeight(Context context) {
+		int result = 0;
+		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = context.getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
+	}
+
+
 	public static int getActionBarHeight(Context context) {
 		TypedValue v = new TypedValue();
 		
@@ -273,21 +280,8 @@ public class Utility
 		}
 	}
 
-	public static int getStatusBarHeight(Context context) {
-		int result = 0;
-		int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-if (resourceId > 0) {
-			result = context.getResources().getDimensionPixelSize(resourceId);
-		}
-		return result;
-	}
-
 	public static int getDecorPaddingTop(Context context) {
-		if (hasTranslucentSystemBars()) {
-			return getStatusBarHeight(context) + getActionBarHeight(context);
-		} else {
-			return getActionBarHeight(context);
-		}
+		return getActionBarHeight(context);
 	}
 	
 	public static void setActionBarTranslation(Activity activity, float y) {
@@ -347,6 +341,35 @@ if (resourceId > 0) {
 		if (DEBUG) {
 			Log.d(TAG, "==========================");
 		}
+	}
+
+	public static String addUnitToInt(Context context, int i) {
+		String tenThousand = context.getString(R.string.ten_thousand);
+		String million = context.getString(R.string.million);
+		String hundredMillion = context.getString(R.string.hundred_million);
+		String billion = context.getString(R.string.billion);
+
+		if (tenThousand.equals("null")) { // English-styled number format
+			if (i < 1000000) {
+				return String.valueOf(i);
+			} else if (i < 1000000000) { // million
+				return String.valueOf(i / 1000000) + million;
+			} else { // billion
+				return String.valueOf(i / 1000000000) + billion;
+			}
+		} else { // Chinese-styled number format
+			if (i < 10000) {
+				return String.valueOf(i);
+			} else if (i < 100000000) {
+				return String.valueOf(i / 10000) + tenThousand;
+			} else {
+				return String.valueOf(i / 100000000) + hundredMillion;
+			}
+		}
+	}
+
+	public static float dp2px(Context context, float dp) {
+		return context.getResources().getDisplayMetrics().density * dp + 0.5f;
 	}
 
 	public static int getFontHeight(Context context, float fontSize) {
@@ -688,9 +711,9 @@ if (resourceId > 0) {
 		}
 	}
 
-	public static int getLayerColor(Activity activity) {
+	public static int getLayerColor(Context context) {
 		try {
-			TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
 			int ret = array.getColor(R.styleable.BlackLight_LayerColor, 0);
 			array.recycle();
 			return ret;
@@ -698,19 +721,63 @@ if (resourceId > 0) {
 			return 0;
 		}
 	}
-	
-	@TargetApi(19)
-	public static void enableTint(Activity activity) {
-		if (!hasTranslucentSystemBars()) return;
-		
-		Window w = activity.getWindow();
-		WindowManager.LayoutParams p = w.getAttributes();
-		p.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-		w.setAttributes(p);
-		
-		SystemBarTintManager m = new SystemBarTintManager(activity);
-		m.setStatusBarTintEnabled(true);
-		m.setStatusBarTintResource(isDarkMode(activity) ? R.color.dark_action_gray : R.color.action_gray);
+
+	public static int getFABBackground(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_FABBackground, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
+	public static int getCardSubColor(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_CardSubColor, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
+	public static int getDrawerForeground(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_DrawerForeground, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+
+	}
+
+	public static Drawable getFABNewIcon(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			Drawable ret = array.getDrawable(R.styleable.BlackLight_FABNewIcon);
+			return ret;
+		} catch (NotFoundException e) {
+			return null;
+		}
+	}
+
+	public static void deleteDirectory(File dir) {
+		File[] files = dir.listFiles();
+
+		for (File f : files) {
+			if (f.isDirectory()) {
+				deleteDirectory(f);
+			} else {
+				f.delete();
+			}
+		}
+
+		dir.delete();
 	}
 	
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
@@ -762,5 +829,56 @@ if (resourceId > 0) {
 
         return false;
     }
+
+	/**
+	 *
+	 * @param from color value in the form 0xAARRGGBB.
+	 * @param to color value in the form 0xAARRGGBB.
+	 */
+	public static int getGradientColor(int from, int to, float factor){
+		int r = calculateGradient(Color.red(from),Color.red(to),factor); // It's so annoying without lambda.
+		int g = calculateGradient(Color.green(from),Color.green(to),factor);
+		int b = calculateGradient(Color.blue(from),Color.blue(to),factor);
+		int a = calculateGradient(Color.alpha(from),Color.alpha(to),factor);
+
+		return Color.argb(a,r,g,b);
+	}
+
+	private static int calculateGradient(int from, int to, float factor){
+		return from + (int)((to - from) * factor);
+	}
+
+	/** Create a file Uri for saving an image*/
+	public static Uri getOutputMediaFileUri(){
+		Uri uri = Uri.fromFile(getOutputImageFile());
+		lastPicPath = uri.getPath();
+		return uri;
+	}
+
+	/** Create a File for saving an image*/
+	private static File getOutputImageFile(){
+		// To be safe, you should check that the SDCard is mounted
+		// using Environment.getExternalStorageState() before doing this.
+
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_PICTURES), "BlackLight");
+		// This location works best if you want the created images to be shared
+		// between applications and persist after your app has been uninstalled.
+
+		// Create the storage directory if it does not exist
+		if (! mediaStorageDir.exists()){
+			if (! mediaStorageDir.mkdirs()){
+				Log.d(TAG, "failed to create directory");
+				return null;
+			}
+		}
+
+		// Create a media file name
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		File mediaFile;
+		mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+				"IMG_"+ timeStamp + ".jpg");
+		return mediaFile;
+	}
 
 }

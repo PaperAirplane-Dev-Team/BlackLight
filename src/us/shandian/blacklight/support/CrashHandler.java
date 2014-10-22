@@ -20,6 +20,7 @@
 package us.shandian.blacklight.support;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Environment;
 
@@ -30,17 +31,20 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 {
 	public static String CRASH_DIR = Environment.getExternalStorageDirectory().getPath() + "/BlackLight/";
 	public static String CRASH_LOG = CRASH_DIR + "last_crash.log";
-	
+	public static String CRASH_TAG = CRASH_DIR + ".crashed";
+
 	private static String ANDROID = Build.VERSION.RELEASE;
 	private static String MODEL = Build.MODEL;
 	private static String MANUFACTURER = Build.MANUFACTURER;
-	private static String VERSION = "Unknown";
 	
+	public static String VERSION = "Unknown";
+
 	private Thread.UncaughtExceptionHandler mPrevious;
-	
+
 	public static void init(Context context) {
 		try {
-			VERSION = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			VERSION = info.versionName + info.versionCode;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -80,10 +84,16 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 		p.write("Device Model: " + MODEL + "\n");
 		p.write("Device Manufacturer: " + MANUFACTURER + "\n");
 		p.write("App Version: " + VERSION + "\n");
-		p.write("-------------------------------\n");
+		p.write("*********************\n");
 		throwable.printStackTrace(p);
-		
+
 		p.close();
+
+		try {
+			new File(CRASH_TAG).createNewFile();
+		} catch (Exception e) {
+			return;
+		}
 		
 		if (mPrevious != null) {
 			mPrevious.uncaughtException(thread, throwable);

@@ -22,15 +22,16 @@ package us.shandian.blacklight.support;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.View;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.view.View;
 
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.ui.search.TopicsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class WeiboSpan extends ClickableSpan

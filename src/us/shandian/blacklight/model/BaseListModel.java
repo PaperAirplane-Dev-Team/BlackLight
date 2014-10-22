@@ -38,4 +38,15 @@ public abstract class BaseListModel<I, L> implements Parcelable
 	  @param values All values needed to be added
 	*/
 	public abstract void addAll(boolean toTop, L values);
+
+	@Override
+	public L clone() {
+		try {
+			BaseListModel<I, L> ret = this.getClass().newInstance();
+			ret.addAll(false, (L) this);
+			return (L) ret;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

@@ -20,48 +20,35 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.app.Fragment;
-import android.app.Service;
 import android.content.Intent;
-import android.view.GestureDetector;
-import android.view.Gravity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.LayoutParams;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.os.Bundle;
-import android.os.Build;
-import android.os.Vibrator;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnTouch;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
-import us.shandian.blacklight.ui.common.FloatingActionButton;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
-
-public class TimeLineFragment extends Fragment implements
-		SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
-		View.OnLongClickListener, GestureDetector.OnGestureListener,
-		OnScrollListener {
+public abstract class TimeLineFragment extends Fragment implements
+		SwipeRefreshLayout.OnRefreshListener, OnScrollListener, MainActivity.Refresher {
+	
+	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
 	@InjectView(R.id.home_timeline) protected ListView mList;
-	protected FloatingActionButton mNew, mRefresh;
+	@InjectView(R.id.action_shadow) protected View mShadow;
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
 
@@ -74,11 +61,11 @@ public class TimeLineFragment extends Fragment implements
 
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
+	protected boolean mAllowHidingActionBar = true;
+	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
-
-	// Gesture
-	private GestureDetector mDetector;
+	private int mLastFirst = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +95,7 @@ public class TimeLineFragment extends Fragment implements
 		}
 
 		// Content Margin
-		if (getActivity() instanceof MainActivity) {
+		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
 			View header = new View(getActivity());
 			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
@@ -122,14 +109,15 @@ public class TimeLineFragment extends Fragment implements
 				mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 
-		// Floating "New" and "Refresh" button
-		bindNewButton(v);
-
-		// Gesture Detector
-		mDetector = new GestureDetector(getActivity(), this);
-
+		// Listener
 		if (getActivity() instanceof MainActivity) {
 			mAdapter.addOnScrollListener(this);
+		}
+
+		mShadow.bringToFront();
+
+		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
+			mShadow.setTranslationY(Utility.getActionBarHeight(getActivity()));
 		}
 
 		return v;
@@ -142,16 +130,14 @@ public class TimeLineFragment extends Fragment implements
 		if (!hidden) {
 			initTitle();
 			resume();
+			showFAB();
 			if (this instanceof HomeTimeLineFragment) {
 				((MainActivity) getActivity()).setShowSpinner(true);
-				showFAB();
 			} else {
 				((MainActivity) getActivity()).setShowSpinner(false);
 			}
 		} else {
-			if (this instanceof HomeTimeLineFragment) {
-				hideFAB();
-			}
+			hideFAB();
 		}
 	}
 
@@ -169,6 +155,7 @@ public class TimeLineFragment extends Fragment implements
 		mList.setFastScrollEnabled(fs);
 	}
 
+	@Override
 	public void doRefresh() {
 		mSwipeRefresh.setIsDown(false);
 
@@ -199,98 +186,39 @@ public class TimeLineFragment extends Fragment implements
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (v == mNew) {
-			newPost();
-		} else if (v == mRefresh) {
-			doRefresh();
-		}
-	}
-
-	@Override
-	public boolean onLongClick(View v) {
-		Vibrator vibrator = (Vibrator) getActivity().getApplication()
-				.getSystemService(Service.VIBRATOR_SERVICE);
-		vibrator.vibrate(50);
-		Toast.makeText(getActivity().getApplicationContext(),
-				getString(v == mNew ? R.string.new_post : R.string.refresh),
-				Toast.LENGTH_SHORT).show();
-		return true;
-	}
-
-	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
-		if (firstVisibleItem < 1) {
-			showFAB();
-			getActivity().getActionBar().show();
+		boolean shouldShow = mRefreshing || firstVisibleItem < mLastFirst;
+		if (firstVisibleItem == mLastFirst) {
+			shouldShow = mFABShowing;
 		}
+
+		if (shouldShow != mFABShowing) {
+			if (shouldShow) {
+				showFAB();
+			} else {
+				hideFAB();
+			}
+
+			if (mAllowHidingActionBar) {
+				if (shouldShow) {
+					getActivity().getActionBar().show();
+					mShadow.setVisibility(View.VISIBLE);
+				} else {
+					getActivity().getActionBar().hide();
+					mShadow.setVisibility(View.GONE);
+				}
+			}
+		}
+
+		mLastFirst = firstVisibleItem;
+		mFABShowing = shouldShow;
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 	}
-
-	@OnTouch(R.id.home_timeline)
-	public boolean handleTouch(View v, MotionEvent ev) {
-		if (getActivity() instanceof MainActivity) {
-			mDetector.onTouchEvent(ev);
-		}
-		return false;
-	}
-
-	// Start Gesture Events
-
-	@Override
-	public boolean onDown(MotionEvent e) {
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-			float velocityY) {
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent e) {
-
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-			float distanceY) {
-		if (Math.abs(distanceY) < 20 || mRefreshing)
-			return false;
-
-		if (mList.getTop() != 0) {
-			mList.setTop(0);
-		}
-
-		if (e1 == null || e2 == null || e1.getY() < e2.getY()
-				|| mList.getFirstVisiblePosition() < 1) {
-			showFAB();
-			getActivity().getActionBar().show();
-		} else {
-			hideFAB();
-			getActivity().getActionBar().hide();
-		}
-
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent e) {
-
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		return false;
-	}
-
-	// End Gesture Events
 
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
@@ -316,51 +244,15 @@ public class TimeLineFragment extends Fragment implements
 				R.color.ptr_red, R.color.ptr_blue);
 	}
 
-	protected void bindNewButton(View v) {
-		if (!hasSmartBar()) {
-			boolean isRightHand = mSettings.getBoolean(Settings.RIGHT_HANDED,
-					false);
-			int color = Utility.getLayerColor(getActivity());
-			mNew = new FloatingActionButton.Builder(getActivity())
-					.withDrawable(
-							getResources()
-									.getDrawable(R.drawable.ic_action_new))
-					.withButtonColor(color)
-					.withGravity(
-							Gravity.BOTTOM
-									| (!isRightHand ? Gravity.RIGHT
-											: Gravity.LEFT))
-					.withMargins(!isRightHand ? 0 : 16, 0,
-							!isRightHand ? 16 : 0, 16).create();
-			mRefresh = new FloatingActionButton.Builder(getActivity())
-					.withDrawable(
-							getResources().getDrawable(
-									R.drawable.ic_action_refresh))
-					.withButtonColor(color)
-					.withGravity(
-							Gravity.BOTTOM
-									| (!isRightHand ? Gravity.LEFT
-											: Gravity.RIGHT))
-					.withMargins(!isRightHand ? 16 : 0, 0,
-							!isRightHand ? 0 : 16, 16).create();
-			mNew.setOnClickListener(this);
-			mNew.setOnLongClickListener(this);
-			mRefresh.setOnClickListener(this);
-			mRefresh.setOnLongClickListener(this);
-		}
-	}
-
 	public void hideFAB() {
-		if (mNew != null) {
-			mNew.hideFloatingActionButton();
-			mRefresh.hideFloatingActionButton();
+		if (getActivity() instanceof MainActivity) {
+			((MainActivity) getActivity()).hideFAB();
 		}
 	}
 
 	public void showFAB() {
-		if (mNew != null) {
-			mNew.showFloatingActionButton();
-			mRefresh.showFloatingActionButton();
+		if (getActivity() instanceof MainActivity) {
+			((MainActivity) getActivity()).showFAB();
 		}
 	}
 
@@ -399,11 +291,7 @@ public class TimeLineFragment extends Fragment implements
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			mList.setSelection(0);
-			if (!result) {
-				mAdapter.notifyDataSetChanged();
-			} else {
-				mAdapter.notifyDataSetChangedAndClear();
-			}
+			mAdapter.notifyDataSetChanged();
 			mRefreshing = false;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);

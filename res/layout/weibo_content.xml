@@ -19,152 +19,131 @@
 -->
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/card"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:layout_margin="5dp"
 	android:background="?attr/CardBackground">
-
-	<ImageView
-		android:layout_height="50dp"
-		style="?android:attr/buttonBarButtonStyle"
-		android:layout_width="50dp"
-		android:id="@+id/weibo_avatar"
-		android:layout_margin="5dp"/>
-
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="Author Name"
-		android:textSize="14.5sp"
-		android:layout_width="wrap_content"
-		android:textStyle="bold"
-		android:textColor="?attr/CardForeground"
-		android:id="@+id/weibo_name"
-		android:singleLine="true"
-		android:ellipsize="end"
-		android:layout_toRightOf="@id/weibo_avatar"
-		android:layout_toLeftOf="@+id/weibo_comment_and_retweet"
-		android:layout_marginBottom="2dp"
-		android:layout_marginRight="5dp"
-		android:layout_marginTop="10dp"
-		android:layout_centerVertical="false"/>
-
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="Date"
-		android:textColor="?attr/CardForeground"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:id="@+id/weibo_date"
-		android:textSize="12sp"
-		android:layout_below="@id/weibo_name"
-		android:layout_toRightOf="@id/weibo_avatar"/>
-
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="From"
-		android:textColor="?attr/CardForeground"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_marginLeft="5dp"
-		android:id="@+id/weibo_from"
-		android:textSize="12sp"
-		android:singleLine="true"
-		android:ellipsize="end"
-		android:layout_below="@id/weibo_name"
-		android:layout_toRightOf="@id/weibo_date"/>
-
-	<LinearLayout
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:orientation="horizontal"
-		android:id="@+id/weibo_comment_and_retweet"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentTop="true"
-		android:layout_marginTop="5dp"
-		android:layout_marginRight="5dp">
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="@string/attitudes"
-			android:textColor="?attr/CardForeground"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:textSize="10sp"/>
-
-		<TextView
-			android:id="@+id/weibo_attitudes"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_marginLeft="2dp"
-			android:textSize="10sp"
-			android:singleLine="true"
-			android:text="0"
-			android:textColor="?attr/CardForeground"
-			android:textAppearance="?android:attr/textAppearanceSmall"/>
-			
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="4dp"
-			android:text="@string/retweet"
-			android:textColor="?attr/CardForeground"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:layout_width="wrap_content"
-	android:textSize="10sp"/>
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="0"
-			android:textColor="?attr/CardForeground"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:layout_width="wrap_content"
-			android:layout_marginLeft="2dp"
-			android:id="@+id/weibo_retweet"
-			android:textSize="10sp"
-			android:singleLine="true"/>
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="@string/comment"
-			android:textColor="?attr/CardForeground"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:layout_width="wrap_content"
-			android:layout_marginLeft="4dp"
-			android:textSize="10sp"/>
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="0"
-			android:textColor="?attr/CardForeground"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:layout_width="wrap_content"
-			android:layout_marginLeft="2dp"
-			android:id="@+id/weibo_comments"
-			android:textSize="10sp"
-			android:singleLine="true"/>
-
-	</LinearLayout>
 
 	<us.shandian.blacklight.ui.common.HackyTextView
 		android:layout_height="wrap_content"
 		android:text="Content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_content"
-		android:textSize="14.5sp"
+		android:textSize="16sp"
 		android:textColor="?attr/CardForeground"
 		android:textColorLink="@color/link_blue"
-		android:lineSpacingExtra="2dp"
-		android:layout_below="@id/weibo_avatar"
+		android:lineSpacingExtra="4dp"
+		android:layout_marginTop="15dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:paddingBottom="15dp"/>
+
+	<TextView
+		android:id="@+id/weibo_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Date"
+		android:textSize="12sp"
+		android:textColor="?attr/CardSubColor"
+		android:layout_below="@id/weibo_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="2dp"
+		android:paddingBottom="10dp"/>
+
+	<TextView
+		android:id="@+id/weibo_from_divide"
+		android:layout_below="@id/weibo_content"
+		android:layout_toRightOf="@id/weibo_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="12sp"
+		android:textColor="?attr/CardSubColor"
+		android:text="|"/>
+
+	<TextView
+		android:id="@+id/weibo_from"
+		android:layout_toRightOf="@id/weibo_from_divide"
+		android:layout_below="@id/weibo_content"
+		android:layout_marginLeft="2dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="12sp"
+		android:textColor="?attr/CardSubColor"
+		android:text="From"/>
+
+	<LinearLayout
+		android:id="@+id/weibo_comment_and_retweet"
+		android:layout_below="@id/weibo_content"
+		android:layout_toRightOf="@id/weibo_from"
 		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"
-		android:paddingBottom="5dp"/>
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center_vertical">
+
+		<us.shandian.blacklight.ui.common.TintImageView
+			android:src="@drawable/ic_like"
+			android:scaleType="centerInside"
+			android:layout_width="18dp"
+			android:layout_height="18dp"
+			android:layout_marginRight="2dp"
+			app:tintColor="?attr/CardSubColor"/>
+
+		<TextView
+			android:id="@+id/weibo_attitudes"
+			android:text="0"
+			android:textSize="12sp"
+			android:textColor="?attr/CardSubColor"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="2dp"/>
+
+
+		<us.shandian.blacklight.ui.common.TintImageView
+			android:src="@drawable/ic_repost"
+			android:scaleType="centerInside"
+			android:layout_width="18dp"
+			android:layout_height="18dp"
+			android:layout_marginRight="2dp"
+			app:tintColor="?attr/CardSubColor"/>
+
+		<TextView
+			android:id="@+id/weibo_retweet"
+			android:text="0"
+			android:textSize="12sp"
+			android:textColor="?attr/CardSubColor"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="2dp"/>
+
+
+		<us.shandian.blacklight.ui.common.TintImageView
+			android:src="@drawable/ic_comment_1"
+			android:scaleType="centerInside"
+			android:layout_width="18dp"
+			android:layout_height="18dp"
+			android:layout_marginRight="2dp"
+			app:tintColor="?attr/CardSubColor"/>
+
+		<TextView
+			android:id="@+id/weibo_comments"
+			android:text="0"
+			android:textSize="12sp"
+			android:textColor="?attr/CardSubColor"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="2dp"/>
+			
+	</LinearLayout>
 
 	<RelativeLayout
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:id="@+id/weibo_origin"
 		android:background="?attr/CardOrigBackground"
-		android:layout_below="@id/weibo_content"
+		android:layout_below="@id/weibo_date"
 		android:visibility="gone">
 
 		<View
@@ -179,22 +158,25 @@
 			android:text="Content"
 			android:layout_width="match_parent"
 			android:id="@+id/weibo_orig_content"
-			android:layout_marginLeft="5dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginRight="5dp"
-			android:paddingBottom="5dp"
-			android:textSize="14.5sp"
+			android:layout_marginLeft="10dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginRight="10dp"
+			android:paddingBottom="10dp"
+			android:textSize="16sp"
 			android:textColor="?attr/CardForeground"
 			android:textColorLink="@color/link_blue"
-			android:lineSpacingExtra="2dp"/>
+			android:lineSpacingExtra="4dp"/>
 
 	</RelativeLayout>
 
-	<us.shandian.blacklight.ui.common.HackyHorizontalScrollView
+	<HorizontalScrollView
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="?attr/CardOrigBackground"
-		android:padding="5dp"
+		android:paddingLeft="10dp"
+		android:paddingTop="5dp"
+		android:paddingRight="10dp"
+		android:paddingBottom="5dp"
 		android:id="@+id/weibo_pics_scroll"
 		android:layout_below="@id/weibo_origin"
 		android:visibility="gone">
@@ -234,7 +216,55 @@
 
 		</LinearLayout>
 
-	</us.shandian.blacklight.ui.common.HackyHorizontalScrollView>
+	</HorizontalScrollView>
+
+	<RelativeLayout
+		android:layout_below="@id/weibo_pics_scroll"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="5dp"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"
+		android:layout_width="wrap_content"
+		android:layout_height="50dp">
+		
+		<de.hdodenhof.circleimageview.CircleImageView
+			android:id="@+id/weibo_avatar"
+			android:layout_width="36dp"
+			android:layout_height="36dp"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="10dp"
+			android:src="@color/gray"
+			style="?android:attr/buttonBarButtonStyle"/>
+		
+		<TextView
+			android:id="@+id/weibo_name"
+			android:layout_toRightOf="@id/weibo_avatar"
+			android:layout_toLeftOf="@+id/weibo_popup"
+			android:layout_marginLeft="10dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:textSize="15dp"
+			android:textColor="?attr/CardForeground"
+			android:text="Author Name"
+			android:singleLine="true"
+			android:ellipsize="end"/>
+
+		<us.shandian.blacklight.ui.common.TintImageView
+			android:id="@+id/weibo_popup"
+			android:layout_width="26dp"
+			android:layout_height="40dp"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="5dp"
+			android:scaleType="centerInside"
+			android:src="@drawable/ic_menu_more"
+			app:tintColor="?attr/CardForeground"
+			style="?android:attr/buttonBarButtonStyle"/>
+	
+	</RelativeLayout>
+
+		
 
 </RelativeLayout>
 

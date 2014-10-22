@@ -19,7 +19,11 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.UserTimeLineApiCache;
@@ -32,6 +36,15 @@ public class UserTimeLineFragment extends TimeLineFragment
 	public UserTimeLineFragment(String uid) {
 		mUid = uid;
 	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = super.onCreateView(inflater, container, savedInstanceState);
+
+		mShadow.setVisibility(View.GONE);
+
+		return v;
+	}
 	
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
@@ -42,9 +55,8 @@ public class UserTimeLineFragment extends TimeLineFragment
 	protected void initTitle() {
 		// Don't change my title
 	}
-	
-	@Override
-	protected void bindNewButton(View v) {
 
+	public ListView getList() {
+		return mList;
 	}
 }

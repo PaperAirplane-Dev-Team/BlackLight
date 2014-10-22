@@ -20,10 +20,10 @@
 package us.shandian.blacklight.service;
 
 import android.annotation.SuppressLint;
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -34,11 +34,7 @@ import java.lang.reflect.Method;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
-import us.shandian.blacklight.cache.comments.CommentMentionsTimeLineApiCache;
-import us.shandian.blacklight.cache.comments.CommentTimeLineApiCache;
-import us.shandian.blacklight.cache.directmessages.DirectMessagesUserApiCache;
 import us.shandian.blacklight.cache.login.LoginApiCache;
-import us.shandian.blacklight.cache.statuses.MentionsTimeLineApiCache;
 import us.shandian.blacklight.model.UnreadModel;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.ui.entry.EntryActivity;
@@ -135,7 +131,7 @@ public class ReminderService extends IntentService {
 					count += unread.mention_cmt;
 
 					if (unread.mention_status == 0){
-						i.putExtra(Intent.EXTRA_INTENT,MainActivity.CMT_MENTION);
+						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
 					}
 				}
 

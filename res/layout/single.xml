@@ -17,79 +17,141 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:sothree="http://schemas.android.com/apk/res-auto"
-	android:gravity="bottom"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:id="@+id/single_root"
-	sothree:paralaxOffset="100dp"
-	sothree:panelHeight="48dp"
-	sothree:shadowHeight="4dp"
-	sothree:dragView="@+id/single_drag"
-	android:paddingBottom="?android:attr/actionBarSize">
-
-	<FrameLayout
-		android:layout_height="match_parent"
+	android:orientation="vertical">
+	
+	<com.sothree.slidinguppanel.SlidingUpPanelLayout
+		android:gravity="bottom"
 		android:layout_width="match_parent"
-		android:id="@+id/single_content"
-		android:paddingTop="?android:attr/actionBarSize"/>
-
-	<LinearLayout
 		android:layout_height="match_parent"
-		android:layout_width="match_parent"
-		android:orientation="vertical">
+		android:layout_weight="0.9"
+		android:id="@+id/single_root"
+		sothree:paralaxOffset="100dp"
+		sothree:panelHeight="40dp"
+		sothree:shadowHeight="4dp"
+		sothree:dragView="@+id/single_drag">
+
+		<FrameLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:id="@+id/single_content"/>
 
 		<LinearLayout
-			android:layout_height="48dp"
+			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-			android:background="?attr/DragBackground"
-			android:orientation="horizontal">
+			android:orientation="vertical">
 
-			<TabHost
-				android:layout_height="48dp"
-				android:layout_width="140dp"
-				android:id="@+id/single_tabs"
-				android:layout_marginLeft="5dp">
-
-				<TabWidget
-					android:layout_height="wrap_content"
-					android:layout_width="match_parent"
-					android:id="@android:id/tabs"/>
-
-				<FrameLayout
-					android:layout_height="0dp"
-					android:layout_width="0dp"
-					android:id="@android:id/tabcontent"/>
-
-			</TabHost>
-
-			<RelativeLayout
-				android:id="@+id/single_drag"
+			<LinearLayout
+				android:layout_height="40dp"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-				
-				<ImageView
-					android:id="@+id/iv_collapse"
-					android:layout_width="40dp"
+				android:background="?attr/DragBackground"
+				android:id="@+id/single_dragger"
+				android:orientation="horizontal">
+
+				<us.shandian.blacklight.ui.common.LinearViewPagerIndicator
 					android:layout_height="40dp"
-					android:layout_marginRight="5dp"
-					android:layout_alignParentRight="true"
-					android:layout_centerVertical="true"
-					android:src="?attr/IconCollapse"
-					android:scaleType="centerInside"/>
+					android:layout_width="140dp"
+					android:id="@+id/single_indicator"
+					android:layout_marginLeft="5dp"/>
+
+				<RelativeLayout
+					android:id="@+id/single_drag"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
 				
-			</RelativeLayout>
+					<ImageView
+						android:id="@+id/iv_collapse"
+						android:layout_width="24dp"
+						android:layout_height="24dp"
+						android:layout_marginRight="5dp"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:src="?attr/IconCollapse"
+						android:scaleType="centerInside"/>
+					
+				</RelativeLayout>
+
+			</LinearLayout>
+
+			<us.shandian.blacklight.ui.common.HackyViewPager
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:id="@+id/single_pager"/>
 
 		</LinearLayout>
 
-		<us.shandian.blacklight.ui.common.HackyViewPager
-			android:layout_height="match_parent"
+	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="49dp"
+		android:layout_weight="0.1"
+		android:background="?attr/SingleDivider"
+		android:orientation="horizontal">
+
+		<LinearLayout
+			android:id="@+id/single_comment"
 			android:layout_width="match_parent"
-			android:id="@+id/single_pager"/>
+			android:layout_height="48dp"
+			android:layout_weight="1.0"
+			android:layout_marginTop="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center"
+			android:background="?attr/SingleBottomColor"
+			android:orientation="horizontal">
+
+			<ImageView
+				android:id="@+id/single_comment_img"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:layout_marginRight="5dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_comment_1"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				android:text="@string/single_comment"
+				android:textColor="?attr/CardForeground"
+				android:textSize="15sp"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/single_repost"
+			android:layout_width="match_parent"
+			android:layout_height="48dp"
+			android:layout_weight="1.0"
+			android:layout_marginTop="1dp"
+			android:layout_marginRight="1dp"
+			android:gravity="center"
+			android:background="?attr/SingleBottomColor"
+			android:orientation="horizontal">
+			
+			<ImageView
+				android:id="@+id/single_repost_img"
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:layout_marginRight="5dp"
+				android:scaleType="fitXY"
+				android:src="@drawable/ic_repost"/>
+			
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				android:text="@string/single_repost"
+				android:textColor="?attr/CardForeground"
+				android:textSize="15sp"/>
+
+		</LinearLayout>
 
 	</LinearLayout>
-
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+	
+</LinearLayout>
 

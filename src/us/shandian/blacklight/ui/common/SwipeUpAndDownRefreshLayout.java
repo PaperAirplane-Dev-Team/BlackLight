@@ -27,7 +27,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
 /*
   Adds Swipe Down To Refresh

@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import us.shandian.blacklight.model.MessageModel;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 /* This class is modified from qii/weiciyuan */
@@ -70,7 +71,7 @@ public class SpannableStringUtils
 			// Don't be too long
 			if (matcher.end() - matcher.start() < 8) {
 				String iconName = matcher.group(0);
-				Bitmap bitmap = Emoticons.EMOTICON_BITMAPS_SCALED.get(iconName);
+				Bitmap bitmap = Emoticons.getEmoticonBitmap(iconName);
 				
 				if (bitmap != null) {
 					ImageSpan span = new ImageSpan(context, bitmap, ImageSpan.ALIGN_BASELINE);

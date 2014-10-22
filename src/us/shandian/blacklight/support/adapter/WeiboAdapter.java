@@ -25,28 +25,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Debug;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
-
-import com.daimajia.swipe.SwipeLayout;
-
-import java.util.ArrayList;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.comments.NewCommentApi;
@@ -55,23 +54,21 @@ import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.CommentModel;
-import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
-import us.shandian.blacklight.ui.common.DynamicGridLayout;
-import us.shandian.blacklight.ui.common.HackyHorizontalScrollView;
-import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.ReplyToActivity;
+import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.statuses.RepostActivity;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
-import static us.shandian.blacklight.BuildConfig.DEBUG;
+
 import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
 
 /*
@@ -100,6 +97,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	};
 	
 	private MessageListModel mList;
+	private MessageListModel mClone;
 	private LayoutInflater mInflater;
 	private StatusTimeUtils mTimeUtils;
 	private UserApiCache mUserApi;
@@ -135,21 +133,22 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
+		notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getCount() {
-		return mList.getSize();
+		return mClone.getSize();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mList.get(position);
+		return mClone.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return mList.get(position).id;
+		return mClone.get(position).id;
 	}
 
 	@Override
@@ -157,7 +156,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (position >= getCount()) {
 			return convertView;
 		} else {
-			MessageModel msg = mList.get(position);
+			MessageModel msg = mClone.get(position);
 			
 			return bindView(msg, convertView);
 		}
@@ -168,11 +167,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (v.getTag() instanceof ViewHolder) {
 			ViewHolder h = (ViewHolder) v.getTag();
 			
-			h.avatar.setImageBitmap(null);
+			h.avatar.setImageResource(R.color.gray);
 			h.avatar.setTag(true);
 			h.comment_and_retweet.setVisibility(View.VISIBLE);
-			h.swipe.close(false);
-			
 			LinearLayout container = h.pics;
 			
 			for (int i = 0; i < 9; i++) {
@@ -234,7 +231,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		if (!useExisted) {
 			h = new ViewHolder(v, msg);
-			bindSwipe(h);
 		} else {
 			h = (ViewHolder) v.getTag();
 			
@@ -244,8 +240,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			
 			h.msg = msg;
 		}
-
-		new SwipeBinder().execute(h);
 		
 		TextView name = h.name;
 		TextView from = h.from;
@@ -254,7 +248,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView attitudes = h.attitudes;
 		TextView retweet = h.retweets;
 		TextView comments = h.comments;
-		ImageView like = h.like;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
 		from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
@@ -266,14 +259,11 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		if (!mShowCommentStatus || msg instanceof CommentModel) {
 			h.comment_and_retweet.setVisibility(View.GONE);
 		} else {
-			attitudes.setText(String.valueOf(msg.attitudes_count));
-			retweet.setText(String.valueOf(msg.reposts_count));
-			comments.setText(String.valueOf(msg.comments_count));
-			if(msg.liked){
-				like.setImageResource(R.drawable.ic_action_bad);
-			}
+			attitudes.setText(Utility.addUnitToInt(mContext, msg.attitudes_count));
+			retweet.setText(Utility.addUnitToInt(mContext, msg.reposts_count));
+			comments.setText(Utility.addUnitToInt(mContext, msg.comments_count));
 		}
-		
+
 		bindMultiPicLayout(h, msg, true);
 		
 		// If this retweets/replies to others, show the original
@@ -308,59 +298,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		return v;
 	}
-
-	private void bindSwipe(ViewHolder h) {
-		SwipeLayout swipe = h.swipe;
-		swipe.setShowMode(SwipeLayout.ShowMode.LayDown);
-		swipe.setDragEdge(SwipeLayout.DragEdge.Right);
-		swipe.addSwipeDenier(h.scroll);
-	}
-
-	private void bindSwipeActions(ViewHolder h) {
-		MessageModel msg = h.msg;
-
-		// Hide all
-		h.reply.setVisibility(View.GONE);
-		h.show.setVisibility(View.GONE);
-		h.delete.setVisibility(View.GONE);
-		h.repost.setVisibility(View.GONE);
-		h.like.setVisibility(View.GONE);
-		h.orig.setVisibility(View.GONE);
-		h.copy.setVisibility(View.GONE);
-
-		// Show only needed
-		if (msg instanceof CommentModel) {
-			CommentModel comment = (CommentModel) msg;
-			h.copy.setVisibility(View.VISIBLE);
-			h.reply.setVisibility(View.VISIBLE);
-			h.orig.setVisibility(View.VISIBLE);
-			
-			if (comment.user.id.equals(mUid)
-				|| (comment.status != null && comment.status.user.id != null
-				&& comment.status.user.id.equals(mUid))) {
-
-				h.delete.setVisibility(View.VISIBLE);
-			}
-		} else {
-			h.copy.setVisibility(View.VISIBLE);
-			h.show.setVisibility(View.VISIBLE);
-			h.reply.setVisibility(View.VISIBLE);
-			h.repost.setVisibility(View.VISIBLE);
-
-			if (msg.liked){
-				h.like.setImageResource(R.drawable.ic_action_bad);
-			}
-			h.like.setVisibility(View.VISIBLE);
-
-			if (msg.retweeted_status != null) {
-				h.orig.setVisibility(View.VISIBLE);
-			}
-
-			if (msg.user.id.equals(mUid)) {
-				h.delete.setVisibility(View.VISIBLE);
-			}
-		}
-	}
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
 		h.origin_parent.setVisibility(View.VISIBLE);
@@ -377,7 +314,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	}
 	
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
-		HackyHorizontalScrollView scroll = h.scroll;
+		HorizontalScrollView scroll = h.scroll;
 
 		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
 			scroll.setVisibility(View.VISIBLE);
@@ -407,8 +344,69 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		}
 	}
+
+	void buildPopup(final ViewHolder h) {
+		PopupMenu p = new PopupMenu(mContext, h.popup);
+		p.inflate(R.menu.popup);
+		final Menu m = p.getMenu();
+
+		// Show needed items
+		m.findItem(R.id.popup_copy).setVisible(true);
+		if (h.msg instanceof CommentModel) {
+			m.findItem(R.id.popup_reply).setVisible(true);
+
+			CommentModel cmt = (CommentModel) h.msg;
+			if (cmt.user.id.equals(mUid) || (cmt.status != null && cmt.status.user != null && cmt.status.user.id.equals(mUid))) {
+				m.findItem(R.id.popup_delete).setVisible(true);
+			}
+		} else {
+			m.findItem(R.id.popup_repost).setVisible(true);
+			m.findItem(R.id.popup_comment).setVisible(true);
+
+			if (h.msg.liked) {
+				m.findItem(R.id.popup_unlike).setVisible(true);
+			} else {
+				m.findItem(R.id.popup_like).setVisible(true);
+			}
+
+			if (h.msg.user.id.equals(mUid)) {
+				m.findItem(R.id.popup_delete).setVisible(true);
+			}
+		}
+
+		p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				switch (item.getItemId()) {
+					case R.id.popup_delete:
+						h.delete();
+						break;
+					case R.id.popup_copy:
+						h.copy();
+						break;
+					case R.id.popup_comment:
+					case R.id.popup_reply:
+						h.reply();
+						break;
+					case R.id.popup_repost:
+						h.repost();
+						break;
+					case R.id.popup_like:
+					case R.id.popup_unlike:
+						new LikeTask().execute(h.msg, h, m);
+						break;
+				}
+
+				return true;
+			}
+		});
+
+		// Pop up!
+		p.show();
+	}
 	
-	public void notifyDataSetChangedAndClear() {
+	public void notifyDataSetChanged() {
+		mClone = mList.clone();
 		super.notifyDataSetChanged();
 	}
 	
@@ -426,29 +424,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 		
 		return true;
-	}
-
-	// Wait until user stops scrolling and then we create the swipe layout
-	private class SwipeBinder extends AsyncTask<ViewHolder, Void, Boolean> {
-		ViewHolder h;
-
-		@Override
-		protected Boolean doInBackground(ViewHolder... params) {
-			h = params[0];
-			
-			return waitUntilNotScrolling(h, h.msg);
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if (result) {
-				try {
-					bindSwipeActions(h);
-				} catch (NullPointerException e) {
-					// Ignore all NPEs
-				}
-			}
-		}
 	}
 	
 	// Downloads images including avatars
@@ -575,12 +550,16 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 
-	private class LikeTask extends AsyncTask<MessageModel, Void, Boolean>{
+	private class LikeTask extends AsyncTask<Object, Void, Boolean>{
 		private MessageModel mm;
+		private ViewHolder h;
+		private Menu m;
 
 		@Override
-		protected Boolean doInBackground(MessageModel... params) {
-			mm = params[0];
+		protected Boolean doInBackground(Object... params) {
+			mm = (MessageModel) params[0];
+			h = (ViewHolder) params[1];
+			m = (Menu) params[2];
 			if (mm.liked){
 				return AttitudesApi.cancelLike(mm.id);
 			}else{
@@ -590,14 +569,18 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 
 		@Override
 		protected void onPostExecute(Boolean result){
-			if (result){
+			if (result && mm == h.msg){
 				if(mm.liked){
 					-- mm.attitudes_count;
 				}else{
 					++ mm.attitudes_count;
 				}
-				mm.liked = !mm.liked; // Definitely wrong. Not working. I've got no idea here.
-				// notifyDataSetInvalidated();
+				mm.liked = !mm.liked;
+
+				h.attitudes.setText(String.valueOf(mm.attitudes_count));
+
+				m.findItem(R.id.popup_unlike).setVisible(mm.liked);
+				m.findItem(R.id.popup_like).setVisible(!mm.liked);
 			}
 		}
 	}
@@ -614,17 +597,9 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		@InjectView(R.id.weibo_attitudes) public TextView attitudes;
 		@InjectView(R.id.weibo_orig_content) public TextView orig_content;
 		@InjectView(R.id.weibo_avatar) public ImageView avatar;
-		@InjectView(R.id.bottom_like) public ImageView like;
-		@InjectView(R.id.bottom_reply) public ImageView reply;
-		@InjectView(R.id.bottom_show) public ImageView show;
-		@InjectView(R.id.bottom_delete) public ImageView delete;
-		@InjectView(R.id.bottom_repost) public ImageView repost;
-		@InjectView(R.id.bottom_orig) public ImageView orig;
-		@InjectView(R.id.bottom_copy) public ImageView copy;
-		@InjectView(R.id.swipe) public SwipeLayout swipe;
-		@InjectView(R.id.weibo_pics_scroll) public HackyHorizontalScrollView scroll;
+		@InjectView(R.id.weibo_popup) public ImageView popup;
+		@InjectView(R.id.weibo_pics_scroll) public HorizontalScrollView scroll;
 		@InjectView(R.id.weibo_pics) public LinearLayout pics;
-		@InjectView(R.id.bottom_grid) public DynamicGridLayout grid;
 		@InjectView(R.id.card) public View card;
 		@InjectView(R.id.weibo_origin) public View origin_parent;
 		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
@@ -642,23 +617,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			ButterKnife.inject(this, v);
 		}
 
-		@OnLongClick({
-			R.id.card, R.id.bottom_grid,
-			R.id.bottom_like, R.id.bottom_reply,
-			R.id.bottom_show, R.id.bottom_delete,
-			R.id.bottom_repost, R.id.bottom_orig,
-			R.id.bottom_copy,
-		})
-		boolean openOrClose() {
-			if (swipe.getOpenStatus() == SwipeLayout.Status.Close) {
-				swipe.open(true);
-			} else {
-				swipe.close(true);
-			}
-
-			return true;
+		@OnClick(R.id.weibo_popup)
+		void popup() {
+			buildPopup(this);
 		}
-
 
 		@OnClick(R.id.weibo_avatar)
 		void showUser() {
@@ -669,7 +631,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick({R.id.card, R.id.bottom_show})
+		@OnClick(R.id.card)
 		void show() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -685,7 +647,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick({R.id.weibo_origin, R.id.bottom_orig})
+		@OnClick(R.id.weibo_origin)
 		void showOrig() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -702,7 +664,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.bottom_repost)
 		void repost() {
 			if(!(msg instanceof CommentModel)) {
 				Intent i = new Intent();
@@ -713,12 +674,10 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			}
 		}
 
-		@OnClick(R.id.bottom_copy)
 		void copy() {
 			Utility.copyToClipboard(context, msg.text);
 		}
 
-		@OnClick(R.id.bottom_reply)
 		void reply() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -734,13 +693,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.bottom_like)
-		void like() {
-			new LikeTask().execute(msg);
-			openOrClose();
-		}
-
-		@OnClick(R.id.bottom_delete)
 		void delete() {
 			new AlertDialog.Builder(context)
 				.setMessage(R.string.confirm_delete)

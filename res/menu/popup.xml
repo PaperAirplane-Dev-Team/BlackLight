@@ -1,0 +1,55 @@
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/popup_delete"
+		android:title="@string/delete"
+		android:visible="false"/>
+
+	<item
+		android:id="@+id/popup_like"
+		android:title="@string/attitudes"
+		android:visible="false"/>
+
+	<item
+		android:id="@+id/popup_unlike"
+		android:title="@string/remove_attitude"
+		android:visible="false"/>
+
+	<item
+		android:id="@+id/popup_copy"
+		android:title="@string/copy"
+		android:visible="false"/>
+
+	<item
+		android:id="@+id/popup_comment"
+		android:title="@string/single_comment"
+		android:visible="false"/>
+
+	<item
+		android:id="@+id/popup_repost"
+		android:title="@string/single_repost"
+		android:visible="false"/>
+
+	<item
+		android:id="@+id/popup_reply"
+		android:title="@string/reply"
+		android:visible="false"/>
+
+</menu>

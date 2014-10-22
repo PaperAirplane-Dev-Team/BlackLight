@@ -26,33 +26,31 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.os.Bundle;
-import android.os.Build;
-
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -60,26 +58,30 @@ import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.GroupListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
-import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
+import us.shandian.blacklight.ui.common.FloatingActionButton;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
-import us.shandian.blacklight.ui.entry.EntryActivity;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
 import us.shandian.blacklight.ui.search.SearchFragment;
 import us.shandian.blacklight.ui.settings.SettingsActivity;
 import us.shandian.blacklight.ui.statuses.HomeTimeLineFragment;
-import us.shandian.blacklight.ui.statuses.MentionsTimeLineFragment;
+import us.shandian.blacklight.ui.statuses.MentionsFragment;
+import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
-
 /* Main Container Activity */
-public class MainActivity extends Activity implements ActionBar.OnNavigationListener
+public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
-	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, CMT_MENTION = 5, SEARCH = 6;
+
+	public static interface Refresher {
+		void doRefresh();
+	}
+
+	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
 
 	@InjectView(R.id.drawer) DrawerLayout mDrawer;
 	private int mDrawerGravity;
@@ -90,18 +92,19 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	@InjectView(R.id.action_hamburger) ImageView mHamburger;
 	
 	// Drawer content
+	@InjectView(R.id.drawer_wrapper) View mDrawerWrapper;
+	@InjectView(R.id.drawer_scroll) ScrollView mDrawerScroll;
 	@InjectView(R.id.my_name) TextView mName;
 	@InjectView(R.id.my_avatar) ImageView mAvatar;
-	@InjectView(R.id.list_my) ListView mMy;
-	@InjectView(R.id.list_at_me) ListView mAtMe;
-	@InjectView(R.id.list_other) ListView mOther;
+	@InjectView(R.id.my_cover) ImageView mCover;
+	private FloatingActionButton mFAB;
 	
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
 	private UserModel mUser;
 	
 	// Fragments
-	private Fragment[] mFragments = new Fragment[7];
+	private Fragment[] mFragments = new Fragment[6];
 	private FragmentManager mManager;
 
 	// Groups
@@ -110,34 +113,44 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	private MenuItem mGroupDestroy, mGroupCreate;
 	
 	// Temp fields
-	private TextView mLastChoice;
 	private int mCurrent = 0;
 	private int mNext = 0;
 	private boolean mIgnore = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (hasSmartBar()) {
-			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-		}
-
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		// Emoticons
+		if (!Emoticons.downloaded()) {
+			Emoticons.startDownload(this);
+		}
+
+		// Inflate custom decor
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View customDecor = inflater.inflate(R.layout.decor, null);
+
+		// Replace the original layout
+		// Learned from SlidingMenu
+		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+		ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
+		decor.removeView(decorChild);
+		decor.addView(customDecor);
+		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
 
 		// Add custom view
 		getActionBar().setCustomView(R.layout.action_custom);
 		getActionBar().setDisplayShowCustomEnabled(true);
 
 		// Inject
-		ButterKnife.inject(this);
+		ButterKnife.inject(this, customDecor);
 		
-		// Tint
-		Utility.enableTint(this);
-
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
+
 		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;
 
 		// Set gravity
@@ -147,7 +160,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		nav.setLayoutParams(p);
 
 		// Adjust Padding for statusbar and navigation bar
-		nav.setPadding(0, Utility.getDecorPaddingTop(this), 0, 0);
+		if (!Utility.isChrome()) {
+			nav.setPadding(0, Utility.getStatusBarHeight(this), 0, 0);
+		}
 
 		// Initialize naviagtion drawer
 		//mDrawer = (DrawerLayout) findViewById(R.id.drawer);
@@ -157,21 +172,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				super.onDrawerOpened(drawerView);
 				getActionBar().show();
 				invalidateOptionsMenu();
-				if (mLastChoice == null) {
-					mLastChoice = (TextView) mMy.getChildAt(0);
-					mLastChoice.getPaint().setFakeBoldText(true);
-					mLastChoice.invalidate();
-				}
-
-				((HomeTimeLineFragment) mFragments[0]).hideFAB();
+				hideFAB();
 			}
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				invalidateOptionsMenu();
 
-				if (mNext == 0) {
-					((HomeTimeLineFragment) mFragments[0]).showFAB();
+				if (mCurrent != DM) {
+					showFAB();
 				}
 			}
 
@@ -186,20 +195,29 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
 		}
 
-		mMy.setVerticalScrollBarEnabled(false);
+		/*mMy.setVerticalScrollBarEnabled(false);
 		mMy.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mAtMe.setVerticalScrollBarEnabled(false);
 		mAtMe.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mOther.setVerticalScrollBarEnabled(false);
-		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);
+		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);*/
 		
 		// My account
-		mName.getPaint().setFakeBoldText(true);
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
-		initList();
 		new InitializerTask().execute();
 		new GroupsTask().execute();
+
+		// Initialize FAB
+		mFAB = new FloatingActionButton.Builder(this)
+			.withGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
+			.withMargins(0, 0, 36, 0)
+			.withDrawable(Utility.getFABNewIcon(this))
+			.withButtonColor(Utility.getFABBackground(this))
+			.withButtonSize(80)
+			.create();
+		mFAB.setOnClickListener(this);
+		mFAB.setOnLongClickListener(this);
 		
 		// Initialize ActionBar Style
 		getActionBar().setHomeButtonEnabled(false);
@@ -218,8 +236,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mFragments[COMMENT] = new CommentTimeLineFragment();
 		mFragments[FAV] = new FavListFragment();
 		mFragments[DM] = new DirectMessageUserFragment();
-		mFragments[MENTION] = new MentionsTimeLineFragment();
-		mFragments[CMT_MENTION] = new CommentMentionsTimeLineFragment();
+		mFragments[MENTION] = new MentionsFragment();
 		mFragments[SEARCH] = new SearchFragment();
 		mManager = getFragmentManager();
 		
@@ -229,6 +246,19 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			ft.hide(f);
 		}
 		ft.commit();
+
+		// Adjust drawer layout params
+		mDrawerWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				if (mDrawerScroll.getMeasuredHeight() > mDrawerWrapper.getMeasuredHeight()) {
+					// On poor screens, we add a scroll over the drawer content
+					ViewGroup.LayoutParams lp = mDrawerScroll.getLayoutParams();
+					lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+					mDrawerScroll.setLayoutParams(lp);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -243,6 +273,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		if (page == HOME){
 			switchTo(HOME);
 		}else{
+			setShowTitle(true);
+			setShowSpinner(false);
 			switchAndRefresh(page);
 		}
 
@@ -267,7 +299,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		
 		if (resultCode == RESULT_OK) {
 			mLoginCache = new LoginApiCache(this);
-			initList();
 		}
 	}
 
@@ -367,12 +398,17 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				.setView(text)
 				.show();
 			return true;
+		} else if (item.getItemId() == R.id.search) {
+			setShowTitle(false);
+			setShowSpinner(false);
+			switchTo(SEARCH);
+			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	@OnItemClick({R.id.list_my, R.id.list_at_me, R.id.list_other})
+	/*@OnItemClick({R.id.list_my, R.id.list_at_me, R.id.list_other})
 	public void handlePageSwitch(AdapterView<?> parent, View view, final int position, long id) {
 		if ((parent != mOther || position == 0) && mLastChoice != null) {
 			mLastChoice.getPaint().setFakeBoldText(false);
@@ -466,6 +502,58 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 		
 		openOrCloseDrawer();
+	}*/
+
+	@Override
+	public void onBackPressed() {
+		if (mCurrent != HOME) {
+			home();
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@OnClick(R.id.drawer_home)
+	public void home() {
+		setShowTitle(false);
+		setShowSpinner(true);
+		switchTo(HOME);
+	}
+
+	@OnClick(R.id.drawer_comment)
+	public void comments() {
+		switchTo(COMMENT);
+		setShowTitle(true);
+		setShowSpinner(false);
+	}
+
+	@OnClick(R.id.drawer_dm)
+	public void dm() {
+		switchTo(DM);
+		setShowTitle(true);
+		setShowSpinner(false);
+	}
+
+	@OnClick(R.id.drawer_fav)
+	public void fav() {
+		switchTo(FAV);
+		setShowTitle(true);
+		setShowSpinner(false);
+	}
+
+	@OnClick(R.id.drawer_settings)
+	public void settings() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, SettingsActivity.class);
+		startActivity(i);
+	}
+
+	@OnClick(R.id.drawer_at)
+	public void mentions() {
+		switchTo(MENTION);
+		setShowTitle(true);
+		setShowSpinner(false);
 	}
 
 	@Override
@@ -488,9 +576,35 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		return true;
 	}
 
+	@Override
+	public void onClick(View v) {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, NewPostActivity.class);
+		startActivity(i);
+	}
+
+	@Override
+	public boolean onLongClick(View v) {
+		Fragment f = mFragments[mCurrent];
+
+		if (f instanceof Refresher) {
+			((Refresher) f).doRefresh();
+		}
+
+		return true;
+	}
+
+	public void hideFAB() {
+		mFAB.hideFloatingActionButton();
+	}
+
+	public void showFAB() {
+		mFAB.showFloatingActionButton();
+	}
+
 	private void switchAndRefresh(int id){
 		if (id != 0){
-			((HomeTimeLineFragment) mFragments[0]).hideFAB();
 			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener)mFragments[id];
 			l.onRefresh();
 		}
@@ -507,13 +621,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		if (mSpinner != null) {
 			mSpinner.setVisibility(show ? View.VISIBLE : View.GONE);
 		}
-	}
-	
-	private void initList() {
-		mLastChoice = null;
-		mMy.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.my_array)));
-		mAtMe.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_item, getResources().getStringArray(R.array.at_me_array)));
-		mOther.setAdapter(new ArrayAdapter(this, R.layout.main_drawer_other_item, getResources().getStringArray(R.array.other_array)));
 	}
 	
 	private void switchTo(int id) {
@@ -536,6 +643,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		mCurrent = id;
 		mNext = id;
+
+		mDrawer.closeDrawer(mDrawerGravity);
 	}
 
 	private void updateActionSpinner() {
@@ -576,9 +685,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			publishProgress(new Object[]{0});
 			
 			// My avatar
-			Bitmap avatar = mUserCache.getSmallAvatar(mUser);
+			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
 			if (avatar != null) {
 				publishProgress(new Object[]{1, avatar});
+			}
+
+			// My Cover
+			Bitmap cover = mUserCache.getCover(mUser);
+			if (cover != null) {
+				publishProgress(new Object[]{2, cover});
 			}
 
 			return null;
@@ -590,11 +705,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			switch (value) {
 				case 0:
 					// Show user name
-					mName.setText(mUser.getName());
+					mName.setText(mUser != null ? mUser.getName() : "");
 					break;
 				case 1:
 					// Show avatar
 					mAvatar.setImageBitmap((Bitmap) values[1]);
+					break;
+				case 2:
+					// Show cover
+					mCover.setImageBitmap((Bitmap) values[1]);
 					break;
 			}
 			super.onProgressUpdate(values);

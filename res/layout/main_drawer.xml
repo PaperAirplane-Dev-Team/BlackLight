@@ -17,58 +17,202 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ScrollView
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/drawer_wrapper"
 	android:layout_height="match_parent"
-	android:layout_width="match_parent">
+	android:layout_width="match_parent"
+	android:background="?attr/DrawerBackground">
 
-	<LinearLayout
+	<ScrollView
+		android:id="@+id/drawer_scroll"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical">
+		android:layout_gravity="left|center_vertical">
 
-		<TextView
-			android:layout_height="40dp"
-			android:text="@string/my"
-			android:textAppearance="?android:attr/textAppearanceMedium"
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:gravity="center_vertical"
-			android:paddingLeft="10dp"
-			android:textStyle="bold"
-			android:textColor="@color/superlight_gray"/>
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:orientation="vertical">
 
-		<ListView
-			android:layout_height="180dp"
-			android:layout_width="match_parent"
-			android:id="@+id/list_my"
-			android:divider="@null"
-			android:listSelector="@drawable/drawer_selector"/>
+			<LinearLayout
+				android:id="@+id/drawer_home"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:clickable="true"
+				android:gravity="center_vertical"
+				android:background="@drawable/drawer_selector"
+				android:orientation="horizontal"
+				android:paddingLeft="24dp"
+				android:paddingRight="24dp">
 
-		<TextView
-			android:layout_height="40dp"
-			android:text="@string/at_me"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="match_parent"
-			android:gravity="center_vertical"
-			android:paddingLeft="10dp"
-			android:textStyle="bold"
-			android:textColor="@color/superlight_gray"/>
+				<us.shandian.blacklight.ui.common.TintImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_drawer_home"
+					app:tintColor="?attr/DrawerForeground"/>
 
-		<ListView
-			android:layout_height="90dp"
-			android:layout_width="match_parent"
-			android:id="@+id/list_at_me"
-			android:divider="@null"
-			android:listSelector="@drawable/drawer_selector"/>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="26dp"
+					android:text="@string/drawer_home"
+					android:textSize="16sp"
+					android:textColor="?attr/DrawerForeground"/>
+				
+			</LinearLayout>
 
-		<ListView
-			android:layout_height="135dp"
-			android:layout_width="match_parent"
-			android:id="@+id/list_other"
-			android:divider="@null"
-			android:listSelector="@drawable/drawer_selector"/>
+			<LinearLayout
+				android:id="@+id/drawer_at"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_marginTop="8dp"
+				android:clickable="true"
+				android:gravity="center_vertical"
+				android:background="@drawable/drawer_selector"
+				android:orientation="horizontal"
+				android:paddingLeft="24dp"
+				android:paddingRight="24dp">
 
-	</LinearLayout>
+				<us.shandian.blacklight.ui.common.TintImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_drawer_at"
+					app:tintColor="?attr/DrawerForeground"/>
 
-</ScrollView>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="26dp"
+					android:text="@string/drawer_at"
+					android:textSize="16sp"
+					android:textColor="?attr/DrawerForeground"/>
+			
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/drawer_comment"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_marginTop="8dp"
+				android:clickable="true"
+				android:gravity="center_vertical"
+				android:background="@drawable/drawer_selector"
+				android:orientation="horizontal"
+				android:paddingLeft="24dp"
+				android:paddingRight="24dp">
+
+				<us.shandian.blacklight.ui.common.TintImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_drawer_comment"
+					app:tintColor="?attr/DrawerForeground"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="26dp"
+					android:text="@string/drawer_comments"
+					android:textSize="16sp"
+					android:textColor="?attr/DrawerForeground"/>
+			
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/drawer_dm"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_marginTop="8dp"
+				android:clickable="true"
+				android:gravity="center_vertical"
+				android:background="@drawable/drawer_selector"
+				android:orientation="horizontal"
+				android:paddingLeft="24dp"
+				android:paddingRight="24dp">
+
+				<us.shandian.blacklight.ui.common.TintImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_drawer_pm"
+					app:tintColor="?attr/DrawerForeground"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="26dp"
+					android:text="@string/drawer_dm"
+					android:textSize="16sp"
+					android:textColor="?attr/DrawerForeground"/>
+			
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/drawer_fav"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_marginTop="8dp"
+				android:clickable="true"
+				android:gravity="center_vertical"
+				android:background="@drawable/drawer_selector"
+				android:orientation="horizontal"
+				android:paddingLeft="24dp"
+				android:paddingRight="24dp">
+
+				<us.shandian.blacklight.ui.common.TintImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_drawer_fav"
+					app:tintColor="?attr/DrawerForeground"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="26dp"
+					android:text="@string/drawer_fav"
+					android:textSize="16sp"
+					android:textColor="?attr/DrawerForeground"/>
+			
+			</LinearLayout>
+		
+			<LinearLayout
+				android:id="@+id/drawer_settings"
+				android:layout_width="match_parent"
+				android:layout_height="36dp"
+				android:layout_marginTop="8dp"
+				android:clickable="true"
+				android:gravity="center_vertical"
+				android:background="@drawable/drawer_selector"
+				android:orientation="horizontal"
+				android:paddingLeft="24dp"
+				android:paddingRight="24dp">
+
+				<us.shandian.blacklight.ui.common.TintImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_drawer_set"
+					app:tintColor="?attr/DrawerForeground"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="26dp"
+					android:text="@string/drawer_settings"
+					android:textSize="16sp"
+					android:textColor="?attr/DrawerForeground"/>
+			
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</FrameLayout>
 

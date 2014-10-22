@@ -30,5 +30,11 @@
 		android:animationCache="false"
 		android:divider="@null"/>
 
+	<View
+		android:id="@+id/action_shadow"
+		android:layout_width="match_parent"
+		android:layout_height="3dp"
+		android:background="@drawable/action_shadow"/>
+
 </RelativeLayout>
 

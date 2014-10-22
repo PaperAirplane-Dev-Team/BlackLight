@@ -20,18 +20,27 @@
 package us.shandian.blacklight.api.statuses;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
 import us.shandian.blacklight.model.MessageModel;
+import us.shandian.blacklight.support.Emoticons.SinaEmotion;
 import us.shandian.blacklight.support.http.WeiboParameters;
+
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class PostApi extends BaseApi
 {
+	public static final String TAG = PostApi.class.getSimpleName();
+
 	public static final int EXTRA_NONE = 0;
 	public static final int EXTRA_COMMENT = 1;
 	public static final int EXTRA_COMMENT_ORIG = 2;
@@ -128,6 +137,60 @@ public class PostApi extends BaseApi
 			request(Constants.FAVORITES_DESTROY, params, HTTP_POST);
 		} catch (Exception e) {
 			
+		}
+	}
+
+	// Upload pictures
+	public static String uploadPicture(Bitmap picture) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("pic", picture);
+
+		try {
+			JSONObject json = request(Constants.UPLOAD_PIC, params, HTTP_POST);
+			return json.optString("pic_id");
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	// Post with multi pictures
+	// @param pics: ids returned by uploadPicture, split with ","
+	public static boolean newPostWithMultiPics(String status, String pics) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("status", status);
+		params.put("pic_id", pics);
+
+		try {
+			JSONObject json = request(Constants.UPLOAD_URL_TEXT, params, HTTP_POST);
+			MessageModel msg = new Gson().fromJson(json.toString(), MessageModel.class);
+			if (msg == null || msg.idstr == null || msg.idstr.trim().equals("")) {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public static ArrayList<SinaEmotion> getEmoticons(String type) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("type", type);
+
+		try {
+			String json = requestString(Constants.EMOTIONS, params, HTTP_GET);
+			ArrayList<SinaEmotion> emo = new Gson().fromJson(json, new TypeToken<ArrayList<SinaEmotion>>(){}.getType());
+
+			if (DEBUG) {
+				Log.d(TAG, "json = " + json);
+			}
+
+			return emo;
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+			return null;
 		}
 	}
 }

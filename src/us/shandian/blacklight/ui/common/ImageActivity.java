@@ -19,39 +19,35 @@
 
 package us.shandian.blacklight.ui.common;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.Movie;
+import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
-
-import java.util.ArrayList;
-
-import org.roisoleil.gifview.GifView;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
+import org.roisoleil.gifview.GifView;
+
+import java.util.ArrayList;
+
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
+
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
@@ -134,6 +130,29 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		}
 	}
 
+	private class MyCallback implements FileCacheManager.ProgressCallback {
+		private CircularProgressView p;
+
+		public MyCallback(CircularProgressView p) {
+			this.p = p;
+		}
+
+		@Override
+		public void onProgressChanged(final int read, final int total) {
+			if (DEBUG) {
+				Log.d(TAG, "read = " + read + "; total = " + total);
+			}
+
+			p.post(new Runnable() {
+				@Override
+				public void run() {
+					p.setProgress((float) read / total);
+					p.setText(String.format("%.1f/%.1fM", (float) read / 1024 / 1024, (float) total / 1024 / 1024));
+				}
+			});
+		}
+	}
+
 	private class ImageAdapter extends PagerAdapter {
 		private ArrayList<View> mViews = new ArrayList<View>();
 		
@@ -162,10 +181,12 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 			} else {
 				LinearLayout ll = new LinearLayout(ImageActivity.this);
 				ll.setGravity(Gravity.CENTER);
-				ll.addView(new ProgressBar(ImageActivity.this));
+				CircularProgressView p = new CircularProgressView(ImageActivity.this);
+				int w = (int) Utility.dp2px(ImageActivity.this, 50);
+				ll.addView(p, w, w);
 				container.addView(ll, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				mViews.set(position, ll);
-				new DownloadTask().execute(new Object[]{ll, position});
+				new DownloadTask().execute(new Object[]{ll, position, new MyCallback(p)});
 				return ll;
 			}
 		}
@@ -182,7 +203,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		@Override
 		protected Object[] doInBackground(Object[] params) {
 			int id = Integer.parseInt(params[1].toString());
-			Object img = mApiCache.getLargePic(mModel, id);
+			Object img = mApiCache.getLargePic(mModel, id, (MyCallback) params[2]);
 			mLoaded[id] = true;
 			return new Object[]{params[0], img};
 		}

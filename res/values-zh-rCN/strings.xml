@@ -36,23 +36,12 @@
 	<string name="group_destroy">删除当前分组</string>
 
 	<!-- Left Drawer -->
-	<string name="my">我的圈子</string>
-	<string name="at_me">提到我的</string>
-	<string-array name="my_array">
-		<item>微博</item>
-		<item>评论</item>
-		<item>收藏</item>
-		<item>私信</item>
-	</string-array>
-	<string-array name="at_me_array">
-		<item>微博</item>
-		<item>评论</item>
-	</string-array>
-	<string-array name="other_array">
-		<item>搜索</item>
-		<item>设置</item>
-		<item>登出</item>
-	</string-array>
+	<string name="drawer_home">首页</string>
+	<string name="drawer_at">提及</string>
+	<string name="drawer_comments">评论</string>
+	<string name="drawer_dm">私信</string>
+	<string name="drawer_fav">收藏</string>
+	<string name="drawer_settings">设置</string>
 	
 	<!-- Statuses -->
 	<string name="timeline">时间流</string>
@@ -66,6 +55,7 @@
 	<string name="comment_on">发表评论</string>
 	<string name="repost">转发微博</string>
 	<string name="reply_to">回复评论</string>
+	<string name="reply">回复</string>
     <string name="remove_attitude">取消赞</string>
 	<string name="repost_and_comment">同时评论微博</string>
 	<string name="repost_and_comment_the_original">同时评论原微博</string>
@@ -106,13 +96,19 @@
 	<string name="following">关注</string>
 	<string name="msgs">微博</string>
 	<string name="like">收藏</string>
-	<string name="following_me">正关注我</string>
-	<string name="i_am_following">我正关注</string>
-	<string name="following_each_other">互相关注</string>
+	<string name="following_me">被关注</string>
+	<string name="i_am_following">正关注</string>
+	<string name="following_each_other">已互粉</string>
 	<string name="no_following">未关注</string>
 	<string name="follow">关注Ta</string>
 	<string name="unfollow">取消关注</string>
 	<string name="change_group">修改分组</string>
+
+	<!-- Units -->
+	<string name="ten_thousand">万</string>
+	<string name="million">null</string>
+	<string name="hundred_million">亿</string>
+	<string name="billion">null</string>
 	
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
@@ -121,6 +117,8 @@
 	<string name="fav_del">取消收藏</string>
 	<string name="copy">复制微博</string>
 	<string name="okay">选好了</string>
+	<string name="single_comment">发表评论</string>
+	<string name="single_repost">转发微博</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
@@ -147,11 +145,19 @@
 	<string name="fast_scroll">列表快速滚动</string>
 	<string name="shake_to_return">晃动返回</string>
 	<string name="right_handed">右手习惯</string>
-	<string name="right_handed_des">将主界面的抽屉调整到界面右边并交换底部的浮动按钮，适用于大屏手机</string>
+	<string name="right_handed_des">将主界面的抽屉调整到界面右边，适用于大屏手机</string>
+	<string name="account">账户</string>
+	<string name="account_logout">登出当前账户</string>
+	<string name="feedback">反馈</string>
+	<string name="feedback_send">发送反馈&amp;建议</string>
 	<string name="debug">调试</string>
+	<string name="debug_autosubmit">自动提交错误日志</string>
+	<string name="debug_autosubmit_sum">选定该项意味着你同意我们在没有通知的情況下自动收集并提交您的设备信息、微博ID和错误日志</string>
 	<string name="debug_log">崩溃日志</string>
+	<string name="debug_submit_log">提交崩溃日志</string>
 	<string name="debug_crash">立即崩溃</string>
 	<string name="debug_crash_sum">亲，戳了就不要再向我们报告错误了哟！</string>
+	<string name="debug_emo_redownload">重新下载表情包</string>
 	<string name="notification">通知</string>
 	<string name="notification_sound">声音</string>
 	<string name="notification_vibrate">震动</string>
@@ -171,12 +177,19 @@
 		<item>30 分钟</item>
 		<item>从不</item>
 	</string-array>
-	
+
+	<!-- Feedback -->
+	<string name="fb">反馈</string>
+	<string name="fb_title">反馈标题</string>
+	<string name="fb_content">反馈内容</string>
+	<string name="fb_sent">您的反馈已与上次崩溃日志一起发送。如果我们需要更多信息，可能会联系您。</string> 
+	<string name="fb_send">发送</string>
+
 	<!-- Message -->
 	<string name="plz_wait">请稍候……</string>
 	<string name="name_fetching">昵称获取中……</string>
 	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
-	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误</string>
+	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误或网络故障</string>
 	<string name="send_fail">发送失败</string>
 	<string name="confirm_delete">确认删除吗？</string>
 	<string name="new_comment">%d 条新评论</string>
@@ -192,5 +205,80 @@
 	<string name="save_failed">图片保存失败</string>
 	<string name="needs_restart">设置将在重启软件后生效</string>
 	<string name="copied">内容已复制到剪贴板</string>
+	<string name="download_emoticons">正在下载表情包...</string>
+
+	<!-- Funny Things -->
+	<string-array name="splashes">
+		<item>Stay hungry, stay foolish.</item>
+		<item>BlackLight 官方中文译名暂定为 ”黑灯“</item>
+		<item>BlackLight 官方中文译名暂定为 ”瞎火“</item>
+		<item>BL，才是真爱</item>
+		<item>BlackLight,可能是东半球最好用的为发烧而生的最有情怀的微博客户端。</item>
+		<item>BlackLight,岂止于赞。</item>
+		<item>你这不是大中小三个杯子吗？我要这个中杯</item>
+		<item>那么问题来了，挖掘机学校到底哪家强？？</item>
+		<item>The Big Brother is watching you.</item>
+		<item>WAR IS PEACE\nFREEDOM IS SLAVERY\nINORANCE IS STRENGTH</item>
+		<item>Who controls the past controls the future. Who controls the present controls the past.</item>
+		<item>Freedom is the freedom to say that two plus two make four. If that is granted, all else follows.</item>
+		<item>战争即和平\n自由即奴役\n无知即力量</item>
+		<item>我能吞下玻璃而不伤身体</item>
+		<item>I can eat glass. It doesn\'t hurt me.</item>
+		<item>All your base are belong to us.</item>
+		<item>IU·V = PV = nTR 由此可见 哎呦喂意思是被NTR了……</item>
+		<item>goto fail;\ngoto fail;</item>
+		<item>中国智造，惠及全球。</item>
+		<item>The quick brown fox jumps over the lazy dog.</item>
+		<item>VIM 是最好的文本编辑器！</item>
+		<item>emacs 是最好的文本编辑器!</item>
+		<item>记事本是最好的文本编辑器！</item>
+		<item>PHP 是最好的编程语言！</item>
+		<item>Java 的垃圾回收特别棒！</item>
+		<item>微软大法好！</item>
+		<item>索尼大法好！</item>
+		<item>FSF大法好！</item>
+		<item>烫烫烫烫烫</item>
+		<item>屯屯屯屯屯</item>
+		<item>锟斤拷锟斤拷</item>
+		<item>手拿两把锟斤拷，口中直呼烫烫烫</item>
+		<item>Oct 31 = Dec 25</item>
+		<item>我今天没吃药，感觉自己萌萌哒！</item>
+		<item>Tahiti is a magical place.</item>
+		<item>千万不要按 Ctrl + W</item>
+		<item>690战术核显卡</item>
+		<item>1970年01月01日08:00 GMT +8</item>
+		<item>是上清华还是上北大呢？ [思考]</item>
+		<item>com.sun.java.swing.plaf.nimbus.InternalFrameInternalFrameTitlePane</item>
+		<item>com.sun.java.swing.plaf.nimbus.InternalFrameTitlePaneMaximizeButtonWindowNotFocusedState</item>
+		<item>不转不是中国人!!</item>
+		<item>看到这条微博就在原地转三圈，不转不是中国人！！</item>
+		<item>我们收集用户隐私是为了更好地提供服务</item>
+		<item>卧槽情怀接地气，神马浮云很给力。十动然拒又撕逼，也是醉了你麻痹。</item>
+		<item>哈哈哈哈2 3 3，看脸拉黑果取关。元芳你丫怎么看，碉堡神烦瀑布汗。</item>
+		<item>直男癌干绿茶婊，矮油不错这个屌。美分五毛细软跑，快递开门查水表。</item>
+		<item>累觉不爱小鲜肉，男神女神呵呵后。沙发板凳打酱油，土豪我们做朋友。</item>
+		<item>菜鸟给跪战五渣，感觉自己萌萌哒。逗比备胎么么哒，啪啪啪后来一发。</item>
+		<item>42是生命、宇宙以及任何事情的终极答案</item>
+		<item>不要回复！不要回复！不要回复！</item>
+		<item>对于任何应用程序512KB内存都足够了</item>
+		<item>你是个好人，但是我们不合适。我们还是做朋友吧。</item>
+		<item>MIUI Is not UI</item>
+		<item>本公司所生产的饮料中富含一千多种微量元素。</item>
+		<item>本公司所生产的饮料中绝不添加任何化学物质。</item>
+		<item>我们现在就差个程序员了</item>
+		<item>干完这票我就金盆洗手</item>
+		<item>不是苹果电脑能做IOS系统不？</item>
+		<item>凭什么让 BlackLight 适应用户？应该让用户适应 BlackLight!</item>
+		<item>I am Groot!</item>
+		<item>An ally has been slained.</item>
+		<item>交了450也保不了你！</item>
+		<item>你会盗QQ不？</item>
+		<item>正在处理一些事情</item>
+		<item>请将您的反馈发送至 /dev/null</item>
+		<item>BlackLight 不是独立的第三方！！欺骗用户！！</item>
+		<item>没流量了，让我先连上家里的电子电气工程师协会802.11第四代标准的无线局域网……</item>
+		<item>【科学家在地球发现黑洞】据悉，科学家近期发现一种叫做仙人掌的植物的万有引力可以使光子发生明显偏转。这种植物可以被种植在俗称花盆的硅酸盐容器中，据估算其密度远超宇宙中的黑洞。</item>
+
+	</string-array>
 
 </resources>

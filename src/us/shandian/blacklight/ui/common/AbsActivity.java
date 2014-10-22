@@ -21,14 +21,15 @@ package us.shandian.blacklight.ui.common;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
-import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.ShakeDetector;
 import us.shandian.blacklight.support.ShakeDetector.ShakeListener;
-import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
+import us.shandian.blacklight.support.Utility;
 
 public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 
@@ -42,17 +43,24 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 
 		super.onCreate(savedInstanceState);
 		
-		// On SmartBar devices, allow all Acvities to tint statusbar
-		if (Utility.hasSmartBar() && !(this instanceof ImageActivity) &&
-			!(this instanceof UserTimeLineActivity)) {
-			Utility.enableTint(this);
-		}
-		
 		// Common ActionBar settings
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setCustomView(R.layout.action_custom_up);
+		getActionBar().setDisplayShowCustomEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActionBar().setHomeButtonEnabled(false);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+
+		// Custom
+		ViewGroup custom = (ViewGroup) getActionBar().getCustomView();
+		Utility.addActionViewToCustom(this, Utility.action_bar_title, custom);
+		custom.findViewById(R.id.action_up).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		getActionBar().setDisplayShowTitleEnabled(false);
 
 		// Shake Detector
 		mDetector = ShakeDetector.getInstance(this);

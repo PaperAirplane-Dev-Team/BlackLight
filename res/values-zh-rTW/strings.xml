@@ -36,26 +36,16 @@
 	<string name="group_destroy">刪除當前分組</string>
 
 	<!-- Left Drawer -->
-	<string name="my">我的圈子</string>
-	<string name="at_me">提及我的</string>
-	<string-array name="my_array">
-		<item>微博</item>
-		<item>評論</item>
-		<item>收藏</item>
-		<item>私信</item>
-	</string-array>
-	<string-array name="at_me_array">
-		<item>微博</item>
-		<item>評論</item>
-	</string-array>
-	<string-array name="other_array">
-		<item>搜尋</item>
-		<item>設置</item>
-		<item>登出</item>
-	</string-array>
-	
+	<string name="drawer_home">首頁</string>
+	<string name="drawer_at">提及</string>
+	<string name="drawer_comments">評論</string>
+	<string name="drawer_dm">私信</string>
+	<string name="drawer_fav">收藏</string>
+	<string name="drawer_settings">設定</string>
+
 	<!-- Statuses -->
 	<string name="timeline">時間軸</string>
+	<string name="attitudes">點贊</string>
 	<string name="retweet">轉發</string>
 	<string name="comment">評論</string>
 	<string name="status_mention_me">提及我的微博</string>
@@ -65,6 +55,7 @@
 	<string name="comment_on">發送評論</string>
 	<string name="repost">轉發微博</string>
 	<string name="reply_to">回覆評論</string>
+	<string name="remove_attitude">撤銷點贊</string>
 	<string name="repost_and_comment">同時評論微博</string>
 	<string name="repost_and_comment_the_original">同時評論原微博</string>
 	<string name="comment_and_repost">同時轉發微博</string>
@@ -104,14 +95,20 @@
 	<string name="following">關注</string>
 	<string name="msgs">微博</string>
 	<string name="like">收藏</string>
-	<string name="following_me">正關注我</string>
-	<string name="i_am_following">我正關注</string>
-	<string name="following_each_other">互相關注</string>
+	<string name="following_me">被關注</string>
+	<string name="i_am_following">正關注</string>
+	<string name="following_each_other">已互粉</string>
 	<string name="no_following">未關注</string>
 	<string name="follow">關注Ta</string>
 	<string name="unfollow">取消關注</string>
 	<string name="change_group">修改分組</string>
-	
+
+	<!-- Units -->
+	<string name="ten_thousand">萬</string>
+	<string name="million">null</string>
+	<string name="hundred_million">億</string>
+	<string name="billion">null</string>
+
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
 	<string name="delete">刪除</string>
@@ -119,6 +116,8 @@
 	<string name="fav_del">取消收藏</string>
 	<string name="copy">拷貝微博內容</string>
 	<string name="okay">選好了</string>
+	<string name="single_comment">發佈評論</string>
+	<string name="single_repost">轉發微博</string>
 	
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
@@ -145,11 +144,17 @@
 	<string name="fast_scroll">列表快速滾動</string>
 	<string name="shake_to_return">晃動返回</string>
 	<string name="right_handed">右手習慣</string>
-	<string name="right_handed_des">將主介面的抽屜調整至介面右边並交換底部的浮游按鈕，適用於大螢幕手機</string>
+	<string name="right_handed_des">將主介面的抽屜調整至介面右边，適用於大螢幕手機</string>
+	<string name="feedback">反饋</string>
+	<string name="feedback_send">發送反饋意見</string>
 	<string name="debug">調試</string>
+	<string name="debug_autosubmit">自動上交崩潰記錄</string>
+	<string name="debug_autosubmit_sum">選定此項意味著你同意我們在沒有通知的情況下自動收集並上交您的設備資料、微博ID和崩潰記錄</string>
 	<string name="debug_log">崩潰記錄</string>
+	<string name="debug_submit_log">上交崩潰記錄</string>
 	<string name="debug_crash">立即崩潰</string>
 	<string name="debug_crash_sum">親，毋須向開發者報告該測試產生的錯誤</string>
+	<string name="debug_emo_redownload">重新加載表情集</string>
 	<string name="notification">通知</string>
 	<string name="notification_sound">音效</string>
 	<string name="notification_vibrate">震動</string>
@@ -159,7 +164,7 @@
 	<string name="good_sum">親，來Play商店給個好評吧</string>
 	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
 	<string name="network">網路</string>
-	<string name="auto_nopic">只能無圖</string>
+	<string name="auto_nopic">智能無圖</string>
 	<string name="auto_nopic_sum">移動網路環境下不顯示圖片，僅在WIFI環境下顯示圖片</string>
 	<string-array name="interval_name">
 		<item>1 分鐘</item>
@@ -169,12 +174,19 @@
 		<item>30 分鐘</item>
 		<item>從不</item>
 	</string-array>
-	
+
+	<!-- Feedback -->
+	<string name="fb">反饋</string>
+	<string name="fb_title">反饋標題</string>
+	<string name="fb_content">反饋內容</string>
+	<string name="fb_sent">您的反饋已與上一次崩潰記錄同時發送。如果我們需要更多資料，可能會聯絡您。</string>
+	<string name="fb_send">發送</string>
+
 	<!-- Message -->
 	<string name="plz_wait">請稍候……</string>
 	<string name="name_fetching">暱稱獲取中……</string>
 	<string name="expires_in">本次登入授權將于 %d 天後失效</string>
-	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤</string>
+	<string name="login_fail">登入失敗，可能是 AppId/AppSecret/用戶名/密碼 錯誤或網絡故障</string>
 	<string name="send_fail">發送失敗</string>
 	<string name="confirm_delete">確認刪除？</string>
 	<string name="new_comment">%d 條新評論</string>
@@ -190,5 +202,6 @@
 	<string name="save_failed">圖像儲存失敗</string>
 	<string name="needs_restart">設置項將在重啟程式後生效</string>
 	<string name="copied">內容已拷貝至剪貼板</string>
+	<string name="download_emoticons">正在預加載表情集...</string>
 
 </resources>

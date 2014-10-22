@@ -20,10 +20,9 @@
 package us.shandian.blacklight.ui.common;
 
 import android.content.Context;
-import android.view.MotionEvent;
-import android.util.AttributeSet;
-
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 

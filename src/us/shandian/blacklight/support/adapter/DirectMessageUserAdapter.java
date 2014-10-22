@@ -21,29 +21,26 @@ package us.shandian.blacklight.support.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
-import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.model.DirectMessageUserListModel;
-import us.shandian.blacklight.model.UserModel;
+import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.support.AsyncTask;
-import us.shandian.blacklight.support.HackyMovementMethod;
-import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
 
 public class DirectMessageUserAdapter extends BaseAdapter
 {
 	private DirectMessageUserListModel mList;
+	private DirectMessageUserListModel mClone;
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
 	private Context mContext;
@@ -53,16 +50,17 @@ public class DirectMessageUserAdapter extends BaseAdapter
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);
 		mContext = context;
+		notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getCount() {
-		return mList.getSize();
+		return mClone.getSize();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mList.get(position);
+		return mClone.get(position);
 	}
 
 	@Override
@@ -75,7 +73,7 @@ public class DirectMessageUserAdapter extends BaseAdapter
 		if (position >= getCount()) {
 			return convertView;
 		} else {
-			DirectMessageUserModel user = mList.get(position);
+			DirectMessageUserModel user = mClone.get(position);
 			View v;
 			ViewHolder h;
 			
@@ -98,6 +96,12 @@ public class DirectMessageUserAdapter extends BaseAdapter
 			
 			return v;
 		}
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		mClone = mList.clone();
+		super.notifyDataSetChanged();
 	}
 	
 	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {

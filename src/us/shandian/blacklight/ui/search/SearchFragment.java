@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,7 +32,6 @@ import android.widget.Spinner;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
 
 public class SearchFragment extends Fragment
@@ -61,7 +59,7 @@ public class SearchFragment extends Fragment
 		
 		// Then the main layout
 		View v = inflater.inflate(R.layout.empty_frame, null);
-		
+
 		// Fragments
 		mFragments[0] = new SearchStatusFragment();
 		mFragments[1] = new SearchUserFragment();

@@ -28,8 +28,8 @@ import android.widget.ListView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
-import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.model.UserListModel;
+import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;

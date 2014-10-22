@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.settings;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,15 +28,26 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import java.io.File;
 
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
-
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.cache.login.LoginApiCache;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.CrashHandler;
+import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.support.feedback.SubmitLogTask;
+import us.shandian.blacklight.ui.entry.EntryActivity;
+import us.shandian.blacklight.ui.feedback.FeedbackActivity;
+
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 public class SettingsActivity extends SwipeBackPreferenceActivity implements
@@ -44,9 +56,13 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private static final String VERSION = "version";
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
+	private static final String LOGOUT = "logout";
+	private static final String DEBUG_EMO_REDOWNLOAD = "debug_emo_redownload";
 	private static final String DEBUG_LOG = "debug_log";
+	private static final String DEBUG_SUBMIT = "debug_submit_log";
 	private static final String DEBUG_CRASH = "debug_crash";
 	private static final String DEVELOPERS = "developers";
+	private static final String FEEDBACK = "feedback";
 	private static final String GOOD = "good";
 
 	private Settings mSettings;
@@ -56,9 +72,20 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private Preference mPrefVersion;
 	private Preference mPrefSourceCode;
 	private Preference mPrefGood;
-	private Preference mPrefLog;
 	private Preference mPrefCrash;
 	private Preference mPrefDevelopers;
+
+	// Account
+	private Preference mPrefLogout;
+
+	// Debug
+	private Preference mPrefRedownload;
+	private Preference mPrefLog;
+	private Preference mPrefSubmitLog;
+	private CheckBoxPreference mPrefAutoSubmitLog;
+
+	// Feedback
+	private Preference mPrefFeedback;
 
 	// Actions
 	private CheckBoxPreference mPrefFastScroll;
@@ -79,21 +106,34 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	@SuppressWarnings("deprecation")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Utility.initDarkMode(this);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 
 		if (hasSmartBar()) {
 			getListView().setFitsSystemWindows(true);
-			Utility.enableTint(this);
 		}
 
 		mSettings = Settings.getInstance(this);
 
 		// Action Bar
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setCustomView(R.layout.action_custom_up);
+		getActionBar().setDisplayShowCustomEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActionBar().setHomeButtonEnabled(false);
 		getActionBar().setDisplayUseLogoEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+
+		// Custom View (MD Up Button)
+		ViewGroup custom = (ViewGroup) getActionBar().getCustomView();
+		Utility.addActionViewToCustom(this, Utility.action_bar_title, custom);
+		custom.findViewById(R.id.action_up).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		getActionBar().setDisplayShowTitleEnabled(false);
 
 		// Init
 		mPrefLicense = findPreference(LICENSE);
@@ -103,13 +143,18 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefFastScroll = (CheckBoxPreference) findPreference(Settings.FAST_SCROLL);
 		mPrefShakeToReturn = (CheckBoxPreference) findPreference(Settings.SHAKE_TO_RETURN);
 		mPrefRightHanded = (CheckBoxPreference) findPreference(Settings.RIGHT_HANDED);
+		mPrefLogout = findPreference(LOGOUT);
+		mPrefFeedback = findPreference(FEEDBACK);
+		mPrefAutoSubmitLog = (CheckBoxPreference) findPreference(Settings.AUTO_SUBMIT_LOG);
 		mPrefLog = findPreference(DEBUG_LOG);
+		mPrefSubmitLog = findPreference(DEBUG_SUBMIT);
 		mPrefCrash = findPreference(DEBUG_CRASH);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
+		mPrefRedownload = findPreference(DEBUG_EMO_REDOWNLOAD);
 		
 		// Data
 		String version = "Unknown";
@@ -129,6 +174,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 				Settings.NOTIFICATION_SOUND, true));
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
+		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
+				Settings.AUTO_SUBMIT_LOG,false));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
 		mPrefInterval.setSummary(
 				this.getResources()
@@ -143,12 +190,20 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefFastScroll.setOnPreferenceChangeListener(this);
 		mPrefShakeToReturn.setOnPreferenceChangeListener(this);
 		mPrefRightHanded.setOnPreferenceChangeListener(this);
+		mPrefLogout.setOnPreferenceClickListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
-		mPrefCrash.setOnPreferenceClickListener(this);
+		mPrefFeedback.setOnPreferenceClickListener(this);
+		mPrefAutoSubmitLog.setOnPreferenceChangeListener(this);
+		mPrefSubmitLog.setOnPreferenceClickListener(this);
+		mPrefCrash.setEnabled(DEBUG);
+		if (DEBUG) {
+			mPrefCrash.setOnPreferenceClickListener(this);
+		}
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
+		mPrefRedownload.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -176,6 +231,26 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setData(Uri.parse(mPrefSourceCode.getSummary().toString()));
 			startActivity(i);
 			return true;
+		} else if (preference == mPrefLogout){
+			LoginApiCache loginCache = new LoginApiCache(this);
+			loginCache.logout();
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, EntryActivity.class);
+			startActivity(i);
+			finish();
+		} else if (preference == mPrefFeedback) {
+			// Send feedback
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(this, FeedbackActivity.class);
+			startActivity(i);
+			return true;
+		} else if (preference == mPrefSubmitLog) {
+			if (new File(CrashHandler.CRASH_TAG).exists()) {
+				new SubmitLogTask(this).execute();
+			}
+			return true;
 		} else if (preference == mPrefCrash) {
 			throw new RuntimeException("Debug crash");
 		} else if (preference == mPrefDevelopers) {
@@ -192,6 +267,31 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setAction(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(getResources().getString(R.string.play_url)));
 			startActivity(i);
+			return true;
+		} else if (preference == mPrefRedownload) {
+			new AsyncTask<Void, Void, Void>() {
+				ProgressDialog prog = null;
+
+				@Override
+				protected void onPreExecute() {
+					prog = new ProgressDialog(SettingsActivity.this);
+					prog.setMessage(getString(R.string.plz_wait));
+					prog.setCancelable(false);
+					prog.show();
+				}
+
+				@Override
+				protected Void doInBackground(Void... params) {
+					Emoticons.delete();
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result) {
+					prog.dismiss();
+					Toast.makeText(SettingsActivity.this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
+				}
+			}.execute();
 			return true;
 		}
 
@@ -223,6 +323,11 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			return true;
 		} else if (preference == mPrefAutoNoPic) {
 			mSettings.putBoolean(Settings.AUTO_NOPIC,
+					Boolean.parseBoolean(newValue.toString()));
+			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (preference == mPrefAutoSubmitLog) {
+			mSettings.putBoolean(Settings.AUTO_SUBMIT_LOG,
 					Boolean.parseBoolean(newValue.toString()));
 			Toast.makeText(this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;

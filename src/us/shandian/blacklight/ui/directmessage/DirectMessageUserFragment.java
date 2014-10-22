@@ -22,7 +22,6 @@ package us.shandian.blacklight.ui.directmessage;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,19 +33,18 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
 import us.shandian.blacklight.api.remind.RemindApi.Type;
 import us.shandian.blacklight.cache.directmessages.DirectMessagesUserApiCache;
-import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
-import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
-import us.shandian.blacklight.ui.main.MainActivity;
-import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageUserAdapter;
+import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
+import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 	private DirectMessagesUserApiCache mApiCache;
@@ -88,6 +86,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mList.setAdapter(mAdapter);
 		
 		mApiCache.loadFromCache();
+		mAdapter.notifyDataSetChanged();
 		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();
@@ -130,6 +129,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 	@OnItemClick(R.id.home_timeline)
 	public void showMsg(AdapterView<?> parent, View view, int position, long id) {
+		if (mApiCache.mUsers == null) return;
 		if (getActivity() instanceof MainActivity) {
 			position--; // Count the header view in
 		}

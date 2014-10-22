@@ -19,8 +19,8 @@
 
 package us.shandian.blacklight.cache.statuses;
 
-import android.content.Context;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -29,7 +29,6 @@ import com.google.gson.Gson;
 import us.shandian.blacklight.api.statuses.RepostTimeLineApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.tables.RepostTimeLineTable;
-import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.model.MessageListModel;
 import us.shandian.blacklight.model.RepostListModel;
 

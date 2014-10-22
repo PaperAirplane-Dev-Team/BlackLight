@@ -20,9 +20,10 @@
 package us.shandian.blacklight.ui.statuses;
 
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.os.Bundle;
+import android.view.View;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -45,6 +46,8 @@ public class RepostActivity extends NewPostActivity
 
 		super.onCreate(savedInstanceState);
 
+		mPic.setVisibility(View.GONE);
+
 		// Get the original msg
 		mMsg = getIntent().getParcelableExtra("msg");
 		
@@ -56,9 +59,8 @@ public class RepostActivity extends NewPostActivity
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		menu.findItem(R.id.post_pic).setVisible(false);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
 		
 		mComment = menu.add(R.string.repost_and_comment);
 		mComment.setCheckable(true);

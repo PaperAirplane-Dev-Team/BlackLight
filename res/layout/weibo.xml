@@ -23,28 +23,7 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:layout_margin="5dp"
-		android:background="?attr/ShadowGray">
-
-		<com.daimajia.swipe.SwipeLayout
-			android:id="@+id/swipe"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="2dp">
-
-			<!-- Bottom View -->
-			<include layout="@layout/weibo_bottom" />
-
-			<!-- Surface View -->
-			<include layout="@layout/weibo_content" />
-
-		</com.daimajia.swipe.SwipeLayout>
-
-	</LinearLayout>
+	<include layout="@layout/weibo_content" />
 
 </LinearLayout>
 

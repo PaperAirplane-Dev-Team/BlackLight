@@ -37,10 +37,13 @@ public class Constants
 	public static final String USER_TIMELINE = SINA_BASE_URL + "statuses/user_timeline.json";
 	public static final String MENTIONS = SINA_BASE_URL + "statuses/mentions.json";
 	public static final String REPOST_TIMELINE = SINA_BASE_URL + "statuses/repost_timeline.json";
+	public static final String EMOTIONS = SINA_BASE_URL + "emotions.json";
 	public static final String UPDATE = SINA_BASE_URL + "statuses/update.json";
 	public static final String UPLOAD = SINA_BASE_URL + "statuses/upload.json";
 	public static final String REPOST = SINA_BASE_URL + "statuses/repost.json";
 	public static final String DESTROY = SINA_BASE_URL + "statuses/destroy.json";
+	public static final String UPLOAD_PIC = SINA_BASE_URL + "statuses/upload_pic.json";
+	public static final String UPLOAD_URL_TEXT = SINA_BASE_URL + "statuses/upload_url_text.json";
 	
 	// Comments
 	public static final String COMMENTS_TIMELINE = SINA_BASE_URL + "comments/timeline.json";

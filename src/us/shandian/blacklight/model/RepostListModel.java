@@ -59,7 +59,6 @@ public class RepostListModel extends MessageListModel
 			total_number = values.total_number;
 		}
 	}
-	
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {

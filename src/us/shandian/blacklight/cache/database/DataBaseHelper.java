@@ -23,19 +23,19 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import us.shandian.blacklight.cache.database.tables.CommentTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.CommentMentionsTimeLineTable;
+import us.shandian.blacklight.cache.database.tables.CommentTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.DirectMessageUserTable;
 import us.shandian.blacklight.cache.database.tables.FavListTable;
-import us.shandian.blacklight.cache.database.tables.UsersTable;
-import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.MentionsTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.RepostTimeLineTable;
 import us.shandian.blacklight.cache.database.tables.StatusCommentTable;
+import us.shandian.blacklight.cache.database.tables.UserTimeLineTable;
+import us.shandian.blacklight.cache.database.tables.UsersTable;
 
-public class DataBaseHelper extends SQLiteOpenHelper
-{
+public class DataBaseHelper extends SQLiteOpenHelper {
+
 	private static String DB_NAME = "weibo_data";
 	private static int DB_VER = 14;
 	

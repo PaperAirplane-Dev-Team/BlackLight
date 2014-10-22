@@ -19,8 +19,6 @@
 
 package us.shandian.blacklight.ui.favorites;
 
-import android.view.View;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.favorites.FavListApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -36,10 +34,5 @@ public class FavListFragment extends TimeLineFragment
 	@Override
 	protected void initTitle() {
 		getActivity().getActionBar().setTitle(R.string.like);
-	}
-
-	@Override
-	protected void bindNewButton(View v) {
-
 	}
 }

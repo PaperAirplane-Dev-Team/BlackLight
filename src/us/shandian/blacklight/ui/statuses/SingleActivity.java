@@ -22,46 +22,40 @@ package us.shandian.blacklight.ui.statuses;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.ClipboardManager;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.Toast;
-import android.os.Bundle;
-
-import android.support.v4.view.ViewPager;
-import android.support.v13.app.FragmentStatePagerAdapter;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
-import java.util.List;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.InjectViews;
+import butterknife.OnClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
-import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.model.MessageListModel;
+import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentOnActivity;
 import us.shandian.blacklight.ui.comments.StatusCommentFragment;
 import us.shandian.blacklight.ui.common.AbsActivity;
+import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
 
 public class SingleActivity extends AbsActivity
 {
@@ -73,26 +67,34 @@ public class SingleActivity extends AbsActivity
 	
 	@InjectView(R.id.single_pager) ViewPager mPager;
 	@InjectView(R.id.single_root) SlidingUpPanelLayout mRoot;
+	@InjectView(R.id.single_dragger) View mDragger;
 	@InjectView(R.id.single_content) View mContent;
 	
-	@InjectView(R.id.single_tabs) TabHost mTabs;
+	@InjectView(R.id.single_indicator) LinearViewPagerIndicator mIndicator;
 	@InjectView(R.id.iv_collapse) ImageView mCollapse;
+
+	@InjectViews({R.id.single_comment_img, R.id.single_repost_img}) ImageView[] mIcons;
 	
 	private MenuItem mFav, mLike;
-	
+
 	private boolean mIsMine = false;
 	private boolean mFavourited = false;
 	private boolean mLiked = false;
 	private boolean mFavTaskRunning = false;
 	private boolean mLikeTaskRunning = false;
+	private boolean mDark = false;
+
+	private int mActionBarColor, mDragBackgroundColor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.single);
-		
+
+		mActionBarColor = getResources().getColor(R.color.action_gray);
+		mDragBackgroundColor = getResources().getColor(R.color.light_gray);
+		mDark = Utility.isDarkMode(this);
+
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
 		mFavourited = mMsg.favorited;
@@ -103,6 +105,13 @@ public class SingleActivity extends AbsActivity
 		
 		// Inject
 		ButterKnife.inject(this);
+
+		// Dark
+		if (mDark) {
+			for (ImageView v : mIcons) {
+				v.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+			}
+		}
 		
 		mMsgFragment = new HackyFragment();
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
@@ -132,21 +141,32 @@ public class SingleActivity extends AbsActivity
 
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
-				Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
+				//Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
+				
+				// Gradient color if in light mode
+				if (!mDark) {
+					float gradientFactor = 1 - slideOffset;
+					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
+							mActionBarColor,gradientFactor));
+					int foreground = Utility.getGradientColor(mActionBarColor, mDragBackgroundColor, gradientFactor);
+					mIndicator.setForeground(foreground);
+					mCollapse.setColorFilter(foreground, PorterDuff.Mode.SRC_IN);
+				}
+
+				mCollapse.setRotation((1 - slideOffset) * -180);
+				/*mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
+						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
+				mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
+						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
+						*/
 			}
 
 			@Override
 			public void onPanelCollapsed(View panel) {
-				mCollapse.setRotation(180);
-				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
-				mCollapse.startAnimation(animation);
 			}
 
 			@Override
 			public void onPanelExpanded(View panel) {
-				mCollapse.setRotation(0);
-				Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_180);
-				mCollapse.startAnimation(animation);
 			}
 
 			@Override
@@ -155,9 +175,14 @@ public class SingleActivity extends AbsActivity
 			}
 			
 		});
+
+		// Indicator
+		mIndicator.setViewPager(mPager);
+		mIndicator.addTab(getResources().getString(R.string.comment));
+		mIndicator.addTab(getResources().getString(R.string.retweet));
 		
-		mTabs.setup();
-		
+		/*mTabs.setup();
+
 		final String comment = getResources().getString(R.string.comment);
 		TabHost.TabSpec tab1 = mTabs.newTabSpec(comment);
 		tab1.setIndicator(comment);
@@ -169,7 +194,12 @@ public class SingleActivity extends AbsActivity
 		tab2.setIndicator(repost);
 		tab2.setContent(android.R.id.tabcontent);
 		mTabs.addTab(tab2);
-		
+
+		mTabWidget = mTabs.getTabWidget();
+		mTabWidget.setLeftStripDrawable(new ColorDrawable(mActionBarColor));
+		mTabWidget.setRightStripDrawable(new ColorDrawable(mActionBarColor));
+		mTabWidget.setStripEnabled(false);
+
 		mTabs.setCurrentTab(0);
 
 		Utility.initDarkTabHost(this, mTabs);
@@ -184,9 +214,9 @@ public class SingleActivity extends AbsActivity
 						mPager.setCurrentItem(1);
 					}
 				}
-		});
+		});*/
 		
-		mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 				@Override
 				public void onPageScrolled(int position, float positonOffset, int positionOffsetPixels) {
 					
@@ -194,7 +224,7 @@ public class SingleActivity extends AbsActivity
 
 				@Override
 				public void onPageSelected(int position) {
-					mTabs.setCurrentTab(position);
+					//mTabs.setCurrentTab(position);
 				}
 
 				@Override
@@ -202,15 +232,6 @@ public class SingleActivity extends AbsActivity
 					
 				}
 		});
-
-		// Expand the pane on startup
-		getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				mRoot.expandPane();
-			}
-		});
-		
 	}
 
 	@Override
@@ -239,12 +260,12 @@ public class SingleActivity extends AbsActivity
 		if (id == android.R.id.home) {
 			finish();
 			return true;
-		} else if (id == R.id.comment_on) {
+		/*} else if (id == R.id.comment_on) {
 			commentOn();
 			return true;
 		} else if (id == R.id.repost) {
 			repost();
-			return true;
+			return true;*/
 		} else if (id == R.id.delete) {
 			new AlertDialog.Builder(this)
 							.setMessage(R.string.confirm_delete)
@@ -281,6 +302,7 @@ public class SingleActivity extends AbsActivity
 		return super.onOptionsItemSelected(item);
 	}
 	
+	@OnClick(R.id.single_comment)
 	public void commentOn() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -289,6 +311,7 @@ public class SingleActivity extends AbsActivity
 		startActivity(i);
 	}
 	
+	@OnClick(R.id.single_repost)
 	public void repost() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -304,7 +327,7 @@ public class SingleActivity extends AbsActivity
 
 	private void setLikeIcon() {
 		mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
-		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.like));
+		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.attitudes));
 	}
 	
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {
@@ -429,11 +452,6 @@ public class SingleActivity extends AbsActivity
 		@Override
 		protected void initTitle() {
 			
-		}
-		
-		@Override
-		protected void bindNewButton(View v) {
-
 		}
 	}
 }

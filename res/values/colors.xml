@@ -21,6 +21,7 @@
 	<color name="gray">#aaaaaa</color>
 	<color name="gray_alpha">#bbaaaaaa</color>
 	<color name="gray_alpha_lighter">#eeeeeeee</color>
+	<color name="dim_gray">#88555555</color>
 	<color name="darker_gray">#666666</color>
 	<color name="superdark_gray">#233333</color>
 	<color name="darker_than_superdark_gray">#233233</color>
@@ -30,11 +31,14 @@
 	<color name="dark_action_gray">#002222</color>
 	<color name="light_gray">#eeeeee</color>
 	<color name="midium_gray">#fbfbfb</color>
-	<color name="shadow_gray">#ebebeb</color>
+	<color name="shadow_gray">#cabbbbbb</color>
 	<color name="superlight_gray">#fcfcfc</color>
 	<color name="selector_gray">#eaeaea</color>
+	<color name="sub_gray">#bcbcbc</color>
 	<color name="link_blue">#9797ff</color>
 	<color name="action_gray">#444448</color>
+	<color name="divider_gray">#bababa</color>
+	<color name="selector_gray_lighter">#ececec</color>
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
 	
