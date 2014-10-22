@@ -129,6 +129,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 	@OnItemClick(R.id.home_timeline)
 	public void showMsg(AdapterView<?> parent, View view, int position, long id) {
+		if (mApiCache.mUsers == null) return;
 		if (getActivity() instanceof MainActivity) {
 			position--; // Count the header view in
 		}
