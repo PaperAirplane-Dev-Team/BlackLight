@@ -258,6 +258,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 							if (height == 0){
 								v.postDelayed(this,500);
+								return;
 							}
 
 							float hwRate = height / width;
