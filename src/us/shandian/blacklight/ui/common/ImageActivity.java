@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.common;
 
 import android.graphics.Movie;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -211,7 +212,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		@Override
 		protected void onPostExecute(Object[] result) {
 			super.onPostExecute(result);
-			ViewGroup v = (ViewGroup) result[0];
+			final ViewGroup v = (ViewGroup) result[0];
 			Object img = result[1];
 			
 			if (img != null) {
@@ -219,7 +220,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 				if (img instanceof String) {
 					// If returned a String, it means that the image is a Bitmap
 					// So we can use the included SubsamplingScaleImageView
-					SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
+					final SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
 					iv.setImageFile((String) img);
 					iv.setOnClickListener(new View.OnClickListener() {
 						@Override
@@ -238,6 +239,42 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					iv.setMaxScale(3.0f);
 
 					v.addView(iv, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+					final Runnable r = new Runnable() {
+						@Override
+						public void run() {
+							if (DEBUG) {
+								Log.d(TAG, "Height is" + iv.getHeight());
+								Log.d(TAG, "Width is" + iv.getWidth());
+								Log.d(TAG, "Source height is" + iv.getSHeight());
+								Log.d(TAG, "Source width is" + iv.getSWidth());
+								Log.d(TAG, "Scale is" + iv.getScale());
+							}
+
+							float height = iv.getHeight();
+							float sHeight = iv.getSHeight();
+							float width = iv.getWidth();
+							float sWidth = iv.getSWidth();
+
+							if (height == 0){
+								v.postDelayed(this,500);
+							}
+
+							float hwRate = height / width;
+							float shwRate = sHeight / sWidth;
+
+							if ((sHeight > height) && shwRate > hwRate) { // Long image.
+								PointF center = new PointF(sWidth / 2 , height / 2);
+								float scale = 0.0f;
+								if (sWidth * 2 > width){
+									scale = width / sWidth; // Zoom in properly.
+								}
+								iv.setScaleAndCenter(scale, center);
+							}
+						}
+					};
+					v.postDelayed(r,500);
+
 				} else if (img instanceof Movie) {
 					GifView g = new GifView(ImageActivity.this);
 					g.setMovie((Movie) img);
