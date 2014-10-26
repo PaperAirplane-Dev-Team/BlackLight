@@ -369,7 +369,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				m.findItem(R.id.popup_like).setVisible(true);
 			}
 
-			if (h.msg.user.id.equals(mUid)) {
+			if (h.msg.user != null && h.msg.user.id.equals(mUid)) {
 				m.findItem(R.id.popup_delete).setVisible(true);
 			}
 		}
