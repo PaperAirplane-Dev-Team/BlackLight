@@ -43,7 +43,7 @@ public class LoginApiCache
     public LoginApiCache(Context context) {
 		mPrefs = context.getSharedPreferences("access_token", Context.MODE_PRIVATE);
 		mAccessToken = mPrefs.getString("access_token", null);
-		mUid = mPrefs.getString("uid", null);
+		mUid = mPrefs.getString("uid", "");
 		mExpireDate = mPrefs.getLong("expires_in", Long.MIN_VALUE);
 		mAppId = mPrefs.getString("app_id", null);
 		mAppSecret = mPrefs.getString("app_secret", null);

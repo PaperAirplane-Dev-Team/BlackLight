@@ -130,7 +130,7 @@ public class UserTimeLineActivity extends AbsActivity
 		
 		// Follower state (following/followed/each other)
 		resetFollowState();
-		if (mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
+		if (mModel != null && mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
 			mLayoutFollowState.setVisibility(View.GONE);
 		}
 		
@@ -175,7 +175,7 @@ public class UserTimeLineActivity extends AbsActivity
 		inflater.inflate(R.menu.user, menu);
 		mMenuFollow = menu.findItem(R.id.follow);
 		mMenuGroup = menu.findItem(R.id.group);
-		if (new LoginApiCache(this).getUid().equals(mModel.id)) {
+		if (mModel != null && new LoginApiCache(this).getUid().equals(mModel.id)) {
 			mMenuFollow.setVisible(false);
 			mMenuGroup.setVisible(false);
 			menu.findItem(R.id.send_dm).setVisible(false);
