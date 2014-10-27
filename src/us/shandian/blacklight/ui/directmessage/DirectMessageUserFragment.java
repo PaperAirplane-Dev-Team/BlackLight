@@ -134,6 +134,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			position--; // Count the header view in
 		}
 
+		if (position >= mApiCache.mUsers.getSize()) return;
+
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
 		i.setClass(getActivity(), DirectMessageConversationActivity.class);
