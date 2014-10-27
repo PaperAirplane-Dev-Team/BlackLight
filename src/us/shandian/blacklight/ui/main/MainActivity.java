@@ -73,6 +73,8 @@ import us.shandian.blacklight.ui.statuses.MentionsFragment;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
+import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
+
 /* Main Container Activity */
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
@@ -125,7 +127,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		setContentView(R.layout.main);
 
 		// Emoticons
-		if (!Emoticons.downloaded()) {
+		if (isWIFI && !Emoticons.downloaded()) {
 			Emoticons.startDownload(this);
 		}
 
