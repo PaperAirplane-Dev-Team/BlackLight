@@ -37,10 +37,14 @@ public class ConnectivityReceiver extends BroadcastReceiver
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		readNetworkState(context);
+		if (readNetworkState(context)) {
+			Utility.startServices(context);
+		} else {
+			Utility.stopServices(context);
+		}
 	}
 
-	public static void readNetworkState(Context context) {
+	public static boolean readNetworkState(Context context) {
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		
 		if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
@@ -48,15 +52,15 @@ public class ConnectivityReceiver extends BroadcastReceiver
 				Log.d(TAG, "Network connected");
 			}
 			
-			Utility.startServices(context);
-
 			isWIFI = (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI);
+
+			return true;
 		} else {
 			if (DEBUG) {
 				Log.d(TAG, "Network disconnected");
 			}
 			
-			Utility.stopServices(context);
+			return false;
 		}
 	}
 }
