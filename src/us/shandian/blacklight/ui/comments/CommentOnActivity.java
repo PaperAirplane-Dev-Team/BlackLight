@@ -69,7 +69,7 @@ public class CommentOnActivity extends NewPostActivity
 	@Override
 	protected boolean post() {
 		if (mRepost.isChecked()) {
-			PostApi.newRepost(mMsg.id, mText.getText().toString(), PostApi.EXTRA_NONE);
+			PostApi.newRepost(mMsg.id, mText.getText().toString(), PostApi.EXTRA_NONE, mVersion);
 		}
 		return NewCommentApi.commentOn(mMsg.id, mText.getText().toString(), mCommentOrig.isChecked());
 	}

@@ -116,6 +116,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private boolean mShowCommentStatus;
 	private boolean mScrolling = false;
 	private boolean mAutoNoPic = false;
+	private String mAppName;
 	
 	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
@@ -130,6 +131,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mBindOrig = bindOrig;
 		mShowCommentStatus = showCommentStatus;
 		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
+		mAppName = context.getString(R.string.app_name);
 		
 		listView.setRecyclerListener(this);
 		listView.setOnScrollListener(this);
@@ -250,7 +252,15 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		TextView comments = h.comments;
 		
 		name.setText(msg.user != null ? msg.user.getName() : "");
-		from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
+		
+		String ver = "";
+		if (msg.annotations.size() > 0 && !(ver = msg.annotations.get(0).bl_version).trim().equals("")) {
+			// Show a fake tail for BL :)
+			from.setText(mAppName + " " + ver);
+		} else {
+			from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
+		}
+
 		content.setText(SpannableStringUtils.getSpan(mContext, msg));
 		content.setMovementMethod(HackyMovementMethod.getInstance());
 		

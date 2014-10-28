@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.api.Constants;
+import us.shandian.blacklight.model.AnnotationModel;
 import us.shandian.blacklight.model.MessageModel;
 import us.shandian.blacklight.support.Emoticons.SinaEmotion;
 import us.shandian.blacklight.support.http.WeiboParameters;
@@ -46,9 +47,10 @@ public class PostApi extends BaseApi
 	public static final int EXTRA_COMMENT_ORIG = 2;
 	public static final int EXTRA_ALL = 3;
 	
-	public static boolean newPost(String status) {
+	public static boolean newPost(String status, String version) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("status", status);
+		params.put("annotations", parseAnnotation(version));
 		
 		try {
 			JSONObject json = request(Constants.UPDATE, params, HTTP_POST);
@@ -84,11 +86,12 @@ public class PostApi extends BaseApi
 		return true;
 	}
 	
-	public static boolean newRepost(long id, String status, int extra) {
+	public static boolean newRepost(long id, String status, int extra, String version) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("status", status);
 		params.put("id", id);
 		params.put("is_comment", extra);
+		params.put("annotations", parseAnnotation(version));
 
 		try {
 			JSONObject json = request(Constants.REPOST, params, HTTP_POST);
@@ -155,10 +158,11 @@ public class PostApi extends BaseApi
 
 	// Post with multi pictures
 	// @param pics: ids returned by uploadPicture, split with ","
-	public static boolean newPostWithMultiPics(String status, String pics) {
+	public static boolean newPostWithMultiPics(String status, String pics, String version) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("status", status);
 		params.put("pic_id", pics);
+		params.put("annotations", parseAnnotation(version));
 
 		try {
 			JSONObject json = request(Constants.UPLOAD_URL_TEXT, params, HTTP_POST);
@@ -192,5 +196,11 @@ public class PostApi extends BaseApi
 			}
 			return null;
 		}
+	}
+
+	public static String parseAnnotation(String version) {
+		AnnotationModel anno = new AnnotationModel();
+		anno.bl_version = version;
+		return "[" + new Gson().toJson(anno) + "]";
 	}
 }

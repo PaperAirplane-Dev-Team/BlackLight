@@ -116,6 +116,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	// Foreground
 	private int mForeground;
 
+	// Version
+	protected String mVersion = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -127,6 +130,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		
 		// Inject
 		ButterKnife.inject(this);
+
+		// Version
+		try {
+			mVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (Exception e) {
+		}
 
 		// Hints
 		if (Math.random() > 0.8){ // Make this a matter of possibility.
@@ -403,7 +412,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	protected boolean post() {
 		if (!mIsLong) {
 			if (mBitmaps.size() == 0) {
-				return PostApi.newPost(mText.getText().toString());
+				return PostApi.newPost(mText.getText().toString(), mVersion);
 			} else {
 				return postPics(mText.getText().toString());
 			}
@@ -444,7 +453,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 
 		// Upload text
-		return PostApi.newPostWithMultiPics(status, pics);
+		return PostApi.newPostWithMultiPics(status, pics, mVersion);
 	}
 	
 	private class Uploader extends AsyncTask<Void, Void, Boolean> {

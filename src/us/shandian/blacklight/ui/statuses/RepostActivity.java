@@ -88,6 +88,6 @@ public class RepostActivity extends NewPostActivity
 			extra = PostApi.EXTRA_COMMENT_ORIG;
 		}
 		
-		return PostApi.newRepost(mMsg.id, mText.getText().toString(), extra);
+		return PostApi.newRepost(mMsg.id, mText.getText().toString(), extra, mVersion);
 	}
 }
