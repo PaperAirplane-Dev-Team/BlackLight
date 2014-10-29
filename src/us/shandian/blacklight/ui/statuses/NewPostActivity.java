@@ -106,6 +106,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	// Picked picture
 	private ArrayList<Bitmap> mBitmaps = new ArrayList<Bitmap>();
+	private ArrayList<String> mPaths = new ArrayList<String>();
 
 	// Long?
 	private boolean mIsLong = false;
@@ -255,7 +256,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 				try {
 					Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-					addPicture(bitmap);
+					addPicture(bitmap, null);
 				} catch (IOException e) {
 					if (DEBUG) {
 						Log.d(TAG, Log.getStackTraceString(e));
@@ -277,12 +278,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			cursor.close();
 			
 			// Then decode
-			addPicture(BitmapFactory.decodeFile(filePath));
+			addPicture(null, filePath);
 		}
 
 		// Captured photo
 		if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
-			addPicture(BitmapFactory.decodeFile(Utility.lastPicPath));
+			addPicture(null, Utility.lastPicPath);
 		}
 	}
 
@@ -379,13 +380,27 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		).show();
 	}
 
-	private void addPicture(Bitmap bitmap){
+	private void addPicture(Bitmap bitmap, String path){
+		if (bitmap == null) {
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(path, o);
+			o.inJustDecodeBounds = false;
+			o.inSampleSize = Utility.computeSampleSize(o, -1, 128*128);
+			try {
+				bitmap = BitmapFactory.decodeFile(path, o);
+			} catch (OutOfMemoryError e) {
+				return;
+			}
+		}
 		mBitmaps.add(bitmap);
+		mPaths.add(path);
 		updatePictureView();
 	}
 
 	private void removePicture(int id) {
 		mBitmaps.remove(id);
+		mPaths.remove(id);
 		updatePictureView();
 	}
 
@@ -426,11 +441,22 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			// Post the first picture with long post
 			if (mBitmaps.size() > 0) {
 				bmp = mBitmaps.get(0);
+				String path = mPaths.get(0);
+				
+				if (path != null) {
+					try {
+						bmp = BitmapFactory.decodeFile(path);
+					} catch (OutOfMemoryError e) {
+					}
+				}
+
 				mBitmaps.remove(0);
+				mPaths.remove(0);
 			}
 
 			bmp = Utility.parseLongPost(this, mText.getText().toString(), bmp);
 			mBitmaps.add(0, bmp);
+			mPaths.add(null);
 
 			return postPics(Utility.parseLongContent(this, mText.getText().toString()));
 		}
@@ -442,7 +468,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		
 		for (int i = 0; i < mBitmaps.size(); i++) {
 			Bitmap bmp = mBitmaps.get(i);
+			String path = mPaths.get(i);
+			if (path != null) {
+				try {
+					bmp = BitmapFactory.decodeFile(path);
+				} catch (OutOfMemoryError e) {
+					continue;
+				}
+			}
 			String id = PostApi.uploadPicture(bmp);
+			bmp.recycle();
 			if (id == null || id.trim().equals("")) return false;
 
 			pics += id;
