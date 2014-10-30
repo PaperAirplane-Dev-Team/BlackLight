@@ -73,7 +73,9 @@ import us.shandian.blacklight.ui.statuses.MentionsFragment;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
+import us.shandian.blacklight.ui.statuses.TimeLineFragment;
+
+import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
 public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
@@ -125,11 +127,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		// Emoticons
-		if (isWIFI && !Emoticons.downloaded()) {
-			Emoticons.startDownload(this);
-		}
 
 		// Inflate custom decor
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -71,7 +71,7 @@ public class SpannableStringUtils
 			// Don't be too long
 			if (matcher.end() - matcher.start() < 8) {
 				String iconName = matcher.group(0);
-				Bitmap bitmap = Emoticons.getEmoticonBitmap(iconName);
+				Bitmap bitmap = Emoticons.EMOTICON_BITMAPS_SCALED.get(iconName);
 				
 				if (bitmap != null) {
 					ImageSpan span = new ImageSpan(context, bitmap, ImageSpan.ALIGN_BASELINE);

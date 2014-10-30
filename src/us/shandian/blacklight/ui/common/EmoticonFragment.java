@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.adapter.EmoticonAdapter;
 
 public class EmoticonFragment extends Fragment implements AdapterView.OnItemClickListener
@@ -46,11 +47,15 @@ public class EmoticonFragment extends Fragment implements AdapterView.OnItemClic
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.emoticon_fragment, null);
 		mGrid = (GridView) v.findViewById(R.id.emoticon_grid);
+
+		// Ensure Emoticons are not null
+		if (Emoticons.EMOTICON_BITMAPS.size() == 0) {
+			Emoticons.init(getActivity());
+		}
 		
 		// adapter
 		mAdapter = new EmoticonAdapter(getActivity());
 		mGrid.setAdapter(mAdapter);
-		mGrid.setFastScrollEnabled(true);
 		
 		// listener
 		mGrid.setOnItemClickListener(this);

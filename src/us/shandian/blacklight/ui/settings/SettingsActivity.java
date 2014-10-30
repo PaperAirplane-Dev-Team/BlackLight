@@ -20,7 +20,6 @@
 package us.shandian.blacklight.ui.settings;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,7 +39,6 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.CrashHandler;
-import us.shandian.blacklight.support.Emoticons;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.feedback.SubmitLogTask;
@@ -57,7 +55,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private static final String SOURCE_CODE = "source_code";
 	private static final String LICENSE = "license";
 	private static final String LOGOUT = "logout";
-	private static final String DEBUG_EMO_REDOWNLOAD = "debug_emo_redownload";
 	private static final String DEBUG_LOG = "debug_log";
 	private static final String DEBUG_SUBMIT = "debug_submit_log";
 	private static final String DEBUG_CRASH = "debug_crash";
@@ -79,7 +76,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private Preference mPrefLogout;
 
 	// Debug
-	private Preference mPrefRedownload;
 	private Preference mPrefLog;
 	private Preference mPrefSubmitLog;
 	private CheckBoxPreference mPrefAutoSubmitLog;
@@ -154,7 +150,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
-		mPrefRedownload = findPreference(DEBUG_EMO_REDOWNLOAD);
 		
 		// Data
 		String version = "Unknown";
@@ -203,7 +198,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
-		mPrefRedownload.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -267,31 +261,6 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			i.setAction(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(getResources().getString(R.string.play_url)));
 			startActivity(i);
-			return true;
-		} else if (preference == mPrefRedownload) {
-			new AsyncTask<Void, Void, Void>() {
-				ProgressDialog prog = null;
-
-				@Override
-				protected void onPreExecute() {
-					prog = new ProgressDialog(SettingsActivity.this);
-					prog.setMessage(getString(R.string.plz_wait));
-					prog.setCancelable(false);
-					prog.show();
-				}
-
-				@Override
-				protected Void doInBackground(Void... params) {
-					Emoticons.delete();
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void result) {
-					prog.dismiss();
-					Toast.makeText(SettingsActivity.this, R.string.needs_restart, Toast.LENGTH_SHORT).show();
-				}
-			}.execute();
 			return true;
 		}
 

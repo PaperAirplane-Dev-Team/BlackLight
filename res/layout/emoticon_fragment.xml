@@ -29,8 +29,8 @@
 		android:layout_height="match_parent"
 		android:numColumns="auto_fit"
 		android:stretchMode="columnWidth"
-		android:columnWidth="60dp"
-		android:verticalSpacing="15dp"
+		android:columnWidth="40dp"
+		android:verticalSpacing="10dp"
 		android:id="@+id/emoticon_grid"/>
 
 </LinearLayout>

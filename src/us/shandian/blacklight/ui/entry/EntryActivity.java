@@ -48,9 +48,7 @@ public class EntryActivity extends Activity
 		ConnectivityReceiver.readNetworkState(this);
 		CrashHandler.init(this);
 		CrashHandler.register();
-		if (Emoticons.downloaded()) {
-			Emoticons.init(this);
-		}
+		Emoticons.init(this);
 
 		// Crash Log
 		if (FeedbackUtility.shouldSendLog(this)) {
