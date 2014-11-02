@@ -22,6 +22,7 @@ package us.shandian.blacklight.support.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,13 @@ import butterknife.InjectView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.GalleryModel;
+import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
+	private static final String TAG = GalleryAdapter.class.getSimpleName();
+
 	private ArrayList<GalleryModel> mList = new ArrayList<GalleryModel>();
 	private HashMap<String,  WeakReference<Bitmap>> mBitmaps = new HashMap<String, WeakReference<Bitmap>>();
 
@@ -83,20 +88,18 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 			}
 
 			GalleryModel gallery = mList.get(position);
+
+			h.path = gallery.path;
+
 			WeakReference<Bitmap> w = mBitmaps.get(gallery.path);
 			Bitmap bmp = w != null ? w.get() : null;
 			
 			if (bmp == null) {
-				BitmapFactory.Options op = new BitmapFactory.Options();
-				op.inJustDecodeBounds = true;
-				BitmapFactory.decodeFile(gallery.path, op);
-				op.inJustDecodeBounds = false;
-				op.inSampleSize = Utility.computeSampleSize(op, -1, 160 * 160);
-				bmp = BitmapFactory.decodeFile(gallery.path, op);
-				mBitmaps.put(gallery.path, new WeakReference<Bitmap>(bmp));
+				h.img.setImageBitmap(null);
+				new LoadTask().execute(h, gallery.path);
+			} else {
+				h.img.setImageBitmap(bmp);
 			}
-
-			h.img.setImageBitmap(bmp);
 			
 			if (gallery.checked) {
 				h.check.setChecked(true);
@@ -121,6 +124,10 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 		} else {
 			h.check.setVisibility(View.GONE);
 		}
+
+		if (DEBUG) {
+			Log.d(TAG, "m.path = " + m.path);
+		}
 	}
 
 	public ArrayList<String> getChecked() {
@@ -140,10 +147,38 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 
 		@InjectView(R.id.img_picker_img) public ImageView img;
 		@InjectView(R.id.img_picker_check) public CheckBox check;
+		public String path;
 
 		public ViewHolder(View v) {
 			this.v = v;
 			ButterKnife.inject(this, v);
+		}
+	}
+
+	class LoadTask extends AsyncTask<Object, Void, Bitmap> {
+		String path = "";
+		ViewHolder h = null;
+
+		@Override
+		protected Bitmap doInBackground(Object... params) {
+			h = (ViewHolder) params[0];
+			path = (String) params[1];
+
+			// Load
+			BitmapFactory.Options op = new BitmapFactory.Options();
+			op.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(path, op);
+			op.inJustDecodeBounds = false;
+			op.inSampleSize = Utility.computeSampleSize(op, -1, 160 * 160);
+			return BitmapFactory.decodeFile(path, op);
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			if (path.equals(h.path)) {
+				h.img.setImageBitmap(result);
+				mBitmaps.put(path, new WeakReference<Bitmap>(result));
+			}
 		}
 	}
 }

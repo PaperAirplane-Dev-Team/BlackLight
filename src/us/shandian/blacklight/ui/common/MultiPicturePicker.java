@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -35,8 +36,11 @@ import java.util.ArrayList;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.GalleryModel;
 import us.shandian.blacklight.support.adapter.GalleryAdapter;
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 
 public class MultiPicturePicker extends AbsActivity {
+	private static final String TAG = MultiPicturePicker.class.getSimpleName();
+
 	public static final int PICK_OK = 123456;
 
 	@InjectView(R.id.picker_grid) GridView mGrid;
@@ -54,6 +58,7 @@ public class MultiPicturePicker extends AbsActivity {
 
 		mGrid.setAdapter(mAdapter);
 		mGrid.setOnItemClickListener(mAdapter);
+		mGrid.setFastScrollEnabled(true);
 	}
 
 	@Override
@@ -88,9 +93,14 @@ public class MultiPicturePicker extends AbsActivity {
 					null, null, orderBy);
 
 			if (cursor != null && cursor.getCount() > 0) {
-				while(cursor.moveToNext()) {
+				while (cursor.moveToNext()) {
 					GalleryModel m = new GalleryModel();
 					m.path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+
+					if (DEBUG) {
+						Log.d(TAG, "m.path = " + m.path);
+					}
+
 					model.add(m);
 				}
 			}

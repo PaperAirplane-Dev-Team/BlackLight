@@ -28,6 +28,7 @@
 		android:layout_height="80dp"
 		android:layout_centerHorizontal="true"
 		android:layout_centerVertical="true"
+		android:layout_margin="5dp"
 		android:scaleType="centerCrop"/>
 
 	<CheckBox
