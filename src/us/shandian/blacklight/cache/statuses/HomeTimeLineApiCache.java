@@ -36,6 +36,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
 import us.shandian.blacklight.api.friendships.GroupsApi;
+import us.shandian.blacklight.api.statuses.BilateralTimeLineApi;
 import us.shandian.blacklight.api.statuses.HomeTimeLineApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
@@ -49,7 +50,9 @@ import us.shandian.blacklight.support.Utility;
 public class HomeTimeLineApiCache
 {
 	private static HashMap<Long, SoftReference<Bitmap>> mThumnnailCache = new HashMap<Long, SoftReference<Bitmap>>();
-	
+
+	private static final String BILATERAL = "bilateral";
+
 	protected DataBaseHelper mHelper;
 	protected FileCacheManager mManager;
 	
@@ -266,6 +269,8 @@ public class HomeTimeLineApiCache
 	protected MessageListModel load(String groupId) {
 		if (groupId == null) {
 			return load();
+		} else if (groupId == BILATERAL) {
+			return BilateralTimeLineApi.fetchBilateralTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 		} else {
 			return GroupsApi.fetchGroupTimeLine(groupId, Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 		}

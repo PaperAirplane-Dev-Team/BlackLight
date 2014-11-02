@@ -59,6 +59,7 @@ import us.shandian.blacklight.model.GroupListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Emoticons;
+import us.shandian.blacklight.support.LogF;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
@@ -86,6 +87,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	}
 
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
+
+	private static final String BILATERAL = "bilateral";
 
 	@InjectView(R.id.drawer) DrawerLayout mDrawer;
 	private int mDrawerGravity;
@@ -575,8 +578,10 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		if (id == 0) {
 			mCurrentGroupId = null;
+		} else if (id == 1){
+			mCurrentGroupId = BILATERAL;
 		} else {
-			mCurrentGroupId = mGroups.get(id - 1).idstr;
+			mCurrentGroupId = mGroups.get(id - 2).idstr;
 		}
 
 		Settings.getInstance(this).putString(Settings.CURRENT_GROUP, mCurrentGroupId);
@@ -660,12 +665,17 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	private void updateActionSpinner() {
 		// Current Group
 		mCurrentGroupId = Settings.getInstance(MainActivity.this).getString(Settings.CURRENT_GROUP, null);
+		LogF.d(this.getLocalClassName(), "current group id:%s",mCurrentGroupId);
 		int curId = 0;
 
 		if (mCurrentGroupId != null) {
-			for (int i = 0; i < mGroups.getSize(); i++) {
-				if (mGroups.get(i).idstr.equals(mCurrentGroupId)) {
-					curId = i + 1;
+			if (mCurrentGroupId.equals(BILATERAL)){
+				curId = 1;
+			} else {
+				for (int i = 0; i < mGroups.getSize(); i++) {
+					if (mGroups.get(i).idstr.equals(mCurrentGroupId)) {
+						curId = i + 2;
+					}
 				}
 			}
 		}
@@ -792,11 +802,12 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 			if (mGroups != null && mGroups.getSize() > 0) {
 				// Get the name list
-				String[] names = new String[mGroups.getSize() + 1];
+				String[] names = new String[mGroups.getSize() + 2];
 
 				names[0] = getResources().getString(R.string.group_all);
+				names[1] = getString(R.string.group_bilateral);
 				for (int i = 0; i < mGroups.getSize(); i++) {
-					names[i + 1] = mGroups.get(i).name;
+					names[i + 2] = mGroups.get(i).name;
 				}
 
 				// Navigation
