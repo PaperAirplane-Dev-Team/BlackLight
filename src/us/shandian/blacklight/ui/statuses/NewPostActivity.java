@@ -280,11 +280,18 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			
 			// Then decode
 			addPicture(null, filePath);
-		}
-
-		// Captured photo
-		if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
+		} else if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
 			addPicture(null, Utility.lastPicPath);
+		} else if (resultCode == MultiPicturePicker.PICK_OK) {
+			ArrayList<String> paths = data.getStringArrayListExtra("img");
+			
+			for (String path : paths) {
+				addPicture(null, path);
+
+				if (mBitmaps.size() >= 9) {
+					break;
+				}
+			}
 		}
 	}
 

@@ -19,9 +19,12 @@
 
 package us.shandian.blacklight.ui.common;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.GridView;
 
 import butterknife.ButterKnife;
@@ -34,6 +37,8 @@ import us.shandian.blacklight.model.GalleryModel;
 import us.shandian.blacklight.support.adapter.GalleryAdapter;
 
 public class MultiPicturePicker extends AbsActivity {
+	public static final int PICK_OK = 123456;
+
 	@InjectView(R.id.picker_grid) GridView mGrid;
 
 	private GalleryAdapter mAdapter = null;
@@ -48,13 +53,34 @@ public class MultiPicturePicker extends AbsActivity {
 		buildAdapter();
 
 		mGrid.setAdapter(mAdapter);
+		mGrid.setOnItemClickListener(mAdapter);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.picker, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.pick_ok:
+				ArrayList<String> res = mAdapter.getChecked();
+				Intent i = new Intent();
+				i.putStringArrayListExtra("img", res);
+				setResult(PICK_OK, i);
+				finish();
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void buildAdapter() {
 		ArrayList<GalleryModel> model = new ArrayList<GalleryModel>();
 
 		try {
-			String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+			String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID, MediaStore.Images.Media.DATE_ADDED};
 			String orderBy = MediaStore.Images.Media.DATE_ADDED + " DESC";
 
 			Cursor cursor = managedQuery(

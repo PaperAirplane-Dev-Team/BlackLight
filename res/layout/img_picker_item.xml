@@ -26,7 +26,8 @@
 		android:id="@+id/img_picker_img"
 		android:layout_width="80dp"
 		android:layout_height="80dp"
-		android:layout_margin="5dp"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
 		android:scaleType="centerCrop"/>
 
 	<CheckBox
@@ -35,7 +36,10 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_alignParentTop="true"
-		android:checked="false"/>
+		android:checked="false"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"/>
 
 </RelativeLayout>
 

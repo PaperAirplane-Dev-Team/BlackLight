@@ -25,6 +25,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -40,7 +41,7 @@ import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.GalleryModel;
 import us.shandian.blacklight.support.Utility;
 
-public class GalleryAdapter extends BaseAdapter {
+public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
 	private ArrayList<GalleryModel> mList = new ArrayList<GalleryModel>();
 	private HashMap<String,  WeakReference<Bitmap>> mBitmaps = new HashMap<String, WeakReference<Bitmap>>();
 
@@ -96,10 +97,42 @@ public class GalleryAdapter extends BaseAdapter {
 			}
 
 			h.img.setImageBitmap(bmp);
-			h.check.setChecked(gallery.checked);
+			
+			if (gallery.checked) {
+				h.check.setChecked(true);
+				h.check.setVisibility(View.VISIBLE);
+			} else {
+				h.check.setVisibility(View.GONE);
+			}
 
 			return v;
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		ViewHolder h = (ViewHolder) view.getTag();
+		GalleryModel m = getItem(position);
+		m.checked = !m.checked;
+
+		if (m.checked) {
+			h.check.setChecked(true);
+			h.check.setVisibility(View.VISIBLE);
+		} else {
+			h.check.setVisibility(View.GONE);
+		}
+	}
+
+	public ArrayList<String> getChecked() {
+		ArrayList<String> ret = new ArrayList<String>();
+		
+		for (GalleryModel m : mList) {
+			if (m.checked) {
+				ret.add(m.path);
+			}
+		}
+
+		return ret;
 	}
 
 	class ViewHolder {
