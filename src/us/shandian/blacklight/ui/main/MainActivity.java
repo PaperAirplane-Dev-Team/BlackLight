@@ -120,9 +120,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	private int mCurrent = 0;
 	private int mNext = 0;
 	private boolean mIgnore = false;
+	private int mLang = -1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLang = Utility.getCurrentLanguage(this);
+		if (mLang > -1) {
+			Utility.changeLanguage(this, mLang);
+		}
+
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
@@ -263,6 +269,11 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	@Override
 	protected void onResume(){
 		super.onResume();
+
+		int lang = Utility.getCurrentLanguage(this);
+		if (lang != mLang) {
+			recreate();
+		}
 
 		Intent i = getIntent();
 

@@ -76,6 +76,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	private Preference mPrefLogout;
 
 	// Debug
+	private Preference mPrefLang;
 	private Preference mPrefLog;
 	private Preference mPrefSubmitLog;
 	private CheckBoxPreference mPrefAutoSubmitLog;
@@ -102,6 +103,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 	@SuppressWarnings("deprecation")
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Utility.changeLanguage(this, Utility.getCurrentLanguage(this));
 		Utility.initDarkMode(this);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
@@ -142,6 +144,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefLogout = findPreference(LOGOUT);
 		mPrefFeedback = findPreference(FEEDBACK);
 		mPrefAutoSubmitLog = (CheckBoxPreference) findPreference(Settings.AUTO_SUBMIT_LOG);
+		mPrefLang = findPreference(Settings.LANGUAGE);
 		mPrefLog = findPreference(DEBUG_LOG);
 		mPrefSubmitLog = findPreference(DEBUG_SUBMIT);
 		mPrefCrash = findPreference(DEBUG_CRASH);
@@ -176,6 +179,8 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 				this.getResources()
 				.getStringArray(R.array.interval_name) [mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
 						);
+		mPrefLang.setSummary(
+				this.getResources().getStringArray(R.array.langs) [Utility.getCurrentLanguage(this)]);
 		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
 		
 		// Set
@@ -198,6 +203,7 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
+		mPrefLang.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -255,6 +261,9 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 			return true;
 		} else if (preference == mPrefInterval) {
 			showIntervalSetDialog();
+			return true;
+		} else if (preference == mPrefLang) {
+			showLangDialog();
 			return true;
 		} else if (preference == mPrefGood) {
 			Intent i = new Intent();
@@ -314,6 +323,23 @@ public class SettingsActivity extends SwipeBackPreferenceActivity implements
 		} else {
 			super.finish();
 		}
+	}
+
+	private void showLangDialog() {
+		new AlertDialog.Builder(this)
+			.setTitle(getString(R.string.language))
+			.setSingleChoiceItems(
+					getResources().getStringArray(R.array.langs), Utility.getCurrentLanguage(this),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							mSettings.putInt(Settings.LANGUAGE, which);
+							recreate();
+						}
+					}
+			)
+			.show();
+
 	}
 	
 	private void showIntervalSetDialog(){

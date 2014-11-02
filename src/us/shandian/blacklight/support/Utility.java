@@ -28,6 +28,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -63,6 +64,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import us.shandian.blacklight.R;
@@ -204,6 +206,56 @@ public class Utility
 			return -1;
 		}
 		return -1;
+	}
+
+	public static int getCurrentLanguage(Context context) {
+		int lang = Settings.getInstance(context).getInt(Settings.LANGUAGE, -1);
+		if (lang == -1) {
+			String language = Locale.getDefault().getLanguage();
+			String country = Locale.getDefault().getCountry();
+
+			if (DEBUG) {
+				Log.d(TAG, "Locale.getLanguage() = " + language);
+			}
+
+			if (language.equalsIgnoreCase("zh")) {
+				if (country.equalsIgnoreCase("CN")) {
+					lang = 1;
+				} else {
+					lang = 2;
+				}
+			} else {
+				lang = 0;
+			}
+		}
+		
+		return lang;
+	}
+
+	// Must be called before setContentView()
+	public static void changeLanguage(Context context, int lang) {
+		String language = null;
+		String country = null;
+
+		switch (lang) {
+			case 1:
+				language = "zh";
+				country = "CN";
+				break;
+			case 2:
+				language = "zh";
+				country = "TW";
+				break;
+			default:
+				language = "en";
+				country = "US";
+				break;
+		}
+
+		Locale locale = new Locale(language, country);
+		Configuration conf = context.getResources().getConfiguration();
+		conf.locale = locale;
+		context.getApplicationContext().getResources().updateConfiguration(conf, context.getResources().getDisplayMetrics());
 	}
 
 	public static View addActionViewToCustom(Activity activity, int id, ViewGroup custom) {

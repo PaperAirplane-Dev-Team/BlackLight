@@ -202,6 +202,12 @@
 		<item>30 minutes</item>
 		<item>Never</item>
 	</string-array>
+	<string name="language">Language</string>
+	<string-array name="langs" translatable="false">
+		<item>English</item>
+		<item>简体中文</item>
+		<item>繁體中文</item>
+	</string-array>
 
 	<!-- Feedback -->
 	<string name="fb">Feedback</string>

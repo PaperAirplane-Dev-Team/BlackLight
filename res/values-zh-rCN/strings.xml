@@ -176,6 +176,7 @@
 		<item>30 分钟</item>
 		<item>从不</item>
 	</string-array>
+	<string name="language">语言</string>
 
 	<!-- Feedback -->
 	<string name="fb">反馈</string>

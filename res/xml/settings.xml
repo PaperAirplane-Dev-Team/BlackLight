@@ -97,6 +97,10 @@
 	<PreferenceCategory
 		android:title="@string/debug">
 
+		<Preference
+			android:key="language"
+			android:title="@string/language"/>
+
 		<CheckBoxPreference
 			android:key="debug_autosubmit"
 		    android:title="@string/debug_autosubmit"

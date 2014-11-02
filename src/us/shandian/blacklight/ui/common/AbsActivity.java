@@ -36,9 +36,16 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 	private ShakeDetector mDetector;
 	private Settings mSettings;
 	private boolean mIsFinishing = false;
+	private int mLang = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// Language
+		mLang = Utility.getCurrentLanguage(this);
+		if (mLang > -1) {
+			Utility.changeLanguage(this, mLang);
+		}
+		
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
@@ -72,6 +79,11 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		int lang = Utility.getCurrentLanguage(this);
+		if (lang != mLang) {
+			recreate();
+		}
 
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
