@@ -76,7 +76,9 @@
 	<string-array name="picture_picker_array">
 		<item>Choose picture(s) from Photo Gallery</item>
 		<item>Take picture(s)</item>
+		<item>Add multiple pictures</item>
 	</string-array>
+	<string name="multiple_pictures">Add multiple pictures</string>
 	
 	<!-- Time -->
 	<string name="just_now">Just now</string>

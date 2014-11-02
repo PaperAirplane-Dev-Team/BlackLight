@@ -76,7 +76,9 @@
 	<string-array name="picture_picker_array">
 		<item>从图库选择照片</item>
 		<item>拍照</item>
+		<item>添加多图</item>
 	</string-array>
+	<string name="multiple_pictures">多图选择</string>
 	
 	<!-- Time -->
 	<string name="just_now">刚刚</string>

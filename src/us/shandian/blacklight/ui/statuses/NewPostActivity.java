@@ -67,6 +67,7 @@ import us.shandian.blacklight.ui.comments.ReplyToActivity;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.ColorPickerFragment;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
+import us.shandian.blacklight.ui.common.MultiPicturePicker;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -373,6 +374,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 								Uri uri = Utility.getOutputMediaFileUri();
 								captureIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
 								startActivityForResult(captureIntent, REQUEST_CAPTURE_PHOTO);
+								break;
+							case 2:
+								Intent multi = new Intent();
+								multi.setAction("us.shandian.blacklight.MULTI_PICK");
+								multi.setClass(NewPostActivity.this, MultiPicturePicker.class);
+								startActivityForResult(multi, 1000);
 								break;
 						}
 					}
