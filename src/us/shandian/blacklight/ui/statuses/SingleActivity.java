@@ -433,7 +433,7 @@ public class SingleActivity extends AbsActivity
 		}
 	}
 	
-	private class HackyFragment extends TimeLineFragment {
+	public class HackyFragment extends TimeLineFragment {
 		
 		public HackyFragment() {
 			mShowCommentStatus = false;
