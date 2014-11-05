@@ -23,7 +23,8 @@
 	android:id="@+id/drawer_wrapper"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:background="?attr/DrawerBackground">
+	android:background="?attr/DrawerBackground"
+	android:clickable="true">
 
 	<ScrollView
 		android:id="@+id/drawer_scroll"
@@ -215,4 +216,3 @@
 	</ScrollView>
 
 </FrameLayout>
-
