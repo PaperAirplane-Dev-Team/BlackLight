@@ -45,9 +45,11 @@ public class ConnectivityReceiver extends BroadcastReceiver
 	}
 
 	public static boolean readNetworkState(Context context) {
+		if (context == null) return false;
+		
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		
-		if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
+		if (cm != null && cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
 			if (DEBUG) {
 				Log.d(TAG, "Network connected");
 			}
