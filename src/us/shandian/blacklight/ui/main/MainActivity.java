@@ -194,7 +194,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 			@Override
 			public void onDrawerSlide(View drawerView, float offset) {
-				mHamburger.setRotation(offset * 90);
+				// TODO: Hamburger animation for MD (Waiting for the new aapt for ARM platform)
 			}
 		};
 		mDrawer.setDrawerListener(mToggle);
