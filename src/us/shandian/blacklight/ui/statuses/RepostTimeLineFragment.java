@@ -19,6 +19,8 @@
 
 package us.shandian.blacklight.ui.statuses;
 
+import android.os.Bundle;
+
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.RepostTimeLineApiCache;
 
@@ -26,9 +28,20 @@ public class RepostTimeLineFragment extends TimeLineFragment
 {
 	private long mId;
 	
+	public RepostTimeLineFragment() {
+		init();
+	}
+	
 	public RepostTimeLineFragment(long id) {
-		mId = id;
+		Bundle args = new Bundle();
+		args.putLong("id", id);
+		setArguments(args);
+		init();
+	}
+	
+	private void init() {
 		mBindOrig = false;
+		mId = getArguments().getLong("id");
 	}
 	
 	@Override

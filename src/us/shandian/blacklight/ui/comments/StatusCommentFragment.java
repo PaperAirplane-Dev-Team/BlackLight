@@ -19,6 +19,8 @@
 
 package us.shandian.blacklight.ui.comments;
 
+import android.os.Bundle;
+
 import us.shandian.blacklight.cache.comments.StatusCommentApiCache;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
@@ -28,9 +30,20 @@ public class StatusCommentFragment extends TimeLineFragment
 {
 	private long mId;
 	
+	public StatusCommentFragment() {
+		init();
+	}
+	
 	public StatusCommentFragment(long id) {
+		Bundle args = new Bundle();
+		args.putLong("id", id);
+		setArguments(args);
+		init();
+	}
+	
+	private void init() {
+		mId = getArguments().getLong("id");
 		mBindOrig = false;
-		mId = id;
 	}
 
 	@Override

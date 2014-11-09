@@ -55,11 +55,22 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	public FriendsFragment() {
-		this(null);
+		init();
 	}
 	
 	public FriendsFragment(String uid) {
-		mUid = uid;
+		Bundle args = new Bundle();
+		args.putCharSequence("uid", uid);
+		setArguments(args);
+		init();
+	}
+	
+	private void init() {
+		if (getArguments() != null) {
+			mUid = getArguments().getCharSequence("uid").toString();
+		} else {
+			mUid = null;
+		}
 	}
 
 	@Override

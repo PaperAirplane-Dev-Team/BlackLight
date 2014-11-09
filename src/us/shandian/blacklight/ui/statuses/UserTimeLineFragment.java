@@ -33,8 +33,21 @@ public class UserTimeLineFragment extends TimeLineFragment
 {
 	private String mUid;
 	
+	public UserTimeLineFragment() {
+		init();
+	}
+	
 	public UserTimeLineFragment(String uid) {
-		mUid = uid;
+		// Should pass arguments by Bundle
+		// Otherwise we will get an Exception
+		Bundle args = new Bundle();
+		args.putCharSequence("uid", uid);
+		setArguments(args);
+		init();
+	}
+	
+	private void init() {
+		mUid = getArguments().getCharSequence("uid").toString();
 	}
 
 	@Override
