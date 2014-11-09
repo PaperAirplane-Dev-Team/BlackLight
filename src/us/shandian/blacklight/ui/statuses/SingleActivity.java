@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -114,6 +115,10 @@ public class SingleActivity extends AbsActivity
 		}
 		
 		mMsgFragment = new HackyFragment();
+		Bundle b = new Bundle();
+		b.putParcelable("msg",mMsg);
+		mMsgFragment.setArguments(b);
+
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
 		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
@@ -409,49 +414,5 @@ public class SingleActivity extends AbsActivity
 			mLikeTaskRunning = false;
 		}
 	}
-	
-	private class HackyApiCache extends HomeTimeLineApiCache {
-		public HackyApiCache(Context context) {
-			super(context);
-			mMessages = new MessageListModel();
-			((List<MessageModel>) mMessages.getList()).add(mMsg);
-		}
 
-		@Override
-		public void loadFromCache() {
-			
-		}
-
-		@Override
-		public void load(boolean newWeibo) {
-			
-		}
-		
-		@Override
-		public void cache() {
-			
-		}
-	}
-	
-	public class HackyFragment extends TimeLineFragment {
-		
-		public HackyFragment() {
-			mShowCommentStatus = false;
-		}
-
-		@Override
-		protected void bindSwipeToRefresh(ViewGroup v) {
-			
-		}
-
-		@Override
-		protected HomeTimeLineApiCache bindApiCache() {
-			return new HackyApiCache(getActivity());
-		}
-		
-		@Override
-		protected void initTitle() {
-			
-		}
-	}
 }
