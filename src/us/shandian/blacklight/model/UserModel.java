@@ -21,18 +21,19 @@ package us.shandian.blacklight.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class UserModel implements Parcelable
 {
-	public static transient final int VIP_PERSONAL = 0;
-	public static transient final int VIP_ENTERPISE = 1;
-	
 	public transient long timestamp = System.currentTimeMillis(); // Time when wrote to database
+
+	private String nameWithRemark;
 	
 	// Json mapping fields
 	public String id;
 	public String screen_name;
 	public String name;
+	public String remark;
 	public String province;
 	public String city;
 	public String location;
@@ -61,7 +62,12 @@ public class UserModel implements Parcelable
 	public String cover_image_phone = "";
 	
 	public String getName() {
-		return screen_name == null ? name : screen_name;
+		if (TextUtils.isEmpty(remark)){
+			return screen_name == null ? name : screen_name;
+		} else if (nameWithRemark == null){
+			nameWithRemark = String.format("%s(%s)",remark,(screen_name == null ? name : screen_name));
+		}
+		return nameWithRemark;
 	}
 
 	public String getCover() {
