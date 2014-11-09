@@ -84,6 +84,7 @@ public class UserModel implements Parcelable
 		dest.writeString(id);
 		dest.writeString(screen_name);
 		dest.writeString(name);
+		dest.writeString(remark);
 		dest.writeString(province);
 		dest.writeString(city);
 		dest.writeString(location);

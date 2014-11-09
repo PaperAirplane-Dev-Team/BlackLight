@@ -89,7 +89,7 @@ public class MessageModel implements Parcelable
 	public String source;
 	public boolean favorited;
 	public boolean truncated;
-    public boolean liked;
+	public boolean liked;
 	public String in_reply_to_status_id;
 	public String in_reply_to_user_id;
 	public String in_reply_to_screen_name;
@@ -145,6 +145,7 @@ public class MessageModel implements Parcelable
 		dest.writeString(idstr);
 		dest.writeString(text);
 		dest.writeString(source);
+		dest.writeBoolean(liked);
 		dest.writeBooleanArray(new boolean[]{favorited, truncated, liked});
 		dest.writeString(in_reply_to_status_id);
 		dest.writeString(in_reply_to_user_id);
