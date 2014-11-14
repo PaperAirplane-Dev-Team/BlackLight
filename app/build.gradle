@@ -1,0 +1,32 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.0.0"
+
+    defaultConfig {
+        applicationId "us.shandian.blacklight"
+        minSdkVersion 15
+        targetSdkVersion 19
+        versionCode 24
+        versionName "1.1.2"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+	compile 'com.android.support:support-v4:+'
+	compile 'com.android.support:support-annotations:+'
+	compile 'com.android.support:recyclerview-v7:+'
+	compile project(':libraries:SlidingUpPanel')
+	compile project(':libraries:SwipeBackLayout')
+	compile project(':libraries:HoloColorPicker')
+	compile project(':libraries:subsampling-image-view')
+	compile project(':libraries:circleimageview')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

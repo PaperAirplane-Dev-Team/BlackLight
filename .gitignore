@@ -27,7 +27,5 @@ unused.txt
 /keystore/publish.keystore
 /keystore/publish.keystore.properties
 /chrome/vendor
-*.iml
-build.gradle
 build.xml
 ant.properties

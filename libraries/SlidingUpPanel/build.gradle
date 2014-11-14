@@ -1,0 +1,18 @@
+apply plugin: 'android-library'
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile 'com.android.support:support-v4:+'
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+android {
+  compileSdkVersion 19
+  buildToolsVersion "19.0.3"
+  lintOptions {
+    abortOnError false
+  }
+}
