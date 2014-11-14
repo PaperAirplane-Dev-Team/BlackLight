@@ -60,6 +60,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -815,6 +816,58 @@ public class Utility
 			return ret;
 		} catch (NotFoundException e) {
 			return null;
+		}
+	}
+	
+	public static <T> T findViewById(View v, int id) {
+		return (T) v.findViewById(id);
+	}
+	
+	public static <T> T findViewById(Activity activity, int id) {
+		return (T) activity.findViewById(id);
+	}
+	
+	public static void bindOnClick(final Class<?> clazz, View v, String method) {
+		try {
+			final Method m = clazz.getDeclaredMethod(method);
+			m.setAccessible(true);
+			v.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					try {
+						m.invoke(clazz);
+					} catch (InvocationTargetException e) {
+						
+					} catch (IllegalAccessException e) {
+						
+					}
+				}
+			});
+		} catch (NoSuchMethodException e) {
+			
+		}
+	}
+	
+	public static void bindOnLongClick(final Class<?> clazz, View v, String method) {
+		try {
+			final Method m = clazz.getDeclaredMethod(method);
+			m.setAccessible(true);
+			v.setOnLongClickListener(new View.OnLongClickListener() {
+					@Override
+					public boolean onLongClick(View view) {
+						try {
+							return Boolean.parseBoolean(m.invoke(clazz).toString());
+						} catch (InvocationTargetException e) {
+
+						} catch (IllegalAccessException e) {
+
+						}
+						
+						return false;
+					}
+				});
+		} catch (NoSuchMethodException e) {
+
 		}
 	}
 	
