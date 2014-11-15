@@ -41,7 +41,7 @@ public class CommentTimeLineFragment extends TimeLineFragment
 
 	@Override
 	protected void initTitle() {
-		getActivity().getActionBar().setTitle(R.string.comment);
+		mActionBar.setTitle(R.string.comment);
 	}
 
 	@Override

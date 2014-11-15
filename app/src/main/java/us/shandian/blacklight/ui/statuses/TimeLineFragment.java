@@ -30,6 +30,9 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -38,6 +41,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
+import us.shandian.blacklight.ui.common.ToolbarActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
 
 public abstract class TimeLineFragment extends Fragment implements
@@ -51,6 +55,11 @@ public abstract class TimeLineFragment extends Fragment implements
 	protected HomeTimeLineApiCache mCache;
 
 	private Settings mSettings;
+	
+	protected ActionBar mActionBar = null;
+	protected Toolbar mToolbar = null;
+	private int mActionBarHeight = 0;
+	private int mTranslationY = 0;
 
 	// Pull To Refresh
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
@@ -69,7 +78,9 @@ public abstract class TimeLineFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		//initTitle();
+		mActionBar = ((ToolbarActivity) getActivity()).getSupportActionBar();
+		mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
+		initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
 		View v = inflater.inflate(R.layout.home_timeline, null);
@@ -116,7 +127,8 @@ public abstract class TimeLineFragment extends Fragment implements
 		mShadow.bringToFront();
 
 		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
-			mShadow.setTranslationY(Utility.getActionBarHeight(getActivity()));
+			mActionBarHeight = Utility.getActionBarHeight(getActivity());
+			mShadow.setTranslationY(mActionBarHeight);
 		}
 
 		return v;
@@ -127,7 +139,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		super.onHiddenChanged(hidden);
 
 		if (!hidden) {
-			//initTitle();
+			initTitle();
 			resume();
 			showFAB();
 			if (this instanceof HomeTimeLineFragment) {
@@ -135,6 +147,7 @@ public abstract class TimeLineFragment extends Fragment implements
 			} else {
 				((MainActivity) getActivity()).setShowSpinner(false);
 			}
+			updateTranslation();
 		} else {
 			hideFAB();
 		}
@@ -174,12 +187,8 @@ public abstract class TimeLineFragment extends Fragment implements
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
-
-			if (getActivity() instanceof MainActivity) {
-				showFAB();
-				getActivity().getActionBar().show();
-			}
-
+			mTranslationY = 0;
+			updateTranslation();
 			new Refresher().execute(new Boolean[] { !mSwipeRefresh.isDown() });
 		}
 	}
@@ -198,20 +207,25 @@ public abstract class TimeLineFragment extends Fragment implements
 			} else {
 				hideFAB();
 			}
-
-			if (mAllowHidingActionBar) {
-				if (shouldShow) {
-					getActivity().getActionBar().show();
-					mShadow.setVisibility(View.VISIBLE);
-				} else {
-					getActivity().getActionBar().hide();
-					mShadow.setVisibility(View.GONE);
-				}
+		}
+		
+		if (!mRefreshing && mAllowHidingActionBar) {
+			if (firstVisibleItem == 0) {
+				View v = mList.getChildAt(0);
+				mTranslationY = v.getTop();
+			} else {
+				mTranslationY = -mActionBarHeight;
 			}
+			updateTranslation();
 		}
 
 		mLastFirst = firstVisibleItem;
 		mFABShowing = shouldShow;
+	}
+	
+	protected void updateTranslation() {
+		mToolbar.setTranslationY(mTranslationY);
+		mShadow.setTranslationY(mActionBarHeight + mTranslationY);
 	}
 
 	@Override
@@ -224,7 +238,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	}
 
 	protected void initTitle() {
-		getActivity().getActionBar().setTitle(R.string.timeline);
+		mActionBar.setTitle(R.string.timeline);
 	}
 
 	protected void bindSwipeToRefresh(ViewGroup v) {

@@ -45,4 +45,8 @@ public abstract class ToolbarActivity extends ActionBarActivity
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
+	
+	public Toolbar getToolbar() {
+		return mToolbar;
+	}
 }

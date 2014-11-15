@@ -33,6 +33,6 @@ public class FavListFragment extends TimeLineFragment
 
 	@Override
 	protected void initTitle() {
-		getActivity().getActionBar().setTitle(R.string.like);
+		mActionBar.setTitle(R.string.like);
 	}
 }

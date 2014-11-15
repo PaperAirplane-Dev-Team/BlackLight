@@ -89,7 +89,8 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 		super.onHiddenChanged(hidden);
 
 		if (!hidden) {
-			getActivity().getActionBar().setTitle(getString(R.string.drawer_at));
+			((MainActivity) getActivity()).getToolbar().setTranslationY(0);
+			((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.drawer_at));
 		}
 	}
 
