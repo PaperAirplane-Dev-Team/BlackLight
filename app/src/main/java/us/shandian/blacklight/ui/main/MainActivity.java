@@ -94,9 +94,6 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
 
-	private ViewGroup mAction;
-	private ImageView mHamburger;
-	
 	// Drawer content
 	private View mDrawerWrapper;
 	private ScrollView mDrawerScroll;
@@ -149,18 +146,16 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
 
 		// Add custom view
-		/*getActionBar().setCustomView(R.layout.action_custom);
-		getActionBar().setDisplayShowCustomEnabled(true);*/
+		getSupportActionBar().setCustomView(R.layout.action_custom);
+		getSupportActionBar().setDisplayShowCustomEnabled(false);
 
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
-		mHamburger = Utility.findViewById(this, R.id.action_hamburger);
 		mDrawerWrapper = Utility.findViewById(this, R.id.drawer_wrapper);
 		mDrawerScroll = Utility.findViewById(this, R.id.drawer_scroll);
 		mName = Utility.findViewById(this, R.id.my_name);
 		mAvatar = Utility.findViewById(this, R.id.my_avatar);
 		mCover = Utility.findViewById(this, R.id.my_cover);
-		mAction = Utility.findViewById(this, R.id.action_view);
 		
 		View me = Utility.findViewById(this, R.id.my_account);
 		View home = Utility.findViewById(this, R.id.drawer_home);
@@ -172,7 +167,6 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		
 		// bind events
 		Utility.bindOnClick(this, me, "showMe");
-		Utility.bindOnClick(this, mHamburger, "openOrCloseDrawer");
 		Utility.bindOnClick(this, home, "home");
 		Utility.bindOnClick(this, at, "mentions");
 		Utility.bindOnClick(this, cmt, "comments");

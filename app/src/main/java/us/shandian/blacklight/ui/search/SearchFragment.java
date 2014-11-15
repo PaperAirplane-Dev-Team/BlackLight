@@ -32,6 +32,7 @@ import android.widget.Spinner;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.common.ToolbarActivity;
 
 public class SearchFragment extends Fragment
 {
@@ -43,21 +44,26 @@ public class SearchFragment extends Fragment
 	private Spinner mTypes;
 	private EditText mText;
 	
+	private ToolbarActivity mActivity = null;
+	
 	private Fragment[] mFragments = new Fragment[2];
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		mActivity = (ToolbarActivity) getActivity();
+		View action = mActivity.getSupportActionBar().getCustomView();
+		
 		// views
-		/*mAction = Utility.findViewById(getActivity(), R.id.action_search);
-		mTypes = Utility.findViewById(getActivity(), R.id.search_spinner);
-		mText = Utility.findViewById(getActivity(), R.id.search_text);
+		mAction = Utility.findViewById(action, R.id.action_search);
+		mTypes = Utility.findViewById(action, R.id.search_spinner);
+		mText = Utility.findViewById(action, R.id.search_text);
 
 		String[] types = getResources().getStringArray(R.array.search_type);
 		
 		mTypes.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.action_spinner_item, types));
 		
 		setHasOptionsMenu(true);
-		*/
+		
 		// Then the main layout
 		View v = inflater.inflate(R.layout.empty_frame, null);
 
@@ -72,12 +78,12 @@ public class SearchFragment extends Fragment
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		
-		if (getActivity() == null || getActivity().getActionBar() == null || mAction == null) return;
+		if (mActivity == null || mActivity.getSupportActionBar() == null || mAction == null) return;
 		
 		if (!hidden) {
-			mAction.setVisibility(View.VISIBLE);
+			mActivity.getSupportActionBar().setDisplayShowCustomEnabled(true);
 		} else {
-			mAction.setVisibility(View.GONE);
+			mActivity.getSupportActionBar().setDisplayShowCustomEnabled(false);
 		}
 	}
 
