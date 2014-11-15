@@ -47,8 +47,8 @@ public class MultiPicturePicker extends AbsActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.img_picker;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.img_picker);
 
 		// Views
 		mGrid = Utility.findViewById(this, R.id.picker_grid);

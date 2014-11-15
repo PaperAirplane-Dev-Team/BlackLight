@@ -17,20 +17,29 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
-	android:orientation="vertical"
 	android:background="?android:attr/windowBackground">
 
+	<include
+		layout="@layout/toolbar"/>
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="3dp"
+		android:layout_below="@+id/toolbar"
+		android:background="@drawable/action_shadow"/>
+	
 	<GridView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_below="@+id/toolbar"
 		android:numColumns="auto_fit"
 		android:stretchMode="columnWidth"
 		android:columnWidth="90dp"
 		android:verticalSpacing="10dp"
 		android:id="@+id/picker_grid"/>
 
-</LinearLayout>
+</RelativeLayout>
