@@ -26,27 +26,27 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.http.FeedbackUtility;
 import us.shandian.blacklight.ui.common.AbsActivity;
 
 public class FeedbackActivity extends AbsActivity {
-	@InjectView(R.id.fb_title) EditText mTitle;
-	@InjectView(R.id.fb_content) EditText mContent;
+	private EditText mTitle;
+	private EditText mContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feedback);
 
-		// Inject
-		ButterKnife.inject(this);
+		// views
+		mTitle = Utility.findViewById(this, R.id.fb_title);
+		mContent = Utility.findViewById(this, R.id.fb_content);
 	}
 
 	@Override

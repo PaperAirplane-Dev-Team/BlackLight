@@ -48,9 +48,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.GroupsApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -90,20 +87,20 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 	private static final String BILATERAL = "bilateral";
 
-	@InjectView(R.id.drawer) DrawerLayout mDrawer;
+	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
 
-	@InjectView(R.id.action_view) ViewGroup mAction;
+	private ViewGroup mAction;
 	private View mTitle, mSpinner;
-	@InjectView(R.id.action_hamburger) ImageView mHamburger;
+	private ImageView mHamburger;
 	
 	// Drawer content
-	@InjectView(R.id.drawer_wrapper) View mDrawerWrapper;
-	@InjectView(R.id.drawer_scroll) ScrollView mDrawerScroll;
-	@InjectView(R.id.my_name) TextView mName;
-	@InjectView(R.id.my_avatar) ImageView mAvatar;
-	@InjectView(R.id.my_cover) ImageView mCover;
+	private View mDrawerWrapper;
+	private ScrollView mDrawerScroll;
+	private TextView mName;
+	private ImageView mAvatar;
+	private ImageView mCover;
 	private FloatingActionButton mFAB;
 	
 	private LoginApiCache mLoginCache;
@@ -153,8 +150,33 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		getActionBar().setCustomView(R.layout.action_custom);
 		getActionBar().setDisplayShowCustomEnabled(true);
 
-		// Inject
-		ButterKnife.inject(this, customDecor);
+		// Initialize views
+		mDrawer = Utility.findViewById(this, R.id.drawer);
+		mHamburger = Utility.findViewById(this, R.id.action_hamburger);
+		mDrawerWrapper = Utility.findViewById(this, R.id.drawer_wrapper);
+		mDrawerScroll = Utility.findViewById(this, R.id.drawer_scroll);
+		mName = Utility.findViewById(this, R.id.my_name);
+		mAvatar = Utility.findViewById(this, R.id.my_avatar);
+		mCover = Utility.findViewById(this, R.id.my_cover);
+		mAction = Utility.findViewById(this, R.id.action_view);
+		
+		View me = Utility.findViewById(this, R.id.my_account);
+		View home = Utility.findViewById(this, R.id.drawer_home);
+		View at = Utility.findViewById(this, R.id.drawer_at);
+		View cmt = Utility.findViewById(this, R.id.drawer_comment);
+		View dm = Utility.findViewById(this, R.id.drawer_dm);
+		View fav = Utility.findViewById(this, R.id.drawer_fav);
+		View set = Utility.findViewById(this, R.id.drawer_settings);
+		
+		// bind events
+		Utility.bindOnClick(this, me, "showMe");
+		Utility.bindOnClick(this, mHamburger, "openOrCloseDrawer");
+		Utility.bindOnClick(this, home, "home");
+		Utility.bindOnClick(this, at, "mentions");
+		Utility.bindOnClick(this, cmt, "comments");
+		Utility.bindOnClick(this, dm, "dm");
+		Utility.bindOnClick(this, fav, "fav");
+		Utility.bindOnClick(this, set, "settings");
 		
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
@@ -203,13 +225,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
 		}
 
-		/*mMy.setVerticalScrollBarEnabled(false);
-		mMy.setChoiceMode(ListView.CHOICE_MODE_NONE);
-		mAtMe.setVerticalScrollBarEnabled(false);
-		mAtMe.setChoiceMode(ListView.CHOICE_MODE_NONE);
-		mOther.setVerticalScrollBarEnabled(false);
-		mOther.setChoiceMode(ListView.CHOICE_MODE_NONE);*/
-		
 		// My account
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
@@ -344,7 +359,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		return true;
 	}
 
-	@OnClick(R.id.my_account)
 	public void showMe() {
 		if (mUser != null) {
 			Intent i = new Intent();
@@ -355,7 +369,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 	}
 
-	@OnClick(R.id.action_hamburger)
 	public void openOrCloseDrawer() {
 		if (mDrawer.isDrawerOpen(mDrawerGravity)) {
 			mDrawer.closeDrawer(mDrawerGravity);
@@ -421,102 +434,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 	}
 
-	/*@OnItemClick({R.id.list_my, R.id.list_at_me, R.id.list_other})
-	public void handlePageSwitch(AdapterView<?> parent, View view, final int position, long id) {
-		if ((parent != mOther || position == 0) && mLastChoice != null) {
-			mLastChoice.getPaint().setFakeBoldText(false);
-			mLastChoice.invalidate();
-		}
-
-		if (mGroups != null && mGroups.getSize() > 0 && (parent != mOther || position != 1)) {
-			//getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-			//getActionBar().setDisplayShowTitleEnabled(true);
-			setShowTitle(true);
-			setShowSpinner(false);
-		}
-		
-		if (parent == mMy) {
-			TextView tv = (TextView) view;
-			tv.getPaint().setFakeBoldText(true);
-			tv.invalidate();
-			mLastChoice = tv;
-			mNext = position;
-			if (mFragments[position] != null) {
-				tv.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							switchTo(position);
-						} catch (Exception e) {
-							
-						}
-
-						if (position == 0 && mGroups != null && mGroups.getSize() > 0) {
-							setShowTitle(false);
-							setShowSpinner(true);
-							updateActionSpinner();
-						}
-					}
-				}, 400);
-			}
-		} else if (parent == mAtMe) {
-			TextView tv = (TextView) view;
-			tv.getPaint().setFakeBoldText(true);
-			tv.invalidate();
-			mLastChoice = tv;
-			mNext = position + 4;
-			if (mFragments[4 + position] != null) {
-				tv.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							switchTo(4 + position);
-						} catch (Exception e) {
-							
-						}
-					}
-				}, 400);
-			}
-		} else if (parent == mOther) {
-			switch (position) {
-				case 0:{
-					mNext = 6;
-					view.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								switchTo(6);
-							} catch (Exception e) {
-
-							}
-
-							setShowTitle(false);
-						}
-					}, 400);
-					break;
-				}
-				case 1:{
-					Intent i = new Intent();
-					i.setAction(Intent.ACTION_MAIN);
-					i.setClass(this, SettingsActivity.class);
-					startActivity(i);
-					break;
-				}
-				case 2:{
-					mLoginCache.logout();
-					Intent i = new Intent();
-					i.setAction(Intent.ACTION_MAIN);
-					i.setClass(this, EntryActivity.class);
-					startActivity(i);
-					finish();
-					break;
-				}
-			}
-		}
-		
-		openOrCloseDrawer();
-	}*/
-
 	@Override
 	public void onBackPressed() {
 		if (mCurrent != HOME) {
@@ -526,35 +443,30 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 	}
 
-	@OnClick(R.id.drawer_home)
 	public void home() {
 		setShowTitle(false);
 		setShowSpinner(true);
 		switchTo(HOME);
 	}
 
-	@OnClick(R.id.drawer_comment)
 	public void comments() {
 		switchTo(COMMENT);
 		setShowTitle(true);
 		setShowSpinner(false);
 	}
 
-	@OnClick(R.id.drawer_dm)
 	public void dm() {
 		switchTo(DM);
 		setShowTitle(true);
 		setShowSpinner(false);
 	}
 
-	@OnClick(R.id.drawer_fav)
 	public void fav() {
 		switchTo(FAV);
 		setShowTitle(true);
 		setShowSpinner(false);
 	}
 
-	@OnClick(R.id.drawer_settings)
 	public void settings() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -562,7 +474,6 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		startActivity(i);
 	}
 
-	@OnClick(R.id.drawer_at)
 	public void mentions() {
 		switchTo(MENTION);
 		setShowTitle(true);

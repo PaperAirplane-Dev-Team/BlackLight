@@ -28,14 +28,13 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.DirectMessageListModel;
 import us.shandian.blacklight.model.DirectMessageModel;
 import us.shandian.blacklight.support.HackyMovementMethod;
 import us.shandian.blacklight.support.SpannableStringUtils;
 import us.shandian.blacklight.support.StatusTimeUtils;
+import us.shandian.blacklight.support.Utility;
 
 public class DirectMessageAdapter extends BaseAdapter
 {
@@ -111,13 +110,17 @@ public class DirectMessageAdapter extends BaseAdapter
 	
 	class ViewHolder {
 		private View v;
-		@InjectView(R.id.direct_message_conversation_content) public TextView content;
-		@InjectView(R.id.direct_message_conversation_date) public TextView date;
-		@InjectView(R.id.direct_message_conversation_container) public LinearLayout container;
+		public TextView content;
+		public TextView date;
+		public LinearLayout container;
 		
 		public ViewHolder(View v) {
 			this.v = v;
-			ButterKnife.inject(this, v);
+			
+			content = Utility.findViewById(v, R.id.direct_message_conversation_content);
+			date = Utility.findViewById(v, R.id.direct_message_conversation_date);
+			container = Utility.findViewById(v, R.id.direct_message_conversation_container);
+			
 			v.setTag(this);
 		}
 	}

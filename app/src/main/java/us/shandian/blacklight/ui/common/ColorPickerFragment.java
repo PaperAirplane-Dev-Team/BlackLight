@@ -30,10 +30,8 @@ import com.larswerkman.holocolorpicker.SVBar;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.Utility;
 
 public class ColorPickerFragment extends Fragment {
 
@@ -41,21 +39,22 @@ public class ColorPickerFragment extends Fragment {
 		void onSelected(String hex);
 	}
 
-	@InjectView(R.id.picker) ColorPicker mPicker;
+	private ColorPicker mPicker;
 	private OnColorSelectedListener mListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.color_picker, null);
 
-		// Inject
-		ButterKnife.inject(this, v);
-
 		// Color picker views
-		SVBar svb = ButterKnife.findById(v, R.id.svbar);
-		SaturationBar sb = ButterKnife.findById(v, R.id.saturationbar);
-		ValueBar vb = ButterKnife.findById(v, R.id.valuebar);
+		mPicker = Utility.findViewById(v, R.id.picker);
+		SVBar svb = Utility.findViewById(v, R.id.svbar);
+		SaturationBar sb = Utility.findViewById(v, R.id.saturationbar);
+		ValueBar vb = Utility.findViewById(v, R.id.valuebar);
 
+		View okay = Utility.findViewById(v, R.id.okay);
+		Utility.bindOnClick(this, okay, "choose");
+		
 		// Register
 		mPicker.addSVBar(svb);
 		mPicker.addSaturationBar(sb);
@@ -70,7 +69,6 @@ public class ColorPickerFragment extends Fragment {
 		return v;
 	}
 
-	@OnClick(R.id.okay)
 	public void choose() {
 		String hex = String.format("#%06X", (0xFFFFFF & mPicker.getColor()));
 		mPicker.setOldCenterColor(mPicker.getColor());

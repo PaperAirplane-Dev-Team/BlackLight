@@ -42,10 +42,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
-import butterknife.OnLongClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.comments.NewCommentApi;
@@ -598,21 +594,21 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	class ViewHolder {
 		public boolean sub = false;
 
-		@InjectView(R.id.weibo_date) public TextView date;
-		@InjectView(R.id.weibo_retweet) public TextView retweets;
-		@InjectView(R.id.weibo_comments) public TextView comments;
-		@InjectView(R.id.weibo_name) public TextView name;
-		@InjectView(R.id.weibo_from) public TextView from;
-		@InjectView(R.id.weibo_content) public TextView content;
-		@InjectView(R.id.weibo_attitudes) public TextView attitudes;
-		@InjectView(R.id.weibo_orig_content) public TextView orig_content;
-		@InjectView(R.id.weibo_avatar) public ImageView avatar;
-		@InjectView(R.id.weibo_popup) public ImageView popup;
-		@InjectView(R.id.weibo_pics_scroll) public HorizontalScrollView scroll;
-		@InjectView(R.id.weibo_pics) public LinearLayout pics;
-		@InjectView(R.id.card) public View card;
-		@InjectView(R.id.weibo_origin) public View origin_parent;
-		@InjectView(R.id.weibo_comment_and_retweet) public View comment_and_retweet;
+		public TextView date;
+		public TextView retweets;
+		public TextView comments;
+		public TextView name;
+		public TextView from;
+		public TextView content;
+		public TextView attitudes;
+		public TextView orig_content;
+		public ImageView avatar;
+		public ImageView popup;
+		public HorizontalScrollView scroll;
+		public LinearLayout pics;
+		public View card;
+		public View origin_parent;
+		public View comment_and_retweet;
 		
 		public View v;
 		public MessageModel msg;
@@ -624,15 +620,38 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			this.context = v.getContext();
 
 			v.setTag(this);
-			ButterKnife.inject(this, v);
+			init();
+		}
+		
+		private void init() {
+			// Views
+			date = Utility.findViewById(v, R.id.weibo_date);
+			retweets = Utility.findViewById(v, R.id.weibo_retweet);
+			comments = Utility.findViewById(v, R.id.weibo_comments);
+			name = Utility.findViewById(v, R.id.weibo_name);
+			from = Utility.findViewById(v, R.id.weibo_from);
+			content = Utility.findViewById(v, R.id.weibo_content);
+			attitudes = Utility.findViewById(v, R.id.weibo_attitudes);
+			orig_content = Utility.findViewById(v, R.id.weibo_orig_content);
+			avatar = Utility.findViewById(v, R.id.weibo_avatar);
+			popup = Utility.findViewById(v, R.id.weibo_popup);
+			scroll = Utility.findViewById(v, R.id.weibo_pics_scroll);
+			pics = Utility.findViewById(v, R.id.weibo_pics);
+			card = Utility.findViewById(v, R.id.card);
+			origin_parent = Utility.findViewById(v, R.id.weibo_origin);
+			comment_and_retweet = Utility.findViewById(v, R.id.weibo_comment_and_retweet);
+			
+			// Events
+			Utility.bindOnClick(this, popup, "popup");
+			Utility.bindOnClick(this, avatar, "showUser");
+			Utility.bindOnClick(this, card, "show");
+			Utility.bindOnClick(this, origin_parent, "showOrig");
 		}
 
-		@OnClick(R.id.weibo_popup)
 		void popup() {
 			buildPopup(this);
 		}
 
-		@OnClick(R.id.weibo_avatar)
 		void showUser() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -641,7 +660,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.card)
 		void show() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -657,7 +675,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			context.startActivity(i);
 		}
 
-		@OnClick(R.id.weibo_origin)
 		void showOrig() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);

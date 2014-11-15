@@ -28,12 +28,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 
 public class UserAdapter extends BaseAdapter
 {
@@ -73,9 +73,9 @@ public class UserAdapter extends BaseAdapter
 
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.user_list_item, null);
 			
-			ImageView avatar = ButterKnife.findById(v, R.id.user_list_avatar);
-			TextView name = ButterKnife.findById(v, R.id.user_list_name);
-			TextView des = ButterKnife.findById(v, R.id.user_list_des);
+			ImageView avatar = Utility.findViewById(v, R.id.user_list_avatar);
+			TextView name = Utility.findViewById(v, R.id.user_list_name);
+			TextView des = Utility.findViewById(v, R.id.user_list_des);
 				
 			name.setText(usr.getName());
 			des.setText(usr.description);

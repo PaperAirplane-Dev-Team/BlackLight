@@ -29,10 +29,6 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnItemClick;
-import butterknife.OnItemLongClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
 import us.shandian.blacklight.api.remind.RemindApi.Type;
@@ -46,9 +42,10 @@ import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+															AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 	private DirectMessagesUserApiCache mApiCache;
-	@InjectView(R.id.home_timeline) ListView mList;
+	private ListView mList;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	private DirectMessageUserAdapter mAdapter;
 	private boolean mRefreshing = false;
@@ -58,8 +55,10 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		// Share the view
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
 		
-		// Inject
-		ButterKnife.inject(this, v);
+		// Initialize
+		mList = Utility.findViewById(v, R.id.home_timeline);
+		mList.setOnItemClickListener(this);
+		mList.setOnItemLongClickListener(this);
 		
 		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
 
@@ -127,8 +126,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		}
 	}
 
-	@OnItemClick(R.id.home_timeline)
-	public void showMsg(AdapterView<?> parent, View view, int position, long id) {
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (mApiCache.mUsers == null) return;
 		if (getActivity() instanceof MainActivity) {
 			position--; // Count the header view in
@@ -143,8 +142,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		startActivity(i);
 	}
 
-	@OnItemLongClick(R.id.home_timeline)
-	public boolean showUser(AdapterView<?> parent, View view, int position, long id) {
+	@Override
+	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		if (getActivity() instanceof MainActivity) {
 			position--;
 		}

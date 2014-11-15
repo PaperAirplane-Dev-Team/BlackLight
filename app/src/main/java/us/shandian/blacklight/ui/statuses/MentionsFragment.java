@@ -27,20 +27,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
+import us.shandian.blacklight.support.Utility;
 
 /*
  * This class combines MentionsTimeLine and CommentMentionsTimeLine together
  * */
 public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher {
-	@InjectView(R.id.mentions_indicator) LinearViewPagerIndicator mIndicator;
-	@InjectView(R.id.mentions_pager) ViewPager mPager;
+	private LinearViewPagerIndicator mIndicator;
+	private ViewPager mPager;
 
 	private MentionsTimeLineFragment mRetweet;
 	private CommentMentionsTimeLineFragment mComment;
@@ -48,7 +47,10 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.mentions, null);
-		ButterKnife.inject(this, v);
+		
+		// Initialize views
+		mIndicator = Utility.findViewById(v, R.id.mentions_indicator);
+		mPager = Utility.findViewById(v, R.id.mentions_pager);
 
 		// Initialize indicator
 		mIndicator.setViewPager(mPager);

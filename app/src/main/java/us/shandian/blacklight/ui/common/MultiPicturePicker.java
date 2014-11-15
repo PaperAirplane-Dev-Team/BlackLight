@@ -28,13 +28,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 import java.util.ArrayList;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.GalleryModel;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.GalleryAdapter;
 import static us.shandian.blacklight.BuildConfig.DEBUG;
 
@@ -43,7 +41,7 @@ public class MultiPicturePicker extends AbsActivity {
 
 	public static final int PICK_OK = 123456;
 
-	@InjectView(R.id.picker_grid) GridView mGrid;
+	private GridView mGrid;
 
 	private GalleryAdapter mAdapter = null;
 
@@ -52,7 +50,8 @@ public class MultiPicturePicker extends AbsActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.img_picker);
 
-		ButterKnife.inject(this);
+		// Views
+		mGrid = Utility.findViewById(this, R.id.picker_grid);
 
 		buildAdapter();
 

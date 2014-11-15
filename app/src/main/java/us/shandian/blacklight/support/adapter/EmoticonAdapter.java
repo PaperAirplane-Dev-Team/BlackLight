@@ -30,9 +30,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import butterknife.ButterKnife;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Emoticons;
+import us.shandian.blacklight.support.Utility;
 
 public class EmoticonAdapter extends BaseAdapter
 {
@@ -66,7 +66,7 @@ public class EmoticonAdapter extends BaseAdapter
 			return convertView;
 		} else {
 			View v = convertView != null ? convertView : mInflater.inflate(R.layout.emoticon_view, null);
-			ImageView iv = ButterKnife.findById(v, R.id.emoticon_image);
+			ImageView iv = Utility.findViewById(v, R.id.emoticon_image);
 			iv.setImageBitmap(mBitmaps.get(position));
 			return v;
 		}

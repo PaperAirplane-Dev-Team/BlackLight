@@ -37,10 +37,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnEditorAction;
-import butterknife.OnItemSelected;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.BaseApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -53,12 +49,12 @@ import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* BlackMagic Login Activity */
-public class LoginActivity extends AbsActivity {
+public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
-	@InjectView(R.id.tail) Spinner mTail;
-	@InjectView(R.id.username) TextView mUsername;
-	@InjectView(R.id.passwd) TextView mPasswd;
+	private Spinner mTail;
+	private TextView mUsername;
+	private TextView mPasswd;
 	
 	private MenuItem mMenuItem;
 	
@@ -79,8 +75,12 @@ public class LoginActivity extends AbsActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
-		// Inject
-		ButterKnife.inject(this);
+		// Initialize views
+		mTail = Utility.findViewById(this, R.id.tail);
+		mUsername = Utility.findViewById(this, R.id.username);
+		mPasswd = Utility.findViewById(this, R.id.passwd);
+		mTail.setOnItemSelectedListener(this);
+		mUsername.setOnEditorActionListener(this);
 		
 		// Create login instance
 		mLogin = new LoginApiCache(this);
@@ -91,7 +91,7 @@ public class LoginActivity extends AbsActivity {
 		
 		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
 		
-		changeTail(null, null, 0, 0);
+		onItemSelected(null, null, 0, 0);
 	}
 
 	@Override
@@ -101,11 +101,16 @@ public class LoginActivity extends AbsActivity {
 		return true;
 	}
 
-	@OnItemSelected(R.id.tail)
-	public void changeTail(AdapterView<?> parent, View view, int position, long id) {
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		String[] key = mKeys[position].split("\\|");
 		mAppId = key[0];
 		mAppSecret = key[1];
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> p1) {
+		
 	}
 
 	@Override
@@ -123,8 +128,8 @@ public class LoginActivity extends AbsActivity {
 		}
 	}
 
-	@OnEditorAction(R.id.passwd)
-	public boolean finishEnteringPasswd(TextView textView, int actionId, KeyEvent keyEvent) {
+	@Override
+	public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
 		if (actionId == EditorInfo.IME_ACTION_DONE) {
 			login();
 			return true;

@@ -40,10 +40,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.InjectViews;
-import butterknife.OnClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.attitudes.AttitudesApi;
 import us.shandian.blacklight.api.statuses.PostApi;
@@ -66,15 +62,14 @@ public class SingleActivity extends AbsActivity
 	private Fragment mCommentFragment;
 	private Fragment mRepostFragment;
 	
-	@InjectView(R.id.single_pager) ViewPager mPager;
-	@InjectView(R.id.single_root) SlidingUpPanelLayout mRoot;
-	@InjectView(R.id.single_dragger) View mDragger;
-	@InjectView(R.id.single_content) View mContent;
+	private ViewPager mPager;
+	private SlidingUpPanelLayout mRoot;
+	private View mDragger;
+	private View mContent;
 	
-	@InjectView(R.id.single_indicator) LinearViewPagerIndicator mIndicator;
-	@InjectView(R.id.iv_collapse) ImageView mCollapse;
-
-	@InjectViews({R.id.single_comment_img, R.id.single_repost_img}) ImageView[] mIcons;
+	private LinearViewPagerIndicator mIndicator;
+	private ImageView mCollapse;
+	private ImageView[] mIcons = new ImageView[2];
 	
 	private MenuItem mFav, mLike;
 
@@ -104,8 +99,22 @@ public class SingleActivity extends AbsActivity
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
 		
-		// Inject
-		ButterKnife.inject(this);
+		// Initialize views
+		mPager = Utility.findViewById(this, R.id.single_pager);
+		mRoot = Utility.findViewById(this, R.id.single_root);
+		mDragger = Utility.findViewById(this, R.id.single_dragger);
+		mContent = Utility.findViewById(this, R.id.single_content);
+		mIndicator = Utility.findViewById(this, R.id.single_indicator);
+		mCollapse = Utility.findViewById(this, R.id.iv_collapse);
+		mIcons[0] = Utility.findViewById(this, R.id.single_comment_img);
+		mIcons[1] = Utility.findViewById(this, R.id.single_repost_img);
+		
+		View comment = Utility.findViewById(this, R.id.single_comment);
+		View repost = Utility.findViewById(this, R.id.single_repost);
+		
+		// Bind onClick events
+		Utility.bindOnClick(this, comment, "commentOn");
+		Utility.bindOnClick(this, repost, "repost");
 
 		// Dark
 		if (mDark) {
@@ -307,7 +316,6 @@ public class SingleActivity extends AbsActivity
 		return super.onOptionsItemSelected(item);
 	}
 	
-	@OnClick(R.id.single_comment)
 	public void commentOn() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -316,7 +324,6 @@ public class SingleActivity extends AbsActivity
 		startActivity(i);
 	}
 	
-	@OnClick(R.id.single_repost)
 	public void repost() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);

@@ -27,14 +27,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.directmessages.DirectMessagesApi;
 import us.shandian.blacklight.model.DirectMessageListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.common.EmoticonFragment;
@@ -52,11 +50,11 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 	private int mPage = 0;
 	private boolean mRefreshing = false;
 	
-	@InjectView(R.id.direct_message_conversation) ListView mList;
-	@InjectView(R.id.direct_message_send_text) EditText mText;
-	@InjectView(R.id.direct_message_send) ImageView mSend;
+	private ListView mList;
+	private EditText mText;
+	private ImageView mSend;
 	private DirectMessageAdapter mAdapter;
-	@InjectView(R.id.direct_message_refresh) SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
 	private EmoticonFragment mEmoticons;
 	
@@ -73,8 +71,14 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		mUser = getIntent().getParcelableExtra("user");
 		getActionBar().setTitle(mUser.getName());
 
-		// Inject
-		ButterKnife.inject(this);
+		// Initialize views
+		mList = Utility.findViewById(this, R.id.direct_message_conversation);
+		mText = Utility.findViewById(this, R.id.direct_message_send_text);
+		mSend = Utility.findViewById(this, R.id.direct_message_send);
+		mSwipeRefresh = Utility.findViewById(this, R.id.direct_message_refresh);
+		
+		// Events
+		Utility.bindOnClick(this, mSend, "send");
 		
 		// View
 		mSwipeRefresh.setOnRefreshListener(this);
@@ -117,7 +121,6 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		}
 	}
 	
-	@OnClick(R.id.direct_message_send)
 	public void send() {
 		if (!mRefreshing) {
 			new Sender().execute();

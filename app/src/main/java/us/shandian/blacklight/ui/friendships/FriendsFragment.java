@@ -29,9 +29,6 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnItemClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.FriendsApi;
 import us.shandian.blacklight.model.UserListModel;
@@ -43,14 +40,14 @@ import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
 {
 	private String mUid;
 	protected UserListModel mUsers;
 	private int mNextCursor = 0;
 	private boolean mRefreshing = false;
 	
-	@InjectView(R.id.home_timeline) ListView mList;
+	private ListView mList;
 	private UserAdapter mAdapter;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
 	
@@ -78,8 +75,9 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		// Share the layout of Home Time Line
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
 		
-		// Inject
-		ButterKnife.inject(this, v);
+		// Initialize
+		mList = Utility.findViewById(v, R.id.home_timeline);
+		mList.setOnItemClickListener(this);
 
 		// Init
 		mUsers = new UserListModel();
@@ -120,8 +118,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		}
 	}
 
-	@OnItemClick(R.id.home_timeline)
-	public void showFriend(AdapterView<?> parent, View view, int position, long id) {
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (getActivity() instanceof MainActivity) {
 			position--; // Count the header view in
 		}

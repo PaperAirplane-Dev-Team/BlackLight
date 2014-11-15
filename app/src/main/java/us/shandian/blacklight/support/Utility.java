@@ -827,36 +827,46 @@ public class Utility
 		return (T) activity.findViewById(id);
 	}
 	
-	public static void bindOnClick(final Class<?> clazz, View v, String method) {
+	public static void bindOnClick(final Object obj, Object... viewsAndMethod) {
+		final Class<?> clazz = obj.getClass();
+		String method = viewsAndMethod[viewsAndMethod.length - 1].toString();
 		try {
-			final Method m = clazz.getDeclaredMethod(method);
+			final Method m = findMethod(clazz, method);
 			m.setAccessible(true);
-			v.setOnClickListener(new View.OnClickListener() {
+			View.OnClickListener listener = new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					try {
-						m.invoke(clazz);
+						m.invoke(obj);
 					} catch (InvocationTargetException e) {
 						
 					} catch (IllegalAccessException e) {
 						
 					}
 				}
-			});
+			};
+			
+			for (Object o : viewsAndMethod) {
+				if (o instanceof View) {
+					((View) o).setOnClickListener(listener);
+				}
+			}
 		} catch (NoSuchMethodException e) {
 			
 		}
 	}
 	
-	public static void bindOnLongClick(final Class<?> clazz, View v, String method) {
+	public static void bindOnLongClick(final Object obj, Object... viewsAndMethod) {
+		final Class<?> clazz = obj.getClass();
+		String method = viewsAndMethod[viewsAndMethod.length - 1].toString();
 		try {
-			final Method m = clazz.getDeclaredMethod(method);
+			final Method m = findMethod(clazz, method);
 			m.setAccessible(true);
-			v.setOnLongClickListener(new View.OnLongClickListener() {
+			View.OnLongClickListener listener = new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View view) {
 						try {
-							return Boolean.parseBoolean(m.invoke(clazz).toString());
+							return Boolean.parseBoolean(m.invoke(obj).toString());
 						} catch (InvocationTargetException e) {
 
 						} catch (IllegalAccessException e) {
@@ -865,9 +875,35 @@ public class Utility
 						
 						return false;
 					}
-				});
+				};
+				
+				for (Object o : viewsAndMethod) {
+					if (o instanceof View) {
+						((View) o).setOnLongClickListener(listener);
+					}
+				}
 		} catch (NoSuchMethodException e) {
 
+		}
+	}
+	
+	public static Method findMethod(Class<?> clazz, String name) throws NoSuchMethodException {
+		Class<?> cla = clazz;
+		Method method = null;
+		
+		do {
+			try {
+				method = cla.getDeclaredMethod(name);
+			} catch (NoSuchMethodException e) {
+				method = null;
+				cla = cla.getSuperclass();
+			}
+		} while (method == null && cla != Object.class);
+		
+		if (method == null) {
+			throw new NoSuchMethodException();
+		} else {
+			return method;
 		}
 	}
 	

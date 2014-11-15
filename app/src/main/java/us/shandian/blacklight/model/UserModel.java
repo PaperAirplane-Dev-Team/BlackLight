@@ -115,6 +115,7 @@ public class UserModel implements Parcelable
 			ret.id = input.readString();
 			ret.screen_name = input.readString();
 			ret.name = input.readString();
+			ret.remark = input.readString();
 			ret.province = input.readString();
 			ret.city = input.readString();
 			ret.location = input.readString();

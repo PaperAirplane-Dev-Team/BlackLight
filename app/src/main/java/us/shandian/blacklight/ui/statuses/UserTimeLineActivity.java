@@ -40,9 +40,6 @@ import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.FriendsApi;
 import us.shandian.blacklight.api.friendships.GroupsApi;
@@ -63,22 +60,18 @@ public class UserTimeLineActivity extends AbsActivity
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
 	
-	//@InjectView(R.id.user_name) TextView mName;
-	@InjectView(R.id.user_follow_state) TextView mFollowState;
-	@InjectView(R.id.user_follow_img) ImageView mFollowImg;
-	@InjectView(R.id.user_des) TextView mDes;
-	@InjectView(R.id.user_des_scroll) ScrollView mDesScroll;
-	@InjectView(R.id.user_followers) TextView mFollowers;
-	@InjectView(R.id.user_following) TextView mFollowing;
-	@InjectView(R.id.user_msgs) TextView mMsgs;
-	//@InjectView(R.id.user_like) TextView mLikes;
-	//@InjectView(R.id.user_geo) TextView mGeo;
-	@InjectView(R.id.user_avatar) ImageView mAvatar;
-	@InjectView(R.id.user_cover) ImageView mCover;
-	@InjectView(R.id.user_following_container) View mFollowingContainer;
-	@InjectView(R.id.user_follow) LinearLayout mLayoutFollowState;
-	
-	@InjectView(R.id.user_slide) GenerousSlidingUpPanelLayout mSlide;
+	private TextView mFollowState;
+	private ImageView mFollowImg;
+	private TextView mDes;
+	private ScrollView mDesScroll;
+	private TextView mFollowers;
+	private TextView mFollowing;
+	private TextView mMsgs;
+	private ImageView mAvatar;
+	private ImageView mCover;
+	private View mFollowingContainer;
+	private LinearLayout mLayoutFollowState;
+	private GenerousSlidingUpPanelLayout mSlide;
 	
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
@@ -95,39 +88,30 @@ public class UserTimeLineActivity extends AbsActivity
 		// Arguments
 		mModel = getIntent().getParcelableExtra("user");
 		
-		// Inject
-		ButterKnife.inject(this);
-
+		// Initialize views
+		mFollowState = Utility.findViewById(this, R.id.user_follow_state);
+		mFollowImg = Utility.findViewById(this, R.id.user_follow_img);
+		mDes = Utility.findViewById(this, R.id.user_des);
+		mDesScroll = Utility.findViewById(this, R.id.user_des_scroll);
+		mFollowers = Utility.findViewById(this, R.id.user_followers);
+		mFollowing = Utility.findViewById(this, R.id.user_following);
+		mMsgs = Utility.findViewById(this, R.id.user_msgs);
+		mAvatar = Utility.findViewById(this, R.id.user_avatar);
+		mCover = Utility.findViewById(this, R.id.user_cover);
+		mFollowingContainer = Utility.findViewById(this, R.id.user_following_container);
+		mLayoutFollowState = Utility.findViewById(this, R.id.user_follow);
+		mSlide = Utility.findViewById(this, R.id.user_slide);
+		
+		View info = Utility.findViewById(this, R.id.user_info_button);
+		View dim = Utility.findViewById(this, R.id.user_dim);
+		
+		// Bind onClick events
+		Utility.bindOnClick(this, mLayoutFollowState, "follow");
+		Utility.bindOnClick(this, mFollowingContainer, "viewFriends");
+		Utility.bindOnClick(this, info, dim, "showOrHideInfo");
+		
 		getActionBar().setTitle(mModel.name);
-		
-		// Init PanelSlideListener
-		mSlide.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
-
-			@Override
-			public void onPanelSlide(View panel, float slideOffset) {
-				//Utility.setActionBarTranslation(UserTimeLineActivity.this, mSlide.getCurrentParalaxOffset());
-			}
-
-			@Override
-			public void onPanelCollapsed(View panel) {
-
-			}
-
-			@Override
-			public void onPanelExpanded(View panel) {
-				
-			}
-
-			@Override
-			public void onPanelAnchored(View panel) {
-				
-			}
-			
-		});
-		
-		// View values
-		//mName.setText(mModel.getName());
-		
+	
 		// Follower state (following/followed/each other)
 		resetFollowState();
 		if (mModel != null && mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
@@ -139,8 +123,6 @@ public class UserTimeLineActivity extends AbsActivity
 		mFollowers.setText(Utility.addUnitToInt(this, mModel.followers_count));
 		mFollowing.setText(Utility.addUnitToInt(this, mModel.friends_count));
 		mMsgs.setText(Utility.addUnitToInt(this, mModel.statuses_count));
-		//mLikes.setText(String.valueOf(mModel.favourites_count));
-		//mGeo.setText(mModel.location);
 
 		// This way can support API 15.
 		Typeface mTypeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Condensed.ttf");
@@ -209,7 +191,6 @@ public class UserTimeLineActivity extends AbsActivity
 		}
 	}
 
-	@OnClick(R.id.user_following_container)
 	public void viewFriends() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_VIEW);
@@ -218,12 +199,10 @@ public class UserTimeLineActivity extends AbsActivity
 		startActivity(i);
 	}
 
-	@OnClick(R.id.user_follow)
 	public void follow() {
 		new Follower().execute();
 	}
 
-	@OnClick({R.id.user_info_button, R.id.user_dim})
 	public void showOrHideInfo() {
 		mDesScroll.clearAnimation();
 

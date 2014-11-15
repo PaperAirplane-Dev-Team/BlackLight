@@ -35,9 +35,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.GalleryModel;
 import us.shandian.blacklight.support.AsyncTask;
@@ -145,13 +142,14 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 	class ViewHolder {
 		private View v;
 
-		@InjectView(R.id.img_picker_img) public ImageView img;
-		@InjectView(R.id.img_picker_check) public CheckBox check;
+		public ImageView img;
+		public CheckBox check;
 		public String path;
 
 		public ViewHolder(View v) {
 			this.v = v;
-			ButterKnife.inject(this, v);
+			img = Utility.findViewById(v, R.id.img_picker_img);
+			check = Utility.findViewById(v, R.id.img_picker_check);
 		}
 	}
 

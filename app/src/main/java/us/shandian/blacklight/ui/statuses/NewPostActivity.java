@@ -52,9 +52,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.statuses.PostApi;
 import us.shandian.blacklight.cache.login.LoginApiCache;
@@ -77,20 +74,19 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	
 	private static final int REQUEST_PICK_IMG = 1001, REQUEST_CAPTURE_PHOTO = 1002;
 	
-	@InjectView(R.id.post_edit) protected EditText mText;
-	@InjectView(R.id.post_back) ImageView mBackground;
-	@InjectView(R.id.post_count) TextView mCount;
-	@InjectView(R.id.post_drawer)  DrawerLayout mDrawer;
-	@InjectView(R.id.post_avatar) ImageView mAvatar;
-	@InjectView(R.id.post_scroll) HorizontalScrollView mScroll;
-	@InjectView(R.id.post_pics) LinearLayout mPicsParent;
+	protected EditText mText;
+	private TextView mCount;
+	private DrawerLayout mDrawer;
+	private ImageView mAvatar;
+	private HorizontalScrollView mScroll;
+	private LinearLayout mPicsParent;
 
 	// Actions
-	@InjectView(R.id.post_pic) protected ImageView mPic;
-	@InjectView(R.id.post_emoji) protected ImageView mEmoji;
-	@InjectView(R.id.post_at) protected ImageView mAt;
-	@InjectView(R.id.post_topic) protected ImageView mTopic;
-	@InjectView(R.id.post_send) protected ImageView mSend;
+	protected ImageView mPic;
+	protected ImageView mEmoji;
+	protected ImageView mAt;
+	protected ImageView mTopic;
+	protected ImageView mSend;
 
 	// Funny hints
 	private String[] mHints;
@@ -130,8 +126,25 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		mUserCache = new UserApiCache(this);
 		new GetAvatarTask().execute();
 		
-		// Inject
-		ButterKnife.inject(this);
+		// Initialize views
+		mText = Utility.findViewById(this, R.id.post_edit);
+		mCount = Utility.findViewById(this, R.id.post_count);
+		mDrawer = Utility.findViewById(this, R.id.post_drawer);
+		mAvatar = Utility.findViewById(this, R.id.post_avatar);
+		mScroll = Utility.findViewById(this, R.id.post_scroll);
+		mPicsParent = Utility.findViewById(this, R.id.post_pics);
+		mPic = Utility.findViewById(this, R.id.post_pic);
+		mEmoji = Utility.findViewById(this, R.id.post_emoji);
+		mAt = Utility.findViewById(this, R.id.post_at);
+		mTopic = Utility.findViewById(this, R.id.post_topic);
+		mSend = Utility.findViewById(this, R.id.post_send);
+		
+		// Bind onClick events
+		Utility.bindOnClick(this, mPic, "pic");
+		Utility.bindOnClick(this, mEmoji, "emoji");
+		Utility.bindOnClick(this, mAt, "at");
+		Utility.bindOnClick(this, mTopic, "topic");
+		Utility.bindOnClick(this, mSend, "send");
 
 		// Version
 		try {
@@ -322,7 +335,6 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	}
 
 
-	@OnClick(R.id.post_send)
 	public void send() {
 		try {
 			if (!TextUtils.isEmpty(mText.getText().toString().trim())) {
@@ -335,14 +347,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 	} 
 	
-	@OnClick(R.id.post_pic) 
 	public void pic() {
 		if (mBitmaps.size() < 9) {
 			showPicturePicker();
 		}
 	}
 	
-	@OnClick(R.id.post_emoji)
 	public void emoji() {
 		if (mDrawer.isDrawerOpen(Gravity.RIGHT)) {
 			mDrawer.closeDrawer(Gravity.RIGHT);
@@ -351,12 +361,10 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 	}
 	
-	@OnClick(R.id.post_at) 
 	public void at() {
 		mText.getText().insert(mText.getSelectionStart(), "@");
 	}
 
-	@OnClick(R.id.post_topic)
 	public void topic() {
 		CharSequence text = mText.getText();
 		mText.getText().insert(mText.getSelectionStart(), "##");

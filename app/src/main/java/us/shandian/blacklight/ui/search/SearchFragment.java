@@ -30,9 +30,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import us.shandian.blacklight.R;
+import us.shandian.blacklight.support.Utility;
 
 public class SearchFragment extends Fragment
 {
@@ -40,20 +39,22 @@ public class SearchFragment extends Fragment
 		public void search(String q);
 	}
 	
-	@InjectView(R.id.action_search) View mAction;
-	@InjectView(R.id.search_spinner) Spinner mTypes;
-	@InjectView(R.id.search_text) EditText mText;
+	private View mAction;
+	private Spinner mTypes;
+	private EditText mText;
 	
 	private Fragment[] mFragments = new Fragment[2];
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inject
-		ButterKnife.inject(this, getActivity());
+		// views
+		mAction = Utility.findViewById(getActivity(), R.id.action_search);
+		mTypes = Utility.findViewById(getActivity(), R.id.search_spinner);
+		mText = Utility.findViewById(getActivity(), R.id.search_text);
 
 		String[] types = getResources().getStringArray(R.array.search_type);
 		
-		mTypes.setAdapter(new ArrayAdapter(getActivity(), R.layout.action_spinner_item, types));
+		mTypes.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.action_spinner_item, types));
 		
 		setHasOptionsMenu(true);
 		

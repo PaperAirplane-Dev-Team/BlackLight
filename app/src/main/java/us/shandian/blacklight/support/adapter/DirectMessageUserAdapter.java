@@ -28,14 +28,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.user.UserApiCache;
 import us.shandian.blacklight.model.DirectMessageUserListModel;
 import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.StatusTimeUtils;
+import us.shandian.blacklight.support.Utility;
 
 public class DirectMessageUserAdapter extends BaseAdapter
 {
@@ -136,17 +135,21 @@ public class DirectMessageUserAdapter extends BaseAdapter
 	
 	class ViewHolder {
 		public DirectMessageUserModel user;
-		@InjectView(R.id.direct_message_avatar) public ImageView avatar;
-		@InjectView(R.id.direct_message_name) public TextView name;
-		@InjectView(R.id.direct_message_text) public TextView text;
-		@InjectView(R.id.direct_message_date) public TextView date;
+		public ImageView avatar;
+		public TextView name;
+		public TextView text;
+		public TextView date;
 		private View v;
 		
 		public ViewHolder(View v, DirectMessageUserModel user) {
 			this.v = v;
 			this.user = user;
 			
-			ButterKnife.inject(this, v);
+			avatar = Utility.findViewById(v, R.id.direct_message_avatar);
+			name = Utility.findViewById(v, R.id.direct_message_name);
+			text = Utility.findViewById(v, R.id.direct_message_text);
+			date = Utility.findViewById(v, R.id.direct_message_date);
+			
 			v.setTag(this);
 		}
 		

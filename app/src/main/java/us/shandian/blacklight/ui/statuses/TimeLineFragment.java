@@ -30,8 +30,6 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.support.AsyncTask;
@@ -47,8 +45,8 @@ public abstract class TimeLineFragment extends Fragment implements
 	
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
-	@InjectView(R.id.home_timeline) protected ListView mList;
-	@InjectView(R.id.action_shadow) protected View mShadow;
+	protected ListView mList;
+	protected View mShadow;
 	private WeiboAdapter mAdapter;
 	protected HomeTimeLineApiCache mCache;
 
@@ -76,8 +74,9 @@ public abstract class TimeLineFragment extends Fragment implements
 
 		View v = inflater.inflate(R.layout.home_timeline, null);
 		
-		// Inject
-		ButterKnife.inject(this, v);
+		// Initialize views
+		mList = Utility.findViewById(v, R.id.home_timeline);
+		mShadow = Utility.findViewById(v, R.id.action_shadow);
 
 		mCache = bindApiCache();
 		mCache.loadFromCache();
