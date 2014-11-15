@@ -66,17 +66,17 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.image_activity;
 		super.onCreate(savedInstanceState);
 		
 		// ActionBar
-		getActionBar().setTitle("");
+		mToolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_gradient));
+		getSupportActionBar().setTitle("");
 
 		mApiCache = new HomeTimeLineApiCache(this);
 		
 		mModel = getIntent().getParcelableExtra("model");
 		int def = getIntent().getIntExtra("defaultId", 0);
-		
-		setContentView(R.layout.image_activity);
 		
 		// Initialize the adapter
 		mAdapter = new ImageAdapter();
@@ -225,10 +225,10 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					iv.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							if (getActionBar().isShowing()) {
-								getActionBar().hide();
+							if (getSupportActionBar().isShowing()) {
+								getSupportActionBar().hide();
 							} else {
-								getActionBar().show();
+								getSupportActionBar().show();
 							}
 						}
 					});

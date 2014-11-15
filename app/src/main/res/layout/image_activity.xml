@@ -22,6 +22,10 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:background="@android:color/black">
+	
+	<include
+		layout="@layout/toolbar"
+		android:background="@drawable/action_gradient"/>
 
 	<us.shandian.blacklight.ui.common.HackyViewPager
 		android:layout_height="match_parent"
