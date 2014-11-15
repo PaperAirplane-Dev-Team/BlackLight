@@ -60,16 +60,12 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
-
+		mLayout = R.layout.direct_message_conversation;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.direct_message_conversation);
 		
 		// Argument
 		mUser = getIntent().getParcelableExtra("user");
-		getActionBar().setTitle(mUser.getName());
+		getSupportActionBar().setTitle(mUser.getName());
 
 		// Initialize views
 		mList = Utility.findViewById(this, R.id.direct_message_conversation);

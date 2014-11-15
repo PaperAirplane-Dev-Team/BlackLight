@@ -17,77 +17,85 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:sothree="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-    android:fitsSystemWindows="true">
-
-	<com.sothree.slidinguppanel.SlidingUpPanelLayout
-		android:layout_height="match_parent"
+	android:layout_height="match_parent">
+	<include
+		layout="@layout/toolbar"/>
+	
+	<LinearLayout
+		xmlns:sothree="http://schemas.android.com/apk/res-auto"
+		android:layout_below="@+id/toolbar"
 		android:layout_width="match_parent"
-		android:gravity="bottom"
-		sothree:panelHeight="48dp"
-		sothree:shadowHeight="4dp"
-		sothree:dragView="@+id/direct_message_emoticon">
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:fitsSystemWindows="true">
 
-		<us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout
-			android:layout_height="match_parent"
-			android:layout_width="match_parent"
-			android:id="@+id/direct_message_refresh">
-
-			<ListView
+			<com.sothree.slidinguppanel.SlidingUpPanelLayout
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
-				android:divider="@null"
-				android:id="@+id/direct_message_conversation"/>
+				android:gravity="bottom"
+				sothree:panelHeight="48dp"
+				sothree:shadowHeight="4dp"
+				sothree:dragView="@+id/direct_message_emoticon">
 
-		</us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout>
+				<us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:id="@+id/direct_message_refresh">
 
-		<LinearLayout
-			android:layout_height="288dp"
-			android:layout_width="match_parent"
-			android:background="?attr/DragBackground"
-			android:orientation="vertical">
+					<ListView
+						android:layout_height="match_parent"
+						android:layout_width="match_parent"
+						android:divider="@null"
+						android:id="@+id/direct_message_conversation"/>
+
+			</us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout>
 
 			<LinearLayout
-				android:layout_height="48dp"
+				android:layout_height="288dp"
 				android:layout_width="match_parent"
-				android:orientation="horizontal">
+				android:background="?attr/DragBackground"
+				android:orientation="vertical">
 
-				<EditText
-					android:layout_height="match_parent"
-					android:ems="10"
+				<LinearLayout
+					android:layout_height="48dp"
 					android:layout_width="match_parent"
-					android:layout_weight="0.1"
-					android:id="@+id/direct_message_send_text"/>
+					android:orientation="horizontal">
+	
+						<EditText
+							android:layout_height="match_parent"
+							android:ems="10"
+							android:layout_width="match_parent"
+							android:layout_weight="0.1"
+							android:id="@+id/direct_message_send_text"/>
 
-				<ImageView
-					android:layout_height="48dp"
-					style="?android:attr/buttonBarButtonStyle"
-					android:layout_width="48dp"
-					android:src="?attr/IconSendNow"
-					android:id="@+id/direct_message_send"/>
+						<ImageView
+							android:layout_height="48dp"
+							style="?android:attr/buttonBarButtonStyle"
+							android:layout_width="48dp"
+							android:src="?attr/IconSendNow"
+							android:id="@+id/direct_message_send"/>
 
-				<ImageView
-					android:layout_height="48dp"
-					style="?android:attr/buttonBarButtonStyle"
-					android:layout_width="48dp"
-					android:src="?attr/IconEmoticon"
-					android:id="@+id/direct_message_emoticon"/>
+						<ImageView
+							android:layout_height="48dp"
+							style="?android:attr/buttonBarButtonStyle"
+							android:layout_width="48dp"
+							android:src="?attr/IconEmoticon"
+							android:id="@+id/direct_message_emoticon"/>
+
+				</LinearLayout>
+
+				<FrameLayout
+					android:id="@+id/direct_message_emoticons"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"/>
 
 			</LinearLayout>
 
-			<FrameLayout
-				android:id="@+id/direct_message_emoticons"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
+		</com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-		</LinearLayout>
-
-	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
-</LinearLayout>
+	</LinearLayout>
+</RelativeLayout>
 
