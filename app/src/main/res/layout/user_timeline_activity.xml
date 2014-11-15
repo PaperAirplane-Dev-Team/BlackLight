@@ -21,12 +21,16 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent">
+	
+	<include
+		layout="@layout/toolbar"/>
 
 	<us.shandian.blacklight.ui.common.GenerousSlidingUpPanelLayout
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginTop="-80dp"
+		android:layout_below="@+id/toolbar"
 		android:id="@+id/user_slide"
 		android:gravity="bottom"
 		app:panelHeight="300dp"
@@ -250,7 +254,7 @@
 	<View
 		android:layout_width="match_parent"
 		android:layout_height="3dp"
-		android:layout_alignParentTop="true"
+		android:layout_below="@+id/toolbar"
 		android:background="@drawable/action_shadow"/>
 	
 </RelativeLayout>

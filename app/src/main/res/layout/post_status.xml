@@ -23,10 +23,14 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true">
+	
+<include
+	layout="@layout/toolbar"/>
 
 <android.support.v4.widget.DrawerLayout
     android:layout_height="match_parent"
 	android:layout_width="match_parent"
+	android:layout_below="@+id/toolbar"
 	android:id="@+id/post_drawer">
 
 	<RelativeLayout
@@ -145,8 +149,8 @@
 						android:gravity="center_vertical">
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_pic"
-							android:layout_width="40dp"
-							android:layout_height="40dp"
+							android:layout_width="50dp"
+							android:layout_height="50dp"
 							android:scaleType="centerInside"
 							android:src="@drawable/ic_camera"
 							app:tintColor="?attr/NewPostForeground"
@@ -154,9 +158,9 @@
 
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_emoji"
-							android:layout_width="40dp"
-							android:layout_height="40dp"
-							android:layout_marginLeft="10dp"
+							android:layout_width="50dp"
+							android:layout_height="50dp"
+							android:layout_marginLeft="2dp"
 							android:scaleType="centerInside"
 							android:src="@drawable/ic_emoji"
 							app:tintColor="?attr/NewPostForeground"
@@ -164,9 +168,9 @@
 
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_at"
-							android:layout_width="40dp"
-							android:layout_height="40dp"
-							android:layout_marginLeft="10dp"
+							android:layout_width="50dp"
+							android:layout_height="50dp"
+							android:layout_marginLeft="2dp"
 							android:scaleType="centerInside"
 							android:src="@drawable/ic_drawer_at"
 							app:tintColor="?attr/NewPostForeground"
@@ -174,9 +178,9 @@
 
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_topic"
-							android:layout_width="40dp"
-							android:layout_height="40dp"
-							android:layout_marginLeft="10dp"
+							android:layout_width="50dp"
+							android:layout_height="50dp"
+							android:layout_marginLeft="2dp"
 							android:scaleType="centerInside"
 							android:src="@drawable/ic_action_topic"
 							app:tintColor="?attr/NewPostForeground"
@@ -201,8 +205,8 @@
 
 					<us.shandian.blacklight.ui.common.TintImageView
 						android:id="@+id/post_send"
-						android:layout_width="48dp"
-						android:layout_height="48dp"
+						android:layout_width="50dp"
+						android:layout_height="50dp"
 						android:layout_marginLeft="3dp"
 						android:scaleType="centerInside"
 						android:src="@drawable/ic_action_send_now"

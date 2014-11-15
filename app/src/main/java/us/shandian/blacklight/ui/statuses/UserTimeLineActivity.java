@@ -80,8 +80,8 @@ public class UserTimeLineActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.user_timeline_activity;
         super.onCreate(savedInstanceState);
-		setContentView(R.layout.user_timeline_activity);
 
 		mCache = new UserApiCache(this);
 
@@ -110,7 +110,7 @@ public class UserTimeLineActivity extends AbsActivity
 		Utility.bindOnClick(this, mFollowingContainer, "viewFriends");
 		Utility.bindOnClick(this, info, dim, "showOrHideInfo");
 		
-		getActionBar().setTitle(mModel.name);
+		getSupportActionBar().setTitle(mModel.name);
 	
 		// Follower state (following/followed/each other)
 		resetFollowState();

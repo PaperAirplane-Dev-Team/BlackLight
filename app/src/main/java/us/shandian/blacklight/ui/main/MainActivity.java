@@ -29,11 +29,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,6 +46,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.friendships.GroupsApi;
@@ -62,6 +64,7 @@ import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.common.FloatingActionButton;
 import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
+import us.shandian.blacklight.ui.common.ToolbarActivity;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
 import us.shandian.blacklight.ui.search.SearchFragment;
@@ -76,7 +79,7 @@ import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
-public class MainActivity extends Activity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
+public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavigationListener, */View.OnClickListener, View.OnLongClickListener
 {
 
 	public static interface Refresher {
@@ -130,9 +133,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		}
 
 		Utility.initDarkMode(this);
+		mLayout = R.layout.main;
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
 
 		// Inflate custom decor
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -147,8 +150,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
 
 		// Add custom view
-		getActionBar().setCustomView(R.layout.action_custom);
-		getActionBar().setDisplayShowCustomEnabled(true);
+		/*getActionBar().setCustomView(R.layout.action_custom);
+		getActionBar().setDisplayShowCustomEnabled(true);*/
 
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
@@ -196,29 +199,25 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 
 		// Initialize naviagtion drawer
 		//mDrawer = (DrawerLayout) findViewById(R.id.drawer);
-		mToggle = new ActionBarDrawerToggle(this, mDrawer, R.drawable.ic_drawer_l, 0, 0) {
+		mToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, 0, 0) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				getActionBar().show();
 				invalidateOptionsMenu();
 				hideFAB();
 			}
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
+				super.onDrawerClosed(drawerView);
 				invalidateOptionsMenu();
 
 				if (mCurrent != DM) {
 					showFAB();
 				}
 			}
-
-			@Override
-			public void onDrawerSlide(View drawerView, float offset) {
-				// TODO: Hamburger animation for MD (Waiting for the new aapt for ARM platform)
-			}
 		};
+		mToggle.setDrawerIndicatorEnabled(true);
 		mDrawer.setDrawerListener(mToggle);
 
 		if (mDrawerGravity == Gravity.LEFT) {
@@ -243,13 +242,13 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		mFAB.setOnLongClickListener(this);
 		
 		// Initialize ActionBar Style
-		getActionBar().setHomeButtonEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
-		getActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		
-		mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
+		//mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
 
-		getActionBar().setDisplayShowTitleEnabled(false);
+		//getActionBar().setDisplayShowTitleEnabled(false);
 
 		// Ignore first spinner event
 		mIgnore = true;
@@ -282,6 +281,20 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		
+		mToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		
+		mToggle.syncState();
 	}
 
 	@Override
@@ -480,7 +493,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		setShowSpinner(false);
 	}
 
-	@Override
+	/*@Override
 	public boolean onNavigationItemSelected(int id, long itemId) {
 		if (mIgnore) {
 			mIgnore = false;
@@ -500,7 +513,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		((HomeTimeLineFragment) mFragments[0]).doRefresh();
 
 		return true;
-	}
+	}*/
 
 	@Override
 	public void onClick(View v) {
@@ -538,15 +551,15 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 	}
 
 	private void setShowTitle(boolean show) {
-		if (mTitle != null) {
+		/*if (mTitle != null) {
 			mTitle.setVisibility(show ? View.VISIBLE : View.GONE);
-		}
+		}*/
 	}
 
 	public void setShowSpinner(boolean show) {
-		if (mSpinner != null) {
+		/*if (mSpinner != null) {
 			mSpinner.setVisibility(show ? View.VISIBLE : View.GONE);
-		}
+		}*/
 	}
 	
 	private void switchTo(int id) {
@@ -595,7 +608,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 			mCurrentGroupId = null;
 		}
 
-		getActionBar().setSelectedNavigationItem(curId);
+		//getSupportActionBar().setSelectedNavigationItem(curId);
 
 		if (mSpinner == null) {
 			if (Build.VERSION.SDK_INT >= 18) {
@@ -672,7 +685,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 		protected void onPostExecute(Void result) {
 			new GroupsTask().execute();
 			prog.dismiss();
-			onNavigationItemSelected(0, 0);
+			//onNavigationItemSelected(0, 0);
 		}
 	}
 
@@ -722,10 +735,10 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
 				}
 
 				// Navigation
-				getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this, 
+				/*getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this, 
 							R.layout.action_spinner_item, names), MainActivity.this);
 
-				getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+				getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);*/
 
 				if (mCurrent == 0) {
 					mIgnore = true;

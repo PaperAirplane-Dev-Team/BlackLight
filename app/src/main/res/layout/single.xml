@@ -17,12 +17,20 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	
+	<include
+		layout="@layout/toolbar"/>
+	
+<LinearLayout
 	xmlns:sothree="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical">
+	android:orientation="vertical"
+	android:layout_below="@+id/toolbar">
 	
 	<com.sothree.slidinguppanel.SlidingUpPanelLayout
 		android:gravity="bottom"
@@ -154,4 +162,5 @@
 	</LinearLayout>
 	
 </LinearLayout>
+</RelativeLayout>
 

@@ -24,22 +24,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import me.imid.swipebacklayout.lib.Utils;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.ShakeDetector;
 import us.shandian.blacklight.support.ShakeDetector.ShakeListener;
 import us.shandian.blacklight.support.Utility;
 
-public class AbsActivity extends SwipeBackActivity implements ShakeListener {
+public class AbsActivity extends ToolbarActivity implements ShakeListener {
 
 	private ShakeDetector mDetector;
 	private Settings mSettings;
 	private boolean mIsFinishing = false;
 	private int mLang = -1;
+	private SwipeBackActivityHelper mHelper = new SwipeBackActivityHelper(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mHelper.onActivityCreate();
+		
 		// Language
 		mLang = Utility.getCurrentLanguage(this);
 		if (mLang > -1) {
@@ -51,29 +56,22 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 		super.onCreate(savedInstanceState);
 		
 		// Common ActionBar settings
-		getActionBar().setCustomView(R.layout.action_custom_up);
-		getActionBar().setDisplayShowCustomEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(false);
-		getActionBar().setHomeButtonEnabled(false);
-		getActionBar().setDisplayUseLogoEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
-
-		// Custom
-		ViewGroup custom = (ViewGroup) getActionBar().getCustomView();
-		Utility.addActionViewToCustom(this, Utility.action_bar_title, custom);
-		custom.findViewById(R.id.action_up).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		getActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		// Shake Detector
 		mDetector = ShakeDetector.getInstance(this);
 
 		// Settings
 		mSettings = Settings.getInstance(this);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		mHelper.onPostCreate();
 	}
 
 	@Override
@@ -106,7 +104,8 @@ public class AbsActivity extends SwipeBackActivity implements ShakeListener {
 	@Override
 	public void finish() {
 		if (!mIsFinishing) {
-			scrollToFinishActivity();
+			Utils.convertActivityToTranslucent(this);
+			mHelper.getSwipeBackLayout().scrollToFinishActivity();
 			mIsFinishing = true;
 		} else {
 			super.finish();

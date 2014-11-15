@@ -69,7 +69,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		initTitle();
+		//initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
 		View v = inflater.inflate(R.layout.home_timeline, null);
@@ -127,7 +127,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		super.onHiddenChanged(hidden);
 
 		if (!hidden) {
-			initTitle();
+			//initTitle();
 			resume();
 			showFAB();
 			if (this instanceof HomeTimeLineFragment) {

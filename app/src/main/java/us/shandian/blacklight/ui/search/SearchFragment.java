@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// views
-		mAction = Utility.findViewById(getActivity(), R.id.action_search);
+		/*mAction = Utility.findViewById(getActivity(), R.id.action_search);
 		mTypes = Utility.findViewById(getActivity(), R.id.search_spinner);
 		mText = Utility.findViewById(getActivity(), R.id.search_text);
 
@@ -57,7 +57,7 @@ public class SearchFragment extends Fragment
 		mTypes.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.action_spinner_item, types));
 		
 		setHasOptionsMenu(true);
-		
+		*/
 		// Then the main layout
 		View v = inflater.inflate(R.layout.empty_frame, null);
 

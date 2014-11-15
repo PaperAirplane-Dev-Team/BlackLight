@@ -119,8 +119,8 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.post_status;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.post_status);
 
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);

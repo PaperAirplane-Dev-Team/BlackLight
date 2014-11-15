@@ -84,9 +84,9 @@ public class SingleActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.single;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.single);
-
+		
 		mActionBarColor = getResources().getColor(R.color.action_gray);
 		mDragBackgroundColor = getResources().getColor(R.color.light_gray);
 		mDark = Utility.isDarkMode(this);

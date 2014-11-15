@@ -21,14 +21,14 @@
 
     <style name="Widget.GifView" parent="@android:style/Widget"></style>
 	
-	<style name="My.Theme.Holo.Light.DarkActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar</item>
+	<style name="My.Theme.Holo.Light.DarkActionBar" parent="Theme.AppCompat.Light">
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:windowContentOverlay">@null</item>
-		<item name="android:titleTextStyle">@style/TitleText</item>
-		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
 		<item name="android:windowBackground">@color/light_gray</item>
-		<item name="android:actionOverflowButtonStyle">@style/My.Widget.Holo.ActionButton.Overflow</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+		<item name="colorPrimary">@color/action_gray</item>
+		<item name="colorPrimaryDark">@color/action_gray_darker</item>
 		<item name="CardBackground">@drawable/card_shadow</item>
 		<item name="CardForeground">@color/darker_gray</item>
 		<item name="CardOrigBackground">@color/midium_gray</item>
@@ -61,11 +61,13 @@
 		<item name="UserInfoDivider">@drawable/user_info_divider</item>
 	</style>
 
-	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="@android:style/Theme.Holo">
-		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar</item>
+	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="Theme.AppCompat">
 		<item name="android:windowBackground">@color/superdark_gray</item>
-		<item name="android:actionOverflowButtonStyle">@style/My.Widget.Holo.ActionButton.Overflow</item>
 		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+		<item name="colorPrimary">@color/dark_action_gray</item>
+		<item name="colorPrimaryDark">@color/cant_be_darker_gray</item>
 		<item name="CardBackground">@drawable/card_shadow_dark</item>
 		<item name="CardForeground">@color/gray</item>
 		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
