@@ -23,7 +23,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+
+import android.support.v7.widget.RecyclerView;
 
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
 import us.shandian.blacklight.cache.statuses.UserTimeLineApiCache;
@@ -69,7 +70,7 @@ public class UserTimeLineFragment extends TimeLineFragment
 		// Don't change my title
 	}
 
-	public ListView getList() {
+	public RecyclerView getList() {
 		return mList;
 	}
 }

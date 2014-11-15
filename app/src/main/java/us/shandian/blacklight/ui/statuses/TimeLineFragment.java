@@ -25,12 +25,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.LayoutParams;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.ListView;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import us.shandian.blacklight.R;
@@ -39,19 +38,18 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.WeiboAdapter;
-import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
-import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.common.ToolbarActivity;
 import us.shandian.blacklight.ui.main.MainActivity;
 
 public abstract class TimeLineFragment extends Fragment implements
-		SwipeRefreshLayout.OnRefreshListener, OnScrollListener, MainActivity.Refresher {
+		SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher {
 	
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
-	protected ListView mList;
+	protected RecyclerView mList;
 	protected View mShadow;
 	private WeiboAdapter mAdapter;
+	private LinearLayoutManager mManager;
 	protected HomeTimeLineApiCache mCache;
 
 	private Settings mSettings;
@@ -60,9 +58,10 @@ public abstract class TimeLineFragment extends Fragment implements
 	protected Toolbar mToolbar = null;
 	private int mActionBarHeight = 0;
 	private int mTranslationY = 0;
+	private int mLastY = 0;
 
 	// Pull To Refresh
-	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	private SwipeRefreshLayout mSwipeRefresh;
 
 	private boolean mRefreshing = false;
 
@@ -72,7 +71,6 @@ public abstract class TimeLineFragment extends Fragment implements
 	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
-	private int mLastFirst = 0;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,32 +94,73 @@ public abstract class TimeLineFragment extends Fragment implements
 		mList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 		mList.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE
 				| ViewGroup.PERSISTENT_SCROLLING_CACHE);
+				
+		mManager = new LinearLayoutManager(getActivity());
+		mManager.setSmoothScrollbarEnabled(true);
+		mList.setLayoutManager(mManager);
 
 		// Swipe To Refresh
 		bindSwipeToRefresh((ViewGroup) v);
 
 		if (mCache.mMessages.getSize() == 0) {
-			new Refresher().execute(new Boolean[] { true });
+			new Refresher().execute(true);
 		}
+		
+		// Adapter
+		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages,
+				   mBindOrig, mShowCommentStatus);
 
 		// Content Margin
 		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
 			View header = new View(getActivity());
-			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
+			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);
-			mList.addHeaderView(header);
-			mSwipeRefresh.setTopMargin(p.height);
+			mAdapter.setHeaderView(header);
+			mSwipeRefresh.setProgressViewOffset(false, 0, (int) (p.height * 1.2));
 		}
 
-		// Adapter
-		mAdapter = new WeiboAdapter(getActivity(), mList, mCache.mMessages,
-				mBindOrig, mShowCommentStatus);
 		mList.setAdapter(mAdapter);
 
 		// Listener
 		if (getActivity() instanceof MainActivity) {
-			mAdapter.addOnScrollListener(this);
+			mAdapter.addOnScrollListener(new RecyclerView.OnScrollListener() {
+				@Override
+				public void onScrolled(RecyclerView view, int dx, int dy) {
+					int deltaY = -dy;
+					boolean shouldShow = deltaY > 0;
+					if (shouldShow != mFABShowing) {
+						if (shouldShow) {
+							showFAB();
+						} else {
+							hideFAB();
+						}
+					}
+
+					if (mAllowHidingActionBar) {
+						if ((mTranslationY > -mActionBarHeight && deltaY < 0)
+							|| (mTranslationY < 0 && deltaY > 0)) {
+								
+							mTranslationY += deltaY;
+						}
+						
+						if (mTranslationY < -mActionBarHeight) {
+							mTranslationY = -mActionBarHeight;
+						} else if (mTranslationY > 0) {
+							mTranslationY = 0;
+						}
+						
+						updateTranslation();
+					}
+					
+					if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
+						new Refresher().execute(false);
+					}
+
+					mFABShowing = shouldShow;
+					mLastY = dy;
+				}
+			});
 		}
 
 		mShadow.bringToFront();
@@ -164,18 +203,12 @@ public abstract class TimeLineFragment extends Fragment implements
 		Settings settings = Settings.getInstance(getActivity());
 
 		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
-		mList.setFastScrollEnabled(fs);
+		//mList.setFastScrollEnabled(fs);
 	}
 
 	@Override
 	public void doRefresh() {
-		mSwipeRefresh.setIsDown(false);
-
-		if (mList.getFirstVisiblePosition() <= 30) {
-			mList.smoothScrollToPosition(0);
-		} else {
-			mList.setSelection(0);
-		}
+		mList.smoothScrollToPosition(0);
 		mList.post(new Runnable() {
 			@Override
 			public void run() {
@@ -187,50 +220,14 @@ public abstract class TimeLineFragment extends Fragment implements
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
-			mTranslationY = 0;
-			updateTranslation();
-			new Refresher().execute(new Boolean[] { !mSwipeRefresh.isDown() });
+			new Refresher().execute(true);
 		}
-	}
-
-	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		boolean shouldShow = mRefreshing || firstVisibleItem < mLastFirst;
-		if (firstVisibleItem == mLastFirst) {
-			shouldShow = mFABShowing;
-		}
-
-		if (shouldShow != mFABShowing) {
-			if (shouldShow) {
-				showFAB();
-			} else {
-				hideFAB();
-			}
-		}
-		
-		if (!mRefreshing && mAllowHidingActionBar) {
-			if (firstVisibleItem == 0) {
-				View v = mList.getChildAt(0);
-				mTranslationY = v.getTop();
-			} else {
-				mTranslationY = -mActionBarHeight;
-			}
-			updateTranslation();
-		}
-
-		mLastFirst = firstVisibleItem;
-		mFABShowing = shouldShow;
 	}
 	
 	protected void updateTranslation() {
 		mToolbar.setTranslationY(mTranslationY);
 		mShadow.setTranslationY(mActionBarHeight + mTranslationY);
-	}
-
-	@Override
-	public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+		mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
 	}
 
 	protected HomeTimeLineApiCache bindApiCache() {
@@ -242,7 +239,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	}
 
 	protected void bindSwipeToRefresh(ViewGroup v) {
-		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
+		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
 
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root
 		// view
@@ -291,6 +288,7 @@ public abstract class TimeLineFragment extends Fragment implements
 			mRefreshing = true;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(true);
+				mSwipeRefresh.invalidate();
 			}
 		}
 
@@ -303,8 +301,12 @@ public abstract class TimeLineFragment extends Fragment implements
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-			mList.setSelection(0);
-			mAdapter.notifyDataSetChanged();
+			
+			if (result) {
+				mList.smoothScrollToPosition(0);
+			}
+			
+			mAdapter.notifyDataSetChangedAndClone();
 			mRefreshing = false;
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);

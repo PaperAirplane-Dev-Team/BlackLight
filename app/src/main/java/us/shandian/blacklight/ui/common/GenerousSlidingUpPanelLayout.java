@@ -22,7 +22,8 @@ package us.shandian.blacklight.ui.common;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.AbsListView;
+
+import android.support.v7.widget.RecyclerView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -33,7 +34,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
  * Wow, such view! So generous!
  */
 public class GenerousSlidingUpPanelLayout extends SlidingUpPanelLayout {
-	private AbsListView mChild; // I love my child
+	private RecyclerView mChild; // I love my child
 	private float mStartX, mStartY;
 
 	public GenerousSlidingUpPanelLayout(Context context) {
@@ -48,7 +49,7 @@ public class GenerousSlidingUpPanelLayout extends SlidingUpPanelLayout {
 		super(context, attrs, defStyle);
 	}
 
-	public void setChildListView(AbsListView list) {
+	public void setChildListView(RecyclerView list) {
 		mChild = list;
 		setDragView(list);
 	}

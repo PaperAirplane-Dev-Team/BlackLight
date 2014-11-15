@@ -33,7 +33,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -43,6 +42,7 @@ import android.widget.TextView;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -76,7 +76,7 @@ import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerListener, AbsListView.OnScrollListener {
+public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 
 	private static final int TAG_MSG = R.id.weibo_content;
@@ -105,6 +105,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private UserApiCache mUserApi;
 	private HomeTimeLineApiCache mHomeApi;
 	private LoginApiCache mLogin;
+	private View mHeader = null;
 	
 	private String mUid;
 	
@@ -112,7 +113,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	
 	private Context mContext;
 
-	private ArrayList<AbsListView.OnScrollListener> mListeners = new ArrayList<AbsListView.OnScrollListener>();
+	private ArrayList<RecyclerView.OnScrollListener> mListeners = new ArrayList<RecyclerView.OnScrollListener>();
 	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
@@ -120,7 +121,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private boolean mAutoNoPic = false;
 	private String mAppName;
 	
-	public WeiboAdapter(Context context, AbsListView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
+	public WeiboAdapter(Context context, RecyclerView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mTimeUtils = StatusTimeUtils.instance(context);
@@ -135,19 +136,45 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
 		mAppName = context.getString(R.string.app_name);
 		
-		listView.setRecyclerListener(this);
-		listView.setOnScrollListener(this);
-		notifyDataSetChanged();
+		listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+				@Override
+				public void onScrollStateChanged(RecyclerView v, int state) {
+					mScrolling = state != RecyclerView.SCROLL_STATE_IDLE;
+
+					// Inform all listeners
+					for (RecyclerView.OnScrollListener listener : mListeners) {
+						if (listener != null) {
+							listener.onScrollStateChanged(v, state);
+						}
+					}
+				}
+
+				@Override
+				public void onScrolled(RecyclerView p1, int p2, int p3) {
+					// Inform all listeners
+					for (RecyclerView.OnScrollListener listener : mListeners) {
+						if (listener != null) {
+							listener.onScrolled(p1, p2, p3);
+						}
+					}
+				}
+		});
+		notifyDataSetChangedAndClone();
 	}
 	
 	@Override
-	public int getCount() {
-		return mClone.getSize();
+	public int getItemCount() {
+		return mHeader != null ? mClone.getSize() + 1 : mClone.getSize();
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return mClone.get(position);
+	public int getItemViewType(int position) {
+		if (mHeader != null && position == 0) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
@@ -156,94 +183,62 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position >= getCount()) {
-			return convertView;
-		} else {
-			MessageModel msg = mClone.get(position);
+	public void onViewRecycled(ViewHolder h) {
+		if (h.isHeader) return;
+		
+		h.avatar.setImageResource(R.color.gray);
+		h.avatar.setTag(true);
+		h.comment_and_retweet.setVisibility(View.VISIBLE);
+		LinearLayout container = h.pics;
 			
-			return bindView(msg, convertView);
+		for (int i = 0; i < 9; i++) {
+			ImageView iv = (ImageView) container.getChildAt(i);
+			iv.setImageBitmap(null);
+			iv.setVisibility(View.VISIBLE);
+			iv.setTag(true);
 		}
-	}
-
-	@Override
-	public void onMovedToScrapHeap(View v) {
-		if (v.getTag() instanceof ViewHolder) {
-			ViewHolder h = (ViewHolder) v.getTag();
 			
-			h.avatar.setImageResource(R.color.gray);
-			h.avatar.setTag(true);
-			h.comment_and_retweet.setVisibility(View.VISIBLE);
-			LinearLayout container = h.pics;
+		h.scroll.setVisibility(View.GONE);
+		h.origin_parent.setVisibility(View.GONE);
 			
-			for (int i = 0; i < 9; i++) {
-				ImageView iv = (ImageView) container.getChildAt(i);
-				iv.setImageBitmap(null);
-				iv.setVisibility(View.VISIBLE);
-				iv.setTag(true);
-			}
-			
-			h.scroll.setVisibility(View.GONE);
-			h.origin_parent.setVisibility(View.GONE);
-			
-			h.msg = null;
-		}
+		h.msg = null;
 	}
 	
-	@Override
-	public void onScrollStateChanged(AbsListView v, int state) {
-		mScrolling = state != AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
-
-		// Inform all listeners
-		for (AbsListView.OnScrollListener listener : mListeners) {
-			if (listener != null) {
-				listener.onScrollStateChanged(v, state);
-			}
-		}
-	}
-	
-	@Override
-	public void onScroll(AbsListView p1, int p2, int p3, int p4) {
-		// Inform all listeners
-		for (AbsListView.OnScrollListener listener : mListeners) {
-			if (listener != null) {
-				listener.onScroll(p1, p2, p3, p4);
-			}
-		}
-	}
-
-	public void addOnScrollListener(AbsListView.OnScrollListener listener) {
+	public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
 		mListeners.add(listener);
 	}
 	
-	private View bindView(final MessageModel msg, View convertView) {
+	public void setHeaderView(View header) {
+		mHeader = header;
+	}
+
+	@Override
+	public WeiboAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		if (viewType == -1) {
+			return new ViewHolder(this, mHeader, true);
+		} else {
+			View v = mInflater.inflate(R.layout.weibo, null);
+			return new ViewHolder(this, v, false);
+		}
+	}
+	
+	@Override
+	public void onBindViewHolder(ViewHolder h, int position) {
 		/*if (DEBUG) {
 			Debug.startMethodTracing("TraceLog");
 		}*/
-
-		View v = null;
-		ViewHolder h = null;
-		boolean useExisted = true;
 		
-		// If not inflated before, then we have much work to do
-		v = convertView;
-		
-		if (v == null) {
-			useExisted = false;
-			v = mInflater.inflate(R.layout.weibo, null);
-		}
-
-		if (!useExisted) {
-			h = new ViewHolder(v, msg);
-		} else {
-			h = (ViewHolder) v.getTag();
-			
-			if (h.msg != null) {
-				onMovedToScrapHeap(v);
+		if (mHeader != null) {
+			if (position == 0) {
+				return;
+			} else {
+				position--;
 			}
-			
-			h.msg = msg;
 		}
+
+		View v = h.v;
+		final MessageModel msg = mClone.get(position);
+		h.msg = msg;
 		
 		TextView name = h.name;
 		TextView from = h.from;
@@ -258,7 +253,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		String ver = "";
 		if (msg.annotations.size() > 0 && !(ver = msg.annotations.get(0).bl_version).trim().equals("")) {
 			// Show a fake tail for BL :)
-			from.setText(mAppName + " " + ver);
+			from.setText(mAppName);
 		} else {
 			from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
 		}
@@ -307,8 +302,6 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		/*if (DEBUG) {
 			Debug.stopMethodTracing();
 		}*/
-
-		return v;
 	}
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
@@ -417,7 +410,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		p.show();
 	}
 	
-	public void notifyDataSetChanged() {
+	public void notifyDataSetChangedAndClone() {
 		mClone = mList.clone();
 		super.notifyDataSetChanged();
 	}
@@ -535,13 +528,18 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		
 	}
 	
-	private class DeleteTask extends AsyncTask<MessageModel, Void, Void> {
+	private static class DeleteTask extends AsyncTask<MessageModel, Void, Void> {
 		private ProgressDialog prog;
+		private Context context;
+		
+		public DeleteTask(Context context) {
+			this.context = context;
+		}
 
 		@Override
 		protected void onPreExecute() {
-			prog = new ProgressDialog(mContext);
-			prog.setMessage(mContext.getResources().getString(R.string.plz_wait));
+			prog = new ProgressDialog(context);
+			prog.setMessage(context.getResources().getString(R.string.plz_wait));
 			prog.setCancelable(false);
 			prog.show();
 		}
@@ -597,7 +595,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 	}
 	
-	class ViewHolder {
+	public static class ViewHolder extends RecyclerView.ViewHolder {
 		public boolean sub = false;
 
 		public TextView date;
@@ -617,16 +615,23 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		public View comment_and_retweet;
 		
 		public View v;
-		public MessageModel msg;
+		public MessageModel msg = null;
 		public Context context;
+		public WeiboAdapter adapter;
+		public boolean isHeader = false;
 
-		public ViewHolder(View v, MessageModel msg) {
+		public ViewHolder(WeiboAdapter adapter, View v, boolean isHeader) {
+			super(v);
 			this.v = v;
-			this.msg = msg;
 			this.context = v.getContext();
+			this.adapter = adapter;
+			this.isHeader = isHeader;
 
 			v.setTag(this);
-			init();
+			
+			if (!isHeader) {
+				init();
+			}
 		}
 		
 		private void init() {
@@ -655,7 +660,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 		}
 
 		void popup() {
-			buildPopup(this);
+			adapter.buildPopup(this);
 		}
 
 		void showUser() {
@@ -741,7 +746,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						new DeleteTask().execute(msg);
+						new DeleteTask(context).execute(msg);
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

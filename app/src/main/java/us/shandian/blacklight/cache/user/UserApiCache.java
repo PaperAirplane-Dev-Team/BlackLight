@@ -32,7 +32,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import us.shandian.blacklight.R;
@@ -52,7 +52,7 @@ public class UserApiCache
 	
 	private static BitmapDrawable[] mVipDrawable;
 	
-	private static HashMap<String, SoftReference<Bitmap>> mSmallAvatarCache = new HashMap<String, SoftReference<Bitmap>>();
+	private static HashMap<String, WeakReference<Bitmap>> mSmallAvatarCache = new HashMap<String, WeakReference<Bitmap>>();
 	
 	private DataBaseHelper mHelper;
 	private FileCacheManager mManager;
@@ -188,7 +188,7 @@ public class UserApiCache
 			return null;
 		} else {
 			Bitmap bmp = BitmapFactory.decodeStream(cache);
-			mSmallAvatarCache.put(model.id, new SoftReference<Bitmap>(bmp));
+			mSmallAvatarCache.put(model.id, new WeakReference<Bitmap>(bmp));
 
 			try {
 				cache.close();
@@ -201,11 +201,8 @@ public class UserApiCache
 	}
 	
 	public Bitmap getCachedSmallAvatar(UserModel model) {
-		if (mSmallAvatarCache.containsKey(model.id)) {
-			return mSmallAvatarCache.get(model.id).get();
-		} else {
-			return null;
-		}
+		WeakReference<Bitmap> ref = mSmallAvatarCache.get(model.id);
+		return ref == null ? null : ref.get();
 	}
 	
 	public Bitmap getLargeAvatar(UserModel model) {

@@ -55,7 +55,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		// Share the view
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
 		
-		// Initialize
+		/*// Initialize
 		mList = Utility.findViewById(v, R.id.home_timeline);
 		mList.setOnItemClickListener(this);
 		mList.setOnItemLongClickListener(this);
@@ -89,7 +89,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();
-		}
+		}*/
 		
 		return v;
 	}
@@ -105,12 +105,12 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onResume() {
 		super.onResume();
 		
 		resume();
-	}
+	}*/
 	
 	public void resume() {
 		
