@@ -21,14 +21,14 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+	
 	<include
 		layout="@layout/toolbar"/>
 	
-	<WebView
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+	<FrameLayout
+		android:id="@+id/settings"
 		android:layout_below="@+id/toolbar"
-		android:id="@+id/login_web"/>
-	
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+    
 </RelativeLayout>
-

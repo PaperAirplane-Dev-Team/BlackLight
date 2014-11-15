@@ -33,10 +33,8 @@ public class LicenseActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.web_login;
 		super.onCreate(savedInstanceState);
-		
-		// This activity shares the same view with the login activity
-		setContentView(R.layout.web_login);
 		
 		mWebView = (WebView) findViewById(R.id.login_web);
 		

@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -31,6 +32,7 @@ import us.shandian.blacklight.api.user.UserApi;
 import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
+import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
@@ -43,13 +45,15 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.settings;
 		super.onCreate(savedInstanceState);
 
 		mUserListOfDevelopers = new UserListModel();
 		mDevelopers = new ListView(this);
 		mDevelopers.setOnItemClickListener(this);
 
-		setContentView(mDevelopers);
+		ViewGroup vg = Utility.findViewById(this, R.id.settings);
+		vg.addView(mDevelopers);
 		
 		new UserGetter().execute();
 		
