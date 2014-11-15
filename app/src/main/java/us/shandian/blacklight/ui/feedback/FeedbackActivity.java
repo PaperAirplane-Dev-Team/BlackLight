@@ -41,8 +41,8 @@ public class FeedbackActivity extends AbsActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mLayout = R.layout.feedback;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.feedback);
 
 		// views
 		mTitle = Utility.findViewById(this, R.id.fb_title);
