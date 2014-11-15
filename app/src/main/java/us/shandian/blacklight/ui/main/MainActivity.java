@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.ui.main;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -48,6 +47,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 
 import us.shandian.blacklight.R;
@@ -79,7 +79,7 @@ import us.shandian.blacklight.ui.statuses.TimeLineFragment;
 import static us.shandian.blacklight.support.Utility.hasSmartBar;
 
 /* Main Container Activity */
-public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavigationListener, */View.OnClickListener, View.OnLongClickListener
+public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
 
 	public static interface Refresher {
@@ -95,7 +95,6 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 	private ActionBarDrawerToggle mToggle;
 
 	private ViewGroup mAction;
-	private View mTitle, mSpinner;
 	private ImageView mHamburger;
 	
 	// Drawer content
@@ -493,7 +492,7 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 		setShowSpinner(false);
 	}
 
-	/*@Override
+	@Override
 	public boolean onNavigationItemSelected(int id, long itemId) {
 		if (mIgnore) {
 			mIgnore = false;
@@ -513,7 +512,7 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 		((HomeTimeLineFragment) mFragments[0]).doRefresh();
 
 		return true;
-	}*/
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -551,15 +550,11 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 	}
 
 	private void setShowTitle(boolean show) {
-		/*if (mTitle != null) {
-			mTitle.setVisibility(show ? View.VISIBLE : View.GONE);
-		}*/
+		getSupportActionBar().setDisplayShowTitleEnabled(show);
 	}
 
 	public void setShowSpinner(boolean show) {
-		/*if (mSpinner != null) {
-			mSpinner.setVisibility(show ? View.VISIBLE : View.GONE);
-		}*/
+		getSupportActionBar().setNavigationMode(show ? ActionBar.NAVIGATION_MODE_LIST : ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 	
 	private void switchTo(int id) {
@@ -608,15 +603,7 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 			mCurrentGroupId = null;
 		}
 
-		//getSupportActionBar().setSelectedNavigationItem(curId);
-
-		if (mSpinner == null) {
-			if (Build.VERSION.SDK_INT >= 18) {
-				mSpinner = Utility.addActionViewToCustom(this, Utility.action_bar_spinner, mAction);
-			} else {
-				mSpinner = Utility.addActionViewToCustom(Utility.findActionSpinner(this), mAction);
-			}
-		}
+		getSupportActionBar().setSelectedNavigationItem(curId);
 
 	}
 	
@@ -685,7 +672,7 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 		protected void onPostExecute(Void result) {
 			new GroupsTask().execute();
 			prog.dismiss();
-			//onNavigationItemSelected(0, 0);
+			onNavigationItemSelected(0, 0);
 		}
 	}
 
@@ -735,10 +722,10 @@ public class MainActivity extends ToolbarActivity implements /*ActionBar.OnNavig
 				}
 
 				// Navigation
-				/*getActionBar().setListNavigationCallbacks(new ArrayAdapter(MainActivity.this, 
+				getSupportActionBar().setListNavigationCallbacks(new ArrayAdapter<String>(MainActivity.this, 
 							R.layout.action_spinner_item, names), MainActivity.this);
 
-				getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);*/
+				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
 				if (mCurrent == 0) {
 					mIgnore = true;
