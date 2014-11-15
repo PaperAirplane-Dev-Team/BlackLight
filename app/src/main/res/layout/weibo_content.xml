@@ -252,8 +252,8 @@
 
 		<us.shandian.blacklight.ui.common.TintImageView
 			android:id="@+id/weibo_popup"
-			android:layout_width="26dp"
-			android:layout_height="40dp"
+			android:layout_width="45dp"
+			android:layout_height="50dp"
 			android:layout_centerVertical="true"
 			android:layout_alignParentRight="true"
 			android:layout_marginRight="5dp"
