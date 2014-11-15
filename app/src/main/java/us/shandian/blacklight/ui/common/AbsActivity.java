@@ -24,9 +24,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.imid.swipebacklayout.lib.Utils;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
-
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.ShakeDetector;
@@ -37,14 +34,10 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 
 	private ShakeDetector mDetector;
 	private Settings mSettings;
-	private boolean mIsFinishing = false;
 	private int mLang = -1;
-	private SwipeBackActivityHelper mHelper = new SwipeBackActivityHelper(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		mHelper.onActivityCreate();
-		
 		// Language
 		mLang = Utility.getCurrentLanguage(this);
 		if (mLang > -1) {
@@ -71,7 +64,6 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		mHelper.onPostCreate();
 	}
 
 	@Override
@@ -100,16 +92,4 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 	public void onShake() {
 		this.onBackPressed();
 	}
-
-	@Override
-	public void finish() {
-		if (!mIsFinishing) {
-			Utils.convertActivityToTranslucent(this);
-			mHelper.getSwipeBackLayout().scrollToFinishActivity();
-			mIsFinishing = true;
-		} else {
-			super.finish();
-		}
-	}
-
 }

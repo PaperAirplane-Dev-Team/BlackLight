@@ -29,6 +29,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -131,6 +132,7 @@ public class SingleActivity extends AbsActivity
 		mCommentFragment = new StatusCommentFragment(mMsg.id);
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
 		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
+		ViewCompat.setTransitionName(findViewById(R.id.single_content), "msg");
 		
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 			@Override

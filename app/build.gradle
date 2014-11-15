@@ -26,7 +26,6 @@ dependencies {
 	compile 'com.android.support:support-annotations:+'
 	compile 'com.android.support:recyclerview-v7:+'
 	compile project(':libraries:SlidingUpPanel')
-	compile project(':libraries:SwipeBackLayout')
 	compile project(':libraries:HoloColorPicker')
 	compile project(':libraries:subsampling-image-view')
 	compile project(':libraries:circleimageview')

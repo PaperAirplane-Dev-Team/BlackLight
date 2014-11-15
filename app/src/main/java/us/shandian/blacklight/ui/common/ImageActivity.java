@@ -23,6 +23,7 @@ import android.graphics.Movie;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.util.Log;
@@ -96,6 +97,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		mPager.setAdapter(mAdapter);
 		mPager.setOffscreenPageLimit(1);
 		mPager.setCurrentItem(def);
+		ViewCompat.setTransitionName(mPager, "model");
 		
 	}
 

@@ -20,6 +20,8 @@
 package us.shandian.blacklight.ui.common;
 
 import android.os.Bundle;
+import android.os.Build;
+import android.view.Window;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +36,11 @@ public abstract class ToolbarActivity extends ActionBarActivity
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		if (Build.VERSION.SDK_INT >= 21) {
+			requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+			getWindow().setAllowEnterTransitionOverlap(true);
+			getWindow().setAllowReturnTransitionOverlap(true);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(mLayout);
 		

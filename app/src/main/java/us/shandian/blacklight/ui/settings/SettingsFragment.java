@@ -34,8 +34,6 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import me.imid.swipebacklayout.lib.Utils;
-import me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.support.AsyncTask;

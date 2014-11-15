@@ -19,6 +19,7 @@
 
 package us.shandian.blacklight.support.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,6 +40,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 
 import java.util.ArrayList;
 
@@ -81,6 +85,8 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 	private static final View.OnClickListener sImageListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			ActivityOptionsCompat o = ActivityOptionsCompat
+				.makeSceneTransitionAnimation((Activity) v.getContext(), v, "model");
 			MessageModel msg = (MessageModel) v.getTag(TAG_MSG);
 			int id = Integer.parseInt(v.getTag(TAG_ID).toString());
 			Intent i = new Intent();
@@ -88,7 +94,7 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			i.setClass(v.getContext(), ImageActivity.class);
 			i.putExtra("model", msg);
 			i.putExtra("defaultId", id);
-			v.getContext().startActivity(i);
+			ActivityCompat.startActivity((Activity) v.getContext(), i, o.toBundle());
 		}
 	};
 	
@@ -671,8 +677,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 				i.setClass(context, SingleActivity.class);
 				i.putExtra("msg", msg);
 			}
+			
+			ActivityOptionsCompat o =
+				ActivityOptionsCompat.makeSceneTransitionAnimation(
+					(Activity) context, v, "msg");
 
-			context.startActivity(i);
+			ActivityCompat.startActivity((Activity) context, i, o.toBundle());
 		}
 
 		void showOrig() {
@@ -687,8 +697,12 @@ public class WeiboAdapter extends BaseAdapter implements AbsListView.RecyclerLis
 			} else {
 				i.putExtra("msg", ((CommentModel) msg).status);
 			}
+			
+			ActivityOptionsCompat o =
+				ActivityOptionsCompat.makeSceneTransitionAnimation(
+				(Activity) context, origin_parent, "msg");
 
-			context.startActivity(i);
+			ActivityCompat.startActivity((Activity) context, i, o.toBundle());
 		}
 
 		void repost() {
