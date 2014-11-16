@@ -21,4 +21,8 @@
 	<style name="CardViewStyle" parent="CardView.Light">
 		<item name="android:foreground">?android:attr/selectableItemBackground</item>
 	</style>
+
+	<style name="DrawerItem">
+		<item name="android:background">?android:attr/selectableItemBackground</item>
+	</style>
 </resources>

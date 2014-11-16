@@ -44,10 +44,10 @@
 				android:layout_height="40dp"
 				android:clickable="true"
 				android:gravity="center_vertical"
-				android:background="@drawable/drawer_selector"
 				android:orientation="horizontal"
 				android:paddingLeft="24dp"
-				android:paddingRight="24dp">
+				android:paddingRight="24dp"
+				style="@style/DrawerItem">
 
 				<us.shandian.blacklight.ui.common.TintImageView
 					android:layout_width="20dp"
@@ -73,10 +73,10 @@
 				android:layout_marginTop="8dp"
 				android:clickable="true"
 				android:gravity="center_vertical"
-				android:background="@drawable/drawer_selector"
 				android:orientation="horizontal"
 				android:paddingLeft="24dp"
-				android:paddingRight="24dp">
+				android:paddingRight="24dp"
+				style="@style/DrawerItem">
 
 				<us.shandian.blacklight.ui.common.TintImageView
 					android:layout_width="20dp"
@@ -102,10 +102,10 @@
 				android:layout_marginTop="8dp"
 				android:clickable="true"
 				android:gravity="center_vertical"
-				android:background="@drawable/drawer_selector"
 				android:orientation="horizontal"
 				android:paddingLeft="24dp"
-				android:paddingRight="24dp">
+				android:paddingRight="24dp"
+				style="@style/DrawerItem">
 
 				<us.shandian.blacklight.ui.common.TintImageView
 					android:layout_width="20dp"
@@ -131,10 +131,10 @@
 				android:layout_marginTop="8dp"
 				android:clickable="true"
 				android:gravity="center_vertical"
-				android:background="@drawable/drawer_selector"
 				android:orientation="horizontal"
 				android:paddingLeft="24dp"
-				android:paddingRight="24dp">
+				android:paddingRight="24dp"
+				style="@style/DrawerItem">
 
 				<us.shandian.blacklight.ui.common.TintImageView
 					android:layout_width="20dp"
@@ -160,10 +160,10 @@
 				android:layout_marginTop="8dp"
 				android:clickable="true"
 				android:gravity="center_vertical"
-				android:background="@drawable/drawer_selector"
 				android:orientation="horizontal"
 				android:paddingLeft="24dp"
-				android:paddingRight="24dp">
+				android:paddingRight="24dp"
+				style="@style/DrawerItem">
 
 				<us.shandian.blacklight.ui.common.TintImageView
 					android:layout_width="20dp"
@@ -189,10 +189,10 @@
 				android:layout_marginTop="8dp"
 				android:clickable="true"
 				android:gravity="center_vertical"
-				android:background="@drawable/drawer_selector"
 				android:orientation="horizontal"
 				android:paddingLeft="24dp"
-				android:paddingRight="24dp">
+				android:paddingRight="24dp"
+				style="@style/DrawerItem">
 
 				<us.shandian.blacklight.ui.common.TintImageView
 					android:layout_width="20dp"
