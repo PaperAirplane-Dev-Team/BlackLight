@@ -36,7 +36,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
 
-public class DirectMessageUserAdapter extends BaseAdapter
+public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUserAdapter.ViewHolder>
 {
 	private DirectMessageUserListModel mList;
 	private DirectMessageUserListModel mClone;
@@ -49,7 +49,7 @@ public class DirectMessageUserAdapter extends BaseAdapter
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);
 		mContext = context;
-		notifyDataSetChanged();
+		notifyDataSetChangedAndClone();
 	}
 	
 	@Override
@@ -58,47 +58,52 @@ public class DirectMessageUserAdapter extends BaseAdapter
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return mClone.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
+	public long getItemViewId(int position) {
 		return position;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position >= getCount()) {
-			return convertView;
-		} else {
-			DirectMessageUserModel user = mClone.get(position);
-			View v;
-			ViewHolder h;
-			
-			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_user, null);
-			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v, user);
-			h.user = user;
-			
-			TextView name = h.name;
-			TextView text = h.text;
-			
-			name.setText(user.user.getName());
-			text.setText(user.direct_message.text);
-			h.avatar.setImageBitmap(null);
-			
-			new AvatarDownloader().execute(v, user);
-			
-			TextView date = h.date;
-			
-			date.setText(StatusTimeUtils.instance(mContext).buildTimeString(user.direct_message.created_at));
-			
-			return v;
-		}
+	public int getViewType(int position) {
+		return 0;
 	}
 
 	@Override
-	public void notifyDataSetChanged() {
+	public void doRecycleView(ViewHolder h) {
+		// dummy
+	}
+
+	@Override
+	public ViewHolder doCreateViewHolder(ViewGroup parent, int position) {
+		View v = mInflater.inflate(R.layout.direct_message_user, null);
+		return new ViewHolder(v, null);
+	}
+
+	@Override
+	public ViewHolder doCreateHeaderHolder(View header) {
+		return new ViewHolder(header);
+	}
+
+	@Override
+	public void doBindViewHolder(ViewHolder h, int position) {
+		DirectMessageUserModel user = mClone.get(position);
+
+		h.user = user;
+
+		TextView name = h.name;
+		TextView text = h.text;
+
+		name.setText(user.user.getName());
+		text.setText(user.direct_message.text);
+		h.avatar.setImageBitmap(null);
+
+		new AvatarDownloader().execute(h.v, user);
+
+		TextView date = h.date;
+
+		date.setText(StatusTimeUtils.instance(mContext).buildTimeString(user.direct_message.created_at));
+	}
+
+	public void notifyDataSetChangedAndClone() {
 		mClone = mList.clone();
 		super.notifyDataSetChanged();
 	}
@@ -133,15 +138,21 @@ public class DirectMessageUserAdapter extends BaseAdapter
 		}
 	}
 	
-	class ViewHolder {
+	public static class ViewHolder extends HeaderViewAdapter.ViewHolder {
 		public DirectMessageUserModel user;
 		public ImageView avatar;
 		public TextView name;
 		public TextView text;
 		public TextView date;
 		private View v;
-		
+
+		public ViewHolder(View v) {
+			super(v);
+			isHeader = true;
+		}
+
 		public ViewHolder(View v, DirectMessageUserModel user) {
+			super(v);
 			this.v = v;
 			this.user = user;
 			

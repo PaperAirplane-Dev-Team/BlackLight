@@ -25,9 +25,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.ListView;
+
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.remind.RemindApi;
@@ -37,16 +38,14 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.support.adapter.DirectMessageUserAdapter;
-import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
-import us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-															AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 	private DirectMessagesUserApiCache mApiCache;
-	private ListView mList;
-	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
+	private RecyclerView mList;
+	private LinearLayoutManager mManager;
+	private SwipeRefreshLayout mSwipeRefresh;
 	private DirectMessageUserAdapter mAdapter;
 	private boolean mRefreshing = false;
 	
@@ -55,12 +54,12 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		// Share the view
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
 		
-		/*// Initialize
+		// Initialize
 		mList = Utility.findViewById(v, R.id.home_timeline);
-		mList.setOnItemClickListener(this);
-		mList.setOnItemLongClickListener(this);
+		mManager = new LinearLayoutManager(getActivity());
+		mList.setLayoutManager(mManager);
 		
-		mSwipeRefresh = new SwipeUpAndDownRefreshLayout(getActivity());
+		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
 
 		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
 		v.removeViewInLayout(mList);
@@ -69,27 +68,37 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 		mSwipeRefresh.setOnRefreshListener(this);
 		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
-		
-		// Content Margin
-		if (getActivity() instanceof MainActivity) {
-			View header = new View(getActivity());
-			LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT,
-					Utility.getDecorPaddingTop(getActivity()));
-			header.setLayoutParams(p);
-			mList.addHeaderView(header);
-			mSwipeRefresh.setTopMargin(p.height);
-		}
 
 		mApiCache = new DirectMessagesUserApiCache(getActivity());
 		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers);
+
+		// Content Margin
+		if (getActivity() instanceof MainActivity) {
+			View header = new View(getActivity());
+			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
+					Utility.getDecorPaddingTop(getActivity()));
+			header.setLayoutParams(p);
+			mAdapter.setHeaderView(header);
+			mSwipeRefresh.setProgressViewOffset(false, 0, (int) (p.height * 1.2));
+		}
+
 		mList.setAdapter(mAdapter);
+
+		mList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(RecyclerView view, int dx, int dy) {
+				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
+					new Refresher().execute(false);
+				}
+			}
+		});
 		
 		mApiCache.loadFromCache();
-		mAdapter.notifyDataSetChanged();
+		mAdapter.notifyDataSetChangedAndClone();
 		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();
-		}*/
+		}
 		
 		return v;
 	}
@@ -101,33 +110,17 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		if (!hidden) {
 			((MainActivity) getActivity()).getToolbar().setTranslationY(0);
 			((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.direct_message);
-			resume();
 		}
-	}
-
-	/*@Override
-	public void onResume() {
-		super.onResume();
-		
-		resume();
-	}*/
-	
-	public void resume() {
-		
-		Settings settings = Settings.getInstance(getActivity());
-
-		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
-		mList.setFastScrollEnabled(fs);
 	}
 	
 	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
-			new Refresher().execute(!mSwipeRefresh.isDown());
+			new Refresher().execute(true);
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		if (mApiCache.mUsers == null) return;
 		if (getActivity() instanceof MainActivity) {
@@ -156,7 +149,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		startActivity(i);
 
 		return true;
-	}
+	}*/
 	
 	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
 
@@ -167,6 +160,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			
 			mRefreshing = true;
 			mSwipeRefresh.setRefreshing(true);
+			mSwipeRefresh.invalidate();
 		}
 		
 		@Override
@@ -192,7 +186,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			mRefreshing = false;
 			mSwipeRefresh.setRefreshing(false);
 
-			mAdapter.notifyDataSetChanged();
+			mAdapter.notifyDataSetChangedAndClone();
 		}
 	}
 }

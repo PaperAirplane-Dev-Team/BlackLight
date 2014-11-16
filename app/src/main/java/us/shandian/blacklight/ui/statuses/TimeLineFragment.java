@@ -178,7 +178,6 @@ public abstract class TimeLineFragment extends Fragment implements
 
 		if (!hidden) {
 			initTitle();
-			resume();
 			showFAB();
 			if (this instanceof HomeTimeLineFragment) {
 				((MainActivity) getActivity()).setShowSpinner(true);
@@ -189,20 +188,6 @@ public abstract class TimeLineFragment extends Fragment implements
 		} else {
 			hideFAB();
 		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		resume();
-	}
-
-	public void resume() {
-		Settings settings = Settings.getInstance(getActivity());
-
-		boolean fs = settings.getBoolean(Settings.FAST_SCROLL, false);
-		//mList.setFastScrollEnabled(fs);
 	}
 
 	@Override
