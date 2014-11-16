@@ -72,7 +72,7 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 	}
 
 	@Override
-	public ViewHolder doCreateViewHolder(ViewGroup parent, int position) {
+	public ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = mInflater.inflate(R.layout.user_list_item, parent, false);
 		return new ViewHolder(null, v);
 	}
@@ -84,6 +84,7 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 
 	@Override
 	public void doBindViewHolder(ViewHolder h, int position) {
+		if (position >= getCount()) return;
 			UserModel usr = mClone.get(position);
 
 			h.user = usr;

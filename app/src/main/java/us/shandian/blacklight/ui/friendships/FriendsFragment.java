@@ -44,6 +44,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	protected UserListModel mUsers;
 	private int mNextCursor = 0;
 	private boolean mRefreshing = false;
+	protected boolean mNeedHeader = true;
 	
 	private RecyclerView mList;
 	private LinearLayoutManager mManager;
@@ -85,7 +86,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		mAdapter = new UserAdapter(getActivity(), mUsers);
 
 		// Content Margin
-		if (getActivity() instanceof MainActivity) {
+		if (getActivity() instanceof MainActivity && mNeedHeader) {
 			View header = new View(getActivity());
 			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
@@ -112,9 +113,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 			}
 		});
 
-		if (mUid != null) {
-			onRefresh(); 
-		}
+		onRefresh();
 		
 		return v;
 	}

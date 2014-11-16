@@ -71,6 +71,10 @@ public class SearchFragment extends Fragment
 		mFragments[0] = new SearchStatusFragment();
 		mFragments[1] = new SearchUserFragment();
 		
+		getFragmentManager().beginTransaction()
+			.add(R.id.frame, mFragments[0]).add(R.id.frame, mFragments[1])
+			.hide(mFragments[0]).show(mFragments[1]).commit();
+		
 		return v;
 	}
 	
@@ -97,10 +101,11 @@ public class SearchFragment extends Fragment
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.do_search) {
 			Fragment f = mFragments[mTypes.getSelectedItemPosition()];
+			Fragment oldF = mFragments[1] == f ? mFragments[0] : mFragments[1];
 			
 			if (f instanceof Searcher) {
 				((Searcher) f).search(mText.getText().toString());
-				getFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
+				getFragmentManager().beginTransaction().hide(oldF).show(f).commit();
 			}
 			
 			return true;
