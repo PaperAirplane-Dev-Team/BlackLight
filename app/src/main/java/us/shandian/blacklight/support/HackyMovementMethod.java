@@ -68,16 +68,16 @@ public class HackyMovementMethod extends LinkMovementMethod
 			int x = (int) event.getX();
 			int y = (int) event.getY();
 			
-			if (DEBUG) {
+			/*if (DEBUG) {
 				Log.d(TAG, "x = " + x + " y = " + y);
-			}
+			}*/
 			
 			x -= widget.getTotalPaddingLeft();
 			y -= widget.getTotalPaddingTop();
 			
-			if (DEBUG) {
+			/*if (DEBUG) {
 				Log.d(TAG, "x = " + x + " y = " + y);
-			}
+			}*/
 			
 			x += widget.getScrollX();
 			y += widget.getScrollY();
@@ -87,11 +87,11 @@ public class HackyMovementMethod extends LinkMovementMethod
 			
 			ClickableSpan[] spans = buffer.getSpans(offset, offset, ClickableSpan.class);
 			
-			if (DEBUG) {
+			/*if (DEBUG) {
 				Log.d(TAG, "x = " + x + " y = " + y);
 				Log.d(TAG, "line = " + line + " offset = " + offset);
 				Log.d(TAG, "spans.lenth = " + spans.length);
-			}
+			}*/
 			
 			if (spans.length != 0) {
 				int start = buffer.getSpanStart(spans[0]);
@@ -100,15 +100,15 @@ public class HackyMovementMethod extends LinkMovementMethod
 				mIsLinkHit = true;
 				
 				if (action == MotionEvent.ACTION_DOWN) {
-					if (DEBUG) {
+					/*if (DEBUG) {
 						Log.d(TAG, "Down event detected");
-					}
+					}*/
 					
 					buffer.setSpan(mGray, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 				} else if (action == MotionEvent.ACTION_UP) {
-					if (DEBUG) {
+					/*if (DEBUG) {
 						Log.d(TAG, "Up event detected");
-					}
+					}*/
 					
 					spans[0].onClick(widget);
 					

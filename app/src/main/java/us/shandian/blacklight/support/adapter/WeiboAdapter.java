@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Debug;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -68,7 +69,7 @@ import us.shandian.blacklight.ui.common.ImageActivity;
 import us.shandian.blacklight.ui.statuses.RepostActivity;
 import us.shandian.blacklight.ui.statuses.SingleActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
-
+import static us.shandian.blacklight.BuildConfig.DEBUG;
 import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
 
 /*
