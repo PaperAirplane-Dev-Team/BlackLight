@@ -17,9 +17,18 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:id="@+id/frame"/>
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
+	<include
+		layout="@layout/toolbar"/>
+
+	<FrameLayout
+		android:layout_below="@+id/toolbar"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:id="@+id/frame"/>
+
+</RelativeLayout>

@@ -24,8 +24,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.api.user.UserApi;
@@ -37,11 +38,11 @@ import us.shandian.blacklight.support.adapter.UserAdapter;
 import us.shandian.blacklight.ui.common.AbsActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class DevelopersActivity extends AbsActivity implements AdapterView.OnItemClickListener
+public class DevelopersActivity extends AbsActivity
 {
 	private UserAdapter mAdapterOfDevelopers;
 	private UserListModel mUserListOfDevelopers;
-	private ListView mDevelopers;
+	private RecyclerView mDevelopers;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,8 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 		super.onCreate(savedInstanceState);
 
 		mUserListOfDevelopers = new UserListModel();
-		mDevelopers = new ListView(this);
-		mDevelopers.setOnItemClickListener(this);
+		mDevelopers = new RecyclerView(this);
+		mDevelopers.setLayoutManager(new LinearLayoutManager(this));
 
 		ViewGroup vg = Utility.findViewById(this, R.id.settings);
 		vg.addView(mDevelopers);
@@ -83,15 +84,6 @@ public class DevelopersActivity extends AbsActivity implements AdapterView.OnIte
 			mDevelopers.setAdapter(mAdapterOfDevelopers);
 		}
 		
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(this, UserTimeLineActivity.class);
-		i.putExtra("user", mUserListOfDevelopers.get(position));
-		startActivity(i);
 	}
 	
 	@Override

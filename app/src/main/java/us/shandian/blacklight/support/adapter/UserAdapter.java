@@ -20,6 +20,7 @@
 package us.shandian.blacklight.support.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +35,9 @@ import us.shandian.blacklight.model.UserListModel;
 import us.shandian.blacklight.model.UserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class UserAdapter extends BaseAdapter
+public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 {
 	private UserListModel mUsers;
 	private UserListModel mClone;
@@ -46,7 +48,7 @@ public class UserAdapter extends BaseAdapter
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);
 		mUsers = users;
-		notifyDataSetChanged();
+		notifyDataSetChangedAndClone();
 	}
 	
 	@Override
@@ -55,41 +57,45 @@ public class UserAdapter extends BaseAdapter
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return mClone.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
+	public long getItemViewId(int position) {
 		return position;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position >= getCount()) {
-			return convertView;
-		} else {
-			UserModel usr = mClone.get(position);
-
-			View v = convertView != null ? convertView : mInflater.inflate(R.layout.user_list_item, null);
-			
-			ImageView avatar = Utility.findViewById(v, R.id.user_list_avatar);
-			TextView name = Utility.findViewById(v, R.id.user_list_name);
-			TextView des = Utility.findViewById(v, R.id.user_list_des);
-				
-			name.setText(usr.getName());
-			des.setText(usr.description);
-			avatar.setImageBitmap(null);
-			v.setTag(usr);
-			
-			new AvatarDownloader().execute(avatar, usr, v);
-			
-			return v;
-		}
+	public int getViewType(int position) {
+		return 0;
 	}
 
 	@Override
-	public void notifyDataSetChanged() {
+	public void doRecycleView(ViewHolder h) {
+		h.avatar.setImageResource(R.color.gray);
+	}
+
+	@Override
+	public ViewHolder doCreateViewHolder(ViewGroup parent, int position) {
+		View v = mInflater.inflate(R.layout.user_list_item, null);
+		return new ViewHolder(null, v);
+	}
+
+	@Override
+	public ViewHolder doCreateHeaderHolder(View header) {
+		return new ViewHolder(header);
+	}
+
+	@Override
+	public void doBindViewHolder(ViewHolder h, int position) {
+			UserModel usr = mClone.get(position);
+
+			h.user = usr;
+
+			h.name.setText(usr.getName());
+			h.des.setText(usr.description);
+			h.avatar.setImageBitmap(null);
+			
+			new AvatarDownloader().execute(h, usr);
+	}
+
+	public void notifyDataSetChangedAndClone() {
 		mClone = mUsers.clone();
 		super.notifyDataSetChanged();
 	}
@@ -97,22 +103,52 @@ public class UserAdapter extends BaseAdapter
 	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {
 		@Override
 		protected Object[] doInBackground(Object... params) {
-			UserModel usr = (UserModel) params[1];
+			ViewHolder h = (ViewHolder) params[0];
 			
-			Bitmap bmp = mUserApi.getSmallAvatar(usr);
+			Bitmap bmp = mUserApi.getSmallAvatar(h.user);
 			
-			return new Object[]{params[0], bmp, params[2], usr};
+			return new Object[]{h, bmp, params[1]};
 		}
 		
 		@Override
 		protected void onPostExecute(Object... result) {
 			if (result[0] != null && result[1] != null) {
-				View v = (View) result[2];
-				UserModel usr = (UserModel) result[3];
-				if (v.getTag() == usr) {
-					((ImageView) result[0]).setImageBitmap((Bitmap) result[1]);
+				ViewHolder h = (ViewHolder) result[0];
+				if (h.user == result[2]) {
+					h.avatar.setImageBitmap((Bitmap) result[1]);
 				}
 			}
+		}
+	}
+
+	public static class ViewHolder extends HeaderViewAdapter.ViewHolder {
+		public View v;
+		public ImageView avatar;
+		public TextView name, des;
+		public UserModel user;
+
+		public ViewHolder(View header) {
+			super(header);
+		}
+
+		public ViewHolder(UserModel user, View v) {
+			super(v);
+			this.v = v;
+			this.user = user;
+
+			avatar = Utility.findViewById(v, R.id.user_list_avatar);
+			name = Utility.findViewById(v, R.id.user_list_name);
+			des = Utility.findViewById(v, R.id.user_list_des);
+
+			Utility.bindOnClick(this, v, "show");
+		}
+
+		void show() {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(v.getContext(), UserTimeLineActivity.class);
+			i.putExtra("user", user);
+			v.getContext().startActivity(i);
 		}
 	}
 }

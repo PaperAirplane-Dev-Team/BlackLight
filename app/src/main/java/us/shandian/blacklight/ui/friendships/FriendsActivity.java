@@ -33,12 +33,8 @@ public class FriendsActivity extends AbsActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        if (hasSmartBar()) {
-            getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-        }
-
+		mLayout = R.layout.empty_frame;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.empty_frame);
 		
 		// Arguments
 		String uid = getIntent().getStringExtra("uid");
