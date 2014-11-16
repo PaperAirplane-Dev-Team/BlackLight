@@ -23,6 +23,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,6 @@ import android.view.ViewGroup;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import us.shandian.blacklight.ui.common.LinearViewPagerIndicator;
-import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.main.MainActivity;
 import us.shandian.blacklight.support.Utility;
 
