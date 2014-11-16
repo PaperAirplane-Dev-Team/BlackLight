@@ -82,7 +82,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
-		View v = inflater.inflate(R.layout.home_timeline, null);
+		final View v = inflater.inflate(R.layout.home_timeline, null);
 		
 		// Initialize views
 		mList = Utility.findViewById(v, R.id.home_timeline);
@@ -117,7 +117,7 @@ public abstract class TimeLineFragment extends Fragment implements
 					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);
 			mAdapter.setHeaderView(header);
-			mSwipeRefresh.setProgressViewOffset(false, 0, (int) (p.height * 1.2));
+			mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((p.height + Utility.dp2px(getActivity(), 20)) * 1.2));
 		}
 
 		mList.setAdapter(mAdapter);
@@ -175,6 +175,8 @@ public abstract class TimeLineFragment extends Fragment implements
 					lp.height = mActionBarHeight;
 					mAdapter.getHeaderView().setLayoutParams(lp);
 					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (mActionBarHeight * 1.2));
+					mSwipeRefresh.invalidate();
+					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 				}
 			}
 		});

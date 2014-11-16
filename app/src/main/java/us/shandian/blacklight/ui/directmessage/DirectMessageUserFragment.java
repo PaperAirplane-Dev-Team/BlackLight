@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,7 +54,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Share the view
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
+		final ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
 		
 		// Initialize
 		mList = Utility.findViewById(v, R.id.home_timeline);
@@ -82,7 +83,6 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);
 			mAdapter.setHeaderView(header);
-			mSwipeRefresh.setProgressViewOffset(false, 0, (int) (p.height * 1.2));
 		}
 
 		mList.setAdapter(mAdapter);
@@ -102,9 +102,21 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		// Set up shadow
 		mShadow.bringToFront();
 
-		if (getActivity() instanceof MainActivity) {
-			mShadow.setTranslationY(Utility.getActionBarHeight(getActivity()));
-		}
+		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				if (getActivity() instanceof MainActivity) {
+					int actionBarHeight = ((MainActivity) getActivity()).getToolbar().getHeight();
+					mShadow.setTranslationY(actionBarHeight);
+					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
+					lp.height = actionBarHeight;
+					mAdapter.getHeaderView().setLayoutParams(lp);
+					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (actionBarHeight * 1.2));
+					mSwipeRefresh.invalidate();
+					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				}
+			}
+		});
 		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();
