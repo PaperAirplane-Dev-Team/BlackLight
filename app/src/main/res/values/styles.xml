@@ -163,7 +163,7 @@
 	</style>
 
 	<style name="CardViewStyle" parent="android:Widget.TextView">
-		<item name="android:foreground">@drawable/drawer_selector</item>
+
 	</style>
 
 	<style name="DrawerItem">

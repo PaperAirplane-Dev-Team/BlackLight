@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -164,10 +165,19 @@ public abstract class TimeLineFragment extends Fragment implements
 
 		mShadow.bringToFront();
 
-		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
-			mActionBarHeight = Utility.getActionBarHeight(getActivity());
-			mShadow.setTranslationY(mActionBarHeight);
-		}
+		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
+					mActionBarHeight = mToolbar.getHeight();
+					mShadow.setTranslationY(mActionBarHeight);
+					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
+					lp.height = mActionBarHeight;
+					mAdapter.getHeaderView().setLayoutParams(lp);
+					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (mActionBarHeight * 1.2));
+				}
+			}
+		});
 
 		return v;
 	}

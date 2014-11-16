@@ -117,7 +117,7 @@ public class DirectMessageAdapter extends BaseAdapter
 		public TextView content;
 		public TextView date;
 		public LinearLayout container;
-		public CardView card;
+		public View card;
 		
 		public ViewHolder(View v) {
 			this.v = v;

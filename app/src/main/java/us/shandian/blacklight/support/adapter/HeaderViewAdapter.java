@@ -36,6 +36,10 @@ public abstract class HeaderViewAdapter<VH extends HeaderViewAdapter.ViewHolder>
 		notifyDataSetChanged();
 	}
 
+	public View getHeaderView() {
+		return mHeader;
+	}
+
 	@Override
 	public int getItemCount() {
 		int count = getCount();
