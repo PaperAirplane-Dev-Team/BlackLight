@@ -235,7 +235,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				if (mEmoji != null) {
 					if (mIsLong) {
 						getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mColorPickerFragment).commit();
-						mEmoji.setImageResource(R.drawable.ic_action_edit);
+						mEmoji.setImageResource(R.drawable.ic_mode_edit_black_36dp);
 					} else {
 						getFragmentManager().beginTransaction().replace(R.id.post_emoticons, mEmoticonFragment).commit();
 						mEmoji.setImageResource(R.drawable.ic_emoji);
