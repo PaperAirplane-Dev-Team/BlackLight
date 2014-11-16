@@ -142,9 +142,9 @@ public class UserTimeLineActivity extends AbsActivity
 		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
-				/*int containerHeight = container.getMeasuredHeight();
+				int containerHeight = container.getMeasuredHeight();
 				int slideHeight = mSlide.getMeasuredHeight();
-				mSlide.setPanelHeight((int) (slideHeight - containerHeight + Utility.dp2px(UserTimeLineActivity.this, 20.0f)));*/
+				mSlide.setPanelHeight((int) (slideHeight - containerHeight + Utility.dp2px(UserTimeLineActivity.this, 20.0f)));
 				mSlide.setChildListView(mFragment.getList());
 				return true;
 			}
