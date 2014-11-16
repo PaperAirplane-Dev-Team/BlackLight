@@ -77,7 +77,7 @@ import static us.shandian.blacklight.receiver.ConnectivityReceiver.isWIFI;
   Adapting them to ListViews.
   They share one common layout
 */
-public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> {
+public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	private static final String TAG = WeiboAdapter.class.getSimpleName();
 
 	private static final int TAG_MSG = R.id.weibo_content;
@@ -106,7 +106,6 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
 	private UserApiCache mUserApi;
 	private HomeTimeLineApiCache mHomeApi;
 	private LoginApiCache mLogin;
-	private View mHeader = null;
 	
 	private String mUid;
 	
@@ -165,28 +164,22 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
 	}
 	
 	@Override
-	public int getItemCount() {
-		return mHeader != null ? mClone.getSize() + 1 : mClone.getSize();
+	public int getCount() {
+		return mClone.getSize();
 	}
 
 	@Override
-	public int getItemViewType(int position) {
-		if (mHeader != null && position == 0) {
-			return -1;
-		} else {
-			return 0;
-		}
+	public int getViewType(int position) {
+		return 0;
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemViewId(int position) {
 		return mClone.get(position).id;
 	}
 
 	@Override
-	public void onViewRecycled(ViewHolder h) {
-		if (h.isHeader) return;
-		
+	public void doRecycleView(ViewHolder h) {
 		h.avatar.setImageResource(R.color.gray);
 		h.avatar.setTag(true);
 		h.comment_and_retweet.setVisibility(View.VISIBLE);
@@ -208,34 +201,23 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
 	public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
 		mListeners.add(listener);
 	}
-	
-	public void setHeaderView(View header) {
-		mHeader = header;
+
+	@Override
+	public WeiboAdapter.ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
+		View v = mInflater.inflate(R.layout.weibo, null);
+		return new ViewHolder(this, v);
 	}
 
 	@Override
-	public WeiboAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		if (viewType == -1) {
-			return new ViewHolder(this, mHeader, true);
-		} else {
-			View v = mInflater.inflate(R.layout.weibo, null);
-			return new ViewHolder(this, v, false);
-		}
+	public ViewHolder doCreateHeaderHolder(View header) {
+		return new ViewHolder(header);
 	}
 	
 	@Override
-	public void onBindViewHolder(ViewHolder h, int position) {
+	public void doBindViewHolder(ViewHolder h, int position) {
 		/*if (DEBUG) {
 			Debug.startMethodTracing("TraceLog");
 		}*/
-		
-		if (mHeader != null) {
-			if (position == 0) {
-				return;
-			} else {
-				position--;
-			}
-		}
 
 		View v = h.v;
 		final MessageModel msg = mClone.get(position);
@@ -298,7 +280,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
 			}
 		}
 		
-		new ImageDownloader().execute(new Object[]{v});
+		new ImageDownloader().execute(v);
 		
 		/*if (DEBUG) {
 			Debug.stopMethodTracing();
@@ -596,7 +578,7 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
 		}
 	}
 	
-	public static class ViewHolder extends RecyclerView.ViewHolder {
+	public static class ViewHolder extends HeaderViewAdapter.ViewHolder {
 		public boolean sub = false;
 
 		public TextView date;
@@ -619,20 +601,21 @@ public class WeiboAdapter extends RecyclerView.Adapter<WeiboAdapter.ViewHolder> 
 		public MessageModel msg = null;
 		public Context context;
 		public WeiboAdapter adapter;
-		public boolean isHeader = false;
 
-		public ViewHolder(WeiboAdapter adapter, View v, boolean isHeader) {
+		public ViewHolder(View v) {
+			super(v);
+			isHeader = true;
+		}
+
+		public ViewHolder(WeiboAdapter adapter, View v) {
 			super(v);
 			this.v = v;
 			this.context = v.getContext();
 			this.adapter = adapter;
-			this.isHeader = isHeader;
 
 			v.setTag(this);
-			
-			if (!isHeader) {
-				init();
-			}
+
+			init();
 		}
 		
 		private void init() {
