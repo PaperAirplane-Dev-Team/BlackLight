@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    jcenter()
+}
+
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.0.0"
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
         applicationId "us.shandian.blacklight"
@@ -20,14 +24,14 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:appcompat-v7:+'
-	compile 'com.android.support:support-v13:+'
-	compile 'com.android.support:support-v4:+'
-	compile 'com.android.support:support-annotations:+'
-	compile 'com.android.support:recyclerview-v7:+'
-	compile project(':libraries:SlidingUpPanel')
-	compile project(':libraries:HoloColorPicker')
-	compile project(':libraries:subsampling-image-view')
-	compile project(':libraries:circleimageview')
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.android.support:support-v13:21.0.+'
+    compile 'com.android.support:support-v4:21.0.+'
+    compile 'com.android.support:support-annotations:21.0.+'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile project(':libraries:SlidingUpPanel')
+    compile project(':libraries:HoloColorPicker')
+    compile project(':libraries:subsampling-image-view')
+    compile project(':libraries:circleimageview')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

@@ -5,13 +5,13 @@ repositories {
 }
 
 dependencies {
-  compile 'com.android.support:support-v4:+'
+  compile 'com.android.support:support-v4:21.0.+'
   compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion "19.0.3"
+  compileSdkVersion 21
+  buildToolsVersion "21.0.2"
   lintOptions {
     abortOnError false
   }
