@@ -96,7 +96,6 @@ public abstract class TimeLineFragment extends Fragment implements
 				| ViewGroup.PERSISTENT_SCROLLING_CACHE);
 				
 		mManager = new LinearLayoutManager(getActivity());
-		mManager.setSmoothScrollbarEnabled(true);
 		mList.setLayoutManager(mManager);
 
 		// Swipe To Refresh
