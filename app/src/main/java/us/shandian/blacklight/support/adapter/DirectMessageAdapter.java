@@ -28,6 +28,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.support.v7.widget.CardView;
+
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.model.DirectMessageListModel;
 import us.shandian.blacklight.model.DirectMessageModel;
@@ -82,10 +84,12 @@ public class DirectMessageAdapter extends BaseAdapter
 			LinearLayout container = h.container;
 			if (msg.sender_id == mUid) {
 				container.setGravity(Gravity.LEFT);
-				container.setAlpha(1.0f);
+				h.card.setBackgroundResource(R.color.action_gray);
+				h.content.setTextColor(mContext.getResources().getColor(R.color.white));
 			} else {
 				container.setGravity(Gravity.RIGHT);
-				container.setAlpha(0.8f);
+				h.card.setBackgroundResource(R.color.white);
+				h.content.setTextColor(mContext.getResources().getColor(R.color.action_gray));
 			}
 			
 			h.content.setText(SpannableStringUtils.span(mContext, msg.text));
@@ -113,6 +117,7 @@ public class DirectMessageAdapter extends BaseAdapter
 		public TextView content;
 		public TextView date;
 		public LinearLayout container;
+		public CardView card;
 		
 		public ViewHolder(View v) {
 			this.v = v;
@@ -120,6 +125,7 @@ public class DirectMessageAdapter extends BaseAdapter
 			content = Utility.findViewById(v, R.id.direct_message_conversation_content);
 			date = Utility.findViewById(v, R.id.direct_message_conversation_date);
 			container = Utility.findViewById(v, R.id.direct_message_conversation_container);
+			card = Utility.findViewById(v, R.id.direct_message_card);
 			
 			v.setTag(this);
 		}

@@ -25,35 +25,46 @@
 	android:id="@+id/direct_message_conversation_container"
 	android:orientation="horizontal">
 
-	<LinearLayout
-		android:layout_height="match_parent"
-		android:layout_width="240dp"
-		android:orientation="vertical"
+	<android.support.v7.widget.CardView
+		xmlns:card_view="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/direct_message_card"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_margin="5dp"
-		android:background="?attr/CardBackground">
+		android:clickable="true"
+		card_view:cardElevation="1.5dp"
+		style="@style/CardViewStyle">
 
-		<TextView
+		<LinearLayout
 			android:layout_height="wrap_content"
-			android:text="Content"
-			android:layout_width="wrap_content"
-			android:layout_margin="5dp"
-			android:textSize="15sp"
-			android:textColor="?attr/CardForeground"
-			android:id="@+id/direct_message_conversation_content"/>
+			android:layout_width="240dp"
+			android:orientation="vertical"
+			android:layout_margin="5dp">
 
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="Text"
-			android:layout_width="wrap_content"
-			android:layout_marginLeft="5dp"
-			android:layout_marginBottom="5dp"
-			android:layout_marginRight="5dp"
-			android:textColor="@color/gray"
-			android:id="@+id/direct_message_conversation_date"
-			android:textSize="12sp"
-			android:gravity="center_vertical"/>
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Content"
+				android:layout_width="wrap_content"
+				android:layout_margin="5dp"
+				android:textSize="15sp"
+				android:textColor="?attr/CardForeground"
+				android:id="@+id/direct_message_conversation_content"/>
 
-	</LinearLayout>
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Text"
+				android:layout_width="wrap_content"
+				android:layout_marginLeft="5dp"
+				android:layout_marginBottom="5dp"
+				android:layout_marginRight="5dp"
+				android:textColor="@color/gray"
+				android:id="@+id/direct_message_conversation_date"
+				android:textSize="12sp"
+				android:gravity="center_vertical"/>
+
+		</LinearLayout>
+
+	</android.support.v7.widget.CardView>
 
 
 </LinearLayout>
