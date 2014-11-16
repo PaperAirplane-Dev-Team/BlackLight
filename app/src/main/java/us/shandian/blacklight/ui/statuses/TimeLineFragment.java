@@ -211,7 +211,8 @@ public abstract class TimeLineFragment extends Fragment implements
 	protected void updateTranslation() {
 		mToolbar.setTranslationY(mTranslationY);
 		mShadow.setTranslationY(mActionBarHeight + mTranslationY);
-		mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
+		/*mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
+		mSwipeRefresh.invalidate();*/
 	}
 
 	protected HomeTimeLineApiCache bindApiCache() {
