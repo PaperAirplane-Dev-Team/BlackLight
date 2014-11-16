@@ -20,6 +20,7 @@
 package us.shandian.blacklight.ui.settings;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.common.AbsActivity;
@@ -31,5 +32,11 @@ public class SettingsActivity extends AbsActivity
 		mLayout = R.layout.settings;
 		super.onCreate(savedInstanceState);
 		getFragmentManager().beginTransaction().replace(R.id.settings, new SettingsFragment()).commit();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		finish();
+		return true;
 	}
 }
