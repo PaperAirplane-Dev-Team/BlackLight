@@ -10,35 +10,15 @@ Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight
 
 如果你有意加入本项目，你可以阅读我们的Wiki以及下面的内容来获得有关指导。  
 
-用GNU Make编译
+使用Android Studio导入
 ---
-__*你只能在'master'分支使用Makefile编译*__
-你可以使用我编写的 `Makefile` 来编译。  
-如果你要在手机上编译，请阅读 <http://typeblog.net/tech/2014/07/30/build-android-app-on-android.html>。在电脑上只需普通Linux bash环境即可。  
-1. 设置 `$ANDROID_JAR` 环境变量指向你的 `android.jar`。(其实这一步是为Android上编译设计的，因为Android上不是标准的sdk目录)  
-2. 确保您的 `$PATH` 环境变量中包含 `Makefile` 开头定义的那些命令。如果你在电脑上编译则可以忽略 `pm`，在手机上编译则可以忽略 `adb`。  
-3. 切换到 `BlackLight` 目录，运行 `make debug` ，即可开始编译。编译完成后的apk文件位于 `build/bin/build.apk`。  
-4. 请*__不要__*尝试使用 `make release`，因为我没有上传发布用的签名。  
-5. 编译完成后，可使用 `make install` 命令安装到手机上。  
-
-用Eclipse导入&编译
----
-1. __首先请保证你的Android开发环境拥有API Level 20的开发平台。__   
-2. 将项目Clone到一个临时文件夹(不能是Eclipse的Workspace中)。
-3. 执行`git checkout eclipse` (这是一个*__仅编译__* 分支，除了必要的项目格式转换，请勿在此分支上贡献代码。我们将不会接受该分支的任何Pull Request)
-4. 在Eclipse中*__仅仅导入__* BlackLight项目，请不要选择子项目，并选中 'Copy projects into workspace' 选项。
-5. 在资源管理器中定位到Eclipse的Workspace目录，记下BlackLight项目的路径。
-6. 在Eclipse中进行导入操作，填入第4步记下的路径，导入所有的子项目。*__不要选中__* 'Copy projects into workspace' 选项。
-7. 如果需要，重启Eclipse并Clean所有项目。
-8. Enjoy it!
+1. `git clone` 本项目到本地
+2. 在`Android Studio` 中执行 `Import` 并耐心等待……等待……再等待
+3. Enjoy it!
 
 在Chrome中运行
 ---
-1. 首先参考 <https://github.com/vladikoff/chromeos-apk/blob/master/archon.md> 配置apk运行环境
-2. 在编译好apk以后执行 `make chrome`
-3. 在chrome中以 `unpacked plugin` 方式载入本项目的 `chrome` 目录
-4. 以后重新编译时只需再执行 `make chrome` 即可更新插件内的apk
-5. Enjoy it!
+参考 <https://github.com/vladikoff/chromeos-apk/blob/master/archon.md> 配置apk运行环境
 
 Chrome中运行效果:  
 ![Chrome](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/chrome-screenshot.png)
@@ -49,7 +29,7 @@ Chrome中运行效果:
 碎星iKe(@IssacWong)
 
 
-开发者
+主要开发者
 ---
 @PeterCxy  
 @Harry-Chen  
