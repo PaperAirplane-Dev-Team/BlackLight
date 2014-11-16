@@ -83,9 +83,19 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 	@Override
 	protected void onDraw(Canvas canvas) {
 		setClickable(true);
-		canvas.drawCircle(getWidth() / 2, getHeight() / 2, (float) (getWidth() / 2.6), mButtonPaint);
-		canvas.drawBitmap(mBitmap, (getWidth() - mBitmap.getWidth()) / 2,
-				(getHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
+		canvas.drawCircle(getPaddingLeft() + getRealWidth() / 2,
+				getPaddingTop() + getRealHeight() / 2,
+				(float) getRealWidth() / 2.6f, mButtonPaint);
+		canvas.drawBitmap(mBitmap, getPaddingLeft() + (getRealWidth() - mBitmap.getWidth()) / 2,
+				getPaddingTop() + (getRealHeight() - mBitmap.getHeight()) / 2, mDrawablePaint);
+	}
+
+	private int getRealWidth() {
+		return getWidth() - getPaddingLeft() - getPaddingRight();
+	}
+
+	private int getRealHeight() {
+		return getHeight() - getPaddingTop() - getPaddingBottom();
 	}
  
 	@Override
@@ -161,6 +171,10 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 		int color = Color.WHITE;
 		int size = 0;
 		float scale = 0;
+		int paddingLeft = 0,
+			paddingTop = 0,
+			paddingBottom = 0,
+			paddingRight = 0;
  
 		public Builder(Activity context) {
 			scale = context.getResources().getDisplayMetrics().density;
@@ -182,12 +196,11 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 		/**
 		 * Sets the margins for the FAB in dp
 		 */
-		public Builder withMargins(int left, int top, int right, int bottom) {
-			params.setMargins(
-					convertToPixels(left, scale),
-					convertToPixels(top, scale),
-					convertToPixels(right, scale),
-					convertToPixels(bottom, scale));
+		public Builder withPaddings(int left, int top, int right, int bottom) {
+			paddingLeft = convertToPixels(left, scale);
+			paddingTop = convertToPixels(top, scale);
+			paddingRight = convertToPixels(right, scale);
+			paddingBottom = convertToPixels(bottom, scale);
 			return this;
 		}
  
@@ -220,6 +233,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 			final FloatingActionButton button = new FloatingActionButton(activity);
 			button.setFloatingActionButtonColor(this.color);
 			button.setFloatingActionButtonDrawable(this.drawable);
+			button.setPadding(paddingLeft, paddingTop, paddingBottom, paddingRight);
 			params.gravity = this.gravity;
 			ViewGroup root = (ViewGroup) activity.findViewById(android.R.id.content);
 			root.addView(button, params);

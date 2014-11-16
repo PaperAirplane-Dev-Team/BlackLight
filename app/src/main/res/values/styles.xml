@@ -47,8 +47,8 @@
 		<item name="NewPostImgFilter">@color/gray_alpha_lighter</item>
 		<item name="BottomViewColor">@color/action_gray</item>
 		<item name="LayerColor">@color/action_gray</item>
-		<item name="FABBackground">@color/white</item>
-		<item name="FABNewIcon">@drawable/ic_action_new_dark</item>
+		<item name="FABBackground">@color/action_gray</item>
+		<item name="FABNewIcon">@drawable/ic_action_new</item>
 		<item name="IndicatorForeground">@color/action_gray</item>
 		<item name="DrawerBackground">@color/white</item>
 		<item name="DrawerForeground">@color/action_gray</item>
