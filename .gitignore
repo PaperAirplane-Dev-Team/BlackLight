@@ -1,4 +1,6 @@
 *.swp
+*.iml
+local.properties
 class_files.txt
 seeds.txt
 unused.txt
