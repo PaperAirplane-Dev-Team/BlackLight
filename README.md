@@ -1,6 +1,6 @@
 BlackLight 新浪微博客户端
 ---
-![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/res/drawable-xxhdpi/ic_launcher.png)   
+![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)   
 详细介绍请见 <http://typeblog.net/blacklight>  
 Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
 源代码在GPLv3协议下发布
@@ -15,6 +15,11 @@ Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight
 1. `git clone` 本项目到本地
 2. 在`Android Studio` 中执行 `Import` 并耐心等待……等待……再等待
 3. Enjoy it!
+
+使用AIDE导入
+---
+1. 安装 `AIDE` 到你的手机上
+2. 在其中直接clone本项目并打开即可
 
 在Chrome中运行
 ---
