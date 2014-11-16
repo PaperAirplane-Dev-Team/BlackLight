@@ -47,6 +47,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 
@@ -63,7 +64,6 @@ import us.shandian.blacklight.support.Settings;
 import us.shandian.blacklight.support.Utility;
 import us.shandian.blacklight.ui.comments.CommentTimeLineFragment;
 import us.shandian.blacklight.ui.common.FloatingActionButton;
-import us.shandian.blacklight.ui.common.SwipeRefreshLayout;
 import us.shandian.blacklight.ui.common.ToolbarActivity;
 import us.shandian.blacklight.ui.directmessage.DirectMessageUserFragment;
 import us.shandian.blacklight.ui.favorites.FavListFragment;
