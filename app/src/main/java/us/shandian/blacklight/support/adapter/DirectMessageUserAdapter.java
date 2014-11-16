@@ -77,7 +77,7 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 
 	@Override
 	public ViewHolder doCreateViewHolder(ViewGroup parent, int position) {
-		View v = mInflater.inflate(R.layout.direct_message_user, null);
+		View v = mInflater.inflate(R.layout.direct_message_user, parent, false);
 		return new ViewHolder(v, null);
 	}
 

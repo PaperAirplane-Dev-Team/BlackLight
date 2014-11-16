@@ -73,7 +73,7 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 
 	@Override
 	public ViewHolder doCreateViewHolder(ViewGroup parent, int position) {
-		View v = mInflater.inflate(R.layout.user_list_item, null);
+		View v = mInflater.inflate(R.layout.user_list_item, parent, false);
 		return new ViewHolder(null, v);
 	}
 

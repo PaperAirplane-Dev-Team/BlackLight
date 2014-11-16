@@ -204,7 +204,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	@Override
 	public WeiboAdapter.ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
-		View v = mInflater.inflate(R.layout.weibo, null);
+		View v = mInflater.inflate(R.layout.weibo, parent, false);
 		return new ViewHolder(this, v);
 	}
 

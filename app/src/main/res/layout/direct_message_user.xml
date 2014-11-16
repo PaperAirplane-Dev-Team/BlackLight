@@ -20,68 +20,76 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="horizontal"
-	android:gravity="center_vertical">
+	android:layout_height="wrap_content">
 
-	<de.hdodenhof.circleimageview.CircleImageView
-		android:id="@+id/direct_message_avatar"
-		android:layout_height="50dp"
-		android:layout_width="50dp"
-		android:layout_centerVertical="true"
-		android:layout_margin="10dp"
-		android:src="@color/gray"/>
-
-	<LinearLayout
-		android:layout_height="match_parent"
+	<android.support.v7.widget.CardView
+		xmlns:card_view="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
-		android:orientation="vertical"
-		android:layout_margin="10dp">
+		android:layout_height="wrap_content"
+		android:layout_margin="5dp"
+		card_view:cardCornerRadius="3dp"
+		card_view:cardElevation="2.5dp"
+		card_view:cardBackgroundColor="?attr/CardBackground"
+		style="@style/CardViewStyle">
 
 		<LinearLayout
-			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:orientation="horizontal">
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical">
 
-			<TextView
-				android:layout_height="wrap_content"
-				android:text="NAME"
-				android:layout_width="match_parent"
-				android:textStyle="bold"
-				android:id="@+id/direct_message_name"
-				android:textColor="?attr/CardForeground"
-				android:textSize="15sp"
-				android:ellipsize="end"
-				android:singleLine="true"
-				android:layout_weight="0.1"/>
+			<de.hdodenhof.circleimageview.CircleImageView
+				android:id="@+id/direct_message_avatar"
+				android:layout_height="50dp"
+				android:layout_width="50dp"
+				android:layout_gravity="left|top"
+				android:layout_margin="10dp"
+				android:src="@color/gray"/>
 
-			<TextView
+			<LinearLayout
 				android:layout_height="wrap_content"
-				android:text="Date"
 				android:layout_width="match_parent"
-				android:layout_weight="0.2"
-				android:layout_gravity="right|top"
-				android:gravity="right|top"
-				android:textColor="?attr/CardForeground"
-				android:textSize="10sp"
-				android:singleLine="true"
-				android:id="@+id/direct_message_date"/>
+				android:orientation="vertical"
+				android:layout_margin="10dp">
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="NAME"
+					android:layout_width="match_parent"
+					android:textStyle="bold"
+					android:id="@+id/direct_message_name"
+					android:textColor="?attr/CardForeground"
+					android:textSize="15sp"
+					android:ellipsize="end"
+					android:maxLength="50"
+					android:singleLine="true"/>
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="Text"
+					android:layout_width="match_parent"
+					android:layout_marginTop="5dp"
+					android:textColor="?attr/CardForeground"
+					android:textSize="15sp"
+					android:ellipsize="end"
+					android:singleLine="false"
+					android:maxLines="4"
+					android:gravity="center_vertical"
+					android:id="@+id/direct_message_text"/>
+
+				<TextView
+					android:layout_height="wrap_content"
+					android:text="Date"
+					android:layout_width="match_parent"
+					android:textColor="?attr/CardForeground"
+					android:textSize="14sp"
+					android:singleLine="true"
+					android:layout_marginTop="5dp"
+					android:id="@+id/direct_message_date"/>
+
+			</LinearLayout>
 
 		</LinearLayout>
 
-		<TextView
-			android:layout_height="match_parent"
-			android:text="Text"
-			android:layout_width="match_parent"
-			android:layout_marginTop="5dp"
-			android:textColor="?attr/CardForeground"
-			android:textSize="15sp"
-			android:ellipsize="end"
-			android:singleLine="true"
-			android:gravity="center_vertical"
-			android:id="@+id/direct_message_text"/>
-
-	</LinearLayout>
-
+	</android.support.v7.widget.CardView>
 </LinearLayout>
-

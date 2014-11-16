@@ -45,6 +45,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	private DirectMessagesUserApiCache mApiCache;
 	private RecyclerView mList;
 	private LinearLayoutManager mManager;
+	private View mShadow;
 	private SwipeRefreshLayout mSwipeRefresh;
 	private DirectMessageUserAdapter mAdapter;
 	private boolean mRefreshing = false;
@@ -56,6 +57,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		
 		// Initialize
 		mList = Utility.findViewById(v, R.id.home_timeline);
+		mShadow = Utility.findViewById(v, R.id.action_shadow);
+
 		mManager = new LinearLayoutManager(getActivity());
 		mList.setLayoutManager(mManager);
 		
@@ -95,6 +98,13 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		
 		mApiCache.loadFromCache();
 		mAdapter.notifyDataSetChangedAndClone();
+
+		// Set up shadow
+		mShadow.bringToFront();
+
+		if (getActivity() instanceof MainActivity) {
+			mShadow.setTranslationY(Utility.getActionBarHeight(getActivity()));
+		}
 		
 		if (mApiCache.mUsers.getSize() == 0) {
 			onRefresh();
