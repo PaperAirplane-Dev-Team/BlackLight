@@ -20,6 +20,7 @@
 package us.shandian.blacklight.support.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ import us.shandian.blacklight.model.DirectMessageUserModel;
 import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.StatusTimeUtils;
 import us.shandian.blacklight.support.Utility;
+import us.shandian.blacklight.ui.directmessage.DirectMessageConversationActivity;
+import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUserAdapter.ViewHolder>
 {
@@ -162,6 +165,26 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 			date = Utility.findViewById(v, R.id.direct_message_date);
 			
 			v.setTag(this);
+
+			Utility.bindOnClick(this, v, "show");
+			Utility.bindOnLongClick(this, v, "showUser");
+		}
+
+		void show() {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(v.getContext(), DirectMessageConversationActivity.class);
+			i.putExtra("user", user.user);
+			v.getContext().startActivity(i);
+		}
+
+		boolean showUser() {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(v.getContext(), UserTimeLineActivity.class);
+			i.putExtra("user", user.user);
+			v.getContext().startActivity(i);
+			return true;
 		}
 		
 	}
