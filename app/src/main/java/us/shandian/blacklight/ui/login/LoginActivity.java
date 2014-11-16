@@ -68,12 +68,8 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (hasSmartBar()) {
-			getWindow().setUiOptions(ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW);
-		}
-
+		mLayout = R.layout.login;
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
 
 		// Initialize views
 		mTail = Utility.findViewById(this, R.id.tail);
@@ -89,7 +85,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		mTailNames = getResources().getStringArray(R.array.bm_tails);
 		mKeys = getResources().getStringArray(R.array.bm_keys);
 		
-		mTail.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_text, mTailNames));
+		mTail.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, mTailNames));
 		
 		onItemSelected(null, null, 0, 0);
 	}

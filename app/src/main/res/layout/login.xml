@@ -17,64 +17,77 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<GridLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:orientation="horizontal"
-	android:columnCount="2"
-	android:layout_marginTop="15dp"
-	android:layout_marginRight="10dp"
-	android:layout_marginLeft="10dp"
-	android:alignmentMode="alignBounds"
-	android:useDefaultMargins="true"
-	android:layout_gravity="top|center_horizontal"
-	android:fitsSystemWindows="true">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="@string/tail"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center_vertical"/>
+	<include
+		layout="@layout/toolbar"/>
 
-	<Spinner
-		android:layout_height="40dp"
-		android:layout_width="wrap_content"
-		android:id="@+id/tail"
-		android:layout_marginLeft="5dp"/>
+	<LinearLayout
+		android:layout_below="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="top|center_horizontal">
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="@string/username"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center_vertical"/>
+		<GridLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:columnCount="2"
+			android:layout_marginTop="15dp"
+			android:layout_marginRight="10dp"
+			android:layout_marginLeft="10dp"
+			android:alignmentMode="alignBounds"
+			android:useDefaultMargins="true"
+			android:fitsSystemWindows="true">
 
-	<us.shandian.blacklight.ui.common.EmailAutoCompleteTextView
-		android:layout_height="40dp"
-		android:ems="10"
-		android:layout_width="wrap_content"
-		android:id="@+id/username"
-		android:imeOptions="actionNext"
-		android:singleLine="true"
-		android:layout_marginLeft="5dp"/>
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="@string/tail"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_vertical"/>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="@string/passwd"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:layout_width="wrap_content"
-		android:layout_gravity="center_vertical"/>
+			<Spinner
+				android:layout_height="40dp"
+				android:layout_width="wrap_content"
+				android:id="@+id/tail"
+				android:layout_marginLeft="5dp"/>
 
-	<EditText
-		android:layout_height="40dp"
-		android:inputType="textPassword"
-		android:ems="10"
-		android:layout_width="wrap_content"
-		android:id="@+id/passwd"
-		android:imeOptions="actionDone"
-		android:layout_marginLeft="5dp"/>
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="@string/username"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_vertical"/>
 
-</GridLayout>
+			<us.shandian.blacklight.ui.common.EmailAutoCompleteTextView
+				android:layout_height="40dp"
+				android:ems="10"
+				android:layout_width="wrap_content"
+				android:id="@+id/username"
+				android:imeOptions="actionNext"
+				android:singleLine="true"
+				android:layout_marginLeft="5dp"/>
 
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="@string/passwd"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_vertical"/>
+
+			<EditText
+				android:layout_height="40dp"
+				android:inputType="textPassword"
+				android:ems="10"
+				android:layout_width="wrap_content"
+				android:id="@+id/passwd"
+				android:imeOptions="actionDone"
+				android:layout_marginLeft="5dp"/>
+
+		</GridLayout>
+	</LinearLayout>
+</RelativeLayout>
