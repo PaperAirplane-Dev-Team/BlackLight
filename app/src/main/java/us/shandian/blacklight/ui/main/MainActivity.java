@@ -147,10 +147,16 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
 
 		// Add custom view
-		ContextThemeWrapper customContext = new ContextThemeWrapper(this, R.style.Theme_AppCompat);
-		LayoutInflater customInflater = (LayoutInflater) customContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View custom = customInflater.inflate(R.layout.action_custom, null);
-		getSupportActionBar().setCustomView(custom);
+		if (Build.VERSION.SDK_INT < 21) {
+			// This fix is only for ICS/JB/KK
+			ContextThemeWrapper customContext = new ContextThemeWrapper(this, R.style.Theme_AppCompat);
+			LayoutInflater customInflater = (LayoutInflater) customContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View custom = customInflater.inflate(R.layout.action_custom, null);
+			getSupportActionBar().setCustomView(custom);
+		} else {
+			getSupportActionBar().setCustomView(R.layout.action_custom);
+		}
+		
 		getSupportActionBar().setDisplayShowCustomEnabled(false);
 
 		// Initialize views
