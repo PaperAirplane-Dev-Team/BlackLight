@@ -33,6 +33,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -146,7 +147,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
 
 		// Add custom view
-		getSupportActionBar().setCustomView(R.layout.action_custom);
+		ContextThemeWrapper customContext = new ContextThemeWrapper(this, R.style.Theme_AppCompat);
+		LayoutInflater customInflater = (LayoutInflater) customContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View custom = customInflater.inflate(R.layout.action_custom, null);
+		getSupportActionBar().setCustomView(custom);
 		getSupportActionBar().setDisplayShowCustomEnabled(false);
 
 		// Initialize views
