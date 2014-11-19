@@ -188,7 +188,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
 
 		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;
-
+		
 		// Set gravity
 		View nav = findViewById(R.id.nav);
 		DrawerLayout.LayoutParams p = (DrawerLayout.LayoutParams) nav.getLayoutParams();
@@ -220,6 +220,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 				}
 			}
 		};
+		
 		mToggle.setDrawerIndicatorEnabled(true);
 		mDrawer.setDrawerListener(mToggle);
 
@@ -298,6 +299,14 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onPostCreate(savedInstanceState);
 		
 		mToggle.syncState();
+		
+		// Override the click event of ActionBarDrawerToggle to avoid crash in right handed mode
+		mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openOrCloseDrawer();
+			}
+		});
 	}
 
 	@Override
