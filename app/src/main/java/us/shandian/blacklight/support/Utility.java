@@ -815,6 +815,7 @@ public class Utility
 		try {
 			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
 			Drawable ret = array.getDrawable(R.styleable.BlackLight_FABNewIcon);
+			array.recycle();
 			return ret;
 		} catch (NotFoundException e) {
 			return null;
