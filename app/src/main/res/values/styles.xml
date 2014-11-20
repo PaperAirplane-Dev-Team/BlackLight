@@ -27,6 +27,7 @@
 		<item name="android:windowBackground">@color/light_gray</item>
 		<item name="android:windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
+		<item name="windowActionModeOverlay">true</item>
 		<item name="colorPrimary">@color/action_gray</item>
 		<item name="colorPrimaryDark">@color/action_gray_darker</item>
 		<item name="CardBackground">@color/white</item>

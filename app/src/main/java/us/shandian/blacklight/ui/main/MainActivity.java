@@ -33,6 +33,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -146,7 +147,16 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
 
 		// Add custom view
-		getSupportActionBar().setCustomView(R.layout.action_custom);
+		if (Build.VERSION.SDK_INT < 21) {
+			// This fix is only for ICS/JB/KK
+			ContextThemeWrapper customContext = new ContextThemeWrapper(this, R.style.Theme_AppCompat);
+			LayoutInflater customInflater = (LayoutInflater) customContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View custom = customInflater.inflate(R.layout.action_custom, null);
+			getSupportActionBar().setCustomView(custom);
+		} else {
+			getSupportActionBar().setCustomView(R.layout.action_custom);
+		}
+		
 		getSupportActionBar().setDisplayShowCustomEnabled(false);
 
 		// Initialize views
@@ -178,7 +188,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
 
 		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;
-
+		
 		// Set gravity
 		View nav = findViewById(R.id.nav);
 		DrawerLayout.LayoutParams p = (DrawerLayout.LayoutParams) nav.getLayoutParams();
@@ -210,6 +220,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 				}
 			}
 		};
+		
 		mToggle.setDrawerIndicatorEnabled(true);
 		mDrawer.setDrawerListener(mToggle);
 
@@ -288,11 +299,22 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onPostCreate(savedInstanceState);
 		
 		mToggle.syncState();
+		
+		// Override the click event of ActionBarDrawerToggle to avoid crash in right handed mode
+		mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openOrCloseDrawer();
+			}
+		});
 	}
 
 	@Override
 	protected void onResume(){
 		super.onResume();
+		
+		// Dirty fix strange focus
+		findViewById(R.id.main_root).requestFocus();
 
 		int lang = Utility.getCurrentLanguage(this);
 		if (lang != mLang) {

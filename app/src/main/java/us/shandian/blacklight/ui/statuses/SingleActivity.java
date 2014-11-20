@@ -317,6 +317,14 @@ public class SingleActivity extends AbsActivity
 		
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		// Dirty Fix: Strange focus on home as up button
+		findViewById(R.id.single_focus).requestFocus();
+	}
 	
 	public void commentOn() {
 		Intent i = new Intent();

@@ -24,13 +24,13 @@
 
 	<android.support.v7.widget.CardView
 		xmlns:card_view="http://schemas.android.com/apk/res-auto"
+		style="@style/CardViewStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_margin="5dp"
 		card_view:cardCornerRadius="3dp"
 		card_view:cardElevation="2.5dp"
-		card_view:cardBackgroundColor="?attr/CardBackground"
-		style="@style/CardViewStyle">
+		card_view:cardBackgroundColor="?attr/CardBackground">
 
 		<LinearLayout
 			android:layout_width="match_parent"
