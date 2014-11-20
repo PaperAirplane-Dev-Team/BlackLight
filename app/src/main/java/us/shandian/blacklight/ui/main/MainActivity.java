@@ -134,18 +134,6 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 		super.onCreate(savedInstanceState);
 
-		// Inflate custom decor
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View customDecor = inflater.inflate(R.layout.decor, null);
-
-		// Replace the original layout
-		// Learned from SlidingMenu
-		ViewGroup decor = (ViewGroup) getWindow().getDecorView();
-		ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
-		decor.removeView(decorChild);
-		decor.addView(customDecor);
-		((ViewGroup) customDecor.findViewById(R.id.decor_container)).addView(decorChild);
-
 		// Add custom view
 		if (Build.VERSION.SDK_INT < 21) {
 			// This fix is only for ICS/JB/KK
@@ -194,10 +182,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		DrawerLayout.LayoutParams p = (DrawerLayout.LayoutParams) nav.getLayoutParams();
 		p.gravity = mDrawerGravity;
 		nav.setLayoutParams(p);
-
-		// Adjust Padding for statusbar and navigation bar
-		if (!Utility.isChrome()) {
-			nav.setPadding(0, Utility.getStatusBarHeight(this), 0, 0);
+		
+		// Semi-transparent statusbar over drawer
+		if (Build.VERSION.SDK_INT >= 21) {
+			mDrawer.setStatusBarBackgroundColor(Utility.getColorPrimaryDark(this));
 		}
 
 		// Initialize naviagtion drawer
@@ -314,7 +302,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onResume();
 		
 		// Dirty fix strange focus
-		findViewById(R.id.main_root).requestFocus();
+		mDrawer.requestFocus();
 
 		int lang = Utility.getCurrentLanguage(this);
 		if (lang != mLang) {

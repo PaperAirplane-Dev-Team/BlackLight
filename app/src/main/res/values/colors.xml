@@ -42,6 +42,7 @@
 	<color name="selector_gray_lighter">#ececec</color>
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
+	<color name="inset">#40000000</color>
 	
 	<!-- Pull To Refresh -->
 	<color name="ptr_green">#44aa00</color>

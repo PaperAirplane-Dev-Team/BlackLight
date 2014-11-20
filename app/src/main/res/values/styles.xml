@@ -61,6 +61,8 @@
 		<item name="UserInfoText">@color/black</item>
 		<item name="UserInfoDivider">@drawable/user_info_divider</item>
 	</style>
+	
+	<style name="My.Theme.Holo.Light.DarkActionBar.WithNav" parent="My.Theme.Holo.Light.DarkActionBar" />
 
 	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="Theme.AppCompat">
 		<item name="android:windowBackground">@color/superdark_gray</item>
@@ -101,6 +103,8 @@
 		<item name="UserInfoText">@color/white</item>
 		<item name="UserInfoDivider">@drawable/user_info_divider_dark</item>
 	</style>
+	
+	<style name="My.Theme.Holo.Dark.DarkActionBar.WithNav" parent="My.Theme.Holo.Dark.DarkActionBar" />
 	
 	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
 		<item name="android:windowIsTranslucent">true</item>

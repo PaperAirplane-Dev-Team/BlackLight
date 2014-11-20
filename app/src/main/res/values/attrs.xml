@@ -30,6 +30,10 @@
 	<declare-styleable name="TintImageView">
 		<attr name="tintColor" format="color" />
 	</declare-styleable>
+	
+	<declare-styleable name="ScrimInsetsView">
+		<attr name="insetForeground" format="color" />
+	</declare-styleable>
 
 	<!-- Theme -->
 	<declare-styleable name="BlackLight">

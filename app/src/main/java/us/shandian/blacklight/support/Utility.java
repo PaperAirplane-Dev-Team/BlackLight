@@ -738,6 +738,8 @@ public class Utility
 				case R.style.My_Theme_Holo_Light_GradientActionBar:
 					theme = R.style.My_Theme_Holo_Dark_GradientActionBar;
 					break;
+				case R.style.My_Theme_Holo_Light_DarkActionBar_WithNav:
+					theme = R.style.My_Theme_Holo_Dark_DarkActionBar_WithNav;
 			}
 
 			activity.setTheme(theme);
@@ -816,6 +818,17 @@ public class Utility
 			return ret;
 		} catch (NotFoundException e) {
 			return null;
+		}
+	}
+	
+	public static int getColorPrimaryDark(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.Theme);
+			int ret = array.getColor(R.styleable.Theme_colorPrimaryDark, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
 		}
 	}
 	

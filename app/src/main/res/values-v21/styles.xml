@@ -18,6 +18,17 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+	
+	<style name="My.Theme.Holo.Light.DarkActionBar.WithNav" parent="My.Theme.Holo.Light.DarkActionBar">
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
+	
+	<style name="My.Theme.Holo.Dark.DarkActionBar.WithNav" parent="My.Theme.Holo.Dark.DarkActionBar">
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
+	
 	<style name="CardViewStyle" parent="CardView.Light">
 		<item name="android:foreground">?android:attr/selectableItemBackground</item>
 	</style>
