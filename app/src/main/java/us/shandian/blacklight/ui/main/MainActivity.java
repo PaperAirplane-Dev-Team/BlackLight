@@ -305,7 +305,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onResume();
 		
 		// Dirty fix strange focus
-		mDrawer.requestFocus();
+		findViewById(R.id.container).requestFocus();
 
 		int lang = Utility.getCurrentLanguage(this);
 		if (lang != mLang) {
