@@ -212,7 +212,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		mToggle.setDrawerIndicatorEnabled(true);
 		mDrawer.setDrawerListener(mToggle);
 
-		if (mDrawerGravity == Gravity.LEFT) {
+		// Use system shadow for Lollipop but fall back for pre-L
+		if (Build.VERSION.SDK_INT >= 21) {
+			nav.setElevation(10.0f);
+		} else if (mDrawerGravity == Gravity.LEFT) {
 			mDrawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
 		}
 
