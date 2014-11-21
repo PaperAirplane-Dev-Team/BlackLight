@@ -723,23 +723,23 @@ public class Utility
 
 			// Convert to dark theme
 			switch (theme) {
-				case R.style.My_Theme_Holo_Light_DarkActionBar:
-					theme = R.style.My_Theme_Holo_Dark_DarkActionBar;
+				case R.style.BL_Theme_Light:
+					theme = R.style.BL_Theme_Dark;
 					break;
-				case R.style.My_Theme_Holo_Light_DarkActionBar_Translucent:
-					theme = R.style.My_Theme_Holo_Dark_DarkActionBar_Translucent;
+				case R.style.BL_Theme_Light_Translucent:
+					theme = R.style.BL_Theme_Dark_Translucent;
 					break;
-				case R.style.My_Theme_Holo_Light_TranslucentActionBar_NoTranslucent:
-					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar_NoTranslucent;
+				case R.style.BL_Theme_Light_TranslucentActionBar_NoTranslucent:
+					theme = R.style.BL_Theme_Dark_TranslucentActionBar_NoTranslucent;
 					break;
-				case R.style.My_Theme_Holo_Light_TranslucentActionBar:
-					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar;
+				case R.style.BL_Theme_Light_TranslucentActionBar:
+					theme = R.style.BL_Theme_Dark_TranslucentActionBar;
 					break;
-				case R.style.My_Theme_Holo_Light_GradientActionBar:
-					theme = R.style.My_Theme_Holo_Dark_GradientActionBar;
+				case R.style.BL_Theme_Light_GradientActionBar:
+					theme = R.style.BL_Theme_Dark_GradientActionBar;
 					break;
-				case R.style.My_Theme_Holo_Light_DarkActionBar_WithNav:
-					theme = R.style.My_Theme_Holo_Dark_DarkActionBar_WithNav;
+				case R.style.BL_Theme_Light_WithNav:
+					theme = R.style.BL_Theme_Dark_WithNav;
 			}
 
 			activity.setTheme(theme);

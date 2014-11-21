@@ -21,7 +21,7 @@
 
     <style name="Widget.GifView" parent="@android:style/Widget"></style>
 	
-	<style name="My.Theme.Holo.Light.DarkActionBar" parent="Theme.AppCompat.Light">
+	<style name="BL.Theme.Light" parent="Theme.AppCompat.Light">
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowBackground">@color/light_gray</item>
@@ -62,9 +62,9 @@
 		<item name="UserInfoDivider">@drawable/user_info_divider</item>
 	</style>
 	
-	<style name="My.Theme.Holo.Light.DarkActionBar.WithNav" parent="My.Theme.Holo.Light.DarkActionBar" />
+	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Light" />
 
-	<style name="My.Theme.Holo.Dark.DarkActionBar" parent="Theme.AppCompat">
+	<style name="BL.Theme.Dark" parent="Theme.AppCompat">
 		<item name="android:windowBackground">@color/superdark_gray</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowNoTitle">true</item>
@@ -104,37 +104,37 @@
 		<item name="UserInfoDivider">@drawable/user_info_divider_dark</item>
 	</style>
 	
-	<style name="My.Theme.Holo.Dark.DarkActionBar.WithNav" parent="My.Theme.Holo.Dark.DarkActionBar" />
+	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark" />
 	
-	<style name="My.Theme.Holo.Light.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
+	<style name="BL.Theme.Light.Translucent" parent="BL.Theme.Light">
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
 
-	<style name="My.Theme.Holo.Dark.DarkActionBar.Translucent" parent="@style/My.Theme.Holo.Dark.DarkActionBar">
+	<style name="BL.Theme.Dark.Translucent" parent="BL.Theme.Dark">
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
 	
-	<style name="My.Theme.Holo.Light.TranslucentActionBar.NoTranslucent" parent="@style/My.Theme.Holo.Light.DarkActionBar">
+	<style name="BL.Theme.Light.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Light">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 
-	<style name="My.Theme.Holo.Dark.TranslucentActionBar.NoTranslucent" parent="@style/My.Theme.Holo.Dark.DarkActionBar">
+	<style name="BL.Theme.Dark.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Dark">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 
-	<style name="My.Theme.Holo.Light.TranslucentActionBar" parent="@style/My.Theme.Holo.Light.DarkActionBar.Translucent">
+	<style name="BL.Theme.Light.TranslucentActionBar" parent="BL.Theme.Light.Translucent">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 
-	<style name="My.Theme.Holo.Dark.TranslucentActionBar" parent="@style/My.Theme.Holo.Dark.DarkActionBar">
+	<style name="BL.Theme.Dark.TranslucentActionBar" parent="BL.Theme.Dark.Translucent">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 
-	<style name="My.Theme.Holo.Light.GradientActionBar" parent="@style/My.Theme.Holo.Light.TranslucentActionBar">
+	<style name="BL.Theme.Light.GradientActionBar" parent="BL.Theme.Light.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar.Gradient</item>
 	</style>
 
-	<style name="My.Theme.Holo.Dark.GradientActionBar" parent="@style/My.Theme.Holo.Dark.TranslucentActionBar">
+	<style name="BL.Theme.Dark.GradientActionBar" parent="BL.Theme.Dark.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar.Gradient</item>
 	</style>
 	

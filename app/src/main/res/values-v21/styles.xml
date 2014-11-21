@@ -19,12 +19,12 @@
 -->
 <resources>
 	
-	<style name="My.Theme.Holo.Light.DarkActionBar.WithNav" parent="My.Theme.Holo.Light.DarkActionBar">
+	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Light">
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 	</style>
 	
-	<style name="My.Theme.Holo.Dark.DarkActionBar.WithNav" parent="My.Theme.Holo.Dark.DarkActionBar">
+	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark">
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 	</style>
