@@ -455,7 +455,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 	@Override
 	public void onBackPressed() {
-		if (mCurrent != HOME) {
+        if(mDrawer.isDrawerOpen(mDrawerGravity)){
+            mDrawer.closeDrawer(mDrawerGravity);
+        }
+		else if (mCurrent != HOME) {
 			home();
 		} else {
 			super.onBackPressed();
