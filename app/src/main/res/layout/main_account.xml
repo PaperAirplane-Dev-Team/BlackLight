@@ -21,7 +21,7 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="240dp">
+	android:layout_height="@dimen/account_height">
 
 	<ImageView
 		android:id="@+id/my_cover"
