@@ -37,14 +37,14 @@ public class FriendsApi extends BaseApi
 {
 	private static final String TAG = FriendsApi.class.getSimpleName();
 	
-	public static UserListModel getFriendsOf(String uid, int count, int cursor) {
+	private static UserListModel getUsers(String uid, int count, int cursor, String url) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
 		params.put("count", count);
 		params.put("cursor", cursor);
 		
 		try {
-			JSONObject json = request(Constants.FRIENDSHIPS_FRIENDS, params, HTTP_GET);
+			JSONObject json = request(url, params, HTTP_GET);
 			return new Gson().fromJson(json.toString(), UserListModel.class);
 		} catch (Exception e) {
 			if (DEBUG) {
@@ -55,6 +55,14 @@ public class FriendsApi extends BaseApi
 		
 		return null;
 	}
+
+    public static UserListModel getFriendsOf(String uid, int count, int cursor){
+        return getUsers(uid, count, cursor, Constants.FRIENDSHIPS_FRIENDS);
+    }
+
+    public static UserListModel getFollowersOf(String uid, int count, int cursor){
+        return getUsers(uid, count, cursor, Constants.FRIENDSHIPS_FOLLOWERS);
+    }
 	
 	public static boolean follow(String uid) {
 		WeiboParameters params = new WeiboParameters();

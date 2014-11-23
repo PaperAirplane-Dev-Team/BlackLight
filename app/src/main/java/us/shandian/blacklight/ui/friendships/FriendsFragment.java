@@ -50,14 +50,16 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	private LinearLayoutManager mManager;
 	private UserAdapter mAdapter;
 	private SwipeRefreshLayout mSwipeRefresh;
+    private boolean mIsFriends;
 	
 	public FriendsFragment() {
 		init();
 	}
 	
-	public FriendsFragment(String uid) {
+	public FriendsFragment(String uid, boolean friends) {
 		Bundle args = new Bundle();
 		args.putCharSequence("uid", uid);
+        args.putBoolean("isFriends", friends);
 		setArguments(args);
 		init();
 	}
@@ -65,6 +67,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	private void init() {
 		if (getArguments() != null) {
 			mUid = getArguments().getCharSequence("uid").toString();
+            mIsFriends = getArguments().getBoolean("isFriends");
 		} else {
 			mUid = null;
 		}
@@ -144,7 +147,9 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 			mUsers.getList().clear();
 		}
 
-		UserListModel usr = FriendsApi.getFriendsOf(mUid, 50, mNextCursor);
+        UserListModel usr;
+        if(mIsFriends) usr = FriendsApi.getFriendsOf(mUid, 50, mNextCursor);
+        else usr = FriendsApi.getFollowersOf(mUid, 50, mNextCursor);
 
 		if (usr != null) {
 			int nextCursor = Integer.parseInt(usr.next_cursor);

@@ -38,8 +38,9 @@ public class FriendsActivity extends AbsActivity
 		
 		// Arguments
 		String uid = getIntent().getStringExtra("uid");
-		
-		getFragmentManager().beginTransaction().replace(R.id.frame, new FriendsFragment(uid)).commit();
+        boolean isFriends = getIntent().getBooleanExtra("isFriends", true);
+		if(!isFriends) getSupportActionBar().setTitle(R.string.followers);
+		getFragmentManager().beginTransaction().replace(R.id.frame, new FriendsFragment(uid, isFriends)).commit();
 	}
 
 	@Override
