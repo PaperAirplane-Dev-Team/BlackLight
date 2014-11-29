@@ -1,4 +1,7 @@
 *.swp
+app/app.iml
+libraries/SlidingUpPanel/SlidingUpPanel.iml
+libraries/libraries.iml
 *.iml
 local.properties
 class_files.txt
