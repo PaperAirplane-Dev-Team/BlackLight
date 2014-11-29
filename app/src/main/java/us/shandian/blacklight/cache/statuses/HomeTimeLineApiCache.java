@@ -200,7 +200,7 @@ public class HomeTimeLineApiCache
 			return null;
 		}
 
-		if (cacheName.endsWith(".gif")) {
+		/*if (cacheName.endsWith(".gif")) {
 			Movie movie = Movie.decodeStream(cache);
 			
 			// A real movie must have a dutation bigger than 0
@@ -208,7 +208,7 @@ public class HomeTimeLineApiCache
 			if (movie.duration() > 0) {
 				return movie;
 			}
-		} 
+		} */
 		
 		try {
 			cache.close();
