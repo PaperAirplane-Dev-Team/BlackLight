@@ -723,21 +723,23 @@ public class Utility
 
 			// Convert to dark theme
 			switch (theme) {
-				case R.style.My_Theme_Holo_Light_DarkActionBar:
-					theme = R.style.My_Theme_Holo_Dark_DarkActionBar;
+				case R.style.BL_Theme_Light:
+					theme = R.style.BL_Theme_Dark;
 					break;
-				case R.style.My_Theme_Holo_Light_DarkActionBar_Translucent:
-					theme = R.style.My_Theme_Holo_Dark_DarkActionBar_Translucent;
+				case R.style.BL_Theme_Light_Translucent:
+					theme = R.style.BL_Theme_Dark_Translucent;
 					break;
-				case R.style.My_Theme_Holo_Light_TranslucentActionBar_NoTranslucent:
-					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar_NoTranslucent;
+				case R.style.BL_Theme_Light_TranslucentActionBar_NoTranslucent:
+					theme = R.style.BL_Theme_Dark_TranslucentActionBar_NoTranslucent;
 					break;
-				case R.style.My_Theme_Holo_Light_TranslucentActionBar:
-					theme = R.style.My_Theme_Holo_Dark_TranslucentActionBar;
+				case R.style.BL_Theme_Light_TranslucentActionBar:
+					theme = R.style.BL_Theme_Dark_TranslucentActionBar;
 					break;
-				case R.style.My_Theme_Holo_Light_GradientActionBar:
-					theme = R.style.My_Theme_Holo_Dark_GradientActionBar;
+				case R.style.BL_Theme_Light_GradientActionBar:
+					theme = R.style.BL_Theme_Dark_GradientActionBar;
 					break;
+				case R.style.BL_Theme_Light_WithNav:
+					theme = R.style.BL_Theme_Dark_WithNav;
 			}
 
 			activity.setTheme(theme);
@@ -813,9 +815,21 @@ public class Utility
 		try {
 			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
 			Drawable ret = array.getDrawable(R.styleable.BlackLight_FABNewIcon);
+			array.recycle();
 			return ret;
 		} catch (NotFoundException e) {
 			return null;
+		}
+	}
+	
+	public static int getColorPrimaryDark(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.Theme);
+			int ret = array.getColor(R.styleable.Theme_colorPrimaryDark, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
 		}
 	}
 	

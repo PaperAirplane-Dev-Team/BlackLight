@@ -70,6 +70,7 @@ public class UserTimeLineActivity extends AbsActivity
 	private ImageView mAvatar;
 	private ImageView mCover;
 	private View mFollowingContainer;
+    private View mFollowersContainer;
 	private LinearLayout mLayoutFollowState;
 	private GenerousSlidingUpPanelLayout mSlide;
 	
@@ -99,6 +100,7 @@ public class UserTimeLineActivity extends AbsActivity
 		mAvatar = Utility.findViewById(this, R.id.user_avatar);
 		mCover = Utility.findViewById(this, R.id.user_cover);
 		mFollowingContainer = Utility.findViewById(this, R.id.user_following_container);
+        mFollowersContainer = Utility.findViewById(this, R.id.user_followers_container);
 		mLayoutFollowState = Utility.findViewById(this, R.id.user_follow);
 		mSlide = Utility.findViewById(this, R.id.user_slide);
 		
@@ -108,6 +110,7 @@ public class UserTimeLineActivity extends AbsActivity
 		// Bind onClick events
 		Utility.bindOnClick(this, mLayoutFollowState, "follow");
 		Utility.bindOnClick(this, mFollowingContainer, "viewFriends");
+        Utility.bindOnClick(this, mFollowersContainer, "viewFollowers");
 		Utility.bindOnClick(this, info, dim, "showOrHideInfo");
 		
 		getSupportActionBar().setTitle(mModel.name);
@@ -192,12 +195,21 @@ public class UserTimeLineActivity extends AbsActivity
 	}
 
 	public void viewFriends() {
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_VIEW);
-		i.putExtra("uid", mModel.id);
-		i.setClass(this, FriendsActivity.class);
-		startActivity(i);
-	}
+    Intent i = new Intent();
+    i.setAction(Intent.ACTION_VIEW);
+    i.putExtra("uid", mModel.id);
+    i.putExtra("isFriends", true);
+    i.setClass(this, FriendsActivity.class);
+    startActivity(i);
+}
+    public void viewFollowers() {
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.putExtra("uid", mModel.id);
+        i.putExtra("isFriends", false);
+        i.setClass(this, FriendsActivity.class);
+        startActivity(i);
+    }
 
 	public void follow() {
 		new Follower().execute();

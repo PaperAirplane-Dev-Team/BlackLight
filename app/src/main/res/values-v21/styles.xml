@@ -18,6 +18,17 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+	
+	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Light">
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
+	
+	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark">
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
+	
 	<style name="CardViewStyle" parent="CardView.Light">
 		<item name="android:foreground">?android:attr/selectableItemBackground</item>
 	</style>

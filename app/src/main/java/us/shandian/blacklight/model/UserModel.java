@@ -65,7 +65,7 @@ public class UserModel implements Parcelable
 		if (TextUtils.isEmpty(remark)){
 			return screen_name == null ? name : screen_name;
 		} else if (nameWithRemark == null){
-			nameWithRemark = String.format("%s(%s)",remark,(screen_name == null ? name : screen_name));
+			nameWithRemark = String.format("%s(%s)", (screen_name == null ? name : screen_name), remark);
 		}
 		return nameWithRemark;
 	}

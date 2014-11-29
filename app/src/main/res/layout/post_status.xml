@@ -149,39 +149,39 @@
 						android:gravity="center_vertical">
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_pic"
-							android:layout_width="50dp"
-							android:layout_height="50dp"
-							android:scaleType="centerInside"
+							android:layout_width="wrap_content"
+							android:layout_height="44dp"
+							android:scaleType="centerCrop"
 							android:src="@drawable/ic_camera"
 							app:tintColor="?attr/NewPostForeground"
 							style="?android:attr/buttonBarButtonStyle"/>
 
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_emoji"
-							android:layout_width="50dp"
-							android:layout_height="50dp"
+							android:layout_width="wrap_content"
+							android:layout_height="44dp"
 							android:layout_marginLeft="2dp"
-							android:scaleType="centerInside"
+							android:scaleType="centerCrop"
 							android:src="@drawable/ic_emoji"
 							app:tintColor="?attr/NewPostForeground"
 							style="?android:attr/buttonBarButtonStyle"/>
 
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_at"
-							android:layout_width="50dp"
-							android:layout_height="50dp"
+							android:layout_width="wrap_content"
+							android:layout_height="44dp"
 							android:layout_marginLeft="2dp"
-							android:scaleType="centerInside"
+							android:scaleType="centerCrop"
 							android:src="@drawable/ic_drawer_at"
 							app:tintColor="?attr/NewPostForeground"
 							style="?android:attr/buttonBarButtonStyle"/>
 
 						<us.shandian.blacklight.ui.common.TintImageView
 							android:id="@+id/post_topic"
-							android:layout_width="50dp"
-							android:layout_height="50dp"
+							android:layout_width="wrap_content"
+							android:layout_height="44dp"
 							android:layout_marginLeft="2dp"
-							android:scaleType="centerInside"
+							android:scaleType="centerCrop"
 							android:src="@drawable/ic_action_topic"
 							app:tintColor="?attr/NewPostForeground"
 							style="?android:attr/buttonBarButtonStyle"/>
@@ -205,8 +205,8 @@
 
 					<us.shandian.blacklight.ui.common.TintImageView
 						android:id="@+id/post_send"
-						android:layout_width="50dp"
-						android:layout_height="50dp"
+						android:layout_width="44dp"
+						android:layout_height="44dp"
 						android:layout_marginLeft="3dp"
 						android:scaleType="centerInside"
 						android:src="@drawable/ic_action_send_now"

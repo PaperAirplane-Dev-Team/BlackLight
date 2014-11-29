@@ -21,6 +21,7 @@ package us.shandian.blacklight.ui.common;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -87,6 +88,16 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 		super.onPause();
 		mDetector.removeListener(this);
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 	@Override
 	public void onShake() {
