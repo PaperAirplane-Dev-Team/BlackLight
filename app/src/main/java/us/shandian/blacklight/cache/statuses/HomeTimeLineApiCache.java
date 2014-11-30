@@ -199,16 +199,6 @@ public class HomeTimeLineApiCache
 		if (cache == null) {
 			return null;
 		}
-
-		if (cacheName.endsWith(".gif")) {
-			Movie movie = Movie.decodeStream(cache);
-			
-			// A real movie must have a dutation bigger than 0
-			// Or it is just a static picture
-			if (movie.duration() > 0) {
-				return movie;
-			}
-		} 
 		
 		try {
 			cache.close();

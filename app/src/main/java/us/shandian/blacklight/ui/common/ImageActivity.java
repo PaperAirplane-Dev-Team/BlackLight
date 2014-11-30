@@ -39,7 +39,8 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
-import org.roisoleil.gifview.GifView;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
+import java.io.*;
 
 public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 {
@@ -215,15 +217,15 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		protected void onPostExecute(Object[] result) {
 			super.onPostExecute(result);
 			final ViewGroup v = (ViewGroup) result[0];
-			Object img = result[1];
+			String img = String.valueOf(result[1]);
 			
 			if (img != null) {
 				v.removeAllViews();
-				if (img instanceof String) {
+				if (!img.endsWith(".gif")) {
 					// If returned a String, it means that the image is a Bitmap
 					// So we can use the included SubsamplingScaleImageView
 					final SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
-					iv.setImageFile((String) img);
+					iv.setImageFile(img);
 					iv.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
@@ -278,10 +280,15 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					};
 					v.postDelayed(r,500);
 
-				} else if (img instanceof Movie) {
-					GifView g = new GifView(ImageActivity.this);
-					g.setMovie((Movie) img);
-					v.addView(g, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+				} else {
+					try {
+						GifDrawable g = new GifDrawable(img);
+						GifImageView iv = new GifImageView(ImageActivity.this);
+						iv.setImageDrawable(g);
+						v.addView(iv, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+					} catch (IOException e) {
+						
+					}
 				}
 			}
 		}
