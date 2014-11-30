@@ -39,11 +39,10 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
-import java.io.IOException;
+import org.roisoleil.gifview.GifView;
+
 import java.util.ArrayList;
 
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.cache.statuses.HomeTimeLineApiCache;
@@ -143,6 +142,9 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 		@Override
 		public void onProgressChanged(final int read, final int total) {
+			if (DEBUG) {
+				Log.d(TAG, "read = " + read + "; total = " + total);
+			}
 
 			p.post(new Runnable() {
 				@Override
@@ -213,12 +215,12 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		protected void onPostExecute(Object[] result) {
 			super.onPostExecute(result);
 			final ViewGroup v = (ViewGroup) result[0];
-			String img = (String) result[1];
+			Object img = result[1];
 			
 			if (img != null) {
 				v.removeAllViews();
-				if (!img.endsWith(".gif")) {
-					// If the file path doesn't end with '.gif', it means that the image is a Bitmap
+				if (img instanceof String) {
+					// If returned a String, it means that the image is a Bitmap
 					// So we can use the included SubsamplingScaleImageView
 					final SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
 					iv.setImageFile((String) img);
@@ -276,16 +278,10 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					};
 					v.postDelayed(r,500);
 
-				} else {
-					GifDrawable g = null;
-					try {
-						g = new GifDrawable(img);
-						GifImageView gv = new GifImageView(ImageActivity.this);
-						gv.setImageDrawable(g);
-						v.addView(gv, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				} else if (img instanceof Movie) {
+					GifView g = new GifView(ImageActivity.this);
+					g.setMovie((Movie) img);
+					v.addView(g, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				}
 			}
 		}
