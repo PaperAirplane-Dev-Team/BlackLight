@@ -469,6 +469,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 					try {
 						bmp = BitmapFactory.decodeFile(path);
 					} catch (OutOfMemoryError e) {
+						
 					}
 				}
 
@@ -478,7 +479,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 			bmp = Utility.parseLongPost(this, mText.getText().toString(), bmp);
 			mBitmaps.add(0, bmp);
-			mPaths.add(null);
+			mPaths.add(0, null);
 
 			return postPics(Utility.parseLongContent(this, mText.getText().toString()));
 		}
