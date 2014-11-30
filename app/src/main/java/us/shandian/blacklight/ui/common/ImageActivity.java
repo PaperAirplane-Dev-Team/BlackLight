@@ -43,6 +43,7 @@ import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
+import java.io.IOException;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.cache.file.FileCacheManager;
@@ -52,7 +53,6 @@ import us.shandian.blacklight.support.AsyncTask;
 import us.shandian.blacklight.support.Utility;
 
 import static us.shandian.blacklight.BuildConfig.DEBUG;
-import java.io.*;
 
 public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 {
