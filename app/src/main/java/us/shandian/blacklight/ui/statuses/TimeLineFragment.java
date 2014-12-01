@@ -152,16 +152,21 @@ public abstract class TimeLineFragment extends Fragment implements
 						
 						updateTranslation();
 					}
-					
-					if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
-						new Refresher().execute(false);
-					}
 
 					mFABShowing = shouldShow;
 					mLastY = dy;
 				}
 			});
 		}
+		
+		mAdapter.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(RecyclerView v, int dx, int dy) {
+				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
+					new Refresher().execute(false);
+				}
+			}
+		});
 
 		mShadow.bringToFront();
 
