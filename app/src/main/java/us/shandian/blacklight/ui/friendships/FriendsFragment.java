@@ -115,6 +115,8 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 				}
 			}
 		});
+		
+		v.findViewById(R.id.action_shadow).bringToFront();
 
 		onRefresh();
 		
