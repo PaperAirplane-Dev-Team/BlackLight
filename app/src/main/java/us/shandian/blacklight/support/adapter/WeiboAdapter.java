@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -141,6 +142,24 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 				@Override
 				public void onScrollStateChanged(RecyclerView v, int state) {
 					mScrolling = state != RecyclerView.SCROLL_STATE_IDLE;
+					
+					if (!mScrolling) {
+						RecyclerView.LayoutManager manager = v.getLayoutManager();
+						
+						int from = -1;
+						int to = -1;
+						if (manager instanceof LinearLayoutManager) {
+							LinearLayoutManager lm = (LinearLayoutManager) manager;
+							from = lm.findFirstVisibleItemPosition();
+							to = lm.findLastVisibleItemPosition();
+						}
+						
+						if (from > -1 && to > -1) {
+							for (int i = from; i <= to; i++) {
+								new ImageDownloader().execute(v.getChildAt(i - from));
+							}
+						}
+					}
 
 					// Inform all listeners
 					for (RecyclerView.OnScrollListener listener : mListeners) {
@@ -309,7 +328,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			}
 		}
 		
-		new ImageDownloader().execute(v);
+		//new ImageDownloader().execute(v);
 		
 		/*if (DEBUG) {
 			Debug.stopMethodTracing();
