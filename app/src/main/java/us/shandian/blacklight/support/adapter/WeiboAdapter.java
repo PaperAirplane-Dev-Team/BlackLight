@@ -122,6 +122,9 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	private boolean mAutoNoPic = false;
 	private String mAppName;
 	
+	private RecyclerView.OnScrollListener mListener;
+	private RecyclerView mRecycler;
+	
 	public WeiboAdapter(Context context, RecyclerView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -137,7 +140,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
 		mAppName = context.getString(R.string.app_name);
 		
-		listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+		mListener = new RecyclerView.OnScrollListener() {
 
 				@Override
 				public void onScrollStateChanged(RecyclerView v, int state) {
@@ -178,7 +181,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 						}
 					}
 				}
-		});
+		};
+		listView.setOnScrollListener(mListener);
+		mRecycler = listView;
+		
 		notifyDataSetChangedAndClone();
 	}
 	
@@ -434,6 +440,12 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	public void notifyDataSetChangedAndClone() {
 		mClone = mList.clone();
 		super.notifyDataSetChanged();
+		
+		try {
+			mListener.onScrollStateChanged(mRecycler, RecyclerView.SCROLL_STATE_IDLE);
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	private boolean waitUntilNotScrolling(ViewHolder h, MessageModel msg) {
