@@ -72,6 +72,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
+	private int mLastPosition = -1;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -216,6 +217,25 @@ public abstract class TimeLineFragment extends Fragment implements
 				onRefresh();
 			}
 		});
+	}
+
+	@Override
+	public void goToTop() {
+		
+		int pos = mManager.findFirstVisibleItemPosition();
+		
+		if (pos != 0 || mLastPosition != -1) {
+			
+			if (mLastPosition != -1) {
+				pos = mLastPosition;
+				mLastPosition = -1;
+			} else {
+				mLastPosition = pos;
+				pos = 0;
+			}
+			
+			mList.smoothScrollToPosition(pos);
+		}
 	}
 
 	@Override

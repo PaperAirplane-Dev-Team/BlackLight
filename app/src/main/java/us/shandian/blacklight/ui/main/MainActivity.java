@@ -85,6 +85,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 	public static interface Refresher {
 		void doRefresh();
+		void goToTop();
 	}
 
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
@@ -263,6 +264,17 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 			ft.hide(f);
 		}
 		ft.commit();
+		
+		mToolbar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Fragment f = mFragments[mCurrent];
+				
+				if (f instanceof Refresher) {
+					((Refresher) f).goToTop();
+				}
+			}
+		});
 
 		// Adjust drawer layout params
 		mDrawerWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
