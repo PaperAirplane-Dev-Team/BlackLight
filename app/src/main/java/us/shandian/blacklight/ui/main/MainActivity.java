@@ -95,6 +95,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
+	private ContextThemeWrapper mToolbarContext;
 
 	// Drawer content
 	private View mDrawerWrapper;
@@ -136,15 +137,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onCreate(savedInstanceState);
 
 		// Add custom view
-		if (Build.VERSION.SDK_INT < 21) {
-			// This fix is only for ICS/JB/KK
-			ContextThemeWrapper customContext = new ContextThemeWrapper(this, R.style.Theme_AppCompat);
-			LayoutInflater customInflater = (LayoutInflater) customContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View custom = customInflater.inflate(R.layout.action_custom, null);
-			getSupportActionBar().setCustomView(custom);
-		} else {
-			getSupportActionBar().setCustomView(R.layout.action_custom);
-		}
+		mToolbarContext = new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
+		LayoutInflater customInflater = (LayoutInflater) mToolbarContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View custom = customInflater.inflate(R.layout.action_custom, null);
+		getSupportActionBar().setCustomView(custom);
 		
 		getSupportActionBar().setDisplayShowCustomEnabled(false);
 
@@ -744,7 +740,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 				}
 
 				// Navigation
-				getSupportActionBar().setListNavigationCallbacks(new ArrayAdapter<String>(MainActivity.this, 
+				getSupportActionBar().setListNavigationCallbacks(new ArrayAdapter<String>(mToolbarContext, 
 							R.layout.action_spinner_item, names), MainActivity.this);
 
 				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
