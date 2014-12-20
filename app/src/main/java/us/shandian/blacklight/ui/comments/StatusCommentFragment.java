@@ -42,7 +42,12 @@ public class StatusCommentFragment extends TimeLineFragment
 	}
 	
 	private void init() {
-		mId = getArguments().getLong("id");
+		
+		if (getArguments() != null) {
+			mId = getArguments().getLong("id");
+		} else {
+			mId = 0;
+		}
 		mBindOrig = false;
 	}
 
