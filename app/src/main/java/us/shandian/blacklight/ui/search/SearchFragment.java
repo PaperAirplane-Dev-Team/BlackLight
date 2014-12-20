@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class SearchFragment extends Fragment
 		getFragmentManager().beginTransaction()
 			.add(R.id.frame, mFragments[0]).add(R.id.frame, mFragments[1])
 			.hide(mFragments[0]).show(mFragments[1]).commit();
-		
+			
 		return v;
 	}
 	
@@ -94,9 +95,8 @@ public class SearchFragment extends Fragment
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getActivity().getMenuInflater().inflate(R.menu.search, menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.search, menu);
 	}
 
 	@Override

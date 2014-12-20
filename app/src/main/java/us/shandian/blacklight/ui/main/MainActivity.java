@@ -116,7 +116,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	// Groups
 	public GroupListModel mGroups;
 	public String mCurrentGroupId = null;
-	private MenuItem mGroupDestroy, mGroupCreate;
+	private MenuItem mGroupDestroy, mGroupCreate, mSearch;
 	
 	// Temp fields
 	private int mCurrent = 0;
@@ -364,7 +364,9 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		// Save some needed items
 		mGroupDestroy = menu.findItem(R.id.group_destroy);
 		mGroupCreate = menu.findItem(R.id.group_create);
-
+		mSearch = menu.findItem(R.id.search);
+		mSearch.setVisible(true);
+		
 		mGroupDestroy.setEnabled(mCurrentGroupId != null);
 		return true;
 	}
@@ -373,7 +375,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 
-		if (mCurrent == 0) {
+		if (mCurrent == HOME) {
 			mGroupDestroy.setVisible(true);
 			mGroupCreate.setVisible(true);
 
@@ -381,6 +383,12 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		} else {
 			mGroupDestroy.setVisible(false);
 			mGroupCreate.setVisible(false);
+		}
+		
+		if (mCurrent == SEARCH) {
+			mSearch.setVisible(false);
+		} else {
+			mSearch.setVisible(true);
 		}
 
 		return true;
@@ -452,6 +460,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 				.show();
 			return true;
 		} else if (item.getItemId() == R.id.search) {
+			mSearch = item;
 			setShowTitle(false);
 			setShowSpinner(false);
 			switchTo(SEARCH);
@@ -576,6 +585,11 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	}
 	
 	private void switchTo(int id) {
+		
+		if (mSearch != null) {
+			mSearch.setVisible(id != SEARCH);
+		}
+		
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
 		
