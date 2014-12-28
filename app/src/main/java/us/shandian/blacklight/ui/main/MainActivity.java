@@ -80,6 +80,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 	public static interface Refresher {
 		void doRefresh();
+		void goToTop();
 	}
 
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
@@ -89,6 +90,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
+	private ContextThemeWrapper mToolbarContext;
 
 	// Drawer content
 	private View mDrawerWrapper;
@@ -109,7 +111,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	// Groups
 	public GroupListModel mGroups;
 	public String mCurrentGroupId = null;
-	private MenuItem mGroupDestroy, mGroupCreate;
+	private MenuItem mGroupDestroy, mGroupCreate, mSearch;
 	
 	// Temp fields
 	private int mCurrent = 0;
@@ -129,15 +131,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onCreate(savedInstanceState);
 
 		// Add custom view
-		if (Build.VERSION.SDK_INT < 21) {
-			// This fix is only for ICS/JB/KK
-			ContextThemeWrapper customContext = new ContextThemeWrapper(this, R.style.Theme_AppCompat);
-			LayoutInflater customInflater = (LayoutInflater) customContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View custom = customInflater.inflate(R.layout.action_custom, null);
-			getSupportActionBar().setCustomView(custom);
-		} else {
-			getSupportActionBar().setCustomView(R.layout.action_custom);
-		}
+		mToolbarContext = new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
+		LayoutInflater customInflater = (LayoutInflater) mToolbarContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View custom = customInflater.inflate(R.layout.action_custom, null);
+		getSupportActionBar().setCustomView(custom);
 		
 		getSupportActionBar().setDisplayShowCustomEnabled(false);
 
@@ -257,6 +254,17 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 			ft.hide(f);
 		}
 		ft.commit();
+		
+		mToolbar.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Fragment f = mFragments[mCurrent];
+				
+				if (f instanceof Refresher) {
+					((Refresher) f).goToTop();
+				}
+			}
+		});
 
 		// Adjust drawer layout params
 		mDrawerWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -350,7 +358,9 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		// Save some needed items
 		mGroupDestroy = menu.findItem(R.id.group_destroy);
 		mGroupCreate = menu.findItem(R.id.group_create);
-
+		mSearch = menu.findItem(R.id.search);
+		mSearch.setVisible(true);
+		
 		mGroupDestroy.setEnabled(mCurrentGroupId != null);
 		return true;
 	}
@@ -359,7 +369,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 
-		if (mCurrent == 0) {
+		if (mCurrent == HOME) {
 			mGroupDestroy.setVisible(true);
 			mGroupCreate.setVisible(true);
 
@@ -367,6 +377,12 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		} else {
 			mGroupDestroy.setVisible(false);
 			mGroupCreate.setVisible(false);
+		}
+		
+		if (mCurrent == SEARCH) {
+			mSearch.setVisible(false);
+		} else {
+			mSearch.setVisible(true);
 		}
 
 		return true;
@@ -438,6 +454,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 				.show();
 			return true;
 		} else if (item.getItemId() == R.id.search) {
+			mSearch = item;
 			setShowTitle(false);
 			setShowSpinner(false);
 			switchTo(SEARCH);
@@ -562,6 +579,11 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	}
 	
 	private void switchTo(int id) {
+		
+		if (mSearch != null) {
+			mSearch.setVisible(id != SEARCH);
+		}
+		
 		FragmentTransaction ft = mManager.beginTransaction();
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
 		
@@ -726,7 +748,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 				}
 
 				// Navigation
-				getSupportActionBar().setListNavigationCallbacks(new ArrayAdapter<String>(MainActivity.this, 
+				getSupportActionBar().setListNavigationCallbacks(new ArrayAdapter<String>(mToolbarContext, 
 							R.layout.action_spinner_item, names), MainActivity.this);
 
 				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

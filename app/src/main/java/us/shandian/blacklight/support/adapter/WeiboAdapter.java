@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -121,6 +122,9 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	private boolean mAutoNoPic = false;
 	private String mAppName;
 	
+	private RecyclerView.OnScrollListener mListener;
+	private RecyclerView mRecycler;
+	
 	public WeiboAdapter(Context context, RecyclerView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -136,11 +140,29 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
 		mAppName = context.getString(R.string.app_name);
 		
-		listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+		mListener = new RecyclerView.OnScrollListener() {
 
 				@Override
 				public void onScrollStateChanged(RecyclerView v, int state) {
 					mScrolling = state != RecyclerView.SCROLL_STATE_IDLE;
+					
+					if (!mScrolling) {
+						RecyclerView.LayoutManager manager = v.getLayoutManager();
+						
+						int from = -1;
+						int to = -1;
+						if (manager instanceof LinearLayoutManager) {
+							LinearLayoutManager lm = (LinearLayoutManager) manager;
+							from = lm.findFirstVisibleItemPosition();
+							to = lm.findLastVisibleItemPosition();
+						}
+						
+						if (from > -1 && to > -1) {
+							for (int i = from; i <= to; i++) {
+								new ImageDownloader().execute(v.getChildAt(i - from));
+							}
+						}
+					}
 
 					// Inform all listeners
 					for (RecyclerView.OnScrollListener listener : mListeners) {
@@ -159,7 +181,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 						}
 					}
 				}
-		});
+		};
+		listView.setOnScrollListener(mListener);
+		mRecycler = listView;
+		
 		notifyDataSetChangedAndClone();
 	}
 	
@@ -170,7 +195,24 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	@Override
 	public int getViewType(int position) {
-		return 0;
+		MessageModel msg = mClone.get(position);
+		
+		if (msg instanceof CommentModel) {
+			return mBindOrig ? 10 : 0;
+		} else {
+			int ret = 0;
+			
+			if (msg.retweeted_status != null && mBindOrig) {
+				ret = 10;
+				msg = msg.retweeted_status;
+			}
+			
+			if ((msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
+				ret += msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
+			}
+			
+			return ret;
+		}
 	}
 
 	@Override
@@ -183,18 +225,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		h.avatar.setImageResource(R.color.gray);
 		h.avatar.setTag(true);
 		h.comment_and_retweet.setVisibility(View.VISIBLE);
-		LinearLayout container = h.pics;
-			
-		for (int i = 0; i < 9; i++) {
-			ImageView iv = (ImageView) container.getChildAt(i);
-			iv.setImageBitmap(null);
-			iv.setVisibility(View.VISIBLE);
-			iv.setTag(true);
-		}
-			
-		h.scroll.setVisibility(View.GONE);
-		h.origin_parent.setVisibility(View.GONE);
-			
 		h.msg = null;
 	}
 	
@@ -205,7 +235,32 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	@Override
 	public WeiboAdapter.ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = mInflater.inflate(R.layout.weibo, parent, false);
-		return new ViewHolder(this, v);
+		ViewHolder h = new ViewHolder(this, v);
+		
+		h.content.setMovementMethod(HackyMovementMethod.getInstance());
+		h.orig_content.setMovementMethod(HackyMovementMethod.getInstance());
+		
+		if (viewType >= 10) {
+			h.origin_parent.setVisibility(View.VISIBLE);
+		}
+		
+		int picCount = viewType % 10;
+		
+		if (picCount > 0) {
+			h.scroll.setVisibility(View.VISIBLE);
+			h.pics.setVisibility(View.VISIBLE);
+			for (int i = 0; i < 9; i++) {
+				View view = h.pics.getChildAt(i);
+				if (i < picCount) {
+					view.setTag(TAG_ID, i);
+					view.setOnClickListener(sImageListener);
+				} else {
+					view.setVisibility(View.GONE);
+				}
+			}
+		}
+		
+		return h;
 	}
 
 	@Override
@@ -242,7 +297,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		}
 
 		content.setText(SpannableStringUtils.getSpan(mContext, msg));
-		content.setMovementMethod(HackyMovementMethod.getInstance());
 		
 		date.setText(mTimeUtils.buildTimeString(msg.millis));
 
@@ -280,7 +334,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			}
 		}
 		
-		new ImageDownloader().execute(v);
+		//new ImageDownloader().execute(v);
 		
 		/*if (DEBUG) {
 			Debug.stopMethodTracing();
@@ -288,9 +342,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	}
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
-		h.origin_parent.setVisibility(View.VISIBLE);
 		h.orig_content.setText(SpannableStringUtils.getOrigSpan(mContext, msg));
-		h.orig_content.setMovementMethod(HackyMovementMethod.getInstance());
 		
 		bindMultiPicLayout(h, msg, showPic);
 		
@@ -302,33 +354,25 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	}
 	
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
-		HorizontalScrollView scroll = h.scroll;
-
-		if (showPic && (msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
-			scroll.setVisibility(View.VISIBLE);
-
+		if (showPic && h.getItemViewType() % 10 > 0) {
 			LinearLayout container = h.pics;
 
-			int numChilds = msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
+			int numChilds = h.getItemViewType() % 10;
 
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < numChilds; i++) {
 				ImageView iv = (ImageView) container.getChildAt(i);
 				
-				if (i >= numChilds) {
-					iv.setVisibility(View.GONE);
+				Bitmap bmp = mHomeApi.getCachedThumbnail(msg, i);
+				
+				if (bmp != null) {
+					iv.setImageBitmap(bmp);
+					iv.setTag(false);
 				} else {
-					Bitmap bmp = mHomeApi.getCachedThumbnail(msg, i);
-					
-					if (bmp != null) {
-						iv.setImageBitmap(bmp);
-						iv.setTag(false);
-					}
-					
-					iv.setTag(TAG_MSG, msg);
-					iv.setTag(TAG_ID, i);
-					
-					iv.setOnClickListener(sImageListener);
+					iv.setImageBitmap(null);
+					iv.setTag(true);
 				}
+				
+				iv.setTag(TAG_MSG, msg);
 			}
 		}
 	}
@@ -396,6 +440,12 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	public void notifyDataSetChangedAndClone() {
 		mClone = mList.clone();
 		super.notifyDataSetChanged();
+		
+		try {
+			mListener.onScrollStateChanged(mRecycler, RecyclerView.SCROLL_STATE_IDLE);
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	private boolean waitUntilNotScrolling(ViewHolder h, MessageModel msg) {

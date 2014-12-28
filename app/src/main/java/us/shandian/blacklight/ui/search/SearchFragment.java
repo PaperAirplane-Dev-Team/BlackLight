@@ -21,8 +21,10 @@ package us.shandian.blacklight.ui.search;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +62,8 @@ public class SearchFragment extends Fragment
 
 		String[] types = getResources().getStringArray(R.array.search_type);
 		
-		mTypes.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.action_spinner_item, types));
+		ContextThemeWrapper wrapper = new ContextThemeWrapper(getActivity(), R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
+		mTypes.setAdapter(new ArrayAdapter<String>(wrapper, R.layout.action_spinner_item, types));
 		
 		setHasOptionsMenu(true);
 		
@@ -74,7 +77,7 @@ public class SearchFragment extends Fragment
 		getFragmentManager().beginTransaction()
 			.add(R.id.frame, mFragments[0]).add(R.id.frame, mFragments[1])
 			.hide(mFragments[0]).show(mFragments[1]).commit();
-		
+			
 		return v;
 	}
 	
@@ -92,9 +95,8 @@ public class SearchFragment extends Fragment
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getActivity().getMenuInflater().inflate(R.menu.search, menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.search, menu);
 	}
 
 	@Override

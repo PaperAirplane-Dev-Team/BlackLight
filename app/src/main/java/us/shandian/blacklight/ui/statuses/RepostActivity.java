@@ -54,7 +54,7 @@ public class RepostActivity extends NewPostActivity
 		// If the msg itself is a repost
 		// We should repost the original one
 		if (mMsg.retweeted_status != null) {
-			mText.setText("//" + (mMsg.user != null ? "@" + mMsg.user.getName() + ":" : "") + mMsg.text);
+			mText.setText("//" + (mMsg.user != null ? "@" + mMsg.user.getNameNoRemark() + ":" : "") + mMsg.text);
 		}
 	}
 

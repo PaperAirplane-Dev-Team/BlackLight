@@ -106,4 +106,10 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 		mRetweet.doRefresh();
 		mComment.doRefresh();
 	}
+
+	@Override
+	public void goToTop() {
+		mRetweet.goToTop();
+		mComment.goToTop();
+	}
 }

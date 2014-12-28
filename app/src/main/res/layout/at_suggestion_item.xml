@@ -25,5 +25,6 @@
 	android:layout_width="160dp"
 	android:ellipsize="end"
 	android:gravity="center_vertical"
-	android:padding="10dp"/>
+	android:padding="10dp"
+	android:background="?attr/CardBackground"/>
 

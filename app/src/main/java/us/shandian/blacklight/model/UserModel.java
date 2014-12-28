@@ -69,6 +69,10 @@ public class UserModel implements Parcelable
 		}
 		return nameWithRemark;
 	}
+	
+	public String getNameNoRemark() {
+		return screen_name == null ? name : screen_name;
+	}
 
 	public String getCover() {
 		return cover_image.trim().equals("") ? cover_image_phone : cover_image;
