@@ -19,7 +19,6 @@
 
 package us.shandian.blacklight.ui.main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -75,10 +74,6 @@ import us.shandian.blacklight.ui.statuses.MentionsFragment;
 import us.shandian.blacklight.ui.statuses.NewPostActivity;
 import us.shandian.blacklight.ui.statuses.UserTimeLineActivity;
 
-import us.shandian.blacklight.ui.statuses.TimeLineFragment;
-
-import static us.shandian.blacklight.support.Utility.hasSmartBar;
-
 /* Main Container Activity */
 public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
 {
@@ -120,7 +115,6 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	
 	// Temp fields
 	private int mCurrent = 0;
-	private int mNext = 0;
 	private boolean mIgnore = false;
 	private int mLang = -1;
 	
@@ -608,7 +602,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		ft.commit();
 
 		mCurrent = id;
-		mNext = id;
+		int mNext = id;
 
 		mDrawer.closeDrawer(mDrawerGravity);
 	}
