@@ -21,8 +21,12 @@ package us.shandian.blacklight.support;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
@@ -44,29 +48,33 @@ public class SpannableStringUtils
 	private static final Pattern PATTERN_TOPIC = Pattern.compile("#[\\p{Print}\\p{InCJKUnifiedIdeographs}&&[^#]]+#");
 	private static final Pattern PATTERN_MENTION = Pattern.compile("@[\\w\\p{InCJKUnifiedIdeographs}-]{1,26}");
 	private static final Pattern PATTERN_EMOTICON = Pattern.compile("\\[(\\S+?)\\]");
+	private static final Pattern PATTERN_STYLE = Pattern.compile("(?!^\\\\$)((_+)|(\\*+)|(~+))(\\w{1,})(?!^\\\\$)\\1");
 	
 	private static final String HTTP_SCHEME = "http://";
 	private static final String TOPIC_SCHEME = "us.shandian.blacklight.topic://";
 	private static final String MENTION_SCHEME = "us.shandian.blacklight.user://";
 	
 	public static SpannableString span(Context context, String text) {
-		SpannableString ss = SpannableString.valueOf(text);
-		Linkify.addLinks(ss, PATTERN_WEB, HTTP_SCHEME);
-		Linkify.addLinks(ss, PATTERN_TOPIC, TOPIC_SCHEME);
-		Linkify.addLinks(ss, PATTERN_MENTION, MENTION_SCHEME);
+		
+		text = text.replace("\\n", "\n").replace("<br>", "\n");
+		
+		SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+		Linkify.addLinks(ssb, PATTERN_WEB, HTTP_SCHEME);
+		Linkify.addLinks(ssb, PATTERN_TOPIC, TOPIC_SCHEME);
+		Linkify.addLinks(ssb, PATTERN_MENTION, MENTION_SCHEME);
 		
 		// Convert to our own span
-		URLSpan[] spans = ss.getSpans(0, ss.length(), URLSpan.class);
+		URLSpan[] spans = ssb.getSpans(0, ssb.length(), URLSpan.class);
 		for (URLSpan span : spans) {
 			WeiboSpan s = new WeiboSpan(span.getURL());
-			int start = ss.getSpanStart(span);
-			int end = ss.getSpanEnd(span);
-			ss.removeSpan(span);
-			ss.setSpan(s, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			int start = ssb.getSpanStart(span);
+			int end = ssb.getSpanEnd(span);
+			ssb.removeSpan(span);
+			ssb.setSpan(s, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 		
 		// Match Emoticons
-		Matcher matcher = PATTERN_EMOTICON.matcher(ss);
+		Matcher matcher = PATTERN_EMOTICON.matcher(text);
 		while (matcher.find()) {
 			// Don't be too long
 			if (matcher.end() - matcher.start() < 8) {
@@ -75,12 +83,47 @@ public class SpannableStringUtils
 				
 				if (bitmap != null) {
 					ImageSpan span = new ImageSpan(context, bitmap, ImageSpan.ALIGN_BASELINE);
-					ss.setSpan(span, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+					ssb.setSpan(span, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}
 			}
 		}
 		
-		return ss;
+		// Math style
+		matcher = PATTERN_STYLE.matcher(ssb);
+		while (matcher.find()) {
+			int start = matcher.start();
+			int end = matcher.end();
+			String group = matcher.group(1);
+			
+			int len = group.length();
+			
+			Object span = null;
+			
+			if (group.startsWith("~")) {
+				span = new StrikethroughSpan();
+			} else {
+				int type = Typeface.BOLD;
+				if (len == 1) {
+					type = Typeface.ITALIC;
+				} else if (len == 2) {
+					type = Typeface.BOLD;
+				}
+				span = new StyleSpan(type);
+			}
+			
+			if (span != null) {
+				ssb.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
+			
+			ssb.delete(start, start + len);
+			
+			end -= len;
+			ssb.delete(end - len, end);
+			
+			matcher = PATTERN_STYLE.matcher(ssb);
+		}
+		
+		return SpannableString.valueOf(ssb);
 	}
 	
 	public static SpannableString getSpan(Context context, MessageModel msg) {
