@@ -74,6 +74,7 @@
 	<string name="comment_delete">Delete comment</string>
 	<string name="comment_view_orig">View origin weibo</string>
 	<string name="refresh">Refresh</string>
+	<string name="share">Share</string>
 	<string-array name="picture_picker_array">
 		<item>Choose picture(s) from Photo Gallery</item>
 		<item>Take picture(s)</item>

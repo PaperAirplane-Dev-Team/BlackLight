@@ -28,14 +28,17 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.support.v13.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -267,6 +270,14 @@ public class SingleActivity extends AbsActivity
 		if (mLiked) {
 			setLikeIcon();
 		}
+		
+		ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.share));
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_SEND);
+		i.putExtra(Intent.EXTRA_TEXT, mMsg.text);
+		i.setType("text/plain");
+		share.setShareIntent(i);
+		
 		return true;
 	}
 	
