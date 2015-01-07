@@ -61,6 +61,7 @@ public class HomeTimeLineApiCache
 	private Context mContext;
 	
 	protected int mCurrentPage = 0;
+	protected boolean mFriendsOnly = false;
 
 	public HomeTimeLineApiCache(Context context) {
 		mHelper = DataBaseHelper.instance(context);
@@ -101,7 +102,7 @@ public class HomeTimeLineApiCache
 			mMessages.getList().clear();
 		}
 		
-		mMessages.addAll(false, list);
+		mMessages.addAll(false, mFriendsOnly, list);
 		mMessages.spanAll(mContext);
 		mMessages.timestampAll(mContext);
 	}
@@ -267,6 +268,11 @@ public class HomeTimeLineApiCache
 	}
 
 	protected MessageListModel load() {
+		
+		if (!mFriendsOnly) {
+			mFriendsOnly = true;
+		}
+		
 		return HomeTimeLineApi.fetchHomeTimeLine(Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
 	}
 	

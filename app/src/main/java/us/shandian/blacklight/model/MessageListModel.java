@@ -95,12 +95,16 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 	public List<? extends MessageModel> getList() {
 		return statuses;
 	}
-
+	
 	@Override
 	public void addAll(boolean toTop, MessageListModel values) {
+		addAll(toTop, false, values);
+	}
+
+	public void addAll(boolean toTop, boolean friendsOnly, MessageListModel values) {
 		if (values != null && values.getSize() > 0) {
 			for (MessageModel msg : values.getList()) {
-				if (!statuses.contains(msg) && !values.ad.contains(msg.id)) {
+				if (!statuses.contains(msg) && !values.ad.contains(msg.id) && (msg.user.following || !friendsOnly)) {
 					statuses.add(toTop ? values.getList().indexOf(msg) : statuses.size(), msg);
 				}
 			}
