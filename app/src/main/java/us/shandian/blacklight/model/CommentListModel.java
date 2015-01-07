@@ -92,6 +92,11 @@ public class CommentListModel extends MessageListModel
 	}
 
 	@Override
+	public void addAll(boolean toTop, boolean friendsOnly, MessageListModel values) {
+		addAll(toTop, values);
+	}
+
+	@Override
 	public int describeContents() {
 		return 0;
 	}
