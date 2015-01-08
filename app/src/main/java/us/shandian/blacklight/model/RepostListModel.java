@@ -61,6 +61,11 @@ public class RepostListModel extends MessageListModel
 	}
 
 	@Override
+	public void addAll(boolean toTop, boolean friendsOnly, MessageListModel values, String myUid) {
+		addAll(toTop, values);
+	}
+
+	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(total_number);
 		dest.writeString(previous_cursor);
