@@ -79,7 +79,7 @@ public class CommentListModel extends MessageListModel
 	}
 
 	@Override
-	public void addAll(boolean toTop, MessageListModel values) {
+	public void addAll(boolean toTop, MessageListModel values, String myUid) {
 		if (values instanceof CommentListModel && values != null && values.getSize() > 0) {
 			for (MessageModel msg : values.getList()) {
 				if (!comments.contains(msg)) {

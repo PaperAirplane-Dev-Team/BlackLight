@@ -40,6 +40,7 @@ import us.shandian.blacklight.api.statuses.BilateralTimeLineApi;
 import us.shandian.blacklight.api.statuses.HomeTimeLineApi;
 import us.shandian.blacklight.cache.Constants;
 import us.shandian.blacklight.cache.database.DataBaseHelper;
+import us.shandian.blacklight.cache.login.LoginApiCache;
 import us.shandian.blacklight.cache.database.tables.HomeTimeLineTable;
 import us.shandian.blacklight.cache.file.FileCacheManager;
 import us.shandian.blacklight.model.MessageListModel;
@@ -59,6 +60,7 @@ public class HomeTimeLineApiCache
 	public MessageListModel mMessages;
 
 	private Context mContext;
+	private String mMyUid;
 	
 	protected int mCurrentPage = 0;
 	protected boolean mFriendsOnly = false;
@@ -67,6 +69,7 @@ public class HomeTimeLineApiCache
 		mHelper = DataBaseHelper.instance(context);
 		mManager = FileCacheManager.instance(context);
 		mContext = context;
+		mMyUid = new LoginApiCache(mContext).getUid();
 	}
 	
 	public void loadFromCache() {
@@ -102,7 +105,7 @@ public class HomeTimeLineApiCache
 			mMessages.getList().clear();
 		}
 		
-		mMessages.addAll(false, mFriendsOnly, list);
+		mMessages.addAll(false, mFriendsOnly, list, mMyUid);
 		mMessages.spanAll(mContext);
 		mMessages.timestampAll(mContext);
 	}
