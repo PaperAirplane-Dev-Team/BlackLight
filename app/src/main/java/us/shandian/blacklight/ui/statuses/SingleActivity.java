@@ -336,6 +336,11 @@ public class SingleActivity extends AbsActivity
 		// Dirty Fix: Strange focus on home as up button
 		findViewById(R.id.single_focus).requestFocus();
 	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.single_root);
+	}
 	
 	public void commentOn() {
 		Intent i = new Intent();

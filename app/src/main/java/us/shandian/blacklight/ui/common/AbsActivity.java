@@ -19,11 +19,17 @@
 
 package us.shandian.blacklight.ui.common;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.support.v4.widget.SlidingPaneLayout;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.support.Settings;
@@ -48,6 +54,7 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
+		swipeInit();
 		
 		// Common ActionBar settings
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,5 +109,53 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 	@Override
 	public void onShake() {
 		this.onBackPressed();
+	}
+	
+	protected View getSwipeView() {
+		return ((ViewGroup) getWindow().getDecorView()).getChildAt(0);
+	}
+	
+	@TargetApi(21)
+	private void swipeInit() {
+		// Replace the view first
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		SlidingPaneLayout v = (SlidingPaneLayout) inflater.inflate(R.layout.swipe_decor_wrapper, null);
+		final ViewGroup frame = (ViewGroup) v.findViewById(R.id.swipe_container);
+		View swipeView = getSwipeView();
+		ViewGroup decor = (ViewGroup) swipeView.getParent();
+		ViewGroup.LayoutParams params = swipeView.getLayoutParams();
+		decor.removeView(swipeView);
+		frame.addView(swipeView);
+		decor.addView(v, params);
+		decor.setBackgroundColor(0);
+		
+		// Elevation
+		if (Build.VERSION.SDK_INT >= 21) {
+			frame.setElevation(11.8f);
+		} else {
+			// TODO Shadow drawable
+		}
+		
+		// Swipe gesture configurations
+		v.setSliderFadeColor(0);
+		v.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
+
+			@Override
+			public void onPanelSlide(View v, float percent) {
+				getWindow().getDecorView().setAlpha(1.0f - percent);
+			}
+
+			@Override
+			public void onPanelOpened(View p1) {
+				onBackPressed();
+			}
+
+			@Override
+			public void onPanelClosed(View p1) {
+			}
+		});
+		
+		// Adjust window color
+		getWindow().getDecorView().setBackgroundColor(0);
 	}
 }

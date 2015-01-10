@@ -34,12 +34,16 @@
 	android:focusableInTouchMode="true"
 	android:layout_below="@+id/toolbar">
 	
-	<com.sothree.slidinguppanel.SlidingUpPanelLayout
-		android:gravity="bottom"
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_weight="0.9"
+		android:layout_weight="0.9">
+	
+	<com.sothree.slidinguppanel.SlidingUpPanelLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
 		android:id="@+id/single_root"
+		android:gravity="bottom"
 		sothree:paralaxOffset="100dp"
 		sothree:panelHeight="40dp"
 		sothree:shadowHeight="4dp"
@@ -95,6 +99,8 @@
 		</LinearLayout>
 
 	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+	
+	</LinearLayout>
 
 	<LinearLayout
 		android:layout_width="match_parent"
