@@ -14,3 +14,11 @@ android:
         - android-21
         - extra-android-support
         - extra-android-m2repository
+deploy:
+    provider: releases
+    api-key: '064ffd845a9b5e2aec01bde1d37dfd598a39e1e3'
+    file: "app-snapshot/build/outputs/apk/app-debug.apk"
+    skip_cleanup: true
+    on:
+        tags: true
+        all_branches: true
