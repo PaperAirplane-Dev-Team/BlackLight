@@ -7,7 +7,7 @@ before_install:
     - wget https://dl-ssl.google.com/android/repository/build-tools_r21.0.2-linux.zip
     - unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME >> /dev/null
     - mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.0.2
-script: 'gradle build :app-snapshot:build'
+script: 'gradle :app-snapshot:build'
 android:
     componenents:
         - build-tools-21.0.2
