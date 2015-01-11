@@ -22,6 +22,7 @@ package us.shandian.blacklight.ui.friendships;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.common.AbsActivity;
@@ -51,5 +52,10 @@ public class FriendsActivity extends AbsActivity
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.frame);
 	}
 }

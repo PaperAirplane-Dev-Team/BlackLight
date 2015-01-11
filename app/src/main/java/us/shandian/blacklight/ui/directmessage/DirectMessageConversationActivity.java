@@ -23,6 +23,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -115,6 +116,11 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		if (!mRefreshing) {
 			new Refresher().execute(mSwipeRefresh.isDown());
 		}
+	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.direct_message_refresh);
 	}
 	
 	public void send() {

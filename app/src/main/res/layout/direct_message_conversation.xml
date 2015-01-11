@@ -40,18 +40,24 @@
 				sothree:shadowHeight="0dp"
 				sothree:dragView="@+id/direct_message_emoticon">
 
-				<us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout
+				<FrameLayout
 					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:id="@+id/direct_message_refresh">
+					android:layout_width="match_parent">
+					
+						<us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout
+							android:layout_height="match_parent"
+							android:layout_width="match_parent"
+							android:id="@+id/direct_message_refresh">
 
-					<ListView
-						android:layout_height="match_parent"
-						android:layout_width="match_parent"
-						android:divider="@null"
-						android:id="@+id/direct_message_conversation"/>
+							<ListView
+								android:layout_height="match_parent"
+								android:layout_width="match_parent"
+								android:divider="@null"
+								android:id="@+id/direct_message_conversation"/>
 
-			</us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout>
+					</us.shandian.blacklight.ui.common.SwipeUpAndDownRefreshLayout>
+					
+				</FrameLayout>
 
 			<LinearLayout
 				android:layout_height="288dp"
