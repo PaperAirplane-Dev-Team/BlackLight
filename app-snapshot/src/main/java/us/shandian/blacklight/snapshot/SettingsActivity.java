@@ -19,6 +19,14 @@
 
 package us.shandian.blacklight.snapshot;
 
-public class EntryActivity extends info.papdt.blacklight.ui.entry.EntryActivity
+import android.os.Bundle;
+
+public class SettingsActivity extends info.papdt.blacklight.ui.settings.SettingsActivity
 {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		getFragmentManager().beginTransaction().replace(R.id.settings, new SettingsFragment()).commit();
+	}
 }
