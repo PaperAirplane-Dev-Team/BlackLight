@@ -46,6 +46,16 @@
 			</intent-filter>
 		</activity>
 		
+		<activity-alias
+			android:name="info.papdt.blacklight.ui.entry.EntryActivity"
+			android:targetActivity=".EntryActivity"
+			android:label="@string/app_snapshot" >
+			<intent-filter>
+				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity-alias>
+		
 		<activity
 			android:name="info.papdt.blacklight.ui.login.LoginActivity"
 			android:label="@string/login" >
