@@ -4,7 +4,7 @@ before_install:
     - unzip gradle-1.12-all.zip
     - export GRADLE_HOME=$PWD/gradle-1.12
     - export PATH=$GRADLE_HOME/bin:$PATH
-script: 'gradle build :app-snapshot'
+script: 'gradle build :app-snapshot:build'
 android:
     componenents:
         - build-tools-21.0.2
