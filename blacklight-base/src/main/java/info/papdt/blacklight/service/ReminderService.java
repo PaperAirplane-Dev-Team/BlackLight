@@ -90,6 +90,7 @@ public class ReminderService extends IntentService {
 			
 			int defaults = parseDefaults(c);
 			Intent i = new Intent(c, EntryActivity.class);
+			i.setPackage(c.getPackageName());
 			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			PendingIntent pi;
 			String clickToView = c.getString(R.string.click_to_view);
