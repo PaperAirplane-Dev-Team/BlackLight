@@ -1,5 +1,6 @@
 BlackLight 新浪微博客户端
 ---
+[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)   
 ![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)   
 详细介绍请见 <http://typeblog.net/blacklight>  
 Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
@@ -39,6 +40,6 @@ Chrome中运行效果:
 @PeterCxy  
 @Harry-Chen  
 @fython  
-@一抔学渣  
+@xavieryao 
 
 纸飞机开发团队 @PaperAirplane-Dev-Team 出品
