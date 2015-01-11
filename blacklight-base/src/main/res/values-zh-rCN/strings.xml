@@ -182,6 +182,14 @@
 	</string-array>
 	<string name="language">语言</string>
 
+	<!-- Donation -->
+	<string name="donation">捐赠</string>
+	<string name="donation_des">这个...你懂的</string>
+	<string name="alipay">支付宝</string>
+	<string name="digital_ocean">DigitalOcean 推广链接</string>
+	<string name="petercxy">PeterCxy (主要开发者)</string>
+	<string name="micromacer">Micromacer (设计师)</string>
+	
 	<!-- Feedback -->
 	<string name="fb">反馈</string>
 	<string name="fb_title">反馈标题</string>

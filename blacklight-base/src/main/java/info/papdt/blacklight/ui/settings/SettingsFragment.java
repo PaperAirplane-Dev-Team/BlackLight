@@ -59,6 +59,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private static final String DEVELOPERS = "developers";
 	private static final String FEEDBACK = "feedback";
 	private static final String GOOD = "good";
+	private static final String DONATION = "donation";
 
 	private Settings mSettings;
 
@@ -69,6 +70,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private Preference mPrefGood;
 	private Preference mPrefCrash;
 	private Preference mPrefDevelopers;
+	private Preference mPrefDonation;
 
 	// Account
 	private Preference mPrefLogout;
@@ -123,6 +125,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
+		mPrefDonation = findPreference(DONATION);
 		
 		// Data
 		String version = "Unknown";
@@ -174,6 +177,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
 		mPrefLang.setOnPreferenceClickListener(this);
+		mPrefDonation.setOnPreferenceClickListener(this);
 	}
 
 	@Override
@@ -239,6 +243,12 @@ public class SettingsFragment extends PreferenceFragment implements
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_VIEW);
 			i.setData(Uri.parse(getResources().getString(R.string.play_url)));
+			startActivity(i);
+			return true;
+		} else if (preference == mPrefDonation) {
+			Intent i = new Intent();
+			i.setAction(Intent.ACTION_MAIN);
+			i.setClass(getActivity(), DonationActivity.class);
 			startActivity(i);
 			return true;
 		}

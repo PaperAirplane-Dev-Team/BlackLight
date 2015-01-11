@@ -138,6 +138,11 @@
 			android:title="@string/developers_title"/>
 		
 		<Preference
+			android:key="donation"
+			android:title="@string/donation"
+			android:summary="@string/donation_des"/>
+		
+		<Preference
 			android:key="source_code"
 			android:title="@string/source_code_title"
 			android:summary="@string/source_code_summary"/>
