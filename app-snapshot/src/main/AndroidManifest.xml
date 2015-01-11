@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="us.shandian.blacklight.snapshot"
+    android:versionCode="1"
+    android:versionName="snapshot" >
+
+    <uses-sdk 
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
+
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.VIBRATE"/>
+	
+    <application
+		android:hardwareAccelerated="true"
+		android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name"
+		android:theme="@style/BL.Theme.Light" >
+        
+		<activity
+			android:name=".EntryActivity"
+			android:label="@string/app_name" >
+			<intent-filter>
+				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.login.LoginActivity"
+			android:label="@string/login" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.main.MainActivity"
+			android:label="@string/app_name"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTask"
+			android:theme="@style/BL.Theme.Light.WithNav" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.common.ImageActivity"
+			android:theme="@style/BL.Theme.Light.GradientActionBar" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.statuses.UserTimeLineActivity"
+			android:label="@string/user_info"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.statuses.SingleActivity"
+			android:label="@string/single_info"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.statuses.NewPostActivity"
+			android:windowSoftInputMode="adjustResize|stateVisible"
+			android:label="@string/new_post"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.SEND" />
+				<data android:mimeType="text/plain"/>
+				<data android:mimeType="image/*"/>
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.statuses.RepostActivity"
+			android:windowSoftInputMode="adjustResize|stateVisible"
+			android:label="@string/repost"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.comments.CommentOnActivity"
+			android:windowSoftInputMode="adjustResize|stateVisible"
+			android:label="@string/comment_on"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.comments.ReplyToActivity"
+			android:windowSoftInputMode="adjustResize|stateVisible"
+			android:label="@string/reply_to"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.search.TopicsActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/topics_info"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.settings.SettingsActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/settings"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.settings.LicenseActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/license"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+		    android:name="info.papdt.blacklight.ui.settings.DevelopersActivity"
+		    android:label="@string/developers_title"
+		    android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+		    	<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.friendships.FriendsActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/following"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/direct_message"
+			android:theme="@style/BL.Theme.Light.Translucent" >
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name="info.papdt.blacklight.ui.feedback.FeedbackActivity"
+			android:windowSoftInputMode="adjustResize"
+			android:label="@string/fb"
+			android:theme="@style/BL.Theme.Light.Translucent">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name="info.papdt.blacklight.ui.common.MultiPicturePicker"
+			android:label="@string/multiple_pictures"
+			android:theme="@style/BL.Theme.Light.Translucent">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="us.shandian.blacklight.MULTI_PICK" />
+			</intent-filter>
+		</activity>
+		
+		<service android:name="info.papdt.blacklight.service.ReminderService" />
+		
+		<receiver android:name="info.papdt.blacklight.receiver.ConnectivityReceiver">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+			</intent-filter>
+		</receiver>
+		
+    </application>
+
+</manifest>

@@ -1,0 +1,8 @@
+language: android
+script: 'gradle build app-snapshot'
+android:
+    componenents:
+        - build-tools-21.0.2
+        - android-21
+        - extra-android-support
+        - extra-android-m2repository
