@@ -38,7 +38,7 @@
 		android:theme="@style/BL.Theme.Light" >
         
 		<activity
-			android:name="info.papdt.blacklight.ui.entry.EntryActivity"
+			android:name=".EntryActivity"
 			android:label="@string/app_name" >
 			<intent-filter>
 				<category android:name="android.intent.category.LAUNCHER" />
