@@ -1,1 +1,1 @@
-include ':app', ':libraries:circleimageview', ':libraries:HoloColorPicker', ':libraries:SlidingUpPanel', ':libraries:subsampling-image-view', ':libraries:blacklight'
+include ':app', ':blacklight-base', ':libraries:circleimageview', ':libraries:HoloColorPicker', ':libraries:SlidingUpPanel', ':libraries:subsampling-image-view'
