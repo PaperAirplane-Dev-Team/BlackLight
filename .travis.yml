@@ -2,6 +2,8 @@ language: android
 branches:
   except:
     - /^build-[0-9a-z\-]*/
+env:
+    - secure: "OXj6ivU3xBWNSo+94B0V9dyoMbYIo6dp701XrNecY/0lrQbN5FeP4Tk+KqVbSlk2kB1AIky3hW4gEhMij4F9fI9kYtLJBT5dtzXgvj3ae9Eukr3cMfBYZPjMMNXL1t9OGiIDF7h3u2+4MqAqiqb8FaMuxE4+ecgdJs31YIB6bdY="
 before_install:
 - wget http://services.gradle.org/distributions/gradle-1.12-all.zip
 - unzip gradle-1.12-all.zip >> /dev/null
