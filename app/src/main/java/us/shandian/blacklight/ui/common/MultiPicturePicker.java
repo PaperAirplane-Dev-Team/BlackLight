@@ -26,6 +26,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -78,6 +79,11 @@ public class MultiPicturePicker extends AbsActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.picker_grid);
 	}
 
 	private void buildAdapter() {

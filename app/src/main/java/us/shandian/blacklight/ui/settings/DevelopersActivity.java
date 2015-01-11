@@ -59,6 +59,11 @@ public class DevelopersActivity extends AbsActivity
 		new UserGetter().execute();
 		
 	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.settings);
+	}
 	
 	private class UserGetter extends AsyncTask<Void, Void, Boolean>{
 

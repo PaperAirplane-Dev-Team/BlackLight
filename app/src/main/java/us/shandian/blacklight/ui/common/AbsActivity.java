@@ -22,6 +22,7 @@ package us.shandian.blacklight.ui.common;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -156,6 +157,6 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 		});
 		
 		// Adjust window color
-		getWindow().getDecorView().setBackgroundColor(0);
+		getWindow().setBackgroundDrawable(new ColorDrawable(0));
 	}
 }

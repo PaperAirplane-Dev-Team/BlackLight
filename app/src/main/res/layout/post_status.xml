@@ -27,6 +27,11 @@
 <include
 	layout="@layout/toolbar"/>
 
+<FrameLayout
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:layout_below="@+id/toolbar">
+
 <android.support.v4.widget.DrawerLayout
     android:layout_height="match_parent"
 	android:layout_width="match_parent"
@@ -242,5 +247,7 @@
 		android:layout_height="match_parent"/>
 
 </android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>
 
 </RelativeLayout>

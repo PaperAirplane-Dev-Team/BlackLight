@@ -21,6 +21,7 @@ package us.shandian.blacklight.ui.settings;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import us.shandian.blacklight.R;
 import us.shandian.blacklight.ui.common.AbsActivity;
@@ -38,5 +39,10 @@ public class SettingsActivity extends AbsActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		finish();
 		return true;
+	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.settings);
 	}
 }

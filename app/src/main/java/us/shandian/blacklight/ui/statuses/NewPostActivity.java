@@ -281,6 +281,11 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	}
 
 	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.post_drawer);
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		

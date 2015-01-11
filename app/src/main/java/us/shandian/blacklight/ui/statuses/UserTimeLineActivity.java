@@ -194,6 +194,11 @@ public class UserTimeLineActivity extends AbsActivity
 		}
 	}
 
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.user_slide);
+	}
+
 	public void viewFriends() {
     Intent i = new Intent();
     i.setAction(Intent.ACTION_VIEW);

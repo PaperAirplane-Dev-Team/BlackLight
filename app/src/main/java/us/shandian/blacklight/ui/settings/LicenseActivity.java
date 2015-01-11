@@ -21,6 +21,7 @@ package us.shandian.blacklight.ui.settings;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 
 import us.shandian.blacklight.R;
@@ -51,4 +52,11 @@ public class LicenseActivity extends AbsActivity
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.login_web);
+	}
+	
+	
 }
