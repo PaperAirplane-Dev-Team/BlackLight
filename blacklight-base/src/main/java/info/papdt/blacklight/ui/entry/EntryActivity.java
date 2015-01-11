@@ -39,6 +39,9 @@ public class EntryActivity extends Activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CrashHandler.init(this);
+		CrashHandler.register();
+		
 		super.onCreate(savedInstanceState);
 
 		// Clear
@@ -46,8 +49,6 @@ public class EntryActivity extends Activity
 		
 		// Init
 		ConnectivityReceiver.readNetworkState(this);
-		CrashHandler.init(this);
-		CrashHandler.register();
 		Emoticons.init(this);
 
 		// Crash Log
