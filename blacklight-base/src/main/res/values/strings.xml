@@ -20,6 +20,7 @@
 <resources>
 
 	<string name="app_name">BlackLight</string>
+    <string name="app_name_snapshot">BlackLight Snapshot</string>
 	
 	<!-- Login -->
 	<string name="login">Login</string>

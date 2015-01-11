@@ -16,7 +16,7 @@ script: gradle :app-snapshot:build
 after_success:
 - git config --global user.email "xqsx43cxy@126.com"
 - git config --global user.name "Peter Cai"
-- export GIT_TAG=snapshot-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")_$TRAVIS_BUILD_NUMBER_$(git log --format="%h" -n 1)
+- export GIT_TAG=snapshot-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")_${TRAVIS_BUILD_NUMBER}_$(git log --format="%h" -n 1)
 - git tag $GIT_TAG
 - git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
 android:
