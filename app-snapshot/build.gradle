@@ -9,11 +9,11 @@ android {
     buildToolsVersion "21.0.2"
 
     defaultConfig {
-        applicationId "us.shandian.blacklight"
+        applicationId "us.shandian.blacklight.snapshot"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 29
-        versionName "1.2.2"
+        versionCode 1
+        versionName "snapshot"
     }
     buildTypes {
         release {

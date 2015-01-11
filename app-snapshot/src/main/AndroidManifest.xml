@@ -34,12 +34,12 @@
     <application
 		android:hardwareAccelerated="true"
 		android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name"
+		android:label="@string/app_name_snapshot"
 		android:theme="@style/BL.Theme.Light" >
         
 		<activity
 			android:name=".EntryActivity"
-			android:label="@string/app_name" >
+			android:label="@string/app_name_snapshot" >
 			<intent-filter>
 				<category android:name="android.intent.category.LAUNCHER" />
 				<action android:name="android.intent.action.MAIN" />
