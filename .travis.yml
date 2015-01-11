@@ -1,4 +1,7 @@
 language: android
+branches:
+  except:
+    - /^build-[0-9a-z\-]*/
 before_install:
 - wget http://services.gradle.org/distributions/gradle-1.12-all.zip
 - unzip gradle-1.12-all.zip >> /dev/null
@@ -8,6 +11,12 @@ before_install:
 - unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME >> /dev/null
 - mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.0.2
 script: gradle :app-snapshot:build
+after_success:
+- git config --global user.email "xqsx43cxy@126.com"
+- git config --global user.name "Peter Cai"
+- export GIT_TAG=snapshot-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")-$TRAVIS_BUILD_NUMBER
+- git tag $GIT_TAG
+- git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
 android:
   componenents:
   - build-tools-21.0.2
@@ -19,5 +28,6 @@ deploy:
   api_key:
     secure: oeCApXVZYZKCYLrPJaergKhWVeXGUrqtDE5NkCGky4UbJ/NhXy2a4Or991BKWlW7fur7IYGhsH/k2T7QQkMa9bnHSb7AASZ2n9p2ExtFdZna97rs9bOsWikpTkaAAjXAuPKItI568mBFP99ISXEHfe+2l1wmQMDhHgjkDytgMNE=
   file: app-snapshot/build/outputs/apk/app-snapshot-debug.apk
+  skip_cleanup: true
   on:
     repo: PaperAirplane-Dev-Team/BlackLight
