@@ -134,7 +134,7 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 		if (Build.VERSION.SDK_INT >= 21) {
 			frame.setElevation(11.8f);
 		} else {
-			// TODO Shadow drawable
+			v.setShadowResource(R.drawable.panel_shadow);
 		}
 		
 		// Swipe gesture configurations
