@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	
+    <!-- Notification -->
+    <PreferenceCategory
+		android:title="@string/notification">
+		
+		<CheckBoxPreference
+			android:key="notification_sound"
+			android:title="@string/notification_sound"
+			android:checked="true"/>
+		
+		<CheckBoxPreference
+			android:key="notification_vibrate"
+			android:title="@string/notification_vibrate"
+			android:checked="true"/>
+		
+		<Preference
+		    android:key="notification_interval"
+		    android:title="@string/notification_interval" />
+		
+	</PreferenceCategory>
+    
+	<!-- Actions -->
+	<PreferenceCategory
+		android:title="@string/actions">
+		
+		<CheckBoxPreference
+			android:key="fast_scroll"
+			android:title="@string/fast_scroll"
+			android:checked="false"
+			android:enabled="false"/>
+
+		<CheckBoxPreference
+			android:key="shake_to_return"
+			android:title="@string/shake_to_return"
+			android:checked="true"/>
+		
+		<CheckBoxPreference
+			android:key="right_handed"
+			android:title="@string/right_handed"
+			android:summary="@string/right_handed_des"
+			android:checked="false"/>
+		
+	</PreferenceCategory>
+
+	<!-- Network -->
+	<PreferenceCategory
+		android:title="@string/network">
+
+		<CheckBoxPreference
+			android:key="auto_nopic"
+			android:title="@string/auto_nopic"
+			android:summary="@string/auto_nopic_sum"
+			android:checked="true"/>
+	
+	</PreferenceCategory>
+
+	<!-- Account -->
+	<PreferenceCategory
+		android:title="@string/account">
+
+		<Preference
+			android:key="logout"
+		    android:title="@string/account_logout"/>
+
+		</PreferenceCategory>
+
+	<!-- Feedback -->
+	<PreferenceCategory
+		android:title="@string/feedback">
+
+		<Preference
+			android:key="feedback"
+			android:title="@string/feedback_send"/>
+
+	</PreferenceCategory>
+	
+	<!-- Debug -->
+	<PreferenceCategory
+		android:title="@string/debug">
+
+		<Preference
+			android:key="language"
+			android:title="@string/language"/>
+
+		<CheckBoxPreference
+			android:key="debug_autosubmit"
+		    android:title="@string/debug_autosubmit"
+		    android:summary="@string/debug_autosubmit_sum"
+		    android:defaultValue="false"/>
+
+		<Preference
+			android:key="debug_log"
+			android:title="@string/debug_log"
+			android:summary="@string/feedback_sum"/>
+
+		<Preference
+			android:key="debug_submit_log"
+		    android:title="@string/debug_submit_log"
+		    />
+		
+		<Preference
+			android:key="debug_crash"
+			android:title="@string/debug_crash"
+			android:summary="@string/debug_crash_sum"/>
+		
+	</PreferenceCategory>
+	
+	<!-- About -->
+	<PreferenceCategory
+		android:title="@string/about">
+		
+		<Preference
+			android:key="version"
+			android:title="@string/version"/>
+		
+		<Preference
+		    android:key="developers"
+			android:title="@string/developers_title"/>
+		
+		<Preference
+			android:key="source_code"
+			android:title="@string/source_code_title"
+			android:summary="@string/source_code_summary"/>
+
+		<Preference
+			android:key="good"
+			android:title="@string/good"
+			android:summary="@string/good_sum"/>
+		
+		<Preference
+			android:key="license"
+			android:title="@string/license"/>
+		
+	</PreferenceCategory>
+	
+</PreferenceScreen>

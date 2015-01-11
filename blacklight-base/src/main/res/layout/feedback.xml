@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	
+	<include
+		layout="@layout/toolbar"/>
+	
+	<LinearLayout
+		android:id="@+id/fb_wrapper"
+		android:layout_below="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="?attr/NewPostDivider"
+		android:orientation="vertical">
+
+		<EditText
+			android:id="@+id/fb_title"
+			android:layout_width="match_parent"
+			android:layout_height="80dp"
+			android:layout_weight="0.5"
+			android:padding="5dp"
+			android:background="?android:attr/windowBackground"
+			android:gravity="center_vertical"
+			android:textColor="?attr/CardForeground"
+			android:hint="@string/fb_title"/>
+
+		<EditText
+			android:id="@+id/fb_content"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="0.5"
+			android:layout_marginTop="1dp"
+			android:padding="5dp"
+			android:background="?android:attr/windowBackground"
+			android:inputType="textMultiLine"
+			android:ems="10"
+			android:gravity="top"
+			android:textColor="?attr/CardForeground"
+			android:hint="@string/fb_content"/>
+
+	</LinearLayout>
+</RelativeLayout>

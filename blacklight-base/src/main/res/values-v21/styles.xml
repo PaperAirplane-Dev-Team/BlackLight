@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+	
+	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Light">
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
+	
+	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark">
+		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
+	
+	<style name="CardViewStyle" parent="CardView.Light">
+		<item name="android:foreground">?android:attr/selectableItemBackground</item>
+	</style>
+
+	<style name="DrawerItem">
+		<item name="android:background">?android:attr/selectableItemBackground</item>
+	</style>
+</resources>

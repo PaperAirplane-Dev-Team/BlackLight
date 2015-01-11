@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+	<color name="gray">#aaaaaa</color>
+	<color name="gray_alpha">#bbaaaaaa</color>
+	<color name="gray_alpha_lighter">#eeeeeeee</color>
+	<color name="dim_gray">#88555555</color>
+	<color name="darker_gray">#666666</color>
+	<color name="superdark_gray">#233333</color>
+	<color name="darker_than_superdark_gray">#233233</color>
+	<color name="darker_than_superdark_gray_alpha">#ee233233</color>
+	<color name="cant_be_darker_gray">#112222</color>
+	<color name="lighter_than_superdark_gray">#566666</color>
+	<color name="dark_action_gray">#002222</color>
+	<color name="light_gray">#eeeeee</color>
+	<color name="midium_gray">#fbfbfb</color>
+	<color name="shadow_gray">#cabbbbbb</color>
+	<color name="superlight_gray">#fcfcfc</color>
+	<color name="selector_gray">#eaeaea</color>
+	<color name="sub_gray">#bcbcbc</color>
+	<color name="link_blue">#9797ff</color>
+	<color name="action_gray">#444448</color>
+	<color name="action_gray_darker">#333336</color>
+	<color name="divider_gray">#bababa</color>
+	<color name="selector_gray_lighter">#ececec</color>
+	<color name="white">#ffffff</color>
+	<color name="black">#000000</color>
+	<color name="inset">#40000000</color>
+	
+	<!-- Pull To Refresh -->
+	<color name="ptr_green">#44aa00</color>
+	<color name="ptr_red">#aa5500</color>
+	<color name="ptr_orange">#ea7800</color>
+	<color name="ptr_blue">#0045aa</color>
+</resources>

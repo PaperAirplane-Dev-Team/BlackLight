@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+* Copyright (C) 2014 Peter Cai
+*
+* This file is part of BlackLight
+*
+* BlackLight is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* BlackLight is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+	<string name="app_name">BlackLight</string>
+	
+	<!-- Login -->
+	<string name="login">登录</string>
+	<string name="tail">尾巴</string>
+	<string name="username">用户名</string>
+	<string name="passwd">密码</string>
+	<string name="toast_empty_username">请输入用户名</string>
+	<string name="toast_empty_password">请输入密码</string>
+
+	<!-- Main -->
+	<string name="switch_theme">切换主题</string>
+	<string name="group_all">全部</string>
+	<string name="group_bilateral">好友圈</string>
+	<string name="group_create">创建分组</string>
+	<string name="group_destroy">删除当前分组</string>
+
+	<!-- Left Drawer -->
+	<string name="drawer_home">首页</string>
+	<string name="drawer_at">提及</string>
+	<string name="drawer_comments">评论</string>
+	<string name="drawer_dm">私信</string>
+	<string name="drawer_fav">收藏</string>
+	<string name="drawer_settings">设置</string>
+	
+	<!-- Statuses -->
+	<string name="timeline">时间流</string>
+	<string name="attitudes">赞</string>
+	<string name="retweet">转发</string>
+	<string name="comment">评论</string>
+	<string name="status_mention_me">提到我的微博</string>
+	<string name="comment_mention_me">提到我的评论</string>
+	<string name="loading_more">正在加载更多……</string>
+	<string name="new_post">发送微博</string>
+	<string name="comment_on">发表评论</string>
+	<string name="repost">转发微博</string>
+	<string name="reply_to">回复评论</string>
+	<string name="reply">回复</string>
+    <string name="remove_attitude">取消赞</string>
+	<string name="repost_and_comment">同时评论微博</string>
+	<string name="repost_and_comment_the_original">同时评论原微博</string>
+	<string name="comment_and_repost">同时转发微博</string>
+	<string name="comment_orig">同时评论原微博</string>
+	<string name="topics_info">话题信息</string>
+	<string name="emoticon">表情</string>
+	<string name="color">文本颜色</string>
+	<string name="new_picture">添加图片</string>
+	<string name="delete_picture">清除图片</string>
+	<string name="at">选择@的好友</string>
+	<string name="topic">添加话题符号\'#\'</string>
+	<string name="long_post">长微博</string>
+	<string name="long_from">由BlackLight生成</string>
+	<string name="comment_delete">删除评论</string>
+	<string name="comment_view_orig">查看原微博</string>
+	<string name="refresh">刷新</string>
+	<string name="share">分享</string>
+	<string-array name="picture_picker_array">
+		<item>从图库选择照片</item>
+		<item>拍照</item>
+		<item>添加多图</item>
+	</string-array>
+	<string name="multiple_pictures">多图选择</string>
+	
+	<!-- Time -->
+	<string name="just_now">刚刚</string>
+	<string name="min">分钟前</string>
+	<string name="hour">小时前</string>
+	<string name="day">天前</string>
+	<string name="month">月前</string>
+	<string name="year">年前</string>
+	<string name="today">今天</string>
+	<string name="yesterday">昨天</string>
+	<string name="the_day_before_yesterday">前天</string>
+	
+	<!-- User Time Line -->
+	<string name="user_info">用户信息</string>
+	<string name="user_statuses">用户微博</string>
+	<string name="followers">粉丝</string>
+	<string name="following">关注</string>
+	<string name="msgs">微博</string>
+	<string name="like">收藏</string>
+	<string name="following_me">被关注</string>
+	<string name="i_am_following">正关注</string>
+	<string name="following_each_other">已互粉</string>
+	<string name="no_following">未关注</string>
+	<string name="follow">关注Ta</string>
+	<string name="unfollow">取消关注</string>
+	<string name="change_group">修改分组</string>
+
+	<!-- Units -->
+	<string name="ten_thousand">万</string>
+	<string name="million">null</string>
+	<string name="hundred_million">亿</string>
+	<string name="billion">null</string>
+	
+	<!-- Single -->
+	<string name="single_info">微博信息</string>
+	<string name="delete">删除</string>
+	<string name="fav_add">收藏微博</string>
+	<string name="fav_del">取消收藏</string>
+	<string name="copy">复制微博</string>
+	<string name="okay">选好了</string>
+	<string name="single_comment">发表评论</string>
+	<string name="single_repost">转发微博</string>
+	
+	<!-- Direct Message -->
+	<string name="direct_message">私信</string>
+	
+	<!-- Search -->
+	<string name="search">搜索</string>
+	<string-array name="search_type">
+		<item>微博</item>
+		<item>用户</item>
+	</string-array>
+
+	<!-- Image -->
+	<string name="save">保存到手机</string>
+	
+	<!-- Settings -->
+	<string name="settings">设置</string>
+	<string name="about">关于</string>
+	<string name="version">版本</string>
+	<string name="developers_title">开发者与感谢名单</string>
+	<string name="source_code_title">源代码</string>
+	<string name="source_code_summary">https://github.com/PaperAirplane-Dev-Team/BlackLight</string>
+	<string name="license">开源协议</string>
+	<string name="actions">动作</string>
+	<string name="fast_scroll">列表快速滚动</string>
+	<string name="shake_to_return">晃动返回</string>
+	<string name="right_handed">右手习惯</string>
+	<string name="right_handed_des">将主界面的抽屉调整到界面右边，适用于大屏手机</string>
+	<string name="account">账户</string>
+	<string name="account_logout">登出当前账户</string>
+	<string name="feedback">反馈</string>
+	<string name="feedback_send">发送反馈&amp;建议</string>
+	<string name="debug">调试</string>
+	<string name="debug_autosubmit">自动提交错误日志</string>
+	<string name="debug_autosubmit_sum">选定该项意味着你同意我们在没有通知的情況下自动收集并提交您的设备信息、微博ID和错误日志</string>
+	<string name="debug_log">崩溃日志</string>
+	<string name="debug_submit_log">提交崩溃日志</string>
+	<string name="debug_crash">立即崩溃</string>
+	<string name="debug_crash_sum">亲，戳了就不要再向我们报告错误了哟！</string>
+	<string name="notification">通知</string>
+	<string name="notification_sound">声音</string>
+	<string name="notification_vibrate">震动</string>
+	<string name="notification_interval">提醒间隔</string>
+	<string name="set_interval">设置提醒间隔</string>
+	<string name="good">给个好评</string>
+	<string name="good_sum">亲，去Play商店给个好评呗</string>
+	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
+	<string name="network">网络</string>
+	<string name="auto_nopic">智能无图</string>
+	<string name="auto_nopic_sum">流量环境下不显示图片，WIFI环境下显示图片</string>
+	<string-array name="interval_name">
+		<item>1 分钟</item>
+		<item>3 分钟</item>
+		<item>5 分钟</item>
+		<item>10 分钟</item>
+		<item>30 分钟</item>
+		<item>从不</item>
+	</string-array>
+	<string name="language">语言</string>
+
+	<!-- Feedback -->
+	<string name="fb">反馈</string>
+	<string name="fb_title">反馈标题</string>
+	<string name="fb_content">反馈内容</string>
+	<string name="fb_sent">您的反馈已与上次崩溃日志一起发送。如果我们需要更多信息，可能会联系您。</string> 
+	<string name="fb_send">发送</string>
+
+	<!-- Message -->
+	<string name="plz_wait">请稍候……</string>
+	<string name="name_fetching">昵称获取中……</string>
+	<string name="expires_in">本次登录授权将于 %d 天后失效</string>
+	<string name="login_fail">登录失败，可能是 AppId/AppSecret/用户名/密码 错误或网络故障</string>
+	<string name="send_fail">发送失败</string>
+	<string name="confirm_delete">确认删除吗？</string>
+	<string name="new_comment">%d 条新评论</string>
+	<string name="new_at">%d 条新提及</string>
+	<string name="new_at_detail_weibo">%d 条微博</string>
+	<string name="new_at_detail_and">&#160;和&#160;</string>
+	<string name="new_at_detail_comment">%d 条评论</string>
+	<string name="new_dm">%d 条新私信</string>
+	<string name="click_to_view">点击查看</string>
+	<string name="empty_weibo">空微博</string>
+	<string name="not_loaded">请等待图片加载完成再试</string>
+	<string name="saved_to">图片已保存到 %s</string>
+	<string name="save_failed">图片保存失败</string>
+	<string name="needs_restart">设置将在重启软件后生效</string>
+	<string name="copied">内容已复制到剪贴板</string>
+
+	<!-- Funny Things -->
+	<string-array name="splashes">
+		<item>Stay hungry, stay foolish.</item>
+		<item>BlackLight 官方中文译名暂定为 ”黑灯“</item>
+		<item>BlackLight 官方中文译名暂定为 ”瞎火“</item>
+		<item>BL，才是真爱</item>
+		<item>BlackLight,可能是东半球最好用的为发烧而生的最有情怀的微博客户端。</item>
+		<item>BlackLight,岂止于赞。</item>
+		<item>你这不是大中小三个杯子吗？我要这个中杯</item>
+		<item>那么问题来了，挖掘机学校到底哪家强？？</item>
+		<item>The Big Brother is watching you.</item>
+		<item>WAR IS PEACE\nFREEDOM IS SLAVERY\nINORANCE IS STRENGTH</item>
+		<item>Who controls the past controls the future. Who controls the present controls the past.</item>
+		<item>Freedom is the freedom to say that two plus two make four. If that is granted, all else follows.</item>
+		<item>战争即和平\n自由即奴役\n无知即力量</item>
+		<item>我能吞下玻璃而不伤身体</item>
+		<item>I can eat glass. It doesn\'t hurt me.</item>
+		<item>All your base are belong to us.</item>
+		<item>IU·V = PV = nTR 由此可见 哎呦喂意思是被NTR了……</item>
+		<item>goto fail;\ngoto fail;</item>
+		<item>中国智造，惠及全球。</item>
+		<item>The quick brown fox jumps over the lazy dog.</item>
+		<item>VIM 是最好的文本编辑器！</item>
+		<item>emacs 是最好的文本编辑器!</item>
+		<item>记事本是最好的文本编辑器！</item>
+		<item>PHP 是最好的编程语言！</item>
+		<item>Java 的垃圾回收特别棒！</item>
+		<item>微软大法好！</item>
+		<item>索尼大法好！</item>
+		<item>FSF大法好！</item>
+		<item>烫烫烫烫烫</item>
+		<item>屯屯屯屯屯</item>
+		<item>锟斤拷锟斤拷</item>
+		<item>手拿两把锟斤拷，口中直呼烫烫烫</item>
+		<item>Oct 31 = Dec 25</item>
+		<item>我今天没吃药，感觉自己萌萌哒！</item>
+		<item>Tahiti is a magical place.</item>
+		<item>千万不要按 Ctrl + W</item>
+		<item>690战术核显卡</item>
+		<item>1970年01月01日08:00 GMT +0800</item>
+		<item>是上清华还是上北大呢？ [思考]</item>
+		<item>com.sun.java.swing.plaf.nimbus.InternalFrameInternalFrameTitlePane</item>
+		<item>com.sun.java.swing.plaf.nimbus.InternalFrameTitlePaneMaximizeButtonWindowNotFocusedState</item>
+		<item>不转不是中国人!!</item>
+		<item>看到这条微博就在原地转三圈，不转不是中国人！！</item>
+		<item>我们收集用户隐私是为了更好地提供服务</item>
+		<item>卧槽情怀接地气，神马浮云很给力。十动然拒又撕逼，也是醉了你麻痹。</item>
+		<item>哈哈哈哈2 3 3，看脸拉黑果取关。元芳你丫怎么看，碉堡神烦瀑布汗。</item>
+		<item>直男癌干绿茶婊，矮油不错这个屌。美分五毛细软跑，快递开门查水表。</item>
+		<item>累觉不爱小鲜肉，男神女神呵呵后。沙发板凳打酱油，土豪我们做朋友。</item>
+		<item>菜鸟给跪战五渣，感觉自己萌萌哒。逗比备胎么么哒，啪啪啪后来一发。</item>
+		<item>42是生命、宇宙以及任何事情的终极答案</item>
+		<item>不要回复！不要回复！不要回复！</item>
+		<item>对于任何应用程序512KB内存都足够了</item>
+		<item>你是个好人，但是我们不合适。我们还是做朋友吧。</item>
+		<item>MIUI Is not UI</item>
+		<item>本公司所生产的饮料中富含一千多种微量元素。</item>
+		<item>本公司所生产的饮料中绝不添加任何化学物质。</item>
+		<item>我们现在就差个程序员了</item>
+		<item>干完这票我就金盆洗手</item>
+		<item>不是苹果电脑能做IOS系统不？</item>
+		<item>凭什么让 BlackLight 适应用户？应该让用户适应 BlackLight!</item>
+		<item>I am Groot!</item>
+		<item>An ally has been slained.</item>
+		<item>交了450也保不了你！</item>
+		<item>你会盗QQ不？</item>
+		<item>正在处理一些事情</item>
+		<item>请将您的反馈发送至 /dev/null</item>
+		<item>BlackLight 不是独立的第三方！！欺骗用户！！</item>
+		<item>没流量了，让我先连上家里的电子电气工程师协会802.11第四代标准的无线局域网……</item>
+		<item>【科学家在地球发现黑洞】据悉，科学家近期发现一种叫做仙人掌的植物的万有引力可以使光子发生明显偏转。这种植物可以被种植在俗称花盆的硅酸盐容器中，据估算其密度远超宇宙中的黑洞。</item>
+		<item>Dalvik is dead, long live Dalvik!</item>
+		<item>IT圈有一种风气，动手板砖的才是高大上的，直接上机械混凝土浇筑的都是土鳖干的事。</item>
+		<item>Talk is cheap. Show me the code.</item>
+		<item>Oh my God! They killed Kenny!</item>
+		<item>25198 lines of code!</item>
+		<item>+ 65535!</item>
+		<item>if (Math.random() > 0.8){ // Make this a matter of possibility.</item>
+		<item>You\'ve become part of a bigger universe.</item>
+		<item>sudo apt-get remove emacs\nsudo apt-get install vim</item>
+		<item>谢邀</item>
+		<item>屎真香啊！亲测！</item>
+		<item>Sometimes naïve</item>
+		<item>Too young too simple.</item>
+		<item>假如你是李华……</item>
+		<item>男女比例3:1,七只小鸡打飞机</item>
+		<item>男女比例3:1,一个腐女看3P</item>
+		<item>男女比例3:1,一对情侣一对基</item>
+		<item>上上下下左左右右ABAB</item>
+		<item>写这些梗的人是个 iPhone 用户！中出的叛徒！</item>
+		<item>OS X 开启飞行模式：在终端中输入 make -j4 </item>
+		<item>iPhone6被曝：实际成本仅1227元！</item>
+		<item>Who\'s your daddy?</item>
+		<item>我怎么可能配得上你呢？你是技术宅，那么厉害……</item>
+		<item>所有的非Lisp语言写的较大程序都包含一个实现不完整的Lisp</item>
+		<item>所有LISP都是没实现好的Prolog</item>
+		<item>所有Prolog都是没有实现好的Erlang</item>
+		<item>所有语言都是不完整的CPU指令！</item>
+		<item>所有语言都是机器码的语法糖！</item>
+		<item>No translation or server error.</item>
+		<item>Behave the people\'s advanced sex of the service and party</item>
+		<item>The Party\'s advanced sex education!</item>
+		<item>太阳自46亿年前以来不断向地球放出大量电磁辐射，对地球环境产生并且仍在产生极大的影响!为了地球，抵制太阳!</item>
+		<item>屁中含有易燃易爆硫化氢气体!请抵制放屁!</item>
+		<item>三分天注定，七分靠打拼，剩下九十分全部看长相</item>
+		<item>既不聚成水滴，也不成股流下</item>
+		<item>sin: cos, 今晚我们是tan还是cot?</item>
+		<item>Connection Reset</item>
+		<item>做梦梦见BL支持私信图片了</item>
+		<item>Across the great wall we can reach every corner in the world.</item>
+		<item>不行就分，喜欢就买，重启试试，多喝点水，关你屁事，关我屁事</item>
+		<item>r=a·sinα</item>
+		<item>24个字5个敏感词</item>
+		<item>No translation or server error</item>
+		<item>The Advanced Sex of the Communist Party of China</item>
+		<item>Cu + Al == Au + Cl</item>
+		<item>人丑不要紧，万一对方瞎呢……</item>
+		<item>六九六九，精神抖擞</item>
+		<item>我脱团了……</item>
+		<item>有没有懂直升机的朋友，求推荐一款5000万到1亿的直升机，要求多发固定翼，噪音低于3.0分贝，能适应高原或高温地区，外形硬朗高大上的，我拿来当壁纸</item>
+
+	</string-array>
+
+</resources>
