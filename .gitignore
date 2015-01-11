@@ -35,3 +35,6 @@ unused.txt
 build.xml
 ant.properties
 .gradle/
+build-tools_*.zip
+gradle-*
+gradle-*/
