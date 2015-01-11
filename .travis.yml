@@ -1,24 +1,23 @@
 language: android
 before_install:
-    - wget http://services.gradle.org/distributions/gradle-1.12-all.zip
-    - unzip gradle-1.12-all.zip >> /dev/null
-    - export GRADLE_HOME=$PWD/gradle-1.12
-    - export PATH=$GRADLE_HOME/bin:$PATH
-    - wget https://dl-ssl.google.com/android/repository/build-tools_r21.0.2-linux.zip
-    - unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME >> /dev/null
-    - mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.0.2
-script: 'gradle :app-snapshot:build'
+- wget http://services.gradle.org/distributions/gradle-1.12-all.zip
+- unzip gradle-1.12-all.zip >> /dev/null
+- export GRADLE_HOME=$PWD/gradle-1.12
+- export PATH=$GRADLE_HOME/bin:$PATH
+- wget https://dl-ssl.google.com/android/repository/build-tools_r21.0.2-linux.zip
+- unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME >> /dev/null
+- mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.0.2
+script: gradle :app-snapshot:build
 android:
-    componenents:
-        - build-tools-21.0.2
-        - android-21
-        - extra-android-support
-        - extra-android-m2repository
+  componenents:
+  - build-tools-21.0.2
+  - android-21
+  - extra-android-support
+  - extra-android-m2repository
 deploy:
-    provider: releases
-    api-key: '064ffd845a9b5e2aec01bde1d37dfd598a39e1e3'
-    file: "app-snapshot/build/outputs/apk/app-debug.apk"
-    skip_cleanup: true
-    on:
-        tags: true
-        all_branches: true
+  provider: releases
+  api_key:
+    secure: oeCApXVZYZKCYLrPJaergKhWVeXGUrqtDE5NkCGky4UbJ/NhXy2a4Or991BKWlW7fur7IYGhsH/k2T7QQkMa9bnHSb7AASZ2n9p2ExtFdZna97rs9bOsWikpTkaAAjXAuPKItI568mBFP99ISXEHfe+2l1wmQMDhHgjkDytgMNE=
+  file: app-snapshot/build/outputs/apk/app-snapshot-debug.apk
+  on:
+    repo: PaperAirplane-Dev-Team/BlackLight
