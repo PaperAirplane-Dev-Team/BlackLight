@@ -1,13 +1,13 @@
 language: android
 before_install:
     - wget http://services.gradle.org/distributions/gradle-1.12-all.zip
-    - unzip gradle-1.12-all.zip
+    - unzip gradle-1.12-all.zip >> /dev/null
     - export GRADLE_HOME=$PWD/gradle-1.12
     - export PATH=$GRADLE_HOME/bin:$PATH
     - wget https://dl-ssl.google.com/android/repository/build-tools_r21.0.2-linux.zip
-    - unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME
+    - unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME >> /dev/null
     - mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.0.2
-script: 'gradle build'
+script: 'gradle build :app-snapshot:build'
 android:
     componenents:
         - build-tools-21.0.2
