@@ -194,7 +194,7 @@ public class HomeTimeLineApiCache
 
 		if (cache == null) {
 			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url, callback);
+				cache = mManager.createLargeCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url, callback);
 			} catch (Exception e) {
 				cache = null;
 			}

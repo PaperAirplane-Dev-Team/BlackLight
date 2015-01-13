@@ -115,6 +115,41 @@ public class FileCacheManager
 		return getCache(type, name);
 	}
 	
+	// To prevent OOM while loading large contents
+	public InputStream createLargeCacheFromNetwork(String type, String name, String url, ProgressCallback callback) throws IOException {
+		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+		conn.setRequestMethod("GET");
+		conn.setConnectTimeout(5000);
+		createCacheFromStream(type, name, conn.getInputStream(), conn.getContentLength(), callback);
+		conn.disconnect();
+
+		// Read From file
+		return getCache(type, name);
+	}
+	
+	public void createCacheFromStream(String type, String name, InputStream ipt, int total, ProgressCallback callback) throws IOException {
+		String path = getCachePath(type, name);
+		File f = new File(path);
+		if (f.exists()) {
+			f.delete();
+		}
+		f.getParentFile().mkdirs();
+		f.createNewFile();
+		
+		FileOutputStream opt = new FileOutputStream(f);
+		byte[] buf = new byte[512];
+		int len = 0, read = 0;
+		
+		while ((len = ipt.read(buf)) != -1) {
+			opt.write(buf, 0, len);
+			read += len;
+			callback.onProgressChanged(read, total);
+		}
+		
+		opt.close();
+		ipt.close();
+	}
+	
 	public InputStream getCache(String type, String name) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
 		File f = new File(path);
