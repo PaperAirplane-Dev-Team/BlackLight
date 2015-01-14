@@ -41,7 +41,7 @@
 			android:name=".EntryActivity"
 			android:label="@string/app_snapshot" >
 			<intent-filter>
-				<category android:name="android.intent.category.LAUNCHER" />
+				<category android:name="android.intent.category.DEFAULT" />
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
