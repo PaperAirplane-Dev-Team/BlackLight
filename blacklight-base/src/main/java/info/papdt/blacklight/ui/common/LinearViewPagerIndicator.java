@@ -117,6 +117,14 @@ public class LinearViewPagerIndicator extends LinearLayout implements ViewPager.
 		}
 		invalidate();
 	}
+	
+	public String getTextOfTab(int id) {
+		return ((TextView) getChildAt(id)).getText().toString();
+	}
+	
+	public void setTextOfTab(int id, String text) {
+		((TextView) getChildAt(id)).setText(text);
+	}
 
 	/*
 	 * Set listener

@@ -197,8 +197,8 @@ public class SingleActivity extends AbsActivity
 
 		// Indicator
 		mIndicator.setViewPager(mPager);
-		mIndicator.addTab(getResources().getString(R.string.comment));
-		mIndicator.addTab(getResources().getString(R.string.retweet));
+		mIndicator.addTab(getResources().getString(R.string.comment) + " " + Utility.addUnitToInt(this, mMsg.comments_count));
+		mIndicator.addTab(getResources().getString(R.string.retweet) + " " + Utility.addUnitToInt(this, mMsg.reposts_count));
 		
 		/*mTabs.setup();
 
