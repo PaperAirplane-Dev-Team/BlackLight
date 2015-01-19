@@ -73,8 +73,11 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		super.onCreate(savedInstanceState);
 		
 		// ActionBar
+		mToolbar.bringToFront();
 		mToolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_gradient));
 		getSupportActionBar().setTitle("");
+		
+		findViewById(R.id.image_container).setBackgroundResource(R.color.black);
 
 		mApiCache = new HomeTimeLineApiCache(this);
 		
@@ -135,6 +138,11 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		}
 	}
 
+	@Override
+	protected View getSwipeView() {
+		return findViewById(R.id.image_container);
+	}
+	
 	private class MyCallback implements FileCacheManager.ProgressCallback {
 		private CircularProgressView p;
 

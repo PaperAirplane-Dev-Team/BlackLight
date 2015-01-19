@@ -26,21 +26,28 @@
 	<include
 		layout="@layout/toolbar"
 		android:background="@drawable/action_gradient"/>
-
-	<info.papdt.blacklight.ui.common.HackyViewPager
+	
+	<RelativeLayout
+		android:id="@+id/image_container"
 		android:layout_height="match_parent"
-		android:layout_width="match_parent"
-		android:id="@+id/image_pager"/>
+		android:layout_width="match_parent">
 
-	<TextView
-		android:id="@+id/image_page"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentEnd="true"
-		android:layout_alignParentBottom="true"
-		android:text="0 / 0"
-		android:textSize="20sp"
-		android:textColor="@android:color/white"/>
+		<info.papdt.blacklight.ui.common.HackyViewPager
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:id="@+id/image_pager"/>
+
+		<TextView
+			android:id="@+id/image_page"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentBottom="true"
+			android:text="0 / 0"
+			android:textSize="20sp"
+			android:textColor="@android:color/white"/>
+	
+	</RelativeLayout>
 
 </RelativeLayout>
 
