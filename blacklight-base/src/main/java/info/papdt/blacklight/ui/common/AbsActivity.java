@@ -148,7 +148,7 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 
 			@Override
 			public void onPanelOpened(View p1) {
-				onBackPressed();
+				finish();
 			}
 
 			@Override
