@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 
 import android.support.v4.view.ViewCompat;
@@ -50,7 +51,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
 	protected RecyclerView mList;
-	protected View mShadow, mScroller;
+	protected View mShadow, mScroller, mOrbit;
 	private WeiboAdapter mAdapter;
 	private LinearLayoutManager mManager;
 	protected HomeTimeLineApiCache mCache;
@@ -75,6 +76,20 @@ public abstract class TimeLineFragment extends Fragment implements
 
 	private int mLastCount = 0;
 	private int mLastPosition = -1;
+	
+	private Runnable mHideScrollerRunnable = new Runnable() {
+		@Override
+		public void run() {
+			AlphaAnimation alpha = new AlphaAnimation(1.0f, 0.0f);
+			alpha.setDuration(600);
+			alpha.setFillAfter(true);
+			mScroller.clearAnimation();
+			mOrbit.clearAnimation();
+			mScroller.setAnimation(alpha);
+			mOrbit.setAnimation(alpha);
+			alpha.startNow();
+		}
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,6 +106,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		mList = Utility.findViewById(v, R.id.home_timeline);
 		mShadow = Utility.findViewById(v, R.id.action_shadow);
 		mScroller = Utility.findViewById(v, R.id.scroller);
+		mOrbit = Utility.findViewById(v, R.id.scroller_orbit);
 
 		mCache = bindApiCache();
 		mCache.loadFromCache();
@@ -172,17 +188,29 @@ public abstract class TimeLineFragment extends Fragment implements
 					new Refresher().execute(false);
 				}
 				
+				mScroller.removeCallbacks(mHideScrollerRunnable);
+				mScroller.clearAnimation();
+				mOrbit.clearAnimation();
+				
+				mScroller.setAlpha(1.0f);
+				mOrbit.setAlpha(1.0f);
+				
 				int first = mManager.findFirstVisibleItemPosition();
 				int visible = mManager.findLastVisibleItemPosition() - first;
 				int total = mAdapter.getCount();
 				
 				mScroller.setTranslationY((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible)));
+				
+				postHideScroller();
 			}
 		});
 
 		mShadow.bringToFront();
+		mOrbit.bringToFront();
 		mScroller.bringToFront();
 		ViewCompat.setElevation(mScroller, 5.0f);
+		
+		postHideScroller();
 		
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
@@ -256,6 +284,10 @@ public abstract class TimeLineFragment extends Fragment implements
 		if (!mRefreshing) {
 			new Refresher().execute(true);
 		}
+	}
+	
+	private void postHideScroller() {
+		mScroller.postDelayed(mHideScrollerRunnable, 1000);
 	}
 	
 	protected void updateTranslation() {

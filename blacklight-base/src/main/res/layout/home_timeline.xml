@@ -37,6 +37,17 @@
 		android:layout_marginRight="15dp"
 		android:layout_marginTop="20dp"
 		android:background="?attr/colorPrimary"/>
+	
+	<View
+		android:id="@+id/scroller_orbit"
+		android:layout_width="1dp"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginRight="19dp"
+		android:layout_marginTop="20dp"
+		android:layout_marginBottom="20dp"
+		android:background="?attr/colorPrimary"/>
 
 	<View
 		android:id="@+id/action_shadow"
