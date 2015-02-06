@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -27,6 +27,16 @@
 		android:layout_width="match_parent"
 		android:id="@+id/home_timeline"
 		android:divider="@null"/>
+	
+	<View
+		android:id="@+id/scroller"
+		android:layout_width="8dp"
+		android:layout_height="21dp"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="20dp"
+		android:background="?attr/colorPrimary"/>
 
 	<View
 		android:id="@+id/action_shadow"

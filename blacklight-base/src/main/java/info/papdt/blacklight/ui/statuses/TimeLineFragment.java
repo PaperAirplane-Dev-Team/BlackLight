@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -26,7 +26,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +50,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
 	protected RecyclerView mList;
-	protected View mShadow;
+	protected View mShadow, mScroller;
 	private WeiboAdapter mAdapter;
 	private LinearLayoutManager mManager;
 	protected HomeTimeLineApiCache mCache;
@@ -88,6 +90,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		// Initialize views
 		mList = Utility.findViewById(v, R.id.home_timeline);
 		mShadow = Utility.findViewById(v, R.id.action_shadow);
+		mScroller = Utility.findViewById(v, R.id.scroller);
 
 		mCache = bindApiCache();
 		mCache.loadFromCache();
@@ -160,17 +163,27 @@ public abstract class TimeLineFragment extends Fragment implements
 			});
 		}
 		
+		final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
+		
 		mAdapter.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
 			public void onScrolled(RecyclerView v, int dx, int dy) {
 				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
 					new Refresher().execute(false);
 				}
+				
+				int first = mManager.findFirstVisibleItemPosition();
+				int visible = mManager.findLastVisibleItemPosition() - first;
+				int total = mAdapter.getCount();
+				
+				mScroller.setTranslationY((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible)));
 			}
 		});
 
 		mShadow.bringToFront();
-
+		mScroller.bringToFront();
+		ViewCompat.setElevation(mScroller, 5.0f);
+		
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
