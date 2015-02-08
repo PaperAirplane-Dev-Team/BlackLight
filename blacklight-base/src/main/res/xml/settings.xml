@@ -122,6 +122,11 @@
 			android:key="debug_crash"
 			android:title="@string/debug_crash"
 			android:summary="@string/debug_crash_sum"/>
+
+		<Preference
+			android:key="debug_clear_cache"
+		    android:title="@string/clear_cache"
+		    android:summary="@string/clear_cache_hint"/>
 		
 	</PreferenceCategory>
 	
