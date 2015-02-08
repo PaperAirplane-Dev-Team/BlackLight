@@ -214,8 +214,9 @@ public abstract class TimeLineFragment extends Fragment implements
 					int first = mManager.findFirstVisibleItemPosition();
 					int visible = mManager.findLastVisibleItemPosition() - first;
 					int total = mAdapter.getCount();
+					int header = mAdapter.hasHeaderView() ? 0 : 1;
 					
-					mScroller.setTranslationY(((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible))));
+					mScroller.setTranslationY(((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible - header))));
 					
 					postHideScroller();
 				}
@@ -253,9 +254,10 @@ public abstract class TimeLineFragment extends Fragment implements
 					int first = mManager.findFirstVisibleItemPosition();
 					int visible = mManager.findLastVisibleItemPosition() - first;
 					int total = mAdapter.getCount();
+					int header = mAdapter.hasHeaderView() ? 0 : 1;
 					
 					mScroller.setTranslationY(newTop);
-					postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - visible)));
+					postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - visible - header)));
 					
 					return 0;
 				}

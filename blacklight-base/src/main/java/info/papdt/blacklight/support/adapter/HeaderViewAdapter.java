@@ -39,6 +39,10 @@ public abstract class HeaderViewAdapter<VH extends HeaderViewAdapter.ViewHolder>
 	public View getHeaderView() {
 		return mHeader;
 	}
+	
+	public boolean hasHeaderView() {
+		return mHeader != null;
+	}
 
 	@Override
 	public int getItemCount() {
