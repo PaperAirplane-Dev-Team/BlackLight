@@ -84,7 +84,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		@Override
 		public void run() {
 			if (mNewPosition != -1) {
-				mList.scrollToPosition(mNewPosition);
+				mList.smoothScrollToPosition(mNewPosition);
 				mNewPosition = -1;
 			}
 		}
