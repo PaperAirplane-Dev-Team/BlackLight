@@ -36,7 +36,8 @@
 		android:layout_alignParentTop="true"
 		android:layout_marginRight="15dp"
 		android:layout_marginTop="20dp"
-		android:background="?attr/colorPrimary"/>
+		android:background="?attr/colorPrimary"
+		android:visibility="gone"/>
 	
 	<View
 		android:id="@+id/scroller_orbit"
@@ -47,7 +48,8 @@
 		android:layout_marginRight="20dp"
 		android:layout_marginTop="20dp"
 		android:layout_marginBottom="20dp"
-		android:background="?attr/colorPrimary"/>
+		android:background="?attr/colorPrimary"
+		android:visibility="gone"/>
 
 	<View
 		android:id="@+id/action_shadow"

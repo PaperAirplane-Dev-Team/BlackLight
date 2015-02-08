@@ -73,6 +73,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 	protected boolean mAllowHidingActionBar = true;
+	protected boolean mFastScrollEnabled = false;
 	private boolean mFABShowing = true;
 
 	private int mLastCount = 0;
@@ -106,11 +107,13 @@ public abstract class TimeLineFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+				
 		mActionBar = ((ToolbarActivity) getActivity()).getSupportActionBar();
 		mToolbar = ((ToolbarActivity) getActivity()).getToolbar();
 		initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
+		
+		mFastScrollEnabled = mSettings.getBoolean(Settings.FAST_SCROLL, false);
 
 		final DragRelativeLayout v = (DragRelativeLayout) inflater.inflate(R.layout.home_timeline, null);
 		
@@ -200,7 +203,7 @@ public abstract class TimeLineFragment extends Fragment implements
 					new Refresher().execute(false);
 				}
 				
-				//if (!mDragging) {
+				if (mFastScrollEnabled) {
 					mScroller.removeCallbacks(mHideScrollerRunnable);
 					mScroller.clearAnimation();
 					mOrbit.clearAnimation();
@@ -215,50 +218,56 @@ public abstract class TimeLineFragment extends Fragment implements
 					mScroller.setTranslationY(((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible))));
 					
 					postHideScroller();
-				//}
+				}
 			}
 		});
 
 		mShadow.bringToFront();
-		mOrbit.bringToFront();
-		mScroller.bringToFront();
-		ViewCompat.setElevation(mScroller, 5.0f);
 		
-		// Drag
-		v.setDraggableChild(mScroller);
-		v.setCallback(new DragRelativeLayout.Callback() {
-			@Override
-			public int onDraggedVertically(int top, int dy) {
-				mScroller.removeCallbacks(mHideScrollerRunnable);
-				mScroller.removeCallbacks(mScrollToRunnable);
-				mScroller.clearAnimation();
-				mOrbit.clearAnimation();
-				postHideScroller();
-				int newTop = mScroller.getTop() + (int) mScroller.getTranslationY() + dy;
-				
-				if (newTop < mOrbit.getTop()) {
-					newTop = mOrbit.getTop();
-				} else if (newTop > mOrbit.getBottom()) {
-					newTop = mOrbit.getBottom() - mScroller.getHeight();
-				}
-				
-				int first = mManager.findFirstVisibleItemPosition();
-				int visible = mManager.findLastVisibleItemPosition() - first;
-				int total = mAdapter.getCount();
-				
-				mScroller.setTranslationY(newTop);
-				postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - visible)));
-				
-				return 0;
-			}
+		if (mFastScrollEnabled) {
+			mOrbit.setVisibility(View.VISIBLE);
+			mScroller.setVisibility(View.VISIBLE);
 			
-			@Override
-			public int onDraggedHorizontally(int left, int dx) {
-				return mScroller.getLeft();
-			}
-		});
-		
-		postHideScroller();
+			mOrbit.bringToFront();
+			mScroller.bringToFront();
+			ViewCompat.setElevation(mScroller, 5.0f);
+			
+			// Drag
+			v.setDraggableChild(mScroller);
+			v.setCallback(new DragRelativeLayout.Callback() {
+				@Override
+				public int onDraggedVertically(int top, int dy) {
+					mScroller.removeCallbacks(mHideScrollerRunnable);
+					mScroller.removeCallbacks(mScrollToRunnable);
+					mScroller.clearAnimation();
+					mOrbit.clearAnimation();
+					postHideScroller();
+					int newTop = mScroller.getTop() + (int) mScroller.getTranslationY() + dy;
+					
+					if (newTop < mOrbit.getTop()) {
+						newTop = mOrbit.getTop();
+					} else if (newTop > mOrbit.getBottom()) {
+						newTop = mOrbit.getBottom() - mScroller.getHeight();
+					}
+					
+					int first = mManager.findFirstVisibleItemPosition();
+					int visible = mManager.findLastVisibleItemPosition() - first;
+					int total = mAdapter.getCount();
+					
+					mScroller.setTranslationY(newTop);
+					postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - visible)));
+					
+					return 0;
+				}
+			
+				@Override
+				public int onDraggedHorizontally(int left, int dx) {
+					return mScroller.getLeft();
+				}
+			});
+			
+			postHideScroller();
+		}
 		
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override

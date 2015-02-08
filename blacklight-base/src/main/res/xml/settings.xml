@@ -46,8 +46,7 @@
 		<CheckBoxPreference
 			android:key="fast_scroll"
 			android:title="@string/fast_scroll"
-			android:checked="false"
-			android:enabled="false"/>
+			android:checked="false"/>
 
 		<CheckBoxPreference
 			android:key="shake_to_return"

@@ -89,11 +89,14 @@ public class DragRelativeLayout extends RelativeLayout
 	@Override
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
+		
 		mHelper = ViewDragHelper.create(this, 1.0f, mCallback);
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		if (mDraggable == null) return super.onInterceptHoverEvent(ev);
+		
 		boolean ret = mHelper.shouldInterceptTouchEvent(ev);
 		
 		if (!ret) {
@@ -112,6 +115,7 @@ public class DragRelativeLayout extends RelativeLayout
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if (mDraggable == null) return super.onTouchEvent(event);
 		
 		float x = event.getX();
 		float y = event.getY();
