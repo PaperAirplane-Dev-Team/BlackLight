@@ -17,7 +17,7 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout
+<info.papdt.blacklight.ui.common.DragRelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
@@ -30,8 +30,8 @@
 	
 	<View
 		android:id="@+id/scroller"
-		android:layout_width="8dp"
-		android:layout_height="21dp"
+		android:layout_width="11dp"
+		android:layout_height="24dp"
 		android:layout_alignParentRight="true"
 		android:layout_alignParentTop="true"
 		android:layout_marginRight="15dp"
@@ -44,7 +44,7 @@
 		android:layout_height="match_parent"
 		android:layout_alignParentRight="true"
 		android:layout_alignParentTop="true"
-		android:layout_marginRight="19dp"
+		android:layout_marginRight="20dp"
 		android:layout_marginTop="20dp"
 		android:layout_marginBottom="20dp"
 		android:background="?attr/colorPrimary"/>
@@ -55,5 +55,5 @@
 		android:layout_height="3dp"
 		android:background="@drawable/action_shadow"/>
 
-</RelativeLayout>
+</info.papdt.blacklight.ui.common.DragRelativeLayout>
 

@@ -42,6 +42,7 @@ import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.WeiboAdapter;
+import info.papdt.blacklight.ui.common.DragRelativeLayout;
 import info.papdt.blacklight.ui.common.ToolbarActivity;
 import info.papdt.blacklight.ui.main.MainActivity;
 
@@ -76,6 +77,17 @@ public abstract class TimeLineFragment extends Fragment implements
 
 	private int mLastCount = 0;
 	private int mLastPosition = -1;
+	private int mNewPosition = -1;
+	
+	private Runnable mScrollToRunnable = new Runnable() {
+		@Override
+		public void run() {
+			if (mNewPosition != -1) {
+				mList.scrollToPosition(mNewPosition);
+				mNewPosition = -1;
+			}
+		}
+	};
 	
 	private Runnable mHideScrollerRunnable = new Runnable() {
 		@Override
@@ -100,7 +112,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		initTitle();
 		mSettings = Settings.getInstance(getActivity().getApplicationContext());
 
-		final View v = inflater.inflate(R.layout.home_timeline, null);
+		final DragRelativeLayout v = (DragRelativeLayout) inflater.inflate(R.layout.home_timeline, null);
 		
 		// Initialize views
 		mList = Utility.findViewById(v, R.id.home_timeline);
@@ -183,25 +195,27 @@ public abstract class TimeLineFragment extends Fragment implements
 		
 		mAdapter.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
-			public void onScrolled(RecyclerView v, int dx, int dy) {
+			public void onScrolled(RecyclerView rv, int dx, int dy) {
 				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
 					new Refresher().execute(false);
 				}
 				
-				mScroller.removeCallbacks(mHideScrollerRunnable);
-				mScroller.clearAnimation();
-				mOrbit.clearAnimation();
-				
-				mScroller.setAlpha(1.0f);
-				mOrbit.setAlpha(1.0f);
-				
-				int first = mManager.findFirstVisibleItemPosition();
-				int visible = mManager.findLastVisibleItemPosition() - first;
-				int total = mAdapter.getCount();
-				
-				mScroller.setTranslationY((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible)));
-				
-				postHideScroller();
+				//if (!mDragging) {
+					mScroller.removeCallbacks(mHideScrollerRunnable);
+					mScroller.clearAnimation();
+					mOrbit.clearAnimation();
+					
+					mScroller.setAlpha(1.0f);
+					mOrbit.setAlpha(1.0f);
+					
+					int first = mManager.findFirstVisibleItemPosition();
+					int visible = mManager.findLastVisibleItemPosition() - first;
+					int total = mAdapter.getCount();
+					
+					mScroller.setTranslationY(((mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * ((float) first / (total - visible))));
+					
+					postHideScroller();
+				//}
 			}
 		});
 
@@ -209,6 +223,40 @@ public abstract class TimeLineFragment extends Fragment implements
 		mOrbit.bringToFront();
 		mScroller.bringToFront();
 		ViewCompat.setElevation(mScroller, 5.0f);
+		
+		// Drag
+		v.setDraggableChild(mScroller);
+		v.setCallback(new DragRelativeLayout.Callback() {
+			@Override
+			public int onDraggedVertically(int top, int dy) {
+				mScroller.removeCallbacks(mHideScrollerRunnable);
+				mScroller.removeCallbacks(mScrollToRunnable);
+				mScroller.clearAnimation();
+				mOrbit.clearAnimation();
+				postHideScroller();
+				int newTop = mScroller.getTop() + (int) mScroller.getTranslationY() + dy;
+				
+				if (newTop < mOrbit.getTop()) {
+					newTop = mOrbit.getTop();
+				} else if (newTop > mOrbit.getBottom()) {
+					newTop = mOrbit.getBottom() - mScroller.getHeight();
+				}
+				
+				int first = mManager.findFirstVisibleItemPosition();
+				int visible = mManager.findLastVisibleItemPosition() - first;
+				int total = mAdapter.getCount();
+				
+				mScroller.setTranslationY(newTop);
+				postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - visible)));
+				
+				return 0;
+			}
+			
+			@Override
+			public int onDraggedHorizontally(int left, int dx) {
+				return mScroller.getLeft();
+			}
+		});
 		
 		postHideScroller();
 		
@@ -288,6 +336,11 @@ public abstract class TimeLineFragment extends Fragment implements
 	
 	private void postHideScroller() {
 		mScroller.postDelayed(mHideScrollerRunnable, 1000);
+	}
+	
+	private void postScrollTo(int pos) {
+		mNewPosition = pos;
+		mScroller.postDelayed(mScrollToRunnable, 100);
 	}
 	
 	protected void updateTranslation() {
