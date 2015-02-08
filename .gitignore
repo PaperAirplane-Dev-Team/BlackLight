@@ -38,3 +38,4 @@ ant.properties
 build-tools_*.zip
 gradle-*
 gradle-*/
+.DS_Store
