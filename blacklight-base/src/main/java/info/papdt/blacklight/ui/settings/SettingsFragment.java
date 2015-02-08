@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -265,6 +265,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		if (preference == mPrefFastScroll) {
 			mSettings.putBoolean(Settings.FAST_SCROLL,
 					Boolean.parseBoolean(newValue.toString()));
+			Toast.makeText(getActivity(), R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;
 		} else if (preference == mPrefNotificationSound) {
 			mSettings.putBoolean(Settings.NOTIFICATION_SOUND,
