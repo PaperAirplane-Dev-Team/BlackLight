@@ -79,6 +79,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	private int mLastCount = 0;
 	private int mLastPosition = -1;
 	private int mNewPosition = -1;
+	private int mInitialTopMargin = -1;
 	
 	private Runnable mScrollToRunnable = new Runnable() {
 		@Override
@@ -186,6 +187,7 @@ public abstract class TimeLineFragment extends Fragment implements
 						}
 						
 						updateTranslation();
+						updateMargins(deltaY);
 					}
 
 					mFABShowing = shouldShow;
@@ -195,6 +197,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		}
 		
 		final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
+		mInitialTopMargin = params.topMargin;
 		
 		mAdapter.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
@@ -282,6 +285,16 @@ public abstract class TimeLineFragment extends Fragment implements
 					mAdapter.getHeaderView().setLayoutParams(lp);
 					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (mActionBarHeight * 1.2));
 					mSwipeRefresh.invalidate();
+					
+					if (mFastScrollEnabled && (getActivity() instanceof MainActivity)) {
+						RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
+						params.topMargin += mActionBarHeight;
+						mScroller.setLayoutParams(params);
+						params = (RelativeLayout.LayoutParams) mOrbit.getLayoutParams();
+						params.topMargin += mActionBarHeight;
+						mOrbit.setLayoutParams(params);
+					}
+					
 					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 				}
 			}
@@ -359,6 +372,33 @@ public abstract class TimeLineFragment extends Fragment implements
 		mShadow.setTranslationY(mActionBarHeight + mTranslationY);
 		/*mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
 		mSwipeRefresh.invalidate();*/
+	}
+	
+	protected void updateMargins(int deltaY) {
+		// Adjust layout position of scroller to match ActionBar
+		if (mFastScrollEnabled && (getActivity() instanceof MainActivity)) {
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
+			params.topMargin += deltaY;
+			
+			if (params.topMargin < mInitialTopMargin) {
+				params.topMargin = mInitialTopMargin;
+			} else if (params.topMargin > mInitialTopMargin + mActionBarHeight) {
+				params.topMargin = mInitialTopMargin + mActionBarHeight;
+			}
+			
+			mScroller.setLayoutParams(params);
+			
+			params = (RelativeLayout.LayoutParams) mOrbit.getLayoutParams();
+			params.topMargin += deltaY;
+			
+			if (params.topMargin < mInitialTopMargin) {
+				params.topMargin = mInitialTopMargin;
+			} else if (params.topMargin > mInitialTopMargin + mActionBarHeight) {
+				params.topMargin = mInitialTopMargin + mActionBarHeight;
+			}
+			
+			mOrbit.setLayoutParams(params);
+		}
 	}
 
 	protected HomeTimeLineApiCache bindApiCache() {
