@@ -28,15 +28,12 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.File;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.login.LoginApiCache;
-import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.CrashHandler;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
@@ -56,6 +53,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private static final String DEBUG_LOG = "debug_log";
 	private static final String DEBUG_SUBMIT = "debug_submit_log";
 	private static final String DEBUG_CRASH = "debug_crash";
+	private static final String DEBUG_CLEAR_CACHE = "debug_clear_cache";
 	private static final String DEVELOPERS = "developers";
 	private static final String FEEDBACK = "feedback";
 	private static final String GOOD = "good";
@@ -80,6 +78,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private Preference mPrefLog;
 	private Preference mPrefSubmitLog;
 	private CheckBoxPreference mPrefAutoSubmitLog;
+	private Preference mPrefCache;
 
 	// Feedback
 	private Preference mPrefFeedback;
@@ -120,6 +119,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefLog = findPreference(DEBUG_LOG);
 		mPrefSubmitLog = findPreference(DEBUG_SUBMIT);
 		mPrefCrash = findPreference(DEBUG_CRASH);
+		mPrefCache = findPreference(DEBUG_CLEAR_CACHE);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
 		mPrefDevelopers = findPreference(DEVELOPERS);
@@ -173,6 +173,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		if (DEBUG) {
 			mPrefCrash.setOnPreferenceClickListener(this);
 		}
+		mPrefCache.setOnPreferenceClickListener(this);
 		mPrefDevelopers.setOnPreferenceClickListener(this);
 		mPrefInterval.setOnPreferenceClickListener(this);
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
@@ -227,6 +228,9 @@ public class SettingsFragment extends PreferenceFragment implements
 			return true;
 		} else if (preference == mPrefCrash) {
 			throw new RuntimeException("Debug crash");
+		} else if (preference == mPrefCache) {
+			Intent i = new Intent("android.settings.MANAGE_APPLICATIONS_SETTINGS");
+			startActivity(i);
 		} else if (preference == mPrefDevelopers) {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
