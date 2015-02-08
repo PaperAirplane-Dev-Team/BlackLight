@@ -124,7 +124,11 @@ public class DragRelativeLayout extends RelativeLayout
 			mHelper.captureChildView(mDraggable, event.getPointerId(0));
 		}
 		
-		mHelper.processTouchEvent(event);
+		try {
+			mHelper.processTouchEvent(event);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
 		return true;
 	}
 	
