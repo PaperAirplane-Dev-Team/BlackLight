@@ -129,7 +129,7 @@ public class DragRelativeLayout extends RelativeLayout
 	}
 	
 	private boolean insideDraggable(float x, float y) {
-		int slop = mDraggable.getHeight() * 2;
+		int slop = mDraggable.getWidth();
 
 		int left = mDraggable.getLeft() - slop + (int) mDraggable.getTranslationX();
 		int top = mDraggable.getTop() - slop + (int) mDraggable.getTranslationY();
