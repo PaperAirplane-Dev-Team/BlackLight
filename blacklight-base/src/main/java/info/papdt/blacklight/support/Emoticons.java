@@ -39,22 +39,13 @@ package info.papdt.blacklight.support;
 
 
 import android.content.Context;
-
 import android.content.res.AssetManager;
-
 import android.graphics.Bitmap;
-
 import android.graphics.BitmapFactory;
-
 import android.graphics.Matrix;
-
 import android.util.Log;
 
-
 import java.util.HashMap;
-
-import java.io.InputStream;
-
 
 import info.papdt.blacklight.support.adapter.EmoticonAdapter;
 
@@ -296,6 +287,12 @@ public class Emoticons
 		EMOTICONS.put("[被电]", "lxh_beidian.png");
 
 		EMOTICONS.put("[霹雳]", "lxh_pili.png");
+
+		EMOTICONS.put("[doge]", "doge_org.gif");
+
+		EMOTICONS.put("[喵喵]", "mm_org.gif");
+
+		EMOTICONS.put("[笑cry]", "xiaoku_org.gif");
 
 	}
 

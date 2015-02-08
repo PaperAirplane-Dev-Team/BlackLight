@@ -26,25 +26,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Debug;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -70,7 +66,7 @@ import info.papdt.blacklight.ui.common.ImageActivity;
 import info.papdt.blacklight.ui.statuses.RepostActivity;
 import info.papdt.blacklight.ui.statuses.SingleActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
-import static info.papdt.blacklight.BuildConfig.DEBUG;
+
 import static info.papdt.blacklight.receiver.ConnectivityReceiver.isWIFI;
 
 /*
@@ -699,6 +695,11 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		}
 
 		void show() {
+			if (!(msg instanceof CommentModel)){
+				if(msg.unClickable){
+					return;
+				}
+			}
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
 

@@ -1,7 +1,7 @@
 BlackLight 新浪微博客户端
 ---
-![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)
-[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)
+![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)    
+[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)    
 详细介绍请见 <http://typeblog.net/blacklight>  
 Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
 源代码在GPLv3协议下发布

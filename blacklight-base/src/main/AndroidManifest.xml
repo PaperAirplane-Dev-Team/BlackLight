@@ -19,6 +19,10 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="info.papdt.blacklight">
+
+	<uses-sdk
+		android:minSdkVersion="15"
+		android:targetSdkVersion="21" />
 	
 	<application />
 	
