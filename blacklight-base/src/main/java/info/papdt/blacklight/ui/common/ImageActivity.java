@@ -19,13 +19,16 @@
 
 package info.papdt.blacklight.ui.common;
 
-import android.graphics.Movie;
+import android.content.Intent;
 import android.graphics.PointF;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -39,11 +42,9 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
-
-import java.util.ArrayList;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.file.FileCacheManager;
@@ -51,6 +52,8 @@ import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
@@ -119,17 +122,32 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		if (id == android.R.id.home) {
 			finish();
 			return true;
-		} else if (id == R.id.save) {
+		} else if (id == R.id.save || id == R.id.share){
 			int current = mPager.getCurrentItem();
 			if (!mLoaded[current]) {
 				Toast.makeText(this, R.string.not_loaded, Toast.LENGTH_SHORT).show();
 			} else {
 				String path = mApiCache.saveLargePic(mModel, current);
-				if (path == null) {
-					Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show();
-				} else {
-					String msg = String.format(getResources().getString(R.string.saved_to), path);
-					Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+				if (id == R.id.save){
+					if (path == null) {
+						Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show();
+					} else {
+						String msg = String.format(getResources().getString(R.string.saved_to), path);
+						Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+					}
+				}
+				if (id == R.id.share){
+					if (path != null){
+						File f = new File(path);
+						Uri u = Uri.fromFile(f);
+
+						ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+						Intent i = new Intent();
+						i.setAction(Intent.ACTION_SEND);
+						i.putExtra(Intent.EXTRA_STREAM,u);
+						i.setType("image/*");
+						share.setShareIntent(i);
+					}
 				}
 			}
 			return true;
