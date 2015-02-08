@@ -22,34 +22,26 @@ package info.papdt.blacklight.ui.statuses;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.Parcel;
+import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
-import android.support.v13.app.FragmentStatePagerAdapter;
-
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import java.util.List;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.attitudes.AttitudesApi;
 import info.papdt.blacklight.api.statuses.PostApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
-import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
-import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
@@ -97,6 +89,7 @@ public class SingleActivity extends AbsActivity
 
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
+		mMsg.unClickable = true;
 		mFavourited = mMsg.favorited;
 		mLiked = mMsg.liked;
 		if (mMsg.user != null && mMsg.user.id != null) {
@@ -199,41 +192,6 @@ public class SingleActivity extends AbsActivity
 		mIndicator.setViewPager(mPager);
 		mIndicator.addTab(getResources().getString(R.string.comment) + " " + Utility.addUnitToInt(this, mMsg.comments_count));
 		mIndicator.addTab(getResources().getString(R.string.retweet) + " " + Utility.addUnitToInt(this, mMsg.reposts_count));
-		
-		/*mTabs.setup();
-
-		final String comment = getResources().getString(R.string.comment);
-		TabHost.TabSpec tab1 = mTabs.newTabSpec(comment);
-		tab1.setIndicator(comment);
-		tab1.setContent(android.R.id.tabcontent);
-		mTabs.addTab(tab1);
-		
-		final String repost = getResources().getString(R.string.retweet);
-		TabHost.TabSpec tab2 = mTabs.newTabSpec(repost);
-		tab2.setIndicator(repost);
-		tab2.setContent(android.R.id.tabcontent);
-		mTabs.addTab(tab2);
-
-		mTabWidget = mTabs.getTabWidget();
-		mTabWidget.setLeftStripDrawable(new ColorDrawable(mActionBarColor));
-		mTabWidget.setRightStripDrawable(new ColorDrawable(mActionBarColor));
-		mTabWidget.setStripEnabled(false);
-
-		mTabs.setCurrentTab(0);
-
-		Utility.initDarkTabHost(this, mTabs);
-		
-		// Connect the TabHost with the ViewPager
-		mTabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-				@Override
-				public void onTabChanged(String id) {
-					if (id.equals(comment)) {
-						mPager.setCurrentItem(0);
-					} else if (id.equals(repost)) {
-						mPager.setCurrentItem(1);
-					}
-				}
-		});*/
 		
 		mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 				@Override
