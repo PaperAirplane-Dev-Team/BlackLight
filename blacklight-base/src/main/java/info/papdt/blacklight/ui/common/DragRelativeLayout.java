@@ -103,7 +103,7 @@ public class DragRelativeLayout extends RelativeLayout
 			float x = ev.getX();
 			float y = ev.getY();
 			
-			ret = insideDraggable(x, y);
+			ret = ev.getActionMasked() == MotionEvent.ACTION_DOWN && insideDraggable(x, y);
 		}
 		
 		if (DEBUG) {
