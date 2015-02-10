@@ -89,10 +89,16 @@ public class SpannableStringUtils
 		}
 		
 		// Math style
+		WeiboSpan[] mySpans = ssb.getSpans(0, ssb.length(), WeiboSpan.class);
 		matcher = PATTERN_STYLE.matcher(ssb);
 		while (matcher.find()) {
 			int start = matcher.start();
 			int end = matcher.end();
+			
+			if (isInsideSpans(start, end, mySpans, ssb)) {
+				continue;
+			}
+			
 			String group = matcher.group(1);
 			
 			int len = group.length();
@@ -157,5 +163,17 @@ public class SpannableStringUtils
 		}
 
 		return orig.origSpan;
+	}
+	
+	private static boolean isInsideSpans(int start, int end, Object[] spans, SpannableStringBuilder s) {
+		for (Object span : spans) {
+			int spanStart = s.getSpanStart(span);
+			int spanEnd = s.getSpanEnd(span);
+			if ((start >= spanStart && start <= spanEnd) || (end >= spanStart && end <= spanEnd)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
