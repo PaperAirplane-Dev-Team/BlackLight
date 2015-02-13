@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -227,7 +227,8 @@
 
 		<android.support.v7.widget.Toolbar
 			android:layout_height="match_parent"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
 			android:id="@+id/weibo_bottom_bar"
 			app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 			app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
