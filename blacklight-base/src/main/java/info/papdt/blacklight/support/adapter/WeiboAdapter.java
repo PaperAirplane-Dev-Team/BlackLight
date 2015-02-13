@@ -374,9 +374,9 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		}
 	}
 
-	void buildToolbar(final ViewHolder h, Toolbar mToolbar) {
-		mToolbar.inflateMenu(R.menu.popup);
-		final Menu m = mToolbar.getMenu();
+	void buildToolbar(final ViewHolder h, Toolbar toolbar) {
+		toolbar.inflateMenu(R.menu.popup);
+		final Menu m = toolbar.getMenu();
 
 		// Show needed items
 		m.findItem(R.id.popup_copy).setVisible(true);
@@ -402,7 +402,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			}
 		}
 
-		mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				int id = item.getItemId();
