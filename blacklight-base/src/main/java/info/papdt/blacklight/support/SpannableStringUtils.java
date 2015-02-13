@@ -88,7 +88,7 @@ public class SpannableStringUtils
 			}
 		}
 		
-		// Math style
+		// Match style
 		WeiboSpan[] mySpans = ssb.getSpans(0, ssb.length(), WeiboSpan.class);
 		matcher = PATTERN_STYLE.matcher(ssb);
 		while (matcher.find()) {
