@@ -217,14 +217,21 @@
 	</HorizontalScrollView>
 
 	<RelativeLayout
-		android:layout_below="@id/weibo_pics_scroll"
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
 		android:layout_alignParentLeft="true"
 		android:layout_marginLeft="5dp"
 		android:layout_marginTop="5dp"
 		android:layout_marginBottom="5dp"
-		android:layout_width="wrap_content"
-		android:layout_height="50dp">
-		
+		android:layout_below="@id/weibo_pics_scroll">
+
+		<android.support.v7.widget.Toolbar
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:id="@+id/weibo_bottom_bar"
+			app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+			app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
 		<de.hdodenhof.circleimageview.CircleImageView
 			android:id="@+id/weibo_avatar"
 			android:layout_width="36dp"
@@ -233,11 +240,10 @@
 			android:layout_marginLeft="10dp"
 			android:src="@color/gray"
 			style="?android:attr/buttonBarButtonStyle"/>
-		
+
 		<TextView
 			android:id="@+id/weibo_name"
 			android:layout_toRightOf="@id/weibo_avatar"
-			android:layout_toLeftOf="@+id/weibo_popup"
 			android:layout_marginLeft="10dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -248,21 +254,7 @@
 			android:singleLine="true"
 			android:ellipsize="end"/>
 
-		<info.papdt.blacklight.ui.common.TintImageView
-			android:id="@+id/weibo_popup"
-			android:layout_width="45dp"
-			android:layout_height="50dp"
-			android:layout_centerVertical="true"
-			android:layout_alignParentRight="true"
-			android:layout_marginRight="5dp"
-			android:scaleType="centerInside"
-			android:src="@drawable/ic_menu_more"
-			app:tintColor="?attr/CardForeground"
-			style="?android:attr/buttonBarButtonStyle"/>
-	
 	</RelativeLayout>
-
-		
 
 </RelativeLayout>
 
