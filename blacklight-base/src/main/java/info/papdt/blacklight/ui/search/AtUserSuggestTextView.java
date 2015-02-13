@@ -38,6 +38,8 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
  */
 public class AtUserSuggestTextView extends AutoCompleteTextView {
 	private static final String TAG = AtUserSuggestTextView.class.getSimpleName();
+	
+	private Runnable mRunnable;
 
 	public AtUserSuggestTextView(Context context) {
 		this(context, null);
@@ -111,6 +113,22 @@ public class AtUserSuggestTextView extends AutoCompleteTextView {
 			Log.d(TAG, "baseline = " + baseline + "; ascent = " + ascent);
 		}
 	}
+	
+	private synchronized void postChangeAdapter(final ArrayAdapter adapter) {
+		if (mRunnable != null) {
+			removeCallbacks(mRunnable);
+		}
+		
+		mRunnable = new Runnable() {
+			@Override
+			public void run() {
+				setAdapter(adapter);
+				adapter.notifyDataSetChanged();
+			}
+		};
+		
+		postDelayed(mRunnable, 200);
+	}
 
 	private class SuggestTask extends AsyncTask<String, Void, String[]> {
 		String q = "";
@@ -127,8 +145,7 @@ public class AtUserSuggestTextView extends AutoCompleteTextView {
 			if (result != null && result.length != 0) {
 				calculateDropDownOffset();
 				ArrayAdapter adapter = new ArrayAdapter<String>(getContext(), R.layout.at_suggestion_item, result);
-				setAdapter(adapter);
-				adapter.notifyDataSetChanged();
+				postChangeAdapter(adapter);
 			}
 		}
 	}
