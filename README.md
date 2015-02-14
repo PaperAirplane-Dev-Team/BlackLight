@@ -6,7 +6,7 @@ BlackLight 新浪微博客户端
 Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
 源代码在GPLv3协议下发布
 
-由于新浪微博已经不再接受新的第三方客户端申请，因此BlackLight使用“黑魔法”的方式登录微博。客户端内内置了几个可用的APP KEY。  
+由于新浪微博已经不再接受新的第三方客户端申请，因此BlackLight使用“黑魔法”的方式登录微博。客户端内内置了一个可用的APP KEY。  
 个人娱乐之作，勿用于任何盈利性用途。  
 
 如果你有意加入本项目，你可以阅读我们的Wiki以及下面的内容来获得有关指导。  
