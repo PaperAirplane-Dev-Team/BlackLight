@@ -28,7 +28,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -48,6 +50,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -291,13 +295,28 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		
 		// Image picked, decode
 		if (requestCode == REQUEST_PICK_IMG && resultCode == RESULT_OK) {
-			Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
-			cursor.moveToFirst();
-			String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-			cursor.close();
-			
-			// Then decode
-			addPicture(null, filePath);
+			if (Build.VERSION.SDK_INT >= 19) {
+				try {
+					ParcelFileDescriptor parcelFileDescriptor =
+							getContentResolver().openFileDescriptor(data.getData(), "r");
+					FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+					Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+					parcelFileDescriptor.close();
+					addPicture(image, null);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				Cursor cursor = getContentResolver().query(data.getData(), new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+				cursor.moveToFirst();
+				String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+				cursor.close();
+
+				// Then decode
+				addPicture(null, filePath);
+			}
 		} else if (requestCode == REQUEST_CAPTURE_PHOTO && resultCode == RESULT_OK) {
 			addPicture(null, Utility.lastPicPath);
 		} else if (resultCode == MultiPicturePicker.PICK_OK) {
@@ -385,8 +404,14 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 						switch (id) {
 							case 0:
 								Intent i = new Intent();
-								i.setAction(Intent.ACTION_PICK);
-								i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+								if (Build.VERSION.SDK_INT >= 19) {
+									i.setAction(Intent.ACTION_OPEN_DOCUMENT);
+									i.addCategory(Intent.CATEGORY_OPENABLE);
+									i.setType("image/*");
+								} else {
+									i.setAction(Intent.ACTION_PICK);
+									i.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+								}
 								startActivityForResult(i, REQUEST_PICK_IMG);
 								break;
 							case 1:
