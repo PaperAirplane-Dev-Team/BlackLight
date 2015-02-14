@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -26,6 +26,7 @@ public class Constants
 	public static final String SINA_BASE_URL = "https://api.weibo.com/2/";
 	
 	// Login
+	public static final String OAUTH2_ACCESS_AUTHORIZE = "https://open.weibo.cn/oauth2/authorize";
 	public static final String OAUTH2_ACCESS_TOKEN = SINA_BASE_URL + "oauth2/access_token";
 	
 	// User / Account

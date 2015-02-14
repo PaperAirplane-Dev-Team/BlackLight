@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -24,7 +24,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import info.papdt.blacklight.api.BaseApi;
-import info.papdt.blacklight.api.login.LoginApi;
+import info.papdt.blacklight.api.PrivateKey;
 import info.papdt.blacklight.api.user.AccountApi;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
@@ -37,40 +37,23 @@ public class LoginApiCache
 	private String mAccessToken;
 	private String mUid;
 	private long mExpireDate;
-	private String mAppId;
-	private String mAppSecret;
 	
     public LoginApiCache(Context context) {
 		mPrefs = context.getSharedPreferences("access_token", Context.MODE_PRIVATE);
 		mAccessToken = mPrefs.getString("access_token", null);
 		mUid = mPrefs.getString("uid", "");
 		mExpireDate = mPrefs.getLong("expires_in", Long.MIN_VALUE);
-		mAppId = mPrefs.getString("app_id", null);
-		mAppSecret = mPrefs.getString("app_secret", null);
 		
 		if (mAccessToken != null) {
 			BaseApi.setAccessToken(mAccessToken);
 		}
 	}
 	
-	public void login(String appId, String appSecret, String username, String passwd) {
-		if (mAccessToken == null || mExpireDate == Long.MIN_VALUE) {
-			if (DEBUG) {
-				Log.d(TAG, "access token not initialized, running login function");
-			}
-			String[] result = LoginApi.login(appId, appSecret, username, passwd);
-			if (result != null) {
-				if (DEBUG) {
-					Log.d(TAG, "result got, loading to cache");
-				}
-				mAccessToken = result[0];
-				BaseApi.setAccessToken(mAccessToken);
-				mExpireDate = System.currentTimeMillis() + Long.valueOf(result[1]) * 1000;
-				mAppId = appId;
-				mAppSecret = appSecret;
-				mUid = AccountApi.getUid();
-			}
-		}
+	public void login(String token, String expire) {
+		mAccessToken = token;
+		BaseApi.setAccessToken(mAccessToken);
+		mExpireDate = System.currentTimeMillis() + Long.valueOf(expire) * 1000;
+		mUid = AccountApi.getUid();
 	}
 	
 	public void logout() {
@@ -83,8 +66,6 @@ public class LoginApiCache
 		mPrefs.edit().putString("access_token", mAccessToken)
 					 .putLong("expires_in", mExpireDate)
 					 .putString("uid", mUid)
-					 .putString("app_id", mAppId)
-					 .putString("app_secret", mAppSecret)
 					 .commit();
 	}
 	
@@ -98,13 +79,5 @@ public class LoginApiCache
 	
 	public long getExpireDate() {
 		return mExpireDate;
-	}
-	
-	public String getAppId() {
-		return mAppId;
-	}
-	
-	public String getAppSecret() {
-		return mAppSecret;
 	}
 }

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -24,6 +24,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +32,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -39,6 +43,7 @@ import android.widget.Toast;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.BaseApi;
+import info.papdt.blacklight.api.PrivateKey;
 import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
@@ -48,74 +53,40 @@ import info.papdt.blacklight.ui.main.MainActivity;
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 import static info.papdt.blacklight.support.Utility.hasSmartBar;
 
-/* BlackMagic Login Activity */
-public class LoginActivity extends AbsActivity implements AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener {
+/* Login Activity */
+public class LoginActivity extends AbsActivity {
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
-	private Spinner mTail;
-	private TextView mUsername;
-	private TextView mPasswd;
-	
-	private MenuItem mMenuItem;
-	
-	private String[] mTailNames;
-	private String[] mKeys;
-	
-	private String mAppId;
-	private String mAppSecret;
+	private WebView mWeb;
 	
 	private LoginApiCache mLogin;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		mLayout = R.layout.login;
+		mLayout = R.layout.web_login;
 		super.onCreate(savedInstanceState);
 
 		// Initialize views
-		mTail = Utility.findViewById(this, R.id.tail);
-		mUsername = Utility.findViewById(this, R.id.username);
-		mPasswd = Utility.findViewById(this, R.id.passwd);
-		mTail.setOnItemSelectedListener(this);
-		mUsername.setOnEditorActionListener(this);
+		mWeb = Utility.findViewById(this, R.id.login_web);
 		
 		// Create login instance
 		mLogin = new LoginApiCache(this);
 		
-		// Get views
-		mTailNames = getResources().getStringArray(R.array.bm_tails);
-		mKeys = getResources().getStringArray(R.array.bm_keys);
+		// Login page
+		WebSettings settings = mWeb.getSettings();
+		settings.setJavaScriptEnabled(true);
+		settings.setSaveFormData(false);
+		settings.setSavePassword(false);
+		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		
-		mTail.setAdapter(new ArrayAdapter<String>(this, R.layout.spinner_item_text, mTailNames));
-		
-		onItemSelected(null, null, 0, 0);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		mMenuItem = menu.add(R.string.login);
-		mMenuItem.setShowAsAction(1);
-		return true;
-	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		String[] key = mKeys[position].split("\\|");
-		mAppId = key[0];
-		mAppSecret = key[1];
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> p1) {
-		
+		mWeb.setWebViewClient(new MyWebViewClient());
+		mWeb.loadUrl(PrivateKey.getOauthLoginPage());
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if (item == mMenuItem) {
-			login();
-			return true;
-		} else if (item.getItemId() == android.R.id.home) {
+		if (item.getItemId() == android.R.id.home) {
 			setResult(RESULT_CANCELED);
 			finish();
 			return true;
@@ -123,39 +94,57 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	private void handleRedirectedUrl(String url) {
+		if (!url.contains("error")) {
+			int tokenIndex = url.indexOf("access_token=");
+			int expiresIndex = url.indexOf("expires_in=");
+			String token = url.substring(tokenIndex + 13, url.indexOf("&", tokenIndex));
+			String expiresIn = url.substring(expiresIndex + 11, url.indexOf("&", expiresIndex));
+			
+			if (DEBUG) {
+				Log.d(TAG, "url = " + url);
+				Log.d(TAG, "token = " + token);
+				Log.d(TAG, "expires_in = " + expiresIn);
+			}
+			
+			new LoginTask().execute(token, expiresIn);
+		} else {
+			showLoginFail();
+		}
+	}
+	
+	private void showLoginFail() {
+		// Wrong username or password
+		new AlertDialog.Builder(LoginActivity.this)
+								.setMessage(R.string.login_fail)
+								.setCancelable(true)
+								.create()
+								.show();
+	}
+	
+	private class MyWebViewClient extends WebViewClient {
 
-	@Override
-	public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-		if (actionId == EditorInfo.IME_ACTION_DONE) {
-			login();
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			if (PrivateKey.isUrlRedirected(url)) {
+				view.stopLoading();
+				handleRedirectedUrl(url);
+			} else {
+				view.loadUrl(url);
+			}
 			return true;
 		}
-		return false;
-	}
 
-	private void login() {
-		if (mUsername.getText().length() < 1) {
-			Toast.makeText(
-					getApplicationContext(),
-					getString(R.string.toast_empty_username),
-					Toast.LENGTH_SHORT
-			).show();
-			return;
+		@Override
+		public void onPageStarted(WebView view, String url, Bitmap favicon) {
+			if (PrivateKey.isUrlRedirected(url)) {
+				view.stopLoading();
+				handleRedirectedUrl(url);
+				return;
+			}
+			super.onPageStarted(view, url, favicon);
 		}
-		if (mPasswd.getText().length() < 1) {
-			Toast.makeText(
-					getApplicationContext(),
-					getString(R.string.toast_empty_password),
-					Toast.LENGTH_SHORT
-			).show();
-			return;
-		}
-		new LoginTask().execute(new String[]{
-				mAppId,
-				mAppSecret,
-				mUsername.getText().toString(),
-				mPasswd.getText().toString()
-		});
 	}
 
 	private class LoginTask extends AsyncTask<String, Void, Void>
@@ -172,11 +161,11 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 		}
 		
 		@Override
-		protected Void doInBackground(String[] params) {
+		protected Void doInBackground(String... params) {
 			if (DEBUG) {
 				Log.d(TAG, "doInBackground...");
 			}
-			mLogin.login(params[0], params[1], params[2], params[3]);
+			mLogin.login(params[0], params[1]);
 			return null;
 		}
 
@@ -212,12 +201,7 @@ public class LoginActivity extends AbsActivity implements AdapterView.OnItemSele
 								.create()
 								.show();
 			} else {
-				// Wrong username or password
-				new AlertDialog.Builder(LoginActivity.this)
-								.setMessage(R.string.login_fail)
-								.setCancelable(true)
-								.create()
-								.show();
+				showLoginFail();
 			}
 		}
 		
