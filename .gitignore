@@ -39,4 +39,3 @@ build-tools_*.zip
 gradle-*
 gradle-*/
 .DS_Store
-blacklight-base/src/main/java/info/papdt/blacklight/api/PrivateKey.java
