@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -19,8 +19,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="us.shandian.blacklight"
-    android:versionCode="31"
-    android:versionName="1.2.4" >
+    android:versionCode="32"
+    android:versionName="1.3.0" >
 
     <uses-sdk 
         android:minSdkVersion="15"
