@@ -17,10 +17,10 @@ android {
     }
     signingConfigs {
         releaseSigning {
-            storeFile file(System.getenv("ANDROID_KEYSTORE"))
-            storePassword System.console().readLine("\nStore password: ")
-            keyAlias System.getenv("ANDROID_KEYALIAS")
-            keyPassword System.console().readLine("Key password: ")
+            storeFile file(key_store)
+            storePassword key_store_pass
+            keyAlias key_alias
+            keyPassword key_alias_pass
         }
     }
     buildTypes {
