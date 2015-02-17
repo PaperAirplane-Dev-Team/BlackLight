@@ -5,9 +5,6 @@ branches:
 env:
     - secure: "OXj6ivU3xBWNSo+94B0V9dyoMbYIo6dp701XrNecY/0lrQbN5FeP4Tk+KqVbSlk2kB1AIky3hW4gEhMij4F9fI9kYtLJBT5dtzXgvj3ae9Eukr3cMfBYZPjMMNXL1t9OGiIDF7h3u2+4MqAqiqb8FaMuxE4+ecgdJs31YIB6bdY="
 before_install:
-- touch ~/dummy.keystore
-- mkdir ~/.gradle
-- echo "key_store=~/dummy.keystore\nkey_store_pass=dummy\nkey_alias=dummy\nkey_alias_pass=dummy" > ~/.gradle/gradle.properties
 - wget http://services.gradle.org/distributions/gradle-2.2.1-all.zip
 - unzip gradle-2.2.1-all.zip >> /dev/null
 - export GRADLE_HOME=$PWD/gradle-2.2.1
