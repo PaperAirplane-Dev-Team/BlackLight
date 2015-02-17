@@ -1,7 +1,7 @@
 BlackLight 新浪微博客户端
 ---
-![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)    
-[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)    
+![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)
+[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)
 详细介绍请见 <http://typeblog.net/blacklight>  
 Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
 源代码在GPLv3协议下发布
@@ -23,6 +23,18 @@ Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight
 1. 安装 `AIDE` 到你的手机上
 2. 在其中直接clone本项目并打开即可
 
+编译非调试版本
+---
+如果您想编译非调试版本，即 `Release` 版本，请在项目根目录创建 `signing.properties`
+
+```STORE_FILE=/path/to/your/publish/keystore
+STORE_PASSWORD=your_passwd
+KEY_ALIAS=your_alias
+KEY_PASSWORD=your_passwd
+```
+
+然后即可使用 `gradle :app:assembleRelease`
+
 在Chrome中运行
 ---
 参考 <https://github.com/vladikoff/chromeos-apk/blob/master/archon.md> 配置apk运行环境
@@ -41,6 +53,6 @@ Chrome中运行效果:
 @PeterCxy  
 @Harry-Chen  
 @fython  
-@xavieryao 
+@xavieryao
 
 纸飞机开发团队 @PaperAirplane-Dev-Team 出品
