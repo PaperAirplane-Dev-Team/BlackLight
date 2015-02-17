@@ -39,3 +39,4 @@ build-tools_*.zip
 gradle-*
 gradle-*/
 .DS_Store
+signing.properties

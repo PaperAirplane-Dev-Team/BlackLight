@@ -2,10 +2,13 @@
 # In order to auto-build in Atom editor
 # Atom plugin: build-systems
 
-.PHONY: app-debugapp-install-debug app-clean
+.PHONY: app-debug app-release app-install-debug app-clean
 
 app-debug:
 	@gradle :app:assembleDebug
+
+app-release:
+	@gradle :app:assembleRelease
 
 app-install:
 	@adb install app/build/outputs/apk/app-debug.apk
