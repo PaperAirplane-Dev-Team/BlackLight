@@ -11,7 +11,7 @@ app-release:
 	@gradle :app:assembleRelease
 
 app-install:
-	@adb install app/build/outputs/apk/app-debug.apk
+	@adb install -r app/build/outputs/apk/app-debug.apk
 
 app-clean:
 	@gradle :app:clean

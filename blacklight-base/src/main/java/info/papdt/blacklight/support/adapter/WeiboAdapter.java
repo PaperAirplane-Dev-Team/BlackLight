@@ -30,7 +30,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -232,7 +232,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	public WeiboAdapter.ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = mInflater.inflate(R.layout.weibo, parent, false);
 		ViewHolder h = new ViewHolder(this, v);
-
+		
 		h.content.setMovementMethod(HackyMovementMethod.getInstance());
 		h.orig_content.setMovementMethod(HackyMovementMethod.getInstance());
 		
@@ -305,8 +305,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		}
 
 		bindMultiPicLayout(h, msg, true);
-		buildToolbar(h, h.bottom_bar);
-
+		
 		// If this retweets/replies to others, show the original
 		if (mBindOrig) {
 			if (!(msg instanceof CommentModel) && msg.retweeted_status != null) {
@@ -374,9 +373,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		}
 	}
 
-	void buildToolbar(final ViewHolder h, Toolbar toolbar) {
-		toolbar.inflateMenu(R.menu.popup);
-		final Menu m = toolbar.getMenu();
+	void buildPopup(final ViewHolder h) {
+		PopupMenu p = new PopupMenu(mContext, h.popup);
+		p.inflate(R.menu.popup);
+		final Menu m = p.getMenu();
 
 		// Show needed items
 		m.findItem(R.id.popup_copy).setVisible(true);
@@ -402,7 +402,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			}
 		}
 
-		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+		p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				int id = item.getItemId();
@@ -421,6 +421,9 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 				return true;
 			}
 		});
+
+		// Pop up!
+		p.show();
 	}
 	
 	public void notifyDataSetChangedAndClone() {
@@ -632,7 +635,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		public View card;
 		public View origin_parent;
 		public View comment_and_retweet;
-		public Toolbar bottom_bar;
 		
 		public View v;
 		public MessageModel msg = null;
@@ -657,7 +659,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		
 		private void init() {
 			// Views
-			bottom_bar = Utility.findViewById(v, R.id.weibo_bottom_bar);
 			date = Utility.findViewById(v, R.id.weibo_date);
 			retweets = Utility.findViewById(v, R.id.weibo_retweet);
 			comments = Utility.findViewById(v, R.id.weibo_comments);
@@ -666,18 +667,23 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			content = Utility.findViewById(v, R.id.weibo_content);
 			attitudes = Utility.findViewById(v, R.id.weibo_attitudes);
 			orig_content = Utility.findViewById(v, R.id.weibo_orig_content);
-			// popup = Utility.findViewById(v, R.id.weibo_popup);
 			avatar = Utility.findViewById(v, R.id.weibo_avatar);
+			popup = Utility.findViewById(v, R.id.weibo_popup);
 			scroll = Utility.findViewById(v, R.id.weibo_pics_scroll);
 			pics = Utility.findViewById(v, R.id.weibo_pics);
 			card = Utility.findViewById(v, R.id.card);
 			origin_parent = Utility.findViewById(v, R.id.weibo_origin);
 			comment_and_retweet = Utility.findViewById(v, R.id.weibo_comment_and_retweet);
-
+			
 			// Events
+			Utility.bindOnClick(this, popup, "popup");
 			Utility.bindOnClick(this, avatar, "showUser");
 			Utility.bindOnClick(this, card, "show");
 			Utility.bindOnClick(this, origin_parent, "showOrig");
+		}
+
+		void popup() {
+			adapter.buildPopup(this);
 		}
 
 		void showUser() {
