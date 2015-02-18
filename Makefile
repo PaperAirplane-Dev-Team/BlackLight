@@ -10,7 +10,7 @@ app-debug:
 app-release:
 	@gradle :app:assembleRelease
 
-app-install:
+app-install-debug:
 	@adb install -r app/build/outputs/apk/app-debug.apk
 
 app-clean:
