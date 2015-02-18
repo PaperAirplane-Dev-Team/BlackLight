@@ -27,7 +27,8 @@ Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight
 ---
 如果您想编译非调试版本，即 `Release` 版本，请在项目根目录创建 `signing.properties`
 
-```STORE_FILE=/path/to/your/publish/keystore
+```
+STORE_FILE=/path/to/your/publish/keystore
 STORE_PASSWORD=your_passwd
 KEY_ALIAS=your_alias
 KEY_PASSWORD=your_passwd
