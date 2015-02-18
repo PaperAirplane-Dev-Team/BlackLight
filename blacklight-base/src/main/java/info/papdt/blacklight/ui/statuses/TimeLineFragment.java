@@ -323,10 +323,16 @@ public abstract class TimeLineFragment extends Fragment implements
 
 	@Override
 	public void doRefresh() {
-		mList.smoothScrollToPosition(0);
+		if (mManager.findFirstVisibleItemPosition() <= 20) {
+			mList.smoothScrollToPosition(0);
+		} else {
+			mList.scrollToPosition(0);
+		}
+		
 		mList.post(new Runnable() {
 			@Override
 			public void run() {
+				mRefreshing = false;
 				onRefresh();
 			}
 		});
