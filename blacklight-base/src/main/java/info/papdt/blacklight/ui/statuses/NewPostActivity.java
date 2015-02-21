@@ -157,7 +157,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 
 		// Hints
-		if (Math.random() > 0.8){ // Make this a matter of possibility.
+		if (Math.random() < 0.42){ // Make this a matter of possibility.
 			mHints = getResources().getStringArray(R.array.splashes);
 			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 		}
