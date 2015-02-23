@@ -260,7 +260,7 @@ public abstract class TimeLineFragment extends Fragment implements
 					int header = mAdapter.hasHeaderView() ? 0 : 1;
 					
 					mScroller.setTranslationY(newTop);
-					postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - visible - header)));
+					postScrollTo((int) ((float) newTop / (mList.getHeight() - mScroller.getHeight() - 2 * params.topMargin) * (total - header)));
 					
 					return 0;
 				}
