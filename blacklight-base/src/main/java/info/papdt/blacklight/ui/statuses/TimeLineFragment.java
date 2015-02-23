@@ -326,7 +326,8 @@ public abstract class TimeLineFragment extends Fragment implements
 		if (mManager.findFirstVisibleItemPosition() <= 20) {
 			mList.smoothScrollToPosition(0);
 		} else {
-			mList.scrollToPosition(0);
+			mList.scrollToPosition(1);
+			mList.smoothScrollToPosition(0);
 		}
 		
 		mList.post(new Runnable() {
