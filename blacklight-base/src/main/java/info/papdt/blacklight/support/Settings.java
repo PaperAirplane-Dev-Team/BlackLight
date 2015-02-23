@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -52,6 +52,9 @@ public class Settings
 
 	// Group
 	public static final String CURRENT_GROUP = "current_group";
+	
+	// Position
+	public static final String LAST_POSITION = "last_position";
 	
 	private static Settings sInstance;
 	

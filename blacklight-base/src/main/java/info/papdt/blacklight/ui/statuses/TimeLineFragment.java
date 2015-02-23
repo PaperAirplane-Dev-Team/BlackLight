@@ -53,11 +53,11 @@ public abstract class TimeLineFragment extends Fragment implements
 
 	protected RecyclerView mList;
 	protected View mShadow, mScroller, mOrbit;
-	private WeiboAdapter mAdapter;
-	private LinearLayoutManager mManager;
+	protected WeiboAdapter mAdapter;
+	protected LinearLayoutManager mManager;
 	protected HomeTimeLineApiCache mCache;
 
-	private Settings mSettings;
+	protected Settings mSettings;
 	
 	protected ActionBar mActionBar = null;
 	protected Toolbar mToolbar = null;
