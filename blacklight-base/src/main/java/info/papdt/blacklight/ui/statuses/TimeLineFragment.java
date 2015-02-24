@@ -127,11 +127,6 @@ public abstract class TimeLineFragment extends Fragment implements
 		mCache = bindApiCache();
 		mCache.loadFromCache();
 
-		mList.setDrawingCacheEnabled(true);
-		mList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-		mList.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE
-				| ViewGroup.PERSISTENT_SCROLLING_CACHE);
-				
 		mManager = new LinearLayoutManager(getActivity());
 		mList.setLayoutManager(mManager);
 
