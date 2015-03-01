@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.common;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
@@ -105,7 +107,20 @@ public class MultiPicturePicker extends AbsActivity {
 					if (DEBUG) {
 						Log.d(TAG, "m.path = " + m.path);
 					}
+					
+					Cursor thumbCursor = MediaStore.Images.Thumbnails.queryMiniThumbnails(
+							getContentResolver(), Uri.fromFile(new File(m.path)), MediaStore.Images.Thumbnails.MINI_KIND, null);
 
+					if (thumbCursor != null && thumbCursor.getCount() > 0) {
+						thumbCursor.moveToFirst();
+						
+						m.thumbnail = thumbCursor.getString(thumbCursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
+						
+						if (DEBUG) {
+							Log.d(TAG, "thumbnail found at " + m.thumbnail);
+						}
+						
+					}
 					model.add(m);
 				}
 			}

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -21,5 +21,6 @@ package info.papdt.blacklight.model;
 
 public class GalleryModel {
 	public String path;
+	public String thumbnail;
 	public boolean checked = false;
 }

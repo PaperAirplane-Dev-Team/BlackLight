@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -86,14 +86,15 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 
 			GalleryModel gallery = mList.get(position);
 
-			h.path = gallery.path;
+			String path = gallery.thumbnail != null ? gallery.thumbnail : gallery.path;
+			h.path = path;
 
-			WeakReference<Bitmap> w = mBitmaps.get(gallery.path);
+			WeakReference<Bitmap> w = mBitmaps.get(h.path);
 			Bitmap bmp = w != null ? w.get() : null;
 			
 			if (bmp == null) {
 				h.img.setImageBitmap(null);
-				new LoadTask().execute(h, gallery.path);
+				new LoadTask().execute(h, path);
 			} else {
 				h.img.setImageBitmap(bmp);
 			}
