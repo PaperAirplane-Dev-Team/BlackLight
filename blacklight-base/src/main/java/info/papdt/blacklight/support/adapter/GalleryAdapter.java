@@ -20,8 +20,10 @@
 package info.papdt.blacklight.support.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,15 +89,15 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 
 			GalleryModel gallery = mList.get(position);
 
-			String path = gallery.thumbnail != null ? gallery.thumbnail : gallery.path;
-			h.path = path;
+			h.path = gallery.path;
+			h.id = gallery.id;
 
 			WeakReference<Bitmap> w = mBitmaps.get(h.path);
 			Bitmap bmp = w != null ? w.get() : null;
 			
 			if (bmp == null) {
 				h.img.setImageBitmap(null);
-				new LoadTask().execute(h, path);
+				new LoadTask().execute(h, h.path);
 			} else {
 				h.img.setImageBitmap(bmp);
 			}
@@ -146,6 +149,7 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 		public ImageView img;
 		public CheckBox check;
 		public String path;
+		public long id = -1;
 
 		public ViewHolder(View v) {
 			this.v = v;
@@ -162,6 +166,24 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 		protected Bitmap doInBackground(Object... params) {
 			h = (ViewHolder) params[0];
 			path = (String) params[1];
+			
+			// Try to load thumbnail
+			Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
+				h.v.getContext().getContentResolver(), h.id, MediaStore.Images.Thumbnails.MICRO_KIND, null);
+			
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				String tmpPath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
+				
+				File f = new File(tmpPath);
+				
+				if (f.exists()) {
+					path = tmpPath;
+				}
+			}
+			
+			if (cursor != null)
+				cursor.close();
 
 			// Load
 			BitmapFactory.Options op = new BitmapFactory.Options();

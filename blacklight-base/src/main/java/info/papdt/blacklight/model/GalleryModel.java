@@ -21,6 +21,6 @@ package info.papdt.blacklight.model;
 
 public class GalleryModel {
 	public String path;
-	public String thumbnail;
+	public long id = -1;
 	public boolean checked = false;
 }

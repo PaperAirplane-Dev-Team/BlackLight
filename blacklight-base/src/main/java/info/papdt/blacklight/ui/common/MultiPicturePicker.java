@@ -21,7 +21,6 @@ package info.papdt.blacklight.ui.common;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -103,27 +102,17 @@ public class MultiPicturePicker extends AbsActivity {
 				while (cursor.moveToNext()) {
 					GalleryModel m = new GalleryModel();
 					m.path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+					m.id = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID));
 
 					if (DEBUG) {
 						Log.d(TAG, "m.path = " + m.path);
 					}
 					
-					Cursor thumbCursor = MediaStore.Images.Thumbnails.queryMiniThumbnails(
-							getContentResolver(), Uri.fromFile(new File(m.path)), MediaStore.Images.Thumbnails.MINI_KIND, null);
-
-					if (thumbCursor != null && thumbCursor.getCount() > 0) {
-						thumbCursor.moveToFirst();
-						
-						m.thumbnail = thumbCursor.getString(thumbCursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
-						
-						if (DEBUG) {
-							Log.d(TAG, "thumbnail found at " + m.thumbnail);
-						}
-						
-					}
 					model.add(m);
 				}
 			}
+			
+			cursor.close();
 		} catch (Exception e) {
 		}
 
