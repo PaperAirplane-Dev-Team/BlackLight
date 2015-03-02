@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -51,10 +52,23 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 	private HashMap<String,  WeakReference<Bitmap>> mBitmaps = new HashMap<String, WeakReference<Bitmap>>();
 
 	private LayoutInflater mInflater;
+	private boolean mScrolling = false;
 
-	public GalleryAdapter(Context context, ArrayList<GalleryModel> list) {
+	public GalleryAdapter(Context context, ArrayList<GalleryModel> list, AbsListView listView) {
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mList = list;
+		
+		listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView v, int state) {
+				mScrolling = (state != AbsListView.OnScrollListener.SCROLL_STATE_IDLE);
+			}
+
+			@Override
+			public void onScroll(AbsListView p1, int p2, int p3, int p4) {
+				// Nothing to do
+			}
+		});
 	}
 
 	@Override
@@ -142,6 +156,21 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 
 		return ret;
 	}
+	
+	private boolean waitUntilNotScrolling(ViewHolder h, String path) {
+		while (mScrolling) {
+			if (!h.path.equals(path))
+				return false;
+			
+			try {
+				Thread.sleep(200);
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	class ViewHolder {
 		private View v;
@@ -167,6 +196,9 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 			h = (ViewHolder) params[0];
 			path = (String) params[1];
 			
+			if (!waitUntilNotScrolling(h, path))
+				return null;
+			
 			// Try to load thumbnail
 			Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
 				h.v.getContext().getContentResolver(), h.id, MediaStore.Images.Thumbnails.MICRO_KIND, null);
@@ -179,6 +211,10 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 				
 				if (f.exists()) {
 					path = tmpPath;
+					
+					if (DEBUG) {
+						Log.d(TAG, "Got thumbnail at " + path);
+					}
 				}
 			}
 			
@@ -188,9 +224,17 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 			// Load
 			BitmapFactory.Options op = new BitmapFactory.Options();
 			op.inJustDecodeBounds = true;
+			
+			if (!waitUntilNotScrolling(h, path))
+				return null;
+			
 			BitmapFactory.decodeFile(path, op);
 			op.inJustDecodeBounds = false;
 			op.inSampleSize = Utility.computeSampleSize(op, -1, 160 * 160);
+			
+			if (!waitUntilNotScrolling(h, path))
+				return null;
+			
 			return BitmapFactory.decodeFile(path, op);
 		}
 

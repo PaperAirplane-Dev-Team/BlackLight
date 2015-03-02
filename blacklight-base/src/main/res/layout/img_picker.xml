@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -36,10 +36,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_below="@+id/toolbar"
-		android:numColumns="auto_fit"
-		android:stretchMode="columnWidth"
-		android:columnWidth="90dp"
-		android:verticalSpacing="10dp"
+		android:numColumns="2"
+		android:verticalSpacing="1dp"
 		android:id="@+id/picker_grid"/>
 
 </RelativeLayout>

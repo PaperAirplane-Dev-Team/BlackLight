@@ -111,11 +111,9 @@ public class MultiPicturePicker extends AbsActivity {
 					model.add(m);
 				}
 			}
-			
-			cursor.close();
 		} catch (Exception e) {
 		}
 
-		mAdapter = new GalleryAdapter(this, model);
+		mAdapter = new GalleryAdapter(this, model, mGrid);
 	}
 }
