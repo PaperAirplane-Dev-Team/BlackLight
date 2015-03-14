@@ -476,7 +476,8 @@ public abstract class TimeLineFragment extends Fragment implements
 			super.onPostExecute(result);
 			
 			if (result) {
-				mList.smoothScrollToPosition(0);
+				mList.stopScroll();
+				//mList.scrollToPosition(0);
 			}
 			
 			mAdapter.notifyDataSetChangedAndClone();
