@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -138,6 +138,7 @@
 	<string name="save">保存到手机</string>
 	
 	<!-- Settings -->
+	<string name="enough">对不起，但是我们已经受够你了。您将不再被欢迎使用BlackLight。现在BlackLight将立即崩溃。</string>
 	<string name="settings">设置</string>
 	<string name="about">关于</string>
 	<string name="version">版本</string>

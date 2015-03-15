@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -833,6 +833,17 @@ public class Utility
 	
 	public static <T> T findViewById(Activity activity, int id) {
 		return (T) activity.findViewById(id);
+	}
+	
+	public static boolean isUidBanned(Context context, String uid) {
+		String[] banned = context.getResources().getStringArray(R.array.banned_users);
+		for (String ban : banned) {
+			if (ban.equals(uid)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public static void bindOnClick(final Object obj, Object... viewsAndMethod) {

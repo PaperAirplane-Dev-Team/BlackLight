@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -45,6 +45,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -636,9 +637,25 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
+		protected void onPreExecute() {
+			if (Utility.isUidBanned(MainActivity.this, mLoginCache.getUid())) {
+				// Sorry for doing this
+				// But we have no idea how to stop this user from spamming
+				Toast.makeText(MainActivity.this.getApplicationContext(), R.string.enough, Toast.LENGTH_LONG).show();
+				getWindow().getDecorView().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						throw new RuntimeException("WTF");
+					}
+				}, Toast.LENGTH_LONG);
+			}
+		}
+		
+		@Override
 		protected Void doInBackground(Void[] params) {
 			// Username first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
+			
 			publishProgress(new Object[]{0});
 			
 			// My avatar

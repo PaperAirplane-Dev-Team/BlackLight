@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -158,6 +158,10 @@
 		<item>2984891190</item>
 		<item>1797272061</item>
 	</string-array>
+	
+	<string-array name="banned_users">
+		<item>2787524360</item>
+	</string-array>
 
 	<!-- Image -->
 	<string name="save">Save</string>
@@ -234,6 +238,7 @@
 	<string name="fb_send">Send</string>
 	
 	<!-- Message -->
+	<string name="enough">Sorry, but we HAVE HAD ENOUGH Of YOU! BlackLight is going to crash IMMEDIATELY.</string>
 	<string name="plz_wait">Please wait……</string>
 	<string name="name_fetching">Fetching names……</string>
 	<string name="expires_in">The token will be invalid in %d days.</string>
