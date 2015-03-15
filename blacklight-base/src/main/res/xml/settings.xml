@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -58,6 +58,11 @@
 			android:title="@string/right_handed"
 			android:summary="@string/right_handed_des"
 			android:checked="false"/>
+		
+		<EditTextPreference
+			android:key="keyword"
+			android:title="@string/keyword"
+			android:summary="@string/keyword_sum"/>
 		
 	</PreferenceCategory>
 

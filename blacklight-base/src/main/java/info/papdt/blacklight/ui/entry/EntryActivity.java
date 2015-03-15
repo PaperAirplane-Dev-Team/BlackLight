@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -28,6 +28,7 @@ import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.receiver.ConnectivityReceiver;
 import info.papdt.blacklight.support.CrashHandler;
 import info.papdt.blacklight.support.Emoticons;
+import info.papdt.blacklight.support.FilterUtility;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.feedback.SubmitLogTask;
 import info.papdt.blacklight.support.http.FeedbackUtility;
@@ -50,6 +51,7 @@ public class EntryActivity extends Activity
 		// Init
 		ConnectivityReceiver.readNetworkState(this);
 		Emoticons.init(this);
+		FilterUtility.init(this);
 
 		// Crash Log
 		if (FeedbackUtility.shouldSendLog(this)) {

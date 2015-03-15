@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -26,6 +26,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.papdt.blacklight.support.FilterUtility;
 import info.papdt.blacklight.support.SpannableStringUtils;
 import info.papdt.blacklight.support.StatusTimeUtils;
 
@@ -104,7 +105,10 @@ public class MessageListModel extends BaseListModel<MessageModel, MessageListMod
 	public void addAll(boolean toTop, boolean friendsOnly, MessageListModel values, String myUid) {
 		if (values != null && values.getSize() > 0) {
 			for (MessageModel msg : values.getList()) {
-				if (!statuses.contains(msg) && !values.ad.contains(msg.id) && msg.user != null && (msg.user.following || msg.user.id.equals(myUid) || !friendsOnly)) {
+				if (!statuses.contains(msg) && !values.ad.contains(msg.id) && msg.user != null
+					&& (msg.user.following || msg.user.id.equals(myUid) || !friendsOnly)
+					&& !FilterUtility.shouldFilter(msg.text)) {
+					
 					statuses.add(toTop ? values.getList().indexOf(msg) : statuses.size(), msg);
 				}
 			}

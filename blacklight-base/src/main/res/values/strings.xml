@@ -202,6 +202,8 @@
 	<string name="network">Network</string>
 	<string name="auto_nopic">Auto save traffic</string>
 	<string name="auto_nopic_sum">Load pictures only if WiFi is connected</string>
+	<string name="keyword">Keyword filtering</string>
+	<string name="keyword_sum">Multiple keywords should be split by \", \" (a comma and a space), Regular Expressions should be wrapped by \"`\".</string>
 	<string-array name="interval_name">
 		<item>1 minute</item>
 		<item>3 minutes</item>

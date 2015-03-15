@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.MenuItem;
@@ -87,6 +88,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private CheckBoxPreference mPrefFastScroll;
 	private CheckBoxPreference mPrefShakeToReturn;
 	private CheckBoxPreference mPrefRightHanded;
+	private EditTextPreference mPrefKeyword;
 
 	// Notification
 	private CheckBoxPreference mPrefNotificationSound,
@@ -126,6 +128,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
 		mPrefDonation = findPreference(DONATION);
+		mPrefKeyword = (EditTextPreference) findPreference(Settings.KEYWORD);
 		
 		// Data
 		String version = "Unknown";
@@ -155,6 +158,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefLang.setSummary(
 				this.getResources().getStringArray(R.array.langs) [Utility.getCurrentLanguage(getActivity())]);
 		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
+		mPrefKeyword.setText(mSettings.getString(Settings.KEYWORD, ""));
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
@@ -179,6 +183,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefAutoNoPic.setOnPreferenceChangeListener(this);
 		mPrefLang.setOnPreferenceClickListener(this);
 		mPrefDonation.setOnPreferenceClickListener(this);
+		mPrefKeyword.setOnPreferenceChangeListener(this);
 	}
 
 	@Override
@@ -292,6 +297,10 @@ public class SettingsFragment extends PreferenceFragment implements
 		} else if (preference == mPrefAutoSubmitLog) {
 			mSettings.putBoolean(Settings.AUTO_SUBMIT_LOG,
 					Boolean.parseBoolean(newValue.toString()));
+			Toast.makeText(getActivity(), R.string.needs_restart, Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (preference == mPrefKeyword) {
+			mSettings.putString(Settings.KEYWORD, String.valueOf(newValue));
 			Toast.makeText(getActivity(), R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;
 		}
