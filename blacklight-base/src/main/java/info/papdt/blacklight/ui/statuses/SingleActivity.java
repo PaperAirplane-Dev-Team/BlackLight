@@ -49,6 +49,7 @@ import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.StatusCommentFragment;
 import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.common.SlidingTabLayout;
+import info.papdt.blacklight.ui.common.SlidingTabStrip.SimpleTabColorizer;
 
 public class SingleActivity extends AbsActivity
 {
@@ -177,7 +178,6 @@ public class SingleActivity extends AbsActivity
 					int foreground = Utility.getGradientColor(mActionBarColor, mDragBackgroundColor, gradientFactor);
 					mIndicatorColor = foreground;
 					mIndicator.notifyIndicatorColorChanged();
-					mIndicator.setTitleColor(foreground);
 					mCollapse.setColorFilter(foreground, PorterDuff.Mode.SRC_IN);
 				}
 
@@ -203,10 +203,14 @@ public class SingleActivity extends AbsActivity
 		mIndicatorColor = mActionBarColor;
 		mIndicator.setViewPager(mPager);
 		
-		mIndicator.setTitleColor(mIndicatorColor);
-		mIndicator.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+		mIndicator.setCustomTabColorizer(new SimpleTabColorizer() {
 			@Override
 			public int getIndicatorColor(int position) {
+				return mIndicatorColor;
+			}
+			
+			@Override
+			public int getSelectedTitleColor(int position) {
 				return mIndicatorColor;
 			}
 		});

@@ -42,6 +42,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		 * @return return the color of the indicator used when {@code position} is selected.
 		 */
 		int getIndicatorColor(int position);
+		
+		int getSelectedTitleColor(int position);
+		int getNormalTitleColor(int position);
 	}
 
 	private static final int TITLE_OFFSET_DIPS = 24;
@@ -49,7 +52,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
 
 	private int mTitleOffset;
-	private int mTitleColor = 0;
 
 	private int mTabViewLayoutId;
 	private int mTabViewTextViewId;
@@ -90,19 +92,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	
 	// Call this when contents in TabColorizer changed.
 	public void notifyIndicatorColorChanged() {
-		mTabStrip.invalidate();
-	}
-	
-	public void setTitleColor(int color) {
-		mTitleColor = color;
-		
-		if (mTabStripPopulated) {
-			for (int i = 0; i < mTabStrip.getChildCount(); i++) {
-				View v = mTabStrip.getChildAt(i);
-				TextView titleView = (TextView) (v instanceof TextView ? v : v.findViewById(mTabViewTextViewId));
-				titleView.setTextColor(color);
-			}
-		}
+		mTabStrip.updateTitleViews();
 	}
 
 	public void setDistributeEvenly(boolean distributeEvenly) {
@@ -186,7 +176,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			}
 
 			tabTitleView.setText(adapter.getPageTitle(i));
-			tabTitleView.setTextColor(mTitleColor);
 			tabView.setOnClickListener(tabClickListener);
 			String desc = mContentDescriptions.get(i, null);
 			if (desc != null) {
@@ -213,6 +202,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		if (mViewPager != null) {
 			scrollToTab(mViewPager.getCurrentItem(), 0);
 		}
+	}
+	
+	int getTextViewId() {
+		return mTabViewTextViewId;
 	}
 
 	private void scrollToTab(int tabIndex, int positionOffset) {

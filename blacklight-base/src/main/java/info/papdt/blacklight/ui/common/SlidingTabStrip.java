@@ -27,7 +27,9 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 class SlidingTabStrip extends LinearLayout {
 
@@ -93,7 +95,68 @@ class SlidingTabStrip extends LinearLayout {
 	void onViewPagerPageChanged(int position, float positionOffset) {
 		mSelectedPosition = position;
 		mSelectionOffset = positionOffset;
+		
+		// Title colors changes when page scrolled
+		final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
+			? mCustomTabColorizer
+			: mDefaultTabColorizer;
+			
+		int id = getSlidingTabLayout().getTextViewId();
+		
+		View selected = getChildAt(mSelectedPosition);
+		TextView selectedTitle = (TextView) (id == 0 ? selected : selected.findViewById(id));
+		
+		int selectedColor = tabColorizer.getSelectedTitleColor(mSelectedPosition);
+		int normalColor = tabColorizer.getNormalTitleColor(mSelectedPosition);
+		
+		if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
+			View next = getChildAt(mSelectedPosition + 1);
+			TextView nextTitle = (TextView) (id == 0 ? next : next.findViewById(id));
+			
+			// Set the gradient title colors
+			int nextSelectedColor = tabColorizer.getSelectedTitleColor(mSelectedPosition + 1);
+			int nextNormalColor = tabColorizer.getNormalTitleColor(mSelectedPosition + 1);
+
+			selectedTitle.setTextColor(blendColors(selectedColor, normalColor, 1.0f - mSelectionOffset));
+			nextTitle.setTextColor(blendColors(nextSelectedColor, nextNormalColor, mSelectionOffset));
+		} else if (mSelectionOffset == 0f) {
+			selectedTitle.setTextColor(selectedColor);
+		}
+		
 		invalidate();
+	}
+	
+	void updateTitleViews() {
+		final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
+			? mCustomTabColorizer
+			: mDefaultTabColorizer;
+		
+		int id = getSlidingTabLayout().getTextViewId();
+		
+		for (int i = 0; i < getChildCount(); i++) {
+			View v = getChildAt(i);
+			TextView t = (TextView) (id == 0 ? v : v.findViewById(id));
+			
+			if (mSelectedPosition != i) {
+				t.setTextColor(tabColorizer.getNormalTitleColor(i));
+			} else {
+				t.setTextColor(tabColorizer.getSelectedTitleColor(i));
+			}
+		}
+		
+		invalidate();
+	}
+	
+	SlidingTabLayout getSlidingTabLayout() {
+		ViewParent parent = getParent();
+		
+		if (parent instanceof SlidingTabLayout) {
+			return (SlidingTabLayout) parent;
+		} else if (parent == null) {
+			return null;
+		} else {
+			throw new RuntimeException("The parent of a SlidingTabStrip must be a SlidingTabLayout");
+		}
 	}
 
 	@Override
@@ -116,7 +179,7 @@ class SlidingTabStrip extends LinearLayout {
 				if (color != nextColor) {
 					color = blendColors(nextColor, color, mSelectionOffset);
 				}
-
+				
 				// Draw the selection partway between the tabs
 				View nextTitle = getChildAt(mSelectedPosition + 1);
 				left = (int) (mSelectionOffset * nextTitle.getLeft() +
@@ -156,12 +219,23 @@ class SlidingTabStrip extends LinearLayout {
 		return Color.rgb((int) r, (int) g, (int) b);
 	}
 
-	private static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
+	public static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
 		private int[] mIndicatorColors;
 
 		@Override
-		public final int getIndicatorColor(int position) {
+		public int getIndicatorColor(int position) {
 			return mIndicatorColors[position % mIndicatorColors.length];
+		}
+		
+
+		@Override
+		public int getSelectedTitleColor(int position) {
+			return 0;
+		}
+
+		@Override
+		public int getNormalTitleColor(int position) {
+			return blendColors(getSelectedTitleColor(position), Color.GRAY, 0.6f);
 		}
 
 		void setIndicatorColors(int... colors) {
