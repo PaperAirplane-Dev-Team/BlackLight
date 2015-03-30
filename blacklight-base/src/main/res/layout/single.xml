@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -45,7 +45,7 @@
 		android:id="@+id/single_root"
 		android:gravity="bottom"
 		sothree:paralaxOffset="100dp"
-		sothree:panelHeight="40dp"
+		sothree:panelHeight="48dp"
 		sothree:shadowHeight="4dp"
 		sothree:dragView="@+id/single_drag">
 
@@ -60,14 +60,14 @@
 			android:orientation="vertical">
 
 			<LinearLayout
-				android:layout_height="40dp"
+				android:layout_height="48dp"
 				android:layout_width="match_parent"
 				android:background="?attr/DragBackground"
 				android:id="@+id/single_dragger"
 				android:orientation="horizontal">
 
-				<info.papdt.blacklight.ui.common.LinearViewPagerIndicator
-					android:layout_height="40dp"
+				<info.papdt.blacklight.ui.common.SlidingTabLayout
+					android:layout_height="48dp"
 					android:layout_width="140dp"
 					android:id="@+id/single_indicator"
 					android:layout_marginLeft="5dp"/>

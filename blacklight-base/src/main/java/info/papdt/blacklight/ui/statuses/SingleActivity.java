@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -48,7 +48,7 @@ import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.StatusCommentFragment;
 import info.papdt.blacklight.ui.common.AbsActivity;
-import info.papdt.blacklight.ui.common.LinearViewPagerIndicator;
+import info.papdt.blacklight.ui.common.SlidingTabLayout;
 
 public class SingleActivity extends AbsActivity
 {
@@ -63,7 +63,7 @@ public class SingleActivity extends AbsActivity
 	private View mDragger;
 	private View mContent;
 	
-	private LinearViewPagerIndicator mIndicator;
+	private SlidingTabLayout mIndicator;
 	private ImageView mCollapse;
 	private ImageView[] mIcons = new ImageView[2];
 	
@@ -75,6 +75,8 @@ public class SingleActivity extends AbsActivity
 	private boolean mFavTaskRunning = false;
 	private boolean mLikeTaskRunning = false;
 	private boolean mDark = false;
+	
+	private int mIndicatorColor = 0;
 
 	private int mActionBarColor, mDragBackgroundColor;
 
@@ -147,6 +149,18 @@ public class SingleActivity extends AbsActivity
 						return null;
 				}
 			}
+			
+			@Override
+			public CharSequence getPageTitle(int position) {
+				switch (position) {
+					case 0:
+						return getResources().getString(R.string.comment) + " " + Utility.addUnitToInt(SingleActivity.this, mMsg.comments_count);
+					case 1:
+						return getResources().getString(R.string.retweet) + " " + Utility.addUnitToInt(SingleActivity.this, mMsg.reposts_count);
+					default:
+						return "";
+				}
+			}
 		});
 
 		mRoot.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
@@ -161,16 +175,13 @@ public class SingleActivity extends AbsActivity
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));
 					int foreground = Utility.getGradientColor(mActionBarColor, mDragBackgroundColor, gradientFactor);
-					mIndicator.setForeground(foreground);
+					mIndicatorColor = foreground;
+					mIndicator.notifyIndicatorColorChanged();
+					mIndicator.setTitleColor(foreground);
 					mCollapse.setColorFilter(foreground, PorterDuff.Mode.SRC_IN);
 				}
 
 				mCollapse.setRotation((1 - slideOffset) * -180);
-				/*mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
-						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
-				mTabWidget.setLeftStripDrawable(new ColorDrawable(Utility
-						.getGradientColor(mActionBarColor,mDragBackgroundColor,gradientFactor)));
-						*/
 			}
 
 			@Override
@@ -189,25 +200,15 @@ public class SingleActivity extends AbsActivity
 		});
 
 		// Indicator
+		mIndicatorColor = mActionBarColor;
 		mIndicator.setViewPager(mPager);
-		mIndicator.addTab(getResources().getString(R.string.comment) + " " + Utility.addUnitToInt(this, mMsg.comments_count));
-		mIndicator.addTab(getResources().getString(R.string.retweet) + " " + Utility.addUnitToInt(this, mMsg.reposts_count));
 		
-		mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-				@Override
-				public void onPageScrolled(int position, float positonOffset, int positionOffsetPixels) {
-					
-				}
-
-				@Override
-				public void onPageSelected(int position) {
-					//mTabs.setCurrentTab(position);
-				}
-
-				@Override
-				public void onPageScrollStateChanged(int state) {
-					
-				}
+		mIndicator.setTitleColor(mIndicatorColor);
+		mIndicator.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+			@Override
+			public int getIndicatorColor(int position) {
+				return mIndicatorColor;
+			}
 		});
 	}
 
