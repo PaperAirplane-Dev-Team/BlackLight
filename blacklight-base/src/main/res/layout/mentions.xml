@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -17,25 +17,24 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:paddingTop="?android:attr/actionBarSize"
 	android:orientation="vertical">
 
-	<info.papdt.blacklight.ui.common.LinearViewPagerIndicator
-		android:layout_height="36dp"
+	<info.papdt.blacklight.ui.common.SlidingTabLayout
+		android:layout_height="48dp"
 		android:layout_width="match_parent"
-		android:layout_weight="0.1"
 		android:background="?attr/LayerColor"
 		android:id="@+id/mentions_indicator"/>
 
 	<info.papdt.blacklight.ui.common.HackyViewPager
 		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:layout_weight="0.9"
+		android:layout_below="@id/mentions_indicator"
 		android:id="@+id/mentions_pager"/>
 
-</LinearLayout>
+</RelativeLayout>
 	
