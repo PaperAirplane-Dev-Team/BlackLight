@@ -220,10 +220,10 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		// Initialize FAB
 		mFAB = new FloatingActionButton.Builder(this)
 			.withGravity(Gravity.BOTTOM | Gravity.RIGHT)
-			.withPaddings(10, 10, 10, 10)
+			.withPaddings(16, 16, 16, 16)
 			.withDrawable(Utility.getFABNewIcon(this))
 			.withButtonColor(Utility.getFABBackground(this))
-			.withButtonSize(90)
+			.withButtonSize(100)
 			.create();
 		mFAB.setOnClickListener(this);
 		mFAB.setOnLongClickListener(this);
