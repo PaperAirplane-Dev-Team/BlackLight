@@ -58,12 +58,10 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 	Bitmap mBitmap;
 	Drawable mRipple;
 	boolean mHidden = false;
-	int mSize = 50;
  
-	public FloatingActionButton(Context context, int size) {
+	public FloatingActionButton(Context context) {
 		super(context);
 		this.context = context;
-		mSize = size;
 		init(Color.WHITE);
 	}
  
@@ -275,7 +273,7 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 		}
  
 		public FloatingActionButton create() {
-			final FloatingActionButton button = new FloatingActionButton(activity, size);
+			final FloatingActionButton button = new FloatingActionButton(activity);
 			button.setFloatingActionButtonColor(this.color);
 			button.setFloatingActionButtonDrawable(this.drawable);
 			button.setPadding(paddingLeft, paddingTop, paddingBottom, paddingRight);
