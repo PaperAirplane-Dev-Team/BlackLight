@@ -114,7 +114,7 @@ public class MessageModel implements Parcelable
 	// Array field
 	public ArrayList<PictureUrl> pic_urls = new ArrayList<PictureUrl>();
 
-	public boolean unClickable;
+	public boolean inSingleActivity;
 
 	public boolean hasMultiplePictures() {
 		return pic_urls.size() > 1;
@@ -147,7 +147,7 @@ public class MessageModel implements Parcelable
 		dest.writeString(idstr);
 		dest.writeString(text);
 		dest.writeString(source);
-		dest.writeBooleanArray(new boolean[]{favorited, truncated, liked, unClickable});
+		dest.writeBooleanArray(new boolean[]{favorited, truncated, liked, inSingleActivity});
 		dest.writeString(in_reply_to_status_id);
 		dest.writeString(in_reply_to_user_id);
 		dest.writeString(in_reply_to_screen_name);
@@ -184,7 +184,7 @@ public class MessageModel implements Parcelable
 			ret.truncated = array[1];
             ret.liked = array[2];
 
-			ret.unClickable = array[3];
+			ret.inSingleActivity = array[3];
 			
 			ret.in_reply_to_status_id = in.readString();
 			ret.in_reply_to_user_id = in.readString();

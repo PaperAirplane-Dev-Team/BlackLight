@@ -92,7 +92,7 @@ public class SingleActivity extends AbsActivity
 
 		// Arguments
 		mMsg = getIntent().getParcelableExtra("msg");
-		mMsg.unClickable = true;
+		mMsg.inSingleActivity = true;
 		mFavourited = mMsg.favorited;
 		mLiked = mMsg.liked;
 		if (mMsg.user != null && mMsg.user.id != null) {

@@ -203,7 +203,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 				msg = msg.retweeted_status;
 			}
 			
-			if ((msg.thumbnail_pic != null || msg.pic_urls.size() > 0) && !(mAutoNoPic && !isWIFI)) {
+			if (willLoadPic(msg)) {
 				ret += msg.hasMultiplePictures() ? msg.pic_urls.size() : 1;
 			}
 			
@@ -335,6 +335,12 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		/*if (DEBUG) {
 			Debug.stopMethodTracing();
 		}*/
+	}
+
+	private boolean willLoadPic(MessageModel msg){
+		boolean hasPic = (msg.thumbnail_pic != null || msg.pic_urls.size() > 0);
+		boolean preferToShow = !(mAutoNoPic && !isWIFI) || msg.inSingleActivity;
+		return  hasPic && preferToShow;
 	}
 	
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
@@ -696,7 +702,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 		void show() {
 			if (!(msg instanceof CommentModel)){
-				if(msg.unClickable){
+				if(msg.inSingleActivity){
 					return;
 				}
 			}
