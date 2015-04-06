@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.statuses;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,6 +124,11 @@ public abstract class TimeLineFragment extends Fragment implements
 		mShadow = Utility.findViewById(v, R.id.action_shadow);
 		mScroller = Utility.findViewById(v, R.id.scroller);
 		mOrbit = Utility.findViewById(v, R.id.scroller_orbit);
+		
+		if (Build.VERSION.SDK_INT >= 21) {
+			mShadow.setVisibility(View.GONE);
+			mShadow = null;
+		}
 
 		mCache = bindApiCache();
 		mCache.loadFromCache();
@@ -221,7 +227,8 @@ public abstract class TimeLineFragment extends Fragment implements
 			}
 		});
 
-		mShadow.bringToFront();
+		if (mShadow != null)
+			mShadow.bringToFront();
 		
 		if (mFastScrollEnabled) {
 			mOrbit.setVisibility(View.VISIBLE);
@@ -274,7 +281,10 @@ public abstract class TimeLineFragment extends Fragment implements
 			public void onGlobalLayout() {
 				if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
 					mActionBarHeight = mToolbar.getHeight();
-					mShadow.setTranslationY(mActionBarHeight);
+					
+					if (mShadow != null)
+						mShadow.setTranslationY(mActionBarHeight);
+					
 					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
 					lp.height = mActionBarHeight;
 					mAdapter.getHeaderView().setLayoutParams(lp);
@@ -371,7 +381,10 @@ public abstract class TimeLineFragment extends Fragment implements
 	
 	protected void updateTranslation() {
 		mToolbar.setTranslationY(mTranslationY);
-		mShadow.setTranslationY(mActionBarHeight + mTranslationY);
+		
+		if (mShadow != null)
+			mShadow.setTranslationY(mActionBarHeight + mTranslationY);
+		
 		/*mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
 		mSwipeRefresh.invalidate();*/
 	}

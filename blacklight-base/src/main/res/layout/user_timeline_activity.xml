@@ -259,6 +259,7 @@
 	</FrameLayout>
 
 	<View
+		android:id="@+id/action_shadow"
 		android:layout_width="match_parent"
 		android:layout_height="3dp"
 		android:layout_below="@+id/toolbar"

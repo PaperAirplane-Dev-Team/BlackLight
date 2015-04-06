@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.common;
 
 import android.os.Bundle;
 import android.os.Build;
+import android.view.View;
 import android.view.Window;
 
 import android.support.v7.app.ActionBarActivity;
@@ -50,10 +51,28 @@ public abstract class ToolbarActivity extends ActionBarActivity
 			mToolbar.bringToFront();
 			setSupportActionBar(mToolbar);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			
+			if (Build.VERSION.SDK_INT >= 21) {
+				mToolbar.setElevation(getToolbarElevation());
+				
+				View shadow = Utility.findViewById(this, R.id.action_shadow);
+				
+				if (shadow != null) {
+					shadow.setVisibility(View.GONE);
+				}
+			}
 		}
 	}
 	
 	public Toolbar getToolbar() {
 		return mToolbar;
+	}
+	
+	public float getToolbarElevation() {
+		if (Build.VERSION.SDK_INT >= 21) {
+			return 12.8f;
+		} else {
+			return -1;
+		}
 	}
 }

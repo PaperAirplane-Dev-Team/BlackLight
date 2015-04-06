@@ -25,6 +25,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.MenuItemCompat;
@@ -112,6 +113,10 @@ public class SingleActivity extends AbsActivity
 		View comment = Utility.findViewById(this, R.id.single_comment);
 		View repost = Utility.findViewById(this, R.id.single_repost);
 		
+		if (Build.VERSION.SDK_INT >= 21) {
+			mDragger.setElevation(getToolbarElevation());
+		}
+		
 		// Bind onClick events
 		Utility.bindOnClick(this, comment, "commentOn");
 		Utility.bindOnClick(this, repost, "repost");
@@ -172,6 +177,11 @@ public class SingleActivity extends AbsActivity
 				
 				// Gradient color if in light mode
 				if (!mDark) {
+					
+					if (Build.VERSION.SDK_INT >= 21) {
+						getToolbar().setElevation(slideOffset * 12.8f);
+					}
+					
 					float gradientFactor = 1 - slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));

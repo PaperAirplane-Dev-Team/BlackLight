@@ -20,6 +20,7 @@
 package info.papdt.blacklight.ui.statuses;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -52,7 +53,7 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 		// Initialize views
 		mIndicator = Utility.findViewById(v, R.id.mentions_indicator);
 		mPager = Utility.findViewById(v, R.id.mentions_pager);
-
+		
 		// Initialize indicator
 		mIndicator.setCustomTabColorizer(new SimpleTabColorizer() {
 			@Override
@@ -66,6 +67,10 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 			}
 		});
 		mIndicator.setDistributeEvenly(true);
+		
+		if (Build.VERSION.SDK_INT >= 21) {
+			mIndicator.setElevation(((MainActivity) getActivity()).getToolbarElevation());
+		}
 		
 		// View Pager
 		mRetweet = new MentionsTimeLineFragment();
@@ -115,6 +120,15 @@ public class MentionsFragment extends Fragment implements SwipeRefreshLayout.OnR
 			((MainActivity) getActivity()).getToolbar().setTranslationY(0);
 			((MainActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.drawer_at));
 			mIndicator.notifyIndicatorColorChanged();
+			
+			if (Build.VERSION.SDK_INT >= 21) {
+				((MainActivity) getActivity()).getToolbar().setElevation(0f);
+			}
+		} else if (Build.VERSION.SDK_INT >= 21) {
+			MainActivity activity = (MainActivity) getActivity();
+			
+			if (activity != null && activity.getToolbar() != null)
+				activity.getToolbar().setElevation(activity.getToolbarElevation());
 		}
 	}
 
