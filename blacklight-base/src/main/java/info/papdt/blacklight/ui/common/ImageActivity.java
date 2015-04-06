@@ -1,6 +1,5 @@
-
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -182,6 +181,11 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					p.setText(String.format("%.1f/%.1fM", (float) read / 1024 / 1024, (float) total / 1024 / 1024));
 				}
 			});
+		}
+
+		@Override
+		public boolean shouldContinue() {
+			return !isFinishing() || !isDestroyed();
 		}
 	}
 

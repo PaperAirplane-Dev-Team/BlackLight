@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -38,6 +38,7 @@ public class FileCacheManager
 
 	public static interface ProgressCallback {
 		void onProgressChanged(int read, int total);
+		boolean shouldContinue();
 	}
 
 	private static FileCacheManager mInstance;
@@ -144,6 +145,13 @@ public class FileCacheManager
 			opt.write(buf, 0, len);
 			read += len;
 			callback.onProgressChanged(read, total);
+			
+			if (!callback.shouldContinue()) {
+				opt.close();
+				ipt.close();
+				f.delete();
+				return;
+			}
 		}
 		
 		opt.close();
