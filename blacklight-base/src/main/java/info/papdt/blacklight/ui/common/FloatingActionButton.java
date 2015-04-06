@@ -81,6 +81,8 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 		mDrawablePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
  
 		if (Build.VERSION.SDK_INT >= 21) {
+			setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			
 			mRipple = new RippleDrawable(new ColorStateList(new int[][]{
 				{}
 			}, new int[]{
