@@ -28,7 +28,7 @@
 	<string name="passwd">密码</string>
 	<string name="toast_empty_username">请输入用户名</string>
 	<string name="toast_empty_password">请输入密码</string>
-
+	
 	<!-- Main -->
 	<string name="switch_theme">切换主题</string>
 	<string name="group_all">全部</string>
@@ -36,6 +36,15 @@
 	<string name="group_create">创建分组</string>
 	<string name="group_destroy">删除当前分组</string>
 
+	<string-array name="main_tabs">
+		<item>首页</item>
+		<item>评论</item>
+		<item>提及的微博</item>
+		<item>提及的评论</item>
+		<item>私信</item>
+		<item>收藏</item>
+	</string-array>
+	
 	<!-- Left Drawer -->
 	<string name="drawer_home">首页</string>
 	<string name="drawer_at">提及</string>

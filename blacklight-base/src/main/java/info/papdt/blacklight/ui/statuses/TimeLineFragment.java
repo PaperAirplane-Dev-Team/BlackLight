@@ -148,7 +148,7 @@ public abstract class TimeLineFragment extends Fragment implements
 				   mBindOrig, mShowCommentStatus);
 
 		// Content Margin
-		if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
+		if (getActivity() instanceof MainActivity) {
 			View header = new View(getActivity());
 			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
@@ -160,6 +160,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		mList.setAdapter(mAdapter);
 
 		// Listener
+		//mAllowHidingActionBar = false;
 		if (getActivity() instanceof MainActivity) {
 			mAdapter.addOnScrollListener(new RecyclerView.OnScrollListener() {
 				@Override
@@ -174,7 +175,7 @@ public abstract class TimeLineFragment extends Fragment implements
 						}
 					}
 
-					if (mAllowHidingActionBar) {
+					/*if (mAllowHidingActionBar) {
 						if ((mTranslationY > -mActionBarHeight && deltaY < 0)
 							|| (mTranslationY < 0 && deltaY > 0)) {
 								
@@ -189,7 +190,7 @@ public abstract class TimeLineFragment extends Fragment implements
 						
 						updateTranslation();
 						updateMargins(deltaY);
-					}
+					}*/
 
 					mFABShowing = shouldShow;
 					mLastY = dy;
@@ -286,9 +287,9 @@ public abstract class TimeLineFragment extends Fragment implements
 						mShadow.setTranslationY(mActionBarHeight);
 					
 					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
-					lp.height = mActionBarHeight;
+					lp.height = ((MainActivity) getActivity()).getHeaderHeight();
 					mAdapter.getHeaderView().setLayoutParams(lp);
-					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (mActionBarHeight * 1.2));
+					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (lp.height * 1.2));
 					mSwipeRefresh.invalidate();
 					
 					if (mFastScrollEnabled && (getActivity() instanceof MainActivity)) {

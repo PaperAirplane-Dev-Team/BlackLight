@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -33,6 +33,6 @@ public class FavListFragment extends TimeLineFragment
 
 	@Override
 	protected void initTitle() {
-		mActionBar.setTitle(R.string.like);
+		
 	}
 }

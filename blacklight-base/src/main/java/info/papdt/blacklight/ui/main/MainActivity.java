@@ -47,10 +47,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.friendships.GroupsApi;
@@ -64,19 +66,22 @@ import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.ui.comments.CommentTimeLineFragment;
+import info.papdt.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import info.papdt.blacklight.ui.common.FloatingActionButton;
+import info.papdt.blacklight.ui.common.SlidingTabLayout;
+import info.papdt.blacklight.ui.common.SlidingTabStrip;
 import info.papdt.blacklight.ui.common.ToolbarActivity;
 import info.papdt.blacklight.ui.directmessage.DirectMessageUserFragment;
 import info.papdt.blacklight.ui.favorites.FavListFragment;
 import info.papdt.blacklight.ui.search.SearchFragment;
 import info.papdt.blacklight.ui.settings.SettingsActivity;
 import info.papdt.blacklight.ui.statuses.HomeTimeLineFragment;
-import info.papdt.blacklight.ui.statuses.MentionsFragment;
+import info.papdt.blacklight.ui.statuses.MentionsTimeLineFragment;
 import info.papdt.blacklight.ui.statuses.NewPostActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 /* Main Container Activity */
-public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigationListener, View.OnClickListener, View.OnLongClickListener
+public class MainActivity extends ToolbarActivity implements View.OnClickListener, View.OnLongClickListener
 {
 
 	public static interface Refresher {
@@ -106,8 +111,20 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 	private UserModel mUser;
 	
 	// Fragments
-	private Fragment[] mFragments = new Fragment[6];
+	private Fragment[] mFragments = new Fragment[]{
+		new HomeTimeLineFragment(),
+		new CommentTimeLineFragment(),
+		new MentionsTimeLineFragment(),
+		new CommentMentionsTimeLineFragment(),
+		new DirectMessageUserFragment(),
+		new FavListFragment()
+	};
 	private FragmentManager mManager;
+	
+	// Pager
+	private ViewPager mPager;
+	private SlidingTabLayout mTabs;
+	private int mHeaderHeight = 0;
 
 	// Groups
 	public GroupListModel mGroups;
@@ -146,23 +163,48 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		mName = Utility.findViewById(this, R.id.my_name);
 		mAvatar = Utility.findViewById(this, R.id.my_avatar);
 		mCover = Utility.findViewById(this, R.id.my_cover);
+		mPager = Utility.findViewById(this, R.id.main_pager);
+		mTabs = Utility.findViewById(this, R.id.main_tabs);
 		
-		View me = Utility.findViewById(this, R.id.my_account);
-		View home = Utility.findViewById(this, R.id.drawer_home);
-		View at = Utility.findViewById(this, R.id.drawer_at);
-		View cmt = Utility.findViewById(this, R.id.drawer_comment);
-		View dm = Utility.findViewById(this, R.id.drawer_dm);
-		View fav = Utility.findViewById(this, R.id.drawer_fav);
-		View set = Utility.findViewById(this, R.id.drawer_settings);
+		final String[] pages = getResources().getStringArray(R.array.main_tabs);
+		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
+			@Override
+			public int getCount() {
+				return pages.length;
+			}
+
+			@Override
+			public Fragment getItem(int position) {
+				
+				return mFragments[position];
+			}
+			
+			@Override
+			public CharSequence getPageTitle(int position) {
+				return pages[position];
+			}
+		});
+		mPager.setOffscreenPageLimit(pages.length);
+		mTabs.setViewPager(mPager);
 		
-		// bind events
-		Utility.bindOnClick(this, me, "showMe");
-		Utility.bindOnClick(this, home, "home");
-		Utility.bindOnClick(this, at, "mentions");
-		Utility.bindOnClick(this, cmt, "comments");
-		Utility.bindOnClick(this, dm, "dm");
-		Utility.bindOnClick(this, fav, "fav");
-		Utility.bindOnClick(this, set, "settings");
+		final int color = getResources().getColor(R.color.white);
+		mTabs.setCustomTabColorizer(new SlidingTabStrip.SimpleTabColorizer() {
+			@Override
+			public int getIndicatorColor(int position) {
+				return color;
+			}
+			
+			@Override
+			public int getSelectedTitleColor(int position) {
+				return color;
+			}
+		});
+		mTabs.notifyIndicatorColorChanged();
+		
+		if (Build.VERSION.SDK_INT > 0) {
+			mToolbar.setElevation(0);
+			//findViewById(R.id.main_tab_wrapper).setElevation(getToolbarElevation());
+		}
 		
 		// Detect if the user chose to use right-handed mode
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
@@ -215,7 +257,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
 		new InitializerTask().execute();
-		new GroupsTask().execute();
+		//new GroupsTask().execute();
 
 		// Initialize FAB
 		mFAB = new FloatingActionButton.Builder(this)
@@ -241,20 +283,20 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		mIgnore = true;
 
 		// Fragments
-		mFragments[HOME] = new HomeTimeLineFragment();
+		/*mFragments[HOME] = new HomeTimeLineFragment();
 		mFragments[COMMENT] = new CommentTimeLineFragment();
 		mFragments[FAV] = new FavListFragment();
 		mFragments[DM] = new DirectMessageUserFragment();
 		mFragments[MENTION] = new MentionsFragment();
-		mFragments[SEARCH] = new SearchFragment();
-		mManager = getFragmentManager();
+		mFragments[SEARCH] = new SearchFragment();*/
+		/*mManager = getFragmentManager();
 		
 		FragmentTransaction ft = mManager.beginTransaction();
 		for (Fragment f : mFragments) {
 			ft.add(R.id.container, f);
 			ft.hide(f);
 		}
-		ft.commit();
+		ft.commit();*/
 		
 		mToolbar.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -277,6 +319,8 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 					lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
 					mDrawerScroll.setLayoutParams(lp);
 				}
+				
+				mHeaderHeight = mTabs.getHeight() + 10;
 			}
 		});
 	}
@@ -308,7 +352,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		super.onResume();
 		
 		// Dirty fix strange focus
-		findViewById(R.id.container).requestFocus();
+		//findViewById(R.id.container).requestFocus();
 
 		int lang = Utility.getCurrentLanguage(this);
 		if (lang != mLang) {
@@ -321,11 +365,11 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 		int page = getIntent().getIntExtra(Intent.EXTRA_INTENT,HOME);
 		if (page == HOME){
-			switchTo(HOME);
+			//switchTo(HOME);
 		}else{
 			setShowTitle(true);
 			setShowSpinner(false);
-			switchAndRefresh(page);
+			//switchAndRefresh(page);
 		}
 
 		setIntent(null);
@@ -458,7 +502,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 			mSearch = item;
 			setShowTitle(false);
 			setShowSpinner(false);
-			switchTo(SEARCH);
+			//switchTo(SEARCH);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -471,13 +515,17 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
             mDrawer.closeDrawer(mDrawerGravity);
         }
 		else if (mCurrent != HOME) {
-			home();
+			//home();
 		} else {
 			super.onBackPressed();
 		}
 	}
+	
+	public int getHeaderHeight() {
+		return mHeaderHeight;
+	}
 
-	public void home() {
+	/*public void home() {
 		setShowTitle(false);
 		setShowSpinner(true);
 		switchTo(HOME);
@@ -534,7 +582,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		((HomeTimeLineFragment) mFragments[0]).doRefresh();
 
 		return true;
-	}
+	}*/
 
 	@Override
 	public void onClick(View v) {
@@ -563,13 +611,13 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		mFAB.showFloatingActionButton();
 	}
 
-	private void switchAndRefresh(int id){
+	/*private void switchAndRefresh(int id){
 		if (id != 0){
 			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener)mFragments[id];
 			l.onRefresh();
 		}
 		switchTo(id);
-	}
+	}*/
 
 	private void setShowTitle(boolean show) {
 		getSupportActionBar().setDisplayShowTitleEnabled(show);
@@ -579,7 +627,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		getSupportActionBar().setNavigationMode(show ? ActionBar.NAVIGATION_MODE_LIST : ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 	
-	private void switchTo(int id) {
+	/*private void switchTo(int id) {
 		
 		if (mSearch != null) {
 			mSearch.setVisible(id != SEARCH);
@@ -606,9 +654,9 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 		int mNext = id;
 
 		mDrawer.closeDrawer(mDrawerGravity);
-	}
+	}*/
 
-	private void updateActionSpinner() {
+	/*private void updateActionSpinner() {
 		// Current Group
 		mCurrentGroupId = Settings.getInstance(MainActivity.this).getString(Settings.CURRENT_GROUP, null);
 		LogF.d(this.getLocalClassName(), "current group id:%s",mCurrentGroupId);
@@ -632,7 +680,7 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 		getSupportActionBar().setSelectedNavigationItem(curId);
 
-	}
+	}*/
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
 
@@ -713,9 +761,9 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 		@Override
 		protected void onPostExecute(Void result) {
-			new GroupsTask().execute();
+			//new GroupsTask().execute();
 			prog.dismiss();
-			onNavigationItemSelected(0, 0);
+			//onNavigationItemSelected(0, 0);
 		}
 	}
 
@@ -738,12 +786,12 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 
 		@Override
 		protected void onPostExecute(Void result) {
-			new GroupsTask().execute();
+			//new GroupsTask().execute();
 			prog.dismiss();
 		}
 	}
 
-	private class GroupsTask extends AsyncTask<Void, Void, Void> {
+	/*private class GroupsTask extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
 			mGroups = GroupsApi.getGroups();
@@ -784,5 +832,5 @@ public class MainActivity extends ToolbarActivity implements ActionBar.OnNavigat
 			}
 		}
 
-	}
+	}*/
 }

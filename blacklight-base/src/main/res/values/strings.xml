@@ -36,6 +36,15 @@
 	<string name="group_create">Create group</string>
 	<string name="group_destroy">Delete current group</string>
 	
+	<string-array name="main_tabs">
+		<item>Home</item>
+		<item>Comments</item>
+		<item>Mentioning Posts</item>
+		<item>Mentioning Comments</item>
+		<item>Direct Messages</item>
+		<item>Favorites</item>
+	</string-array>
+	
 	<!-- Left Drawer -->
 	<string name="drawer_home">Home</string>
 	<string name="drawer_at">Mentions</string>

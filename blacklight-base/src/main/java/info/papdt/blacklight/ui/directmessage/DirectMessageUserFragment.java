@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -58,8 +58,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		
 		// Initialize
 		mList = Utility.findViewById(v, R.id.home_timeline);
-		mShadow = Utility.findViewById(v, R.id.action_shadow);
-
+		
 		mManager = new LinearLayoutManager(getActivity());
 		mList.setLayoutManager(mManager);
 		
@@ -83,6 +82,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);
 			mAdapter.setHeaderView(header);
+			v.findViewById(R.id.action_shadow).setVisibility(View.GONE);
 		}
 
 		mList.setAdapter(mAdapter);
@@ -99,19 +99,15 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mApiCache.loadFromCache();
 		mAdapter.notifyDataSetChangedAndClone();
 
-		// Set up shadow
-		mShadow.bringToFront();
-
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
 				if (getActivity() instanceof MainActivity) {
 					int actionBarHeight = ((MainActivity) getActivity()).getToolbar().getHeight();
-					mShadow.setTranslationY(actionBarHeight);
 					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
-					lp.height = actionBarHeight;
+					lp.height = ((MainActivity) getActivity()).getHeaderHeight();
 					mAdapter.getHeaderView().setLayoutParams(lp);
-					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (actionBarHeight * 1.2));
+					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (lp.height * 1.2));
 					mSwipeRefresh.invalidate();
 					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 				}

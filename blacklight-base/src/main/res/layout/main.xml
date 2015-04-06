@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -31,13 +31,29 @@
 
 		<include
 			layout="@layout/toolbar"/>
-
-		<FrameLayout 
-			android:id="@+id/container"
-			android:focusableInTouchMode="true"
+		
+		<FrameLayout
+			android:id="@+id/main_tab_wrapper"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/toolbar"
+			android:background="?attr/colorPrimary">
 			
+			<info.papdt.blacklight.ui.common.SlidingTabLayout
+				android:id="@+id/main_tabs"
+				android:layout_width="match_parent"
+				android:layout_height="48dp"
+				android:layout_marginBottom="40dp"
+				android:background="?attr/colorPrimary"/>
+		
+		</FrameLayout>
+		
+		<info.papdt.blacklight.ui.common.HackyViewPager
+			android:id="@+id/main_pager"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_below="@+id/toolbar"/>
+		
 	</RelativeLayout>
 
 	<info.papdt.blacklight.ui.common.ScrimInsetsFrameLayout
