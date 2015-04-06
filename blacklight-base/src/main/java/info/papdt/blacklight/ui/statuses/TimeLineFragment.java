@@ -62,9 +62,10 @@ public abstract class TimeLineFragment extends Fragment implements
 	
 	protected ActionBar mActionBar = null;
 	protected Toolbar mToolbar = null;
-	private int mActionBarHeight = 0;
+	private int mHeaderHeight = 0;
 	private int mTranslationY = 0;
 	private int mLastY = 0;
+	private float mHeaderFactor = 1.0f;
 
 	// Pull To Refresh
 	private SwipeRefreshLayout mSwipeRefresh;
@@ -174,19 +175,32 @@ public abstract class TimeLineFragment extends Fragment implements
 							hideFAB();
 						}
 					}
-
-					/*if (mAllowHidingActionBar) {
-						if ((mTranslationY > -mActionBarHeight && deltaY < 0)
+					
+					if (mManager.findFirstVisibleItemPosition() == 0) {
+						
+						if ((mTranslationY > -mHeaderHeight && deltaY < 0)
 							|| (mTranslationY < 0 && deltaY > 0)) {
-								
+
 							mTranslationY += deltaY;
 						}
-						
-						if (mTranslationY < -mActionBarHeight) {
-							mTranslationY = -mActionBarHeight;
+
+						if (mTranslationY < -mHeaderHeight) {
+							mTranslationY = -mHeaderHeight;
 						} else if (mTranslationY > 0) {
 							mTranslationY = 0;
 						}
+						
+						View header = mAdapter.getHeaderView();
+						mHeaderFactor = Math.abs(mTranslationY) / (float) header.getHeight();
+						
+					} else {
+						mHeaderFactor = 1f;
+					}
+					
+					((MainActivity) getActivity()).updateHeaderTranslation(mHeaderFactor);
+
+					/*if (mAllowHidingActionBar) {
+						
 						
 						updateTranslation();
 						updateMargins(deltaY);
@@ -280,24 +294,24 @@ public abstract class TimeLineFragment extends Fragment implements
 		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				if (getActivity() instanceof MainActivity && mAllowHidingActionBar) {
-					mActionBarHeight = mToolbar.getHeight();
+				if (getActivity() instanceof MainActivity) {
+					mHeaderHeight = ((MainActivity) getActivity()).getHeaderHeight();
 					
 					if (mShadow != null)
-						mShadow.setTranslationY(mActionBarHeight);
+						mShadow.setTranslationY(mHeaderHeight);
 					
 					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
-					lp.height = ((MainActivity) getActivity()).getHeaderHeight();
+					lp.height = mHeaderHeight;
 					mAdapter.getHeaderView().setLayoutParams(lp);
 					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (lp.height * 1.2));
 					mSwipeRefresh.invalidate();
 					
 					if (mFastScrollEnabled && (getActivity() instanceof MainActivity)) {
 						RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
-						params.topMargin += mActionBarHeight;
+						params.topMargin += mHeaderHeight;
 						mScroller.setLayoutParams(params);
 						params = (RelativeLayout.LayoutParams) mOrbit.getLayoutParams();
-						params.topMargin += mActionBarHeight;
+						params.topMargin += mHeaderHeight;
 						mOrbit.setLayoutParams(params);
 					}
 					
@@ -309,7 +323,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		return v;
 	}
 
-	@Override
+	/*@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 
@@ -325,7 +339,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		} else {
 			hideFAB();
 		}
-	}
+	}*/
 
 	@Override
 	public void doRefresh() {
@@ -380,17 +394,17 @@ public abstract class TimeLineFragment extends Fragment implements
 		mScroller.postDelayed(mScrollToRunnable, 100);
 	}
 	
-	protected void updateTranslation() {
+	/*protected void updateTranslation() {
 		mToolbar.setTranslationY(mTranslationY);
 		
 		if (mShadow != null)
 			mShadow.setTranslationY(mActionBarHeight + mTranslationY);
 		
-		/*mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
-		mSwipeRefresh.invalidate();*/
-	}
+		mSwipeRefresh.setProgressViewOffset(false, 0, (int) ((mActionBarHeight + mTranslationY) * 1.2));
+		mSwipeRefresh.invalidate();
+	}*/
 	
-	protected void updateMargins(int deltaY) {
+	/*protected void updateMargins(int deltaY) {
 		// Adjust layout position of scroller to match ActionBar
 		if (mFastScrollEnabled && (getActivity() instanceof MainActivity)) {
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
@@ -415,7 +429,7 @@ public abstract class TimeLineFragment extends Fragment implements
 			
 			mOrbit.setLayoutParams(params);
 		}
-	}
+	}*/
 
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());

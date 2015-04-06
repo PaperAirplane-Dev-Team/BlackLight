@@ -50,6 +50,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	private SwipeRefreshLayout mSwipeRefresh;
 	private DirectMessageUserAdapter mAdapter;
 	private boolean mRefreshing = false;
+	private int mHeaderHeight = 0, mTranslationY = 0;
+	private float mHeaderFactor = 0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,6 +95,31 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
 					new Refresher().execute(false);
 				}
+				
+				int deltaY = -dy;
+				
+				if (mManager.findFirstVisibleItemPosition() == 0) {
+
+					if ((mTranslationY > -mHeaderHeight && deltaY < 0)
+						|| (mTranslationY < 0 && deltaY > 0)) {
+
+						mTranslationY += deltaY;
+					}
+
+					if (mTranslationY < -mHeaderHeight) {
+						mTranslationY = -mHeaderHeight;
+					} else if (mTranslationY > 0) {
+						mTranslationY = 0;
+					}
+
+					View header = mAdapter.getHeaderView();
+					mHeaderFactor = Math.abs(mTranslationY) / (float) header.getHeight();
+
+				} else {
+					mHeaderFactor = 1f;
+				}
+				
+				((MainActivity) getActivity()).updateHeaderTranslation(mHeaderFactor);
 			}
 		});
 		
@@ -103,9 +130,9 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 			@Override
 			public void onGlobalLayout() {
 				if (getActivity() instanceof MainActivity) {
-					int actionBarHeight = ((MainActivity) getActivity()).getToolbar().getHeight();
+					mHeaderHeight = ((MainActivity) getActivity()).getHeaderHeight();
 					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
-					lp.height = ((MainActivity) getActivity()).getHeaderHeight();
+					lp.height = mHeaderHeight;
 					mAdapter.getHeaderView().setLayoutParams(lp);
 					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (lp.height * 1.2));
 					mSwipeRefresh.invalidate();

@@ -124,7 +124,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	// Pager
 	private ViewPager mPager;
 	private SlidingTabLayout mTabs;
-	private int mHeaderHeight = 0;
+	private View mTabsWrapper;
+	private int mHeaderHeight = 0, mWrapperHeight = 0;
 
 	// Groups
 	public GroupListModel mGroups;
@@ -165,6 +166,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mCover = Utility.findViewById(this, R.id.my_cover);
 		mPager = Utility.findViewById(this, R.id.main_pager);
 		mTabs = Utility.findViewById(this, R.id.main_tabs);
+		mTabsWrapper = Utility.findViewById(this, R.id.main_tab_wrapper);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -321,6 +323,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				}
 				
 				mHeaderHeight = mTabs.getHeight() + 10;
+				mWrapperHeight = mTabsWrapper.getMeasuredHeight();
+				
+				mDrawerWrapper.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
 		});
 	}
@@ -431,6 +436,21 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		}
 
 		return true;
+	}
+	
+	public void updateHeaderTranslation(float factor) {
+		mTabs.setAlpha(1 - factor);
+		ViewGroup.LayoutParams params = mTabsWrapper.getLayoutParams();
+		params.height = (int) (mWrapperHeight * (1 - factor));
+		
+		if (params.height < 0)
+			params.height = 0;
+		
+		mTabsWrapper.setLayoutParams(params);
+		
+		if (Build.VERSION.SDK_INT >= 21) {
+			mToolbar.setElevation(factor * getToolbarElevation());
+		}
 	}
 
 	public void showMe() {
