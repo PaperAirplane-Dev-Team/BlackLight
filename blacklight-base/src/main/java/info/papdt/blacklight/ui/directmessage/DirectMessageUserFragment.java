@@ -42,7 +42,7 @@ import info.papdt.blacklight.support.adapter.DirectMessageUserAdapter;
 import info.papdt.blacklight.ui.main.MainActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.HeaderProvider {
 	private DirectMessagesUserApiCache mApiCache;
 	private RecyclerView mList;
 	private LinearLayoutManager mManager;
@@ -51,7 +51,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	private DirectMessageUserAdapter mAdapter;
 	private boolean mRefreshing = false;
 	private int mHeaderHeight = 0, mTranslationY = 0;
-	private float mHeaderFactor = 0;
+	private float mHeaderFactor = 0.0f;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -163,6 +163,11 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		if (!mRefreshing) {
 			new Refresher().execute(true);
 		}
+	}
+	
+	@Override
+	public float getHeaderFactor() {
+		return mHeaderFactor;
 	}
 
 	/*@Override

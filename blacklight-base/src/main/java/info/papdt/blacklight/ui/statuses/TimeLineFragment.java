@@ -48,7 +48,7 @@ import info.papdt.blacklight.ui.common.ToolbarActivity;
 import info.papdt.blacklight.ui.main.MainActivity;
 
 public abstract class TimeLineFragment extends Fragment implements
-		SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher {
+		SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.HeaderProvider {
 	
 	private static final String TAG = TimeLineFragment.class.getSimpleName();
 
@@ -65,7 +65,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	private int mHeaderHeight = 0;
 	private int mTranslationY = 0;
 	private int mLastY = 0;
-	private float mHeaderFactor = 1.0f;
+	private float mHeaderFactor = 0.0f;
 
 	// Pull To Refresh
 	private SwipeRefreshLayout mSwipeRefresh;
@@ -321,6 +321,11 @@ public abstract class TimeLineFragment extends Fragment implements
 		});
 
 		return v;
+	}
+	
+	@Override
+	public float getHeaderFactor() {
+		return mHeaderFactor;
 	}
 
 	/*@Override

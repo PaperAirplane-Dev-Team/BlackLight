@@ -88,6 +88,10 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		void doRefresh();
 		void goToTop();
 	}
+	
+	public static interface HeaderProvider {
+		float getHeaderFactor();
+	}
 
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
 
@@ -188,6 +192,38 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		});
 		mPager.setOffscreenPageLimit(pages.length);
 		mTabs.setViewPager(mPager);
+		
+		// Prepare listener to be set later
+		final ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
+			@Override
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+				Fragment cur = mFragments[position];
+				Fragment next = mFragments[position + 1];
+				
+				float factorCur = 0, factorNext = 0;
+				
+				if (cur instanceof HeaderProvider) {
+					factorCur = ((HeaderProvider) cur).getHeaderFactor();
+				}
+				
+				if (next instanceof HeaderProvider) {
+					factorNext = ((HeaderProvider) next).getHeaderFactor();
+				}
+				
+				float factor = factorCur + positionOffset * (factorNext - factorCur);
+				updateHeaderTranslation(factor);
+			}
+
+			@Override
+			public void onPageSelected(int pos) {
+				
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				
+			}
+		};
 		
 		final int color = getResources().getColor(R.color.white);
 		mTabs.setCustomTabColorizer(new SlidingTabStrip.SimpleTabColorizer() {
@@ -324,6 +360,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				
 				mHeaderHeight = mTabs.getHeight() + 10;
 				mWrapperHeight = mTabsWrapper.getMeasuredHeight();
+				
+				mTabs.setOnPageChangeListener(pageListener);
 				
 				mDrawerWrapper.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
