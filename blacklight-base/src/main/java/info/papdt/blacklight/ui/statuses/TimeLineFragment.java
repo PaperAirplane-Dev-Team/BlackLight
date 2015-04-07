@@ -45,6 +45,7 @@ import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.WeiboAdapter;
 import info.papdt.blacklight.ui.common.DragRelativeLayout;
 import info.papdt.blacklight.ui.common.ToolbarActivity;
+import info.papdt.blacklight.ui.common.TouchPassView;
 import info.papdt.blacklight.ui.main.MainActivity;
 
 public abstract class TimeLineFragment extends Fragment implements
@@ -150,7 +151,8 @@ public abstract class TimeLineFragment extends Fragment implements
 
 		// Content Margin
 		if (getActivity() instanceof MainActivity) {
-			View header = new View(getActivity());
+			View target = ((MainActivity) getActivity()).getTabsView();
+			View header = new TouchPassView(getActivity(), target);
 			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);

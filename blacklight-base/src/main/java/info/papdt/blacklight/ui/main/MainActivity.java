@@ -500,6 +500,15 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			mShadow.setAlpha(factor);
 		}
 	}
+	
+	// For fragments to pass events
+	public View getTabsView() {
+		return mTabs;
+	}
+	
+	public ViewPager getViewPager() {
+		return mPager;
+	}
 
 	public void showMe() {
 		if (mUser != null) {

@@ -39,6 +39,7 @@ import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.DirectMessageUserAdapter;
+import info.papdt.blacklight.ui.common.TouchPassView;
 import info.papdt.blacklight.ui.main.MainActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
@@ -79,7 +80,8 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 
 		// Content Margin
 		if (getActivity() instanceof MainActivity) {
-			View header = new View(getActivity());
+			View target = ((MainActivity) getActivity()).getTabsView();
+			View header = new TouchPassView(getActivity(), target);
 			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
 					Utility.getDecorPaddingTop(getActivity()));
 			header.setLayoutParams(p);
