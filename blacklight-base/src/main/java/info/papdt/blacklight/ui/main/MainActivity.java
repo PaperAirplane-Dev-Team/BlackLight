@@ -197,6 +197,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		final ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+				if (position + 1 >= mFragments.length)
+					return;
+				
 				Fragment cur = mFragments[position];
 				Fragment next = mFragments[position + 1];
 				
