@@ -54,6 +54,13 @@
 			android:layout_height="match_parent"
 			android:layout_below="@+id/toolbar"/>
 		
+		<View
+			android:id="@+id/action_shadow"
+			android:layout_width="match_parent"
+			android:layout_height="3dp"
+			android:background="@drawable/action_shadow"
+			android:layout_below="@+id/toolbar"/>
+		
 	</RelativeLayout>
 
 	<info.papdt.blacklight.ui.common.ScrimInsetsFrameLayout

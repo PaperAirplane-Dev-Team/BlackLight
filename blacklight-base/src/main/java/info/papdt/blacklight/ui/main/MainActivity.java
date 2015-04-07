@@ -130,6 +130,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private SlidingTabLayout mTabs;
 	private View mTabsWrapper;
 	private int mHeaderHeight = 0, mWrapperHeight = 0;
+	
+	private View mShadow;
 
 	// Groups
 	public GroupListModel mGroups;
@@ -171,6 +173,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mPager = Utility.findViewById(this, R.id.main_pager);
 		mTabs = Utility.findViewById(this, R.id.main_tabs);
 		mTabsWrapper = Utility.findViewById(this, R.id.main_tab_wrapper);
+		mShadow = Utility.findViewById(this, R.id.action_shadow);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -242,9 +245,11 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		});
 		mTabs.notifyIndicatorColorChanged();
 		
-		if (Build.VERSION.SDK_INT > 0) {
+		if (Build.VERSION.SDK_INT >= 21) {
 			mToolbar.setElevation(0);
 			//findViewById(R.id.main_tab_wrapper).setElevation(getToolbarElevation());
+		} else {
+			mShadow.setAlpha(0);
 		}
 		
 		// Detect if the user chose to use right-handed mode
@@ -491,6 +496,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		
 		if (Build.VERSION.SDK_INT >= 21) {
 			mToolbar.setElevation(factor * getToolbarElevation());
+		} else {
+			mShadow.setAlpha(factor);
 		}
 	}
 
