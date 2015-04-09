@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.common;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,6 +48,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		int getSelectedTitleColor(int position);
 		int getNormalTitleColor(int position);
 	}
+	
+	public interface TabIconAdapter {
+		Drawable getIcon(int position);
+	}
 
 	private static final int TITLE_OFFSET_DIPS = 24;
 	private static final int TAB_VIEW_PADDING_DIPS = 16;
@@ -55,6 +61,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
 	private int mTabViewLayoutId;
 	private int mTabViewTextViewId;
+	private int mTabIconSize = 48;
 	private boolean mDistributeEvenly;
 	private boolean mTabStripPopulated = false;
 
@@ -63,6 +70,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
 	private final SlidingTabStrip mTabStrip;
+	
+	private TabIconAdapter mIconAdapter;
 
 	public SlidingTabLayout(Context context) {
 		this(context, null);
@@ -111,6 +120,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		mTabViewLayoutId = layoutResId;
 		mTabViewTextViewId = textViewId;
 	}
+	
+	public void setIconAdapter(TabIconAdapter adapter) {
+		mIconAdapter = adapter;
+	}
 
 	public void setViewPager(ViewPager viewPager) {
 		mTabStrip.removeAllViews();
@@ -121,29 +134,64 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			populateTabStrip();
 		}
 	}
+	
+	public void setViewPager(ViewPager viewPager, SlidingTabLayout layout) {
+		mTabStrip.removeAllViews();
+		
+		mViewPager = viewPager;
+		if (layout != null) {
+			layout.setOnPageChangeListener(new InternalViewPagerListener());
+			populateTabStrip();
+		}
+	}
+	
+	public void setTabIconSize(int size) {
+		mTabIconSize = size;
+		if (mViewPager != null && mIconAdapter != null) {
+			for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+				View child = mTabStrip.getChildAt(i);
+				
+				if (child instanceof ImageView) {
+					LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child.getLayoutParams();
+					lp.width = size;
+					lp.height = size;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Create a default view to be used for tabs. This is called if a custom tab view is not set via
 	 * {@link #setCustomTabView(int, int)}.
 	 */
-    protected TextView createDefaultTabView(Context context) {
-		TextView textView = new TextView(context);
-		textView.setGravity(Gravity.CENTER);
-		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
-		textView.setTypeface(Typeface.DEFAULT_BOLD);
-		textView.setLayoutParams(new LinearLayout.LayoutParams(
-									ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    protected View createDefaultTabView(Context context) {
+		View v;
+		if (mIconAdapter == null) {
+			TextView textView = new TextView(context);
+			textView.setGravity(Gravity.CENTER);
+			textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
+			textView.setTypeface(Typeface.DEFAULT_BOLD);
+			textView.setAllCaps(true);
+			textView.setLayoutParams(new LinearLayout.LayoutParams(
+								  ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+			
+			v = textView;
+		} else {
+			ImageView imgView = new TintImageView(context);
+			imgView.setScaleType(ImageView.ScaleType.FIT_XY);
+			imgView.setLayoutParams(new LinearLayout.LayoutParams(mTabIconSize, mTabIconSize));
+			v = imgView;
+		}
 
 		TypedValue outValue = new TypedValue();
 		getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
 												 outValue, true);
-		textView.setBackgroundResource(outValue.resourceId);
-		textView.setAllCaps(true);
-
+		v.setBackgroundResource(outValue.resourceId);
+		
 		int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-		textView.setPadding(padding, padding, padding, padding);
+		v.setPadding(padding, padding, padding, padding);
 
-		return textView;
+		return v;
 	}
 
 	private void populateTabStrip() {
@@ -153,6 +201,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		for (int i = 0; i < adapter.getCount(); i++) {
 			View tabView = null;
 			TextView tabTitleView = null;
+			ImageView tabIconView = null;
 
 			if (mTabViewLayoutId != 0) {
 				// If there is a custom tab view layout id set, try and inflate it
@@ -167,6 +216,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
 			if (tabTitleView == null && TextView.class.isInstance(tabView)) {
 				tabTitleView = (TextView) tabView;
+			} else if (tabIconView == null && ImageView.class.isInstance(tabView)) {
+				tabIconView = (ImageView) tabView;
 			}
 
 			if (mDistributeEvenly) {
@@ -175,7 +226,11 @@ public class SlidingTabLayout extends HorizontalScrollView {
 				lp.weight = 1;
 			}
 
-			tabTitleView.setText(adapter.getPageTitle(i));
+			if (tabTitleView != null)
+				tabTitleView.setText(adapter.getPageTitle(i));
+			else if (tabIconView != null)
+				tabIconView.setImageDrawable(mIconAdapter.getIcon(i));
+			
 			tabView.setOnClickListener(tabClickListener);
 			String desc = mContentDescriptions.get(i, null);
 			if (desc != null) {

@@ -54,6 +54,11 @@ public class TintImageView extends ImageView {
 			arr.recycle();
 		}
 	}
+	
+	@Override
+	public void setColor(int color) {
+		setColorFilter(color, PorterDuff.Mode.SRC_IN);
+	}
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

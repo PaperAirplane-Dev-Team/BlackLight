@@ -104,23 +104,37 @@ public class SlidingTabStrip extends LinearLayout {
 		int id = getSlidingTabLayout().getTextViewId();
 		
 		View selected = getChildAt(mSelectedPosition);
-		TextView selectedTitle = (TextView) (id == 0 ? selected : selected.findViewById(id));
+		View selectedTitle = id == 0 ? selected : selected.findViewById(id);
 		
 		int selectedColor = tabColorizer.getSelectedTitleColor(mSelectedPosition);
 		int normalColor = tabColorizer.getNormalTitleColor(mSelectedPosition);
 		
 		if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
 			View next = getChildAt(mSelectedPosition + 1);
-			TextView nextTitle = (TextView) (id == 0 ? next : next.findViewById(id));
+			View nextTitle = id == 0 ? next : next.findViewById(id);
 			
 			// Set the gradient title colors
 			int nextSelectedColor = tabColorizer.getSelectedTitleColor(mSelectedPosition + 1);
 			int nextNormalColor = tabColorizer.getNormalTitleColor(mSelectedPosition + 1);
 
-			selectedTitle.setTextColor(blendColors(selectedColor, normalColor, 1.0f - mSelectionOffset));
-			nextTitle.setTextColor(blendColors(nextSelectedColor, nextNormalColor, mSelectionOffset));
+			int selectedBlend = blendColors(selectedColor, normalColor, 1.0f - mSelectionOffset);
+			int nextBlend = blendColors(nextSelectedColor, nextNormalColor, mSelectionOffset);
+			
+			if (selectedTitle instanceof TextView)
+				((TextView) selectedTitle).setTextColor(selectedBlend);
+			else if (selectedTitle instanceof TintImageView)
+				((TintImageView) selectedTitle).setColor(selectedBlend);
+				
+			if (nextTitle instanceof TextView)
+				((TextView) nextTitle).setTextColor(nextBlend);
+			else if (nextTitle instanceof TintImageView)
+				((TintImageView) nextTitle).setColor(nextBlend);
+				
 		} else if (mSelectionOffset == 0f) {
-			selectedTitle.setTextColor(selectedColor);
+			if (selectedTitle instanceof TextView)
+				((TextView) selectedTitle).setTextColor(selectedColor);
+			else if (selectedTitle instanceof TintImageView)
+				((TintImageView) selectedTitle).setColor(selectedColor);
 		}
 		
 		invalidate();
@@ -135,12 +149,18 @@ public class SlidingTabStrip extends LinearLayout {
 		
 		for (int i = 0; i < getChildCount(); i++) {
 			View v = getChildAt(i);
-			TextView t = (TextView) (id == 0 ? v : v.findViewById(id));
+			View child =  id == 0 ? v : v.findViewById(id);
 			
-			if (mSelectedPosition != i) {
-				t.setTextColor(tabColorizer.getNormalTitleColor(i));
-			} else {
-				t.setTextColor(tabColorizer.getSelectedTitleColor(i));
+			int color;
+			if (mSelectedPosition != i)
+				color = tabColorizer.getNormalTitleColor(i);
+			else
+				color = tabColorizer.getSelectedTitleColor(i);
+			
+			if (child instanceof TextView) {
+				((TextView) v).setTextColor(color);
+			} else if (child instanceof TintImageView) {
+				((TintImageView) v).setColor(color);
 			}
 		}
 		

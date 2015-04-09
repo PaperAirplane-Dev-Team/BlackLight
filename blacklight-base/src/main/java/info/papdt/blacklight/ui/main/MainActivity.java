@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -128,10 +129,12 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	// Pager
 	private ViewPager mPager;
 	private SlidingTabLayout mTabs;
+	private SlidingTabLayout mToolbarTabs;
 	private View mTabsWrapper;
 	private int mHeaderHeight = 0, mWrapperHeight = 0;
 	
 	private View mShadow;
+	private View mCustom;
 
 	// Groups
 	public GroupListModel mGroups;
@@ -158,10 +161,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		// Add custom view
 		mToolbarContext = new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
 		LayoutInflater customInflater = (LayoutInflater) mToolbarContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View custom = customInflater.inflate(R.layout.action_custom, null);
-		getSupportActionBar().setCustomView(custom);
-		
-		getSupportActionBar().setDisplayShowCustomEnabled(false);
+		mCustom = customInflater.inflate(R.layout.main_top, null);
+		getSupportActionBar().setCustomView(mCustom);
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
 
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
@@ -173,6 +175,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mPager = Utility.findViewById(this, R.id.main_pager);
 		mTabs = Utility.findViewById(this, R.id.main_tabs);
 		mTabsWrapper = Utility.findViewById(this, R.id.main_tab_wrapper);
+		mToolbarTabs = Utility.findViewById(mCustom, R.id.top_tab);
 		mShadow = Utility.findViewById(this, R.id.action_shadow);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
@@ -195,6 +198,25 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		});
 		mPager.setOffscreenPageLimit(pages.length);
 		mTabs.setViewPager(mPager);
+		
+		// Initialize toolbar custom view
+		mCustom.setAlpha(0f);
+		final Drawable[] pageIcons = new Drawable[] {
+			getResources().getDrawable(R.drawable.ic_drawer_home),
+			getResources().getDrawable(R.drawable.ic_drawer_comment),
+			getResources().getDrawable(R.drawable.ic_drawer_at),
+			getResources().getDrawable(R.drawable.ic_drawer_at),
+			getResources().getDrawable(R.drawable.ic_drawer_pm),
+			getResources().getDrawable(R.drawable.ic_drawer_fav)
+		};
+		
+		mToolbarTabs.setIconAdapter(new SlidingTabLayout.TabIconAdapter() {
+			@Override
+			public Drawable getIcon(int position) {
+				return pageIcons[position];
+			}
+		});
+		mToolbarTabs.setViewPager(mPager, mTabs);
 		
 		// Prepare listener to be set later
 		final ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
@@ -232,7 +254,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		};
 		
 		final int color = getResources().getColor(R.color.white);
-		mTabs.setCustomTabColorizer(new SlidingTabStrip.SimpleTabColorizer() {
+		SlidingTabStrip.SimpleTabColorizer colorizer = new SlidingTabStrip.SimpleTabColorizer() {
 			@Override
 			public int getIndicatorColor(int position) {
 				return color;
@@ -242,8 +264,11 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			public int getSelectedTitleColor(int position) {
 				return color;
 			}
-		});
+		};
+		mTabs.setCustomTabColorizer(colorizer);
 		mTabs.notifyIndicatorColorChanged();
+		mToolbarTabs.setCustomTabColorizer(colorizer);
+		mToolbarTabs.notifyIndicatorColorChanged();
 		
 		if (Build.VERSION.SDK_INT >= 21) {
 			mToolbar.setElevation(0);
@@ -320,6 +345,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		
 		//mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
 
@@ -369,7 +395,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				mHeaderHeight = mTabs.getHeight() + 10;
 				mWrapperHeight = mTabsWrapper.getMeasuredHeight();
 				
-				mTabs.setOnPageChangeListener(pageListener);
+				mToolbarTabs.setOnPageChangeListener(pageListener);
+				mToolbarTabs.setTabIconSize((int) (mToolbar.getHeight() * 0.85f));
 				
 				mDrawerWrapper.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
@@ -485,6 +512,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	}
 	
 	public void updateHeaderTranslation(float factor) {
+		mCustom.setAlpha(factor);
 		mTabs.setAlpha(1 - factor);
 		ViewGroup.LayoutParams params = mTabsWrapper.getLayoutParams();
 		params.height = (int) (mWrapperHeight * (1 - factor));
