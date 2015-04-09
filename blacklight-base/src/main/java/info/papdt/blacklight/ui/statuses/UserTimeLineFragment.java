@@ -55,7 +55,8 @@ public class UserTimeLineFragment extends TimeLineFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		mShadow.setVisibility(View.GONE);
+		if (mShadow != null)
+			mShadow.setVisibility(View.GONE);
 
 		return v;
 	}
