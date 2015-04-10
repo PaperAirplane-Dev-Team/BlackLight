@@ -55,6 +55,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
+import java.util.Random;
+
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.friendships.GroupsApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
@@ -134,7 +136,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private int mHeaderHeight = 0, mWrapperHeight = 0;
 	
 	private View mShadow;
-	private View mCustom;
+	private View mTopWrapper, mToolbarWrapper;
 
 	// Groups
 	public GroupListModel mGroups;
@@ -161,10 +163,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		// Add custom view
 		mToolbarContext = new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
 		LayoutInflater customInflater = (LayoutInflater) mToolbarContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mCustom = customInflater.inflate(R.layout.main_top, null);
-		getSupportActionBar().setCustomView(mCustom);
-		getSupportActionBar().setDisplayShowCustomEnabled(true);
-
+		
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
 		mDrawerWrapper = Utility.findViewById(this, R.id.drawer_wrapper);
@@ -175,7 +174,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mPager = Utility.findViewById(this, R.id.main_pager);
 		mTabs = Utility.findViewById(this, R.id.main_tabs);
 		mTabsWrapper = Utility.findViewById(this, R.id.main_tab_wrapper);
-		mToolbarTabs = Utility.findViewById(mCustom, R.id.top_tab);
+		mToolbarTabs = Utility.findViewById(this, R.id.top_tab);
+		mToolbarWrapper = Utility.findViewById(this, R.id.toolbar_wrapper);
+		mTopWrapper = Utility.findViewById(this, R.id.top_wrapper);
 		mShadow = Utility.findViewById(this, R.id.action_shadow);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
@@ -200,7 +201,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mTabs.setViewPager(mPager);
 		
 		// Initialize toolbar custom view
-		mCustom.setAlpha(0f);
+		mTopWrapper.setAlpha(0f);
 		final Drawable[] pageIcons = new Drawable[] {
 			getResources().getDrawable(R.drawable.ic_drawer_home),
 			getResources().getDrawable(R.drawable.ic_drawer_comment),
@@ -345,7 +346,11 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		
+		// 梗
+		String[] splashes = getResources().getStringArray(R.array.title_splashes);
+		getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
 		
 		//mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
 
@@ -396,7 +401,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				mWrapperHeight = mTabsWrapper.getMeasuredHeight();
 				
 				mToolbarTabs.setOnPageChangeListener(pageListener);
-				mToolbarTabs.setTabIconSize((int) (mToolbar.getHeight() * 0.85f));
+				mToolbarTabs.setTabIconSize((int) (mToolbar.getHeight() * 0.88f));
 				
 				mDrawerWrapper.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
@@ -512,8 +517,16 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	}
 	
 	public void updateHeaderTranslation(float factor) {
-		mCustom.setAlpha(factor);
+		mTopWrapper.setAlpha(factor);
+		mToolbar.setAlpha(1 - factor);
 		mTabs.setAlpha(1 - factor);
+		
+		if (factor >= 0.5f) {
+			mTopWrapper.bringToFront();
+		} else {
+			mToolbar.bringToFront();
+		}
+		
 		ViewGroup.LayoutParams params = mTabsWrapper.getLayoutParams();
 		params.height = (int) (mWrapperHeight * (1 - factor));
 		
@@ -523,7 +536,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mTabsWrapper.setLayoutParams(params);
 		
 		if (Build.VERSION.SDK_INT >= 21) {
-			mToolbar.setElevation(factor * getToolbarElevation());
+			mToolbarWrapper.setElevation(factor * getToolbarElevation());
 		} else {
 			mShadow.setAlpha(factor);
 		}

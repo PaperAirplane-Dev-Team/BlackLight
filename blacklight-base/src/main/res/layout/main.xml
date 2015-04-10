@@ -29,14 +29,26 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-		<include
-			layout="@layout/toolbar"/>
+		<RelativeLayout
+			android:id="@+id/toolbar_wrapper"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:background="?attr/colorPrimary">
+			
+			<include
+				layout="@layout/toolbar"/>
+			
+			<include
+				layout="@layout/main_top"/>
+			
+		</RelativeLayout>
 		
 		<FrameLayout
 			android:id="@+id/main_tab_wrapper"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/toolbar"
+			android:layout_below="@+id/toolbar_wrapper"
 			android:background="?attr/colorPrimary">
 			
 			<info.papdt.blacklight.ui.common.SlidingTabLayout
@@ -52,14 +64,14 @@
 			android:id="@+id/main_pager"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_below="@+id/toolbar"/>
+			android:layout_below="@+id/toolbar_wrapper"/>
 		
 		<View
 			android:id="@+id/action_shadow"
 			android:layout_width="match_parent"
 			android:layout_height="3dp"
 			android:background="@drawable/action_shadow"
-			android:layout_below="@+id/toolbar"/>
+			android:layout_below="@+id/toolbar_wrapper"/>
 		
 	</RelativeLayout>
 

@@ -19,6 +19,44 @@
 -->
 <resources>
 	<!-- Funny Things -->
+	<string-array name="title_splashes">
+		<item>黑灯</item>
+		<item>瞎火</item>
+		<item>我能吞下玻璃而不伤身体</item>
+		<item>微软大法好！</item>
+		<item>索尼大法好！</item>
+		<item>FSF大法好！</item>
+		<item>烫烫烫烫烫</item>
+		<item>屯屯屯屯屯</item>
+		<item>锟斤拷锟斤拷</item>
+		<item>690战术核显卡</item>
+		<item>不转不是中国人!!!</item>
+		<item>谢邀</item>
+		<item>屎真香啊！亲测！</item>
+		<item>Sometimes naïve</item>
+		<item>Too young too simple.</item>
+		<item>假如你是李华……</item>
+		<item>男女比例3:1,七只小鸡打飞机</item>
+		<item>男女比例3:1,一个腐女看3P</item>
+		<item>男女比例3:1,一对情侣一对基</item>
+		<item>↑↑↓↓←→←→BABA</item>
+		<item>正在处理一些事情</item>
+		<item>请将您的反馈发送至 /dev/null</item>
+		<item>25198 lines of code!</item>
+		<item>25198行代码，一半是import</item>
+		<item>+ 65535!</item>
+		<item>Cu + Al == Au + Cl</item>
+		<item>人丑不要紧，万一对方瞎呢……</item>
+		<item>六九六九，精神抖擞</item>
+		<item>我脱团了……</item>
+		<item>失去人性，失去很多</item>
+		<item>失去兽性，失去一切</item>
+		<item>中国有点硬</item>
+		<item>NullPointerException</item>
+		<item>assert title.equals("BlackLight")</item>
+		<item>没对象?自己new一个</item>
+	</string-array>
+	
 	<string-array name="splashes">
 		<item>Stay hungry, stay foolish.</item>
 		<item>BlackLight 官方中文译名暂定为 ”黑灯“</item>
@@ -183,5 +221,6 @@
 		<item>┋◆冃.狌.交.伖，释.鲂.压.劦、棑.解.漃.瘼◆ 真 人】视||频. █网.址：wWw. GitHub .Com◆┋</item>
 		<item>四大自虐：拿HTML5写APP、为IE6做兼容、在朋友圈做营销、给微博写第三方客户端。——bgm38</item>
 		<item>With great power comes great responsibility</item>
+		<item>失去人性，失去很多；失去兽性，失去一切。</item>
 	</string-array>
 </resources>

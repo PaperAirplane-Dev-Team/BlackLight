@@ -19,6 +19,50 @@
 -->
 <resources>
 	<!-- Funny things -->
+	<string-array name="title_splashes">
+		<item>§kFUNKY LOL</item>
+		<item>Γεια σου Ελλάδα!</item>
+		<item>Привет Россия!</item>
+		<item>你好中国！</item>
+		<item>日本ハロー！</item>
+		<item>"Autological" is!</item>
+		<item>#Ignore this line!</item>
+		<item>*insert creative hint text here*</item>
+		<item>...!</item>
+		<item>0% sugar!</item>
+		<item>100% pure!</item>
+		<item>110813!</item>
+		<item>12 herbs and spices!</item>
+		<item>12345 is a bad password!</item>
+		<item>150% hyperbole!</item>
+		<item>20 GOTO 10!</item>
+		<item>25198 lines of code!</item>
+		<item>90% bug free!</item>
+		<item>90210!</item>
+		<item>A riddle, wrapped in a mystery!</item>
+		<item>A skeleton popped out!</item>
+		<item>Afforess is a wizard!</item>
+		<item>Afraid of the big, black bat!</item>
+		<item>Age of Wonders is better!</item>
+		<item>ALL GLORY TO THE HYPNOTOAD</item>
+		<item>All hail our new Olloth overlord</item>
+		<item>All inclusive!</item>
+		<item>All is full of love!</item>
+		<item>All your spouts are belong to us.</item>
+		<item>Also translated into your language.</item>
+		<item>Also try Braid!</item>
+		<item>Also try Limbo!</item>
+		<item>Also try Mount And Blade!</item>
+		<item>Also try Pixeljunk Shooter!</item>
+		<item>Also try Project Zomboid!</item>
+		<item>Also try Super Meat Boy!</item>
+		<item>Also try Terraria!</item>
+		<item>Also try VVVVVV!</item>
+		<item>Also try World of Goo!</item>
+		<item>alta189 ping! ping! alta189!</item>
+		<item>alta189: ping!</item>
+	</string-array>
+	
 	<string-array name="splashes">
 		<item>§1C§2o§3l§4o§5r§6m§7a§8t§9i§ac</item>
 		<item>§kFUNKY LOL</item>

@@ -443,7 +443,7 @@ public abstract class TimeLineFragment extends Fragment implements
 	}
 
 	protected void initTitle() {
-		mActionBar.setTitle(R.string.timeline);
+		//mActionBar.setTitle(R.string.timeline);
 	}
 
 	protected void bindSwipeToRefresh(ViewGroup v) {
