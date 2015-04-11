@@ -167,7 +167,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
 		mDrawerWrapper = Utility.findViewById(this, R.id.drawer_wrapper);
-		mDrawerScroll = Utility.findViewById(this, R.id.drawer_scroll);
 		mName = Utility.findViewById(this, R.id.my_name);
 		mAvatar = Utility.findViewById(this, R.id.my_avatar);
 		mCover = Utility.findViewById(this, R.id.my_cover);
@@ -352,6 +351,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		String[] splashes = getResources().getStringArray(R.array.title_splashes);
 		getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
 		
+		// Drawer Groups
+		getFragmentManager().beginTransaction().add(R.id.drawer_group, new GroupFragment()).commit();
+		
 		//mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
 
 		//getActionBar().setDisplayShowTitleEnabled(false);
@@ -390,12 +392,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mDrawerWrapper.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
-				if (mDrawerScroll.getMeasuredHeight() > mDrawerWrapper.getMeasuredHeight()) {
-					// On poor screens, we add a scroll over the drawer content
-					ViewGroup.LayoutParams lp = mDrawerScroll.getLayoutParams();
-					lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
-					mDrawerScroll.setLayoutParams(lp);
-				}
 				
 				mHeaderHeight = mTabs.getHeight() + 10;
 				mWrapperHeight = mTabsWrapper.getMeasuredHeight();
