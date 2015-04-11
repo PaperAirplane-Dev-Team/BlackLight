@@ -90,4 +90,9 @@ public class RepostActivity extends NewPostActivity
 		
 		return PostApi.newRepost(mMsg.id, mText.getText().toString(), extra, mVersion);
 	}
+
+	@Override
+	public void send() {
+		mText.setText(R.string.repost);
+	}
 }

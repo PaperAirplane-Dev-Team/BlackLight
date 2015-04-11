@@ -207,7 +207,7 @@
 	<string name="set_interval">Set notification interval</string>
 	<string name="good">Rate me</string>
 	<string name="good_sum">:-) You know I\'ll be really happy if you give me 5 stars.</string>
-	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
+	<string name="play_url" translatable="false">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
 	<string name="network">Network</string>
 	<string name="auto_nopic">Auto save traffic</string>
 	<string name="auto_nopic_sum">Load pictures only if WiFi is connected</string>
@@ -271,5 +271,6 @@
 	<string name="copied">Contents copied to clipboard</string>
 	<string name="clear_cache">Clear Cache</string>
 	<string name="clear_cache_hint">See \'Settings -\> Apps -\> BlackLight\'</string>
+	<string name="post_photo">Share Photo</string>
 
 </resources>

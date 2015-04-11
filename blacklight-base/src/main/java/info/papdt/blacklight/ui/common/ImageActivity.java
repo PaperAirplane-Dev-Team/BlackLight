@@ -278,14 +278,6 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					final Runnable r = new Runnable() {
 						@Override
 						public void run() {
-							if (DEBUG) {
-								Log.d(TAG, "Height is" + iv.getHeight());
-								Log.d(TAG, "Width is" + iv.getWidth());
-								Log.d(TAG, "Source height is" + iv.getSHeight());
-								Log.d(TAG, "Source width is" + iv.getSWidth());
-								Log.d(TAG, "Scale is" + iv.getScale());
-							}
-
 							float height = iv.getHeight();
 							float sHeight = iv.getSHeight();
 							float width = iv.getWidth();

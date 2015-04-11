@@ -178,7 +178,6 @@
 	<string name="set_interval">设置提醒间隔</string>
 	<string name="good">给个好评</string>
 	<string name="good_sum">亲，去Play商店给个好评呗</string>
-	<string name="play_url">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>
 	<string name="network">网络</string>
 	<string name="auto_nopic">智能无图</string>
 	<string name="auto_nopic_sum">流量环境下不显示图片，WIFI环境下显示图片</string>
@@ -232,5 +231,6 @@
 	<string name="clear_cache">清空缓存</string>
 	<string name="clear_cache_hint">系统设置 -> 应用程序 -> BlackLight</string>
 	<string name="feedback_sum">告诉我们关于你对这个应用的建议</string>
+	<string name="post_photo" translatable="false">分享图片</string>
 
 </resources>

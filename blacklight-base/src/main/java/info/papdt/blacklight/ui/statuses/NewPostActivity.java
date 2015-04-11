@@ -361,6 +361,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	public void send() {
 		try {
+			if (mBitmaps.size() != 0 & !mIsLong){
+				mText.setText(R.string.post_photo);
+			}
 			if (!TextUtils.isEmpty(mText.getText().toString().trim())) {
 				new Uploader().execute();
 			} else {
