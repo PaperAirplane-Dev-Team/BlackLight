@@ -55,7 +55,7 @@ public class TintImageView extends ImageView {
 		}
 	}
 	
-	@Override
+	//@Override
 	public void setColor(int color) {
 		setColorFilter(color, PorterDuff.Mode.SRC_IN);
 	}
