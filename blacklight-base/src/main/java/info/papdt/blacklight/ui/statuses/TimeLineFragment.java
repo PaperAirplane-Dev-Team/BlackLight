@@ -127,7 +127,7 @@ public abstract class TimeLineFragment extends Fragment implements
 		mScroller = Utility.findViewById(v, R.id.scroller);
 		mOrbit = Utility.findViewById(v, R.id.scroller_orbit);
 		
-		if (Build.VERSION.SDK_INT >= 21) {
+		if (Build.VERSION.SDK_INT >= 21 || getActivity() instanceof MainActivity) {
 			mShadow.setVisibility(View.GONE);
 			mShadow = null;
 		}
