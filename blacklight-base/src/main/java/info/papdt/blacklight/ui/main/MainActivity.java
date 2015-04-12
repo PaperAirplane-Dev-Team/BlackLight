@@ -128,6 +128,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	};
 	private FragmentManager mManager;
 	
+	// Actions
+	private View mSetting;
+	
 	// Pager
 	private ViewPager mPager;
 	private SlidingTabLayout mTabs;
@@ -177,6 +180,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mToolbarWrapper = Utility.findViewById(this, R.id.toolbar_wrapper);
 		mTopWrapper = Utility.findViewById(this, R.id.top_wrapper);
 		mShadow = Utility.findViewById(this, R.id.action_shadow);
+		mSetting = Utility.findViewById(this, R.id.drawer_settings);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -340,6 +344,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			.create();
 		mFAB.setOnClickListener(this);
 		mFAB.setOnLongClickListener(this);
+		
+		// Bind
+		Utility.bindOnClick(this, mSetting, "settings");
 		
 		// Initialize ActionBar Style
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -661,7 +668,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		switchTo(FAV);
 		setShowTitle(true);
 		setShowSpinner(false);
-	}
+	}*/
 
 	public void settings() {
 		Intent i = new Intent();
@@ -670,7 +677,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		startActivity(i);
 	}
 
-	public void mentions() {
+	/*public void mentions() {
 		switchTo(MENTION);
 		setShowTitle(true);
 		setShowSpinner(false);

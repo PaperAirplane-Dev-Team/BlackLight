@@ -17,7 +17,7 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/drawer_wrapper"
@@ -26,9 +26,56 @@
 	android:background="?attr/DrawerBackground"
 	android:clickable="true">
 
-	<FrameLayout
+	<RelativeLayout
 		android:id="@+id/drawer_group"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent"
+		android:layout_above="@+id/drawer_divider"/>
+	
+	<View
+		android:id="@id/drawer_divider"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:layout_above="@+id/drawer_bottom"
+		android:background="?attr/DrawerForeground"
+		android:alpha="0.2"/>
+	
+	<RelativeLayout
+		android:id="@id/drawer_bottom"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true">
 		
-</FrameLayout>
+		<RelativeLayout
+			android:id="@+id/drawer_settings"
+			android:layout_width="match_parent"
+			android:layout_height="48dp"
+			android:background="?android:attr/selectableItemBackground"
+			android:clickable="true">
+			
+			<info.papdt.blacklight.ui.common.TintImageView
+				android:id="@+id/set_icon"
+				android:layout_width="36dp"
+				android:layout_height="36dp"
+				android:layout_margin="7dp"
+				android:layout_centerVertical="true"
+				android:layout_alignParentLeft="true"
+				android:src="@drawable/ic_drawer_set"
+				android:scaleType="centerInside"
+				app:tintColor="?attr/DrawerForeground"/>
+			
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="7dp"
+				android:layout_centerVertical="true"
+				android:layout_toRightOf="@id/set_icon"
+				android:text="@string/settings"
+				android:textColor="?attr/DrawerForeground"
+				android:textSize="15sp"/>
+			
+		</RelativeLayout>
+		
+	</RelativeLayout>
+		
+</RelativeLayout>
