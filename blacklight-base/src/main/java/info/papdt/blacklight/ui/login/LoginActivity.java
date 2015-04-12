@@ -60,11 +60,14 @@ public class LoginActivity extends AbsActivity {
 	private WebView mWeb;
 	
 	private LoginApiCache mLogin;
+	private boolean mIsMulti = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.web_login;
 		super.onCreate(savedInstanceState);
+		
+		mIsMulti = getIntent().getBooleanExtra("multi", false);
 
 		// Initialize views
 		mWeb = Utility.findViewById(this, R.id.login_web);
@@ -147,7 +150,7 @@ public class LoginActivity extends AbsActivity {
 		}
 	}
 
-	private class LoginTask extends AsyncTask<String, Void, Void>
+	private class LoginTask extends AsyncTask<String, Void, Long>
 	{
 		private ProgressDialog progDialog;
 		
@@ -161,48 +164,60 @@ public class LoginActivity extends AbsActivity {
 		}
 		
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Long doInBackground(String... params) {
 			if (DEBUG) {
 				Log.d(TAG, "doInBackground...");
 			}
-			mLogin.login(params[0], params[1]);
-			return null;
+			
+			if (!mIsMulti) {
+				mLogin.login(params[0], params[1]);
+				return mLogin.getExpireDate();
+			} else {
+				return mLogin.addUser(params[0], params[1]);
+			}
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Long result) {
 			super.onPostExecute(result);
 			progDialog.dismiss();
 			
-			if (mLogin.getAccessToken() != null) {
+			if (!mIsMulti && mLogin.getAccessToken() != null) {
 				if (DEBUG) {
 					Log.d(TAG, "Access Token:" + mLogin.getAccessToken());
 					Log.d(TAG, "Expires in:" + mLogin.getExpireDate());
 				}
 				mLogin.cache();
 				BaseApi.setAccessToken(mLogin.getAccessToken());
-				
-				// Expire date
-				String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(mLogin.getExpireDate()));
-				new AlertDialog.Builder(LoginActivity.this)
-								.setMessage(msg)
-								.setCancelable(false)
-								.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int id) {
-										dialog.dismiss();
-										Intent i = new Intent();
-										i.setAction(Intent.ACTION_MAIN);
-										i.setClass(LoginActivity.this, MainActivity.class);
-										startActivity(i);
-										finish();
-									}
-								})
-								.create()
-								.show();
-			} else {
+			} else if (!mIsMulti && mLogin.getAccessToken() == null) {
 				showLoginFail();
+				return;
 			}
+			
+
+			// Expire date
+			String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(result));
+			new AlertDialog.Builder(LoginActivity.this)
+				.setMessage(msg)
+				.setCancelable(false)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+						if (!mIsMulti) {
+							Intent i = new Intent();
+							i.setAction(Intent.ACTION_MAIN);
+							i.setClass(LoginActivity.this, MainActivity.class);
+							startActivity(i);
+							finish();
+						} else {
+							setResult(RESULT_OK);
+							finish();
+						}
+					}
+				})
+				.create()
+				.show();
 		}
 		
 	}

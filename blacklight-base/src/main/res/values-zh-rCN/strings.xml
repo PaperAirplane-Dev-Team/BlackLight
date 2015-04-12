@@ -52,6 +52,7 @@
 	<string name="drawer_dm">私信</string>
 	<string name="drawer_fav">收藏</string>
 	<string name="drawer_settings">设置</string>
+	<string name="add">添加</string>
 	
 	<!-- Statuses -->
 	<string name="timeline">时间流</string>
@@ -232,5 +233,6 @@
 	<string name="clear_cache_hint">系统设置 -> 应用程序 -> BlackLight</string>
 	<string name="feedback_sum">告诉我们关于你对这个应用的建议</string>
 	<string name="post_photo" translatable="false">分享图片</string>
+	<string name="wait_switch">别着急，BlackLight正在重新加载，马上就回来哦 ^_^</string>
 
 </resources>

@@ -76,6 +76,7 @@ import info.papdt.blacklight.ui.common.SlidingTabStrip;
 import info.papdt.blacklight.ui.common.ToolbarActivity;
 import info.papdt.blacklight.ui.directmessage.DirectMessageUserFragment;
 import info.papdt.blacklight.ui.favorites.FavListFragment;
+import info.papdt.blacklight.ui.login.LoginActivity;
 import info.papdt.blacklight.ui.search.SearchFragment;
 import info.papdt.blacklight.ui.settings.SettingsActivity;
 import info.papdt.blacklight.ui.statuses.HomeTimeLineFragment;
@@ -96,6 +97,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		float getHeaderFactor();
 	}
 
+	public static final int REQUEST_LOGIN = 2333;
 	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
 
 	private static final String BILATERAL = "bilateral";
@@ -109,6 +111,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private View mDrawerWrapper;
 	private ScrollView mDrawerScroll;
 	private TextView mName;
+	private View mAccountSwitch, mAccountSwitchIcon;
 	private ImageView mAvatar;
 	private ImageView mCover;
 	private FloatingActionButton mFAB;
@@ -126,10 +129,12 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		new DirectMessageUserFragment(),
 		new FavListFragment()
 	};
+	private GroupFragment mGroupFragment = new GroupFragment();
+	private MultiUserFragment mMultiUserFragment = new MultiUserFragment();
 	private FragmentManager mManager;
 	
 	// Actions
-	private View mSetting;
+	private View mSetting, mMultiUser;
 	
 	// Pager
 	private ViewPager mPager;
@@ -150,6 +155,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private int mCurrent = 0;
 	private boolean mIgnore = false;
 	private int mLang = -1;
+	
+	// false = Group, true = MultiUser
+	private boolean mDrawerState = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +189,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mTopWrapper = Utility.findViewById(this, R.id.top_wrapper);
 		mShadow = Utility.findViewById(this, R.id.action_shadow);
 		mSetting = Utility.findViewById(this, R.id.drawer_settings);
+		mMultiUser = Utility.findViewById(this, R.id.drawer_multiuser);
+		mAccountSwitch = Utility.findViewById(this, R.id.account_switch);
+		mAccountSwitchIcon = Utility.findViewById(this, R.id.account_switch_icon);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -347,6 +358,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		
 		// Bind
 		Utility.bindOnClick(this, mSetting, "settings");
+		Utility.bindOnClick(this, mAccountSwitch, "drawerSwitch");
+		Utility.bindOnClick(this, mMultiUser, "muser");
 		
 		// Initialize ActionBar Style
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -355,7 +368,12 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		
 		// Drawer Groups
-		getFragmentManager().beginTransaction().add(R.id.drawer_group, new GroupFragment()).commit();
+		getFragmentManager().beginTransaction()
+			.add(R.id.drawer_group, mGroupFragment)
+			.add(R.id.drawer_group, mMultiUserFragment)
+			.show(mGroupFragment)
+			.hide(mMultiUserFragment)
+			.commit();
 		
 		updateSplashes();
 		
@@ -471,8 +489,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if (resultCode == RESULT_OK) {
-			mLoginCache = new LoginApiCache(this);
+		if (requestCode == REQUEST_LOGIN && resultCode == RESULT_OK) {
+			mMultiUserFragment.reload();
 		}
 	}
 
@@ -675,6 +693,32 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		i.setAction(Intent.ACTION_MAIN);
 		i.setClass(this, SettingsActivity.class);
 		startActivity(i);
+	}
+	
+	public void drawerSwitch() {
+		if (!mDrawerState) {
+			mAccountSwitchIcon.setRotation(180);
+			mSetting.setVisibility(View.GONE);
+			mMultiUser.setVisibility(View.VISIBLE);
+			getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+				.hide(mGroupFragment).show(mMultiUserFragment).commit();
+		} else {
+			mAccountSwitchIcon.setRotation(0);
+			mSetting.setVisibility(View.VISIBLE);
+			mMultiUser.setVisibility(View.GONE);
+			getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+				.hide(mMultiUserFragment).show(mGroupFragment).commit();
+		}
+		
+		mDrawerState = !mDrawerState;
+	}
+	
+	public void muser() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_MAIN);
+		i.setClass(this, LoginActivity.class);
+		i.putExtra("multi", true);
+		startActivityForResult(i, REQUEST_LOGIN);
 	}
 
 	/*public void mentions() {
