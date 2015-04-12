@@ -347,12 +347,10 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 		
-		// 梗
-		String[] splashes = getResources().getStringArray(R.array.title_splashes);
-		getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
-		
 		// Drawer Groups
 		getFragmentManager().beginTransaction().add(R.id.drawer_group, new GroupFragment()).commit();
+		
+		updateSplashes();
 		
 		//mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
 
@@ -380,11 +378,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mToolbar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Fragment f = mFragments[mCurrent];
-				
-				if (f instanceof Refresher) {
-					((Refresher) f).goToTop();
-				}
+				updateSplashes();
 			}
 		});
 
@@ -536,6 +530,12 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		} else {
 			mShadow.setAlpha(factor);
 		}
+	}
+	
+	public void updateSplashes() {
+		// 梗
+		String[] splashes = getResources().getStringArray(R.array.title_splashes);
+		getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
 	}
 	
 	// For fragments to pass events
