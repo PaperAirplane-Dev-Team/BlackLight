@@ -299,9 +299,6 @@ public abstract class TimeLineFragment extends Fragment implements
 				if (getActivity() instanceof MainActivity) {
 					mHeaderHeight = ((MainActivity) getActivity()).getHeaderHeight();
 					
-					if (mShadow != null)
-						mShadow.setTranslationY(mHeaderHeight);
-					
 					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
 					lp.height = mHeaderHeight;
 					mAdapter.getHeaderView().setLayoutParams(lp);
