@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.statuses;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,6 +94,10 @@ public class RepostActivity extends NewPostActivity
 
 	@Override
 	public void send() {
-		mText.setText(R.string.repost);
+		if (TextUtils.isEmpty(mText.getText())) {
+			mText.setText(R.string.repost);
+		}
+		
+		super.send();
 	}
 }

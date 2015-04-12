@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -361,13 +361,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	public void send() {
 		try {
-			if (mBitmaps.size() != 0 & !mIsLong){
-				mText.setText(R.string.post_photo);
-			}
+			
 			if (!TextUtils.isEmpty(mText.getText().toString().trim())) {
 				new Uploader().execute();
 			} else {
-				Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
+				if (mBitmaps.size() != 0 & !mIsLong){
+					mText.setText(R.string.post_photo);
+					new Uploader().execute();
+				} else {
+					Toast.makeText(this, R.string.empty_weibo, Toast.LENGTH_SHORT).show();
+				}
 			}
 		} catch (Exception e) {
 					
