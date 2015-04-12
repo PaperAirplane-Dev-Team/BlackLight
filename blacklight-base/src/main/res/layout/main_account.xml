@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -48,17 +48,38 @@
 			android:layout_height="70dp"
 			android:src="@color/gray"/>
 
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="@string/name_fetching"
-			android:textSize="16sp"
-			android:layout_width="match_parent"
-			android:gravity="center_horizontal"
-			android:id="@+id/my_name"
-			android:layout_marginTop="16dp"
-			android:textColor="@color/white"/>
-
 	</LinearLayout>
+	
+	<RelativeLayout
+		android:id="@+id/account_switch"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:clickable="true"
+		android:background="?android:attr/selectableItemBackground">
+		
+		<TextView
+			android:id="@+id/account_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_toLeftOf="@+id/account_switch_icon"
+			android:layout_margin="15dp"
+			android:textColor="@color/white"
+			android:textSize="15sp"
+			android:ellipsize="end"/>
+		
+		<ImageView
+			android:id="@+id/account_switch_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:layout_margin="10dp"
+			android:scaleType="centerInside"
+			android:src="@drawable/abc_spinner_mtrl_am_alpha"/>
+		
+	</RelativeLayout>
 
 </RelativeLayout>
 

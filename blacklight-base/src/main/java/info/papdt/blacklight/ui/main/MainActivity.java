@@ -167,7 +167,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
 		mDrawerWrapper = Utility.findViewById(this, R.id.drawer_wrapper);
-		mName = Utility.findViewById(this, R.id.my_name);
+		mName = Utility.findViewById(this, R.id.account_name);
 		mAvatar = Utility.findViewById(this, R.id.my_avatar);
 		mCover = Utility.findViewById(this, R.id.my_cover);
 		mPager = Utility.findViewById(this, R.id.main_pager);
