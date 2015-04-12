@@ -19,28 +19,35 @@
 
 package info.papdt.blacklight.ui.main;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.friendships.GroupsApi;
 import info.papdt.blacklight.model.GroupListModel;
 import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.adapter.SelectionArrayAdapter;
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
-public class GroupFragment extends Fragment
+public class GroupFragment extends Fragment implements AdapterView.OnItemClickListener
 {
 	private static final String TAG = GroupFragment.class.getSimpleName();
 	
+	private static final String BILATERAL = "bilateral";
+	
 	private ListView mList;
 	private GroupListModel mGroups;
+	private String mCurrentGroup;
+	private SelectionArrayAdapter<String> mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,9 +57,25 @@ public class GroupFragment extends Fragment
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCurrentGroup = Settings.getInstance(activity).getString(Settings.CURRENT_GROUP, null);
+		((MainActivity) activity).setCurrentGroup(mCurrentGroup, false);
 		new FetchTask().execute();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		if (position == 0)
+			mCurrentGroup = null;
+		else if (position == 1)
+			mCurrentGroup = BILATERAL;
+		else
+			mCurrentGroup = mGroups.get(position - 2).idstr;
+		
+		Settings.getInstance(null).putString(Settings.CURRENT_GROUP, mCurrentGroup);
+		mAdapter.setSelection(position);
+		((MainActivity) getActivity()).setCurrentGroup(mCurrentGroup, true);
 	}
 	
 	private class FetchTask extends AsyncTask<Void, Void, Void> {
@@ -85,7 +108,31 @@ public class GroupFragment extends Fragment
 					Log.d(TAG, "Setting adapter");
 				}
 				
-				mList.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.main_drawer_group_item, R.id.group_title, names));
+				mAdapter = new SelectionArrayAdapter<String>(getActivity(), R.layout.main_drawer_group_item, R.id.group_title, R.color.selector_gray, names);
+				mList.setAdapter(mAdapter);
+				mList.setOnItemClickListener(GroupFragment.this);
+				
+				// Search for current
+				int current = 0;
+				
+				if (mCurrentGroup == null) {
+					current = 0;
+				} else if (mCurrentGroup.equals(BILATERAL)) {
+					current = 1;
+				} else {
+					for (int i = 0; i < mGroups.getSize(); i++) {
+						if (mGroups.get(i).idstr.equals(mCurrentGroup)) {
+							current = i + 2;
+							break;
+						}
+					}
+				}
+				
+				if (DEBUG) {
+					Log.d(TAG, "selection = " + current);
+				}
+				
+				mAdapter.setSelection(current);
 			}
 		}
 

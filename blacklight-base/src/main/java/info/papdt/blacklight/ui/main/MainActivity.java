@@ -697,6 +697,13 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 		return true;
 	}*/
+	
+	public void setCurrentGroup(String group, boolean refresh) {
+		mCurrentGroupId = group;
+		
+		if (refresh)
+			((HomeTimeLineFragment) mFragments[0]).doRefresh();
+	}
 
 	@Override
 	public void onClick(View v) {
