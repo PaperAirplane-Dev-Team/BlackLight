@@ -151,16 +151,6 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 	}
 
 	@Override
-	public void onHiddenChanged(boolean hidden) {
-		super.onHiddenChanged(hidden);
-		
-		if (!hidden) {
-			((MainActivity) getActivity()).getToolbar().setTranslationY(0);
-			((MainActivity) getActivity()).getSupportActionBar().setTitle(R.string.direct_message);
-		}
-	}
-	
-	@Override
 	public void onRefresh() {
 		if (!mRefreshing) {
 			new Refresher().execute(true);
