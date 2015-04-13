@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -262,6 +262,16 @@
 			<intent-filter>
 				<category android:name="android.intent.category.DEFAULT" />
 				<action android:name="us.shandian.blacklight.MULTI_PICK" />
+			</intent-filter>
+		</activity>
+		
+		<activity
+			android:name="info.papdt.blacklight.ui.search.SearchActivity"
+			android:label="@string/search"
+			android:theme="@style/BL.Theme.Light.Translucent">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
 		

@@ -77,7 +77,7 @@ import info.papdt.blacklight.ui.common.ToolbarActivity;
 import info.papdt.blacklight.ui.directmessage.DirectMessageUserFragment;
 import info.papdt.blacklight.ui.favorites.FavListFragment;
 import info.papdt.blacklight.ui.login.LoginActivity;
-import info.papdt.blacklight.ui.search.SearchFragment;
+import info.papdt.blacklight.ui.search.SearchActivity;
 import info.papdt.blacklight.ui.settings.SettingsActivity;
 import info.papdt.blacklight.ui.statuses.HomeTimeLineFragment;
 import info.papdt.blacklight.ui.statuses.MentionsTimeLineFragment;
@@ -522,12 +522,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			mGroupCreate.setVisible(false);
 		}
 		
-		if (mCurrent == SEARCH) {
-			mSearch.setVisible(false);
-		} else {
-			mSearch.setVisible(true);
-		}
-
 		return true;
 	}
 	
@@ -638,10 +632,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				.show();
 			return true;
 		} else if (item.getItemId() == R.id.search) {
-			mSearch = item;
-			setShowTitle(false);
-			setShowSpinner(false);
-			//switchTo(SEARCH);
+			Intent i = new Intent(Intent.ACTION_MAIN);
+			i.setClass(this, SearchActivity.class);
+			startActivity(i);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);

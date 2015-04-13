@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -27,7 +27,7 @@ import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
 import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.ui.statuses.TimeLineFragment;
 
-public class SearchStatusFragment extends TimeLineFragment implements SearchFragment.Searcher
+public class SearchStatusFragment extends TimeLineFragment implements SearchActivity.Searcher
 {
 	private String mSearch;
 	

@@ -252,6 +252,16 @@
 			</intent-filter>
 		</activity>
 		
+		<activity
+			android:name="info.papdt.blacklight.ui.search.SearchActivity"
+			android:label="@string/search"
+			android:theme="@style/BL.Theme.Light.Translucent">
+			<intent-filter>
+				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+		
 		<service android:name="info.papdt.blacklight.service.ReminderService" />
 		
 		<receiver android:name="info.papdt.blacklight.receiver.ConnectivityReceiver">
