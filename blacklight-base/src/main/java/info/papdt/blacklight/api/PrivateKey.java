@@ -96,7 +96,7 @@ public class PrivateKey extends BaseApi
 	
 	public static String getOauthLoginPage() {
 		return Constants.OAUTH2_ACCESS_AUTHORIZE + "?" + "client_id=" + sAppId
-				+ "&response_type=code&redirect_uri=" + sRedirectUri
+				+ "&response_type=token&redirect_uri=" + sRedirectUri
 				+ "&key_hash=" + sAppSecret + (TextUtils.isEmpty(sPackageName) ? "" : "&packagename=" + sPackageName)
 				+ "&display=mobile" + "&scope=" + sScope;
 	}
