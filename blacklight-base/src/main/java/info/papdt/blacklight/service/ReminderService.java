@@ -132,7 +132,7 @@ public class ReminderService extends IntentService {
 					count += unread.mention_cmt;
 
 					if (unread.mention_status == 0){
-						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
+						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION_CMT);
 					}
 				}
 

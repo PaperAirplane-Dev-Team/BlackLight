@@ -98,8 +98,13 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	}
 
 	public static final int REQUEST_LOGIN = 2333;
-	public static final int HOME = 0,COMMENT = 1,FAV = 2,DM = 3, MENTION = 4, SEARCH = 5;
-
+	public static final int HOME = 0,
+							COMMENT = 1,
+							MENTION = 2,
+							MENTION_CMT = 3,
+							DM = 4,
+							FAV = 5;
+	
 	private static final String BILATERAL = "bilateral";
 
 	private DrawerLayout mDrawer;
@@ -322,10 +327,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
 				invalidateOptionsMenu();
-
-				if (mCurrent != DM) {
-					showFAB();
-				}
 			}
 		};
 		
@@ -461,14 +462,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 		if (i == null) return;
 
-		int page = getIntent().getIntExtra(Intent.EXTRA_INTENT,HOME);
-		if (page == HOME){
-			//switchTo(HOME);
-		}else{
-			setShowTitle(true);
-			setShowSpinner(false);
-			//switchAndRefresh(page);
-		}
+		int page = getIntent().getIntExtra(Intent.EXTRA_INTENT, 0);
+		mPager.setCurrentItem(page);
 
 		setIntent(null);
 	}
@@ -512,15 +507,10 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	public boolean onPrepareOptionsMenu(Menu menu){
 		super.onPrepareOptionsMenu(menu);
 
-		if (mCurrent == HOME) {
-			mGroupDestroy.setVisible(true);
-			mGroupCreate.setVisible(true);
+		mGroupDestroy.setVisible(true);
+		mGroupCreate.setVisible(true);
 
-			mGroupDestroy.setEnabled(mCurrentGroupId != null);
-		} else {
-			mGroupDestroy.setVisible(false);
-			mGroupCreate.setVisible(false);
-		}
+		mGroupDestroy.setEnabled(mCurrentGroupId != null && !mCurrentGroupId.equals(BILATERAL));
 		
 		return true;
 	}
@@ -645,9 +635,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	public void onBackPressed() {
         if(mDrawer.isDrawerOpen(mDrawerGravity)){
             mDrawer.closeDrawer(mDrawerGravity);
-        }
-		else if (mCurrent != HOME) {
-			//home();
 		} else {
 			super.onBackPressed();
 		}
