@@ -915,6 +915,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		protected void onPostExecute(Void result) {
 			//new GroupsTask().execute();
 			prog.dismiss();
+			mGroupFragment.reload();
 			//onNavigationItemSelected(0, 0);
 		}
 	}
@@ -940,6 +941,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		protected void onPostExecute(Void result) {
 			//new GroupsTask().execute();
 			prog.dismiss();
+			mGroupFragment.reload();
 		}
 	}
 

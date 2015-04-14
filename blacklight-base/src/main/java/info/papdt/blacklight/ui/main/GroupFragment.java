@@ -78,6 +78,10 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 		((MainActivity) getActivity()).setCurrentGroup(mCurrentGroup, true);
 	}
 	
+	void reload() {
+		new FetchTask().execute();
+	}
+	
 	private class FetchTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
