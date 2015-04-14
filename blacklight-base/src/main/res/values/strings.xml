@@ -21,6 +21,15 @@
 
 	<string name="app_name">BlackLight</string>
 	
+	<!-- App Key -->
+	<string name="custom">Custom</string>
+	<string name="custom_des">App ID / Secret are used to authorize into Weibo to get an access token to access data. If no permission is granted to the token, the app will fail to function correctly.</string>
+	<string name="app_id" translatable="false">App ID</string>
+	<string name="app_secret" translatable="false">App Secret</string>
+	<string name="redirect_uri" translatable="false">Redirect Uri</string>
+	<string name="scope" translatable="false">Scope</string>
+	<string name="app_pkg" translatable="false">Package name (Optional, maybe useless)</string>
+	
 	<!-- Login -->
 	<string name="login">Login</string>
 	<string name="tail">Tail</string>

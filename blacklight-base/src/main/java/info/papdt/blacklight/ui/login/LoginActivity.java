@@ -21,14 +21,18 @@ package info.papdt.blacklight.ui.login;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -37,6 +41,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,15 +88,30 @@ public class LoginActivity extends AbsActivity {
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		
 		mWeb.setWebViewClient(new MyWebViewClient());
-		mWeb.loadUrl(PrivateKey.getOauthLoginPage());
+		
+		if (PrivateKey.readFromPref(this)) {
+			mWeb.loadUrl(PrivateKey.getOauthLoginPage());
+		} else {
+			mWeb.loadUrl("about:blank");
+			showAppKeyDialog();
+		}
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.login, menu);
+		return true;
+	}
+	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
 			setResult(RESULT_CANCELED);
 			finish();
+			return true;
+		} else if (item.getItemId() == R.id.custom) {
+			showAppKeyDialog();
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
@@ -124,6 +144,66 @@ public class LoginActivity extends AbsActivity {
 								.setCancelable(true)
 								.create()
 								.show();
+	}
+	
+	private void showAppKeyDialog() {
+		// Inflate dialog layout
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.app_key, null);
+		final EditText tvId = Utility.findViewById(v, R.id.app_id);
+		final EditText tvSecret = Utility.findViewById(v, R.id.app_secret);
+		final EditText tvRedirect = Utility.findViewById(v, R.id.redirect_uri);
+		final EditText tvScope = Utility.findViewById(v, R.id.scope);
+		final EditText tvPkg = Utility.findViewById(v, R.id.app_pkg);
+		
+		// Initialize values
+		String[] val = PrivateKey.getAll();
+		tvId.setText(val[0]);
+		tvSecret.setText(val[1]);
+		tvRedirect.setText(val[2]);
+		tvPkg.setText(val[3]);
+		tvScope.setText(val[4]);
+		
+		// Build the dialog
+		final AlertDialog dialog = new AlertDialog.Builder(this)
+				.setTitle(R.string.custom)
+				.setView(v)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface p1, int p2) {
+						
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface p1, int p2) {
+						
+					}
+				})
+				.create();
+		
+		dialog.show();
+		
+		dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String id = tvId.getText().toString().trim();
+				String sec = tvSecret.getText().toString().trim();
+				String uri = tvRedirect.getText().toString().trim();
+				String scope = tvScope.getText().toString().trim();
+				String pkg = tvPkg.getText().toString().trim();
+				
+				if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(sec) 
+					&& !TextUtils.isEmpty(uri) && !TextUtils.isEmpty(scope)) {
+					
+					PrivateKey.setPrivateKey(id, sec, uri, pkg, scope);
+					PrivateKey.writeToPref(LoginActivity.this);
+					dialog.dismiss();
+					mWeb.loadUrl(PrivateKey.getOauthLoginPage());
+				
+				}
+			}
+		});
 	}
 	
 	private class MyWebViewClient extends WebViewClient {
