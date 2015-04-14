@@ -361,6 +361,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		Utility.bindOnClick(this, mSetting, "settings");
 		Utility.bindOnClick(this, mAccountSwitch, "drawerSwitch");
 		Utility.bindOnClick(this, mMultiUser, "muser");
+		Utility.bindOnClick(this, mCover, "showMe");
 		
 		// Initialize ActionBar Style
 		getSupportActionBar().setHomeButtonEnabled(true);
