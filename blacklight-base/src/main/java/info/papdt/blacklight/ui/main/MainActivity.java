@@ -41,6 +41,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -677,14 +679,14 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	}
 	
 	public void drawerSwitch() {
+		mAccountSwitchIcon.startAnimation(AnimationUtils.loadAnimation(this, !mDrawerState ? R.anim.rotate_180 : R.anim.rotate_180_reverse));
+		
 		if (!mDrawerState) {
-			mAccountSwitchIcon.setRotation(180);
 			mSetting.setVisibility(View.GONE);
 			mMultiUser.setVisibility(View.VISIBLE);
 			getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
 				.hide(mGroupFragment).show(mMultiUserFragment).commit();
 		} else {
-			mAccountSwitchIcon.setRotation(0);
 			mSetting.setVisibility(View.VISIBLE);
 			mMultiUser.setVisibility(View.GONE);
 			getFragmentManager().beginTransaction().setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
