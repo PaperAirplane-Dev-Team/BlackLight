@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.davemorrissey.labs.subscaleview.ImageSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -256,7 +257,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 					// If returned a String, it means that the image is a Bitmap
 					// So we can use the included SubsamplingScaleImageView
 					final SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
-					iv.setImageFile(img);
+					iv.setImage(ImageSource.uri(img));
 					iv.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {

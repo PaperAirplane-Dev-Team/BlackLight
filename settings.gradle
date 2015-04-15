@@ -1,1 +1,1 @@
-include ':app', ':app-snapshot', ':blacklight-base', ':libraries:SlidingUpPanel', ':libraries:subsampling-image-view'
+include ':app', ':app-snapshot', ':blacklight-base', ':libraries:SlidingUpPanel'
