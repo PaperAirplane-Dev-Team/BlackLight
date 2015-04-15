@@ -77,7 +77,7 @@
 			android:layout_alignParentRight="true"
 			android:layout_margin="10dp"
 			android:scaleType="centerInside"
-			android:src="@drawable/abc_spinner_mtrl_am_alpha"/>
+			android:src="@drawable/ic_arrow_drop_down_white_24dp"/>
 		
 	</RelativeLayout>
 
