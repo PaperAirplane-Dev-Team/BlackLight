@@ -201,12 +201,12 @@ public abstract class TimeLineFragment extends Fragment implements
 					
 					((MainActivity) getActivity()).updateHeaderTranslation(mHeaderFactor);
 
-					/*if (mAllowHidingActionBar) {
+					if (mAllowHidingActionBar) {
 						
 						
-						updateTranslation();
+						//updateTranslation();
 						updateMargins(deltaY);
-					}*/
+					}
 
 					mFABShowing = shouldShow;
 					mLastY = dy;
@@ -408,16 +408,16 @@ public abstract class TimeLineFragment extends Fragment implements
 		mSwipeRefresh.invalidate();
 	}*/
 	
-	/*protected void updateMargins(int deltaY) {
+	protected void updateMargins(int deltaY) {
 		// Adjust layout position of scroller to match ActionBar
-		if (mFastScrollEnabled && (getActivity() instanceof MainActivity)) {
+		if (mFastScrollEnabled && (getActivity() instanceof MainActivity) && mManager.findFirstVisibleItemPosition() == 0) {
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mScroller.getLayoutParams();
 			params.topMargin += deltaY;
 			
 			if (params.topMargin < mInitialTopMargin) {
 				params.topMargin = mInitialTopMargin;
-			} else if (params.topMargin > mInitialTopMargin + mActionBarHeight) {
-				params.topMargin = mInitialTopMargin + mActionBarHeight;
+			} else if (params.topMargin > mInitialTopMargin + mHeaderHeight) {
+				params.topMargin = mInitialTopMargin + mHeaderHeight;
 			}
 			
 			mScroller.setLayoutParams(params);
@@ -427,13 +427,13 @@ public abstract class TimeLineFragment extends Fragment implements
 			
 			if (params.topMargin < mInitialTopMargin) {
 				params.topMargin = mInitialTopMargin;
-			} else if (params.topMargin > mInitialTopMargin + mActionBarHeight) {
-				params.topMargin = mInitialTopMargin + mActionBarHeight;
+			} else if (params.topMargin > mInitialTopMargin + mHeaderHeight) {
+				params.topMargin = mInitialTopMargin + mHeaderHeight;
 			}
 			
 			mOrbit.setLayoutParams(params);
 		}
-	}*/
+	}
 
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new HomeTimeLineApiCache(getActivity());
