@@ -27,7 +27,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -164,6 +167,39 @@ public class LoginActivity extends AbsActivity {
 		tvPkg.setText(val[3]);
 		tvScope.setText(val[4]);
 		
+		// Text listener
+		TextWatcher watcher = new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
+				
+			}
+
+			@Override
+			public void afterTextChanged(Editable text) {
+				if(isLoginData(text.toString())) {
+					String[] data = decodeLoginData(text.toString());
+					
+					if (data == null || data.length < 5) return;
+					
+					tvId.setText(data[0].trim());
+					tvSecret.setText(data[1].trim());
+					tvRedirect.setText(data[2].trim());
+					tvScope.setText(data[3].trim());
+					tvPkg.setText(data[4].trim());
+				}
+			}
+		};
+		tvId.addTextChangedListener(watcher);
+		tvSecret.addTextChangedListener(watcher);
+		tvRedirect.addTextChangedListener(watcher);
+		tvScope.addTextChangedListener(watcher);
+		tvPkg.addTextChangedListener(watcher);
+		
 		// Build the dialog
 		final AlertDialog dialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.custom)
@@ -178,6 +214,12 @@ public class LoginActivity extends AbsActivity {
 					@Override
 					public void onClick(DialogInterface p1, int p2) {
 						
+					}
+				})
+				.setNeutralButton(R.string.app_copy, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface p1, int p2) {
+
 					}
 				})
 				.create();
@@ -204,6 +246,46 @@ public class LoginActivity extends AbsActivity {
 				}
 			}
 		});
+		
+		dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Utility.copyToClipboard(LoginActivity.this, encodeLoginData(
+					tvId.getText().toString(), tvSecret.getText().toString(),
+					tvRedirect.getText().toString(), tvScope.getText().toString(), 
+					tvPkg.getText().toString()));
+			}
+		});
+	}
+	
+	private static final String SEPERATOR = "::";
+	private static final String START = "SS",
+								END = "EE";
+	private String encodeLoginData(String id, String secret, String uri, String scope, String pkg) {
+		return START + Base64.encodeToString(
+			(id + SEPERATOR + secret + SEPERATOR + uri + SEPERATOR + 
+			scope + SEPERATOR + pkg + SEPERATOR + END).getBytes(), Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING | Base64.NO_CLOSE) + END;
+	}
+	
+	private String[] decodeLoginData(String str) {
+		if (!isLoginData(str))
+			return null;
+		
+		String data = str.substring(START.length(), str.length() - END.length() - 1);
+		
+		if (DEBUG) {
+			Log.d(TAG, data);
+		}
+		
+		try {
+			return new String(Base64.decode(data, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING | Base64.NO_CLOSE)).split(SEPERATOR);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	private boolean isLoginData(String str) {
+		return str.startsWith(START) && str.length() > START.length() + END.length() && str.endsWith(END);
 	}
 	
 	private class MyWebViewClient extends WebViewClient {

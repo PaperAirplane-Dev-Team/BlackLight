@@ -29,6 +29,7 @@
 	<string name="redirect_uri" translatable="false">Redirect Uri</string>
 	<string name="scope" translatable="false">Scope</string>
 	<string name="app_pkg" translatable="false">Package name (Optional, maybe useless)</string>
+	<string name="app_copy">Copy</string>
 	
 	<!-- Login -->
 	<string name="login">Login</string>
