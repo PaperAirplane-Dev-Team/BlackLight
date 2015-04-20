@@ -20,12 +20,13 @@
 package info.papdt.blacklight.ui.search;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 import info.papdt.blacklight.R;
@@ -42,7 +43,6 @@ public class SearchActivity extends AbsActivity
 	
 	private ViewPager mPager;
 	private SlidingTabLayout mTab;
-	private SearchView mSearch;
 	
 	private Fragment[] mFragments = new Fragment[]{
 		new SearchStatusFragment(),
@@ -96,27 +96,24 @@ public class SearchActivity extends AbsActivity
 		
 		mTab.notifyIndicatorColorChanged();
 		
-		getSupportActionBar().setCustomView(R.layout.search_box);
-		getSupportActionBar().setDisplayShowCustomEnabled(true);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		
-		mSearch = (SearchView) getSupportActionBar().getCustomView();
-		mSearch.setIconified(false);
-		mSearch.setIconifiedByDefault(false);
-		mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+		mPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
-			public boolean onQueryTextSubmit(String text) {
-				for (Fragment f : mFragments) {
-					if (f instanceof Searcher) {
-						((Searcher) f).search(mSearch.getQuery().toString());
+			public void onGlobalLayout() {
+				Intent i = getIntent();
+				final String keyword = i.getStringExtra("keyword");
+				
+				mPager.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						for (Fragment f : mFragments) {
+							if (f instanceof Searcher) {
+								((Searcher) f).search(keyword);
+							}
+						}
 					}
-				}
-				return true;
-			}
-
-			@Override
-			public boolean onQueryTextChange(String p1) {
-				return false;
+				}, 500);
+				
+				mPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
 		});
 	}

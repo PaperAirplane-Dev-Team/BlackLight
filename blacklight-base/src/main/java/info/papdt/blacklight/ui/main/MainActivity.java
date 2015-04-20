@@ -57,6 +57,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
+import com.quinny898.library.persistentsearch.SearchBox;
+
 import java.util.Random;
 
 import info.papdt.blacklight.R;
@@ -113,6 +115,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
 	private ContextThemeWrapper mToolbarContext;
+	private SearchBox mSearchBox;
 
 	// Drawer content
 	private View mDrawerWrapper;
@@ -199,6 +202,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mMultiUser = Utility.findViewById(this, R.id.drawer_multiuser);
 		mAccountSwitch = Utility.findViewById(this, R.id.account_switch);
 		mAccountSwitchIcon = Utility.findViewById(this, R.id.account_switch_icon);
+		mSearchBox = Utility.findViewById(this, R.id.main_search);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -220,6 +224,38 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		});
 		mPager.setOffscreenPageLimit(pages.length);
 		mTabs.setViewPager(mPager);
+		
+		// Search Box
+		mSearchBox.setLogoText(getString(R.string.search));
+		mSearchBox.setSearchListener(new SearchBox.SearchListener() {
+			@Override
+			public void onSearchOpened() {
+				
+			}
+
+			@Override
+			public void onSearchCleared() {
+				
+			}
+
+			@Override
+			public void onSearchClosed() {
+				mSearchBox.hideCircularly(MainActivity.this);
+			}
+
+			@Override
+			public void onSearchTermChanged() {
+				
+			}
+
+			@Override
+			public void onSearch(String result) {
+				Intent i = new Intent(Intent.ACTION_MAIN);
+				i.setClass(MainActivity.this, SearchActivity.class);
+				i.putExtra("keyword", result);
+				startActivity(i);
+			}	
+		});
 		
 		// Initialize toolbar custom view
 		mTopWrapper.setAlpha(0f);
@@ -518,6 +554,14 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		return true;
 	}
 	
+	// Can't be more annoying. WHY DOES SEARCHBOX NEED ANOTHER METHOD?
+	// WHY NOT A LISTENER??? WHY!!!???
+	public void mic(View view) {
+		// Is causing crashes. Abandon it.
+		//mSearchBox.micClick(this);
+		mSearchBox.setSearchString("");
+	}
+	
 	public void updateHeaderTranslation(float factor) {
 		mTopWrapper.setAlpha(factor);
 		mToolbar.setAlpha(1 - factor);
@@ -625,9 +669,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				.show();
 			return true;
 		} else if (item.getItemId() == R.id.search) {
-			Intent i = new Intent(Intent.ACTION_MAIN);
-			i.setClass(this, SearchActivity.class);
-			startActivity(i);
+			mSearchBox.setSearchString("");
+			mSearchBox.revealFromMenuItem(R.id.search, this);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);

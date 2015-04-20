@@ -30,4 +30,5 @@ dependencies {
 	compile 'com.larswerkman:HoloColorPicker:1.5'
 	compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.+'
 	compile project(':libraries:SlidingUpPanel')
+	compile project(':libraries:PersistentSearch')
 }

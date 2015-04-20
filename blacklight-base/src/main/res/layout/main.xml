@@ -73,6 +73,13 @@
 			android:background="@drawable/action_shadow"
 			android:layout_below="@+id/toolbar_wrapper"/>
 		
+		<com.quinny898.library.persistentsearch.SearchBox
+			android:id="@+id/main_search"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:visibility="gone"/>
+		
 	</RelativeLayout>
 
 	<info.papdt.blacklight.ui.common.ScrimInsetsFrameLayout
