@@ -73,6 +73,13 @@
 			android:background="@drawable/action_shadow"
 			android:layout_below="@+id/toolbar_wrapper"/>
 		
+		<View
+			android:id="@+id/main_dim"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@color/gray"
+			android:visibility="gone"/>
+		
 		<com.quinny898.library.persistentsearch.SearchBox
 			android:id="@+id/main_search"
 			android:layout_width="match_parent"

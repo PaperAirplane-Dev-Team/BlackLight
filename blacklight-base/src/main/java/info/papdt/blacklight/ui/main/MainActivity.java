@@ -43,6 +43,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -120,6 +121,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private ContextThemeWrapper mToolbarContext;
 	private SearchBox mSearchBox;
 	private SearchHistoryCache mSearchHistory;
+	private View mDim;
 
 	// Drawer content
 	private View mDrawerWrapper;
@@ -207,6 +209,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mAccountSwitch = Utility.findViewById(this, R.id.account_switch);
 		mAccountSwitchIcon = Utility.findViewById(this, R.id.account_switch_icon);
 		mSearchBox = Utility.findViewById(this, R.id.main_search);
+		mDim = Utility.findViewById(this, R.id.main_dim);
 		
 		final String[] pages = getResources().getStringArray(R.array.main_tabs);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -235,7 +238,22 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mSearchBox.setSearchListener(new SearchBox.SearchListener() {
 			@Override
 			public void onSearchOpened() {
+				mDim.setVisibility(View.VISIBLE);
 				
+				// Animate
+				mDim.clearAnimation();
+				AlphaAnimation anim = new AlphaAnimation(0f, 0.5f);
+				anim.setDuration(500);
+				anim.setFillAfter(true);
+				mDim.startAnimation(anim);
+				
+				mDim.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						mDim.clearAnimation();
+						mDim.setAlpha(0.5f);
+					}
+				}, 500);
 			}
 
 			@Override
@@ -246,6 +264,21 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			@Override
 			public void onSearchClosed() {
 				mSearchBox.hideCircularly(MainActivity.this);
+				
+				// Animate
+				mDim.clearAnimation();
+				AlphaAnimation anim = new AlphaAnimation(0.5f, 0f);
+				anim.setDuration(500);
+				anim.setFillAfter(true);
+				mDim.startAnimation(anim);
+				
+				mDim.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						mDim.clearAnimation();
+						mDim.setVisibility(View.GONE);
+					}
+				}, 500);
 			}
 
 			@Override
