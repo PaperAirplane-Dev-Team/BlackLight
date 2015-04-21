@@ -30,6 +30,7 @@ import info.papdt.blacklight.cache.database.tables.FavListTable;
 import info.papdt.blacklight.cache.database.tables.HomeTimeLineTable;
 import info.papdt.blacklight.cache.database.tables.MentionsTimeLineTable;
 import info.papdt.blacklight.cache.database.tables.RepostTimeLineTable;
+import info.papdt.blacklight.cache.database.tables.SearchHistoryTable;
 import info.papdt.blacklight.cache.database.tables.StatusCommentTable;
 import info.papdt.blacklight.cache.database.tables.UserTimeLineTable;
 import info.papdt.blacklight.cache.database.tables.UsersTable;
@@ -37,7 +38,7 @@ import info.papdt.blacklight.cache.database.tables.UsersTable;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
 	private static String DB_NAME = "weibo_data";
-	private static int DB_VER = 14;
+	private static int DB_VER = 15;
 	
 	private static DataBaseHelper instance;
 	
@@ -57,12 +58,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		db.execSQL(RepostTimeLineTable.CREATE);
 		db.execSQL(FavListTable.CREATE);
 		db.execSQL(DirectMessageUserTable.CREATE);
+		db.execSQL(SearchHistoryTable.CREATE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int from, int to) {
 		if (from == 13) {
 			db.execSQL(DirectMessageUserTable.CREATE);
+		} else if (from == 14) {
+			db.execSQL(SearchHistoryTable.CREATE);
 		}
 	}
 	

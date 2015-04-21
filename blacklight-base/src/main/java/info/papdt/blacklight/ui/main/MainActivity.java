@@ -58,12 +58,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
 import com.quinny898.library.persistentsearch.SearchBox;
+import com.quinny898.library.persistentsearch.SearchResult;
 
+import java.util.List;
 import java.util.Random;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.friendships.GroupsApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
+import info.papdt.blacklight.cache.search.SearchHistoryCache;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.GroupListModel;
 import info.papdt.blacklight.model.UserModel;
@@ -116,6 +119,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private ActionBarDrawerToggle mToggle;
 	private ContextThemeWrapper mToolbarContext;
 	private SearchBox mSearchBox;
+	private SearchHistoryCache mSearchHistory;
 
 	// Drawer content
 	private View mDrawerWrapper;
@@ -226,6 +230,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mTabs.setViewPager(mPager);
 		
 		// Search Box
+		mSearchHistory = new SearchHistoryCache(this);
 		mSearchBox.setLogoText(getString(R.string.search));
 		mSearchBox.setSearchListener(new SearchBox.SearchListener() {
 			@Override
@@ -250,6 +255,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 			@Override
 			public void onSearch(String result) {
+				mSearchHistory.addHistory(result);
 				Intent i = new Intent(Intent.ACTION_MAIN);
 				i.setClass(MainActivity.this, SearchActivity.class);
 				i.putExtra("keyword", result);
@@ -669,6 +675,11 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				.show();
 			return true;
 		} else if (item.getItemId() == R.id.search) {
+			mSearchBox.clearSearchable();
+			List<String> history = mSearchHistory.getHistory();
+			for (String keyword : history) {
+				mSearchBox.addSearchable(new SearchResult(keyword, getResources().getDrawable(R.drawable.ic_history)));
+			}
 			mSearchBox.setSearchString("");
 			mSearchBox.revealFromMenuItem(R.id.search, this);
 			return true;
