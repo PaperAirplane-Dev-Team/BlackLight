@@ -44,7 +44,7 @@ public class SelectionArrayAdapter<T> extends ArrayAdapter<T>
 		if (position == mSelection) {
 			v.setBackgroundResource(mSelectorRes);
 		} else {
-			v.setBackground(null);
+			v.setBackgroundDrawable(null);
 		}
 		
 		return v;
