@@ -201,7 +201,7 @@ public abstract class TimeLineFragment extends Fragment implements
 					
 					((MainActivity) getActivity()).updateHeaderTranslation(mHeaderFactor);
 
-					if (mAllowHidingActionBar) {
+					if (getActivity() instanceof MainActivity) {
 						
 						
 						//updateTranslation();
