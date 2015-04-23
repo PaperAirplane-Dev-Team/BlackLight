@@ -631,6 +631,14 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		// 梗
 		String[] splashes = getResources().getStringArray(R.array.title_splashes);
 		getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
+		
+		// 梗 in search box
+		if (Math.random() > 0.6) { // Make this a matter of possibility
+			splashes = getResources().getStringArray(R.array.splashes);
+			mSearchBox.setLogoText(splashes[new Random().nextInt(splashes.length)]);
+		} else {
+			mSearchBox.setLogoText("");
+		}
 	}
 	
 	// For fragments to pass events
@@ -713,7 +721,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 			for (String keyword : history) {
 				mSearchBox.addSearchable(new SearchResult(keyword, getResources().getDrawable(R.drawable.ic_history)));
 			}
-			mSearchBox.setSearchString("");
+			updateSplashes();
 			mSearchBox.revealFromMenuItem(R.id.search, this);
 			return true;
 		} else {
