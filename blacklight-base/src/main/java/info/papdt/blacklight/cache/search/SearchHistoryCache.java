@@ -44,9 +44,12 @@ public class SearchHistoryCache
 		
 		cursor.moveToFirst();
 		List<String> list = new ArrayList<String>();
-		do {
-			list.add(cursor.getString(cursor.getColumnIndex(SearchHistoryTable.KEYWORD)));
-		} while (cursor.moveToNext());
+		
+		if (cursor.getCount() > 0) {
+			do {
+				list.add(cursor.getString(cursor.getColumnIndex(SearchHistoryTable.KEYWORD)));
+			} while (cursor.moveToNext());
+		}
 		
 		cursor.close();
 		
