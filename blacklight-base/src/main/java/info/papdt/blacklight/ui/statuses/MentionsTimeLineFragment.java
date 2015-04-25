@@ -31,10 +31,6 @@ public class MentionsTimeLineFragment extends TimeLineFragment
 
 	public boolean mDoRefresh = false;
 
-	public MentionsTimeLineFragment() {
-		mAllowHidingActionBar = false;
-	}
-
 	@Override
 	protected void bindSwipeToRefresh(ViewGroup vg) {
 		super.bindSwipeToRefresh(vg);

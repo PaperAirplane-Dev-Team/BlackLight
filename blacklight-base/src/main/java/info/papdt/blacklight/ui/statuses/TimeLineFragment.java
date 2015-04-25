@@ -75,7 +75,6 @@ public abstract class TimeLineFragment extends Fragment implements
 
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
-	protected boolean mAllowHidingActionBar = true;
 	protected boolean mFastScrollEnabled = false;
 	private boolean mFABShowing = true;
 
@@ -273,8 +272,6 @@ public abstract class TimeLineFragment extends Fragment implements
 						newTop = mOrbit.getBottom() - mScroller.getHeight();
 					}
 					
-					int first = mManager.findFirstVisibleItemPosition();
-					int visible = mManager.findLastVisibleItemPosition() - first;
 					int total = mAdapter.getCount();
 					int header = mAdapter.hasHeaderView() ? 0 : 1;
 					

@@ -31,10 +31,6 @@ public class SearchStatusFragment extends TimeLineFragment implements SearchActi
 {
 	private String mSearch;
 	
-	public SearchStatusFragment() {
-		mAllowHidingActionBar = false;
-	}
-	
 	@Override
 	public void search(String q) {
 		mSearch = q;
