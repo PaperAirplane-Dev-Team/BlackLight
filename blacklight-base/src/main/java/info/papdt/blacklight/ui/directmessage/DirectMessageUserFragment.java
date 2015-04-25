@@ -76,7 +76,7 @@ public class DirectMessageUserFragment extends Fragment implements SwipeRefreshL
 		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
 
 		mApiCache = new DirectMessagesUserApiCache(getActivity());
-		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers);
+		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache. mUsers, mList);
 
 		// Content Margin
 		if (getActivity() instanceof MainActivity) {

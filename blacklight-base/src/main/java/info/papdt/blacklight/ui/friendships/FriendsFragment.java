@@ -86,7 +86,7 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 		// Init
 		mUsers = new UserListModel();
 		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
-		mAdapter = new UserAdapter(getActivity(), mUsers);
+		mAdapter = new UserAdapter(getActivity(), mUsers, mList);
 
 		// Content Margin
 		if (getActivity() instanceof MainActivity && mNeedHeader) {

@@ -66,11 +66,6 @@ public class UserTimeLineFragment extends TimeLineFragment
 		return new UserTimeLineApiCache(getActivity(), mUid);
 	}
 
-	@Override
-	protected void initTitle() {
-		// Don't change my title
-	}
-
 	public RecyclerView getList() {
 		return mList;
 	}

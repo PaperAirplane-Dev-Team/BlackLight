@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -47,11 +47,6 @@ public class RepostTimeLineFragment extends TimeLineFragment
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
 		return new RepostTimeLineApiCache(getActivity(), mId);
-	}
-
-	@Override
-	protected void initTitle() {
-		
 	}
 	
 	@Override

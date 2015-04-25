@@ -29,6 +29,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.support.v7.widget.RecyclerView;
+
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.DirectMessageUserListModel;
@@ -47,7 +49,8 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 	private UserApiCache mUserApi;
 	private Context mContext;
 	
-	public DirectMessageUserAdapter(Context context, DirectMessageUserListModel list) {
+	public DirectMessageUserAdapter(Context context, DirectMessageUserListModel list, RecyclerView recycler) {
+		super(recycler);
 		mList = list;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);

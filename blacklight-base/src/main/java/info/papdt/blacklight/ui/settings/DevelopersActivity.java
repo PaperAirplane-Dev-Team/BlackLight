@@ -85,7 +85,7 @@ public class DevelopersActivity extends AbsActivity
 		
 		@Override
 		protected void onPostExecute(Boolean result) {
-			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers);
+			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers, mDevelopers);
 			mDevelopers.setAdapter(mAdapterOfDevelopers);
 		}
 		

@@ -30,6 +30,11 @@ import android.support.v7.widget.RecyclerView.Adapter;
  */
 public abstract class HeaderViewAdapter<VH extends HeaderViewAdapter.ViewHolder> extends Adapter<VH> {
 	private View mHeader = null;
+	private RecyclerView mRecyclerView;
+	
+	public HeaderViewAdapter(RecyclerView v) {
+		mRecyclerView = v;
+	}
 
 	public void setHeaderView(View header) {
 		mHeader = header;
@@ -42,6 +47,14 @@ public abstract class HeaderViewAdapter<VH extends HeaderViewAdapter.ViewHolder>
 	
 	public boolean hasHeaderView() {
 		return mHeader != null;
+	}
+	
+	public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
+		mRecyclerView.setOnScrollListener(listener);
+	}
+	
+	public void notifyDataSetChangedAndClone() {
+		notifyDataSetChanged();
 	}
 
 	@Override

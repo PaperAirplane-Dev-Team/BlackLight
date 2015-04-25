@@ -29,6 +29,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.support.v7.widget.RecyclerView;
+
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserListModel;
@@ -44,7 +46,8 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
 	
-	public UserAdapter(Context context, UserListModel users) {
+	public UserAdapter(Context context, UserListModel users, RecyclerView recycler) {
+		super(recycler);
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mUserApi = new UserApiCache(context);
 		mUsers = users;
