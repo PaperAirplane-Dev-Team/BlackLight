@@ -118,14 +118,12 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	private DrawerLayout mDrawer;
 	private int mDrawerGravity;
 	private ActionBarDrawerToggle mToggle;
-	private ContextThemeWrapper mToolbarContext;
 	private SearchBox mSearchBox;
 	private SearchHistoryCache mSearchHistory;
 	private View mDim;
 
 	// Drawer content
 	private View mDrawerWrapper;
-	private ScrollView mDrawerScroll;
 	private TextView mName;
 	private View mAccountSwitch, mAccountSwitchIcon;
 	private ImageView mAvatar;
@@ -147,7 +145,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	};
 	private GroupFragment mGroupFragment = new GroupFragment();
 	private MultiUserFragment mMultiUserFragment = new MultiUserFragment();
-	private FragmentManager mManager;
 	
 	// Actions
 	private View mSetting, mMultiUser;
@@ -187,10 +184,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 		super.onCreate(savedInstanceState);
 
-		// Add custom view
-		mToolbarContext = new ContextThemeWrapper(this, R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
-		LayoutInflater customInflater = (LayoutInflater) mToolbarContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
 		// Initialize views
 		mDrawer = Utility.findViewById(this, R.id.drawer);
 		mDrawerWrapper = Utility.findViewById(this, R.id.drawer_wrapper);
@@ -456,28 +449,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		
 		updateSplashes();
 		
-		//mTitle = Utility.addActionViewToCustom(this, Utility.action_bar_title, mAction);
-
-		//getActionBar().setDisplayShowTitleEnabled(false);
-
 		// Ignore first spinner event
 		mIgnore = true;
-
-		// Fragments
-		/*mFragments[HOME] = new HomeTimeLineFragment();
-		mFragments[COMMENT] = new CommentTimeLineFragment();
-		mFragments[FAV] = new FavListFragment();
-		mFragments[DM] = new DirectMessageUserFragment();
-		mFragments[MENTION] = new MentionsFragment();
-		mFragments[SEARCH] = new SearchFragment();*/
-		/*mManager = getFragmentManager();
-		
-		FragmentTransaction ft = mManager.beginTransaction();
-		for (Fragment f : mFragments) {
-			ft.add(R.id.container, f);
-			ft.hide(f);
-		}
-		ft.commit();*/
 		
 		mToolbar.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -742,30 +715,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		return mHeaderHeight;
 	}
 
-	/*public void home() {
-		setShowTitle(false);
-		setShowSpinner(true);
-		switchTo(HOME);
-	}
-
-	public void comments() {
-		switchTo(COMMENT);
-		setShowTitle(true);
-		setShowSpinner(false);
-	}
-
-	public void dm() {
-		switchTo(DM);
-		setShowTitle(true);
-		setShowSpinner(false);
-	}
-
-	public void fav() {
-		switchTo(FAV);
-		setShowTitle(true);
-		setShowSpinner(false);
-	}*/
-
 	public void settings() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -798,34 +747,6 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		i.putExtra("multi", true);
 		startActivityForResult(i, REQUEST_LOGIN);
 	}
-
-	/*public void mentions() {
-		switchTo(MENTION);
-		setShowTitle(true);
-		setShowSpinner(false);
-	}
-
-	@Override
-	public boolean onNavigationItemSelected(int id, long itemId) {
-		if (mIgnore) {
-			mIgnore = false;
-			return false;
-		}
-
-		if (id == 0) {
-			mCurrentGroupId = null;
-		} else if (id == 1){
-			mCurrentGroupId = BILATERAL;
-		} else {
-			mCurrentGroupId = mGroups.get(id - 2).idstr;
-		}
-
-		Settings.getInstance(this).putString(Settings.CURRENT_GROUP, mCurrentGroupId);
-		
-		((HomeTimeLineFragment) mFragments[0]).doRefresh();
-
-		return true;
-	}*/
 	
 	public void setCurrentGroup(String group, boolean refresh) {
 		mCurrentGroupId = group;
@@ -861,76 +782,9 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mFAB.showFloatingActionButton();
 	}
 
-	/*private void switchAndRefresh(int id){
-		if (id != 0){
-			SwipeRefreshLayout.OnRefreshListener l = (SwipeRefreshLayout.OnRefreshListener)mFragments[id];
-			l.onRefresh();
-		}
-		switchTo(id);
-	}*/
-
-	private void setShowTitle(boolean show) {
-		getSupportActionBar().setDisplayShowTitleEnabled(show);
-	}
-
 	public void setShowSpinner(boolean show) {
 		getSupportActionBar().setNavigationMode(show ? ActionBar.NAVIGATION_MODE_LIST : ActionBar.NAVIGATION_MODE_STANDARD);
 	}
-	
-	/*private void switchTo(int id) {
-		
-		if (mSearch != null) {
-			mSearch.setVisible(id != SEARCH);
-		}
-		
-		FragmentTransaction ft = mManager.beginTransaction();
-		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
-		
-		for (int i = 0; i < mFragments.length; i++) {
-			Fragment f = mFragments[i];
-			
-			if (f != null) {
-				if (i != id) {
-					ft.hide(f);
-				} else {
-					ft.show(f);
-				}
-			}
-		}
-		
-		ft.commit();
-
-		mCurrent = id;
-		int mNext = id;
-
-		mDrawer.closeDrawer(mDrawerGravity);
-	}*/
-
-	/*private void updateActionSpinner() {
-		// Current Group
-		mCurrentGroupId = Settings.getInstance(MainActivity.this).getString(Settings.CURRENT_GROUP, null);
-		LogF.d(this.getLocalClassName(), "current group id:%s",mCurrentGroupId);
-		int curId = 0;
-
-		if (mCurrentGroupId != null) {
-			if (mCurrentGroupId.equals(BILATERAL)){
-				curId = 1;
-			} else {
-				for (int i = 0; i < mGroups.getSize(); i++) {
-					if (mGroups.get(i).idstr.equals(mCurrentGroupId)) {
-						curId = i + 2;
-					}
-				}
-			}
-		}
-
-		if (curId == 0) {
-			mCurrentGroupId = null;
-		}
-
-		getSupportActionBar().setSelectedNavigationItem(curId);
-
-	}*/
 	
 	private class InitializerTask extends AsyncTask<Void, Object, Void> {
 
@@ -1037,52 +891,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 		@Override
 		protected void onPostExecute(Void result) {
-			//new GroupsTask().execute();
 			prog.dismiss();
 			mGroupFragment.reload();
 		}
 	}
-
-	/*private class GroupsTask extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected Void doInBackground(Void... params) {
-			mGroups = GroupsApi.getGroups();
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-
-			if (mGroups != null && mGroups.getSize() > 0) {
-				// Get the name list
-				String[] names = new String[mGroups.getSize() + 2];
-
-				names[0] = getResources().getString(R.string.group_all);
-				names[1] = getString(R.string.group_bilateral);
-				for (int i = 0; i < mGroups.getSize(); i++) {
-					names[i + 2] = mGroups.get(i).name;
-				}
-
-				// Navigation
-				getSupportActionBar().setListNavigationCallbacks(new ArrayAdapter<String>(mToolbarContext, 
-							R.layout.action_spinner_item, names), MainActivity.this);
-
-				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
-				if (mCurrent == 0) {
-					mIgnore = true;
-					setShowTitle(false);
-				}
-
-				updateActionSpinner();
-				
-				if (mCurrent != 0) {
-					Log.d("Spinner", "Will now hide the spinner");
-					setShowSpinner(false);
-				}
-			}
-		}
-
-	}*/
 }
