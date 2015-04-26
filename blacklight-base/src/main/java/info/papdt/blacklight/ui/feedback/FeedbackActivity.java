@@ -62,7 +62,7 @@ public class FeedbackActivity extends AbsActivity {
 			new SubmitFeedback().execute(mTitle.getText().toString(), mContent.getText().toString());
 			return true;
 		} else {
-			return false;
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
