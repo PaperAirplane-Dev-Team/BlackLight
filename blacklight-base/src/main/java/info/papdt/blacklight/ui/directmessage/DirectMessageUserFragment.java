@@ -41,194 +41,54 @@ import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.DirectMessageUserAdapter;
 import info.papdt.blacklight.ui.common.TouchPassView;
 import info.papdt.blacklight.ui.main.MainActivity;
+import info.papdt.blacklight.ui.statuses.AbsTimeLineFragment;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class DirectMessageUserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainActivity.HeaderProvider {
+public class DirectMessageUserFragment extends AbsTimeLineFragment<DirectMessageUserAdapter>
+{
 	private DirectMessagesUserApiCache mApiCache;
-	private RecyclerView mList;
-	private LinearLayoutManager mManager;
-	private View mShadow;
-	private SwipeRefreshLayout mSwipeRefresh;
-	private DirectMessageUserAdapter mAdapter;
-	private boolean mRefreshing = false;
-	private int mHeaderHeight = 0, mTranslationY = 0;
-	private float mHeaderFactor = 0.0f;
-	
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Share the view
-		final ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
-		
-		// Initialize
-		mList = Utility.findViewById(v, R.id.home_timeline);
-		
-		mManager = new LinearLayoutManager(getActivity());
-		mList.setLayoutManager(mManager);
-		
-		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
+	protected DirectMessageUserAdapter buildAdapter() {
+		return new DirectMessageUserAdapter(getActivity(), mApiCache.mUsers, mList);
+	}
 
-		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
-		v.removeViewInLayout(mList);
-		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		mSwipeRefresh.addView(mList, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-		mSwipeRefresh.setOnRefreshListener(this);
-		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
-
+	@Override
+	protected void onCreateCache() {
 		mApiCache = new DirectMessagesUserApiCache(getActivity());
-		mAdapter = new DirectMessageUserAdapter(getActivity(), mApiCache. mUsers, mList);
+	}
 
-		// Content Margin
-		if (getActivity() instanceof MainActivity) {
-			View target = ((MainActivity) getActivity()).getTabsView();
-			View header = new TouchPassView(getActivity(), target);
-			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
-					Utility.getDecorPaddingTop(getActivity()));
-			header.setLayoutParams(p);
-			mAdapter.setHeaderView(header);
-			v.findViewById(R.id.action_shadow).setVisibility(View.GONE);
-		}
-
-		mList.setAdapter(mAdapter);
-
-		mList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrolled(RecyclerView view, int dx, int dy) {
-				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
-					new Refresher().execute(false);
-				}
-				
-				int deltaY = -dy;
-				
-				if (mManager.findFirstVisibleItemPosition() == 0) {
-
-					if ((mTranslationY > -mHeaderHeight && deltaY < 0)
-						|| (mTranslationY < 0 && deltaY > 0)) {
-
-						mTranslationY += deltaY;
-					}
-
-					if (mTranslationY < -mHeaderHeight) {
-						mTranslationY = -mHeaderHeight;
-					} else if (mTranslationY > 0) {
-						mTranslationY = 0;
-					}
-
-					View header = mAdapter.getHeaderView();
-					mHeaderFactor = Math.abs(mTranslationY) / (float) header.getHeight();
-
-				} else {
-					mHeaderFactor = 1f;
-				}
-				
-				((MainActivity) getActivity()).updateHeaderTranslation(mHeaderFactor);
-			}
-		});
-		
+	@Override
+	protected void loadFromCache() {
 		mApiCache.loadFromCache();
-		mAdapter.notifyDataSetChangedAndClone();
-
-		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				if (getActivity() instanceof MainActivity) {
-					mHeaderHeight = ((MainActivity) getActivity()).getHeaderHeight();
-					RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mAdapter.getHeaderView().getLayoutParams();
-					lp.height = mHeaderHeight;
-					mAdapter.getHeaderView().setLayoutParams(lp);
-					mSwipeRefresh.setProgressViewOffset(false, 0, (int) (lp.height * 1.2));
-					mSwipeRefresh.invalidate();
-					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				}
-			}
-		});
-		
-		if (mApiCache.mUsers.getSize() == 0) {
-			onRefresh();
-		}
-		
-		return v;
 	}
 
 	@Override
-	public void onRefresh() {
-		if (!mRefreshing) {
-			new Refresher().execute(true);
-		}
-	}
-	
-	@Override
-	public float getHeaderFactor() {
-		return mHeaderFactor;
-	}
-
-	/*@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if (mApiCache.mUsers == null) return;
-		if (getActivity() instanceof MainActivity) {
-			position--; // Count the header view in
-		}
-
-		if (position >= mApiCache.mUsers.getSize()) return;
-
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(getActivity(), DirectMessageConversationActivity.class);
-		i.putExtra("user", mApiCache.mUsers.get(position).user);
-		startActivity(i);
+	protected int getCacheSize() {
+		return mApiCache.mUsers.getSize();
 	}
 
 	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		if (getActivity() instanceof MainActivity) {
-			position--;
+	protected void cacheLoadNew(boolean param) {
+		if (param) {
+			mApiCache.mUsers.getList().clear();
 		}
 
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(getActivity(), UserTimeLineActivity.class);
-		i.putExtra("user", mApiCache.mUsers.get(position).user);
-		startActivity(i);
+		mApiCache.load(param);
+		mApiCache.cache();
 
-		return true;
-	}*/
-	
-	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			Utility.clearOngoingUnreadCount(getActivity());
-			
-			mRefreshing = true;
-			mSwipeRefresh.setRefreshing(true);
-			mSwipeRefresh.invalidate();
+		if (param) {
+			RemindApi.clearUnread(Type.Dm.str);
 		}
-		
-		@Override
-		protected Boolean doInBackground(Boolean... params) {
-			if (params[0]) {
-				mApiCache.mUsers.getList().clear();
-			}
-			
-			mApiCache.load(params[0]);
-			mApiCache.cache();
+	}
 
-			if (params[0]) {
-				RemindApi.clearUnread(Type.Dm.str);
-			}
+	@Override
+	protected int getCurrentItemCount() {
+		return mAdapter.getCount();
+	}
 
-			return params[0];
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			super.onPostExecute(result);
-			
-			mRefreshing = false;
-			mSwipeRefresh.setRefreshing(false);
-
-			mAdapter.notifyDataSetChangedAndClone();
-		}
+	@Override
+	protected void initTitle() {
+		// Do nothing
 	}
 }
