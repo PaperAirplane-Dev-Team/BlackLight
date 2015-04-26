@@ -110,15 +110,12 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	
 	private Context mContext;
 
-	private ArrayList<RecyclerView.OnScrollListener> mListeners = new ArrayList<RecyclerView.OnScrollListener>();
-	
 	private boolean mBindOrig;
 	private boolean mShowCommentStatus;
 	private boolean mScrolling = false;
 	private boolean mAutoNoPic = false;
 	private String mAppName;
 	
-	private RecyclerView.OnScrollListener mListener;
 	private RecyclerView mRecycler;
 	
 	public WeiboAdapter(Context context, RecyclerView listView, MessageListModel list, boolean bindOrig, boolean showCommentStatus) {
@@ -137,7 +134,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		mAutoNoPic = Settings.getInstance(context).getBoolean(Settings.AUTO_NOPIC, true);
 		mAppName = context.getString(R.string.app_name);
 		
-		mListener = new RecyclerView.OnScrollListener() {
+		addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 				@Override
 				public void onScrollStateChanged(RecyclerView v, int state) {
@@ -160,26 +157,13 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 							}
 						}
 					}
-
-					// Inform all listeners
-					for (RecyclerView.OnScrollListener listener : mListeners) {
-						if (listener != null) {
-							listener.onScrollStateChanged(v, state);
-						}
-					}
 				}
 
 				@Override
 				public void onScrolled(RecyclerView p1, int p2, int p3) {
-					// Inform all listeners
-					for (RecyclerView.OnScrollListener listener : mListeners) {
-						if (listener != null) {
-							listener.onScrolled(p1, p2, p3);
-						}
-					}
+
 				}
-		};
-		listView.setOnScrollListener(mListener);
+		});
 		mRecycler = listView;
 		
 		notifyDataSetChangedAndClone();
@@ -229,11 +213,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		h.msg = null;
 	}
 	
-	@Override
-	public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
-		mListeners.add(listener);
-	}
-
 	@Override
 	public WeiboAdapter.ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = mInflater.inflate(R.layout.weibo, parent, false);

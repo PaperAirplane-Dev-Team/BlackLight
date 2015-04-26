@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -22,6 +22,9 @@ package info.papdt.blacklight.support.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 
@@ -31,9 +34,26 @@ import android.support.v7.widget.RecyclerView.Adapter;
 public abstract class HeaderViewAdapter<VH extends HeaderViewAdapter.ViewHolder> extends Adapter<VH> {
 	private View mHeader = null;
 	private RecyclerView mRecyclerView;
+	protected RecyclerView.OnScrollListener mListener;
+	protected List<RecyclerView.OnScrollListener> mListeners = new ArrayList<RecyclerView.OnScrollListener>();
 	
 	public HeaderViewAdapter(RecyclerView v) {
 		mRecyclerView = v;
+		mRecyclerView.setOnScrollListener((mListener = new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(RecyclerView rv, int newState) {
+				for (RecyclerView.OnScrollListener listener : mListeners) {
+					listener.onScrollStateChanged(rv, newState);
+				}
+			}
+			
+			@Override
+			public void onScrolled(RecyclerView rv, int dx, int dy) {
+				for (RecyclerView.OnScrollListener listener : mListeners) {
+					listener.onScrolled(rv, dx, dy);
+				}
+			}
+		}));
 	}
 
 	public void setHeaderView(View header) {
@@ -50,7 +70,7 @@ public abstract class HeaderViewAdapter<VH extends HeaderViewAdapter.ViewHolder>
 	}
 	
 	public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
-		mRecyclerView.setOnScrollListener(listener);
+		mListeners.add(listener);
 	}
 	
 	public void notifyDataSetChangedAndClone() {
