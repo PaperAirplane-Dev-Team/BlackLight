@@ -185,6 +185,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		notifyDataSetChangedAndClone();
 	}
 	
+	public void notifyDataSetLoaded() {
+		mListener.onScrollStateChanged(mRecycler, RecyclerView.SCROLL_STATE_IDLE);
+	}
+	
 	@Override
 	public int getCount() {
 		return mClone.getSize();

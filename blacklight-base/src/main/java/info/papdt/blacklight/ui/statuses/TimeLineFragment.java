@@ -17,6 +17,12 @@
  * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
  */
 package info.papdt.blacklight.ui.statuses;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
  
 import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
 import info.papdt.blacklight.support.adapter.WeiboAdapter;
@@ -33,6 +39,19 @@ public abstract class TimeLineFragment extends AbsTimeLineFragment<WeiboAdapter>
 	protected WeiboAdapter buildAdapter() {
 		return new WeiboAdapter(getActivity(), mList, mCache.mMessages,
 								mBindOrig, mShowCommentStatus);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		final View v = super.onCreateView(inflater, container, savedInstanceState);
+		v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				mAdapter.notifyDataSetLoaded();
+				v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			}
+		});
+		return v;
 	}
 
 	@Override
