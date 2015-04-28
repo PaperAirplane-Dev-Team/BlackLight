@@ -83,6 +83,11 @@ public abstract class TimeLineFragment extends AbsTimeLineFragment<WeiboAdapter>
 	protected void initTitle() {
 		// Do nothing by default
 	}
+
+	@Override
+	protected void onDataLoaded() {
+		mAdapter.notifyDataSetLoaded();
+	}
 	
 	protected void load(boolean param) {
 		mCache.load(param);
