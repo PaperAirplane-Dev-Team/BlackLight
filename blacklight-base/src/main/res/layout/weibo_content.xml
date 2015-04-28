@@ -231,7 +231,7 @@
 			android:layout_height="36dp"
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="10dp"
-			android:src="@color/gray"
+			android:src="@null"
 			style="?android:attr/buttonBarButtonStyle"/>
 		
 		<TextView
