@@ -303,7 +303,7 @@ public class LoginActivity extends AbsActivity {
 
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			if (PrivateKey.isUrlRedirected(url)) {
+			if (!url.equals("about:blank") && PrivateKey.isUrlRedirected(url)) {
 				view.stopLoading();
 				handleRedirectedUrl(url);
 				return;

@@ -21,7 +21,7 @@
 
     <style name="Widget.GifView" parent="@android:style/Widget"></style>
 	
-	<style name="BL.Theme.Light" parent="Theme.AppCompat.Light">
+	<style name="BL.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowBackground">@color/light_gray</item>
