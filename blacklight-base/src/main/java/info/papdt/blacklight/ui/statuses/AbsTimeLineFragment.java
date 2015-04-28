@@ -489,6 +489,8 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);
 			}
+			
+			onDataLoaded();
 		}
 
 	}
