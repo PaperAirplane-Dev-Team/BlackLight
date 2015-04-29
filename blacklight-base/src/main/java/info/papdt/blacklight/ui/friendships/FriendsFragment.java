@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -37,20 +37,15 @@ import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.UserAdapter;
 import info.papdt.blacklight.ui.main.MainActivity;
+import info.papdt.blacklight.ui.statuses.AbsTimeLineFragment;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
-public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FriendsFragment extends AbsTimeLineFragment<UserAdapter> implements SwipeRefreshLayout.OnRefreshListener {
 	private String mUid;
 	protected UserListModel mUsers;
 	private int mNextCursor = 0;
-	private boolean mRefreshing = false;
-	protected boolean mNeedHeader = true;
 	
-	private RecyclerView mList;
-	private LinearLayoutManager mManager;
-	private UserAdapter mAdapter;
-	private SwipeRefreshLayout mSwipeRefresh;
-    private boolean mIsFriends;
+	private boolean mIsFriends;
 	
 	public FriendsFragment() {
 		init();
@@ -74,74 +69,39 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Share the layout of Home Time Line
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.home_timeline, null);
-		
-		// Initialize
-		mList = Utility.findViewById(v, R.id.home_timeline);
-		mManager = new LinearLayoutManager(getActivity());
-		mList.setLayoutManager(mManager);
-
-		// Init
+	protected void onCreateCache() {
 		mUsers = new UserListModel();
-		mSwipeRefresh = new SwipeRefreshLayout(getActivity());
-		mAdapter = new UserAdapter(getActivity(), mUsers, mList);
-
-		// Content Margin
-		if (getActivity() instanceof MainActivity && mNeedHeader) {
-			View header = new View(getActivity());
-			RecyclerView.LayoutParams p = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
-					Utility.getDecorPaddingTop(getActivity()));
-			header.setLayoutParams(p);
-			mAdapter.setHeaderView(header);
-			mSwipeRefresh.setProgressViewOffset(false, 0, (int) (p.height * 1.2));
-		}
-
-		mList.setAdapter(mAdapter);
-		
-		// Move child to SwipeRefreshLayout, and add SwipeRefreshLayout to root view
-		v.removeViewInLayout(mList);
-		v.addView(mSwipeRefresh, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		mSwipeRefresh.addView(mList, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-		mSwipeRefresh.setOnRefreshListener(this);
-		mSwipeRefresh.setColorScheme(R.color.ptr_green, R.color.ptr_orange, R.color.ptr_red, R.color.ptr_blue);
-		mList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrolled(RecyclerView view, int dx, int dy) {
-				if (!mRefreshing && mManager.findLastVisibleItemPosition() >= mAdapter.getItemCount() - 5) {
-					new Refresher().execute(false);
-				}
-			}
-		});
-		
-		v.findViewById(R.id.action_shadow).bringToFront();
-
-		onRefresh();
-		
-		return v;
 	}
-
+	
 	@Override
-	public void onRefresh() {
-		if (!mRefreshing) {
-			new Refresher().execute(true);
-		}
+	protected UserAdapter buildAdapter() {
+		return new UserAdapter(getActivity(), mUsers, mList);
 	}
-
-	/*@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		if (getActivity() instanceof MainActivity) {
-			position--; // Count the header view in
-		}
-
-		Intent i = new Intent();
-		i.setAction(Intent.ACTION_MAIN);
-		i.setClass(getActivity(), UserTimeLineActivity.class);
-		i.putExtra("user", mUsers.get(position));
-		startActivity(i);
-	}*/
+	
+	@Override
+	protected void loadFromCache() {
+		doRefresh(true);
+	}
+	
+	@Override
+	protected void cacheLoadNew(boolean param) {
+		doRefresh(param);
+	}
+	
+	@Override
+	protected int getCacheSize() {
+		return mUsers.getSize();
+	}
+	
+	@Override
+	protected int getCurrentItemCount() {
+		return mAdapter.getCount();
+	}
+	
+	@Override
+	protected void initTitle() {
+		
+	}
 	
 	protected void doRefresh(boolean param) {
 		if (param) {
@@ -160,30 +120,6 @@ public class FriendsFragment extends Fragment implements SwipeRefreshLayout.OnRe
 				mUsers.addAll(param, usr);
 			}
 		}
-		
-	}
-	
-	private class Refresher extends AsyncTask<Boolean, Void, Boolean> {
-		@Override
-		protected void onPreExecute() {
-			mRefreshing = true;
-			mSwipeRefresh.setRefreshing(true);
-			mSwipeRefresh.invalidate();
-		}
-		
-		@Override
-		protected Boolean doInBackground(Boolean... params) {
-			doRefresh(params[0]);
-			
-			return params[0];
-		}
 
-		@Override
-		protected void onPostExecute(Boolean result) {
-			mAdapter.notifyDataSetChangedAndClone();
-			
-			mRefreshing = false;
-			mSwipeRefresh.setRefreshing(false);
-		}
 	}
 }

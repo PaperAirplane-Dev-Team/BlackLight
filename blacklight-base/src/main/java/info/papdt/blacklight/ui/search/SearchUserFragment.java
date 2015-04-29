@@ -33,10 +33,6 @@ public class SearchUserFragment extends FriendsFragment implements SearchActivit
 	private String mSearch;
 	private int mPage = 0;
 	
-	public SearchUserFragment() {
-		mNeedHeader = false;
-	}
-	
 	@Override
 	public void search(String q) {
 		mSearch = q;
