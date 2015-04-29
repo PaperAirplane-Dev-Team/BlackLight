@@ -20,7 +20,16 @@
 <resources>
 
 	<string name="app_name">BlackLight</string>
-	
+
+	<!-- App Key -->
+	<string name="custom">自訂</string>
+	<string name="custom_des">App ID / Secret 將被用於微博登入授權。如果其權限不足，本軟件將無法正確運作。</string>
+	<string name="app_id" translatable="false">App ID</string>
+	<string name="app_secret" translatable="false">App Secret</string>
+	<string name="redirect_uri">跳轉地址</string>
+	<string name="app_pkg">包名 (可選)</string>
+	<string name="app_copy">拷貝</string>
+
 	<!-- Login -->
 	<string name="login">登入</string>
 	<string name="tail">尾巴</string>
@@ -32,8 +41,18 @@
 	<!-- Main -->
 	<string name="switch_theme">更換主題</string>
 	<string name="group_all">全部</string>
+	<string name="group_bilateral">好友圈</string>
 	<string name="group_create">創建分組</string>
 	<string name="group_destroy">刪除當前分組</string>
+
+	<string-array name="main_tabs">
+		<item>主頁</item>
+		<item>評論</item>
+		<item>提及我的微博</item>
+		<item>提及我的評論</item>
+		<item>私信</item>
+		<item>我的最愛</item>
+	</string-array>
 
 	<!-- Left Drawer -->
 	<string name="drawer_home">首頁</string>
@@ -55,6 +74,7 @@
 	<string name="comment_on">發送評論</string>
 	<string name="repost">轉發微博</string>
 	<string name="reply_to">回覆評論</string>
+	<string name="reply">回覆</string>
 	<string name="remove_attitude">撤銷點贊</string>
 	<string name="repost_and_comment">同時評論微博</string>
 	<string name="repost_and_comment_the_original">同時評論原微博</string>
@@ -72,10 +92,13 @@
 	<string name="comment_delete">刪除評論</string>
 	<string name="comment_view_orig">查看原微博</string>
 	<string name="refresh">刷新</string>
+	<string name="share">分享</string>
 	<string-array name="picture_picker_array">
 		<item>從圖片庫選擇圖像</item>
 		<item>拍照</item>
+		<item>添加多圖</item>
 	</string-array>
+	<string name="multiple_pictures">多圖選擇</string>
 	
 	<!-- Time -->
 	<string name="just_now">剛剛</string>
@@ -172,6 +195,9 @@
 		<item>30 分鐘</item>
 		<item>從不</item>
 	</string-array>
+	<string name="keyword">關鍵詞過濾</string>
+	<string name="keyword_sum">多個關鍵詞請用\", \"(一個半角逗號與一個空格)隔開。正則表達式須用\"`\"包圍。</string>
+	<string name="language">語言</string>
 
 	<!-- Feedback -->
 	<string name="fb">反饋</string>
@@ -209,12 +235,10 @@
 	<string name="donation">捐贈</string>
 	<string name="donation_des">歡迎捐贈支持</string>
 	<string name="feedback_sum">告訴我們有關你對這個應用的建議</string>
-	<string name="group_bilateral">好友圈</string>
-	<string name="language">語言</string>
 	<string name="micromacer">Micromacer (設計師)</string>
 	<string name="multiple_pictures">多圖擇取</string>
 	<string name="petercxy">PeterCxy (主要開發者)</string>
-	<string name="reply">回覆</string>
-	<string name="share">分享</string>
+	<string name="post_photo">分享圖像</string>
+	<string name="wait_switch">莫慌, BlackLight 即將重啟完畢 ^_^</string>
 
 </resources>
