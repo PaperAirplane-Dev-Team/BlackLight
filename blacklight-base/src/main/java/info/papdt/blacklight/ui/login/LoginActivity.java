@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -159,47 +160,6 @@ public class LoginActivity extends AbsActivity {
 		final EditText tvScope = Utility.findViewById(v, R.id.scope);
 		final EditText tvPkg = Utility.findViewById(v, R.id.app_pkg);
 		
-		// Initialize values
-		String[] val = PrivateKey.getAll();
-		tvId.setText(val[0]);
-		tvSecret.setText(val[1]);
-		tvRedirect.setText(val[2]);
-		tvPkg.setText(val[3]);
-		tvScope.setText(val[4]);
-		
-		// Text listener
-		TextWatcher watcher = new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
-				
-			}
-
-			@Override
-			public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
-				
-			}
-
-			@Override
-			public void afterTextChanged(Editable text) {
-				if(isLoginData(text.toString())) {
-					String[] data = decodeLoginData(text.toString());
-					
-					if (data == null || data.length < 5) return;
-					
-					tvId.setText(data[0].trim());
-					tvSecret.setText(data[1].trim());
-					tvRedirect.setText(data[2].trim());
-					tvScope.setText(data[3].trim());
-					tvPkg.setText(data[4].trim());
-				}
-			}
-		};
-		tvId.addTextChangedListener(watcher);
-		tvSecret.addTextChangedListener(watcher);
-		tvRedirect.addTextChangedListener(watcher);
-		tvScope.addTextChangedListener(watcher);
-		tvPkg.addTextChangedListener(watcher);
-		
 		// Build the dialog
 		final AlertDialog dialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.custom)
@@ -247,15 +207,75 @@ public class LoginActivity extends AbsActivity {
 			}
 		});
 		
+		dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTag(true);
 		dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Utility.copyToClipboard(LoginActivity.this, encodeLoginData(
-					tvId.getText().toString(), tvSecret.getText().toString(),
-					tvRedirect.getText().toString(), tvScope.getText().toString(), 
-					tvPkg.getText().toString()));
+			public void onClick(View v) {	
+				boolean isEmpty = (Boolean) v.getTag();
+				
+				if (!isEmpty) {
+					Utility.copyToClipboard(LoginActivity.this, encodeLoginData(
+						tvId.getText().toString(), tvSecret.getText().toString(),
+						tvRedirect.getText().toString(), tvScope.getText().toString(), 
+						tvPkg.getText().toString()));
+				} else {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse(getString(R.string.key_gist)));
+					startActivity(i);
+				}
 			}
 		});
+		
+		// Text listener
+		TextWatcher watcher = new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence p1, int p2, int p3, int p4) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable text) {
+				String str = text.toString().trim();
+				if (isLoginData(str)) {
+					String[] data = decodeLoginData(text.toString());
+
+					if (data == null || data.length < 5) return;
+
+					tvId.setText(data[0].trim());
+					tvSecret.setText(data[1].trim());
+					tvRedirect.setText(data[2].trim());
+					tvScope.setText(data[3].trim());
+					tvPkg.setText(data[4].trim());
+				} else {
+					if (!str.equals("")) {
+						dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(R.string.app_copy);
+					} else {
+						dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(R.string.app_hint);
+					}
+					
+					dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTag(str.equals(""));
+				}
+			}
+		};
+		tvId.addTextChangedListener(watcher);
+		tvSecret.addTextChangedListener(watcher);
+		tvRedirect.addTextChangedListener(watcher);
+		tvScope.addTextChangedListener(watcher);
+		tvPkg.addTextChangedListener(watcher);
+		
+		// Initialize values
+		String[] val = PrivateKey.getAll();
+		tvId.setText(val[0]);
+		tvSecret.setText(val[1]);
+		tvRedirect.setText(val[2]);
+		tvPkg.setText(val[3]);
+		tvScope.setText(val[4]);
+		
 	}
 	
 	private static final String SEPERATOR = "::";
