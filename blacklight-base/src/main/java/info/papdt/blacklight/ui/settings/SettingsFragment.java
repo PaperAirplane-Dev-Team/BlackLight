@@ -63,7 +63,6 @@ public class SettingsFragment extends PreferenceFragment implements
 	private Settings mSettings;
 	
 	// Life needs joy!
-	private long mLastClick = 0l;
 	private int mClickCount = 0;
 	private String[] mRefusals;
 
@@ -358,26 +357,28 @@ public class SettingsFragment extends PreferenceFragment implements
 		
 	}
 	
-	private void boom(){
-		if((System.currentTimeMillis() - mLastClick) < 1000){
-			mClickCount++;
-		}
-		else{
+	private Runnable clearClickCount = new Runnable() {
+		@Override
+		public void run() {
 			mClickCount = 0;
 		}
-		mLastClick = System.currentTimeMillis();
-		if(mClickCount==5){
+	};
+	private void boom() {
+		getActivity().getWindow().getDecorView().removeCallbacks(clearClickCount);
+		if (mClickCount == 5) {
 			Toast.makeText(getActivity(), R.string.enough, Toast.LENGTH_SHORT).show();
 			getActivity().getWindow().getDecorView().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						throw new RuntimeException("Your Fault");
-					}
-				}, Toast.LENGTH_LONG);
-		}
-		else{
+				@Override
+				public void run() {
+					throw new RuntimeException("Your Fault");
+				}
+			}, 3000);
+		} else {
 			Toast.makeText(getActivity(), mRefusals[mClickCount], Toast.LENGTH_SHORT).show();
+			getActivity().getWindow().getDecorView().postDelayed(clearClickCount, 3000);
 		}
+		
+		mClickCount++;
 	}
 	
 }
