@@ -49,7 +49,7 @@ public class MyApplication extends Application implements SensorEventListener
 	
 	@Override
 	public void onSensorChanged(SensorEvent ev) {
-		switchLauncherIcon(ev.values[0] >= 233.0f);
+		switchLauncherIcon(ev.values[0] >= 1233.0f); //233lux is too low.
 	}
 
 	@Override
