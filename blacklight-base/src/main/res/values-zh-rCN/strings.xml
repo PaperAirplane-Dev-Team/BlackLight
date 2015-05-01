@@ -241,4 +241,12 @@
 	<string name="post_photo">分享图片</string>
 	<string name="wait_switch">别着急，BlackLight正在重新加载，马上就回来哦 ^_^</string>
 
+	<string-array name="click_refusal">
+		<item>嘿，你好啊</item>
+		<item>不，我们并没有做彩蛋</item>
+		<item>都说了没有你还点？</item>
+		<item>再点要坏了！</item>
+		<item>好吧好吧你赢了。</item>
+	</string-array>
+	
 </resources>

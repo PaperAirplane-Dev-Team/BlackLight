@@ -61,6 +61,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 	
 	@Override
 	public void uncaughtException(Thread thread, Throwable throwable) {
+		if("Your Fault".equals(throwable.getMessage())){
+			mPrevious.uncaughtException(thread, throwable);
+			return;
+		}
 		File f = new File(CRASH_LOG);
 		if (f.exists()) {
 			f.delete();

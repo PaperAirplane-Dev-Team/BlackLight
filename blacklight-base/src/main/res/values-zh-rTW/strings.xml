@@ -24,8 +24,6 @@
 	<!-- App Key -->
 	<string name="custom">自訂</string>
 	<string name="custom_des">App ID / Secret 將被用於微博登入授權。如果其權限不足，本軟件將無法正確運作。</string>
-	<string name="app_id" translatable="false">App ID</string>
-	<string name="app_secret" translatable="false">App Secret</string>
 	<string name="redirect_uri">跳轉地址</string>
 	<string name="app_pkg">包名 (可選)</string>
 	<string name="app_copy">拷貝</string>
@@ -239,5 +237,13 @@
 	<string name="petercxy">PeterCxy (主要開發者)</string>
 	<string name="post_photo">分享圖像</string>
 	<string name="wait_switch">莫慌, BlackLight 即將重啟完畢 ^_^</string>
+		
+	<string-array name="click_refusal">
+		<item>嘿，你好啊</item>
+		<item>不，我們並沒有做彩蛋</item>
+		<item>都說了沒有你還點？</item>
+		<item>再點要壞了！</item>
+		<item>好吧好吧你贏了。</item>
+	</string-array>
 
 </resources>

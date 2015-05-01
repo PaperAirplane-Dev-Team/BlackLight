@@ -286,5 +286,13 @@
 	<string name="clear_cache_hint">See \'Settings -\> Apps -\> BlackLight\'</string>
 	<string name="post_photo">Share Photo</string>
 	<string name="wait_switch">Just a minute, BlackLight is reloading ^_^</string>
+		
+	<string-array name="click_refusal">
+		<item>Hey, nice to see you.</item>
+		<item>No, there is NOT an easter egg.</item>
+		<item>I said no!</item>
+		<item>I\'m gonna go mad, seriously.</item>
+		<item>Okay, you win.</item>
+	</string-array>
 
 </resources>
