@@ -187,7 +187,7 @@
 	<string name="good_sum">亲，去Play商店给个好评呗</string>
 	<string name="network">网络</string>
 	<string name="auto_nopic">智能无图</string>
-	<string name="auto_nopic_sum">流量环境下不显示图片，WIFI环境下显示图片</string>
+	<string name="auto_nopic_sum">流量环境下不显示图片，WiFi环境下显示图片</string>
 	<string name="keyword">关键字过滤</string>
 	<string name="keyword_sum">多个关键词请用\", \"(一个英文逗号和一个空格)隔开。正则表达式须用\"`\"包裹。</string>
 	<string-array name="interval_name">

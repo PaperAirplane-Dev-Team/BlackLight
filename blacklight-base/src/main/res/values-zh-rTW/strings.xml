@@ -184,7 +184,7 @@
 	<string name="good_sum">親，來Play商店給個好評吧</string>
 	<string name="network">網路</string>
 	<string name="auto_nopic">智能無圖</string>
-	<string name="auto_nopic_sum">移動網路環境下不顯示圖片，僅在WIFI環境下顯示圖片</string>
+	<string name="auto_nopic_sum">移動網路環境下不顯示圖片，僅在WiFi環境下顯示圖片</string>
 	<string-array name="interval_name">
 		<item>1 分鐘</item>
 		<item>3 分鐘</item>
