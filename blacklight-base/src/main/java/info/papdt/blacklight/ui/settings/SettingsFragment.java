@@ -324,6 +324,7 @@ public class SettingsFragment extends PreferenceFragment implements
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							mSettings.putInt(Settings.LANGUAGE, which);
+							dialog.dismiss();
 							getActivity().recreate();
 						}
 					}
