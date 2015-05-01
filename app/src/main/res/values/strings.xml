@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name_white">WhiteLight</string>
+	
+	<string name="not_black_enough">Not black enough~</string>
+</resources>
