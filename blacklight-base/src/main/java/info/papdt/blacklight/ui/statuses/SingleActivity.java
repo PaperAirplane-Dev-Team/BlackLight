@@ -46,6 +46,7 @@ import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.StatusCommentFragment;
 import info.papdt.blacklight.ui.common.AbsActivity;
@@ -315,6 +316,7 @@ public class SingleActivity extends AbsActivity
 		return findViewById(R.id.single_root);
 	}
 	
+	@Binded
 	public void commentOn() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -323,6 +325,7 @@ public class SingleActivity extends AbsActivity
 		startActivity(i);
 	}
 	
+	@Binded
 	public void repost() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);

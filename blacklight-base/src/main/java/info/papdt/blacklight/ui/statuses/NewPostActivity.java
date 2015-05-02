@@ -63,6 +63,7 @@ import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
 import info.papdt.blacklight.ui.common.AbsActivity;
@@ -359,6 +360,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	}
 
 
+	@Binded
 	public void send() {
 		try {
 			
@@ -377,12 +379,14 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 	} 
 	
+	@Binded
 	public void pic() {
 		if (mBitmaps.size() < 9) {
 			showPicturePicker();
 		}
 	}
 	
+	@Binded
 	public void emoji() {
 		if (mDrawer.isDrawerOpen(Gravity.RIGHT)) {
 			mDrawer.closeDrawer(Gravity.RIGHT);
@@ -391,10 +395,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 	}
 	
+	@Binded
 	public void at() {
 		mText.getText().insert(mText.getSelectionStart(), "@");
 	}
 
+	@Binded
 	public void topic() {
 		CharSequence text = mText.getText();
 		mText.getText().insert(mText.getSelectionStart(), "##");

@@ -32,6 +32,7 @@ import com.larswerkman.holocolorpicker.ValueBar;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 
 public class ColorPickerFragment extends Fragment {
 
@@ -69,6 +70,7 @@ public class ColorPickerFragment extends Fragment {
 		return v;
 	}
 
+	@Binded
 	public void choose() {
 		String hex = String.format("#%06X", (0xFFFFFF & mPicker.getColor()));
 		mPicker.setOldCenterColor(mPicker.getColor());

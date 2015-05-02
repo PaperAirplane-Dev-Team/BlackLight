@@ -37,6 +37,7 @@ import info.papdt.blacklight.model.UserListModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
@@ -147,6 +148,7 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 			Utility.bindOnClick(this, v, "show");
 		}
 
+		@Binded
 		void show() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);

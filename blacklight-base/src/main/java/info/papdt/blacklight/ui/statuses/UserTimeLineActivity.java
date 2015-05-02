@@ -50,6 +50,7 @@ import info.papdt.blacklight.model.GroupModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity;
@@ -199,6 +200,7 @@ public class UserTimeLineActivity extends AbsActivity
 		return findViewById(R.id.user_slide);
 	}
 
+	@Binded
 	public void viewFriends() {
     Intent i = new Intent();
     i.setAction(Intent.ACTION_VIEW);
@@ -207,7 +209,8 @@ public class UserTimeLineActivity extends AbsActivity
     i.setClass(this, FriendsActivity.class);
     startActivity(i);
 }
-    public void viewFollowers() {
+    @Binded
+	public void viewFollowers() {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
         i.putExtra("uid", mModel.id);
@@ -216,10 +219,12 @@ public class UserTimeLineActivity extends AbsActivity
         startActivity(i);
     }
 
+	@Binded
 	public void follow() {
 		new Follower().execute();
 	}
 
+	@Binded
 	public void showOrHideInfo() {
 		mDesScroll.clearAnimation();
 

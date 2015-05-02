@@ -38,6 +38,7 @@ import info.papdt.blacklight.model.DirectMessageUserModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
@@ -173,6 +174,7 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 			Utility.bindOnLongClick(this, v, "showUser");
 		}
 
+		@Binded
 		void show() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -181,6 +183,7 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 			v.getContext().startActivity(i);
 		}
 
+		@Binded
 		boolean showUser() {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);

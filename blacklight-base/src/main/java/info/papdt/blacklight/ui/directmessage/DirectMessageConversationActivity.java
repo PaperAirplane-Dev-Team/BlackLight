@@ -35,6 +35,7 @@ import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.DirectMessageAdapter;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.common.EmoticonFragment;
 import info.papdt.blacklight.ui.common.SwipeRefreshLayout;
@@ -123,7 +124,8 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		return findViewById(R.id.direct_message_refresh);
 	}
 	
-	public void send() {
+	@Binded
+	void send() {
 		if (!mRefreshing) {
 			new Sender().execute();
 		}

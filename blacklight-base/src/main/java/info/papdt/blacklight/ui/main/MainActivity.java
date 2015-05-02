@@ -76,6 +76,7 @@ import info.papdt.blacklight.support.Emoticons;
 import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentTimeLineFragment;
 import info.papdt.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import info.papdt.blacklight.ui.common.FloatingActionButton;
@@ -623,6 +624,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		return mPager;
 	}
 
+	@Binded
 	public void showMe() {
 		if (mUser != null) {
 			Intent i = new Intent();
@@ -715,6 +717,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		return mHeaderHeight;
 	}
 
+	@Binded
 	public void settings() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
@@ -722,6 +725,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		startActivity(i);
 	}
 	
+	@Binded
 	public void drawerSwitch() {
 		mAccountSwitchIcon.startAnimation(AnimationUtils.loadAnimation(this, !mDrawerState ? R.anim.rotate_180 : R.anim.rotate_180_reverse));
 		
@@ -740,6 +744,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mDrawerState = !mDrawerState;
 	}
 	
+	@Binded
 	public void muser() {
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_MAIN);
