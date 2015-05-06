@@ -48,27 +48,6 @@
 			android:targetActivity=".EntryActivity"
 			android:label="@string/app_name" >
 			<intent-filter>
-				<category android:name="android.intent.category.DEFAULT" />
-				<action android:name="android.intent.action.MAIN" />
-			</intent-filter>
-		</activity-alias>
-		
-		<activity-alias
-			android:name="info.papdt.blacklight.ui.entry.EntryActivity-Black"
-			android:targetActivity=".EntryActivity"
-			android:label="@string/app_name" >
-			<intent-filter>
-				<category android:name="android.intent.category.LAUNCHER" />
-				<action android:name="android.intent.action.MAIN" />
-			</intent-filter>
-		</activity-alias>
-		
-		<activity-alias
-			android:name="info.papdt.blacklight.ui.entry.EntryActivity-White"
-			android:targetActivity=".EntryActivity"
-			android:label="@string/app_name_white"
-			android:enabled="false">
-			<intent-filter>
 				<category android:name="android.intent.category.LAUNCHER" />
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
