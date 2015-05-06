@@ -55,9 +55,9 @@
 			
 			<info.papdt.blacklight.ui.common.TintImageView
 				android:id="@+id/set_icon"
-				android:layout_width="32dp"
-				android:layout_height="32dp"
-				android:layout_margin="9dp"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_margin="16dp"
 				android:layout_centerVertical="true"
 				android:layout_alignParentLeft="true"
 				android:src="@drawable/ic_drawer_set"
@@ -66,10 +66,10 @@
 			
 			<TextView
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_margin="7dp"
-				android:layout_centerVertical="true"
-				android:layout_centerHorizontal="true"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="16dp"
+				android:gravity="center_vertical"
+				android:layout_toRightOf="@id/set_icon"
 				android:text="@string/settings"
 				android:textColor="?attr/DrawerForeground"
 				android:textSize="15sp"/>
@@ -86,9 +86,9 @@
 
 			<info.papdt.blacklight.ui.common.TintImageView
 				android:id="@+id/muser_icon"
-				android:layout_width="28dp"
-				android:layout_height="28dp"
-				android:layout_margin="11dp"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_margin="16dp"
 				android:layout_centerVertical="true"
 				android:layout_alignParentLeft="true"
 				android:src="@drawable/ic_action_new"
@@ -97,10 +97,10 @@
 
 			<TextView
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_margin="7dp"
-				android:layout_centerVertical="true"
-				android:layout_centerHorizontal="true"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="16dp"
+				android:gravity="center_vertical"
+				android:layout_toRightOf="@+id/muser_icon"
 				android:text="@string/add"
 				android:textColor="?attr/DrawerForeground"
 				android:textSize="15sp"/>
