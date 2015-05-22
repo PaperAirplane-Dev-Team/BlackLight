@@ -76,7 +76,18 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 		Settings.getInstance(null).putString(Settings.CURRENT_GROUP, mCurrentGroup);
 		mAdapter.setSelection(position);
 		((MainActivity) getActivity()).setCurrentGroup(mCurrentGroup, true);
+        mGfCallBack.onItemClick();
 	}
+
+    interface GFCallBack{
+        void onItemClick();
+    }
+
+    private static GFCallBack mGfCallBack;
+
+    static void setGfCallBack(GFCallBack gfCallBack){
+        mGfCallBack=gfCallBack;
+    }
 	
 	void reload() {
 		new FetchTask().execute();

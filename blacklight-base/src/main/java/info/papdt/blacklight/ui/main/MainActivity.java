@@ -372,7 +372,15 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		boolean rightHanded = Settings.getInstance(this).getBoolean(Settings.RIGHT_HANDED, false);
 
 		mDrawerGravity = rightHanded ? Gravity.RIGHT : Gravity.LEFT;
-		
+
+		//set GroupFragmentCallBack
+		GroupFragment.setGfCallBack(new GroupFragment.GFCallBack() {
+			@Override
+			public void onItemClick() {
+				openOrCloseDrawer();
+			}
+		});
+
 		// Set gravity
 		View nav = findViewById(R.id.nav);
 		DrawerLayout.LayoutParams p = (DrawerLayout.LayoutParams) nav.getLayoutParams();
