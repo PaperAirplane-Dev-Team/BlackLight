@@ -412,9 +412,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		}
 
 		// My account
-		mLoginCache = new LoginApiCache(this);
-		mUserCache = new UserApiCache(this);
-		new InitializerTask().execute();
+		initUserAccount();
 		//new GroupsTask().execute();
 
 		// Initialize FAB
@@ -474,6 +472,24 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				mDrawerWrapper.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
 		});
+
+		MultiUserFragment.setMuCallBack(new MultiUserFragment.MuCallBack() {
+			@Override
+			public void syncAccount() {
+                ((HomeTimeLineFragment) mFragments[0]).doRefresh();
+			}
+
+            @Override
+            public void closeDrawer() {
+                openOrCloseDrawer();
+            }
+        });
+	}
+
+	private void initUserAccount() {
+		mLoginCache = new LoginApiCache(this);
+		mUserCache = new UserApiCache(this);
+		new InitializerTask().execute();
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -84,6 +85,16 @@ public class MultiUserFragment extends Fragment implements AdapterView.OnItemCli
 	}
 	
 	private class SwitchTask extends AsyncTask<Integer, Void, Void> {
+        ProgressDialog prog;
+
+        @Override
+        protected void onPreExecute() {
+            mMuCallBack.closeDrawer();
+            prog = new ProgressDialog(getActivity());
+            prog.setMessage(getResources().getString(R.string.plz_wait));
+            prog.setCancelable(false);
+            prog.show();
+        }
 
 		@Override
 		protected Void doInBackground(Integer... params) {
@@ -94,21 +105,19 @@ public class MultiUserFragment extends Fragment implements AdapterView.OnItemCli
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
-			// Restart the app
-			Toast.makeText(getActivity(), R.string.wait_switch, Toast.LENGTH_LONG).show();
-			mList.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					Intent i = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(
-						getActivity().getPackageName());
-					PendingIntent pi = PendingIntent.getActivity(getActivity().getBaseContext(), 0, i, 0);
-					AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-					am.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pi);
-					getActivity().finish();
-				}
-			}, 100);
+            prog.dismiss();
+            mMuCallBack.syncAccount();
+
 		}
 	}
+	interface MuCallBack{
+        void syncAccount();
+        void closeDrawer();
+    }
+
+    static MuCallBack mMuCallBack;
+    static void setMuCallBack(MuCallBack muCallBack){
+        mMuCallBack=muCallBack;
+    }
 	
 }
