@@ -192,8 +192,7 @@ public class LoginApiCache
 		
 		return exp;
 	}
-	
-	// Should restart the app after doing this
+
 	public void switchToUser(int position) {
 		UserApiCache c = new UserApiCache(mContext);
 		UserModel current = c.getUser(mUid);

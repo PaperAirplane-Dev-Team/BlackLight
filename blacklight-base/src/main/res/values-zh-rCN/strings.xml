@@ -239,7 +239,6 @@
 	<string name="clear_cache_hint">系统设置 -> 应用程序 -> BlackLight</string>
 	<string name="feedback_sum">告诉我们关于你对这个应用的建议</string>
 	<string name="post_photo">分享图片</string>
-	<string name="wait_switch">好啦，刷新下就可以了哦^_^</string>
 
 	<string-array name="click_refusal">
 		<item>嘿，你好啊</item>
