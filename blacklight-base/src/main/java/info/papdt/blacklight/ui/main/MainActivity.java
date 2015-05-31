@@ -476,7 +476,10 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		MultiUserFragment.setMuCallBack(new MultiUserFragment.MuCallBack() {
 			@Override
 			public void syncAccount() {
+                initUserAccount();
                 ((HomeTimeLineFragment) mFragments[0]).doRefresh();
+                drawerSwitch();
+				mMultiUserFragment.reload();
 			}
 
             @Override
