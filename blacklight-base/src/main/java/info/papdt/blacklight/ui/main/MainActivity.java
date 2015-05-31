@@ -476,18 +476,17 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		MultiUserFragment.setMuCallBack(new MultiUserFragment.MuCallBack() {
 			@Override
 			public void syncAccount() {
-                initUserAccount();
-                ((HomeTimeLineFragment) mFragments[0]).doRefresh();
-                drawerSwitch();
+				initUserAccount();
+				((HomeTimeLineFragment) mFragments[0]).doRefresh();
+				drawerSwitch();
 				mMultiUserFragment.reload();
-
 			}
 
-            @Override
-            public void closeDrawer() {
-                openOrCloseDrawer();
-            }
-        });
+			@Override
+			public void closeDrawer() {
+				openOrCloseDrawer();
+			}
+		});
 	}
 
 	private void initUserAccount() {
@@ -726,8 +725,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 	@Override
 	public void onBackPressed() {
-        if(mDrawer.isDrawerOpen(mDrawerGravity)){
-            mDrawer.closeDrawer(mDrawerGravity);
+		if(mDrawer.isDrawerOpen(mDrawerGravity)){
+			mDrawer.closeDrawer(mDrawerGravity);
 		} else {
 			super.onBackPressed();
 		}

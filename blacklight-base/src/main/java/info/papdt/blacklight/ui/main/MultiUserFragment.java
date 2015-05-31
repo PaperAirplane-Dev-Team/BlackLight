@@ -85,16 +85,16 @@ public class MultiUserFragment extends Fragment implements AdapterView.OnItemCli
 	}
 	
 	private class SwitchTask extends AsyncTask<Integer, Void, Void> {
-        ProgressDialog prog;
+		ProgressDialog prog;
 
-        @Override
-        protected void onPreExecute() {
-            mMuCallBack.closeDrawer();
-            prog = new ProgressDialog(getActivity());
-            prog.setMessage(getResources().getString(R.string.plz_wait));
-            prog.setCancelable(false);
-            prog.show();
-        }
+		@Override
+		protected void onPreExecute() {
+			mMuCallBack.closeDrawer();
+			prog = new ProgressDialog(getActivity());
+			prog.setMessage(getResources().getString(R.string.plz_wait));
+			prog.setCancelable(false);
+			prog.show();
+		}
 
 		@Override
 		protected Void doInBackground(Integer... params) {
@@ -105,18 +105,18 @@ public class MultiUserFragment extends Fragment implements AdapterView.OnItemCli
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-            prog.dismiss();
-            mMuCallBack.syncAccount();
+			prog.dismiss();
+			mMuCallBack.syncAccount();
 		}
 	}
 	interface MuCallBack{
-        void syncAccount();
-        void closeDrawer();
-    }
+		void syncAccount();
+		void closeDrawer();
+	}
 
-    static MuCallBack mMuCallBack;
-    static void setMuCallBack(MuCallBack muCallBack){
-        mMuCallBack=muCallBack;
-    }
+	static MuCallBack mMuCallBack;
+	static void setMuCallBack(MuCallBack muCallBack){
+		mMuCallBack=muCallBack;
+	}
 	
 }
