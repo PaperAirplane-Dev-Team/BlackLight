@@ -653,6 +653,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 	@Binded
 	public void showMe() {
+		openOrCloseDrawer();
 		if (mUser != null) {
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
@@ -750,6 +751,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		i.setAction(Intent.ACTION_MAIN);
 		i.setClass(this, SettingsActivity.class);
 		startActivity(i);
+		openOrCloseDrawer();
 	}
 	
 	@Binded
