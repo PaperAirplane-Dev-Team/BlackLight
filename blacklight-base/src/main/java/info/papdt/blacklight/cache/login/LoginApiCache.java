@@ -50,7 +50,7 @@ public class LoginApiCache
 	private ArrayList<String> mTokens = new ArrayList<String>();
 	private ArrayList<Long> mExpireDates = new ArrayList<Long>();
 	
-    public LoginApiCache(Context context) {
+	public LoginApiCache(Context context) {
 		mContext = context;
 		mPrefs = context.getSharedPreferences("access_token", Context.MODE_PRIVATE);
 		mAccessToken = mPrefs.getString("access_token", null);
@@ -60,7 +60,6 @@ public class LoginApiCache
 		if (mAccessToken != null) {
 			BaseApi.setAccessToken(mAccessToken);
 		}
-		
 		parseMultiUser();
 	}
 	
@@ -192,8 +191,7 @@ public class LoginApiCache
 		
 		return exp;
 	}
-	
-	// Should restart the app after doing this
+
 	public void switchToUser(int position) {
 		UserApiCache c = new UserApiCache(mContext);
 		UserModel current = c.getUser(mUid);
