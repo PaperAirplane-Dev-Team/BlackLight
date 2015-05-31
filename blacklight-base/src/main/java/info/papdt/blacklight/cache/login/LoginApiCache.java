@@ -60,7 +60,6 @@ public class LoginApiCache
 		if (mAccessToken != null) {
 			BaseApi.setAccessToken(mAccessToken);
 		}
-		
 		parseMultiUser();
 	}
 	

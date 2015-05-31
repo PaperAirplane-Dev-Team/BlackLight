@@ -107,7 +107,6 @@ public class MultiUserFragment extends Fragment implements AdapterView.OnItemCli
 			super.onPostExecute(result);
             prog.dismiss();
             mMuCallBack.syncAccount();
-
 		}
 	}
 	interface MuCallBack{

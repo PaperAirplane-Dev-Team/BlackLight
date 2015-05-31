@@ -480,6 +480,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
                 ((HomeTimeLineFragment) mFragments[0]).doRefresh();
                 drawerSwitch();
 				mMultiUserFragment.reload();
+
 			}
 
             @Override
