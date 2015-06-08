@@ -24,8 +24,6 @@
 	<!-- App Key -->
 	<string name="custom">自訂</string>
 	<string name="custom_des">App ID / Secret 將被用於微博登入授權。如果其權限不足，本軟件將無法正確運作。</string>
-	<string name="redirect_uri">跳轉地址</string>
-	<string name="app_pkg">包名 (可選)</string>
 	<string name="app_copy">拷貝</string>
 
 	<!-- Login -->
