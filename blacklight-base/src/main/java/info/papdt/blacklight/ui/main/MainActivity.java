@@ -179,7 +179,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 		mLang = Utility.getCurrentLanguage(this);
 		if (mLang > -1) {
-			//Utility.changeLanguage(this, mLang);
+			Utility.changeLanguage(this, mLang);
 		}
 
 		Utility.initDarkMode(this);
