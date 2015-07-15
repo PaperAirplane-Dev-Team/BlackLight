@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -138,7 +138,7 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 			mShadow.setVisibility(View.GONE);
 			mShadow = null;
 		}
-		
+
 		initTitle();
 
 		//mCache = bindApiCache();
@@ -160,7 +160,7 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 		 }
 
 		 // Adapter
-		 mAdapter = 
+		 mAdapter =
 		 */
 		mAdapter = buildAdapter();
 
@@ -489,7 +489,7 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 			if (mSwipeRefresh != null) {
 				mSwipeRefresh.setRefreshing(false);
 			}
-			
+
 			onDataLoaded();
 		}
 
