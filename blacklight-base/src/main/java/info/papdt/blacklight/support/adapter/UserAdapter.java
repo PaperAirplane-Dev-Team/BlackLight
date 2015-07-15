@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserListModel;
@@ -46,7 +48,7 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 	private UserListModel mClone;
 	private LayoutInflater mInflater;
 	private UserApiCache mUserApi;
-	
+
 	public UserAdapter(Context context, UserListModel users, RecyclerView recycler) {
 		super(recycler);
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -54,7 +56,7 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 		mUsers = users;
 		notifyDataSetChangedAndClone();
 	}
-	
+
 	@Override
 	public int getCount() {
 		return mClone.getSize();
@@ -95,35 +97,17 @@ public class UserAdapter extends HeaderViewAdapter<UserAdapter.ViewHolder>
 
 			h.name.setText(usr.getName());
 			h.des.setText(usr.description);
-			h.avatar.setImageBitmap(null);
-			
-			new AvatarDownloader().execute(h, usr);
+
+			Picasso.with(h.avatar.getContext())
+				.load(usr.profile_image_url)
+				.fit()
+				.centerCrop()
+				.into(h.avatar);
 	}
 
 	public void notifyDataSetChangedAndClone() {
 		mClone = mUsers.clone();
 		super.notifyDataSetChanged();
-	}
-	
-	private class AvatarDownloader extends AsyncTask<Object, Void, Object[]> {
-		@Override
-		protected Object[] doInBackground(Object... params) {
-			ViewHolder h = (ViewHolder) params[0];
-			
-			Bitmap bmp = mUserApi.getSmallAvatar(h.user);
-			
-			return new Object[]{h, bmp, params[1]};
-		}
-		
-		@Override
-		protected void onPostExecute(Object... result) {
-			if (result[0] != null && result[1] != null) {
-				ViewHolder h = (ViewHolder) result[0];
-				if (h.user == result[2]) {
-					h.avatar.setImageBitmap((Bitmap) result[1]);
-				}
-			}
-		}
 	}
 
 	public static class ViewHolder extends HeaderViewAdapter.ViewHolder {
