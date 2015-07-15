@@ -36,7 +36,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -209,9 +208,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	@Override
 	public void doRecycleView(ViewHolder h) {
-		h.avatar.setAlpha(1.0f);
-		h.avatar.setImageBitmap(null);
-		h.avatar.clearAnimation();
+		h.avatar.setImageResource(R.color.gray);
 		h.avatar.setTag(true);
 		h.comment_and_retweet.setVisibility(View.VISIBLE);
 		h.msg = null;
@@ -316,8 +313,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			if (bmp != null) {
 				h.avatar.setImageBitmap(bmp);
 				h.avatar.setTag(false);
-			} else {
-				h.avatar.setAlpha(0.0f);
 			}
 		}
 		
@@ -358,11 +353,9 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 				Bitmap bmp = mHomeApi.getCachedThumbnail(msg, i);
 				
 				if (bmp != null) {
-					iv.setAlpha(1.0f);
 					iv.setImageBitmap(bmp);
 					iv.setTag(false);
 				} else {
-					iv.setAlpha(0.0f);
 					iv.setImageBitmap(null);
 					iv.setTag(true);
 				}
@@ -437,13 +430,6 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		}
 	}
 	
-	private AlphaAnimation makeAlphaAnimation() {
-		AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-		anim.setDuration(500);
-		anim.setFillAfter(true);
-		return anim;
-	}
-	
 	private boolean waitUntilNotScrolling(ViewHolder h, MessageModel msg) {
 		while (mScrolling) {
 			if (h.msg != msg) {
@@ -476,7 +462,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			}
 			
 			// Avatars
-			if (v != null && Boolean.valueOf(tag.toString())) {
+			if (v != null && Boolean.parseBoolean(tag.toString())) {
 				if (!waitUntilNotScrolling(h, msg)) return null;
 				
 				Bitmap avatar = mUserApi.getSmallAvatar(msg.user);
@@ -541,20 +527,14 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 					if (v != null) {
 						ImageView iv = ((ViewHolder) v.getTag()).avatar;
 						if (iv != null) {
-							iv.setTag(false);
-							iv.setAlpha(1.0f);
 							iv.setImageBitmap(avatar);
-							iv.startAnimation(makeAlphaAnimation());
 						}
 					}
 					break;
 				case 1:
 					Bitmap img = (Bitmap) values[2];
 					ImageView iv = (ImageView) values[3];
-					iv.setAlpha(1.0f);
 					iv.setImageBitmap(img);
-					iv.setTag(false);
-					iv.startAnimation(makeAlphaAnimation());
 					break;
 			}
 			
