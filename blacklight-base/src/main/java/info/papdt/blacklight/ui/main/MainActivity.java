@@ -395,10 +395,10 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		// Initialize FAB
 		mFAB = new FloatingActionButton.Builder(this)
 			.withGravity(Gravity.BOTTOM | Gravity.RIGHT)
-			.withPaddings(16, 16, 16, 16)
+			.withPaddings(0, 0, 16, 16)
 			.withDrawable(Utility.getFABNewIcon(this))
 			.withButtonColor(Utility.getFABBackground(this))
-			.withButtonSize(100)
+			.withButtonSize(56 + 16)
 			.create();
 		mFAB.setOnClickListener(this);
 		mFAB.setOnLongClickListener(this);
