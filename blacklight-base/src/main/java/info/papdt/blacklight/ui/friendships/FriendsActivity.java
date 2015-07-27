@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -36,7 +36,7 @@ public class FriendsActivity extends AbsActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.empty_frame;
 		super.onCreate(savedInstanceState);
-		
+
 		// Arguments
 		String uid = getIntent().getStringExtra("uid");
         boolean isFriends = getIntent().getBooleanExtra("isFriends", true);
@@ -52,10 +52,5 @@ public class FriendsActivity extends AbsActivity
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.frame);
 	}
 }

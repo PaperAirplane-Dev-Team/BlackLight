@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -40,10 +40,10 @@ public class SearchActivity extends AbsActivity
 	public static interface Searcher {
 		public void search(String q);
 	}
-	
+
 	private ViewPager mPager;
 	private SlidingTabLayout mTab;
-	
+
 	private Fragment[] mFragments = new Fragment[]{
 		new SearchStatusFragment(),
 		new SearchUserFragment()
@@ -53,26 +53,26 @@ public class SearchActivity extends AbsActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.search;
 		super.onCreate(savedInstanceState);
-		
+
 		mPager = Utility.findViewById(this, R.id.search_pager);
 		mTab = Utility.findViewById(this, R.id.search_tab);
-		
+
 		if (Build.VERSION.SDK_INT >= 21) {
 			mTab.setElevation(getToolbarElevation());
 		}
-		
+
 		final String[] titles = getResources().getStringArray(R.array.search_type);
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 			@Override
 			public Fragment getItem(int position) {
 				return mFragments[position];
 			}
-			
+
 			@Override
 			public String getPageTitle(int position) {
 				return titles[position];
 			}
-			
+
 			@Override
 			public int getCount() {
 				return mFragments.length;
@@ -80,28 +80,28 @@ public class SearchActivity extends AbsActivity
 		});
 		mTab.setDistributeEvenly(true);
 		mTab.setViewPager(mPager);
-		
+
 		final int color = getResources().getColor(R.color.white);
 		mTab.setCustomTabColorizer(new SlidingTabStrip.SimpleTabColorizer() {
 			@Override
 			public int getIndicatorColor(int position) {
 				return color;
 			}
-			
+
 			@Override
 			public int getSelectedTitleColor(int position) {
 				return color;
 			}
 		});
-		
+
 		mTab.notifyIndicatorColorChanged();
-		
+
 		mPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
 				Intent i = getIntent();
 				final String keyword = i.getStringExtra("keyword");
-				
+
 				mPager.postDelayed(new Runnable() {
 					@Override
 					public void run() {
@@ -112,14 +112,9 @@ public class SearchActivity extends AbsActivity
 						}
 					}
 				}, 500);
-				
+
 				mPager.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
 		});
-	}
-
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.search_pager);
 	}
 }

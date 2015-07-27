@@ -21,10 +21,10 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent">
-	
+
 	<include
 		layout="@layout/toolbar"/>
-	
+
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -100,7 +100,7 @@
 							android:textColor="@color/action_gray"/>
 
 					</ScrollView>
-					
+
 				</RelativeLayout>
 
 			</LinearLayout>
@@ -129,7 +129,7 @@
 						android:orientation="vertical"
 						android:background="?attr/UserInfoDivider"
 						android:gravity="center">
-						
+
 						<TextView
 							android:id="@+id/user_following"
 							android:layout_width="match_parent"
@@ -149,14 +149,14 @@
 					</LinearLayout>
 
 					<LinearLayout
-                        android:id="@+id/user_followers_container"
+						android:id="@+id/user_followers_container"
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
 						android:layout_weight="0.5"
 						android:orientation="vertical"
 						android:background="?attr/UserInfoDivider"
 						android:gravity="center">
-						
+
 						<TextView
 							android:id="@+id/user_followers"
 							android:layout_width="match_parent"
@@ -182,7 +182,7 @@
 						android:orientation="vertical"
 						android:background="?attr/UserInfoDivider"
 						android:gravity="center">
-						
+
 						<TextView
 							android:id="@+id/user_msgs"
 							android:layout_width="match_parent"
@@ -221,7 +221,7 @@
 							android:layout_marginRight="5dp"
 							android:src="@drawable/ic_action_new"
 							app:tintColor="?attr/CardForeground"/>
-						
+
 						<TextView
 							android:id="@+id/user_follow_state"
 							android:layout_width="40dp"
@@ -255,7 +255,7 @@
 		</LinearLayout>
 
 	</info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout>
-	
+
 	</FrameLayout>
 
 	<View
@@ -264,6 +264,5 @@
 		android:layout_height="3dp"
 		android:layout_below="@+id/toolbar"
 		android:background="@drawable/action_shadow"/>
-	
-</RelativeLayout>
 
+</RelativeLayout>

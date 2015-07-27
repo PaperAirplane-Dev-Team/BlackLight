@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -36,13 +36,13 @@ public class LicenseActivity extends AbsActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.web_login;
 		super.onCreate(savedInstanceState);
-		
+
 		mWebView = (WebView) findViewById(R.id.login_web);
-		
+
 		// The license is in assets
 		mWebView.loadUrl("file:///android_asset/licenses.html");
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
@@ -53,10 +53,4 @@ public class LicenseActivity extends AbsActivity
 		}
 	}
 
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.login_web);
-	}
-	
-	
 }

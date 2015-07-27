@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -82,11 +82,6 @@ public class MultiPicturePicker extends AbsActivity {
 		}
 	}
 
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.picker_grid);
-	}
-
 	private void buildAdapter() {
 		ArrayList<GalleryModel> model = new ArrayList<GalleryModel>();
 
@@ -107,7 +102,7 @@ public class MultiPicturePicker extends AbsActivity {
 					if (DEBUG) {
 						Log.d(TAG, "m.path = " + m.path);
 					}
-					
+
 					model.add(m);
 				}
 			}

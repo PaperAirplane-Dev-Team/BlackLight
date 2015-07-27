@@ -311,11 +311,6 @@ public class SingleActivity extends AbsActivity
 		findViewById(R.id.single_focus).requestFocus();
 	}
 
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.single_root);
-	}
-
 	@Binded
 	public void commentOn() {
 		Intent i = new Intent();

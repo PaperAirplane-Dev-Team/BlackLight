@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -61,7 +61,7 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 {
 	private static final String TAG = ImageActivity.class.getSimpleName();
-	
+
 	private ImageAdapter mAdapter;
 	private ViewPager mPager;
 	private MessageModel mModel;
@@ -70,24 +70,24 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 	private TextView mPage;
 
 	private boolean[] mLoaded;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.image_activity;
 		super.onCreate(savedInstanceState);
-		
+
 		// ActionBar
 		mToolbar.bringToFront();
 		mToolbar.setBackgroundDrawable(getResources().getDrawable(R.drawable.action_gradient));
 		getSupportActionBar().setTitle("");
-		
+
 		findViewById(R.id.image_container).setBackgroundResource(R.color.black);
 
 		mApiCache = new HomeTimeLineApiCache(this);
-		
+
 		mModel = getIntent().getParcelableExtra("model");
 		int def = getIntent().getIntExtra("defaultId", 0);
-		
+
 		// Initialize the adapter
 		mAdapter = new ImageAdapter();
 		mLoaded = new boolean[mAdapter.getCount()];
@@ -107,7 +107,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		mPager.setOffscreenPageLimit(1);
 		mPager.setCurrentItem(def);
 		ViewCompat.setTransitionName(mPager, "model");
-		
+
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		inflater.inflate(R.menu.image, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -157,11 +157,6 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		}
 	}
 
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.image_container);
-	}
-	
 	private class MyCallback implements FileCacheManager.ProgressCallback {
 		private CircularProgressView p;
 
@@ -192,13 +187,13 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 	private class ImageAdapter extends PagerAdapter {
 		private ArrayList<View> mViews = new ArrayList<View>();
-		
+
 		public ImageAdapter() {
 			for (int i = 0; i < getCount(); i++) {
 				mViews.add(null);
 			}
 		}
-		
+
 		@Override
 		public int getCount() {
 			return mModel.hasMultiplePictures() ? mModel.pic_urls.size() : 1;
@@ -232,9 +227,9 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			container.removeView((View) object);
 		}
-		
+
 	}
-	
+
 	private class DownloadTask extends AsyncTask<Object, Void, Object[]> {
 
 		@Override
@@ -250,7 +245,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 			super.onPostExecute(result);
 			final ViewGroup v = (ViewGroup) result[0];
 			String img = String.valueOf(result[1]);
-			
+
 			if (img != null) {
 				v.removeAllViews();
 				if (!img.endsWith(".gif")) {
@@ -311,12 +306,12 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 						iv.setImageDrawable(g);
 						v.addView(iv, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 					} catch (IOException e) {
-						
+
 					}
 				}
 			}
 		}
 
 	}
-	
+
 }

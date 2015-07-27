@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -55,16 +55,11 @@ public class DevelopersActivity extends AbsActivity
 
 		ViewGroup vg = Utility.findViewById(this, R.id.settings);
 		vg.addView(mDevelopers);
-		
+
 		new UserGetter().execute();
-		
+
 	}
 
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.settings);
-	}
-	
 	private class UserGetter extends AsyncTask<Void, Void, Boolean>{
 
 		@Override
@@ -77,20 +72,20 @@ public class DevelopersActivity extends AbsActivity
 						mUserListOfDevelopers.getList().add(m);
 					}
 				} catch(Exception e) {
-					
+
 				}
 			}
 			return true;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Boolean result) {
 			mAdapterOfDevelopers = new UserAdapter(DevelopersActivity.this, mUserListOfDevelopers, mDevelopers);
 			mDevelopers.setAdapter(mAdapterOfDevelopers);
 		}
-		
+
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {

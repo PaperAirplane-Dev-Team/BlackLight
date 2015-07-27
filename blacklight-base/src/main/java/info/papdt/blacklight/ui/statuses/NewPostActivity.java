@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -76,9 +76,9 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class NewPostActivity extends AbsActivity implements View.OnLongClickListener
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
-	
+
 	private static final int REQUEST_PICK_IMG = 1001, REQUEST_CAPTURE_PHOTO = 1002;
-	
+
 	protected EditText mText;
 	private TextView mCount;
 	private DrawerLayout mDrawer;
@@ -95,13 +95,13 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	// Funny hints
 	private String[] mHints;
-	
+
 	private ImageView[] mPics = new ImageView[9];
 
 	private LoginApiCache mLoginCache;
 	private UserApiCache mUserCache;
 	private UserModel mUser;
-	
+
 	// Fragments
 	private EmoticonFragment mEmoticonFragment;
 	private ColorPickerFragment mColorPickerFragment;
@@ -130,7 +130,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		mLoginCache = new LoginApiCache(this);
 		mUserCache = new UserApiCache(this);
 		new GetAvatarTask().execute();
-		
+
 		// Initialize views
 		mText = Utility.findViewById(this, R.id.post_edit);
 		mCount = Utility.findViewById(this, R.id.post_count);
@@ -143,7 +143,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		mAt = Utility.findViewById(this, R.id.post_at);
 		mTopic = Utility.findViewById(this, R.id.post_topic);
 		mSend = Utility.findViewById(this, R.id.post_send);
-		
+
 		// Bind onClick events
 		Utility.bindOnClick(this, mPic, "pic");
 		Utility.bindOnClick(this, mEmoji, "emoji");
@@ -162,7 +162,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			mHints = getResources().getStringArray(R.array.splashes);
 			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 		}
-		
+
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();
 		mColorPickerFragment = new ColorPickerFragment();
@@ -196,16 +196,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				mDrawer.closeDrawer(Gravity.RIGHT);
 			}
 		});
-		
+
 		mText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				
+
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
+
 			}
 
 			@Override
@@ -213,16 +213,16 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				// How many Chinese characters (1 Chinses character = 2 English characters)
 				try {
 					int length = Utility.lengthOfString(s.toString());
-					
+
 					if (DEBUG) {
 						Log.d(TAG, "Text length = " + length);
 					}
-					
+
 					if (length <= 140 && !s.toString().contains("\n")) {
 						mCount.setTextColor(mForeground);
 						mCount.setText(String.valueOf(140 - length));
 						mIsLong = false;
-					} else if (!(NewPostActivity.this instanceof RepostActivity) 
+					} else if (!(NewPostActivity.this instanceof RepostActivity)
 							&& !(NewPostActivity.this instanceof CommentOnActivity)
 							&& !(NewPostActivity.this instanceof ReplyToActivity)) {
 						mCount.setText(getResources().getString(R.string.long_post));
@@ -232,9 +232,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 						mCount.setText(String.valueOf(140 - length));
 						mIsLong = false;
 					}
-					
+
 				} catch (Exception e) {
-					
+
 				}
 
 				if (mEmoji != null) {
@@ -286,14 +286,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	}
 
 	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.post_drawer);
-	}
-
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		// Image picked, decode
 		if (requestCode == REQUEST_PICK_IMG && resultCode == RESULT_OK) {
 			if (Build.VERSION.SDK_INT >= 19) {
@@ -322,7 +317,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			addPicture(null, Utility.lastPicPath);
 		} else if (resultCode == MultiPicturePicker.PICK_OK) {
 			ArrayList<String> paths = data.getStringArrayListExtra("img");
-			
+
 			for (String path : paths) {
 				addPicture(null, path);
 
@@ -349,7 +344,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		if (item.isCheckable() && item.isEnabled()) {
 			item.setChecked(!item.isChecked());
 		}
-		
+
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			finish();
@@ -363,7 +358,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	@Binded
 	public void send() {
 		try {
-			
+
 			if (!TextUtils.isEmpty(mText.getText().toString().trim())) {
 				new Uploader().execute();
 			} else {
@@ -375,17 +370,17 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				}
 			}
 		} catch (Exception e) {
-					
+
 		}
-	} 
-	
+	}
+
 	@Binded
 	public void pic() {
 		if (mBitmaps.size() < 9) {
 			showPicturePicker();
 		}
 	}
-	
+
 	@Binded
 	public void emoji() {
 		if (mDrawer.isDrawerOpen(Gravity.RIGHT)) {
@@ -394,7 +389,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			mDrawer.openDrawer(Gravity.RIGHT);
 		}
 	}
-	
+
 	@Binded
 	public void at() {
 		mText.getText().insert(mText.getSelectionStart(), "@");
@@ -506,12 +501,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			if (mBitmaps.size() > 0) {
 				bmp = mBitmaps.get(0);
 				String path = mPaths.get(0);
-				
+
 				if (path != null) {
 					try {
 						bmp = BitmapFactory.decodeFile(path);
 					} catch (OutOfMemoryError e) {
-						
+
 					}
 				}
 
@@ -530,7 +525,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	private boolean postPics(String status) {
 		// Upload pictures first
 		String pics = "";
-		
+
 		for (int i = 0; i < mBitmaps.size(); i++) {
 			Bitmap bmp = mBitmaps.get(i);
 			String path = mPaths.get(i);
@@ -555,20 +550,20 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		// Upload text
 		return PostApi.newPostWithMultiPics(status, pics, mVersion);
 	}
-	
+
 	private class Uploader extends AsyncTask<Void, Void, Boolean> {
 		private ProgressDialog prog;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			
+
 			prog = new ProgressDialog(NewPostActivity.this);
 			prog.setMessage(getResources().getString(R.string.plz_wait));
 			prog.setCancelable(false);
 			prog.show();
 		}
-		
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			return post();
@@ -577,9 +572,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-			
+
 			prog.dismiss();
-			
+
 			if (result) {
 				finish();
 			} else {
@@ -598,7 +593,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 
 	}
-	
+
 	private class GetAvatarTask extends AsyncTask<Void, Object, Void> {
 
 		@Override
@@ -610,7 +605,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			Bitmap avatar = mUserCache.getLargeAvatar(mUser);
 			if (avatar != null)
 				publishProgress(1, avatar);
-			
+
 			return null;
 		}
 
@@ -623,6 +618,6 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			}
 			super.onProgressUpdate();
 		}
-		
+
 	}
 }

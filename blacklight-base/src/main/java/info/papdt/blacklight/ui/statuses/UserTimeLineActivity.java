@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -60,7 +60,7 @@ public class UserTimeLineActivity extends AbsActivity
 {
 	private UserTimeLineFragment mFragment;
 	private UserModel mModel;
-	
+
 	private TextView mFollowState;
 	private ImageView mFollowImg;
 	private TextView mDes;
@@ -74,10 +74,10 @@ public class UserTimeLineActivity extends AbsActivity
     private View mFollowersContainer;
 	private LinearLayout mLayoutFollowState;
 	private GenerousSlidingUpPanelLayout mSlide;
-	
+
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
-	
+
 	private UserApiCache mCache;
 
 	@Override
@@ -89,7 +89,7 @@ public class UserTimeLineActivity extends AbsActivity
 
 		// Arguments
 		mModel = getIntent().getParcelableExtra("user");
-		
+
 		// Initialize views
 		mFollowState = Utility.findViewById(this, R.id.user_follow_state);
 		mFollowImg = Utility.findViewById(this, R.id.user_follow_img);
@@ -104,24 +104,24 @@ public class UserTimeLineActivity extends AbsActivity
         mFollowersContainer = Utility.findViewById(this, R.id.user_followers_container);
 		mLayoutFollowState = Utility.findViewById(this, R.id.user_follow);
 		mSlide = Utility.findViewById(this, R.id.user_slide);
-		
+
 		View info = Utility.findViewById(this, R.id.user_info_button);
 		View dim = Utility.findViewById(this, R.id.user_dim);
-		
+
 		// Bind onClick events
 		Utility.bindOnClick(this, mLayoutFollowState, "follow");
 		Utility.bindOnClick(this, mFollowingContainer, "viewFriends");
         Utility.bindOnClick(this, mFollowersContainer, "viewFollowers");
 		Utility.bindOnClick(this, info, dim, "showOrHideInfo");
-		
+
 		getSupportActionBar().setTitle(mModel.name);
-	
+
 		// Follower state (following/followed/each other)
 		resetFollowState();
 		if (mModel != null && mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
 			mLayoutFollowState.setVisibility(View.GONE);
 		}
-		
+
 		// Also view values
 		mDes.setText(mModel.description);
 		mFollowers.setText(Utility.addUnitToInt(this, mModel.followers_count));
@@ -134,9 +134,9 @@ public class UserTimeLineActivity extends AbsActivity
 		mFollowing.setTypeface(mTypeface);
 		mMsgs.setTypeface(mTypeface);
 		mFollowState.setTypeface(mTypeface);
-		
+
 		new Downloader().execute();
-		
+
 		mFragment = new UserTimeLineFragment(mModel.id);
 		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
 
@@ -170,7 +170,7 @@ public class UserTimeLineActivity extends AbsActivity
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -193,11 +193,6 @@ public class UserTimeLineActivity extends AbsActivity
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.user_slide);
 	}
 
 	@Binded
@@ -229,7 +224,7 @@ public class UserTimeLineActivity extends AbsActivity
 		mDesScroll.clearAnimation();
 
 		AlphaAnimation anim = null;
-		
+
 		final int start = mDesScroll.getVisibility();
 
 		if (start == View.VISIBLE) {
@@ -268,10 +263,10 @@ public class UserTimeLineActivity extends AbsActivity
 		mDesScroll.setAnimation(anim);
 		anim.start();
 	}
-	
+
 	private void resetFollowState() {
 		if (mModel == null) return;
-		
+
 		if (mModel.follow_me && mModel.following) {
 			mFollowImg.setImageResource(R.drawable.ic_arrow);
 			mFollowState.setText(R.string.following_each_other);
@@ -285,7 +280,7 @@ public class UserTimeLineActivity extends AbsActivity
 			mFollowImg.setImageResource(R.drawable.ic_action_new);
 			mFollowState.setText(R.string.no_following);
 		}
-		
+
 		if (mMenuFollow != null) {
 			mMenuFollow.setIcon(mModel.following ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 			mMenuFollow.setTitle(getString(mModel.following ? R.string.unfollow : R.string.follow));
@@ -369,7 +364,7 @@ public class UserTimeLineActivity extends AbsActivity
 		protected Void doInBackground(Object... params) {
 			GroupModel[] groups = (GroupModel[]) params[0];
 			boolean[] checked = (boolean[]) params[1];
-			
+
 			for (int i = 0; i < groups.length; i++) {
 				if (checked[i]) {
 					GroupsApi.addMemberToGroup(mModel.id, groups[i].idstr);
@@ -387,7 +382,7 @@ public class UserTimeLineActivity extends AbsActivity
 		}
 
 	}
-	
+
 	private class Follower extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -396,7 +391,7 @@ public class UserTimeLineActivity extends AbsActivity
 			} else {
 				FriendsApi.follow(mModel.id);
 			}
-			
+
 			mModel.following = !mModel.following;
 			return null;
 		}
@@ -404,11 +399,11 @@ public class UserTimeLineActivity extends AbsActivity
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
+
 			resetFollowState();
 		}
 	}
-	
+
 	private class Downloader extends AsyncTask<Void, Object, Void> {
 
 		@Override
@@ -428,14 +423,14 @@ public class UserTimeLineActivity extends AbsActivity
 			// Refresh state
 			mModel = mCache.getUser(mModel.id);
 			publishProgress(2);
-			
+
 			return null;
 		}
 
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
-			
+
 			switch (Integer.parseInt(String.valueOf(values[0]))) {
 				case 0:
 					if (mAvatar != null) {

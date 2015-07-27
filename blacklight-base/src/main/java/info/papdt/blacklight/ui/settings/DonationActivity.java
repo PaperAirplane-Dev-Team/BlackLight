@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -39,10 +39,5 @@ public class DonationActivity extends AbsActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		finish();
 		return true;
-	}
-
-	@Override
-	protected View getSwipeView() {
-		return findViewById(R.id.settings);
 	}
 }

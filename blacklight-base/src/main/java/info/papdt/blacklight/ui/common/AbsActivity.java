@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -30,8 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.support.v4.widget.SlidingPaneLayout;
-
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.ShakeDetector;
@@ -51,12 +49,11 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 		if (mLang > -1) {
 			Utility.changeLanguage(this, mLang);
 		}
-		
+
 		Utility.initDarkMode(this);
 
 		super.onCreate(savedInstanceState);
-		swipeInit();
-		
+
 		// Common ActionBar settings
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -97,66 +94,18 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 		mDetector.removeListener(this);
 	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId()==android.R.id.home){
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 
 	@Override
 	public void onShake() {
 		this.onBackPressed();
-	}
-	
-	protected View getSwipeView() {
-		return ((ViewGroup) getWindow().getDecorView()).getChildAt(0);
-	}
-	
-	@TargetApi(21)
-	private void swipeInit() {
-		// Replace the view first
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		SlidingPaneLayout v = (SlidingPaneLayout) inflater.inflate(R.layout.swipe_decor_wrapper, null);
-		final ViewGroup frame = (ViewGroup) v.findViewById(R.id.swipe_container);
-		View swipeView = getSwipeView();
-		ViewGroup decor = (ViewGroup) swipeView.getParent();
-		ViewGroup.LayoutParams params = swipeView.getLayoutParams();
-		decor.removeView(swipeView);
-		frame.addView(swipeView);
-		decor.addView(v, params);
-		decor.setBackgroundColor(0);
-		
-		// Elevation
-		if (Build.VERSION.SDK_INT >= 21) {
-			frame.setElevation(11.8f);
-		} else {
-			v.setShadowResource(R.drawable.panel_shadow);
-		}
-		
-		// Swipe gesture configurations
-		v.setSliderFadeColor(0);
-		v.setPanelSlideListener(new SlidingPaneLayout.PanelSlideListener() {
-
-			@Override
-			public void onPanelSlide(View v, float percent) {
-				getWindow().getDecorView().setAlpha(1.0f - percent);
-			}
-
-			@Override
-			public void onPanelOpened(View p1) {
-				finish();
-			}
-
-			@Override
-			public void onPanelClosed(View p1) {
-			}
-		});
-		
-		// Adjust window color
-		getWindow().setBackgroundDrawable(new ColorDrawable(0));
 	}
 }
