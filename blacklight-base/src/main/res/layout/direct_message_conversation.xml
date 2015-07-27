@@ -91,6 +91,9 @@
 							<EditText
 								android:layout_height="match_parent"
 								android:ems="10"
+								android:background="@color/white"
+								android:textCursorDrawable="@null"
+								android:padding="5dp"
 								android:layout_width="match_parent"
 								android:id="@+id/direct_message_send_text"/>
 
