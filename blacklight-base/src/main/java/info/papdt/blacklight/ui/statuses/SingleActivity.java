@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -56,20 +56,20 @@ import info.papdt.blacklight.ui.common.SlidingTabStrip.SimpleTabColorizer;
 public class SingleActivity extends AbsActivity
 {
 	private MessageModel mMsg;
-	
+
 	private Fragment mMsgFragment;
 	private Fragment mCommentFragment;
 	private Fragment mRepostFragment;
-	
+
 	private ViewPager mPager;
 	private SlidingUpPanelLayout mRoot;
 	private View mDragger;
 	private View mContent;
-	
+
 	private SlidingTabLayout mIndicator;
 	private ImageView mCollapse;
 	private ImageView[] mIcons = new ImageView[2];
-	
+
 	private MenuItem mFav, mLike;
 
 	private boolean mIsMine = false;
@@ -78,7 +78,7 @@ public class SingleActivity extends AbsActivity
 	private boolean mFavTaskRunning = false;
 	private boolean mLikeTaskRunning = false;
 	private boolean mDark = false;
-	
+
 	private int mIndicatorColor = 0;
 
 	private int mActionBarColor, mDragBackgroundColor;
@@ -87,8 +87,8 @@ public class SingleActivity extends AbsActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.single;
 		super.onCreate(savedInstanceState);
-		
-		mActionBarColor = getResources().getColor(R.color.action_gray);
+
+		mActionBarColor = Utility.getColorPrimary(this);
 		mDragBackgroundColor = getResources().getColor(R.color.light_gray);
 		mDark = Utility.isDarkMode(this);
 
@@ -100,7 +100,7 @@ public class SingleActivity extends AbsActivity
 		if (mMsg.user != null && mMsg.user.id != null) {
 			mIsMine = new LoginApiCache(this).getUid().equals(mMsg.user.id);
 		}
-		
+
 		// Initialize views
 		mPager = Utility.findViewById(this, R.id.single_pager);
 		mRoot = Utility.findViewById(this, R.id.single_root);
@@ -110,14 +110,14 @@ public class SingleActivity extends AbsActivity
 		mCollapse = Utility.findViewById(this, R.id.iv_collapse);
 		mIcons[0] = Utility.findViewById(this, R.id.single_comment_img);
 		mIcons[1] = Utility.findViewById(this, R.id.single_repost_img);
-		
+
 		View comment = Utility.findViewById(this, R.id.single_comment);
 		View repost = Utility.findViewById(this, R.id.single_repost);
-		
+
 		if (Build.VERSION.SDK_INT >= 21) {
 			mDragger.setElevation(getToolbarElevation());
 		}
-		
+
 		// Bind onClick events
 		Utility.bindOnClick(this, comment, "commentOn");
 		Utility.bindOnClick(this, repost, "repost");
@@ -128,7 +128,7 @@ public class SingleActivity extends AbsActivity
 				v.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
 			}
 		}
-		
+
 		mMsgFragment = new HackyFragment();
 		Bundle b = new Bundle();
 		b.putParcelable("msg",mMsg);
@@ -138,7 +138,7 @@ public class SingleActivity extends AbsActivity
 		mRepostFragment = new RepostTimeLineFragment(mMsg.id);
 		getFragmentManager().beginTransaction().replace(R.id.single_content, mMsgFragment).commit();
 		ViewCompat.setTransitionName(findViewById(R.id.single_content), "msg");
-		
+
 		mPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 			@Override
 			public int getCount() {
@@ -156,7 +156,7 @@ public class SingleActivity extends AbsActivity
 						return null;
 				}
 			}
-			
+
 			@Override
 			public CharSequence getPageTitle(int position) {
 				switch (position) {
@@ -175,14 +175,14 @@ public class SingleActivity extends AbsActivity
 			@Override
 			public void onPanelSlide(View panel, float slideOffset) {
 				//Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
-				
+
 				// Gradient color if in light mode
 				if (!mDark) {
-					
+
 					if (Build.VERSION.SDK_INT >= 21) {
 						getToolbar().setElevation(slideOffset * 12.8f);
 					}
-					
+
 					float gradientFactor = 1 - slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));
@@ -205,21 +205,21 @@ public class SingleActivity extends AbsActivity
 
 			@Override
 			public void onPanelAnchored(View panel) {
-				
+
 			}
-			
+
 		});
 
 		// Indicator
 		mIndicatorColor = mActionBarColor;
 		mIndicator.setViewPager(mPager);
-		
+
 		mIndicator.setCustomTabColorizer(new SimpleTabColorizer() {
 			@Override
 			public int getIndicatorColor(int position) {
 				return mIndicatorColor;
 			}
-			
+
 			@Override
 			public int getSelectedTitleColor(int position) {
 				return mIndicatorColor;
@@ -232,7 +232,7 @@ public class SingleActivity extends AbsActivity
 		getMenuInflater().inflate(R.menu.single, menu);
 		mFav = menu.findItem(R.id.fav);
 		mLike = menu.findItem(R.id.like);
-		
+
 		// Can only delete statuses post by me
 		if (!mIsMine) {
 			menu.findItem(R.id.delete).setVisible(false);
@@ -244,17 +244,17 @@ public class SingleActivity extends AbsActivity
 		if (mLiked) {
 			setLikeIcon();
 		}
-		
+
 		ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.share));
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_SEND);
 		i.putExtra(Intent.EXTRA_TEXT, mMsg.text);
 		i.setType("text/plain");
 		share.setShareIntent(i);
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -299,14 +299,14 @@ public class SingleActivity extends AbsActivity
 				new LikeTask().execute();
 			}
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		// Dirty Fix: Strange focus on home as up button
 		findViewById(R.id.single_focus).requestFocus();
 	}
@@ -315,7 +315,7 @@ public class SingleActivity extends AbsActivity
 	protected View getSwipeView() {
 		return findViewById(R.id.single_root);
 	}
-	
+
 	@Binded
 	public void commentOn() {
 		Intent i = new Intent();
@@ -324,7 +324,7 @@ public class SingleActivity extends AbsActivity
 		i.putExtra("msg", mMsg);
 		startActivity(i);
 	}
-	
+
 	@Binded
 	public void repost() {
 		Intent i = new Intent();
@@ -333,7 +333,7 @@ public class SingleActivity extends AbsActivity
 		i.putExtra("msg", mMsg);
 		startActivity(i);
 	}
-	
+
 	private void setFavouriteIcon() {
 		mFav.setIcon(mFavourited ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
 		mFav.setTitle(getString(mFavourited ? R.string.fav_del : R.string.fav_add));
@@ -343,10 +343,10 @@ public class SingleActivity extends AbsActivity
 		mLike.setIcon(mLiked ? R.drawable.ic_action_bad : R.drawable.ic_action_good);
 		mLike.setTitle(getString(mLiked ? R.string.remove_attitude : R.string.attitudes));
 	}
-	
+
 	private class DeleteTask extends AsyncTask<Void, Void, Void> {
 		private ProgressDialog prog;
-		
+
 		@Override
 		protected void onPreExecute() {
 			prog = new ProgressDialog(SingleActivity.this);
@@ -354,20 +354,20 @@ public class SingleActivity extends AbsActivity
 			prog.setCancelable(false);
 			prog.show();
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			PostApi.deletePost(mMsg.id);
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Void result) {
 			prog.dismiss();
 			finish();
 		}
 	}
-	
+
 	private class FavTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
@@ -375,7 +375,7 @@ public class SingleActivity extends AbsActivity
 			super.onPreExecute();
 			mFavTaskRunning = true;
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			if (mFavourited) {
@@ -383,7 +383,7 @@ public class SingleActivity extends AbsActivity
 			} else {
 				PostApi.fav(mMsg.id);
 			}
-			
+
 			mFavourited = !mFavourited;
 			return null;
 		}
