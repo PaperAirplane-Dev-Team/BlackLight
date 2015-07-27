@@ -35,58 +35,51 @@
 			android:layout_height="wrap_content"
 			android:gravity="center_vertical"
 			android:background="?attr/colorPrimary">
-			
+
 			<include
 				layout="@layout/toolbar"/>
-			
+
 			<include
 				layout="@layout/main_top"/>
-			
+
 		</RelativeLayout>
-		
+
 		<FrameLayout
 			android:id="@+id/main_tab_wrapper"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/toolbar_wrapper"
 			android:background="?attr/colorPrimary">
-			
+
 			<info.papdt.blacklight.ui.common.SlidingTabLayout
 				android:id="@+id/main_tabs"
 				android:layout_width="match_parent"
 				android:layout_height="48dp"
 				android:layout_marginBottom="40dp"
 				android:background="?attr/colorPrimary"/>
-		
+
 		</FrameLayout>
-		
+
 		<info.papdt.blacklight.ui.common.HackyViewPager
 			android:id="@+id/main_pager"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_below="@+id/toolbar_wrapper"/>
-		
+
 		<View
 			android:id="@+id/action_shadow"
 			android:layout_width="match_parent"
 			android:layout_height="3dp"
 			android:background="@drawable/action_shadow"
 			android:layout_below="@+id/toolbar_wrapper"/>
-		
-		<View
-			android:id="@+id/main_dim"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:background="@color/gray"
-			android:visibility="gone"/>
-		
+
 		<com.quinny898.library.persistentsearch.SearchBox
 			android:id="@+id/main_search"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_alignParentTop="true"
 			android:visibility="gone"/>
-		
+
 	</RelativeLayout>
 
 	<info.papdt.blacklight.ui.common.ScrimInsetsFrameLayout
@@ -97,7 +90,7 @@
 		android:background="?attr/colorPrimary"
 		android:fitsSystemWindows="true"
 		app:insetForeground="@color/inset">
-		
+
 		<LinearLayout
 			android:layout_width="270dp"
 			android:layout_height="match_parent"
@@ -111,8 +104,7 @@
 				layout="@layout/main_drawer"/>
 
 		</LinearLayout>
-			
+
 	</info.papdt.blacklight.ui.common.ScrimInsetsFrameLayout>
 
 </android.support.v4.widget.DrawerLayout>
-
