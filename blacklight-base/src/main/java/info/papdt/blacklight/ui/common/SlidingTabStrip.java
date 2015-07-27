@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -31,12 +31,16 @@ import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import info.papdt.blacklight.support.Utility;
+
 public class SlidingTabStrip extends LinearLayout {
 
 	private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 0;
 	private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
 	private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 2;
 	private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
+
+	private static int sColorPrimary = 0;
 
 	private final int mBottomBorderThickness;
 	private final Paint mBottomBorderPaint;
@@ -78,6 +82,11 @@ public class SlidingTabStrip extends LinearLayout {
 
 		mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
 		mSelectedIndicatorPaint = new Paint();
+
+		// Obtain primary color
+		if (sColorPrimary == 0) {
+			sColorPrimary = Utility.getColorPrimary(getContext());
+		}
 	}
 
 	void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) {
@@ -95,81 +104,81 @@ public class SlidingTabStrip extends LinearLayout {
 	void onViewPagerPageChanged(int position, float positionOffset) {
 		mSelectedPosition = position;
 		mSelectionOffset = positionOffset;
-		
+
 		// Title colors changes when page scrolled
 		final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
 			? mCustomTabColorizer
 			: mDefaultTabColorizer;
-			
+
 		int id = getSlidingTabLayout().getTextViewId();
-		
+
 		View selected = getChildAt(mSelectedPosition);
 		View selectedTitle = id == 0 ? selected : selected.findViewById(id);
-		
+
 		int selectedColor = tabColorizer.getSelectedTitleColor(mSelectedPosition);
 		int normalColor = tabColorizer.getNormalTitleColor(mSelectedPosition);
-		
+
 		if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
 			View next = getChildAt(mSelectedPosition + 1);
 			View nextTitle = id == 0 ? next : next.findViewById(id);
-			
+
 			// Set the gradient title colors
 			int nextSelectedColor = tabColorizer.getSelectedTitleColor(mSelectedPosition + 1);
 			int nextNormalColor = tabColorizer.getNormalTitleColor(mSelectedPosition + 1);
 
 			int selectedBlend = blendColors(selectedColor, normalColor, 1.0f - mSelectionOffset);
 			int nextBlend = blendColors(nextSelectedColor, nextNormalColor, mSelectionOffset);
-			
+
 			if (selectedTitle instanceof TextView)
 				((TextView) selectedTitle).setTextColor(selectedBlend);
 			else if (selectedTitle instanceof TintImageView)
 				((TintImageView) selectedTitle).setColor(selectedBlend);
-				
+
 			if (nextTitle instanceof TextView)
 				((TextView) nextTitle).setTextColor(nextBlend);
 			else if (nextTitle instanceof TintImageView)
 				((TintImageView) nextTitle).setColor(nextBlend);
-				
+
 		} else if (mSelectionOffset == 0f) {
 			if (selectedTitle instanceof TextView)
 				((TextView) selectedTitle).setTextColor(selectedColor);
 			else if (selectedTitle instanceof TintImageView)
 				((TintImageView) selectedTitle).setColor(selectedColor);
 		}
-		
+
 		invalidate();
 	}
-	
+
 	void updateTitleViews() {
 		final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
 			? mCustomTabColorizer
 			: mDefaultTabColorizer;
-		
+
 		int id = getSlidingTabLayout().getTextViewId();
-		
+
 		for (int i = 0; i < getChildCount(); i++) {
 			View v = getChildAt(i);
 			View child =  id == 0 ? v : v.findViewById(id);
-			
+
 			int color;
 			if (mSelectedPosition != i)
 				color = tabColorizer.getNormalTitleColor(i);
 			else
 				color = tabColorizer.getSelectedTitleColor(i);
-			
+
 			if (child instanceof TextView) {
 				((TextView) v).setTextColor(color);
 			} else if (child instanceof TintImageView) {
 				((TintImageView) v).setColor(color);
 			}
 		}
-		
+
 		invalidate();
 	}
-	
+
 	SlidingTabLayout getSlidingTabLayout() {
 		ViewParent parent = getParent();
-		
+
 		if (parent instanceof SlidingTabLayout) {
 			return (SlidingTabLayout) parent;
 		} else if (parent == null) {
@@ -199,7 +208,7 @@ public class SlidingTabStrip extends LinearLayout {
 				if (color != nextColor) {
 					color = blendColors(nextColor, color, mSelectionOffset);
 				}
-				
+
 				// Draw the selection partway between the tabs
 				View nextTitle = getChildAt(mSelectedPosition + 1);
 				left = (int) (mSelectionOffset * nextTitle.getLeft() +
@@ -246,7 +255,7 @@ public class SlidingTabStrip extends LinearLayout {
 		public int getIndicatorColor(int position) {
 			return mIndicatorColors[position % mIndicatorColors.length];
 		}
-		
+
 
 		@Override
 		public int getSelectedTitleColor(int position) {
@@ -255,7 +264,7 @@ public class SlidingTabStrip extends LinearLayout {
 
 		@Override
 		public int getNormalTitleColor(int position) {
-			return blendColors(getSelectedTitleColor(position), Color.GRAY, 0.6f);
+			return blendColors(getSelectedTitleColor(position), sColorPrimary, 0.6f);
 		}
 
 		void setIndicatorColors(int... colors) {

@@ -816,6 +816,17 @@ public class Utility
 		}
 	}
 
+	public static int getColorPrimary(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.Theme);
+			int ret = array.getColor(R.styleable.Theme_colorPrimary, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
 	public static int getColorPrimaryDark(Context context) {
 		try {
 			TypedArray array = context.obtainStyledAttributes(R.styleable.Theme);
