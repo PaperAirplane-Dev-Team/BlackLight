@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -77,7 +77,7 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class Utility
 {
 	private static final String TAG = Utility.class.getSimpleName();
-	
+
 	private static final int REQUEST_CODE = 100001;
 
 	public static String lastPicPath;
@@ -102,35 +102,35 @@ public class Utility
 			}
 		}
 	}
-	
+
 	public static int expireTimeInDays(long time) {
 		return (int) TimeUnit.MILLISECONDS.toDays(time - System.currentTimeMillis());
 	}
-	
+
 	public static boolean isTokenExpired(long time) {
 		return time <= System.currentTimeMillis();
 	}
-	
+
 	public static boolean isCacheAvailable(long createTime, int availableDays) {
 		return System.currentTimeMillis() <= createTime + TimeUnit.DAYS.toMillis(availableDays);
 	}
-	
+
 	public static int lengthOfString(String str) throws UnsupportedEncodingException {
 		// Considers 1 Chinese character as 2 English characters
 		return (str.getBytes("GB2312").length + 1) / 2;
 	}
-	
+
 	public static int getSupportedMaxPictureSize() {
 		int[] array = new int[1];
 		GLES10.glGetIntegerv(GLES10.GL_MAX_TEXTURE_SIZE, array, 0);
-		
+
 		try {
 			if (array[0] == 0) {
 				GLES11.glGetIntegerv(GLES11.GL_MAX_TEXTURE_SIZE, array, 0);
-			
+
 				if (array[0] == 0) {
 					GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_SIZE, array, 0);
-				
+
 					if (array[0] == 0) {
 						GLES30.glGetIntegerv(GLES30.GL_MAX_TEXTURE_SIZE, array, 0);
 					}
@@ -139,7 +139,7 @@ public class Utility
 		} catch (NoClassDefFoundError e) {
 			// Ignore the exception
 		}
-		
+
 		return array[0] != 0 ? array[0] : 2048;
 	}
 
@@ -153,21 +153,21 @@ public class Utility
 		Settings s = Settings.getInstance(context);
 		s.putString(Settings.NOTIFICATION_ONGOING, "");
 	}
-	
+
 	public static void startServiceAlarm(Context context, Class<?> service, long interval) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, service);
 		PendingIntent p = PendingIntent.getService(context, REQUEST_CODE, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, 0, interval, p);
 	}
-	
+
 	public static void stopServiceAlarm(Context context, Class<?> service) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, service);
 		PendingIntent p = PendingIntent.getService(context, REQUEST_CODE, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		am.cancel(p);
 	}
-	
+
 	public static void startServices(Context context) {
 		Settings settings = Settings.getInstance(context);
 		int interval = getIntervalTime(settings.getInt(Settings.NOTIFICATION_INTERVAL, 1));
@@ -176,7 +176,7 @@ public class Utility
 			startServiceAlarm(context, ReminderService.class, interval);
 		}
 	}
-	
+
 	public static void stopServices(Context context) {
 		stopServiceAlarm(context, ReminderService.class);
 	}
@@ -190,7 +190,7 @@ public class Utility
 			startServices(context);
 		}
 	}
-	
+
 	public static int getIntervalTime(int id) {
 		switch (id){
 		case 0:
@@ -229,7 +229,7 @@ public class Utility
 				lang = 0;
 			}
 		}
-		
+
 		return lang;
 	}
 
@@ -308,7 +308,7 @@ public class Utility
 			return null;
 		}
 	}
-	
+
 	public static boolean isChrome() {
 		return Build.BRAND.equals("chromium") || Build.BRAND.equals("chrome");
 	}
@@ -325,7 +325,7 @@ public class Utility
 
 	public static int getActionBarHeight(Context context) {
 		TypedValue v = new TypedValue();
-		
+
 		if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, v, true)) {
 			return TypedValue.complexToDimensionPixelSize(v.data, context.getResources().getDisplayMetrics());
 		} else {
@@ -336,7 +336,7 @@ public class Utility
 	public static int getDecorPaddingTop(Context context) {
 		return getActionBarHeight(context);
 	}
-	
+
 	public static void setActionBarTranslation(Activity activity, float y) {
 		ViewGroup vg = (ViewGroup) activity.findViewById(android.R.id.content).getParent();
 		int count = vg.getChildCount();
@@ -361,7 +361,7 @@ public class Utility
 
 		for (int i = 0; i < count; i++) {
 			View v = vg.getChildAt(i);
-			
+
 			if (v.getId() != android.R.id.content) {
 				if (DEBUG) {
 					Log.d(TAG, "Found View: " + v.getClass().getName());
@@ -386,7 +386,7 @@ public class Utility
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
 				}
-				
+
 				v.setTranslationY(y);
 			}
 		}
@@ -452,7 +452,7 @@ public class Utility
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setTextSize(15.0f);
-		
+
 		// Split the text into lines
 		ArrayList<String> lines = new ArrayList<String>();
 		ArrayList<HashMap<String, Integer>> format = new ArrayList<HashMap<String, Integer>>();
@@ -546,8 +546,8 @@ public class Utility
 						tmp = tmp.substring(color.length() + 1, tmp.length());
 						continue;
 					}
-				}	
-				
+				}
+
 				ignore = false;
 
 				line += str;
@@ -584,7 +584,7 @@ public class Utility
 		// Create the bitmap and draw
 		Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bmp);
-		
+
 		paint.setColor(context.getResources().getColor(android.R.color.background_light));
 		canvas.drawRect(0, 0, width, height, paint);
 
@@ -605,11 +605,11 @@ public class Utility
 			if (line.equals(from)) {
 				paint.setColor(context.getResources().getColor(R.color.gray));
 			}
-			
+
 			int lastPos = 0;
 
 			float xOffset = 0;
-			
+
 			while (format.size() > 0) {
 				HashMap<String, Integer> map = format.get(0);
 
@@ -655,7 +655,7 @@ public class Utility
 
 		// Draw the picture
 		if (pic != null) {
-			canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()), 
+			canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()),
 					new Rect(10, (int) (y + 10), picWidth + 10, (int) (picHeight + y + 10)), paint);
 		}
 
@@ -667,7 +667,7 @@ public class Utility
 		if (DEBUG) {
 			Log.d(TAG, "parseLongContent");
 		}
-		
+
 		String[] strs = content.split("\n");
 		String str = "";
 
@@ -714,7 +714,7 @@ public class Utility
 	public static void initDarkMode(Activity activity) {
 		if (isDarkMode(activity)) {
 			int theme = 0;
-			
+
 			try {
 				theme = activity.getPackageManager().getActivityInfo(activity.getComponentName(), 0).theme;
 			} catch (NameNotFoundException e) {
@@ -744,7 +744,7 @@ public class Utility
 	public static void initDarkTabHost(Activity activity, TabHost tabhost) {
 		if (isDarkMode(activity)) {
 			int textColor = 0;
-			
+
 			try {
 				TypedArray array = activity.getTheme().obtainStyledAttributes(R.styleable.BlackLight);
 				textColor = array.getColor(R.styleable.BlackLight_CardForeground, 0);
@@ -815,7 +815,7 @@ public class Utility
 			return null;
 		}
 	}
-	
+
 	public static int getColorPrimaryDark(Context context) {
 		try {
 			TypedArray array = context.obtainStyledAttributes(R.styleable.Theme);
@@ -826,15 +826,15 @@ public class Utility
 			return 0;
 		}
 	}
-	
+
 	public static <T> T findViewById(View v, int id) {
 		return (T) v.findViewById(id);
 	}
-	
+
 	public static <T> T findViewById(Activity activity, int id) {
 		return (T) activity.findViewById(id);
 	}
-	
+
 	public static boolean isUidBanned(Context context, String uid) {
 		String[] banned = context.getResources().getStringArray(R.array.banned_users);
 		for (String ban : banned) {
@@ -842,10 +842,10 @@ public class Utility
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public static void bindOnClick(final Object obj, Object... viewsAndMethod) {
 		final Class<?> clazz = obj.getClass();
 		String method = viewsAndMethod[viewsAndMethod.length - 1].toString();
@@ -858,23 +858,23 @@ public class Utility
 					try {
 						m.invoke(obj);
 					} catch (InvocationTargetException e) {
-						
+
 					} catch (IllegalAccessException e) {
-						
+
 					}
 				}
 			};
-			
+
 			for (Object o : viewsAndMethod) {
 				if (o instanceof View) {
 					((View) o).setOnClickListener(listener);
 				}
 			}
 		} catch (NoSuchMethodException e) {
-			
+
 		}
 	}
-	
+
 	public static void bindOnLongClick(final Object obj, Object... viewsAndMethod) {
 		final Class<?> clazz = obj.getClass();
 		String method = viewsAndMethod[viewsAndMethod.length - 1].toString();
@@ -891,11 +891,11 @@ public class Utility
 						} catch (IllegalAccessException e) {
 
 						}
-						
+
 						return false;
 					}
 				};
-				
+
 				for (Object o : viewsAndMethod) {
 					if (o instanceof View) {
 						((View) o).setOnLongClickListener(listener);
@@ -905,11 +905,11 @@ public class Utility
 
 		}
 	}
-	
+
 	public static Method findMethod(Class<?> clazz, String name) throws NoSuchMethodException {
 		Class<?> cla = clazz;
 		Method method = null;
-		
+
 		do {
 			try {
 				method = cla.getDeclaredMethod(name);
@@ -918,14 +918,14 @@ public class Utility
 				cla = cla.getSuperclass();
 			}
 		} while (method == null && cla != Object.class);
-		
+
 		if (method == null) {
 			throw new NoSuchMethodException();
 		} else {
 			return method;
 		}
 	}
-	
+
 	public static int computeSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
 		int initialSize = computeInitialSampleSize(options, minSideLength, maxNumOfPixels);
 		int roundedSize;
@@ -939,7 +939,7 @@ public class Utility
 		}
 		return roundedSize;
 	}
-	
+
 	private static int computeInitialSampleSize(BitmapFactory.Options options, int minSideLength, int maxNumOfPixels) {
 		double w = options.outWidth;
 		double h = options.outHeight;
@@ -949,7 +949,7 @@ public class Utility
 		if (upperBound < lowerBound) {
 			return lowerBound;
 		}
-		
+
 		if ((maxNumOfPixels == -1) && (minSideLength == -1)) {
 			return 1;
 		} else if (minSideLength == -1) {

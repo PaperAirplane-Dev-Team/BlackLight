@@ -44,6 +44,7 @@
 				android:layout_margin="5dp"
 				android:textSize="15sp"
 				android:textColor="?attr/CardForeground"
+				android:textColorLink="?attr/colorAccent"
 				android:id="@+id/direct_message_conversation_content"/>
 
 			<TextView

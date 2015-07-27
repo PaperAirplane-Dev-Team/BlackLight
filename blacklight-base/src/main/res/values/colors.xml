@@ -18,6 +18,7 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+	<!-- Gray!!! -->
 	<color name="gray">#aaaaaa</color>
 	<color name="gray_alpha">#bbaaaaaa</color>
 	<color name="gray_alpha_lighter">#eeeeeeee</color>
@@ -43,7 +44,21 @@
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
 	<color name="inset">#40000000</color>
-	
+
+	<!-- Something different: purple -->
+	<color name="purple_500">#9c27b0</color>
+	<color name="purple_700">#7b1fa2</color>
+
+	<!-- Teal -->
+	<color name="teal_500">#009688</color>
+
+	<!-- Pink -->
+	<color name="pink_500">#e91e63</color>
+
+	<!-- Amber -->
+	<color name="amber_500">#ffc107</color>
+	<color name="amber_700">#ffa000</color>
+
 	<!-- Pull To Refresh -->
 	<color name="ptr_green">#44aa00</color>
 	<color name="ptr_red">#aa5500</color>

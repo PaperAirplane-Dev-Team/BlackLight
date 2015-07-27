@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -45,7 +45,7 @@ public class DirectMessageAdapter extends BaseAdapter
 	private DirectMessageListModel mList;
 	private DirectMessageListModel mClone;
 	private long mUid;
-	
+
 	public DirectMessageAdapter(Context context, DirectMessageListModel list, String uid) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -53,7 +53,7 @@ public class DirectMessageAdapter extends BaseAdapter
 		mUid = Long.parseLong(uid);
 		notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public int getCount() {
 		return mClone.getSize();
@@ -77,26 +77,26 @@ public class DirectMessageAdapter extends BaseAdapter
 			DirectMessageModel msg = mClone.get(calcPos(position));
 			View v = null;
 			ViewHolder h = null;
-			
+
 			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_conversation_item, null);
 			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v);
-			
+
 			LinearLayout container = h.container;
 			if (msg.sender_id == mUid) {
 				container.setGravity(Gravity.LEFT);
-				h.card.setBackgroundResource(R.color.action_gray);
+				h.card.setBackgroundResource(R.color.purple_500);
 				h.content.setTextColor(mContext.getResources().getColor(R.color.white));
 			} else {
 				container.setGravity(Gravity.RIGHT);
 				h.card.setBackgroundResource(R.color.white);
 				h.content.setTextColor(mContext.getResources().getColor(R.color.action_gray));
 			}
-			
+
 			h.content.setText(SpannableStringUtils.span(mContext, msg.text));
 			h.content.setMovementMethod(HackyMovementMethod.getInstance());
-			
+
 			h.date.setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
-			
+
 			return v;
 		}
 	}
@@ -106,27 +106,27 @@ public class DirectMessageAdapter extends BaseAdapter
 		mClone = mList.clone();
 		super.notifyDataSetChanged();
 	}
-	
+
 	// Convert position to real position (upside-down list)
 	private int calcPos(int position) {
 		return getCount() - position - 1;
 	}
-	
+
 	class ViewHolder {
 		private View v;
 		public TextView content;
 		public TextView date;
 		public LinearLayout container;
 		public View card;
-		
+
 		public ViewHolder(View v) {
 			this.v = v;
-			
+
 			content = Utility.findViewById(v, R.id.direct_message_conversation_content);
 			date = Utility.findViewById(v, R.id.direct_message_conversation_date);
 			container = Utility.findViewById(v, R.id.direct_message_conversation_container);
 			card = Utility.findViewById(v, R.id.direct_message_card);
-			
+
 			v.setTag(this);
 		}
 	}

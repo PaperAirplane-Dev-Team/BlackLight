@@ -20,7 +20,7 @@
 <resources>
 
     <style name="Widget.GifView" parent="@android:style/Widget"></style>
-	
+
 	<style name="BL.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:windowContentOverlay">@null</item>
@@ -28,8 +28,9 @@
 		<item name="android:windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowActionModeOverlay">true</item>
-		<item name="colorPrimary">@color/action_gray</item>
-		<item name="colorPrimaryDark">@color/action_gray_darker</item>
+		<item name="colorPrimary">@color/purple_500</item>
+		<item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/amber_700</item>
 		<item name="CardBackground">@color/white</item>
 		<item name="CardForeground">@color/darker_gray</item>
 		<item name="CardOrigBackground">@color/midium_gray</item>
@@ -48,7 +49,7 @@
 		<item name="NewPostImgFilter">@color/gray_alpha_lighter</item>
 		<item name="BottomViewColor">@color/action_gray</item>
 		<item name="LayerColor">@color/action_gray</item>
-		<item name="FABBackground">@color/action_gray</item>
+		<item name="FABBackground">?attr/colorAccent</item>
 		<item name="FABNewIcon">@drawable/ic_add_white_24dp</item>
 		<item name="IndicatorForeground">@color/action_gray</item>
 		<item name="DrawerBackground">@color/white</item>
@@ -61,7 +62,7 @@
 		<item name="UserInfoText">@color/black</item>
 		<item name="UserInfoDivider">@drawable/user_info_divider</item>
 	</style>
-	
+
 	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Light" />
 
 	<style name="BL.Theme.Dark" parent="Theme.AppCompat">
@@ -103,9 +104,9 @@
 		<item name="UserInfoText">@color/white</item>
 		<item name="UserInfoDivider">@drawable/user_info_divider_dark</item>
 	</style>
-	
+
 	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark" />
-	
+
 	<style name="BL.Theme.Light.Translucent" parent="BL.Theme.Light">
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
@@ -113,7 +114,7 @@
 	<style name="BL.Theme.Dark.Translucent" parent="BL.Theme.Dark">
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
-	
+
 	<style name="BL.Theme.Light.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Light">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
@@ -137,7 +138,7 @@
 	<style name="BL.Theme.Dark.GradientActionBar" parent="BL.Theme.Dark.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar.Gradient</item>
 	</style>
-	
+
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
 		<item name="android:background">@color/action_gray</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
@@ -174,5 +175,5 @@
 	<style name="DrawerItem">
 		<item name="android:background">@drawable/drawer_selector</item>
 	</style>
-	
+
 </resources>

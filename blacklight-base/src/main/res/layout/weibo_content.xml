@@ -76,7 +76,7 @@
 		android:id="@+id/weibo_content"
 		android:textSize="16sp"
 		android:textColor="?attr/CardForeground"
-		android:textColorLink="@color/link_blue"
+		android:textColorLink="?attr/colorAccent"
 		android:lineSpacingExtra="4dp"
 		android:layout_marginTop="5dp"
 		android:layout_marginLeft="15dp"
@@ -208,7 +208,7 @@
 			android:paddingBottom="10dp"
 			android:textSize="16sp"
 			android:textColor="?attr/CardForeground"
-			android:textColorLink="@color/link_blue"
+			android:textColorLink="?attr/colorAccent"
 			android:lineSpacingExtra="4dp"/>
 
 	</RelativeLayout>
