@@ -81,7 +81,19 @@ public class SingleActivity extends AbsActivity
 
 	private int mIndicatorColor = 0;
 
-	private int mActionBarColor, mDragBackgroundColor;
+	private int mActionBarColor, mDragBackgroundColor, mGray, mWhite;
+
+	private SimpleTabColorizer mColorizer = new SimpleTabColorizer() {
+		@Override
+		public int getIndicatorColor(int position) {
+			return mIndicatorColor;
+		}
+
+		@Override
+		public int getSelectedTitleColor(int position) {
+			return mIndicatorColor;
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +102,8 @@ public class SingleActivity extends AbsActivity
 
 		mActionBarColor = Utility.getColorPrimary(this);
 		mDragBackgroundColor = getResources().getColor(R.color.light_gray);
+		mGray = getResources().getColor(R.color.action_gray);
+		mWhite = getResources().getColor(R.color.white);
 		mDark = Utility.isDarkMode(this);
 
 		// Arguments
@@ -186,10 +200,10 @@ public class SingleActivity extends AbsActivity
 					float gradientFactor = 1 - slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));
-					int foreground = Utility.getGradientColor(mActionBarColor, mDragBackgroundColor, gradientFactor);
-					mIndicatorColor = foreground;
+					mIndicatorColor = Utility.getGradientColor(mGray, mWhite, gradientFactor);;
+					mColorizer.setBlendColor(Utility.getGradientColor(mGray, mActionBarColor, gradientFactor));
 					mIndicator.notifyIndicatorColorChanged();
-					mCollapse.setColorFilter(foreground, PorterDuff.Mode.SRC_IN);
+					mCollapse.setColorFilter(Utility.getGradientColor(mGray, mDragBackgroundColor, gradientFactor), PorterDuff.Mode.SRC_IN);
 				}
 
 				mCollapse.setRotation((1 - slideOffset) * -180);
@@ -211,20 +225,12 @@ public class SingleActivity extends AbsActivity
 		});
 
 		// Indicator
-		mIndicatorColor = mActionBarColor;
+		mIndicatorColor = mGray;
+		mColorizer.setBlendColor(mGray);
 		mIndicator.setViewPager(mPager);
 
-		mIndicator.setCustomTabColorizer(new SimpleTabColorizer() {
-			@Override
-			public int getIndicatorColor(int position) {
-				return mIndicatorColor;
-			}
-
-			@Override
-			public int getSelectedTitleColor(int position) {
-				return mIndicatorColor;
-			}
-		});
+		mIndicator.setCustomTabColorizer(mColorizer);
+		mIndicator.notifyIndicatorColorChanged();
 	}
 
 	@Override

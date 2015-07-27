@@ -250,6 +250,7 @@ public class SlidingTabStrip extends LinearLayout {
 
 	public static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
 		private int[] mIndicatorColors;
+		private int mBlendColor = sColorPrimary;
 
 		@Override
 		public int getIndicatorColor(int position) {
@@ -264,7 +265,11 @@ public class SlidingTabStrip extends LinearLayout {
 
 		@Override
 		public int getNormalTitleColor(int position) {
-			return blendColors(getSelectedTitleColor(position), sColorPrimary, 0.6f);
+			return blendColors(getSelectedTitleColor(position), mBlendColor, 0.6f);
+		}
+
+		public void setBlendColor(int color) {
+			mBlendColor = color;
 		}
 
 		void setIndicatorColors(int... colors) {
