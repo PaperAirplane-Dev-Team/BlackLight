@@ -122,7 +122,10 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 				if (DEBUG) {
 					Log.d(TAG, "Setting adapter");
 				}
-				
+
+				if (!isAdded()){
+                    return;
+                }
 				mAdapter = new SelectionArrayAdapter<String>(getActivity(), R.layout.main_drawer_group_item, R.id.group_title, R.color.selector_gray, names);
 				mList.setAdapter(mAdapter);
 				mList.setOnItemClickListener(GroupFragment.this);
