@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.directmessage;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,6 +87,14 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		mList.setStackFromBottom(true);
 		mAdapter = new DirectMessageAdapter(this, mMsgList, mUser.id);
 		mList.setAdapter(mAdapter);
+
+		mList.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
+									   int oldTop, int oldRight, int oldBottom) {
+				mList.smoothScrollToPosition(ListView.FOCUS_DOWN);
+			}
+		});
 
 		// Emoticon Picker
 		mEmoticons = new EmoticonFragment();
