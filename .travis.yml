@@ -24,7 +24,7 @@ after_success:
 - git tag $GIT_TAG
 - git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
 android:
-  componenents:
+  components:
   - build-tools-21.1.2
   - android-21
   - extra-android-support
