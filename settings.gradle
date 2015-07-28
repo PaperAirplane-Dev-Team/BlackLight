@@ -1,1 +1,1 @@
-include ':app', ':blacklight-base', ':libraries:SlidingUpPanel', ':libraries:PersistentSearch'
+include ':app', ':blacklight-base',':app-snapshot', ':libraries:SlidingUpPanel', ':libraries:PersistentSearch'
