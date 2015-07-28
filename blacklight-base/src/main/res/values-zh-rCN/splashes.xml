@@ -30,7 +30,7 @@
 		<item>失去人性，失去很多</item>
 		<item>失去兽性，失去一切</item>
 	</string-array>
-	
+
 	<string-array name="splashes">
 		<item>Stay hungry, stay foolish.</item>
 		<item>BlackLight 官方中文译名暂定为 ”黑灯“</item>
@@ -200,5 +200,8 @@
 		<item>不服跑个分</item>
 		<item>奇变偶不变，符号看象限</item>
 		<item>我不哭，我坚强，今夜你们都是我</item>
+		<item>姚文元很坏 沛公没文化 然而没乱用 盛世前程顺</item>
+		<item>CS Go 就是用 CoffeeScript 写的 Go</item>
+		<item>宇宙中心五道口</item>
 	</string-array>
 </resources>
