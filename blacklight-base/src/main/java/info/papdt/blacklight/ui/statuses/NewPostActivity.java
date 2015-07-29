@@ -155,7 +155,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		Utility.bindOnClick(this, mAt, "at");
 		Utility.bindOnClick(this, mTopic, "topic");
 		Utility.bindOnClick(this, mSend, "send");
-		Utility.bindOnClick(this,mAvatar,"avater");
+		Utility.bindOnClick(this,mAvatar,"avatar");
 
 		// Version
 		try {
@@ -401,7 +401,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	}
 
 	@Binded
-	public void avater(){
+	public void avatar(){
 		mHints = getResources().getStringArray(R.array.splashes);
 		mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 	}
