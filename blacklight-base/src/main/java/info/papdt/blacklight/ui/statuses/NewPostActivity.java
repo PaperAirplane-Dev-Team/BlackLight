@@ -19,6 +19,7 @@
 
 package info.papdt.blacklight.ui.statuses;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -76,7 +77,7 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class NewPostActivity extends AbsActivity implements View.OnLongClickListener
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
-
+	private static final String DRAFT="post_draft";
 	private static final int REQUEST_PICK_IMG = 1001, REQUEST_CAPTURE_PHOTO = 1002;
 
 	protected EditText mText;
@@ -122,6 +123,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 	// Version
 	protected String mVersion = "";
 
+	//cache drafts
+	private SharedPreferences mCache;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.post_status;
@@ -143,6 +147,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		mAt = Utility.findViewById(this, R.id.post_at);
 		mTopic = Utility.findViewById(this, R.id.post_topic);
 		mSend = Utility.findViewById(this, R.id.post_send);
+		mCache=getSharedPreferences("post_cache",MODE_PRIVATE);
 
 		// Bind onClick events
 		Utility.bindOnClick(this, mPic, "pic");
@@ -150,6 +155,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		Utility.bindOnClick(this, mAt, "at");
 		Utility.bindOnClick(this, mTopic, "topic");
 		Utility.bindOnClick(this, mSend, "send");
+		Utility.bindOnClick(this,mAvatar,"avatar");
 
 		// Version
 		try {
@@ -162,6 +168,9 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			mHints = getResources().getStringArray(R.array.splashes);
 			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 		}
+
+		//draft
+		mText.setText(mCache.getString(DRAFT,""));
 
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();
@@ -206,6 +215,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+				mCache.edit().putString(DRAFT, s.toString()).apply();
 			}
 
 			@Override
@@ -388,6 +398,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		} else {
 			mDrawer.openDrawer(Gravity.RIGHT);
 		}
+	}
+
+	@Binded
+	public void avatar(){
+		mHints = getResources().getStringArray(R.array.splashes);
+		mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 	}
 
 	@Binded
@@ -576,6 +592,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			prog.dismiss();
 
 			if (result) {
+				mCache.edit().putString(DRAFT,"").apply();
 				finish();
 			} else {
 				new AlertDialog.Builder(NewPostActivity.this)
