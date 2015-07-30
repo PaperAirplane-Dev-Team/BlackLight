@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -28,7 +28,7 @@ public class UserModel implements Parcelable
 	public transient long timestamp = System.currentTimeMillis(); // Time when wrote to database
 
 	private String nameWithRemark;
-	
+
 	// Json mapping fields
 	public String id;
 	public String screen_name;
@@ -60,7 +60,7 @@ public class UserModel implements Parcelable
 	public int bi_followers_count = 0;
 	public String cover_image = "";
 	public String cover_image_phone = "";
-	
+
 	public String getName() {
 		if (TextUtils.isEmpty(remark)){
 			return screen_name == null ? name : screen_name;
@@ -69,13 +69,17 @@ public class UserModel implements Parcelable
 		}
 		return nameWithRemark;
 	}
-	
+
 	public String getNameNoRemark() {
 		return screen_name == null ? name : screen_name;
 	}
 
 	public String getCover() {
 		return cover_image.trim().equals("") ? cover_image_phone : cover_image;
+	}
+
+	public boolean isMale() {
+		return gender != null && gender.equals("m");
 	}
 
 	@Override
@@ -111,7 +115,7 @@ public class UserModel implements Parcelable
 		dest.writeString(cover_image);
 		dest.writeBooleanArray(new boolean[]{following, allow_all_act_msg, geo_enabled, verified, allow_all_comment});
 	}
-	
+
 	public static final Parcelable.Creator<UserModel> CREATOR = new Parcelable.Creator<UserModel>() {
 		@Override
 		public UserModel createFromParcel(Parcel input) {
@@ -140,16 +144,16 @@ public class UserModel implements Parcelable
 			ret.bi_followers_count = input.readInt();
 			ret.cover_image_phone = input.readString();
 			ret.cover_image = input.readString();
-			
+
 			boolean[] array = new boolean[5];
 			input.readBooleanArray(array);
-			
+
 			ret.following = array[0];
 			ret.allow_all_act_msg = array[1];
 			ret.geo_enabled = array[2];
 			ret.verified = array[3];
 			ret.allow_all_comment = array[4];
-			
+
 			return ret;
 		}
 
