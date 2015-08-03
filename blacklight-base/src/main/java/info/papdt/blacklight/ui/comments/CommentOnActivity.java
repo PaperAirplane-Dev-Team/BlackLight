@@ -73,4 +73,10 @@ public class CommentOnActivity extends NewPostActivity
 		}
 		return NewCommentApi.commentOn(mMsg.id, mText.getText().toString(), mCommentOrig.isChecked());
 	}
+
+	@Override
+	protected boolean needCache() {
+		//不需要记忆为草稿
+		return false;
+	}
 }
