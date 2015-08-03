@@ -553,7 +553,6 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				}
 			}
 			String id = PostApi.uploadPicture(bmp);
-			bmp.recycle();
 			if (id == null || id.trim().equals("")) return false;
 
 			pics += id;
