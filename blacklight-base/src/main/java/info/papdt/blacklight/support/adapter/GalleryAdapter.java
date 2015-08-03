@@ -47,7 +47,8 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
 	private static final String TAG = GalleryAdapter.class.getSimpleName();
 
-	private ArrayList<GalleryModel> mList = new ArrayList<GalleryModel>();
+	private ArrayList<GalleryModel> mList = new ArrayList<>();
+	private ArrayList<GalleryModel> mChecked = new ArrayList<>();
 
 	private LayoutInflater mInflater;
 	private boolean mScrolling = false;
@@ -131,9 +132,11 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 		if (m.checked) {
 			h.check.setVisibility(View.VISIBLE);
 			h.check.setChecked(true);
+			mChecked.add(m);
 		} else {
 			h.check.setChecked(false);
 			h.check.setVisibility(View.GONE);
+			mChecked.remove(m);
 		}
 
 		if (DEBUG) {
@@ -144,10 +147,8 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 	public ArrayList<String> getChecked() {
 		ArrayList<String> ret = new ArrayList<String>();
 
-		for (GalleryModel m : mList) {
-			if (m.checked) {
-				ret.add(m.path);
-			}
+		for (GalleryModel m : mChecked) {
+			ret.add(m.path);
 		}
 
 		return ret;
