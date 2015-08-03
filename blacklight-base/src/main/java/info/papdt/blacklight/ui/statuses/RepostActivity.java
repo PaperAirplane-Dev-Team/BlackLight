@@ -100,4 +100,10 @@ public class RepostActivity extends NewPostActivity
 		
 		super.send();
 	}
+
+	@Override
+	protected boolean needCache() {
+		//转发微博不需要记忆为草稿
+		return false;
+	}
 }
