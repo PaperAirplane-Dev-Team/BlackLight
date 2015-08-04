@@ -76,7 +76,7 @@ public class Emoticons
 
 	static {
 
-		EMOTICONS.put("[挖鼻屎]", "kbsa_org.png");
+		EMOTICONS.put("[挖鼻]", "kbsa_org.png");
 
 		EMOTICONS.put("[泪]", "sada_org.png");
 
@@ -150,7 +150,7 @@ public class Emoticons
 
 		EMOTICONS.put("[嘘]", "x_org.png");
 
-		EMOTICONS.put("[呵呵]", "smilea_org.png");
+		EMOTICONS.put("[微笑]", "smilea_org.png");
 
 		EMOTICONS.put("[感冒]", "gm.png");
 
