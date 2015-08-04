@@ -92,7 +92,8 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 			@Override
 			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
 									   int oldTop, int oldRight, int oldBottom) {
-				mList.smoothScrollToPosition(ListView.FOCUS_DOWN);
+				if (bottom<oldBottom)
+					mList.smoothScrollToPosition(ListView.FOCUS_DOWN);
 			}
 		});
 

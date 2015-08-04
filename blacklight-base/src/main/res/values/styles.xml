@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2015 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -19,18 +19,16 @@
 -->
 <resources>
 
-    <style name="Widget.GifView" parent="@android:style/Widget"></style>
+	<style name="Widget.GifView" parent="@android:style/Widget"></style>
 
-	<style name="BL.Theme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+	<!-- Themes -->
+	<style name="BL.Theme.Light.Base" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="android:windowActionBarOverlay">false</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowBackground">@color/light_gray</item>
 		<item name="android:windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowActionModeOverlay">true</item>
-		<item name="colorPrimary">@color/purple_500</item>
-		<item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/amber_700</item>
 		<item name="CardBackground">@color/white</item>
 		<item name="CardForeground">@color/darker_gray</item>
 		<item name="CardOrigBackground">@color/midium_gray</item>
@@ -63,104 +61,73 @@
 		<item name="UserInfoDivider">@drawable/user_info_divider</item>
 	</style>
 
-	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Light" />
-
-	<style name="BL.Theme.Dark" parent="Theme.AppCompat">
-		<item name="android:windowBackground">@color/superdark_gray</item>
-		<item name="android:windowContentOverlay">@null</item>
-		<item name="android:windowNoTitle">true</item>
-		<item name="windowActionBar">false</item>
-		<item name="colorPrimary">@color/dark_action_gray</item>
-		<item name="colorPrimaryDark">@color/cant_be_darker_gray</item>
-		<item name="CardBackground">@color/dark_action_gray</item>
-		<item name="CardForeground">@color/gray</item>
-		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
-		<item name="CardDivider">@color/cant_be_darker_gray</item>
-		<item name="CardSubColor">@color/gray</item>
-		<item name="CardRatings">@drawable/ic_action_good</item>
-		<item name="CardReposts">@drawable/ic_action_reply_all</item>
-		<item name="CardComments">@drawable/ic_fa_comments_light</item>
-		<item name="ShadowGray">@color/cant_be_darker_gray</item>
-		<item name="DragBackground">@color/cant_be_darker_gray</item>
-		<item name="SingleBottomColor">@color/cant_be_darker_gray</item>
-		<item name="SingleDivider">@color/cant_be_darker_gray</item>
-		<item name="IconCollapse">@drawable/ic_action_collapse_dark</item>
-		<item name="IconSendNow">@drawable/ic_action_send_now</item>
-		<item name="IconEmoticon">@drawable/ic_action_emoticon</item>
-		<item name="UserBackground">@color/lighter_than_superdark_gray</item>
-		<item name="NewPostImgFilter">@color/darker_than_superdark_gray_alpha</item>
-		<item name="BottomViewColor">@color/dark_action_gray</item>
-		<item name="LayerColor">@color/dark_action_gray</item>
-		<item name="FABBackground">@color/cant_be_darker_gray</item>
-		<item name="FABNewIcon">@drawable/ic_add_white_24dp</item>
-		<item name="IndicatorForeground">@color/white</item>
-		<item name="DrawerBackground">@color/cant_be_darker_gray</item>
-		<item name="DrawerForeground">@color/gray</item>
-		<item name="NewPostBackground">@color/superdark_gray</item>
-		<item name="NewPostForeground">@color/light_gray</item>
-		<item name="NewPostDivider">@color/cant_be_darker_gray</item>
-		<item name="NewPostBottom">@color/cant_be_darker_gray</item>
-		<item name="UserInfoBackground">@color/cant_be_darker_gray</item>
-		<item name="UserInfoText">@color/white</item>
-		<item name="UserInfoDivider">@drawable/user_info_divider_dark</item>
+	<!-- Purple -->
+	<style name="BL.Theme.Purple" parent="BL.Theme.Light.Base">
+		<item name="colorPrimary">@color/purple_500</item>
+		<item name="colorPrimaryDark">@color/purple_700</item>
+		<item name="colorAccent">@color/amber_700</item>
 	</style>
 
-	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark" />
+	<style name="BL.Theme.Purple.WithNav" parent="BL.Theme.Purple" />
 
-	<style name="BL.Theme.Light.Translucent" parent="BL.Theme.Light">
+	<style name="BL.Theme.Purple.Translucent" parent="BL.Theme.Purple">
 		<item name="android:windowIsTranslucent">true</item>
 	</style>
 
-	<style name="BL.Theme.Dark.Translucent" parent="BL.Theme.Dark">
-		<item name="android:windowIsTranslucent">true</item>
-	</style>
-
-	<style name="BL.Theme.Light.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Light">
+	<style name="BL.Theme.Purple.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Purple">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 
-	<style name="BL.Theme.Dark.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Dark">
+	<style name="BL.Theme.Purple.TranslucentActionBar" parent="BL.Theme.Purple.Translucent">
 		<item name="android:windowActionBarOverlay">true</item>
 	</style>
 
-	<style name="BL.Theme.Light.TranslucentActionBar" parent="BL.Theme.Light.Translucent">
-		<item name="android:windowActionBarOverlay">true</item>
-	</style>
-
-	<style name="BL.Theme.Dark.TranslucentActionBar" parent="BL.Theme.Dark.Translucent">
-		<item name="android:windowActionBarOverlay">true</item>
-	</style>
-
-	<style name="BL.Theme.Light.GradientActionBar" parent="BL.Theme.Light.TranslucentActionBar">
+	<style name="BL.Theme.Purple.GradientActionBar" parent="BL.Theme.Purple.TranslucentActionBar">
 		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar.Gradient</item>
 	</style>
 
-	<style name="BL.Theme.Dark.GradientActionBar" parent="BL.Theme.Dark.TranslucentActionBar">
-		<item name="android:actionBarStyle">@style/My.Widget.Holo.Dark.ActionBar.Gradient</item>
+	<!-- Indigo -->
+	<style name="BL.Theme.Indigo" parent="BL.Theme.Light.Base">
+		<item name="colorPrimary">@color/indigo_500</item>
+		<item name="colorPrimaryDark">@color/indigo_700</item>
+		<item name="colorAccent">@color/pink_500</item>
 	</style>
+
+	<style name="BL.Theme.Indigo.WithNav" parent="BL.Theme.Indigo" />
+
+	<style name="BL.Theme.Indigo.Translucent" parent="BL.Theme.Indigo">
+		<item name="android:windowIsTranslucent">true</item>
+	</style>
+
+	<style name="BL.Theme.Indigo.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Indigo">
+		<item name="android:windowActionBarOverlay">true</item>
+	</style>
+
+	<style name="BL.Theme.Indigo.TranslucentActionBar" parent="BL.Theme.Indigo.Translucent">
+		<item name="android:windowActionBarOverlay">true</item>
+	</style>
+
+	<style name="BL.Theme.Indigo.GradientActionBar" parent="BL.Theme.Indigo.TranslucentActionBar">
+		<item name="android:actionBarStyle">@style/My.Widget.Holo.Light.ActionBar.Gradient</item>
+	</style>
+
+	<!-- The default theme family -->
+	<style name="BL.Theme.Light" parent="BL.Theme.Indigo"/>
+	<style name="BL.Theme.Light.WithNav" parent="BL.Theme.Indigo.WithNav"/>
+	<style name="BL.Theme.Light.Translucent" parent="BL.Theme.Indigo.Translucent"/>
+	<style name="BL.Theme.Light.TranslucentActionBar.NoTranslucent" parent="BL.Theme.Indigo.TranslucentActionBar.NoTranslucent"/>
+	<style name="BL.Theme.Light.TranslucentActionBar" parent="BL.Theme.Indigo.TranslucentActionBar"/>
+	<style name="BL.Theme.Light.GradientActionBar" parent="BL.Theme.Indigo.GradientActionBar"/>
 
 	<style name="My.Widget.Holo.Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
 		<item name="android:background">@color/action_gray</item>
 		<item name="android:titleTextStyle">@style/TitleText</item>
 		<item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
-        <item name="android:backgroundSplit">@color/action_gray</item>
+		<item name="android:backgroundSplit">@color/action_gray</item>
 	</style>
 
 	<style name="My.Widget.Holo.Light.ActionBar.Gradient" parent="@style/My.Widget.Holo.Light.ActionBar">
 		<item name="android:background">@drawable/action_gradient</item>
-	</style>
-
-	<style name="My.Widget.Holo.Dark.ActionBar" parent="@style/My.Widget.Holo.Light.ActionBar">
-		<item name="android:background">@color/dark_action_gray</item>
-		<item name="android:backgroundSplit">@color/dark_action_gray</item>
-	</style>
-
-	<style name="My.Widget.Holo.Dark.ActionBar.Gradient" parent="@style/My.Widget.Holo.Dark.ActionBar">
-		<item name="android:background">@drawable/action_gradient</item>
-	</style>
-
-	<style name="My.Widget.Holo.ActionButton.Overflow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-		<item name="android:src">@drawable/ic_menu_more</item>
 	</style>
 
 	<style name="TitleText">

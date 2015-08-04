@@ -84,9 +84,7 @@ public class SlidingTabStrip extends LinearLayout {
 		mSelectedIndicatorPaint = new Paint();
 
 		// Obtain primary color
-		if (sColorPrimary == 0) {
-			sColorPrimary = Utility.getColorPrimary(getContext());
-		}
+		sColorPrimary = Utility.getColorPrimary(getContext());
 	}
 
 	void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) {

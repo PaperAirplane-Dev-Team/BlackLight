@@ -44,4 +44,10 @@ public class ReplyToActivity extends NewPostActivity
 	protected boolean post() {
 		return NewCommentApi.replyTo(mComment.status.id, mComment.id, mText.getText().toString(), false);
 	}
+
+	@Override
+	protected boolean needCache() {
+		//不需要记忆为草稿
+		return false;
+	}
 }
