@@ -47,6 +47,11 @@
 				android:textColorLink="?attr/colorAccent"
 				android:id="@+id/direct_message_conversation_content"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/direct_message_pic"/>
+
 			<TextView
 				android:layout_height="wrap_content"
 				android:text="Text"
