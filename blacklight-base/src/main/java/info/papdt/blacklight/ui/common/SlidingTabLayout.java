@@ -22,7 +22,6 @@ package info.papdt.blacklight.ui.common;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -54,7 +53,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	}
 
 	private static final int TITLE_OFFSET_DIPS = 24;
-	private static final int TAB_VIEW_PADDING_DIPS = 16;
+	private static final int TAB_TEXT_VIEW_PADDING_DIPS = 16;
+	private static final int TAB_ICON_VIEW_PADDING_DIPS = 16 + 2;
 	private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
 
 	private int mTitleOffset;
@@ -153,7 +153,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 				
 				if (child instanceof ImageView) {
 					LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child.getLayoutParams();
-					lp.width = size;
+                    lp.width = (int) (size  * 0.88f);
 					lp.height = size;
 				}
 			}
@@ -174,12 +174,17 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			textView.setAllCaps(true);
 			textView.setLayoutParams(new LinearLayout.LayoutParams(
 								  ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-			
+            int padding = (int) (TAB_TEXT_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+            textView.setPadding(padding, padding, padding, padding);
+
 			v = textView;
 		} else {
 			ImageView imgView = new TintImageView(context);
-			imgView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 			imgView.setLayoutParams(new LinearLayout.LayoutParams(mTabIconSize, mTabIconSize));
+            int padding = (int) (TAB_ICON_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+            imgView.setPadding(padding, padding, padding, padding);
+
 			v = imgView;
 		}
 
@@ -187,16 +192,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
 												 outValue, true);
 		v.setBackgroundResource(outValue.resourceId);
-		
-		int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-		v.setPadding(padding, padding, padding, padding);
 
 		return v;
 	}
 
 	private void populateTabStrip() {
 		final PagerAdapter adapter = mViewPager.getAdapter();
-		final View.OnClickListener tabClickListener = new TabClickListener();
+		final OnClickListener tabClickListener = new TabClickListener();
 
 		for (int i = 0; i < adapter.getCount(); i++) {
 			View tabView = null;
@@ -330,7 +332,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		}
 	}
 
-	private class TabClickListener implements View.OnClickListener {
+	private class TabClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
 			for (int i = 0; i < mTabStrip.getChildCount(); i++) {
