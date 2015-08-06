@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -37,17 +37,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SlidingTabLayout extends HorizontalScrollView {
-	
+
 	public interface TabColorizer {
 		/**
 		 * @return return the color of the indicator used when {@code position} is selected.
 		 */
 		int getIndicatorColor(int position);
-		
+
 		int getSelectedTitleColor(int position);
 		int getNormalTitleColor(int position);
 	}
-	
+
 	public interface TabIconAdapter {
 		Drawable getIcon(int position);
 	}
@@ -70,12 +70,12 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
 	private final SlidingTabStrip mTabStrip;
-	
+
 	private TabIconAdapter mIconAdapter;
 
 	public SlidingTabLayout(Context context) {
 		this(context, null);
-    }
+	}
 
 	public SlidingTabLayout(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
@@ -83,22 +83,22 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
 	public SlidingTabLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		
+
 		// Disable the Scroll Bar
 		setHorizontalScrollBarEnabled(false);
 		// Make sure that the Tab Strips fills this View
 		setFillViewport(true);
-		
+
 		mTitleOffset = (int) (TITLE_OFFSET_DIPS * getResources().getDisplayMetrics().density);
 
 		mTabStrip = new SlidingTabStrip(context);
 		addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-    }
+	}
 
 	public void setCustomTabColorizer(TabColorizer tabColorizer) {
 		mTabStrip.setCustomTabColorizer(tabColorizer);
 	}
-	
+
 	// Call this when contents in TabColorizer changed.
 	public void notifyIndicatorColorChanged() {
 		mTabStrip.updateTitleViews();
@@ -108,10 +108,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		mDistributeEvenly = distributeEvenly;
 	}
 
-	public void setSelectedIndicatorColors(int... colors) {
+	public void setSelectedIndicatorColors(int ... colors) {
 		mTabStrip.setSelectedIndicatorColors(colors);
 	}
-	
+
 	public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
 		mViewPagerPageChangeListener = listener;
 	}
@@ -120,7 +120,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		mTabViewLayoutId = layoutResId;
 		mTabViewTextViewId = textViewId;
 	}
-	
+
 	public void setIconAdapter(TabIconAdapter adapter) {
 		mIconAdapter = adapter;
 	}
@@ -134,26 +134,26 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			populateTabStrip();
 		}
 	}
-	
+
 	public void setViewPager(ViewPager viewPager, SlidingTabLayout layout) {
 		mTabStrip.removeAllViews();
-		
+
 		mViewPager = viewPager;
 		if (layout != null) {
 			layout.setOnPageChangeListener(new InternalViewPagerListener());
 			populateTabStrip();
 		}
 	}
-	
+
 	public void setTabIconSize(int size) {
 		mTabIconSize = size;
 		if (mViewPager != null && mIconAdapter != null) {
 			for (int i = 0; i < mTabStrip.getChildCount(); i++) {
 				View child = mTabStrip.getChildAt(i);
-				
+
 				if (child instanceof ImageView) {
-					LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child.getLayoutParams();
-                    lp.width = (int) (size  * 0.88f);
+					LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)child.getLayoutParams();
+					lp.width = (int) (size  * 0.88f);
 					lp.height = size;
 				}
 			}
@@ -164,7 +164,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	 * Create a default view to be used for tabs. This is called if a custom tab view is not set via
 	 * {@link #setCustomTabView(int, int)}.
 	 */
-    protected View createDefaultTabView(Context context) {
+	protected View createDefaultTabView(Context context) {
 		View v;
 		if (mIconAdapter == null) {
 			TextView textView = new TextView(context);
@@ -173,24 +173,24 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			textView.setTypeface(Typeface.DEFAULT_BOLD);
 			textView.setAllCaps(true);
 			textView.setLayoutParams(new LinearLayout.LayoutParams(
-								  ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            int padding = (int) (TAB_TEXT_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-            textView.setPadding(padding, padding, padding, padding);
+							 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+			int padding = (int) (TAB_TEXT_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+			textView.setPadding(padding, padding, padding, padding);
 
 			v = textView;
 		} else {
 			ImageView imgView = new TintImageView(context);
-            imgView.setScaleType(ImageView.ScaleType.FIT_XY);
+			imgView.setScaleType(ImageView.ScaleType.FIT_XY);
 			imgView.setLayoutParams(new LinearLayout.LayoutParams(mTabIconSize, mTabIconSize));
-            int padding = (int) (TAB_ICON_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-            imgView.setPadding(padding, padding, padding, padding);
+			int padding = (int) (TAB_ICON_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+			imgView.setPadding(padding, padding, padding, padding);
 
 			v = imgView;
 		}
 
 		TypedValue outValue = new TypedValue();
 		getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
-												 outValue, true);
+							 outValue, true);
 		v.setBackgroundResource(outValue.resourceId);
 
 		return v;
@@ -208,9 +208,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			if (mTabViewLayoutId != 0) {
 				// If there is a custom tab view layout id set, try and inflate it
 				tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
-																	false);
+										    false);
 				tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
-            }
+			}
 
 			if (tabView == null) {
 				tabView = createDefaultTabView(getContext());
@@ -223,7 +223,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			}
 
 			if (mDistributeEvenly) {
-				LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+				LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)tabView.getLayoutParams();
 				lp.width = 0;
 				lp.weight = 1;
 			}
@@ -232,7 +232,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 				tabTitleView.setText(adapter.getPageTitle(i));
 			else if (tabIconView != null)
 				tabIconView.setImageDrawable(mIconAdapter.getIcon(i));
-			
+
 			tabView.setOnClickListener(tabClickListener);
 			String desc = mContentDescriptions.get(i, null);
 			if (desc != null) {
@@ -244,7 +244,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 				tabView.setSelected(true);
 			}
 		}
-		
+
 		mTabStripPopulated = true;
 	}
 
@@ -260,7 +260,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			scrollToTab(mViewPager.getCurrentItem(), 0);
 		}
 	}
-	
+
 	int getTextViewId() {
 		return mTabViewTextViewId;
 	}
@@ -276,7 +276,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 			int targetScrollX = selectedChild.getLeft() + positionOffset;
 
 			if (tabIndex > 0 || positionOffset > 0) {
-				// If we're not at the first child and are mid-scroll, make sure we obey the offset 
+				// If we're not at the first child and are mid-scroll, make sure we obey the offset
 				targetScrollX -= mTitleOffset;
 			}
 
@@ -298,13 +298,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
 			View selectedTitle = mTabStrip.getChildAt(position);
 			int extraOffset = (selectedTitle != null)
-				? (int) (positionOffset * selectedTitle.getWidth())
-				: 0;
+					  ? (int) (positionOffset * selectedTitle.getWidth())
+					  : 0;
 			scrollToTab(position, extraOffset);
 
 			if (mViewPagerPageChangeListener != null) {
 				mViewPagerPageChangeListener.onPageScrolled(position, positionOffset,
-																positionOffsetPixels);
+									    positionOffsetPixels);
 			}
 		}
 

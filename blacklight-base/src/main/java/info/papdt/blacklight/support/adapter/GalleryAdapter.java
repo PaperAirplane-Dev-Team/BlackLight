@@ -65,7 +65,7 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 
 			@Override
 			public void onScroll(AbsListView p1, int p2, int p3, int p4) {
-				// Nothing to do
+			        // Nothing to do
 			}
 		});
 	}
@@ -106,10 +106,10 @@ public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemCli
 			h.id = gallery.id;
 
 			Picasso.with(v.getContext())
-				.load(new File(gallery.path))
-				.fit()
-				.centerCrop()
-				.into(h.img);
+			.load(new File(gallery.path))
+			.fit()
+			.centerCrop()
+			.into(h.img);
 
 			if (gallery.checked) {
 				h.check.setVisibility(View.VISIBLE);

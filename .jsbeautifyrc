@@ -1,0 +1,25 @@
+{
+	"java": {
+		"indent_size": 8,
+		"indent_char": "	",
+		"other": "	",
+		"indent_level": 0,
+		"indent_with_tabs": false,
+		"indent_class": true,
+		"preserve_newlines": true,
+		"max_preserve_newlines": 2,
+		"jslint_happy": true,
+		"indent_handlebars": false,
+		"object": {}
+	},
+	"html": {
+		"brace_style": "expand",
+		"indent_char": "	",
+		"indent_scripts": "normal",
+		"indent_size": 1,
+		"max_preserve_newlines": 1,
+		"preserve_newlines": true,
+		"unformatted": ["a", "sub", "sup", "b", "i", "u"],
+		"wrap_line_length": 10
+	},
+}

@@ -36,106 +36,107 @@ import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.Utility;
 
 public class DirectMessagesMediaApiCache {
-    private Context mContext;
-    private FileCacheManager mManager;
-    private static HashMap<Long, SoftReference<Bitmap>> mThumnnailCache = new HashMap<Long, SoftReference<Bitmap>>();
+	private Context mContext;
+	private FileCacheManager mManager;
+	private static HashMap<Long, SoftReference<Bitmap> > mThumnnailCache = new HashMap<Long, SoftReference<Bitmap> >();
 
-    public DirectMessagesMediaApiCache(Context ctx) {
-        mContext = ctx;
-        mManager = FileCacheManager.instance(ctx);
-    }
+	public DirectMessagesMediaApiCache(Context ctx) {
+		mContext = ctx;
+		mManager = FileCacheManager.instance(ctx);
+	}
 
-    private Bitmap loadThumbnailPic(long fid) {
-        String url = info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_THUMB_PIC;
-        url = String.format(url,fid, BaseApi.getAccessToken(),240,240);
+	// FIXME: USE Picasso instead. Do not load thumbnails in this way.
+	private Bitmap loadThumbnailPic(long fid) {
+		String url = info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_THUMB_PIC;
+		url = String.format(url,fid, BaseApi.getAccessToken(),240,240);
 
-        String cacheName = new Long(fid).toString();
-        InputStream cache;
+		String cacheName = new Long(fid).toString();
+		InputStream cache;
 
-        try {
-            cache = mManager.getCache(Constants.FILE_CACHE_PICS_SMALL, cacheName);
-        } catch (Exception e) {
-            cache = null;
-        }
+		try {
+			cache = mManager.getCache(Constants.FILE_CACHE_PICS_SMALL, cacheName);
+		} catch (Exception e) {
+			cache = null;
+		}
 
-        if (cache == null) {
-            try {
-                cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
-            } catch (Exception e) {
-                cache = null;
-            }
-        }
+		if (cache == null) {
+			try {
+				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
+			} catch (Exception e) {
+				cache = null;
+			}
+		}
 
-        if (cache == null) {
-            return null;
-        }
+		if (cache == null) {
+			return null;
+		}
 
-        Bitmap bmp = BitmapFactory.decodeStream(cache);
-        mThumnnailCache.put(fid, new SoftReference<Bitmap>(bmp));
+		Bitmap bmp = BitmapFactory.decodeStream(cache);
+		mThumnnailCache.put(fid, new SoftReference<Bitmap>(bmp));
 
-        try {
-            cache.close();
-        } catch (IOException e) {
-            // Do nothing
-            // But this exception might cause memory leak
-            // I have no idea about it
-        }
+		try {
+			cache.close();
+		} catch (IOException e) {
+			// Do nothing
+			// But this exception might cause memory leak
+			// I have no idea about it
+		}
 
-        return bmp;
-    }
+		return bmp;
+	}
 
-    public Bitmap getThumbnailPic(long fid) {
-        if (mThumnnailCache.containsKey(fid)) {
-            return mThumnnailCache.get(fid).get();
-        } else {
-            return loadThumbnailPic(fid);
-        }
-    }
+	public Bitmap getThumbnailPic(long fid) {
+		if (mThumnnailCache.containsKey(fid)) {
+			return mThumnnailCache.get(fid).get();
+		} else {
+			return loadThumbnailPic(fid);
+		}
+	}
 
-    public String getLargePic(long fid, FileCacheManager.ProgressCallback callback) {
-        String url = String.format(info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_ORIG_PIC,fid);
+	public String getLargePic(long fid, FileCacheManager.ProgressCallback callback) {
+		String url = String.format(info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_ORIG_PIC,fid);
 
-        String cacheName = new Long(fid).toString();
-        InputStream cache;
+		String cacheName = new Long(fid).toString();
+		InputStream cache;
 
-        try {
-            cache = mManager.getCache(Constants.FILE_CACHE_PICS_LARGE, cacheName);
-        } catch (Exception e) {
-            cache = null;
-        }
+		try {
+			cache = mManager.getCache(Constants.FILE_CACHE_PICS_LARGE, cacheName);
+		} catch (Exception e) {
+			cache = null;
+		}
 
-        if (cache == null) {
-            try {
-                cache = mManager.createLargeCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url, callback);
-            } catch (Exception e) {
-                cache = null;
-            }
-        }
+		if (cache == null) {
+			try {
+				cache = mManager.createLargeCacheFromNetwork(Constants.FILE_CACHE_PICS_LARGE, cacheName, url, callback);
+			} catch (Exception e) {
+				cache = null;
+			}
+		}
 
-        if (cache == null) {
-            return null;
-        }
+		if (cache == null) {
+			return null;
+		}
 
-        try {
-            cache.close();
-        } catch (IOException e) {
+		try {
+			cache.close();
+		} catch (IOException e) {
 
-        }
+		}
 
-        return mManager.getCachePath(Constants.FILE_CACHE_PICS_LARGE, cacheName);
-    }
+		return mManager.getCachePath(Constants.FILE_CACHE_PICS_LARGE, cacheName);
+	}
 
-    public String saveLargePic(long fid) {
-        String cacheName = new Long(fid).toString();
-        String ret = null;
-        try {
-            ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName,
-                    Environment.getExternalStorageDirectory().getPath() + "/BlackLight");
-        } catch (Exception e) {
-            // Just ignore
-        } finally {
-            Utility.notifyScanPhotos(mContext, ret);
-            return ret;
-        }
-    }
+	public String saveLargePic(long fid) {
+		String cacheName = new Long(fid).toString();
+		String ret = null;
+		try {
+			ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName,
+						    Environment.getExternalStorageDirectory().getPath() + "/BlackLight");
+		} catch (Exception e) {
+			// Just ignore
+		} finally {
+			Utility.notifyScanPhotos(mContext, ret);
+			return ret;
+		}
+	}
 }
