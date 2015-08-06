@@ -824,6 +824,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		protected Void doInBackground(Void[] params) {
 			// Username first
 			mUser = mUserCache.getUser(mLoginCache.getUid());
+			UserApiCache.setAmIMale(mUser.isMale());
 
 			publishProgress(new Object[]{0});
 
