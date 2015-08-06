@@ -55,6 +55,7 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 
 	private ListView mList;
 	private EditText mText;
+	private ImageView mPickPic;
 	private ImageView mSend;
 	private DirectMessageAdapter mAdapter;
 	private SwipeUpAndDownRefreshLayout mSwipeRefresh;
@@ -73,6 +74,7 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		// Initialize views
 		mList = Utility.findViewById(this, R.id.direct_message_conversation);
 		mText = Utility.findViewById(this, R.id.direct_message_send_text);
+		mPickPic = Utility.findViewById(this, R.id.direct_message_pick_pic);
 		mSend = Utility.findViewById(this, R.id.direct_message_send);
 		mSwipeRefresh = Utility.findViewById(this, R.id.direct_message_refresh);
 
