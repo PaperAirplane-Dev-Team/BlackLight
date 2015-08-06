@@ -19,52 +19,54 @@
 -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content"
-	android:layout_width="match_parent"
 	android:gravity="right"
 	android:id="@+id/direct_message_conversation_container"
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
 	android:orientation="horizontal">
 
 	<LinearLayout
 		android:id="@+id/direct_message_card"
-		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_margin="5dp">
+		android:layout_margin="5dp"
+		android:layout_width="wrap_content">
 
 		<LinearLayout
 			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
 			android:layout_width="240dp"
-			android:orientation="vertical"
-			android:layout_margin="5dp">
+			android:orientation="vertical">
 
 			<TextView
+				android:id="@+id/direct_message_conversation_content"
 				android:layout_height="wrap_content"
-				android:text="Content"
-				android:layout_width="wrap_content"
 				android:layout_margin="5dp"
-				android:textSize="15sp"
+				android:layout_width="wrap_content"
+				android:text="Content"
 				android:textColor="?attr/CardForeground"
 				android:textColorLink="?attr/colorAccent"
-				android:id="@+id/direct_message_conversation_content"/>
+				android:textSize="15sp"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/direct_message_pic"/>
+			<ImageView
+
+				android:id="@+id/direct_message_pic"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"/>
 
 			<TextView
-				android:layout_height="wrap_content"
-				android:text="Text"
-				android:layout_width="wrap_content"
-				android:layout_marginLeft="5dp"
-				android:layout_marginBottom="5dp"
-				android:layout_marginRight="5dp"
-				android:textColor="@color/gray"
+				android:gravity="center_vertical"
 				android:id="@+id/direct_message_conversation_date"
-				android:textSize="12sp"
-				android:gravity="center_vertical"/>
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="5dp"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_width="wrap_content"
+				android:text="Text"
+				android:textColor="@color/gray"
+				android:textSize="12sp"/>
 
 		</LinearLayout>
-`	</LinearLayout>
+		`
+	</LinearLayout>
 
 </LinearLayout>

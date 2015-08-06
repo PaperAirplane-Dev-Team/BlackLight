@@ -448,7 +448,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 				}
 
 				mToolbarTabs.setOnPageChangeListener(pageListener);
-				mToolbarTabs.setTabIconSize((int) (mToolbar.getHeight() * 0.88f));
+				mToolbarTabs.setTabIconSize(mToolbar.getHeight());
 
 				if (mWrapperHeight > 0)
 					mDrawerWrapper.getViewTreeObserver().removeGlobalOnLayoutListener(this);
