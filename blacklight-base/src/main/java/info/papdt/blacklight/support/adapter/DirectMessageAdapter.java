@@ -20,20 +20,27 @@
 package info.papdt.blacklight.support.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import android.support.v7.widget.CardView;
 
+import com.squareup.picasso.Picasso;
+
 import info.papdt.blacklight.R;
+import info.papdt.blacklight.api.BaseApi;
 import info.papdt.blacklight.model.DirectMessageListModel;
 import info.papdt.blacklight.model.DirectMessageModel;
 import info.papdt.blacklight.support.HackyMovementMethod;
+import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.SpannableStringUtils;
 import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;
@@ -74,12 +81,11 @@ public class DirectMessageAdapter extends BaseAdapter
 		if (position >= getCount()) {
 			return convertView;
 		} else {
-			DirectMessageModel msg = mClone.get(calcPos(position));
+			final DirectMessageModel msg = mClone.get(calcPos(position));
 			View v = null;
-			ViewHolder h = null;
 
 			v = convertView != null ? convertView : mInflater.inflate(R.layout.direct_message_conversation_item, null);
-			h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v);
+			final ViewHolder h = v.getTag() != null ? (ViewHolder) v.getTag() : new ViewHolder(v);
 
 			LinearLayout container = h.container;
 			if (msg.sender_id == mUid) {
@@ -95,7 +101,22 @@ public class DirectMessageAdapter extends BaseAdapter
 			h.content.setText(SpannableStringUtils.span(mContext, msg.text));
 			h.content.setMovementMethod(HackyMovementMethod.getInstance());
 
+			if (msg.att_ids[0] != 0) { // has pic
+				Log.d("DirectMessage", "has pic" + msg.att_ids[0]);
+				Runnable r = new Runnable() {
+					@Override
+					public void run() {
+						String url = info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_THUMB_PIC;
+						url = String.format(url,msg.att_ids[0], BaseApi.getAccessToken(),240,240);
+						Picasso.with(mContext).load(url).into(h.pic);
+					}
+				};
+				v.postDelayed(r, 5000);
+			}
+
 			h.date.setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
+
+
 
 			return v;
 		}
@@ -117,6 +138,7 @@ public class DirectMessageAdapter extends BaseAdapter
 		public TextView content;
 		public TextView date;
 		public LinearLayout container;
+		public ImageView pic;
 		public View card;
 
 		public ViewHolder(View v) {
@@ -126,6 +148,7 @@ public class DirectMessageAdapter extends BaseAdapter
 			date = Utility.findViewById(v, R.id.direct_message_conversation_date);
 			container = Utility.findViewById(v, R.id.direct_message_conversation_container);
 			card = Utility.findViewById(v, R.id.direct_message_card);
+			pic = Utility.findViewById(v, R.id.direct_message_pic);
 
 			v.setTag(this);
 		}

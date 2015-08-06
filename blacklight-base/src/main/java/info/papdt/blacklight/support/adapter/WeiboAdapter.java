@@ -25,10 +25,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,8 +41,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.attitudes.AttitudesApi;
@@ -65,7 +61,7 @@ import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
-import info.papdt.blacklight.ui.common.ImageActivity;
+import info.papdt.blacklight.ui.common.StatusImageActivity;
 import info.papdt.blacklight.ui.statuses.RepostActivity;
 import info.papdt.blacklight.ui.statuses.SingleActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
@@ -92,7 +88,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			int id = Integer.parseInt(v.getTag(TAG_ID).toString());
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(v.getContext(), ImageActivity.class);
+			i.setClass(v.getContext(), StatusImageActivity.class);
 			i.putExtra("model", msg);
 			i.putExtra("defaultId", id);
 			ActivityCompat.startActivity((Activity) v.getContext(), i, o.toBundle());

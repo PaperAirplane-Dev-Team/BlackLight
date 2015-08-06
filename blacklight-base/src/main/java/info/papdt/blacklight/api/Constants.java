@@ -82,7 +82,7 @@ public class Constants
 	public static final String DIRECT_MESSAGES_USER_LIST = SINA_BASE_URL + "direct_messages/user_list.json";
 	public static final String DIRECT_MESSAGES_CONVERSATION = SINA_BASE_URL + "direct_messages/conversation.json";
 	public static final String DIRECT_MESSAGES_SEND = SINA_BASE_URL + "direct_messages/new.json";
-	public static final String DIRECT_MESSAGES_THUMB_PIC = "https://upload.api.weibo.com/2/mss/msget_thumbnail?fid=%l&access_token=%s&high=%d&width=%d";
+	public static final String DIRECT_MESSAGES_THUMB_PIC = "https://upload.api.weibo.com/2/mss/msget_thumbnail?fid=%d&access_token=%s&high=%d&width=%d";
 	public static final String DIRECT_MESSAGES_ORIG_PIC = "http://upload.api.weibo.com/2/mss/msget?fid=%s";
 
 	// Remind
