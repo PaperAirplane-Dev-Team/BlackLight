@@ -48,10 +48,10 @@
 				android:textSize="15sp"/>
 
 			<ImageView
-
 				android:id="@+id/direct_message_pic"
 				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"/>
+				android:layout_width="wrap_content"
+				android:visibility="gone"/>
 
 			<TextView
 				android:gravity="center_vertical"

@@ -47,6 +47,8 @@ import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.ui.directmessage.DirectMessageImageActivity;
 
+import static info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_THUMB_PIC;
+
 public class DirectMessageAdapter extends BaseAdapter
 {
 	private Context mContext;
@@ -104,16 +106,10 @@ public class DirectMessageAdapter extends BaseAdapter
 			h.content.setMovementMethod(HackyMovementMethod.getInstance());
 
 			if (msg.att_ids[0] != 0) { // has pic
-				Log.d("DirectMessage", "has pic" + msg.att_ids[0]);
-				Runnable r = new Runnable() {
-					@Override
-					public void run() {
-						String url = info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_THUMB_PIC;
-						url = String.format(url,msg.att_ids[0], BaseApi.getAccessToken(),240,240);
-						Picasso.with(mContext).load(url).into(h.pic);
-					}
-				};
-				v.postDelayed(r, 200);
+				h.pic.setVisibility(View.VISIBLE);
+				Picasso.with(mContext)
+						.load(String.format(DIRECT_MESSAGES_THUMB_PIC,msg.att_ids[0], BaseApi.getAccessToken() ,240, 240))
+						.into(h.pic);
 				h.pic.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
@@ -122,10 +118,11 @@ public class DirectMessageAdapter extends BaseAdapter
 						mContext.startActivity(i);
 					}
 				});
+			} else {
+				h.pic.setVisibility(View.GONE);
 			}
 
 			h.date.setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));
-
 
 
 			return v;
