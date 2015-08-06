@@ -36,6 +36,7 @@ public class DirectMessageModel implements Parcelable
 	public long recipient_id;
 	public String sender_screen_name;
 	public String recipient_screen_name;
+	public long[] att_ids = {0,0};
 
 	@Override
 	public int describeContents() {
@@ -52,6 +53,7 @@ public class DirectMessageModel implements Parcelable
 		dest.writeLong(recipient_id);
 		dest.writeString(sender_screen_name);
 		dest.writeString(recipient_screen_name);
+		dest.writeLongArray(att_ids);
 	}
 	
 	public static final Parcelable.Creator<DirectMessageModel> CREATOR = new Parcelable.Creator<DirectMessageModel>() {
@@ -66,6 +68,7 @@ public class DirectMessageModel implements Parcelable
 			ret.recipient_id = in.readLong();
 			ret.sender_screen_name = in.readString();
 			ret.recipient_screen_name = in.readString();
+			in.readLongArray(ret.att_ids);
 			return ret;
 		}
 

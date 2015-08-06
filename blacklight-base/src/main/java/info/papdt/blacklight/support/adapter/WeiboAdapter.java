@@ -25,10 +25,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,8 +41,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.attitudes.AttitudesApi;
