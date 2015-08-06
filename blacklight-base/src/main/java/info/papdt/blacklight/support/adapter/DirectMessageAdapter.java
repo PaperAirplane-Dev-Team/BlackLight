@@ -20,6 +20,7 @@
 package info.papdt.blacklight.support.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,6 +45,7 @@ import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.SpannableStringUtils;
 import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.ui.directmessage.DirectMessageImageActivity;
 
 public class DirectMessageAdapter extends BaseAdapter
 {
@@ -111,7 +113,15 @@ public class DirectMessageAdapter extends BaseAdapter
 						Picasso.with(mContext).load(url).into(h.pic);
 					}
 				};
-				v.postDelayed(r, 5000);
+				v.postDelayed(r, 200);
+				h.pic.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Intent i = new Intent(mContext, DirectMessageImageActivity.class);
+						i.putExtra("fid",msg.att_ids[0]);
+						mContext.startActivity(i);
+					}
+				});
 			}
 
 			h.date.setText(StatusTimeUtils.instance(mContext).buildTimeString(msg.created_at));

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +34,7 @@ import info.papdt.blacklight.api.BaseApi;
 import info.papdt.blacklight.cache.Constants;
 import info.papdt.blacklight.cache.file.FileCacheManager;
 import info.papdt.blacklight.model.MessageModel;
+import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Utility;
 
 public class DirectMessagesMediaApiCache {
@@ -43,54 +45,6 @@ public class DirectMessagesMediaApiCache {
 	public DirectMessagesMediaApiCache(Context ctx) {
 		mContext = ctx;
 		mManager = FileCacheManager.instance(ctx);
-	}
-
-	// FIXME: USE Picasso instead. Do not load thumbnails in this way.
-	private Bitmap loadThumbnailPic(long fid) {
-		String url = info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_THUMB_PIC;
-		url = String.format(url,fid, BaseApi.getAccessToken(),240,240);
-
-		String cacheName = new Long(fid).toString();
-		InputStream cache;
-
-		try {
-			cache = mManager.getCache(Constants.FILE_CACHE_PICS_SMALL, cacheName);
-		} catch (Exception e) {
-			cache = null;
-		}
-
-		if (cache == null) {
-			try {
-				cache = mManager.createCacheFromNetwork(Constants.FILE_CACHE_PICS_SMALL, cacheName, url);
-			} catch (Exception e) {
-				cache = null;
-			}
-		}
-
-		if (cache == null) {
-			return null;
-		}
-
-		Bitmap bmp = BitmapFactory.decodeStream(cache);
-		mThumnnailCache.put(fid, new SoftReference<Bitmap>(bmp));
-
-		try {
-			cache.close();
-		} catch (IOException e) {
-			// Do nothing
-			// But this exception might cause memory leak
-			// I have no idea about it
-		}
-
-		return bmp;
-	}
-
-	public Bitmap getThumbnailPic(long fid) {
-		if (mThumnnailCache.containsKey(fid)) {
-			return mThumnnailCache.get(fid).get();
-		} else {
-			return loadThumbnailPic(fid);
-		}
 	}
 
 	public String getLargePic(long fid, FileCacheManager.ProgressCallback callback) {
@@ -133,6 +87,8 @@ public class DirectMessagesMediaApiCache {
 			ret =  mManager.copyCacheTo(Constants.FILE_CACHE_PICS_LARGE, cacheName,
 						    Environment.getExternalStorageDirectory().getPath() + "/BlackLight");
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 			// Just ignore
 		} finally {
 			Utility.notifyScanPhotos(mContext, ret);

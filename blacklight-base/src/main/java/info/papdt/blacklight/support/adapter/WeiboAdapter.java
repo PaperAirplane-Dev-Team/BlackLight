@@ -61,7 +61,7 @@ import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
-import info.papdt.blacklight.ui.common.StatusImageActivity;
+import info.papdt.blacklight.ui.common.ImageActivity;
 import info.papdt.blacklight.ui.statuses.RepostActivity;
 import info.papdt.blacklight.ui.statuses.SingleActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
@@ -88,7 +88,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			int id = Integer.parseInt(v.getTag(TAG_ID).toString());
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(v.getContext(), StatusImageActivity.class);
+			i.setClass(v.getContext(), ImageActivity.class);
 			i.putExtra("model", msg);
 			i.putExtra("defaultId", id);
 			ActivityCompat.startActivity((Activity) v.getContext(), i, o.toBundle());
