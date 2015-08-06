@@ -239,7 +239,15 @@ public class DirectMessageImageActivity extends AbsActivity /*implements OnPhoto
 		@Override
 		protected Object[] doInBackground(Object[] params) {
 			int id = Integer.parseInt(params[1].toString());
+
+			if (DEBUG)
+				Log.d(TAG, "Did not BOOM till id");
+
 			Object img = mApiCache.getLargePic(mFid, (MyCallback) params[2]);
+
+			if (DEBUG)
+				Log.d(TAG, "Did not BOOM till downloading");
+
 			mLoaded[id] = true;
 			return new Object[]{params[0], img};
 		}

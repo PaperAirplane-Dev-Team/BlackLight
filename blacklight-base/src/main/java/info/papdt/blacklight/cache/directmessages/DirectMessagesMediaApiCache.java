@@ -36,11 +36,12 @@ import info.papdt.blacklight.cache.file.FileCacheManager;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Utility;
+import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class DirectMessagesMediaApiCache {
+	private static final String TAG = DirectMessagesMediaApiCache.class.getSimpleName();
 	private Context mContext;
 	private FileCacheManager mManager;
-	private static HashMap<Long, SoftReference<Bitmap> > mThumnnailCache = new HashMap<Long, SoftReference<Bitmap> >();
 
 	public DirectMessagesMediaApiCache(Context ctx) {
 		mContext = ctx;
@@ -48,7 +49,11 @@ public class DirectMessagesMediaApiCache {
 	}
 
 	public String getLargePic(long fid, FileCacheManager.ProgressCallback callback) {
-		String url = String.format(info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_ORIG_PIC,fid);
+		String url = String.format(info.papdt.blacklight.api.Constants.DIRECT_MESSAGES_ORIG_PIC, fid, BaseApi.getAccessToken());
+
+		if (DEBUG) {
+			Log.d(TAG, "url is " + url);
+		}
 
 		String cacheName = new Long(fid).toString();
 		InputStream cache;
