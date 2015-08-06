@@ -18,10 +18,10 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<item 
+	<item
 		android:state_pressed="false"
 		android:drawable="@android:color/transparent" />
 	<item
 		android:state_pressed="true"
-		android:drawable="@color/selector_gray" />
+		android:drawable="@color/grey_800" />
 </selector>

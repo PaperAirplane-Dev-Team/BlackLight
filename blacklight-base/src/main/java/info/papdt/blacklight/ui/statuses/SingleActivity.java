@@ -101,7 +101,7 @@ public class SingleActivity extends AbsActivity
 		super.onCreate(savedInstanceState);
 
 		mActionBarColor = Utility.getColorPrimary(this);
-		mDragBackgroundColor = getResources().getColor(R.color.light_gray);
+		mDragBackgroundColor = Utility.getDragBackground(this);
 		mGray = getResources().getColor(R.color.action_gray);
 		mWhite = getResources().getColor(R.color.white);
 		mDark = Utility.isDarkMode(this);
@@ -191,7 +191,7 @@ public class SingleActivity extends AbsActivity
 				//Utility.setActionBarTranslation(SingleActivity.this, mRoot.getCurrentParalaxOffset());
 
 				// Gradient color if in light mode
-				if (!mDark) {
+				//if (!mDark) {
 
 					if (Build.VERSION.SDK_INT >= 21) {
 						getToolbar().setElevation(slideOffset * 12.8f);
@@ -200,11 +200,13 @@ public class SingleActivity extends AbsActivity
 					float gradientFactor = 1 - slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));
-					mIndicatorColor = Utility.getGradientColor(mGray, mWhite, gradientFactor);;
 					mColorizer.setBlendColor(Utility.getGradientColor(mGray, mActionBarColor, gradientFactor));
 					mIndicator.notifyIndicatorColorChanged();
-					mCollapse.setColorFilter(Utility.getGradientColor(mGray, mDragBackgroundColor, gradientFactor), PorterDuff.Mode.SRC_IN);
-				}
+					if (!mDark) {
+						mIndicatorColor = Utility.getGradientColor(mGray, mWhite, gradientFactor);
+						mCollapse.setColorFilter(Utility.getGradientColor(mGray, mDragBackgroundColor, gradientFactor), PorterDuff.Mode.SRC_IN);
+					}
+				//}
 
 				mCollapse.setRotation((1 - slideOffset) * -180);
 			}
@@ -225,7 +227,8 @@ public class SingleActivity extends AbsActivity
 		});
 
 		// Indicator
-		mIndicatorColor = mGray;
+		mIndicatorColor = mDark ? mWhite : mGray;
+
 		mColorizer.setBlendColor(mGray);
 		mIndicator.setViewPager(mPager);
 

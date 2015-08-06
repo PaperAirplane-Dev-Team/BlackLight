@@ -782,6 +782,28 @@ public class Utility
 		}
 	}
 
+	public static int getSelectorGrey(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_SelectorGrey, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
+	public static int getDragBackground(Context context) {
+		try {
+			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);
+			int ret = array.getColor(R.styleable.BlackLight_DragBackground, 0);
+			array.recycle();
+			return ret;
+		} catch (NotFoundException e) {
+			return 0;
+		}
+	}
+
 	public static int getCardSubColor(Context context) {
 		try {
 			TypedArray array = context.obtainStyledAttributes(R.styleable.BlackLight);

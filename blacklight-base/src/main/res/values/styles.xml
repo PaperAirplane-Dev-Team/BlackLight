@@ -59,6 +59,7 @@
 		<item name="UserInfoBackground">@color/white</item>
 		<item name="UserInfoText">@color/black</item>
 		<item name="UserInfoDivider">@drawable/user_info_divider</item>
+		<item name="SelectorGrey">@color/selector_gray</item>
 	</style>
 
 	<!-- Purple -->
