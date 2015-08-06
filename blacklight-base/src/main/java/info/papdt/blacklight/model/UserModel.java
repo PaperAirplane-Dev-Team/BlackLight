@@ -78,6 +78,7 @@ public class UserModel implements Parcelable
 		return cover_image.trim().equals("") ? cover_image_phone : cover_image;
 	}
 
+	// FIXME: 'boolean' has only two values.
 	public boolean isMale() {
 		return gender != null && gender.equals("m");
 	}
