@@ -19,43 +19,45 @@
 -->
 <resources>
 	<style name="BL.Theme.Dark" parent="Theme.AppCompat">
-		<item name="android:windowBackground">@color/superdark_gray</item>
+		<item name="android:windowBackground">@color/grey_900</item>
 		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
-		<item name="colorPrimary">@color/dark_action_gray</item>
-		<item name="colorPrimaryDark">@color/cant_be_darker_gray</item>
-		<item name="CardBackground">@color/dark_action_gray</item>
-		<item name="CardForeground">@color/gray</item>
-		<item name="CardOrigBackground">@color/cant_be_darker_gray</item>
-		<item name="CardDivider">@color/cant_be_darker_gray</item>
-		<item name="CardSubColor">@color/gray</item>
+		<item name="colorPrimary">@color/teal_500</item>
+		<item name="colorPrimaryDark">@color/teal_700</item>
+		<item name="colorAccent">@color/blue_grey_500</item>
+		<item name="CardBackground">@color/grey_800</item>
+		<item name="CardForeground">@color/grey_300</item>
+		<item name="CardOrigBackground">@color/grey_850</item>
+		<item name="CardDivider">@color/grey_800</item>
+		<item name="CardSubColor">@color/grey_300</item>
 		<item name="CardRatings">@drawable/ic_action_good</item>
 		<item name="CardReposts">@drawable/ic_action_reply_all</item>
 		<item name="CardComments">@drawable/ic_fa_comments_light</item>
-		<item name="ShadowGray">@color/cant_be_darker_gray</item>
-		<item name="DragBackground">@color/cant_be_darker_gray</item>
-		<item name="SingleBottomColor">@color/cant_be_darker_gray</item>
-		<item name="SingleDivider">@color/cant_be_darker_gray</item>
+		<item name="ShadowGray">@color/grey_800</item>
+		<item name="DragBackground">@color/grey_800</item>
+		<item name="SingleBottomColor">@color/grey_800</item>
+		<item name="SingleDivider">@color/grey_800</item>
 		<item name="IconCollapse">@drawable/ic_action_collapse_dark</item>
 		<item name="IconSendNow">@drawable/ic_action_send_now</item>
 		<item name="IconEmoticon">@drawable/ic_action_emoticon</item>
-		<item name="UserBackground">@color/lighter_than_superdark_gray</item>
-		<item name="NewPostImgFilter">@color/darker_than_superdark_gray_alpha</item>
-		<item name="BottomViewColor">@color/dark_action_gray</item>
-		<item name="LayerColor">@color/dark_action_gray</item>
-		<item name="FABBackground">@color/cant_be_darker_gray</item>
+		<item name="UserBackground">@color/grey_700</item>
+		<item name="NewPostImgFilter">@color/grey_300</item>
+		<item name="BottomViewColor">@color/grey_800</item>
+		<item name="LayerColor">@color/grey_800</item>
+		<item name="FABBackground">?attr/colorAccent</item>
 		<item name="FABNewIcon">@drawable/ic_add_white_24dp</item>
 		<item name="IndicatorForeground">@color/white</item>
-		<item name="DrawerBackground">@color/cant_be_darker_gray</item>
-		<item name="DrawerForeground">@color/gray</item>
-		<item name="NewPostBackground">@color/superdark_gray</item>
-		<item name="NewPostForeground">@color/light_gray</item>
-		<item name="NewPostDivider">@color/cant_be_darker_gray</item>
-		<item name="NewPostBottom">@color/cant_be_darker_gray</item>
-		<item name="UserInfoBackground">@color/cant_be_darker_gray</item>
+		<item name="DrawerBackground">@color/grey_800</item>
+		<item name="DrawerForeground">@color/grey_300</item>
+		<item name="NewPostBackground">@color/grey_700</item>
+		<item name="NewPostForeground">@color/grey_300</item>
+		<item name="NewPostDivider">@color/grey_800</item>
+		<item name="NewPostBottom">@color/grey_700</item>
+		<item name="UserInfoBackground">@color/grey_800</item>
 		<item name="UserInfoText">@color/white</item>
 		<item name="UserInfoDivider">@drawable/user_info_divider_dark</item>
+		<item name="SelectorGrey">@color/grey_700</item>
 	</style>
 
 	<style name="BL.Theme.Dark.WithNav" parent="BL.Theme.Dark" />

@@ -22,7 +22,7 @@
 	<declare-styleable name="TintImageView">
 		<attr name="tintColor" format="color" />
 	</declare-styleable>
-	
+
 	<declare-styleable name="ScrimInsetsView">
 		<attr name="insetForeground" format="color" />
 	</declare-styleable>
@@ -60,6 +60,7 @@
 		<attr name="UserInfoBackground" format="color" />
 		<attr name="UserInfoText" format="color" />
 		<attr name="UserInfoDivider" format="reference" />
+		<attr name="SelectorGrey" format="color" />
 	</declare-styleable>
 
 </resources>

@@ -51,6 +51,7 @@
 
 	<!-- Teal -->
 	<color name="teal_500">#009688</color>
+	<color name="teal_700">#00796B</color>
 
 	<!-- Pink -->
 	<color name="pink_500">#e91e63</color>
@@ -62,6 +63,17 @@
 	<!-- Indigo -->
 	<color name="indigo_500">#3f51b5</color>
 	<color name="indigo_700">#303f9f</color>
+
+	<!-- Blue grey -->
+	<color name="blue_grey_500">#607D8B</color>
+
+	<!-- Grey -->
+	<color name="grey_300">#E0E0E0</color>
+	<color name="grey_500">#9E9E9E</color>
+	<color name="grey_700">#616161</color>
+	<color name="grey_800">#424242</color>
+	<color name="grey_850">#313131</color>
+	<color name="grey_900">#212121</color>
 
 	<!-- Pull To Refresh -->
 	<color name="ptr_green">#44aa00</color>

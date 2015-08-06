@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -27,29 +27,29 @@ import android.widget.ArrayAdapter;
 public class SelectionArrayAdapter<T> extends ArrayAdapter<T>
 {
 	private int mSelection = -1;
-	private int mSelectorRes = -1;
-	
-	public SelectionArrayAdapter(Context context, int layoutRes, int titleId, int selectorRes, T[] array) {
+	private int mSelectorColor = -1;
+
+	public SelectionArrayAdapter(Context context, int layoutRes, int titleId, int selectorColor, T[] array) {
 		super(context, layoutRes, titleId, array);
-		mSelectorRes = selectorRes;
+		mSelectorColor = selectorColor;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = super.getView(position, convertView, parent);
-		
+
 		if (v == null)
 			return null;
-		
+
 		if (position == mSelection) {
-			v.setBackgroundResource(mSelectorRes);
+			v.setBackgroundColor(mSelectorColor);
 		} else {
 			v.setBackgroundDrawable(null);
 		}
-		
+
 		return v;
 	}
-	
+
 	public void setSelection(int selection) {
 		mSelection = selection;
 		notifyDataSetChanged();

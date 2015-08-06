@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -41,9 +41,9 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class GroupFragment extends Fragment implements AdapterView.OnItemClickListener
 {
 	private static final String TAG = GroupFragment.class.getSimpleName();
-	
+
 	private static final String BILATERAL = "bilateral";
-	
+
 	private ListView mList;
 	private GroupListModel mGroups;
 	private String mCurrentGroup;
@@ -72,7 +72,7 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 			mCurrentGroup = BILATERAL;
 		else
 			mCurrentGroup = mGroups.get(position - 2).idstr;
-		
+
 		Settings.getInstance(null).putString(Settings.CURRENT_GROUP, mCurrentGroup);
 		mAdapter.setSelection(position);
 		((MainActivity) getActivity()).setCurrentGroup(mCurrentGroup, true);
@@ -88,21 +88,21 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 	static void setGfCallBack(GFCallBack gfCallBack){
 		mGfCallBack=gfCallBack;
 	}
-	
+
 	void reload() {
 		new FetchTask().execute();
 	}
-	
+
 	private class FetchTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
 			mGroups = GroupsApi.getGroups();
-			
+
 			if (DEBUG) {
 				Log.d(TAG, "group size " + mGroups.getSize());
 			}
-			
+
 			return null;
 		}
 
@@ -118,7 +118,7 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 				for (int i = 0; i < mGroups.getSize(); i++) {
 					names[i + 2] = mGroups.get(i).name;
 				}
-				
+
 				if (DEBUG) {
 					Log.d(TAG, "Setting adapter");
 				}
@@ -126,13 +126,13 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 				if (!isAdded()){
                     return;
                 }
-				mAdapter = new SelectionArrayAdapter<String>(getActivity(), R.layout.main_drawer_group_item, R.id.group_title, R.color.selector_gray, names);
+				mAdapter = new SelectionArrayAdapter<String>(getActivity(), R.layout.main_drawer_group_item, R.id.group_title, Utility.getSelectorGrey(getActivity()), names);
 				mList.setAdapter(mAdapter);
 				mList.setOnItemClickListener(GroupFragment.this);
-				
+
 				// Search for current
 				int current = 0;
-				
+
 				if (mCurrentGroup == null) {
 					current = 0;
 				} else if (mCurrentGroup.equals(BILATERAL)) {
@@ -145,15 +145,15 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 						}
 					}
 				}
-				
+
 				if (DEBUG) {
 					Log.d(TAG, "selection = " + current);
 				}
-				
+
 				mAdapter.setSelection(current);
 			}
 		}
 
 	}
-	
+
 }
