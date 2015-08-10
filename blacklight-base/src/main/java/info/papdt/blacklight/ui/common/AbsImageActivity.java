@@ -58,7 +58,7 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public abstract class AbsImageActivity<C> extends AbsActivity /*implements OnPhotoTapListener*/
 {
-	private static final String TAG = ImageActivity.class.getSimpleName();
+	private static final String TAG = AbsImageActivity.class.getSimpleName();
 
 	private ImageAdapter mAdapter;
 	private ViewPager mPager;
