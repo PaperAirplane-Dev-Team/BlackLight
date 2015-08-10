@@ -155,6 +155,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 					LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)child.getLayoutParams();
 					lp.width = (int) (size  * 0.88f);
 					lp.height = size;
+					child.setLayoutParams(lp);
 				}
 			}
 		}
