@@ -275,6 +275,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 		}
 
+		if (msg.inSingleActivity) {
+			h.popup.setVisibility(View.GONE);
+		}
+
 		if (msg.user != null) {
 			// Load avatar
 			Picasso.with(v.getContext())
