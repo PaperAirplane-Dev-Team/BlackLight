@@ -21,6 +21,7 @@ package info.papdt.blacklight.ui.directmessage;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.directmessages.DirectMessagesMediaApiCache;
@@ -75,6 +76,11 @@ public class DirectMessageImageActivity extends AbsImageActivity<DirectMessagesM
 		}
 
 		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return false;
 	}
 
 }
