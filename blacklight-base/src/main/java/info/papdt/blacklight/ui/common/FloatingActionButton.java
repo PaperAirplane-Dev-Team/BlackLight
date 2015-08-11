@@ -128,7 +128,10 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 	}
 
 	private int getRealWidth() {
-		return getWidth() - getPaddingLeft() - getPaddingRight();
+		if(Build.VERSION.SDK_INT>=21)
+			return getWidth() - getPaddingLeft() - getPaddingRight();
+		else
+			return getWidth();
 	}
 
 	private int getRealHeight() {
