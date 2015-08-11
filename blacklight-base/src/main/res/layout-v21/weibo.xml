@@ -29,7 +29,8 @@
 		android:id="@+id/card"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_margin="5dp"
+		android:layout_marginRight="2dp"
+		android:layout_marginLeft="2dp"
 		android:stateListAnimator="@anim/state_raise_up"
 		card_view:cardCornerRadius="3dp"
 		card_view:cardElevation="2.5dp"
@@ -40,4 +41,3 @@
 	</android.support.v7.widget.CardView>
 
 </LinearLayout>
-

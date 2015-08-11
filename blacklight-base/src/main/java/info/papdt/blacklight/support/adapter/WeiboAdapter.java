@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -503,7 +504,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		public ImageView popup;
 		public HorizontalScrollView scroll;
 		public LinearLayout pics;
-		public View card;
+		public CardView card;
 		public View origin_parent;
 		public View comment_and_retweet;
 
@@ -551,6 +552,9 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			Utility.bindOnClick(this, avatar, "showUser");
 			Utility.bindOnClick(this, card, "show");
 			Utility.bindOnClick(this, origin_parent, "showOrig");
+
+			// Card
+			card.setUseCompatPadding(true);
 		}
 
 		@Binded
