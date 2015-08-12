@@ -177,6 +177,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	@Override
 	public void doRecycleView(ViewHolder h) {
+		h.avatar.setImageBitmap(null);
 		h.avatar.setImageResource(R.color.gray);
 		h.avatar.setTag(true);
 		h.comment_and_retweet.setVisibility(View.VISIBLE);
