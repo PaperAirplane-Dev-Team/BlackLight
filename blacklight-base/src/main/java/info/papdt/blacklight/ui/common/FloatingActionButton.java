@@ -269,10 +269,6 @@ public class FloatingActionButton extends View implements Animator.AnimatorListe
 		public Builder withButtonSize(int size) {
 			size = convertToPixels(size, scale);
 
-			if (Build.VERSION.SDK_INT <= 19) {
-				size += 10;
-			}
-
 			params = new FrameLayout.LayoutParams(size, size);
 			return this;
 		}
