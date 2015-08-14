@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
@@ -185,7 +186,10 @@ public abstract class AbsImageActivity<C> extends AbsActivity /*implements OnPho
 
 		@Override
 		public boolean shouldContinue() {
-			return !isFinishing() || !isDestroyed();
+			if (Build.VERSION.SDK_INT >= 17)
+				return !isFinishing() || !isDestroyed();
+			else
+				return !isFinishing();
 		}
 	}
 
