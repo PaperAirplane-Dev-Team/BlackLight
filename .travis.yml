@@ -10,10 +10,8 @@ cache:
     -  $HOME/gradle-2.2.1
 
 before_install:
-- pushd $HOME
 - chmod +x install_gradle.sh
 - source ./install_gradle.sh
-- popd
 
 script: gradle :app-snapshot:build
 
