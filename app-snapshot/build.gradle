@@ -12,7 +12,7 @@ android {
         applicationId "us.shandian.blacklight.snapshot"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
+        versionCode 42
         versionName "snapshot"
     }
     buildTypes {
