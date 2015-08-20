@@ -22,6 +22,7 @@ package info.papdt.blacklight.ui.common;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 	private ShakeDetector mDetector;
 	private Settings mSettings;
 	private int mLang = -1;
+
+	private boolean mRecreated = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,5 +110,28 @@ public class AbsActivity extends ToolbarActivity implements ShakeListener {
 	@Override
 	public void onShake() {
 		this.onBackPressed();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mRecreated = true;
+	}
+
+	@Override
+	public void recreate() {
+		super.recreate();
+		mRecreated = true;
+	}
+
+	@Override
+	public void supportFinishAfterTransition() {
+		if (mRecreated) {
+			// This will hopefully fix a bunch of GhostView NPEs
+			// However, I'm not sure about this.
+			finish();
+		} else {
+			super.supportFinishAfterTransition();
+		}
 	}
 }
