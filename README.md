@@ -1,9 +1,9 @@
 BlackLight 新浪微博客户端
 ---
-![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)
-[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)
-详细介绍请见 <http://typeblog.net/blacklight>  
-Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
+![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)  
+[![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)  
+
+详细介绍以及Changelog请见Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
 源代码在GPLv3协议下发布
 
 由于新浪微博已经不再接受新的第三方客户端申请，因此BlackLight使用“黑魔法”的方式登录微博。要登录，您需要一个可用的微博App Key，这里有一个：<https://gist.github.com/PeterCxy/3085799055f63c63c911>  
