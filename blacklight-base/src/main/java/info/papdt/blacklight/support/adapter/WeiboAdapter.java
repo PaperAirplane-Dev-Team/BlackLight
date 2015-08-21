@@ -553,6 +553,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			Utility.bindOnClick(this, avatar, "showUser");
 			Utility.bindOnClick(this, card, "show");
 			Utility.bindOnClick(this, origin_parent, "showOrig");
+			Utility.bindOnLongClick(this, card, "popupLongClick");
 
 			// Card
 			card.setUseCompatPadding(true);
@@ -561,6 +562,12 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		@Binded
 		void popup() {
 			adapter.buildPopup(this);
+		}
+
+		@Binded
+		boolean popupLongClick() {
+			popup();
+			return true;
 		}
 
 		@Binded
