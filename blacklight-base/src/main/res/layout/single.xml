@@ -25,148 +25,148 @@
 	<include
 		layout="@layout/toolbar"/>
 	
-<LinearLayout
-	xmlns:sothree="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/single_focus"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:focusableInTouchMode="true"
-	android:layout_below="@+id/toolbar">
-	
 	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="0.9">
-	
-	<com.sothree.slidinguppanel.SlidingUpPanelLayout
+		xmlns:sothree="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/single_focus"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:id="@+id/single_root"
-		android:gravity="bottom"
-		sothree:paralaxOffset="100dp"
-		sothree:panelHeight="48dp"
-		sothree:shadowHeight="4dp"
-		sothree:dragView="@+id/single_drag">
-
-		<FrameLayout
-			android:layout_height="match_parent"
-			android:layout_width="match_parent"
-			android:id="@+id/single_content"/>
+		android:orientation="vertical"
+		android:focusableInTouchMode="true"
+		android:layout_below="@+id/toolbar">
 
 		<LinearLayout
-			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-			android:orientation="vertical">
+			android:layout_height="0dp"
+			android:layout_weight="0.9">
 
-			<LinearLayout
-				android:layout_height="48dp"
+			<com.sothree.slidinguppanel.SlidingUpPanelLayout
 				android:layout_width="match_parent"
-				android:background="?attr/DragBackground"
-				android:id="@+id/single_dragger"
-				android:orientation="horizontal">
-
-				<info.papdt.blacklight.ui.common.SlidingTabLayout
-					android:layout_height="48dp"
-					android:layout_width="140dp"
-					android:id="@+id/single_indicator"
-					android:layout_marginLeft="5dp"/>
-
-				<RelativeLayout
-					android:id="@+id/single_drag"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-				
-					<ImageView
-						android:id="@+id/iv_collapse"
-						android:layout_width="24dp"
-						android:layout_height="24dp"
-						android:layout_marginRight="5dp"
-						android:layout_alignParentRight="true"
-						android:layout_centerVertical="true"
-						android:src="?attr/IconCollapse"
-						android:scaleType="centerInside"/>
-					
-				</RelativeLayout>
-
-			</LinearLayout>
-
-			<info.papdt.blacklight.ui.common.HackyViewPager
 				android:layout_height="match_parent"
-				android:layout_width="match_parent"
-				android:id="@+id/single_pager"/>
+				android:id="@+id/single_root"
+				android:gravity="bottom"
+				sothree:paralaxOffset="100dp"
+				sothree:panelHeight="48dp"
+				sothree:shadowHeight="4dp"
+				sothree:dragView="@+id/single_drag">
+
+				<FrameLayout
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:id="@+id/single_content"/>
+
+				<LinearLayout
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:orientation="vertical">
+
+					<LinearLayout
+						android:layout_height="48dp"
+						android:layout_width="match_parent"
+						android:background="?attr/DragBackground"
+						android:id="@+id/single_dragger"
+						android:orientation="horizontal">
+
+						<info.papdt.blacklight.ui.common.SlidingTabLayout
+							android:layout_height="48dp"
+							android:layout_width="140dp"
+							android:id="@+id/single_indicator"
+							android:layout_marginLeft="5dp"/>
+
+						<RelativeLayout
+							android:id="@+id/single_drag"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent">
+
+							<ImageView
+								android:id="@+id/iv_collapse"
+								android:layout_width="24dp"
+								android:layout_height="24dp"
+								android:layout_marginRight="5dp"
+								android:layout_alignParentRight="true"
+								android:layout_centerVertical="true"
+								android:src="?attr/IconCollapse"
+								android:scaleType="centerInside"/>
+
+						</RelativeLayout>
+
+					</LinearLayout>
+
+					<info.papdt.blacklight.ui.common.HackyViewPager
+						android:layout_height="match_parent"
+						android:layout_width="match_parent"
+						android:id="@+id/single_pager"/>
+
+				</LinearLayout>
+
+			</com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 		</LinearLayout>
 
-	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="?attr/SingleDivider"
+			android:orientation="horizontal">
+
+			<RelativeLayout
+				android:id="@+id/single_comment"
+				android:layout_width="match_parent"
+				android:layout_height="48dp"
+				android:layout_weight="1.0"
+				android:layout_marginTop="1dp"
+				android:layout_marginRight="1dp"
+				android:gravity="center"
+				android:background="?attr/SingleBottomColor">
+
+				<ImageView
+					android:id="@+id/single_comment_img"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:layout_marginRight="5dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_comment_1"/>
+
+				<TextView
+					android:layout_toRightOf="@id/single_comment_img"
+					android:layout_toEndOf="@id/single_comment_img"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/single_comment"
+					android:textColor="?attr/CardForeground"
+					android:textSize="15sp"/>
+
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/single_repost"
+				android:layout_width="match_parent"
+				android:layout_height="48dp"
+				android:layout_weight="1.0"
+				android:layout_marginTop="1dp"
+				android:gravity="center"
+				android:background="?attr/SingleBottomColor">
+
+				<ImageView
+					android:id="@+id/single_repost_img"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:layout_marginRight="5dp"
+					android:scaleType="fitXY"
+					android:src="@drawable/ic_repost"/>
+
+				<TextView
+					android:layout_toRightOf="@id/single_repost_img"
+					android:layout_toEndOf="@id/single_repost_img"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/single_repost"
+					android:textColor="?attr/CardForeground"
+					android:textSize="15sp"/>
+
+			</RelativeLayout>
+
+		</LinearLayout>
 	
 	</LinearLayout>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="?attr/SingleDivider"
-		android:orientation="horizontal">
-
-		<RelativeLayout
-			android:id="@+id/single_comment"
-			android:layout_width="match_parent"
-			android:layout_height="48dp"
-			android:layout_weight="1.0"
-			android:layout_marginTop="1dp"
-			android:layout_marginRight="1dp"
-			android:gravity="center"
-			android:background="?attr/SingleBottomColor">
-
-			<ImageView
-				android:id="@+id/single_comment_img"
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:layout_marginRight="5dp"
-				android:scaleType="fitXY"
-				android:src="@drawable/ic_comment_1"/>
-
-			<TextView
-				android:layout_toRightOf="@id/single_comment_img"
-				android:layout_toEndOf="@id/single_comment_img"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/single_comment"
-				android:textColor="?attr/CardForeground"
-				android:textSize="15sp"/>
-
-		</RelativeLayout>
-
-		<RelativeLayout
-			android:id="@+id/single_repost"
-			android:layout_width="match_parent"
-			android:layout_height="48dp"
-			android:layout_weight="1.0"
-			android:layout_marginTop="1dp"
-			android:gravity="center"
-			android:background="?attr/SingleBottomColor">
-
-			<ImageView
-				android:id="@+id/single_repost_img"
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:layout_marginRight="5dp"
-				android:scaleType="fitXY"
-				android:src="@drawable/ic_repost"/>
-
-			<TextView
-				android:layout_toRightOf="@id/single_repost_img"
-				android:layout_toEndOf="@id/single_repost_img"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/single_repost"
-				android:textColor="?attr/CardForeground"
-				android:textSize="15sp"/>
-
-		</RelativeLayout>
-
-	</LinearLayout>
-	
-</LinearLayout>
 </RelativeLayout>
 
