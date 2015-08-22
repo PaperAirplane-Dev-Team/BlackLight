@@ -36,7 +36,7 @@
 	
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="0dp"
 		android:layout_weight="0.9">
 	
 	<com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -104,8 +104,7 @@
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="49dp"
-		android:layout_weight="0.1"
+		android:layout_height="wrap_content"
 		android:background="?attr/SingleDivider"
 		android:orientation="horizontal">
 
