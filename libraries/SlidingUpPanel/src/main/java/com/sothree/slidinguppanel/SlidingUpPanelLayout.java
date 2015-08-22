@@ -256,14 +256,14 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     public SlidingUpPanelLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        
-        if(isInEditMode()) {
+
+        if (isInEditMode()) {
             mShadowDrawable = null;
             mScrollTouchSlop = 0;
-            mDragHelper = null;
+            mDragHelper = ViewDragHelper.create(this, new DragHelperCallback());;
             return;
         }
-        
+
         if (attrs != null) {
             TypedArray defAttrs = context.obtainStyledAttributes(attrs, DEFAULT_ATTRS);
 
@@ -273,9 +273,9 @@ public class SlidingUpPanelLayout extends ViewGroup {
                     throw new IllegalArgumentException("gravity must be set to either top or bottom");
                 }
                 mIsSlidingUp = gravity == Gravity.BOTTOM;
+                defAttrs.recycle();
             }
 
-            defAttrs.recycle();
 
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingUpPanelLayout);
 
@@ -290,9 +290,9 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mDragViewResId = ta.getResourceId(R.styleable.SlidingUpPanelLayout_dragView, -1);
 
                 mOverlayContent = ta.getBoolean(R.styleable.SlidingUpPanelLayout_overlay,DEFAULT_OVERLAY_FLAG);
+                ta.recycle();
             }
 
-            ta.recycle();
         }
 
         final float density = context.getResources().getDisplayMetrics().density;
@@ -740,7 +740,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         if (!mCanSlide || !mIsSlidingEnabled) {
             return super.onTouchEvent(ev);
         }
-        
+
         try {
             mDragHelper.processTouchEvent(ev);
         } catch (Exception e) {
