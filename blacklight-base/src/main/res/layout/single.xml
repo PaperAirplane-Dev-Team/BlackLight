@@ -109,7 +109,7 @@
 		android:background="?attr/SingleDivider"
 		android:orientation="horizontal">
 
-		<LinearLayout
+		<RelativeLayout
 			android:id="@+id/single_comment"
 			android:layout_width="match_parent"
 			android:layout_height="48dp"
@@ -117,8 +117,7 @@
 			android:layout_marginTop="1dp"
 			android:layout_marginRight="1dp"
 			android:gravity="center"
-			android:background="?attr/SingleBottomColor"
-			android:orientation="horizontal">
+			android:background="?attr/SingleBottomColor">
 
 			<ImageView
 				android:id="@+id/single_comment_img"
@@ -129,26 +128,25 @@
 				android:src="@drawable/ic_comment_1"/>
 
 			<TextView
+				android:layout_toRightOf="@id/single_comment_img"
+				android:layout_toEndOf="@id/single_comment_img"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:gravity="center_vertical"
 				android:text="@string/single_comment"
 				android:textColor="?attr/CardForeground"
 				android:textSize="15sp"/>
 
-		</LinearLayout>
+		</RelativeLayout>
 
-		<LinearLayout
+		<RelativeLayout
 			android:id="@+id/single_repost"
 			android:layout_width="match_parent"
 			android:layout_height="48dp"
 			android:layout_weight="1.0"
 			android:layout_marginTop="1dp"
-			android:layout_marginRight="1dp"
 			android:gravity="center"
-			android:background="?attr/SingleBottomColor"
-			android:orientation="horizontal">
-			
+			android:background="?attr/SingleBottomColor">
+
 			<ImageView
 				android:id="@+id/single_repost_img"
 				android:layout_width="20dp"
@@ -156,16 +154,17 @@
 				android:layout_marginRight="5dp"
 				android:scaleType="fitXY"
 				android:src="@drawable/ic_repost"/>
-			
+
 			<TextView
+				android:layout_toRightOf="@id/single_repost_img"
+				android:layout_toEndOf="@id/single_repost_img"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:gravity="center_vertical"
 				android:text="@string/single_repost"
 				android:textColor="?attr/CardForeground"
 				android:textSize="15sp"/>
 
-		</LinearLayout>
+		</RelativeLayout>
 
 	</LinearLayout>
 	
