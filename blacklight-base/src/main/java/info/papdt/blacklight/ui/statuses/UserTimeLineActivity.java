@@ -149,6 +149,7 @@ public class UserTimeLineActivity extends AbsActivity
 		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
+				container.getViewTreeObserver().removeOnPreDrawListener(this);
 				int containerHeight = container.getMeasuredHeight();
 				int slideHeight = mSlide.getMeasuredHeight();
 				// prevent startup flick, see setPanelHeight() and smoothToBottom()
