@@ -47,7 +47,7 @@
 				sothree:umanoParalaxOffset="100dp"
 				sothree:umanoPanelHeight="48dp"
 				sothree:umanoShadowHeight="4dp"
-				sothree:umanoDragView="@+id/single_drag">
+				sothree:umanoDragView="@+id/single_dragger">
 
 				<FrameLayout
 					android:layout_height="match_parent"
@@ -59,7 +59,7 @@
 					android:layout_width="match_parent"
 					android:orientation="vertical">
 
-					<LinearLayout
+					<RelativeLayout
 						android:layout_height="48dp"
 						android:layout_width="match_parent"
 						android:background="?attr/DragBackground"
@@ -68,14 +68,11 @@
 
 						<info.papdt.blacklight.ui.common.SlidingTabLayout
 							android:layout_height="48dp"
-							android:layout_width="140dp"
+							android:layout_width="wrap_content"
 							android:id="@+id/single_indicator"
 							android:layout_marginLeft="5dp"/>
 
-						<RelativeLayout
-							android:id="@+id/single_drag"
-							android:layout_width="match_parent"
-							android:layout_height="match_parent">
+
 
 							<ImageView
 								android:id="@+id/iv_collapse"
@@ -87,9 +84,8 @@
 								android:src="?attr/IconCollapse"
 								android:scaleType="centerInside"/>
 
-						</RelativeLayout>
 
-					</LinearLayout>
+					</RelativeLayout>
 
 					<info.papdt.blacklight.ui.common.HackyViewPager
 						android:layout_height="match_parent"
