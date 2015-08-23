@@ -37,10 +37,10 @@
 		android:layout_height="match_parent"
 		android:id="@+id/user_slide"
 		android:gravity="bottom"
-		app:panelHeight="300dp"
-		app:paralaxOffset="100dp"
-		app:shadowHeight="0dp"
-		app:overlay="true">
+		app:umanoPanelHeight="300dp"
+		app:umanoParalaxOffset="100dp"
+		app:umanoShadowHeight="0dp"
+		app:umanoOverlay="true">
 
 			<LinearLayout
 				android:id="@+id/user_container"
