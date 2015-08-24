@@ -194,10 +194,10 @@ public class SingleActivity extends AbsActivity
 				//if (!mDark) {
 
 					if (Build.VERSION.SDK_INT >= 21) {
-						getToolbar().setElevation((1 - slideOffset)* 12.8f);
+						getToolbar().setElevation(slideOffset * 12.8f);
 					}
 
-					float gradientFactor = slideOffset;
+					float gradientFactor = 1 - slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));
 					mColorizer.setBlendColor(Utility.getGradientColor(mGray, mActionBarColor, gradientFactor));
@@ -208,7 +208,7 @@ public class SingleActivity extends AbsActivity
 					}
 				//}
 
-				mCollapse.setRotation(slideOffset * -180);
+				mCollapse.setRotation((1 - slideOffset) * -180);
 			}
 
 			@Override
