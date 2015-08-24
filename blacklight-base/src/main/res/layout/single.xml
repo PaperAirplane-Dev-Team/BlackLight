@@ -44,10 +44,10 @@
 				android:layout_height="match_parent"
 				android:id="@+id/single_root"
 				android:gravity="bottom"
-				sothree:umanoParalaxOffset="100dp"
-				sothree:umanoPanelHeight="48dp"
-				sothree:umanoShadowHeight="4dp"
-				sothree:umanoDragView="@+id/single_drag">
+				sothree:paralaxOffset="100dp"
+				sothree:panelHeight="48dp"
+				sothree:shadowHeight="4dp"
+				sothree:dragView="@+id/single_drag">
 
 				<FrameLayout
 					android:layout_height="match_parent"

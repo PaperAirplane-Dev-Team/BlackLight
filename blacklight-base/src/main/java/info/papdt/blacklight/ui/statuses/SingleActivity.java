@@ -224,11 +224,6 @@ public class SingleActivity extends AbsActivity
 
 			}
 
-			@Override
-			public void onPanelHidden(View panel) {
-
-			}
-
 		});
 
 		// Indicator
