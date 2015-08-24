@@ -52,6 +52,7 @@ import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.common.AbsActivity;
+import info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import info.papdt.blacklight.ui.friendships.FriendsActivity;
 
@@ -72,7 +73,7 @@ public class UserTimeLineActivity extends AbsActivity
 	private View mFollowingContainer;
 	private View mFollowersContainer;
 	private LinearLayout mLayoutFollowState;
-	private SlidingUpPanelLayout mSlide;
+	private GenerousSlidingUpPanelLayout mSlide;
 
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
@@ -152,12 +153,8 @@ public class UserTimeLineActivity extends AbsActivity
 				container.getViewTreeObserver().removeOnPreDrawListener(this);
 				int containerHeight = container.getMeasuredHeight();
 				int slideHeight = mSlide.getMeasuredHeight();
-				// prevent startup flick, see setPanelHeight() and smoothToBottom()
-				mSlide.setEnabled(false);
-				mSlide.setPanelHeight((int) (slideHeight - containerHeight +
-						Utility.dp2px(UserTimeLineActivity.this, 20.0f)));
-				mSlide.setEnabled(true);
-				mSlide.setScrollableView(mFragment.getList());
+				mSlide.setPanelHeight((int) (slideHeight - containerHeight + Utility.dp2px(UserTimeLineActivity.this, 20.0f)));
+				mSlide.setChildListView(mFragment.getList());
 				return true;
 			}
 		});
