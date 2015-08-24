@@ -194,10 +194,10 @@ public class SingleActivity extends AbsActivity
 				//if (!mDark) {
 
 					if (Build.VERSION.SDK_INT >= 21) {
-						getToolbar().setElevation(slideOffset * 12.8f);
+						getToolbar().setElevation((1 - slideOffset)* 12.8f);
 					}
 
-					float gradientFactor = 1 - slideOffset;
+					float gradientFactor = slideOffset;
 					mDragger.setBackgroundColor(Utility.getGradientColor(mDragBackgroundColor,
 							mActionBarColor,gradientFactor));
 					mColorizer.setBlendColor(Utility.getGradientColor(mGray, mActionBarColor, gradientFactor));
@@ -208,7 +208,7 @@ public class SingleActivity extends AbsActivity
 					}
 				//}
 
-				mCollapse.setRotation((1 - slideOffset) * -180);
+				mCollapse.setRotation(slideOffset * -180);
 			}
 
 			@Override
@@ -221,6 +221,11 @@ public class SingleActivity extends AbsActivity
 
 			@Override
 			public void onPanelAnchored(View panel) {
+
+			}
+
+			@Override
+			public void onPanelHidden(View panel) {
 
 			}
 

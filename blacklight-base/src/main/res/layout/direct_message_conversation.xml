@@ -36,9 +36,9 @@
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:gravity="bottom"
-				sothree:panelHeight="56dp"
-				sothree:shadowHeight="0dp"
-				sothree:dragView="@+id/direct_message_emoticon">
+				sothree:umanoPanelHeight="56dp"
+				sothree:umanoShadowHeight="0dp"
+				sothree:umanoDragView="@+id/direct_message_emoticon">
 
 				<FrameLayout
 					android:layout_height="match_parent"

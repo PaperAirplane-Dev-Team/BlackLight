@@ -31,16 +31,16 @@
 		android:layout_marginTop="-80dp"
 		android:layout_below="@+id/toolbar">
 
-	<info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout
+	<com.sothree.slidinguppanel.SlidingUpPanelLayout
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/user_slide"
 		android:gravity="bottom"
-		app:panelHeight="300dp"
-		app:paralaxOffset="100dp"
-		app:shadowHeight="0dp"
-		app:overlay="true">
+		app:umanoDragView="@+id/user_timeline_container"
+		app:umanoParalaxOffset="100dp"
+		app:umanoShadowHeight="0dp"
+		app:umanoOverlay="true">
 
 			<LinearLayout
 				android:id="@+id/user_container"
@@ -254,7 +254,7 @@
 
 		</LinearLayout>
 
-	</info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout>
+	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 	</FrameLayout>
 
