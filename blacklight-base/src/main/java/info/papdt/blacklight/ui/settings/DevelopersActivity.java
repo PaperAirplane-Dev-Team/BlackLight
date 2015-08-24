@@ -79,9 +79,10 @@ public class DevelopersActivity extends AbsActivity
 
 		@Override
 		protected Boolean doInBackground(Void... args) {
-			String[] developerWeiboUids = getResources().getStringArray(R.array.developer_weibo_uids);
-			addDeveloper(developerWeiboUids[0]);
-			int developerNum = developerWeiboUids.length - 3;
+			addDeveloper("1789004515"); //We will NEVER fire Peter!
+			
+			String[] contributorWeiboUids = getResources().getStringArray(R.array.contributor_weibo_uids);
+			int developerNum = contributorWeiboUids.length;
 			boolean[] added = new boolean[developerNum + 1];
 			int addNum = 0;
 			Random r = new Random();
@@ -90,12 +91,15 @@ public class DevelopersActivity extends AbsActivity
 				do {
 					n = r.nextInt(developerNum) + 1;
 				} while (added[n]);
-				addDeveloper(developerWeiboUids[n]);
+				addDeveloper(contributorWeiboUids[n]);
 				added[n] = true;
 				addNum++;
 			}
-			addDeveloper(developerWeiboUids[developerNum + 1]);
-			addDeveloper(developerWeiboUids[developerNum + 2]);
+			
+			String[] thankWeiboUids = getResources().getStringArray(R.array.thank_weibo_uids);
+			for(String uid : thankWeiboUids){
+				addDeveloper(uid);
+			}
 			return true;
 		}
 
