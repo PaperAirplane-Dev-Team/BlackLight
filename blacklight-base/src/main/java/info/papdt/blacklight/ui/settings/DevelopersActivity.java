@@ -80,22 +80,22 @@ public class DevelopersActivity extends AbsActivity
 		@Override
 		protected Boolean doInBackground(Void... args) {
 			addDeveloper("1789004515"); //We will NEVER fire Peter!
-			
+
 			String[] contributorWeiboUids = getResources().getStringArray(R.array.contributor_weibo_uids);
 			int developerNum = contributorWeiboUids.length;
-			boolean[] added = new boolean[developerNum + 1];
+			boolean[] added = new boolean[developerNum];
 			int addNum = 0;
 			Random r = new Random();
 			while (addNum != developerNum){
 				int n ;
 				do {
-					n = r.nextInt(developerNum) + 1;
+					n = r.nextInt(developerNum);
 				} while (added[n]);
 				addDeveloper(contributorWeiboUids[n]);
 				added[n] = true;
 				addNum++;
 			}
-			
+
 			String[] thankWeiboUids = getResources().getStringArray(R.array.thank_weibo_uids);
 			for(String uid : thankWeiboUids){
 				addDeveloper(uid);
