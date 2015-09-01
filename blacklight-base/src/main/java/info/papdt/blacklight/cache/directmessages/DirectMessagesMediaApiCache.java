@@ -93,7 +93,6 @@ public class DirectMessagesMediaApiCache {
 						    Environment.getExternalStorageDirectory().getPath() + "/BlackLight");
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw e;
 			// Just ignore
 		} finally {
 			Utility.notifyScanPhotos(mContext, ret);

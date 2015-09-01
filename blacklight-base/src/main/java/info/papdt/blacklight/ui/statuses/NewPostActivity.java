@@ -63,6 +63,7 @@ import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.LongPostUtility;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
@@ -530,11 +531,11 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				mPaths.remove(0);
 			}
 
-			bmp = Utility.parseLongPost(this, mText.getText().toString(), bmp);
+			bmp = LongPostUtility.parseLongPost(this, mText.getText().toString(), bmp);
 			mBitmaps.add(0, bmp);
 			mPaths.add(0, null);
 
-			return postPics(Utility.parseLongContent(this, mText.getText().toString()));
+			return postPics(LongPostUtility.parseLongContent(this, mText.getText().toString()));
 		}
 	}
 
