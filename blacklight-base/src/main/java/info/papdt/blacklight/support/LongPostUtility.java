@@ -23,6 +23,10 @@ public class LongPostUtility {
 	private static final String TAG = LongPostUtility.class.getSimpleName();
 	
 	private static final int PADDING = 40;
+	
+	private static final int TYPE_BOLD = 0,
+							TYPE_ITALIC = 1,
+							TYPE_DELETED = 2;
 
 	public static Bitmap parseLongPost(Context context, String text, Bitmap pic) {
 		if (DEBUG) {
@@ -70,7 +74,7 @@ public class LongPostUtility {
 				tmp = tmp.substring(2, tmp.length());
 				HashMap<String, Integer> map = new HashMap<String, Integer>();
 				map.put("pos", stripped.length());
-				map.put("type", 0);
+				map.put("type", TYPE_BOLD);
 				format.add(map);
 				continue;
 			} else if (str.equals("*") && !ignore) {
@@ -78,7 +82,7 @@ public class LongPostUtility {
 				tmp = tmp.substring(1, tmp.length());
 				HashMap<String, Integer> map = new HashMap<String, Integer>();
 				map.put("pos", stripped.length());
-				map.put("type", 1);
+				map.put("type", TYPE_ITALIC);
 				format.add(map);
 				continue;
 			} else if (str.equals("~") && tmp.length() > 1 && tmp.substring(1, 2).equals("~") && !ignore) {
@@ -86,7 +90,7 @@ public class LongPostUtility {
 				tmp = tmp.substring(2, tmp.length());
 				HashMap<String, Integer> map = new HashMap<String, Integer>();
 				map.put("pos", stripped.length());
-				map.put("type", 2);
+				map.put("type", TYPE_DELETED);
 				format.add(map);
 				continue;
 			} else if (str.equals("[") && tmp.length() > 1 && !ignore) {
@@ -204,16 +208,16 @@ public class LongPostUtility {
 				lastPos = pos;
 				
 				switch (type) {
-					case 0:
+					case TYPE_BOLD:
 						paint.setFakeBoldText(!paint.isFakeBoldText());
 						break;
-					case 1:
+					case TYPE_ITALIC:
 						if (paint.getTextSkewX() >= 0.0f)
 							paint.setTextSkewX(-0.25f);
 						else
 							paint.setTextSkewX(0.0f);
 						break;
-					case 2:
+					case TYPE_DELETED:
 						paint.setStrikeThruText(!paint.isStrikeThruText());
 						break;
 					case -1:
@@ -232,65 +236,6 @@ public class LongPostUtility {
 				canvas.drawText(stripped.substring(lastPos, max), x, y, paint);
 			}
 		}
-
-		/*int i = 0;
-
-		for (String line : lines) {
-			if (DEBUG) {
-				Log.d(TAG, "line = " + line);
-				Log.d(TAG, "y = " + y);
-			}
-
-			if (line.equals(from)) {
-				paint.setColor(context.getResources().getColor(R.color.gray));
-			}
-
-			int lastPos = 0;
-
-			float xOffset = 0;
-
-			while (format.size() > 0) {
-				HashMap<String, Integer> map = format.get(0);
-
-				if (map.get("line") != i) {
-					break;
-				} else {
-					format.remove(0);
-					int pos = map.get("pos");
-					String str = line.substring(lastPos, pos);
-					canvas.drawText(str, x + xOffset, y, paint);
-					xOffset += paint.measureText(str);
-					lastPos = pos;
-
-					int type = map.get("type");
-					switch (type) {
-						case 0:
-							paint.setFakeBoldText(!paint.isFakeBoldText());
-							break;
-						case 1:
-							if (paint.getTextSkewX() >= 0.0f)
-								paint.setTextSkewX(-0.25f);
-							else
-								paint.setTextSkewX(0.0f);
-							break;
-						case 2:
-							paint.setStrikeThruText(!paint.isStrikeThruText());
-							break;
-						case -1:
-							paint.setColor(defColor);
-							break;
-						default:
-							paint.setColor(type);
-							break;
-					}
-				}
-			}
-
-			canvas.drawText(line.substring(lastPos, line.length()), x + xOffset, y, paint);
-
-			y += fontHeight;
-			i++;
-		}*/
 
 		// Draw the picture
 		if (pic != null) {
