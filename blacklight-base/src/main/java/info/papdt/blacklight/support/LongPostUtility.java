@@ -10,7 +10,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -39,12 +38,9 @@ public class LongPostUtility {
 		// By adding this, we can skip many overflow checks.
 		String from = context.getResources().getString(R.string.long_from);
 		text += "\n\n" + from;
-
-		// Measure the current screen dimensions
-		DisplayMetrics dm = context.getResources().getDisplayMetrics();
-
+		
 		// Get width and height
-		int width = dm.widthPixels;
+		int width = 720;
 		int height = -1; // We will calculate this later
 		int picWidth = width - 20, picHeight = 0; // We will calculate this later
 		int textWidth = width - PADDING * 2; // For padding
