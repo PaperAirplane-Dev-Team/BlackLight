@@ -161,7 +161,7 @@ public class LongPostUtility {
 					LogF.d(TAG, "character after break: %s", c);
 				}
 				
-				if (c.equals(">")) {
+				if (c.equals(">") || c.equals("-")) {
 					stripped += str;
 					if (!indent) {
 						if (DEBUG) {
@@ -180,6 +180,11 @@ public class LongPostUtility {
 						tmp = tmp.substring(3, tmp.length());
 					} else {
 						tmp = tmp.substring(2, tmp.length());
+					}
+					
+					if (c.equals("-")) {
+						// Unsorted list
+						stripped += "・ ";
 					}
 					continue;
 				} else if (indent) {
