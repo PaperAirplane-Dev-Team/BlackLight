@@ -77,6 +77,8 @@ public class LongPostUtility {
 
 		boolean ignore = false;
 		boolean indent = false;
+		
+		int rank = 1;
 
 		while (tmp.length() > 0) {
 			String str = tmp.substring(0, 1);
@@ -161,7 +163,7 @@ public class LongPostUtility {
 					LogF.d(TAG, "character after break: %s", c);
 				}
 				
-				if (c.equals(">") || c.equals("-")) {
+				if (c.equals(">") || c.equals("-") || (isNumber(c) && tmp.substring(2, 3).equals("."))) {
 					stripped += str;
 					if (!indent) {
 						if (DEBUG) {
@@ -176,15 +178,25 @@ public class LongPostUtility {
 						indent = true;
 					}
 					
-					if (tmp.substring(2, 3).equals(" ")) {
-						tmp = tmp.substring(3, tmp.length());
+					if (!isNumber(c)) {
+						if (tmp.substring(2, 3).equals(" ")) {
+							tmp = tmp.substring(3, tmp.length());
+						} else {
+							tmp = tmp.substring(2, tmp.length());
+						}
+						
+						if (c.equals("-")) {
+							// Unsorted list
+							stripped += "・ ";
+						}
 					} else {
-						tmp = tmp.substring(2, tmp.length());
-					}
-					
-					if (c.equals("-")) {
-						// Unsorted list
-						stripped += "・ ";
+						stripped += rank + ". ";
+						if (tmp.substring(3, 4).equals(" ")) {
+							tmp = tmp.substring(4, tmp.length());
+						} else {
+							tmp = tmp.substring(3, tmp.length());
+						}
+						rank += 1;
 					}
 					continue;
 				} else if (indent) {
@@ -194,6 +206,7 @@ public class LongPostUtility {
 					map.put("type", TYPE_INDENT);
 					format.add(map);
 					indent = false;
+					rank = 1;
 				}
 			}
 
@@ -357,6 +370,11 @@ public class LongPostUtility {
 		} else {
 			return str.substring(0, 137) + "...";
 		}
+	}
+	
+	private static boolean isNumber(String s) {
+		char c = s.charAt(0);
+		return c > '0' && c < '9';
 	}
 
 }
