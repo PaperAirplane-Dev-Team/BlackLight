@@ -170,9 +170,6 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
 		}
 
-		//draft
-		if (needCache())mText.setText(mCache.getString(DRAFT,""));
-
 		// Fragments
 		mEmoticonFragment = new EmoticonFragment();
 		mColorPickerFragment = new ColorPickerFragment();
@@ -266,6 +263,13 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			public void onGlobalLayout() {
 				mText.requestFocus();
 				mText.requestFocusFromTouch();
+				
+				// Draft
+				if (needCache())
+					mText.setText(mCache.getString(DRAFT, ""));
+					
+				// Must be removed
+				getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
 		});
 
