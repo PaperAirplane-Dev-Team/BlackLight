@@ -338,7 +338,7 @@ public class LongPostUtility {
 						break;
 					case TYPE_INDENT:
 						if (indentStart == -1) {
-							indentStart = i;
+							indentStart = i - 1;
 							x += PADDING / 2;
 						} else {
 							
