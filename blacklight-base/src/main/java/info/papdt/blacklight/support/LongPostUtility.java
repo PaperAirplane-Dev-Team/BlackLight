@@ -67,7 +67,7 @@ public class LongPostUtility {
 		// Create the paint first to measue text
 		TextPaint paint = new TextPaint();
 		paint.setAntiAlias(true);
-		paint.setTextSize(15.0f);
+		paint.setTextSize(20.0f);
 
 		// Parse the tags and trip the string
 		ArrayList<HashMap<String, Integer>> format = new ArrayList<HashMap<String, Integer>>();
@@ -245,7 +245,7 @@ public class LongPostUtility {
 		paint.setColor(context.getResources().getColor(android.R.color.background_light));
 		canvas.drawRect(0, 0, width, height, paint);
 
-		int defColor = context.getResources().getColor(R.color.darker_gray);
+		int defColor = context.getResources().getColor(R.color.black);
 		paint.setColor(defColor);
 		
 		int indentStart = -1;
