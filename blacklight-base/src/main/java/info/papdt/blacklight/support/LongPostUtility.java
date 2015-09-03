@@ -385,7 +385,7 @@ public class LongPostUtility {
 				int color = paint.getColor();
 				paint.setColor(context.getResources().getColor(R.color.gray_alpha));
 				canvas.drawRect(PADDING,
-					layout.getLineTop(i) + PADDING + 4, x - PADDING / 2,
+					layout.getLineTop(i) + PADDING + 4, x,
 					layout.getLineTop(i) + PADDING + 6, paint);
 				paint.setColor(color);
 			}
