@@ -45,7 +45,8 @@ public class LongPostUtility {
 	private static final int TYPE_BOLD = 0,
 							TYPE_ITALIC = 1,
 							TYPE_DELETED = 2,
-							TYPE_INDENT = 3;
+							TYPE_INDENT = 3,
+							TYPE_TITLE = 4;
 
 	public static Bitmap parseLongPost(Context context, String text, Bitmap pic) {
 		if (DEBUG) {
@@ -77,6 +78,7 @@ public class LongPostUtility {
 
 		boolean ignore = false;
 		boolean indent = false;
+		boolean title = false;
 		
 		int rank = 1;
 
@@ -163,6 +165,7 @@ public class LongPostUtility {
 					LogF.d(TAG, "character after break: %s", c);
 				}
 				
+				// Indent
 				if (c.equals(">") || c.equals("-") || (isNumber(c) && tmp.substring(2, 3).equals("."))) {
 					stripped += str;
 					if (!indent) {
@@ -208,6 +211,32 @@ public class LongPostUtility {
 					indent = false;
 					rank = 1;
 				}
+				
+				// Title
+				if (c.equals("#")) {
+					stripped += str;
+					if (!title) {
+						HashMap<String, Integer> map = new HashMap<String, Integer>();
+						map.put("pos", stripped.length());
+						map.put("type", TYPE_TITLE);
+						format.add(map);
+						title = true;
+					}
+					
+					if (tmp.substring(2, 3).equals(" ")) {
+						tmp = tmp.substring(3, tmp.length());
+					} else {
+						tmp = tmp.substring(2, tmp.length());
+					}
+					
+					continue;
+				} else if (title) {
+					HashMap<String, Integer> map = new HashMap<String, Integer>();
+					map.put("pos", stripped.length() + 1);
+					map.put("type", TYPE_TITLE);
+					format.add(map);
+					title = false;
+				}
 			}
 
 			ignore = false;
@@ -249,6 +278,7 @@ public class LongPostUtility {
 		paint.setColor(defColor);
 		
 		int indentStart = -1;
+		boolean isTitle = false;
 		
 		for (int i = 0; i < layout.getLineCount(); i++) {
 			float y = PADDING + layout.getLineTop(i);
@@ -277,7 +307,7 @@ public class LongPostUtility {
 				
 				// If we have gone to the last character of this line
 				// Just finish this line.
-				if (pos > max) {
+				if (pos >= max) {
 					break;
 				}
 				
@@ -287,6 +317,13 @@ public class LongPostUtility {
 				lastPos = pos;
 				
 				switch (type) {
+					case TYPE_TITLE:
+						isTitle = !isTitle;
+						
+						if (DEBUG && isTitle) {
+							LogF.d(TAG, "line %d is title", i);
+						}
+						
 					case TYPE_BOLD:
 						paint.setFakeBoldText(!paint.isFakeBoldText());
 						break;
@@ -334,8 +371,25 @@ public class LongPostUtility {
 			
 			// Not drawn? Just draw it!
 			if (lastPos < max) {
-				canvas.drawText(stripped.substring(lastPos, max), x, y, paint);
+				String str = stripped.substring(lastPos, max);
+				canvas.drawText(str, x, y, paint);
+				x += paint.measureText(str);
 			}
+			
+			if (isTitle) {
+				// Draw underline for title
+				if (DEBUG) {
+					LogF.d(TAG, "i = %d, x = %f, width = %f", i, x, x - PADDING);
+				}
+				
+				int color = paint.getColor();
+				paint.setColor(context.getResources().getColor(R.color.gray_alpha));
+				canvas.drawRect(PADDING,
+					layout.getLineTop(i) + PADDING + 4, x - PADDING / 2,
+					layout.getLineTop(i) + PADDING + 6, paint);
+				paint.setColor(color);
+			}
+			
 		}
 
 		// Draw the picture
