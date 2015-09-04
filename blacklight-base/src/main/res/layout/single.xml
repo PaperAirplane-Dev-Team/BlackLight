@@ -68,7 +68,7 @@
 
 						<info.papdt.blacklight.ui.common.SlidingTabLayout
 							android:layout_height="48dp"
-							android:layout_width="140dp"
+							android:layout_width="wrap_content"
 							android:id="@+id/single_indicator"
 							android:layout_marginLeft="5dp"/>
 
