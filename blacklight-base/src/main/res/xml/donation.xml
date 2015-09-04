@@ -40,13 +40,4 @@
 		
 	</PreferenceCategory>
 	
-	<PreferenceCategory
-		android:title="@string/digital_ocean">
-		
-		<Preference
-			android:title="@string/petercxy"
-			android:summary="@string/petercxy_do"/>
-		
-	</PreferenceCategory>
-	
 </PreferenceScreen>

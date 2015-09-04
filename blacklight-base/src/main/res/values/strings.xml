@@ -251,11 +251,9 @@
 	<string name="donation_des">Donate if you like ;-)</string>
 	<string name="alipay">Alipay</string>
 	<string name="paypal" translatable="false">Paypal</string>
-	<string name="digital_ocean">DigitalOcean Referral Links</string>
 	<string name="petercxy">PeterCxy (Main Dev)</string>
-	<string name="petercxy_alipay" translatable="false">xqsx43cxy@gmail.com</string>
+	<string name="petercxy_alipay" translatable="false">peter@typeblog.net</string>
 	<string name="petercxy_paypal" translatable="false">xqsx43cxy@126.com</string>
-	<string name="petercxy_do" translatable="false">https://www.digitalocean.com/?refcode=d24140d44ee7</string>
 	<string name="micromacer">Micromacer (Designer)</string>
 	<string name="micromacer_alipay" translatable="false">micromacer@me.com</string>
 
