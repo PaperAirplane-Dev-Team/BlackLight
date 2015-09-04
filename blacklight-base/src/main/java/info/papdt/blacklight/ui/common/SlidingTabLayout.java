@@ -51,6 +51,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	public interface TabIconAdapter {
 		Drawable getIcon(int position);
 	}
+	
+	public interface OnClickCurrentTabListener {
+		void onClick(int pos);
+	}
 
 	private static final int TITLE_OFFSET_DIPS = 24;
 	private static final int TAB_TEXT_VIEW_PADDING_DIPS = 16;
@@ -68,6 +72,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 	private ViewPager mViewPager;
 	private SparseArray<String> mContentDescriptions = new SparseArray<String>();
 	private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
+	private OnClickCurrentTabListener mOnClickCurrentTabListener;
 
 	private final SlidingTabStrip mTabStrip;
 
@@ -114,6 +119,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
 	public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
 		mViewPagerPageChangeListener = listener;
+	}
+	
+	public void setOnClickCurrentTabListener(OnClickCurrentTabListener listener) {
+		mOnClickCurrentTabListener = listener;
 	}
 
 	public void setCustomTabView(int layoutResId, int textViewId) {
@@ -341,7 +350,11 @@ public class SlidingTabLayout extends HorizontalScrollView {
 		public void onClick(View v) {
 			for (int i = 0; i < mTabStrip.getChildCount(); i++) {
 				if (v == mTabStrip.getChildAt(i)) {
-					mViewPager.setCurrentItem(i);
+					if (mViewPager.getCurrentItem() != i) {
+						mViewPager.setCurrentItem(i);
+					} else if (mOnClickCurrentTabListener != null) {
+						mOnClickCurrentTabListener.onClick(i);
+					}
 					return;
 				}
 			}
