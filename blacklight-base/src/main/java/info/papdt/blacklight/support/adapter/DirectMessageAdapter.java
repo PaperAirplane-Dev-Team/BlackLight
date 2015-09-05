@@ -56,12 +56,16 @@ public class DirectMessageAdapter extends BaseAdapter
 	private DirectMessageListModel mList;
 	private DirectMessageListModel mClone;
 	private long mUid;
+	private int mColorPrimary;
 
 	public DirectMessageAdapter(Context context, DirectMessageListModel list, String uid) {
 		mContext = context;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mList = list;
 		mUid = Long.parseLong(uid);
+		
+		mColorPrimary = Utility.getColorPrimary(context);
+		
 		notifyDataSetChanged();
 	}
 
@@ -94,7 +98,7 @@ public class DirectMessageAdapter extends BaseAdapter
 			LinearLayout container = h.container;
 			if (msg.sender_id == mUid) {
 				container.setGravity(Gravity.LEFT);
-				h.card.setBackgroundResource(R.color.purple_500);
+				h.card.setBackgroundColor(mColorPrimary);
 				h.content.setTextColor(mContext.getResources().getColor(R.color.white));
 			} else {
 				container.setGravity(Gravity.RIGHT);
