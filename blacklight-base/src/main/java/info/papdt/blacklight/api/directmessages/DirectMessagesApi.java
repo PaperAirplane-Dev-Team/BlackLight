@@ -73,10 +73,13 @@ public class DirectMessagesApi extends BaseApi
 		return null;
 	}
 	
-	public static boolean send(String uid, String text) {
+	public static boolean send(String uid, String text,String[] fid) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
 		params.put("text", text);
+		if (fid.length > 0){
+			params.put("fids",String.format("%s,%s",fid,fid));
+		}
 		
 		try {
 			request(Constants.DIRECT_MESSAGES_SEND, params, HTTP_POST);
@@ -90,15 +93,18 @@ public class DirectMessagesApi extends BaseApi
 		return false;
 	}
 
-	// Upload pictures. Copied from PostApi.java
-	public static String uploadPicture(Bitmap picture) {
+	// Upload pictures.
+	public static String uploadPicture(Bitmap picture, String toUid) {
 		WeiboParameters params = new WeiboParameters();
-		params.put("pic", picture);
+		params.put("file", picture);
 
 		try {
-			JSONObject json = request(Constants.UPLOAD_PIC, params, HTTP_POST);
-			return json.optString("pic_id");
+			JSONObject json = request(String.format(Constants.DIRECT_MESSAGES_UPLOAD_PIC,toUid)
+					, params, HTTP_POST);
+			Log.d(TAG,json.toString());
+			return json.optString("fid");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

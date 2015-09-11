@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +50,7 @@ import info.papdt.blacklight.api.directmessages.DirectMessagesApi;
 import info.papdt.blacklight.model.DirectMessageListModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.DirectMessageAdapter;
 import info.papdt.blacklight.support.Binded;
@@ -203,10 +205,16 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 
 	private void sendPicture (Bitmap pic){
 		Log.d(TAG,"send bitmap");
+		new Uploader().execute(pic);
 	}
 
-	private void sendPicture (String url){
+	private void sendPicture (String path){
 		Log.d(TAG,"send url");
+		try {
+			sendPicture(BitmapFactory.decodeFile(path));
+		} catch (OutOfMemoryError e) {
+			return;
+		}
 	}
 
 	@Override
@@ -268,7 +276,7 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		}
 	}
 
-	private class Sender extends AsyncTask<Void, Void, Void> {
+	private class Sender extends AsyncTask<String, Void, Void> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -281,12 +289,19 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		}
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Void doInBackground(String... params) {
 			if (DEBUG) {
 				Log.d(TAG, "Begin sending direct message");
+				if (params.length > 0) {
+					LogF.d(TAG, "Begin sending dm with pic uploaded: %s", params[0]);
+				}
 			}
 
-			DirectMessagesApi.send(mUser.id, mText.getText().toString());
+			if (TextUtils.isEmpty(mText.getText())) {
+				//TODO Abort!
+			}
+
+			DirectMessagesApi.send(mUser.id, mText.getText().toString(),params);
 
 			if (DEBUG) {
 				Log.d(TAG, "Finished");
@@ -302,6 +317,44 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 			mText.setText("");
 			mText.setEnabled(true);
 			new Refresher().execute(true);
+		}
+	}
+
+	private class Uploader extends AsyncTask<Bitmap,Void,String>{
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			mRefreshing = true;
+			mSwipeRefresh.setIsDown(true);
+			mSwipeRefresh.setRefreshing(true);
+
+			mText.setEnabled(false);
+
+			if (TextUtils.isEmpty(mText.getText())){
+				mText.setText(R.string.post_photo);
+			}
+		}
+
+		@Override
+		protected String doInBackground(Bitmap... params) {
+			if (DEBUG) {
+				Log.d(TAG, "Begin uploading photo");
+			}
+
+			String pic_id = DirectMessagesApi.uploadPicture(params[0], mUser.id);
+
+			if (DEBUG) {
+				Log.d(TAG, "Finished");
+			}
+
+			return pic_id;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			new Sender().execute(result);
 		}
 	}
 }
