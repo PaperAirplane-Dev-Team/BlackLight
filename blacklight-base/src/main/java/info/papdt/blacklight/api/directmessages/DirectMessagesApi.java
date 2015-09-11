@@ -78,7 +78,7 @@ public class DirectMessagesApi extends BaseApi
 		params.put("uid", uid);
 		params.put("text", text);
 		if (fid.length > 0){
-			params.put("fids",String.format("%s,%s",fid,fid));
+			params.put("fids",String.format("%s,%s",fid[0],fid[0]));
 		}
 		
 		try {
