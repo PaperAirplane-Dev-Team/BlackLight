@@ -31,6 +31,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 
+import info.papdt.blacklight.support.LogF;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class HttpUtility
@@ -74,7 +76,9 @@ public class HttpUtility
 		
 		conn.setRequestProperty("Connection", "Keep-Alive");
 		conn.setRequestProperty("Charset", "UTF-8");
-		
+		if(params.containsKey("access_token")) {
+			conn.setRequestProperty("Authorization", "OAuth2 " + params.get("access_token"));
+		}
 		
 		if (send != null) {
 			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
@@ -124,6 +128,7 @@ public class HttpUtility
 		}
 		
 		if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+			LogF.d(TAG, "Http Response not OK, code:%d",conn.getResponseCode());
 			return null;
 		} else {
 			InputStream in = conn.getInputStream();

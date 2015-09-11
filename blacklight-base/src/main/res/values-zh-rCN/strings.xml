@@ -143,6 +143,9 @@
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
 
+	<string name="direct_message_pic_take">拍照</string>
+	<string name="direct_message_pic_gallery">从相册选取</string>
+
 	<!-- Search -->
 	<string name="search">搜索</string>
 	<string-array name="search_type">

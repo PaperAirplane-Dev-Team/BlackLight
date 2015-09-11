@@ -77,6 +77,14 @@
 							android:src="?attr/IconEmoticon"
 							android:id="@+id/direct_message_emoticon"/>
 
+						<ImageView
+							android:layout_width="56dp"
+							android:layout_height="56dp"
+							android:src="@android:drawable/ic_menu_gallery"
+							style="?android:attr/buttonBarButtonStyle"
+						    android:id="@+id/direct_message_pick_pic"
+							/>
+
 						<android.support.v7.widget.CardView
 							xmlns:card_view="http://schemas.android.com/apk/res-auto"
 							android:id="@+id/direct_message_card"
