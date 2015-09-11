@@ -20,13 +20,13 @@
 <resources>
 
 	<string name="app_name">BlackLight</string>
-	
+
 	<!-- App Key -->
 	<string name="custom">自定义</string>
 	<string name="custom_des">App ID / Secret 被用于获取微博登录授权。如果其权限不足，本软件将无法正确运行。</string>
 	<string name="app_copy">复制</string>
 	<string name="app_hint">啥？？？</string>
-	
+
 	<!-- Login -->
 	<string name="login">登录</string>
 	<string name="tail">尾巴</string>
@@ -34,7 +34,7 @@
 	<string name="passwd">密码</string>
 	<string name="toast_empty_username">请输入用户名</string>
 	<string name="toast_empty_password">请输入密码</string>
-	
+
 	<!-- Main -->
 	<string name="switch_theme">切换主题</string>
 	<string name="group_all">全部</string>
@@ -50,7 +50,7 @@
 		<item>私信</item>
 		<item>收藏</item>
 	</string-array>
-	
+
 	<!-- Left Drawer -->
 	<string name="drawer_home">首页</string>
 	<string name="drawer_at">提及</string>
@@ -59,7 +59,7 @@
 	<string name="drawer_fav">收藏</string>
 	<string name="drawer_settings">设置</string>
 	<string name="add">添加</string>
-	
+
 	<!-- Statuses -->
 	<string name="timeline">时间流</string>
 	<string name="attitudes">赞</string>
@@ -97,7 +97,7 @@
 		<item>添加多图</item>
 	</string-array>
 	<string name="multiple_pictures">多图选择</string>
-	
+
 	<!-- Time -->
 	<string name="just_now">刚刚</string>
 	<string name="min">分钟前</string>
@@ -108,7 +108,7 @@
 	<string name="today">今天</string>
 	<string name="yesterday">昨天</string>
 	<string name="the_day_before_yesterday">前天</string>
-	
+
 	<!-- User Time Line -->
 	<string name="user_info">用户信息</string>
 	<string name="user_statuses">用户微博</string>
@@ -129,7 +129,7 @@
 	<string name="million">null</string>
 	<string name="hundred_million">亿</string>
 	<string name="billion">null</string>
-	
+
 	<!-- Single -->
 	<string name="single_info">微博信息</string>
 	<string name="delete">删除</string>
@@ -139,10 +139,10 @@
 	<string name="okay">选好了</string>
 	<string name="single_comment">发表评论</string>
 	<string name="single_repost">转发微博</string>
-	
+
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
-	
+
 	<!-- Search -->
 	<string name="search">搜索</string>
 	<string-array name="search_type">
@@ -152,7 +152,7 @@
 
 	<!-- Image -->
 	<string name="save">保存到手机</string>
-	
+
 	<!-- Settings -->
 	<string name="enough">对不起，但是我们已经受够你了。您将不再被欢迎使用BlackLight。现在BlackLight将立即崩溃。</string>
 	<string name="settings">设置</string>
@@ -206,13 +206,14 @@
 	<string name="alipay">支付宝</string>
 	<string name="digital_ocean">DigitalOcean 推广链接</string>
 	<string name="petercxy">PeterCxy (主要开发者)</string>
+	<string name="xavieryao">Xavier Yao (首席段子手 协助开发)</string>
 	<string name="micromacer">Micromacer (设计师)</string>
-	
+
 	<!-- Feedback -->
 	<string name="fb">反馈</string>
 	<string name="fb_title">反馈标题</string>
 	<string name="fb_content">反馈内容</string>
-	<string name="fb_sent">您的反馈已与上次崩溃日志一起发送。如果我们需要更多信息，可能会联系您。</string> 
+	<string name="fb_sent">您的反馈已与上次崩溃日志一起发送。如果我们需要更多信息，可能会联系您。</string>
 	<string name="fb_send">发送</string>
 
 	<!-- Message -->
@@ -247,5 +248,5 @@
 		<item>再点要坏了！</item>
 		<item>好吧好吧你赢了。</item>
 	</string-array>
-	
+
 </resources>
