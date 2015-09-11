@@ -15,7 +15,7 @@ BlackLight 新浪微博客户端
 ---
 1. `git clone` 本项目到本地
 2. 在`Android Studio` 中执行 `Import` 并耐心等待……等待……再等待
-3. 编译时请选择`app`模块，`app_snapshot`仅供自动发布之用
+3. 调试编译时请选择`app-snapshot`模块
 4. Enjoy it!
 
 使用AIDE导入

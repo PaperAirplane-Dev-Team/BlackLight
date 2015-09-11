@@ -37,8 +37,7 @@ android {
 }
 
 dependencies {
-    debugCompile project(path:':blacklight-base', configuration: 'debug')
-    releaseCompile project(path:':blacklight-base', configuration: 'release')
+    compile project(':blacklight-base')
 }
 
 def propFile = file('../signing.properties')
