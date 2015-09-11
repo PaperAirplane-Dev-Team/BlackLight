@@ -19,6 +19,7 @@
 
 package info.papdt.blacklight.api.directmessages;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -87,5 +88,18 @@ public class DirectMessagesApi extends BaseApi
 		}
 		
 		return false;
+	}
+
+	// Upload pictures. Copied from PostApi.java
+	public static String uploadPicture(Bitmap picture) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("pic", picture);
+
+		try {
+			JSONObject json = request(Constants.UPLOAD_PIC, params, HTTP_POST);
+			return json.optString("pic_id");
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

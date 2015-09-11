@@ -296,5 +296,7 @@
 		<item>I\'m gonna go mad, seriously.</item>
 		<item>Okay, you win.</item>
 	</string-array>
+	<string name="direct_message_pic_gallery">Pick from gallery</string>
+	<string name="direct_message_pic_take">Take photo</string>
 
 </resources>
