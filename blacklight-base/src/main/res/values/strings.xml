@@ -168,9 +168,8 @@
 		<item>\@vip.qq.com</item>
 		<item>\@yeah.net</item>
 	</string-array>
-
-	<string-array name="developer_weibo_uids" translatable="false">
-		<item>1789004515</item>
+	
+	<string-array name="contributor_weibo_uids" translatable="false">
 		<item>1870051034</item>
 		<item>1689129907</item>
 		<item>2278020463</item>
@@ -179,8 +178,12 @@
 		<item>1948661843</item>
 		<item>2263023493</item>
 		<item>5611860244</item>
+	</string-array>
+	
+	<string-array name="thank_weibo_uids" translatable="false">
 		<item>2984891190</item>
 		<item>1797272061</item>
+		<item>1249154281</item>
 	</string-array>
 
 	<string-array name="banned_users">
@@ -248,11 +251,9 @@
 	<string name="donation_des">Donate if you like ;-)</string>
 	<string name="alipay">Alipay</string>
 	<string name="paypal" translatable="false">Paypal</string>
-	<string name="digital_ocean">DigitalOcean Referral Links</string>
 	<string name="petercxy">PeterCxy (Main Dev)</string>
-	<string name="petercxy_alipay" translatable="false">xqsx43cxy@gmail.com</string>
+	<string name="petercxy_alipay" translatable="false">peter@typeblog.net</string>
 	<string name="petercxy_paypal" translatable="false">xqsx43cxy@126.com</string>
-	<string name="petercxy_do" translatable="false">https://www.digitalocean.com/?refcode=d24140d44ee7</string>
 	<string name="micromacer">Micromacer (Designer)</string>
 	<string name="micromacer_alipay" translatable="false">micromacer@me.com</string>
 

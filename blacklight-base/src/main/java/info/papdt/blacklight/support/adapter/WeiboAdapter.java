@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -61,9 +62,9 @@ import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
-import info.papdt.blacklight.ui.common.ImageActivity;
 import info.papdt.blacklight.ui.statuses.RepostActivity;
 import info.papdt.blacklight.ui.statuses.SingleActivity;
+import info.papdt.blacklight.ui.statuses.StatusImageActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 import static info.papdt.blacklight.receiver.ConnectivityReceiver.isWIFI;
@@ -88,7 +89,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			int id = Integer.parseInt(v.getTag(TAG_ID).toString());
 			Intent i = new Intent();
 			i.setAction(Intent.ACTION_MAIN);
-			i.setClass(v.getContext(), ImageActivity.class);
+			i.setClass(v.getContext(), StatusImageActivity.class);
 			i.putExtra("model", msg);
 			i.putExtra("defaultId", id);
 			ActivityCompat.startActivity((Activity) v.getContext(), i, o.toBundle());
@@ -176,6 +177,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	@Override
 	public void doRecycleView(ViewHolder h) {
+		h.avatar.setImageBitmap(null);
 		h.avatar.setImageResource(R.color.gray);
 		h.avatar.setTag(true);
 		h.comment_and_retweet.setVisibility(View.VISIBLE);
@@ -273,6 +275,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 				}
 			}
 
+		}
+
+		if (msg.inSingleActivity) {
+			h.popup.setVisibility(View.GONE);
 		}
 
 		if (msg.user != null) {
@@ -499,7 +505,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		public ImageView popup;
 		public HorizontalScrollView scroll;
 		public LinearLayout pics;
-		public View card;
+		public CardView card;
 		public View origin_parent;
 		public View comment_and_retweet;
 
@@ -547,11 +553,21 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			Utility.bindOnClick(this, avatar, "showUser");
 			Utility.bindOnClick(this, card, "show");
 			Utility.bindOnClick(this, origin_parent, "showOrig");
+			Utility.bindOnLongClick(this, card, "popupLongClick");
+
+			// Card
+			card.setUseCompatPadding(true);
 		}
 
 		@Binded
 		void popup() {
 			adapter.buildPopup(this);
+		}
+
+		@Binded
+		boolean popupLongClick() {
+			popup();
+			return true;
 		}
 
 		@Binded

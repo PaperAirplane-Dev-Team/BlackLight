@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -65,9 +65,9 @@ import static info.papdt.blacklight.support.Utility.hasSmartBar;
 /* Login Activity */
 public class LoginActivity extends AbsActivity {
 	private static final String TAG = LoginActivity.class.getSimpleName();
-	
+
 	private WebView mWeb;
-	
+
 	private LoginApiCache mLogin;
 	private boolean mIsMulti = false;
 
@@ -75,24 +75,24 @@ public class LoginActivity extends AbsActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		mLayout = R.layout.web_login;
 		super.onCreate(savedInstanceState);
-		
+
 		mIsMulti = getIntent().getBooleanExtra("multi", false);
 
 		// Initialize views
 		mWeb = Utility.findViewById(this, R.id.login_web);
-		
+
 		// Create login instance
 		mLogin = new LoginApiCache(this);
-		
+
 		// Login page
 		WebSettings settings = mWeb.getSettings();
 		settings.setJavaScriptEnabled(true);
 		settings.setSaveFormData(false);
 		settings.setSavePassword(false);
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-		
+
 		mWeb.setWebViewClient(new MyWebViewClient());
-		
+
 		if (PrivateKey.readFromPref(this)) {
 			mWeb.loadUrl(PrivateKey.getOauthLoginPage());
 		} else {
@@ -106,7 +106,7 @@ public class LoginActivity extends AbsActivity {
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
-	
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -121,26 +121,26 @@ public class LoginActivity extends AbsActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	private void handleRedirectedUrl(String url) {
 		if (!url.contains("error")) {
 			int tokenIndex = url.indexOf("access_token=");
 			int expiresIndex = url.indexOf("expires_in=");
 			String token = url.substring(tokenIndex + 13, url.indexOf("&", tokenIndex));
 			String expiresIn = url.substring(expiresIndex + 11, url.indexOf("&", expiresIndex));
-			
+
 			if (DEBUG) {
 				Log.d(TAG, "url = " + url);
 				Log.d(TAG, "token = " + token);
 				Log.d(TAG, "expires_in = " + expiresIn);
 			}
-			
+
 			new LoginTask().execute(token, expiresIn);
 		} else {
 			showLoginFail();
 		}
 	}
-	
+
 	private void showLoginFail() {
 		// Wrong username or password
 		new AlertDialog.Builder(LoginActivity.this)
@@ -149,7 +149,7 @@ public class LoginActivity extends AbsActivity {
 								.create()
 								.show();
 	}
-	
+
 	private void showAppKeyDialog() {
 		// Inflate dialog layout
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -159,7 +159,7 @@ public class LoginActivity extends AbsActivity {
 		final EditText tvRedirect = Utility.findViewById(v, R.id.redirect_uri);
 		final EditText tvScope = Utility.findViewById(v, R.id.scope);
 		final EditText tvPkg = Utility.findViewById(v, R.id.app_pkg);
-		
+
 		// Build the dialog
 		final AlertDialog dialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.custom)
@@ -167,13 +167,13 @@ public class LoginActivity extends AbsActivity {
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface p1, int p2) {
-						
+
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface p1, int p2) {
-						
+
 					}
 				})
 				.setNeutralButton(R.string.app_copy, new DialogInterface.OnClickListener() {
@@ -183,9 +183,9 @@ public class LoginActivity extends AbsActivity {
 					}
 				})
 				.create();
-		
+
 		dialog.show();
-		
+
 		dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -194,29 +194,29 @@ public class LoginActivity extends AbsActivity {
 				String uri = tvRedirect.getText().toString().trim();
 				String scope = tvScope.getText().toString().trim();
 				String pkg = tvPkg.getText().toString().trim();
-				
-				if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(sec) 
+
+				if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(sec)
 					&& !TextUtils.isEmpty(uri) && !TextUtils.isEmpty(scope)) {
-					
+
 					PrivateKey.setPrivateKey(id, sec, uri, pkg, scope);
 					PrivateKey.writeToPref(LoginActivity.this);
 					dialog.dismiss();
 					mWeb.loadUrl(PrivateKey.getOauthLoginPage());
-				
+
 				}
 			}
 		});
-		
+
 		dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTag(true);
 		dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {	
+			public void onClick(View v) {
 				boolean isEmpty = (Boolean) v.getTag();
-				
+
 				if (!isEmpty) {
 					Utility.copyToClipboard(LoginActivity.this, encodeLoginData(
 						tvId.getText().toString(), tvSecret.getText().toString(),
-						tvRedirect.getText().toString(), tvScope.getText().toString(), 
+						tvRedirect.getText().toString(), tvScope.getText().toString(),
 						tvPkg.getText().toString()));
 				} else {
 					Intent i = new Intent(Intent.ACTION_VIEW);
@@ -225,7 +225,7 @@ public class LoginActivity extends AbsActivity {
 				}
 			}
 		});
-		
+
 		// Text listener
 		TextWatcher watcher = new TextWatcher() {
 			@Override
@@ -257,7 +257,7 @@ public class LoginActivity extends AbsActivity {
 					} else {
 						dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setText(R.string.app_hint);
 					}
-					
+
 					dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTag(str.equals(""));
 				}
 			}
@@ -267,47 +267,51 @@ public class LoginActivity extends AbsActivity {
 		tvRedirect.addTextChangedListener(watcher);
 		tvScope.addTextChangedListener(watcher);
 		tvPkg.addTextChangedListener(watcher);
-		
+
 		// Initialize values
-		String[] val = PrivateKey.getAll();
-		tvId.setText(val[0]);
-		tvSecret.setText(val[1]);
-		tvRedirect.setText(val[2]);
-		tvPkg.setText(val[3]);
-		tvScope.setText(val[4]);
-		
+		if (DEBUG) {
+			tvId.setText("SSMjExMTYwNjc5OjoxZTZlMzNkYjA4ZjkxOTIzMDZjNGFmYTBhNjFhZDU2Yzo6aHR0cDovL29hdXRoLndlaWNvLmNjOjplbWFpbCxkaXJlY3RfbWVzc2FnZXNfcmVhZCxkaXJlY3RfbWVzc2FnZXNfd3JpdGUsZnJpZW5kc2hpcHNfZ3JvdXBzX3JlYWQsZnJpZW5kc2hpcHNfZ3JvdXBzX3dyaXRlLHN0YXR1c2VzX3RvX21lX3JlYWQsZm9sbG93X2FwcF9vZmZpY2lhbF9taWNyb2Jsb2csaW52aXRhdGlvbl93cml0ZTo6Y29tLmVpY28ud2VpY286OkVFEE");
+		} else {
+			String[] val = PrivateKey.getAll();
+			tvId.setText(val[0]);
+			tvSecret.setText(val[1]);
+			tvRedirect.setText(val[2]);
+			tvPkg.setText(val[3]);
+			tvScope.setText(val[4]);
+		}
+
 	}
-	
+
 	private static final String SEPERATOR = "::";
 	private static final String START = "SS",
 								END = "EE";
 	private String encodeLoginData(String id, String secret, String uri, String scope, String pkg) {
 		return START + Base64.encodeToString(
-			(id + SEPERATOR + secret + SEPERATOR + uri + SEPERATOR + 
+			(id + SEPERATOR + secret + SEPERATOR + uri + SEPERATOR +
 			scope + SEPERATOR + pkg + SEPERATOR + END).getBytes(), Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING | Base64.NO_CLOSE) + END;
 	}
-	
+
 	private String[] decodeLoginData(String str) {
 		if (!isLoginData(str))
 			return null;
-		
+
 		String data = str.substring(START.length(), str.length() - END.length() - 1);
-		
+
 		if (DEBUG) {
 			Log.d(TAG, data);
 		}
-		
+
 		try {
 			return new String(Base64.decode(data, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING | Base64.NO_CLOSE)).split(SEPERATOR);
 		} catch (Exception e) {
 			return null;
 		}
 	}
-	
+
 	private boolean isLoginData(String str) {
 		return str.startsWith(START) && str.length() > START.length() + END.length() && str.endsWith(END);
 	}
-	
+
 	private class MyWebViewClient extends WebViewClient {
 
 		@Override
@@ -335,7 +339,7 @@ public class LoginActivity extends AbsActivity {
 	private class LoginTask extends AsyncTask<String, Void, Long>
 	{
 		private ProgressDialog progDialog;
-		
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -344,13 +348,13 @@ public class LoginActivity extends AbsActivity {
 			progDialog.setCancelable(false);
 			progDialog.show();
 		}
-		
+
 		@Override
 		protected Long doInBackground(String... params) {
 			if (DEBUG) {
 				Log.d(TAG, "doInBackground...");
 			}
-			
+
 			if (!mIsMulti) {
 				mLogin.login(params[0], params[1]);
 				return mLogin.getExpireDate();
@@ -363,7 +367,7 @@ public class LoginActivity extends AbsActivity {
 		protected void onPostExecute(Long result) {
 			super.onPostExecute(result);
 			progDialog.dismiss();
-			
+
 			if (!mIsMulti && mLogin.getAccessToken() != null) {
 				if (DEBUG) {
 					Log.d(TAG, "Access Token:" + mLogin.getAccessToken());
@@ -375,7 +379,7 @@ public class LoginActivity extends AbsActivity {
 				showLoginFail();
 				return;
 			}
-			
+
 
 			// Expire date
 			String msg = String.format(getResources().getString(R.string.expires_in), Utility.expireTimeInDays(result));
@@ -401,6 +405,6 @@ public class LoginActivity extends AbsActivity {
 				.create()
 				.show();
 		}
-		
+
 	}
 }

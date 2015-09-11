@@ -109,6 +109,9 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+
+			if (!isAdded()) return;
+
 			if (mGroups != null && mGroups.getSize() > 0) {
 				// Get the name list
 				String[] names = new String[mGroups.getSize() + 2];
@@ -123,9 +126,6 @@ public class GroupFragment extends Fragment implements AdapterView.OnItemClickLi
 					Log.d(TAG, "Setting adapter");
 				}
 
-				if (!isAdded()){
-                    return;
-                }
 				mAdapter = new SelectionArrayAdapter<String>(getActivity(), R.layout.main_drawer_group_item, R.id.group_title, Utility.getSelectorGrey(getActivity()), names);
 				mList.setAdapter(mAdapter);
 				mList.setOnItemClickListener(GroupFragment.this);

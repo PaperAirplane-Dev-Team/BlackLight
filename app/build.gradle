@@ -15,8 +15,8 @@ android {
         applicationId "us.shandian.blacklight"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 38
-        versionName "2.0.1"
+        versionCode 41
+        versionName "2.1.2"
     }
     buildTypes {
 		debug	{
@@ -25,6 +25,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
         release {
+            signingConfig signingConfigs.release
 			minifyEnabled false
 			shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -36,8 +37,7 @@ android {
 }
 
 dependencies {
-    debugCompile project(path:':blacklight-base', configuration: 'debug')
-    releaseCompile project(path:':blacklight-base', configuration: 'release')
+    compile project(':blacklight-base')
 }
 
 def propFile = file('../signing.properties')

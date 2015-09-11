@@ -1,38 +1,38 @@
 language: android
+sudo: false
 branches:
   only:
     - master
 env:
-    - secure: "OXj6ivU3xBWNSo+94B0V9dyoMbYIo6dp701XrNecY/0lrQbN5FeP4Tk+KqVbSlk2kB1AIky3hW4gEhMij4F9fI9kYtLJBT5dtzXgvj3ae9Eukr3cMfBYZPjMMNXL1t9OGiIDF7h3u2+4MqAqiqb8FaMuxE4+ecgdJs31YIB6bdY="
+    - secure: "oxO/WejcfoGBUlQArNtIG6Sk7SJvbtcYr4G3EEELZaKZkbfrEKqjPBvrrVXy/Aik8nGL9AbmbZNKjGk2IJnLIr2Axd2wYr3ME6dnwBtOC6IUi10fAF3B7WnD5Vmbs5VHsH5UfoaswEKnH6LwMkzn/UDOKtLqeGVut0JX0ZoyB8s="
+cache:
+    directories:
+    -  $HOME/gradle-2.2.1
+
 before_install:
-- wget http://services.gradle.org/distributions/gradle-2.2.1-all.zip
-- unzip gradle-2.2.1-all.zip >> /dev/null
-- export GRADLE_HOME=$PWD/gradle-2.2.1
-- export PATH=$GRADLE_HOME/bin:$PATH
-- wget https://dl-ssl.google.com/android/repository/build-tools_r21.0.2-linux.zip
-- unzip build-tools_r21.0.2-linux.zip -d $ANDROID_HOME >> /dev/null
-- mv $ANDROID_HOME/android-5.0 $ANDROID_HOME/build-tools/21.0.2
-- wget https://dl-ssl.google.com/android/repository/android_m2repository_r15.zip
-- unzip android_m2repository_r15.zip >> /dev/null
-- rm -rf $ANDROID_HOME/extras/google/m2repository
-- mv m2repository $ANDROID_HOME/extras/google/
+- chmod +x install_gradle.sh
+- source ./install_gradle.sh
+
 script: gradle :app-snapshot:build
+
 after_success:
-- git config --global user.email "xqsx43cxy@126.com"
-- git config --global user.name "Peter Cai"
+- git config --global user.email "harry-chen@outlook.com"
+- git config --global user.name "PAPDT Robot"
 - export GIT_TAG=snapshot-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")_${TRAVIS_BUILD_NUMBER}_$(git log --format="%h" -n 1)
 - git tag $GIT_TAG
 - git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
+
 android:
   components:
   - build-tools-21.1.2
   - android-21
   - extra-android-support
   - extra-android-m2repository
+
 deploy:
   provider: releases
   api_key:
-    secure: oeCApXVZYZKCYLrPJaergKhWVeXGUrqtDE5NkCGky4UbJ/NhXy2a4Or991BKWlW7fur7IYGhsH/k2T7QQkMa9bnHSb7AASZ2n9p2ExtFdZna97rs9bOsWikpTkaAAjXAuPKItI568mBFP99ISXEHfe+2l1wmQMDhHgjkDytgMNE=
+    secure: "bBFMDthm2NQuUCXfSRw8EvkyN7seHGxD8BvsvqudSuPpmSTNRcA1JJuANeH7WVMwJjKkySVCf+SjMbHeGzahRRo7COsQ4D70q8ctad9lo1bLwt2UvgFB+c1ux6jzixsGTcCTfmKGYKDmU+iOZ7ES4t45iPsO0VUQYO8hT2fVN+0="
   file: app-snapshot/build/outputs/apk/app-snapshot-debug.apk
   skip_cleanup: true
   on:

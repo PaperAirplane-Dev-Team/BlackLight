@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
@@ -49,8 +50,6 @@ import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.file.FileCacheManager;
-import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
-import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
 import pl.droidsonroids.gif.GifDrawable;
@@ -58,18 +57,26 @@ import pl.droidsonroids.gif.GifImageView;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
-public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
+public abstract class AbsImageActivity<C> extends AbsActivity /*implements OnPhotoTapListener*/
 {
-	private static final String TAG = ImageActivity.class.getSimpleName();
+	private static final String TAG = AbsImageActivity.class.getSimpleName();
 
 	private ImageAdapter mAdapter;
 	private ViewPager mPager;
-	private MessageModel mModel;
-	private HomeTimeLineApiCache mApiCache;
+	private C mApiCache;
 
 	private TextView mPage;
 
-	private boolean[] mLoaded;
+	protected boolean[] mLoaded;
+
+	protected abstract C buildApiCache();
+	protected abstract String saveLargePic(int current);
+	protected abstract Object[] doDownload(Object[] params);
+	protected abstract int getCount();
+
+	protected C getApiCache() {
+		return mApiCache;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +90,8 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 		findViewById(R.id.image_container).setBackgroundResource(R.color.black);
 
-		mApiCache = new HomeTimeLineApiCache(this);
+		mApiCache = buildApiCache();
 
-		mModel = getIntent().getParcelableExtra("model");
 		int def = getIntent().getIntExtra("defaultId", 0);
 
 		// Initialize the adapter
@@ -107,7 +113,6 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		mPager.setOffscreenPageLimit(1);
 		mPager.setCurrentItem(def);
 		ViewCompat.setTransitionName(mPager, "model");
-
 	}
 
 	@Override
@@ -123,13 +128,13 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		if (id == android.R.id.home) {
 			finish();
 			return true;
-		} else if (id == R.id.save || id == R.id.share){
+		} else if (id == R.id.save || id == R.id.share) {
 			int current = mPager.getCurrentItem();
 			if (!mLoaded[current]) {
 				Toast.makeText(this, R.string.not_loaded, Toast.LENGTH_SHORT).show();
 			} else {
-				String path = mApiCache.saveLargePic(mModel, current);
-				if (id == R.id.save){
+				String path = saveLargePic(current);
+				if (id == R.id.save) {
 					if (path == null) {
 						Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show();
 					} else {
@@ -137,8 +142,8 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 						Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 					}
 				}
-				if (id == R.id.share){
-					if (path != null){
+				if (id == R.id.share) {
+					if (path != null) {
 						File f = new File(path);
 						Uri u = Uri.fromFile(f);
 
@@ -157,7 +162,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 		}
 	}
 
-	private class MyCallback implements FileCacheManager.ProgressCallback {
+	protected class MyCallback implements FileCacheManager.ProgressCallback {
 		private CircularProgressView p;
 
 		public MyCallback(CircularProgressView p) {
@@ -181,7 +186,10 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 		@Override
 		public boolean shouldContinue() {
-			return !isFinishing() || !isDestroyed();
+			if (Build.VERSION.SDK_INT >= 17)
+				return !isFinishing() || !isDestroyed();
+			else
+				return !isFinishing();
 		}
 	}
 
@@ -196,7 +204,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 		@Override
 		public int getCount() {
-			return mModel.hasMultiplePictures() ? mModel.pic_urls.size() : 1;
+			return AbsImageActivity.this.getCount();
 		}
 
 		@Override
@@ -211,14 +219,14 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 				container.addView(v, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				return v;
 			} else {
-				LinearLayout ll = new LinearLayout(ImageActivity.this);
+				LinearLayout ll = new LinearLayout(AbsImageActivity.this);
 				ll.setGravity(Gravity.CENTER);
-				CircularProgressView p = new CircularProgressView(ImageActivity.this);
-				int w = (int) Utility.dp2px(ImageActivity.this, 50);
+				CircularProgressView p = new CircularProgressView(AbsImageActivity.this);
+				int w = (int) Utility.dp2px(AbsImageActivity.this, 50);
 				ll.addView(p, w, w);
 				container.addView(ll, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 				mViews.set(position, ll);
-				new DownloadTask().execute(new Object[]{ll, position, new MyCallback(p)});
+				new DownloadTask().execute(new Object[] {ll, position, new MyCallback(p)});
 				return ll;
 			}
 		}
@@ -234,10 +242,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 
 		@Override
 		protected Object[] doInBackground(Object[] params) {
-			int id = Integer.parseInt(params[1].toString());
-			Object img = mApiCache.getLargePic(mModel, id, (MyCallback) params[2]);
-			mLoaded[id] = true;
-			return new Object[]{params[0], img};
+			return doDownload(params);
 		}
 
 		@Override
@@ -251,7 +256,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 				if (!img.endsWith(".gif")) {
 					// If returned a String, it means that the image is a Bitmap
 					// So we can use the included SubsamplingScaleImageView
-					final SubsamplingScaleImageView iv = new SubsamplingScaleImageView(ImageActivity.this);
+					final SubsamplingScaleImageView iv = new SubsamplingScaleImageView(AbsImageActivity.this);
 					iv.setImage(ImageSource.uri(img));
 					iv.setOnClickListener(new View.OnClickListener() {
 						@Override
@@ -279,7 +284,7 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 							float width = iv.getWidth();
 							float sWidth = iv.getSWidth();
 
-							if (height == 0){
+							if (height == 0) {
 								v.postDelayed(this,500);
 								return;
 							}
@@ -288,21 +293,21 @@ public class ImageActivity extends AbsActivity /*implements OnPhotoTapListener*/
 							float shwRate = sHeight / sWidth;
 
 							if ((sHeight > height) && shwRate > hwRate) { // Long image.
-								PointF center = new PointF(sWidth / 2 , height / 2);
+								PointF center = new PointF(sWidth / 2, height / 2);
 								float scale = 0.0f;
-								if (sWidth * 2 > width){
+								if (sWidth * 2 > width) {
 									scale = width / sWidth; // Zoom in properly.
 								}
 								iv.setScaleAndCenter(scale, center);
 							}
 						}
 					};
-					v.postDelayed(r,500);
+					v.postDelayed(r, 500);
 
 				} else {
 					try {
 						GifDrawable g = new GifDrawable(img);
-						GifImageView iv = new GifImageView(ImageActivity.this);
+						GifImageView iv = new GifImageView(AbsImageActivity.this);
 						iv.setImageDrawable(g);
 						v.addView(iv, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 					} catch (IOException e) {

@@ -329,6 +329,16 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mTabs.notifyIndicatorColorChanged();
 		mToolbarTabs.setCustomTabColorizer(colorizer);
 		mToolbarTabs.notifyIndicatorColorChanged();
+		
+		mToolbarTabs.setOnClickCurrentTabListener(new SlidingTabLayout.OnClickCurrentTabListener() {
+			@Override
+			public void onClick(int pos) {
+				Fragment f = mFragments[pos];
+				if (f instanceof Refresher) {
+					((Refresher) f).goToTop();
+				}
+			}
+		});
 
 		if (Build.VERSION.SDK_INT >= 21) {
 			mToolbar.setElevation(0);

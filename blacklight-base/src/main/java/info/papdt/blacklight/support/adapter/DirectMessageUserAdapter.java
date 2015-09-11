@@ -29,6 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -127,6 +128,7 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 		public TextView name;
 		public TextView text;
 		public TextView date;
+		public CardView card;
 		private View v;
 
 		public ViewHolder(View v) {
@@ -143,11 +145,14 @@ public class DirectMessageUserAdapter extends HeaderViewAdapter<DirectMessageUse
 			name = Utility.findViewById(v, R.id.direct_message_name);
 			text = Utility.findViewById(v, R.id.direct_message_text);
 			date = Utility.findViewById(v, R.id.direct_message_date);
+			card = Utility.findViewById(v, R.id.direct_message_card);
 
 			v.setTag(this);
 
 			Utility.bindOnClick(this, v, "show");
 			Utility.bindOnLongClick(this, v, "showUser");
+
+			card.setUseCompatPadding(true);
 		}
 
 		@Binded
