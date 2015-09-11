@@ -78,7 +78,7 @@ public class DirectMessagesApi extends BaseApi
 		params.put("uid", uid);
 		params.put("text", text);
 		if (fid.length > 0){
-			params.put("fids",String.format("%s,%s",fid,fid));
+			params.put("fids",String.format("%s,%s",fid[0],fid[0]));
 		}
 		
 		try {
@@ -101,7 +101,6 @@ public class DirectMessagesApi extends BaseApi
 		try {
 			JSONObject json = request(String.format(Constants.DIRECT_MESSAGES_UPLOAD_PIC,toUid)
 					, params, HTTP_POST);
-			Log.d(TAG,json.toString());
 			return json.optString("fid");
 		} catch (Exception e) {
 			e.printStackTrace();

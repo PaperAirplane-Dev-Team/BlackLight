@@ -213,6 +213,7 @@ public class DirectMessageConversationActivity extends AbsActivity implements Sw
 		try {
 			sendPicture(BitmapFactory.decodeFile(path));
 		} catch (OutOfMemoryError e) {
+
 			return;
 		}
 	}
