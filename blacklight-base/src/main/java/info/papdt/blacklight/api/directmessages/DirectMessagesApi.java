@@ -101,7 +101,6 @@ public class DirectMessagesApi extends BaseApi
 		try {
 			JSONObject json = request(String.format(Constants.DIRECT_MESSAGES_UPLOAD_PIC,toUid)
 					, params, HTTP_POST);
-			Log.d(TAG,json.toString());
 			return json.optString("fid");
 		} catch (Exception e) {
 			e.printStackTrace();
