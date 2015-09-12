@@ -168,7 +168,7 @@
 		<item>\@vip.qq.com</item>
 		<item>\@yeah.net</item>
 	</string-array>
-	
+
 	<string-array name="contributor_weibo_uids" translatable="false">
 		<item>1870051034</item>
 		<item>1689129907</item>
@@ -179,7 +179,7 @@
 		<item>2263023493</item>
 		<item>5611860244</item>
 	</string-array>
-	
+
 	<string-array name="thank_weibo_uids" translatable="false">
 		<item>2984891190</item>
 		<item>1797272061</item>
@@ -254,6 +254,8 @@
 	<string name="petercxy">PeterCxy (Main Dev)</string>
 	<string name="petercxy_alipay" translatable="false">peter@typeblog.net</string>
 	<string name="petercxy_paypal" translatable="false">xqsx43cxy@126.com</string>
+	<string name="xavieryao">Xavier Yao (Assistant Dev)</string>
+	<string name="xavieryao_alipay" translatable="false">xavieryao@live.cn</string>
 	<string name="micromacer">Micromacer (Designer)</string>
 	<string name="micromacer_alipay" translatable="false">micromacer@me.com</string>
 

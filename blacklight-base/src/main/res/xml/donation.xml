@@ -24,6 +24,10 @@
 		<Preference
 			android:title="@string/petercxy"
 			android:summary="@string/petercxy_alipay"/>
+
+		<Preference
+			android:title="@string/xavieryao"
+		    android:summary="@string/xavieryao_alipay"/>
 		
 		<Preference
 			android:title="@string/micromacer"
