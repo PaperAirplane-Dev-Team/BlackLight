@@ -516,11 +516,12 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 				Log.d(TAG, "Preparing to post a long post");
 			}
 
-			Bitmap bmp = null;
-
-			// Post the first picture with long post
-			if (mBitmaps.size() > 0) {
-				bmp = mBitmaps.get(0);
+			// Post the pictures with long post
+			int size = mBitmaps.size();
+			Bitmap[] bitmaps = new Bitmap[size];
+			
+			for (int i = 0; i < size; i++) {
+				Bitmap bmp = mBitmaps.get(0);
 				String path = mPaths.get(0);
 
 				if (path != null) {
@@ -533,9 +534,11 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 				mBitmaps.remove(0);
 				mPaths.remove(0);
+				
+				bitmaps[i] = bmp;
 			}
 
-			bmp = LongPostUtility.parseLongPost(this, mText.getText().toString(), bmp);
+			Bitmap bmp = LongPostUtility.parseLongPost(this, mText.getText().toString(), bitmaps);
 			mBitmaps.add(0, bmp);
 			mPaths.add(0, null);
 

@@ -46,9 +46,10 @@ public class LongPostUtility {
 							TYPE_ITALIC = 1,
 							TYPE_DELETED = 2,
 							TYPE_INDENT = 3,
-							TYPE_TITLE = 4;
+							TYPE_TITLE = 4,
+							TYPE_PICTURE = 5;
 
-	public static Bitmap parseLongPost(Context context, String text, Bitmap pic) {
+	public static Bitmap parseLongPost(Context context, String text, Bitmap[] pictures) {
 		if (DEBUG) {
 			Log.d(TAG, "parseLongPost");
 			Log.d(TAG, "text = " + text);
@@ -62,8 +63,9 @@ public class LongPostUtility {
 		// Get width and height
 		int width = 720;
 		int height = -1; // We will calculate this later
-		int picWidth = width - 20, picHeight = 0; // We will calculate this later
+		int picWidth = width - PADDING, picHeight = 0; // We will calculate this later
 		int textWidth = width - PADDING * 2; // For padding
+		int[] picHeights = new int[pictures.length];
 
 		// Create the paint first to measue text
 		TextPaint paint = new TextPaint();
@@ -165,6 +167,36 @@ public class LongPostUtility {
 					LogF.d(TAG, "character after break: %s", c);
 				}
 				
+				// Picture
+				if (c.equals("!") && tmp.substring(2, 3).equals("[") && tmp.substring(4, 5).equals("]")
+						&& tmp.substring(5, 6).equals("\n")) {
+					
+					String num = tmp.substring(3, 4);
+					if (isNumber(num)) {
+						int index = Integer.parseInt(num);
+						
+						// Insert the picture
+						if (index > 0 && index <= pictures.length) {
+							index -= 1;
+							if (picHeights[index] == 0)
+								picHeights[index] = (int) (((float) picWidth / (float) pictures[index].getWidth()) * pictures[index].getHeight());
+							
+							picHeight += picHeights[index] + PADDING;
+							
+							stripped += str;
+							
+							HashMap<String, Integer> map = new HashMap<String, Integer>();
+							map.put("pos", stripped.length());
+							map.put("type", TYPE_PICTURE);
+							map.put("index", index);
+							format.add(map);
+							
+							tmp = tmp.substring(5, tmp.length());
+							continue;
+						}
+					}
+				}
+				
 				// Indent
 				if (c.equals(">") || c.equals("-") || (isNumber(c) && tmp.substring(2, 3).equals("."))) {
 					stripped += str;
@@ -255,17 +287,7 @@ public class LongPostUtility {
 
 		// Calculate height
 		height = layout.getLineTop(layout.getLineCount()) + PADDING * 2;
-
-		if (pic != null) {
-			picHeight = (int) (((float) picWidth / (float) pic.getWidth()) * pic.getHeight());
-			height += picHeight + 20;
-
-			if (DEBUG) {
-				Log.d(TAG, "picHeight = " + picHeight + "; height = " + height
-					  + "; pic.getHeight() = " + pic.getHeight());
-				Log.d(TAG, "picWidth = " + picWidth + "; pic.getWidth() = " + pic.getWidth());
-			}
-		}
+		height += picHeight;
 
 		// Create the bitmap and draw
 		Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -280,8 +302,10 @@ public class LongPostUtility {
 		int indentStart = -1;
 		boolean isTitle = false;
 		
+		int offsetY = 0;
+		
 		for (int i = 0; i < layout.getLineCount(); i++) {
-			float y = PADDING + layout.getLineTop(i);
+			float y = PADDING + + offsetY + layout.getLineTop(i);
 			float x = PADDING;
 			
 			if (indentStart > -1) {
@@ -350,13 +374,21 @@ public class LongPostUtility {
 							int color = paint.getColor();
 							paint.setColor(context.getResources().getColor(R.color.gray_alpha));
 							canvas.drawRect(PADDING * 1.2f,
-								layout.getLineTop(indentStart) - layout.getLineAscent(indentStart) + PADDING, PADDING * 1.2f + 2,
-								layout.getLineTop(i) - layout.getLineDescent(i) + PADDING, paint);
+								layout.getLineTop(indentStart) - layout.getLineAscent(indentStart) + PADDING + offsetY, PADDING * 1.2f + 2,
+								layout.getLineTop(i) - layout.getLineDescent(i) + PADDING + offsetY, paint);
 							paint.setColor(color);
 							
 							indentStart = -1;
 							x -= PADDING / 2;
 						}
+						break;
+					case TYPE_PICTURE:
+						int index = f.get("index");
+						Bitmap pic = pictures[index];
+						canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()),
+										  new Rect(PADDING / 2, (int) y + PADDING / 2, picWidth + PADDING / 2, picHeights[index] + (int) y + PADDING / 2), paint);
+						offsetY += picHeights[index] + PADDING;
+						
 						break;
 					case -1:
 						paint.setColor(defColor);
@@ -390,13 +422,6 @@ public class LongPostUtility {
 				paint.setColor(color);
 			}
 			
-		}
-
-		// Draw the picture
-		if (pic != null) {
-			int y = layout.getLineTop(layout.getLineCount());
-			canvas.drawBitmap(pic, new Rect(0, 0, pic.getWidth(), pic.getHeight()),
-							  new Rect(10, y + 10, picWidth + 10, picHeight + y + 10), paint);
 		}
 
 		// Finished, return
