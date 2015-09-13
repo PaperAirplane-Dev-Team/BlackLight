@@ -361,7 +361,11 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			// Insert pictures into long post
 			for (int i = 0; i < 9; i++) {
 				if (mPics[i] == v) {
-					mText.getText().insert(mText.getSelectionStart(), "\n![" + (i + 1) + "]\n");
+					String insert = "![" + (i + 1) + "]\n";
+					if (mText.getText().charAt(mText.getSelectionStart() - 1) != '\n') {
+						insert = "\n" + insert;
+					}
+					mText.getText().insert(mText.getSelectionStart(), insert);
 					break;
 				}
 			}
