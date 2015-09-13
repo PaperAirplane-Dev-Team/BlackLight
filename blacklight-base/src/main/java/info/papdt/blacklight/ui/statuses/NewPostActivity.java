@@ -75,7 +75,7 @@ import info.papdt.blacklight.ui.common.MultiPicturePicker;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
-public class NewPostActivity extends AbsActivity implements View.OnLongClickListener
+public class NewPostActivity extends AbsActivity implements View.OnLongClickListener, View.OnClickListener
 {
 	private static final String TAG = NewPostActivity.class.getSimpleName();
 	private static final String DRAFT="post_draft";
@@ -277,6 +277,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		for (int i = 0; i < 9; i++) {
 			mPics[i] = (ImageView) mPicsParent.getChildAt(i);
 			mPics[i].setOnLongClickListener(this);
+			mPics[i].setOnClickListener(this);
 		}
 
 		// Handle share intent
@@ -352,6 +353,19 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (mIsLong) {
+			// Insert pictures into long post
+			for (int i = 0; i < 9; i++) {
+				if (mPics[i] == v) {
+					mText.getText().insert(mText.getSelectionStart(), "\n![" + (i + 1) + "]\n");
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
