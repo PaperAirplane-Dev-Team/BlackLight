@@ -183,6 +183,16 @@ public class LongPostUtility {
 							
 							picHeight += picHeights[index] + PADDING;
 							
+							// To avoid formatting issues, we must stop the indent
+							if (indent) {
+								HashMap<String, Integer> map = new HashMap<>();
+								map.put("pos", stripped.length());
+								map.put("type", TYPE_INDENT);
+								format.add(map);
+								indent = false;
+								rank = 1;
+							}
+							
 							stripped += str;
 							
 							HashMap<String, Integer> map = new HashMap<String, Integer>();
