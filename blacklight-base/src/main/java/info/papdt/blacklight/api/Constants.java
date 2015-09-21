@@ -93,4 +93,8 @@ public class Constants
 	// Attitude
 	public static final String ATTITUDE_CREATE = SINA_BASE_URL + "attitudes/create.json";
 	public static final String ATTITUDE_DESTROY = SINA_BASE_URL + "attitudes/destroy.json";
+
+	// Short Url
+	public static final String SHORT_URL_SHORTEN = SINA_BASE_URL + "short_url/shorten.json";
+	public static final String SHORT_URL_EXPAND = SINA_BASE_URL + "short_url/expand.json";
 }
