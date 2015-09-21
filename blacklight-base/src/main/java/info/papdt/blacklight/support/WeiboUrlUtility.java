@@ -22,8 +22,12 @@ package info.papdt.blacklight.support;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import info.papdt.blacklight.api.shorturl.ShortUrlApi;
+import info.papdt.blacklight.cache.user.UserApiCache;
+import info.papdt.blacklight.model.UserModel;
+import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -69,6 +73,46 @@ public class WeiboUrlUtility
 	}
 
 	private Intent getWeiboIntent(Context context) {
+		Intent intent = null;
+		List<String> paths = mUri.getPathSegments();
+		int size = paths.size();
+
+		// http://weibo.com/n/username
+		if (2 == size && "n".equals(paths.get(0))) {
+			intent = getUserIntent(context, null, paths.get(1));
+			if (null != intent)
+				return intent;
+		}
+		// http://weibo.com/uid
+		if (1 == size) {
+			if (paths.get(0).matches("[0-9]+")) {
+				intent = getUserIntent(context, paths.get(0), null);
+				if (null != intent)
+					return intent;
+			}
+		}
+		// TODO: parse more url, i.e. http://weibo.com/uid/MagicMessageID
+		return null;
+	}
+
+	public static Intent getUserIntent(Context context, String uid, String name) {
+		UserApiCache api = new UserApiCache(context);
+		UserModel user = null;
+
+		if (!TextUtils.isEmpty(uid)) {
+			user = api.getUser(uid);
+		}
+		if (null == user && !TextUtils.isEmpty(uid)) {
+			user = api.getUserByName(name);
+		}
+
+		if (null != user && null != user.id && !user.id.trim().equals("")) {
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_MAIN);
+			intent.setClass(context, UserTimeLineActivity.class);
+			intent.putExtra("user", user);
+			return intent;
+		}
 		return null;
 	}
 
