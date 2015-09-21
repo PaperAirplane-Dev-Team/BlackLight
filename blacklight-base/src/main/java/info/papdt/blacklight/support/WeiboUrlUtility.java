@@ -71,4 +71,28 @@ public class WeiboUrlUtility
 	private Intent getWeiboIntent(Context context) {
 		return null;
 	}
+
+	public void view(Context context) {
+		new UrlParseTask(context).execute(mUri);
+	}
+
+	private class UrlParseTask extends AsyncTask<Uri, Void, Intent> {
+		Context mContext;
+		UrlParseTask(Context context) {
+			mContext = context;
+		}
+
+		@Override
+		protected Intent doInBackground(Uri... uris) {
+			WeiboUrlUtility parser = new WeiboUrlUtility(uris[0]);
+			return parser.getIntent(mContext);
+		}
+
+		@Override
+		protected void onPostExecute(Intent intent) {
+			if (null != intent) {
+				mContext.startActivity(intent);
+			}
+		}
+	}
 }
