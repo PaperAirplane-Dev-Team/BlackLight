@@ -101,11 +101,11 @@ public class WeiboUrlUtility
 		if (!TextUtils.isEmpty(uid)) {
 			user = api.getUser(uid);
 		}
-		if (null == user && !TextUtils.isEmpty(uid)) {
+		if (null == user && !TextUtils.isEmpty(name)) {
 			user = api.getUserByName(name);
 		}
 
-		if (null != user && null != user.id && !user.id.trim().equals("")) {
+		if (null != user && !TextUtils.isEmpty(user.id)) {
 			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_MAIN);
 			intent.setClass(context, UserTimeLineActivity.class);
