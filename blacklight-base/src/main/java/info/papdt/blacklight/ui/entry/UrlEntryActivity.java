@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import info.papdt.blacklight.support.WeiboUrlUtility;
 
@@ -55,6 +57,10 @@ public class UrlEntryActivity extends Activity
 		protected void onPostExecute(Intent intent) {
 			if (null != intent) {
 				startActivity(intent);
+				String data = intent.getDataString();
+				if (!TextUtils.isEmpty(data)) {
+					Toast.makeText(UrlEntryActivity.this, data, Toast.LENGTH_SHORT).show();
+				}
 			}
 			finish();
 		}

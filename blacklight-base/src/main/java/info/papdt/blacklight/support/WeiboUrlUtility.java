@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import info.papdt.blacklight.api.shorturl.ShortUrlApi;
 import info.papdt.blacklight.cache.user.UserApiCache;
@@ -136,6 +137,10 @@ public class WeiboUrlUtility
 		protected void onPostExecute(Intent intent) {
 			if (null != intent) {
 				mContext.startActivity(intent);
+				String data = intent.getDataString();
+				if (!TextUtils.isEmpty(data)) {
+					Toast.makeText(mContext, data, Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
