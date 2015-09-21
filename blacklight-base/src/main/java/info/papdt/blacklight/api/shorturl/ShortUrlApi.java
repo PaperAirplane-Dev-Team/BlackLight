@@ -71,6 +71,6 @@ public class ShortUrlApi extends BaseApi {
 			}
 		} catch (Exception e) {
 		}
-		return null;
+		return url;
 	}
 }
