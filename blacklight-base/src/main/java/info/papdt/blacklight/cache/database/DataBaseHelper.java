@@ -78,4 +78,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		return instance;
 	}
 
+	public void shrink() {
+		SQLiteDatabase db = getWritableDatabase();
+		db.beginTransaction();
+		db.delete(UsersTable.NAME, null, null);
+		db.delete(HomeTimeLineTable.NAME, null, null);
+		db.delete(UserTimeLineTable.NAME, null, null);
+		db.delete(MentionsTimeLineTable.NAME, null, null);
+		db.delete(CommentTimeLineTable.NAME, null, null);
+		db.delete(CommentMentionsTimeLineTable.NAME, null, null);
+		db.delete(StatusCommentTable.NAME, null, null);
+		db.delete(RepostTimeLineTable.NAME, null, null);
+		db.delete(FavListTable.NAME, null, null);
+		db.delete(DirectMessageUserTable.NAME, null, null);
+		db.delete(SearchHistoryTable.NAME, null, null);
+		db.setTransactionSuccessful();
+		db.endTransaction();
+	}
 }
