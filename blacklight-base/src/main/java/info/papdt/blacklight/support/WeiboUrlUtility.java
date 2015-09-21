@@ -84,13 +84,11 @@ public class WeiboUrlUtility
 			if (null != intent)
 				return intent;
 		}
-		// http://weibo.com/uid
-		if (1 == size) {
-			if (paths.get(0).matches("[0-9]+")) {
-				intent = getUserIntent(context, paths.get(0), null);
-				if (null != intent)
-					return intent;
-			}
+		// http://weibo.com/u/uid
+		if (2 == size && "u".equals(paths.get(0))) {
+			intent = getUserIntent(context, paths.get(1), null);
+			if (null != intent)
+				return intent;
 		}
 		// TODO: parse more url, i.e. http://weibo.com/uid/MagicMessageID
 		return null;
