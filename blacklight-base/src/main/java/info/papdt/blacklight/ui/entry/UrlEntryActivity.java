@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.support.WeiboUrlUtility;
 
 public class UrlEntryActivity extends Activity
@@ -39,6 +40,8 @@ public class UrlEntryActivity extends Activity
 		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 			Uri uri = intent.getData();
 			if (null != uri) {
+				// load access token before parse
+				LoginApiCache login = new LoginApiCache(this);
 				new UrlParseTask().execute(uri);
 				return;
 			}
