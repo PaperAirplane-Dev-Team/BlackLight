@@ -102,7 +102,7 @@ public class WeiboSpan extends ClickableSpan
 			Context context = (Context) result[0];
 			UserModel usr = (UserModel) result[1];
 			
-			if (usr != null && usr.id != null & !usr.id.trim().equals("")) {
+			if (usr != null && usr.id != null && !usr.id.trim().equals("")) {
 				Intent i = new Intent();
 				i.setAction(Intent.ACTION_MAIN);
 				i.setClass(context, UserTimeLineActivity.class);

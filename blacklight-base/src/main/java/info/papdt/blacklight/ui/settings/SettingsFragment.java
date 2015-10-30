@@ -34,6 +34,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import info.papdt.blacklight.R;
+import info.papdt.blacklight.cache.database.DataBaseHelper;
 import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.support.CrashHandler;
 import info.papdt.blacklight.support.Settings;
@@ -239,6 +240,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		} else if (preference == mPrefCrash) {
 			throw new RuntimeException("Debug crash");
 		} else if (preference == mPrefCache) {
+			DataBaseHelper.instance(getActivity()).shrink();
 			Intent i = new Intent("android.settings.MANAGE_APPLICATIONS_SETTINGS");
 			startActivity(i);
 		} else if (preference == mPrefDevelopers) {
