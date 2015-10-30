@@ -25,7 +25,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Vibrator;
-import android.util.FloatMath;
 
 import java.util.ArrayList;
 
@@ -108,7 +107,7 @@ public class ShakeDetector implements SensorEventListener {
 				  dY = y - mLastY,
 				  dZ = z - mLastZ;
 
-			float eV = FloatMath.sqrt(dX * dX + dY * dY + dZ * dZ) / diff * 10000;
+			float eV = (float) Math.sqrt(dX * dX + dY * dY + dZ * dZ) / diff * 10000;
 
 			if (mLastV > -1) {
 				float dV = eV - mLastV;
