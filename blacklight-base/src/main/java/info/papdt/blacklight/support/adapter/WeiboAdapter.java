@@ -599,7 +599,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 			ActivityOptionsCompat o =
 				ActivityOptionsCompat.makeSceneTransitionAnimation(
-					(Activity) context, v, "msg");
+					(Activity) context, card, "msg");
 
 			ActivityCompat.startActivity((Activity) context, i, o.toBundle());
 		}
