@@ -40,7 +40,9 @@ public class Settings
 			NOTIFICATION_VIBRATE = "notification_vibrate",
 			NOTIFICATION_INTERVAL = "notification_interval",
 			NOTIFICATION_ONGOING = "notification_ongoing";
-
+	public static final String NOTIFY_CMT = "notify_cmt",
+			NOTIFY_AT = "notify_at",
+			NOTIFY_DM = "notify_dm";
 	// Network
 	public static final String AUTO_NOPIC = "auto_nopic";
 
