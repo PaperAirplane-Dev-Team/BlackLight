@@ -72,6 +72,23 @@ public class DirectMessagesApi extends BaseApi
 		
 		return null;
 	}
+
+	public static DirectMessageListModel getDirectMessages(int count, int page) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("count", count);
+		params.put("page", page);
+
+		try {
+			JSONObject json = request(Constants.DIRECT_MESSAGES, params, HTTP_GET);
+			return new Gson().fromJson(json.toString(), DirectMessageListModel.class);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.d(TAG, Log.getStackTraceString(e));
+			}
+		}
+
+		return null;
+	}
 	
 	public static boolean send(String uid, String text,String[] fid) {
 		WeiboParameters params = new WeiboParameters();

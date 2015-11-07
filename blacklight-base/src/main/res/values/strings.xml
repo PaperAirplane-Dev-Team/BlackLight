@@ -301,5 +301,6 @@
 	</string-array>
 	<string name="direct_message_pic_gallery">Pick from gallery</string>
 	<string name="direct_message_pic_take">Take photo</string>
+	<string name="expand_to_view">Expand to view</string>
 
 </resources>

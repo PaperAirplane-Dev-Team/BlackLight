@@ -49,6 +49,7 @@ public class Constants
 	// Comments
 	public static final String COMMENTS_TIMELINE = SINA_BASE_URL + "comments/timeline.json";
 	public static final String COMMENTS_MENTIONS = SINA_BASE_URL + "comments/mentions.json";
+	public static final String COMMENTS_TO_ME = SINA_BASE_URL + "comments/to_me.json";
 	public static final String COMMENTS_SHOW = SINA_BASE_URL + "comments/show.json";
 	public static final String COMMENTS_CREATE = SINA_BASE_URL + "comments/create.json";
 	public static final String COMMENTS_REPLY = SINA_BASE_URL + "comments/reply.json";
@@ -79,6 +80,7 @@ public class Constants
 	public static final String FRIENDSHIPS_GROUPS_MEMBERS_DESTROY = SINA_BASE_URL + "friendships/groups/members/destroy.json";
 
 	// Direct Message
+	public static final String DIRECT_MESSAGES = SINA_BASE_URL + "direct_messages.json";
 	public static final String DIRECT_MESSAGES_USER_LIST = SINA_BASE_URL + "direct_messages/user_list.json";
 	public static final String DIRECT_MESSAGES_CONVERSATION = SINA_BASE_URL + "direct_messages/conversation.json";
 	public static final String DIRECT_MESSAGES_SEND = SINA_BASE_URL + "direct_messages/new.json";

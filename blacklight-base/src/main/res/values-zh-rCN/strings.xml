@@ -252,5 +252,6 @@
 		<item>好吧好吧你赢了。</item>
 	</string-array>
 	<string name="notification_type">通知类型</string>
+	<string name="expand_to_view">展开查看</string>
 
 </resources>

@@ -243,5 +243,6 @@
 		<item>好吧好吧你贏了。</item>
 	</string-array>
 	<string name="notification_type">通知類型</string>
+	<string name="expand_to_view">展開查看</string>
 
 </resources>

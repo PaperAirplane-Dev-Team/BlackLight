@@ -34,6 +34,8 @@ public class DirectMessageModel implements Parcelable
 	public String text;
 	public long sender_id;
 	public long recipient_id;
+	public UserModel recipient;
+	public UserModel sender;
 	public String sender_screen_name;
 	public String recipient_screen_name;
 	public long[] att_ids = {0,0};
@@ -51,6 +53,8 @@ public class DirectMessageModel implements Parcelable
 		dest.writeString(text);
 		dest.writeLong(sender_id);
 		dest.writeLong(recipient_id);
+		dest.writeParcelable(recipient, flags);
+		dest.writeParcelable(sender, flags);
 		dest.writeString(sender_screen_name);
 		dest.writeString(recipient_screen_name);
 		dest.writeLongArray(att_ids);
@@ -66,6 +70,8 @@ public class DirectMessageModel implements Parcelable
 			ret.text = in.readString();
 			ret.sender_id = in.readLong();
 			ret.recipient_id = in.readLong();
+			ret.recipient = in.readParcelable(UserModel.class.getClassLoader());
+			ret.sender = in.readParcelable(UserModel.class.getClassLoader());
 			ret.sender_screen_name = in.readString();
 			ret.recipient_screen_name = in.readString();
 			in.readLongArray(ret.att_ids);
