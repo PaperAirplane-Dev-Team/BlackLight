@@ -192,7 +192,7 @@ public class ReminderService extends IntentService {
 				Notification n;
 				if (expand) {
 					n = buildBigNotification(c,
-							format(c, R.string.new_at, unread.cmt),
+							format(c, R.string.new_at, count),
 							expandToView,
 							bigText,
 							R.drawable.ic_action_reply_all,
@@ -226,7 +226,7 @@ public class ReminderService extends IntentService {
 					}
 
 					n = buildBigNotification(c,
-							format(c, R.string.new_dm, unread.cmt),
+							format(c, R.string.new_dm, unread.dm),
 							expandToView,
 							bigText,
 							R.drawable.ic_action_email,
@@ -234,7 +234,7 @@ public class ReminderService extends IntentService {
 							pi);
 				} else {
 					n = buildNotification(c,
-							format(c, R.string.new_dm, unread.cmt),
+							format(c, R.string.new_dm, unread.dm),
 							clickToView,
 							R.drawable.ic_action_email,
 							defaults,
