@@ -302,5 +302,7 @@
 	<string name="direct_message_pic_gallery">Pick from gallery</string>
 	<string name="direct_message_pic_take">Take photo</string>
 	<string name="expand_to_view">Expand to view</string>
+	<string name="show_bigtext">Show notification details</string>
+	<string name="show_bigtext_sum">Show detailed information in notifications (Valid on Android 4.1+). May cause more power or traffic consumption.</string>
 
 </resources>

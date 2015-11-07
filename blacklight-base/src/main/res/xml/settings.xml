@@ -36,6 +36,12 @@
 		<Preference
 		    android:key="notification_interval"
 		    android:title="@string/notification_interval" />
+
+		<CheckBoxPreference
+			android:key="show_bigtext"
+			android:title="@string/show_bigtext"
+			android:summary="@string/show_bigtext_sum"
+			android:checked="false"/>
 		
 	</PreferenceCategory>
 

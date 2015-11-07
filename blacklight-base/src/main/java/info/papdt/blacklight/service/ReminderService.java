@@ -99,7 +99,8 @@ public class ReminderService extends IntentService {
 			} else {
 				settings.putString(Settings.NOTIFICATION_ONGOING, now);
 			}
-			
+
+			Boolean expand = settings.getBoolean(Settings.SHOW_BIGTEXT, false);
 			int defaults = parseDefaults(c);
 			Intent i = new Intent(c, EntryActivity.class);
 			i.setPackage(c.getPackageName());
@@ -118,7 +119,7 @@ public class ReminderService extends IntentService {
 				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 				Notification n;
-				if (true) {
+				if (expand) {
 					CommentListModel newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, 5), 1);
 					String bigText = "";
 					if (newComments != null) {
@@ -153,7 +154,7 @@ public class ReminderService extends IntentService {
 					count += unread.mention_status;
 					i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
 
-					if(true){
+					if(expand){
 						MessageListModel newMentions = MentionsTimeLineApi.fetchMentionsTimeLine(Math.min(unread.mention_status, 5), 1);
 						if (newMentions != null) {
 							bigText += buildBigText(newMentions);
@@ -173,7 +174,7 @@ public class ReminderService extends IntentService {
 						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION_CMT);
 					}
 
-					if(true){
+					if(expand){
 						MessageListModel newMentionsCmt = CommentMentionsTimeLineApi.fetchCommentMentionsTimeLine(Math.min(unread.mention_cmt, 5), 1);
 						if (newMentionsCmt != null) {
 							bigText += System.getProperty("line.separator");
@@ -189,7 +190,7 @@ public class ReminderService extends IntentService {
 				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
 				Notification n;
-				if (true) {
+				if (expand) {
 					n = buildBigNotification(c,
 							format(c, R.string.new_at, unread.cmt),
 							expandToView,
@@ -217,7 +218,7 @@ public class ReminderService extends IntentService {
 				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
 				Notification n;
-				if (true) {
+				if (expand) {
 					DirectMessageListModel newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
 					String bigText = "";
 					if (newDm != null) {

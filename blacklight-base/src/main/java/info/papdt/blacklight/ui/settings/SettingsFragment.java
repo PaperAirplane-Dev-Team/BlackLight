@@ -103,6 +103,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private CheckBoxPreference mPrefNotifyCmt,
 			mPrefNotifyAt,
 			mPrefNotifyDm;
+	private CheckBoxPreference mPrefShowBigtext;
 
 	// Network
 	private CheckBoxPreference mPrefAutoNoPic;
@@ -133,6 +134,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefCache = findPreference(DEBUG_CLEAR_CACHE);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
+		mPrefShowBigtext = (CheckBoxPreference) findPreference(Settings.SHOW_BIGTEXT);
 		mPrefNotifyCmt = (CheckBoxPreference) findPreference(Settings.NOTIFY_CMT);
 		mPrefNotifyAt = (CheckBoxPreference) findPreference(Settings.NOTIFY_AT);
 		mPrefNotifyDm = (CheckBoxPreference) findPreference(Settings.NOTIFY_DM);
@@ -160,6 +162,7 @@ public class SettingsFragment extends PreferenceFragment implements
 				Settings.NOTIFICATION_SOUND, true));
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
+		mPrefShowBigtext.setChecked(mSettings.getBoolean(Settings.SHOW_BIGTEXT, false));
 		mPrefNotifyCmt.setChecked(mSettings.getBoolean(Settings.NOTIFY_CMT, true));
 		mPrefNotifyAt.setChecked(mSettings.getBoolean(Settings.NOTIFY_AT, true));
 		mPrefNotifyDm.setChecked(mSettings.getBoolean(Settings.NOTIFY_DM, true));
@@ -174,6 +177,11 @@ public class SettingsFragment extends PreferenceFragment implements
 				this.getResources().getStringArray(R.array.langs) [Utility.getCurrentLanguage(getActivity())]);
 		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
 		mPrefKeyword.setText(mSettings.getString(Settings.KEYWORD, ""));
+
+		// Expanded notification is only available on Jelly Bean+
+		if(android.os.Build.VERSION.SDK_INT < 16){
+			mPrefShowBigtext.setEnabled(false);
+		}
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
@@ -185,6 +193,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefLogout.setOnPreferenceClickListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
+		mPrefShowBigtext.setOnPreferenceChangeListener(this);
 		mPrefNotifyCmt.setOnPreferenceChangeListener(this);
 		mPrefNotifyAt.setOnPreferenceChangeListener(this);
 		mPrefNotifyDm.setOnPreferenceChangeListener(this);
@@ -302,10 +311,15 @@ public class SettingsFragment extends PreferenceFragment implements
 			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE,
 					Boolean.parseBoolean(newValue.toString()));
 			return true;
-		}  else if (preference == mPrefNotifyCmt) {
+		}  else if (preference == mPrefShowBigtext) {
+			mSettings.putBoolean(Settings.SHOW_BIGTEXT,
+					Boolean.parseBoolean(newValue.toString()));
+			// Reset notifications
+			mSettings.putString(Settings.NOTIFICATION_ONGOING, "");
+			return true;
+		} else if (preference == mPrefNotifyCmt) {
 			mSettings.putBoolean(Settings.NOTIFY_CMT,
 				Boolean.parseBoolean(newValue.toString()));
-			// Reset notifications
 			mSettings.putString(Settings.NOTIFICATION_ONGOING, "");
 			return true;
 		}  else if (preference == mPrefNotifyAt) {

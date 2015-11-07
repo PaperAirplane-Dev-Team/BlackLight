@@ -244,5 +244,7 @@
 	</string-array>
 	<string name="notification_type">通知類型</string>
 	<string name="expand_to_view">展開查看</string>
+	<string name="show_bigtext">顯示詳細的通知內容</string>
+	<string name="show_bigtext_sum">在通知中顯示詳細信息（僅對Android4.1+有效），可能導致額外的電量和流量消耗</string>
 
 </resources>
