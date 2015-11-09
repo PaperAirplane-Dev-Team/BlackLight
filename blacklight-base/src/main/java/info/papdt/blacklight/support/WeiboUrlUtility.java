@@ -137,10 +137,6 @@ public class WeiboUrlUtility
 		protected void onPostExecute(Intent intent) {
 			if (null != intent) {
 				mContext.startActivity(intent);
-				String data = intent.getDataString();
-				if (!TextUtils.isEmpty(data)) {
-					Toast.makeText(mContext, data, Toast.LENGTH_SHORT).show();
-				}
 			}
 		}
 	}
