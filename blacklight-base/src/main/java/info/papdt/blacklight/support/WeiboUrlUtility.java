@@ -68,7 +68,9 @@ public class WeiboUrlUtility
 		}
 
 		if (null == intent) {
-			intent = new Intent(Intent.ACTION_VIEW, mUri);
+			// forcing an app chooser
+			Intent viewIntent = new Intent(Intent.ACTION_VIEW, mUri);
+			intent = Intent.createChooser(viewIntent, mUri.toString());
 		}
 		return intent;
 	}
