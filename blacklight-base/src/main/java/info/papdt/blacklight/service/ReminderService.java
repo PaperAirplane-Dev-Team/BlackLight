@@ -42,7 +42,6 @@ import info.papdt.blacklight.api.directmessages.DirectMessagesApi;
 import info.papdt.blacklight.api.remind.RemindApi;
 import info.papdt.blacklight.api.statuses.MentionsTimeLineApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
-import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.CommentListModel;
 import info.papdt.blacklight.model.DirectMessageListModel;
 import info.papdt.blacklight.model.DirectMessageModel;
@@ -69,7 +68,6 @@ public class ReminderService extends IntentService {
 	private static final int ID_MENTION = ID + 2;
 	private static final int ID_DM = ID + 3;
 
-	private static final int LIMIT_TEXT = 30;
 	private static final int FETCH_MAX = 5;
 
 	private Context mContext;
@@ -117,7 +115,6 @@ public class ReminderService extends IntentService {
 		PendingIntent pi;
 
 		String clickToView = mContext.getString(R.string.click_to_view);
-		String expandToView = mContext.getString(R.string.expand_to_view);
 
 		NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
