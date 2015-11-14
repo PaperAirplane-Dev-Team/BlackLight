@@ -232,6 +232,8 @@
 	<string name="auto_nopic_sum">Load pictures only if WiFi is connected</string>
 	<string name="keyword">Keyword filtering</string>
 	<string name="keyword_sum">Multiple keywords should be split by \", \" (a comma and a space), Regular Expressions should be wrapped by \"`\".</string>
+	<string name="show_bigtext">Show notification details</string>
+	<string name="show_bigtext_sum">Show detailed information in notifications (Valid on Android 4.1+). May cause more power or traffic consumption.</string>
 	<string-array name="interval_name">
 		<item>1 minute</item>
 		<item>3 minutes</item>
@@ -282,6 +284,7 @@
 	<string name="new_at_detail_comment">%d comment(s)</string>
 	<string name="new_dm">%d new direct messages.</string>
 	<string name="click_to_view">Click to view</string>
+	<string name="expand_to_view">Expand to view</string>
 	<string name="empty_weibo">Just say something before you click me!</string>
 	<string name="not_loaded">Please try again after the picture is loaded.</string>
 	<string name="saved_to">The pictures has been saved to %s.</string>
@@ -291,6 +294,7 @@
 	<string name="clear_cache">Clear Cache</string>
 	<string name="clear_cache_hint">See \'Settings -\> Apps -\> BlackLight\'</string>
 	<string name="post_photo">Share Photo</string>
+	<string name="more_not_displayed">+%d more</string>
 
 	<string-array name="click_refusal">
 		<item>Hey, nice to see you.</item>
@@ -301,8 +305,10 @@
 	</string-array>
 	<string name="direct_message_pic_gallery">Pick from gallery</string>
 	<string name="direct_message_pic_take">Take photo</string>
-	<string name="expand_to_view">Expand to view</string>
-	<string name="show_bigtext">Show notification details</string>
-	<string name="show_bigtext_sum">Show detailed information in notifications (Valid on Android 4.1+). May cause more power or traffic consumption.</string>
 
+	<string-array name="reply_all_lang">
+		<item>Reply</item>
+		<item>回复</item>
+		<item>回覆</item>
+	</string-array>
 </resources>

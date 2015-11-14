@@ -27,12 +27,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Objects;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.comments.CommentMentionsTimeLineApi;
@@ -40,6 +42,7 @@ import info.papdt.blacklight.api.directmessages.DirectMessagesApi;
 import info.papdt.blacklight.api.remind.RemindApi;
 import info.papdt.blacklight.api.statuses.MentionsTimeLineApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
+import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.CommentListModel;
 import info.papdt.blacklight.model.DirectMessageListModel;
 import info.papdt.blacklight.model.DirectMessageModel;
@@ -67,6 +70,10 @@ public class ReminderService extends IntentService {
 	private static final int ID_DM = ID + 3;
 
 	private static final int LIMIT_TEXT = 30;
+	private static final int FETCH_MAX = 5;
+
+	private Context mContext;
+	private int mDefaults;
 
 	private void doFetchRemind() {
 		LoginApiCache cache = new LoginApiCache(this);
@@ -79,7 +86,9 @@ public class ReminderService extends IntentService {
 				Log.d(TAG, "unread got: " + (unread != null));
 			}
 
-			doUpdateNotifications(unread);
+			if (unread != null) {
+				doUpdateNotifications(unread);
+			}
 		}
 	}
 
@@ -87,162 +96,154 @@ public class ReminderService extends IntentService {
 		if (DEBUG) {
 			Log.d(TAG, "update notifications");
 		}
+		mContext = getApplicationContext();
+		Settings settings = Settings.getInstance(mContext);
+		String previous = settings.getString(Settings.NOTIFICATION_ONGOING, "");
+		String now = unread.toString();
+		if (now.equals(previous)) {
+			Log.d(TAG, "No actual unread notifications.");
+			return;
+		} else {
+			settings.putString(Settings.NOTIFICATION_ONGOING, now);
+		}
 
-		Context c = getApplicationContext();
+		Boolean expand = settings.getBoolean(Settings.SHOW_BIGTEXT, false);
+		mDefaults = parseDefaults(mContext);
 
-		if (unread != null) {
-			Settings settings = Settings.getInstance(c);
-			String previous = settings.getString(Settings.NOTIFICATION_ONGOING, "");
-			String now = unread.toString();
-			if (now.equals(previous)) {
-				Log.d(TAG, "No actual unread notifications.");
-				//return;
+		Intent i = new Intent(mContext, EntryActivity.class);
+		i.setPackage(mContext.getPackageName());
+		i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+		PendingIntent pi;
+
+		String clickToView = mContext.getString(R.string.click_to_view);
+		String expandToView = mContext.getString(R.string.expand_to_view);
+
+		NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		if (unread.cmt > 0 && settings.getBoolean(Settings.NOTIFY_CMT, true)) {
+			if (DEBUG) {
+				Log.d(TAG, "New comment: " + unread.cmt);
+			}
+
+			i.putExtra(Intent.EXTRA_INTENT, MainActivity.COMMENT);
+			pi = PendingIntent.getActivity(mContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+			Notification n;
+			CommentListModel newComments = null;
+			if (expand) {
+				newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, FETCH_MAX), 1);
+			}
+			if (expand && newComments != null) {
+				n = buildInboxNotification(
+						format(mContext, R.string.new_comment, unread.cmt),
+						firstOrExpand(newComments),
+						buildInbox(newComments),
+						unread.cmt,
+						R.drawable.ic_action_chat,
+						pi);
 			} else {
-				settings.putString(Settings.NOTIFICATION_ONGOING, now);
+				n = buildNotification(
+						format(mContext, R.string.new_comment, unread.cmt),
+						clickToView,
+						R.drawable.ic_action_chat,
+						pi);
 			}
+			nm.notify(ID_CMT, n);
+		}
 
-			Boolean expand = settings.getBoolean(Settings.SHOW_BIGTEXT, false);
-			int defaults = parseDefaults(c);
-			Intent i = new Intent(c, EntryActivity.class);
-			i.setPackage(c.getPackageName());
-			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent pi;
-			String clickToView = c.getString(R.string.click_to_view);
-			String expandToView = c.getString(R.string.expand_to_view);
-			NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+		if ((unread.mention_status > 0 || unread.mention_cmt > 0) && settings.getBoolean(Settings.NOTIFY_AT, true)) {
+			String detail = "";
+			MessageListModel list = new MessageListModel();
+			int count = 0;
 
-			if (unread.cmt > 0 && settings.getBoolean(Settings.NOTIFY_CMT, true)) {
-				if (DEBUG) {
-					Log.d(TAG, "New comment: " + unread.cmt);
-				}
+			if (unread.mention_status > 0) {
+				detail += format(mContext, R.string.new_at_detail_weibo, unread.mention_status);
+				count += unread.mention_status;
+				i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
 
-				i.putExtra(Intent.EXTRA_INTENT, MainActivity.COMMENT);
-				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-				Notification n;
-				CommentListModel newComments = null;
-				if (expand) {
-					newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, 5), 1);
-				}
-				if (expand && newComments != null) {
-					String bigText = buildBigText(newComments);
-
-					n = buildBigNotification(c,
-							format(c, R.string.new_comment, unread.cmt),
-							expandToView,
-							bigText,
-							R.drawable.ic_action_chat,
-							defaults,
-							pi);
-				} else {
-					n = buildNotification(c,
-							format(c, R.string.new_comment, unread.cmt),
-							clickToView,
-							R.drawable.ic_action_chat,
-							defaults,
-							pi);
-				}
-				nm.notify(ID_CMT, n);
-			}
-
-			if ((unread.mention_status > 0 || unread.mention_cmt > 0) && settings.getBoolean(Settings.NOTIFY_AT, true)) {
-				String detail = "";
-				String bigText = "";
-				int count = 0;
-				
-				if (unread.mention_status > 0) {
-					detail += format(c, R.string.new_at_detail_weibo, unread.mention_status);
-					count += unread.mention_status;
-					i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
-
-					if(expand){
-						MessageListModel newMentions = MentionsTimeLineApi.fetchMentionsTimeLine(Math.min(unread.mention_status, 5), 1);
-						if (newMentions != null) {
-							bigText += buildBigText(newMentions);
-						}
+				if(expand){
+					MessageListModel newMentions = MentionsTimeLineApi.fetchMentionsTimeLine(Math.min(unread.mention_status, 5), 1);
+					if (newMentions != null) {
+						list.addAll(true, newMentions);
 					}
 				}
-
-				if (unread.mention_cmt > 0) {
-					if (count > 0) {
-						detail += c.getString(R.string.new_at_detail_and);
-					}
-
-					detail += format(c, R.string.new_at_detail_comment, unread.mention_cmt);
-					count += unread.mention_cmt;
-
-					if (unread.mention_status == 0){
-						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION_CMT);
-					}
-
-					if(expand){
-						MessageListModel newMentionsCmt = CommentMentionsTimeLineApi.fetchCommentMentionsTimeLine(Math.min(unread.mention_cmt, 5), 1);
-						if (newMentionsCmt != null) {
-							bigText += System.getProperty("line.separator");
-							bigText += buildBigText(newMentionsCmt);
-						}
-					}
-				}
-
-				if (DEBUG) {
-					Log.d(TAG, "New mentions: " + count);
-				}
-
-				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
-
-				Notification n;
-				if (expand && !bigText.equals("")) {
-					n = buildBigNotification(c,
-							format(c, R.string.new_at, count),
-							expandToView,
-							bigText,
-							R.drawable.ic_action_reply_all,
-							defaults,
-							pi);
-				} else {
-					n = buildNotification(c,
-							format(c, R.string.new_at, count),
-							detail,
-							R.drawable.ic_action_reply_all,
-							defaults,
-							pi);
-				}
-				nm.notify(ID_MENTION, n);
 			}
 
-			if (unread.dm > 0 && settings.getBoolean(Settings.NOTIFY_DM, true)) {
-				if (DEBUG) {
-					Log.d(TAG, "New dm: " + unread.dm);
+			if (unread.mention_cmt > 0) {
+				if (count > 0) {
+					detail += mContext.getString(R.string.new_at_detail_and);
 				}
 
-				i.putExtra(Intent.EXTRA_INTENT,MainActivity.DM);
-				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+				detail += format(mContext, R.string.new_at_detail_comment, unread.mention_cmt);
+				count += unread.mention_cmt;
 
-				Notification n;
-				DirectMessageListModel newDm = null;
-				if (expand) {
-					newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
+				if (unread.mention_status == 0){
+					i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION_CMT);
 				}
-				if (expand && newDm != null) {
-					String bigText = buildBigText(newDm);
 
-					n = buildBigNotification(c,
-							format(c, R.string.new_dm, unread.dm),
-							expandToView,
-							bigText,
-							R.drawable.ic_action_email,
-							defaults,
-							pi);
-				} else {
-					n = buildNotification(c,
-							format(c, R.string.new_dm, unread.dm),
-							clickToView,
-							R.drawable.ic_action_email,
-							defaults,
-							pi);
+				if(expand){
+					MessageListModel newMentionsCmt = CommentMentionsTimeLineApi.fetchCommentMentionsTimeLine(Math.min(unread.mention_cmt, 5), 1);
+					if (newMentionsCmt != null) {
+						list.addAll(true, newMentionsCmt);
+					}
 				}
-				nm.notify(ID_DM, n);
 			}
+
+			if (DEBUG) {
+				Log.d(TAG, "New mentions: " + count);
+			}
+
+			pi = PendingIntent.getActivity(mContext,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
+			Notification n;
+			if (expand && list.getSize() > 0) {
+				n = buildInboxNotification(
+						format(mContext, R.string.new_at, count),
+						firstOrExpand(list),
+						buildInbox(list),
+						count,
+						R.drawable.ic_action_reply_all,
+						pi);
+			} else {
+				n = buildNotification(
+						format(mContext, R.string.new_at, count),
+						detail,
+						R.drawable.ic_action_reply_all,
+						pi);
+			}
+			nm.notify(ID_MENTION, n);
+		}
+
+		if (unread.dm > 0 && settings.getBoolean(Settings.NOTIFY_DM, true)) {
+			if (DEBUG) {
+				Log.d(TAG, "New dm: " + unread.dm);
+			}
+
+			i.putExtra(Intent.EXTRA_INTENT,MainActivity.DM);
+			pi = PendingIntent.getActivity(mContext,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
+
+			Notification n;
+			DirectMessageListModel newDm = null;
+			if (expand) {
+				newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
+			}
+			if (expand && newDm != null) {
+				n = buildInboxNotification(
+						format(mContext, R.string.new_dm, unread.dm),
+						firstOrExpand(newDm),
+						buildInbox(newDm),
+						unread.dm,
+						R.drawable.ic_action_email,
+						pi);
+			} else {
+				n = buildNotification(
+						format(mContext, R.string.new_dm, unread.dm),
+						clickToView,
+						R.drawable.ic_action_email,
+						pi);
+			}
+			nm.notify(ID_DM, n);
 		}
 	}
 
@@ -307,12 +308,12 @@ public class ReminderService extends IntentService {
 	}
 
 	@SuppressLint("NewApi")
-	private static Notification buildNotification(Context context, String title, String text, int icon, int defaults, PendingIntent intent) {
-		return new Notification.Builder(context)
+	private Notification buildNotification(String title, String text, int icon, PendingIntent intent) {
+		return new Notification.Builder(mContext)
 			.setContentTitle(title)
 			.setContentText(text)
 			.setSmallIcon(icon)
-			.setDefaults(defaults)
+			.setDefaults(mDefaults)
 			.setAutoCancel(true)
 			.setContentIntent(intent)
 			.build();
@@ -320,15 +321,20 @@ public class ReminderService extends IntentService {
 	}
 
 	@SuppressLint("NewApi")
-	private static Notification buildBigNotification(Context context, String title, String text, String bigText, int icon, int defaults, PendingIntent intent) {
-		Notification.Builder builder =  new Notification.Builder(context)
+	private Notification buildInboxNotification(String title, CharSequence text, Notification.InboxStyle style, int count, int icon, PendingIntent intent) {
+		Notification.Builder builder =  new Notification.Builder(mContext)
 				.setContentTitle(title)
 				.setContentText(text)
+				.setNumber(count)
 				.setSmallIcon(icon)
-				.setDefaults(defaults)
+				.setDefaults(mDefaults)
 				.setAutoCancel(true)
 				.setContentIntent(intent);
-		builder.setStyle(new Notification.BigTextStyle().bigText(bigText));
+		count = Math.max(0, count - FETCH_MAX);
+		if (count > 0) {
+			style.setSummaryText(format(mContext, R.string.more_not_displayed, count));
+		}
+		builder.setStyle(style);
 		return builder.build();
 	}
 
@@ -336,45 +342,53 @@ public class ReminderService extends IntentService {
 		return String.format(context.getString(resId), data);
 	}
 
-	public static String ellipsis(final String text, int length)
-	{
-		if (text.length() > length)
-		{
-			return text.substring(0, length - 3) + "...";
+	private String stripReply(String text) {
+		String pattern = "(" + TextUtils.join("|", mContext.getResources().getStringArray(R.array.reply_all_lang)) +").+?:";
+		return text.replaceFirst(pattern, "");
+	}
+
+	private Spannable formatSpannable(String name, String text) {
+		String prefix = "@" + name + " ";
+		SpannableStringBuilder sp = new SpannableStringBuilder();
+		sp.append(prefix).append(text)
+				.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, prefix.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		return sp;
+	}
+
+	@SuppressLint("NewApi")
+	private Notification.InboxStyle buildInbox(MessageListModel model) {
+		Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
+
+
+		for (MessageModel msg : model.getList()) {
+			inboxStyle.addLine(formatSpannable(msg.user.name, stripReply(msg.text)));
 		}
-
-		return text;
+		return inboxStyle;
 	}
 
-	private String formatLine(String name, String text) {
-		return String.format("@%s: %s", name, ellipsis(text, LIMIT_TEXT));
-	}
-
-	private String buildBigText(MessageListModel model) {
-		String detail;
-		detail = formatLine(model.get(0).user.name, model.get(0).text);
-		List<? extends MessageModel> list = model.getList();
-		list.remove(0);
-
-		for (MessageModel msg : list) {
-			detail += System.getProperty("line.separator");
-			detail +=  formatLine(msg.user.name,msg.text);
-		}
-
-		return detail;
-	}
-
-	private String buildBigText(DirectMessageListModel model) {
-		String detail;
-		detail = formatLine(model.get(0).sender.name, model.get(0).text);
+	@SuppressLint("NewApi")
+	private Notification.InboxStyle buildInbox(DirectMessageListModel model) {
+		Notification.InboxStyle inboxStyle = new Notification.InboxStyle();
 		List<? extends DirectMessageModel> list = model.getList();
-		list.remove(0);
-
 		for (DirectMessageModel msg : list) {
-			detail += System.getProperty("line.separator");
-			detail +=  formatLine(msg.sender.name,msg.text);
+			inboxStyle.addLine(formatSpannable(msg.sender.name, msg.text));
 		}
+		return inboxStyle;
+	}
 
-		return detail;
+	private CharSequence firstOrExpand(MessageListModel model) {
+		if (model.getSize() == 1) {
+			return formatSpannable(model.get(0).user.name, stripReply(model.get(0).text));
+		} else {
+			return  mContext.getString(R.string.expand_to_view);
+		}
+	}
+
+	private CharSequence firstOrExpand(DirectMessageListModel model) {
+		if (model.getSize() == 1) {
+			return formatSpannable(model.get(0).sender.name, model.get(0).text);
+		} else {
+			return  mContext.getString(R.string.expand_to_view);
+		}
 	}
 }
