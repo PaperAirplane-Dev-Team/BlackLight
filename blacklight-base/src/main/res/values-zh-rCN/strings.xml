@@ -251,5 +251,6 @@
 		<item>再点要坏了！</item>
 		<item>好吧好吧你赢了。</item>
 	</string-array>
+	<string name="notification_type">通知类型</string>
 
 </resources>

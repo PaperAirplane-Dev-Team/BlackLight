@@ -223,6 +223,7 @@
 	<string name="notification_vibrate">Vibration</string>
 	<string name="notification_interval">Notification interval</string>
 	<string name="set_interval">Set notification interval</string>
+	<string name="notification_type">Notification Type</string>
 	<string name="good">Rate me</string>
 	<string name="good_sum">:-) You know I\'ll be really happy if you give me 5 stars.</string>
 	<string name="play_url" translatable="false">https://play.google.com/store/apps/details?id=us.shandian.blacklight</string>

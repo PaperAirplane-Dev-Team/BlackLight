@@ -96,7 +96,7 @@ public class ReminderService extends IntentService {
 			String clickToView = c.getString(R.string.click_to_view);
 			NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
-			if (unread.cmt > 0) {
+			if (unread.cmt > 0 && settings.getBoolean(Settings.NOTIFY_CMT, true)) {
 				if (DEBUG) {
 					Log.d(TAG, "New comment: " + unread.cmt);
 				}
@@ -113,7 +113,7 @@ public class ReminderService extends IntentService {
 				nm.notify(ID_CMT, n);
 			}
 
-			if (unread.mention_status > 0 || unread.mention_cmt > 0) {
+			if ((unread.mention_status > 0 || unread.mention_cmt > 0) && settings.getBoolean(Settings.NOTIFY_AT, true)) {
 				String detail = "";
 				int count = 0;
 				
@@ -151,7 +151,7 @@ public class ReminderService extends IntentService {
 				nm.notify(ID_MENTION, n);
 			}
 
-			if (unread.dm > 0) {
+			if (unread.dm > 0 && settings.getBoolean(Settings.NOTIFY_DM, true)) {
 				if (DEBUG) {
 					Log.d(TAG, "New dm: " + unread.dm);
 				}
