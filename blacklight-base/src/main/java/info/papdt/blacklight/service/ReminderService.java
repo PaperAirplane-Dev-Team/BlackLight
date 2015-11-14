@@ -31,14 +31,24 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import info.papdt.blacklight.R;
+import info.papdt.blacklight.api.comments.CommentMentionsTimeLineApi;
+import info.papdt.blacklight.api.directmessages.DirectMessagesApi;
 import info.papdt.blacklight.api.remind.RemindApi;
+import info.papdt.blacklight.api.statuses.MentionsTimeLineApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
+import info.papdt.blacklight.model.CommentListModel;
+import info.papdt.blacklight.model.DirectMessageListModel;
+import info.papdt.blacklight.model.DirectMessageModel;
+import info.papdt.blacklight.model.MessageListModel;
+import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.model.UnreadModel;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.ui.entry.EntryActivity;
 import info.papdt.blacklight.ui.main.MainActivity;
+import info.papdt.blacklight.api.comments.CommentTimeLineApi;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
@@ -54,6 +64,8 @@ public class ReminderService extends IntentService {
 	private static final int ID_CMT = ID + 1;
 	private static final int ID_MENTION = ID + 2;
 	private static final int ID_DM = ID + 3;
+
+	private static final int LIMIT_TEXT = 30;
 
 	private void doFetchRemind() {
 		LoginApiCache cache = new LoginApiCache(this);
@@ -87,13 +99,15 @@ public class ReminderService extends IntentService {
 			} else {
 				settings.putString(Settings.NOTIFICATION_ONGOING, now);
 			}
-			
+
+			Boolean expand = settings.getBoolean(Settings.SHOW_BIGTEXT, false);
 			int defaults = parseDefaults(c);
 			Intent i = new Intent(c, EntryActivity.class);
 			i.setPackage(c.getPackageName());
 			i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			PendingIntent pi;
 			String clickToView = c.getString(R.string.click_to_view);
+			String expandToView = c.getString(R.string.expand_to_view);
 			NotificationManager nm = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
 			if (unread.cmt > 0 && settings.getBoolean(Settings.NOTIFY_CMT, true)) {
@@ -104,23 +118,48 @@ public class ReminderService extends IntentService {
 				i.putExtra(Intent.EXTRA_INTENT, MainActivity.COMMENT);
 				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-				Notification n = buildNotification(c,
-						format(c, R.string.new_comment, unread.cmt),
-						clickToView,
-						R.drawable.ic_action_chat,
-						defaults,
-						pi);
+				Notification n;
+				if (expand) {
+					CommentListModel newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, 5), 1);
+					String bigText = "";
+					if (newComments != null) {
+						bigText = buildBigText(newComments);
+					}
+
+					n = buildBigNotification(c,
+							format(c, R.string.new_comment, unread.cmt),
+							expandToView,
+							bigText,
+							R.drawable.ic_action_chat,
+							defaults,
+							pi);
+				} else {
+					n = buildNotification(c,
+							format(c, R.string.new_comment, unread.cmt),
+							clickToView,
+							R.drawable.ic_action_chat,
+							defaults,
+							pi);
+				}
 				nm.notify(ID_CMT, n);
 			}
 
 			if ((unread.mention_status > 0 || unread.mention_cmt > 0) && settings.getBoolean(Settings.NOTIFY_AT, true)) {
 				String detail = "";
+				String bigText = "";
 				int count = 0;
 				
 				if (unread.mention_status > 0) {
 					detail += format(c, R.string.new_at_detail_weibo, unread.mention_status);
 					count += unread.mention_status;
 					i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION);
+
+					if(expand){
+						MessageListModel newMentions = MentionsTimeLineApi.fetchMentionsTimeLine(Math.min(unread.mention_status, 5), 1);
+						if (newMentions != null) {
+							bigText += buildBigText(newMentions);
+						}
+					}
 				}
 
 				if (unread.mention_cmt > 0) {
@@ -134,6 +173,14 @@ public class ReminderService extends IntentService {
 					if (unread.mention_status == 0){
 						i.putExtra(Intent.EXTRA_INTENT,MainActivity.MENTION_CMT);
 					}
+
+					if(expand){
+						MessageListModel newMentionsCmt = CommentMentionsTimeLineApi.fetchCommentMentionsTimeLine(Math.min(unread.mention_cmt, 5), 1);
+						if (newMentionsCmt != null) {
+							bigText += System.getProperty("line.separator");
+							bigText += buildBigText(newMentionsCmt);
+						}
+					}
 				}
 
 				if (DEBUG) {
@@ -142,12 +189,23 @@ public class ReminderService extends IntentService {
 
 				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
-				Notification n = buildNotification(c,
-						format(c, R.string.new_at, count),
-						detail,
-						R.drawable.ic_action_reply_all,
-						defaults,
-						pi);
+				Notification n;
+				if (expand) {
+					n = buildBigNotification(c,
+							format(c, R.string.new_at, count),
+							expandToView,
+							bigText,
+							R.drawable.ic_action_reply_all,
+							defaults,
+							pi);
+				} else {
+					n = buildNotification(c,
+							format(c, R.string.new_at, count),
+							detail,
+							R.drawable.ic_action_reply_all,
+							defaults,
+							pi);
+				}
 				nm.notify(ID_MENTION, n);
 			}
 
@@ -159,12 +217,29 @@ public class ReminderService extends IntentService {
 				i.putExtra(Intent.EXTRA_INTENT,MainActivity.DM);
 				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
-				Notification n = buildNotification(c,
-						format(c, R.string.new_dm, unread.dm),
-						clickToView,
-						R.drawable.ic_action_email,
-						defaults,
-						pi);
+				Notification n;
+				if (expand) {
+					DirectMessageListModel newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
+					String bigText = "";
+					if (newDm != null) {
+						bigText = buildBigText(newDm);
+					}
+
+					n = buildBigNotification(c,
+							format(c, R.string.new_dm, unread.dm),
+							expandToView,
+							bigText,
+							R.drawable.ic_action_email,
+							defaults,
+							pi);
+				} else {
+					n = buildNotification(c,
+							format(c, R.string.new_dm, unread.dm),
+							clickToView,
+							R.drawable.ic_action_email,
+							defaults,
+							pi);
+				}
 				nm.notify(ID_DM, n);
 			}
 		}
@@ -243,7 +318,62 @@ public class ReminderService extends IntentService {
 		//FIXME 话说Lint报了个错说只有API 16+才能用啊
 	}
 
+	@SuppressLint("NewApi")
+	private static Notification buildBigNotification(Context context, String title, String text, String bigText, int icon, int defaults, PendingIntent intent) {
+		Notification.Builder builder =  new Notification.Builder(context)
+				.setContentTitle(title)
+				.setContentText(text)
+				.setSmallIcon(icon)
+				.setDefaults(defaults)
+				.setAutoCancel(true)
+				.setContentIntent(intent);
+		builder.setStyle(new Notification.BigTextStyle().bigText(bigText));
+		return builder.build();
+	}
+
 	private static String format(Context context, int resId, int data) {
 		return String.format(context.getString(resId), data);
+	}
+
+	public static String ellipsis(final String text, int length)
+	{
+		if (text.length() > length)
+		{
+			return text.substring(0, length - 3) + "...";
+		}
+
+		return text;
+	}
+
+	private String formatLine(String name, String text) {
+		return String.format("@%s: %s", name, ellipsis(text, LIMIT_TEXT));
+	}
+
+	private String buildBigText(MessageListModel model) {
+		String detail;
+		detail = formatLine(model.get(0).user.name, model.get(0).text);
+		List<? extends MessageModel> list = model.getList();
+		list.remove(0);
+
+		for (MessageModel msg : list) {
+			detail += System.getProperty("line.separator");
+			detail +=  formatLine(msg.user.name,msg.text);
+		}
+
+		return detail;
+	}
+
+	private String buildBigText(DirectMessageListModel model) {
+		String detail;
+		detail = formatLine(model.get(0).sender.name, model.get(0).text);
+		List<? extends DirectMessageModel> list = model.getList();
+		list.remove(0);
+
+		for (DirectMessageModel msg : list) {
+			detail += System.getProperty("line.separator");
+			detail +=  formatLine(msg.sender.name,msg.text);
+		}
+
+		return detail;
 	}
 }

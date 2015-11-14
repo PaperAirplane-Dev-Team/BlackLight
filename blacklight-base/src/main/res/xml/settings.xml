@@ -40,6 +40,12 @@
 		<Preference
 			android:key="notification_type"
 			android:title="@string/notification_type" />
+
+		<CheckBoxPreference
+			android:key="show_bigtext"
+			android:title="@string/show_bigtext"
+			android:summary="@string/show_bigtext_sum"
+			android:checked="false"/>
 		
 	</PreferenceCategory>
 

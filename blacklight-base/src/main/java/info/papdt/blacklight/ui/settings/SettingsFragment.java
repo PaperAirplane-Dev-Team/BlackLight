@@ -101,6 +101,7 @@ public class SettingsFragment extends PreferenceFragment implements
 			mPrefNotificationVibrate;
 	private Preference mPrefInterval;
 	private Preference mPrefNotifyType;
+	private CheckBoxPreference mPrefShowBigtext;
 
 	// Network
 	private CheckBoxPreference mPrefAutoNoPic;
@@ -156,6 +157,7 @@ public class SettingsFragment extends PreferenceFragment implements
 				Settings.NOTIFICATION_SOUND, true));
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
+		mPrefShowBigtext.setChecked(mSettings.getBoolean(Settings.SHOW_BIGTEXT, false));
 		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
 				Settings.AUTO_SUBMIT_LOG,false));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
@@ -167,6 +169,11 @@ public class SettingsFragment extends PreferenceFragment implements
 				this.getResources().getStringArray(R.array.langs) [Utility.getCurrentLanguage(getActivity())]);
 		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
 		mPrefKeyword.setText(mSettings.getString(Settings.KEYWORD, ""));
+
+		// Expanded notification is only available on Jelly Bean+
+		if(android.os.Build.VERSION.SDK_INT < 16){
+			mPrefShowBigtext.setEnabled(false);
+		}
 		
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
@@ -179,6 +186,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
 		mPrefNotifyType.setOnPreferenceClickListener(this);
+		mPrefShowBigtext.setOnPreferenceChangeListener(this);
 		mPrefFeedback.setOnPreferenceClickListener(this);
 		mPrefAutoSubmitLog.setOnPreferenceChangeListener(this);
 		mPrefSubmitLog.setOnPreferenceClickListener(this);
@@ -296,6 +304,12 @@ public class SettingsFragment extends PreferenceFragment implements
 			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE,
 					Boolean.parseBoolean(newValue.toString()));
 			return true;
+		} else if (preference == mPrefShowBigtext) {
+			mSettings.putBoolean(Settings.SHOW_BIGTEXT,
+					Boolean.parseBoolean(newValue.toString()));
+			// Reset notifications
+			mSettings.putString(Settings.NOTIFICATION_ONGOING, "");
+			return true;
 		} else if (preference == mPrefRightHanded) {
 			mSettings.putBoolean(Settings.RIGHT_HANDED,
 					Boolean.parseBoolean(newValue.toString()));
@@ -345,21 +359,21 @@ public class SettingsFragment extends PreferenceFragment implements
 	private void showIntervalSetDialog(){
 		new AlertDialog.Builder(getActivity())
 			.setTitle(getString(R.string.set_interval))
-			.setSingleChoiceItems(
-					getResources().getStringArray(R.array.interval_name),
-					mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1),
-					new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							mSettings.putInt(Settings.NOTIFICATION_INTERVAL, which);
-							mPrefInterval.setSummary(
-									getResources()
-									.getStringArray(R.array.interval_name) [
-									mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)
-									]
-											);
-							Utility.restartServices(getActivity());
+				.setSingleChoiceItems(
+						getResources().getStringArray(R.array.interval_name),
+						mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1),
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								mSettings.putInt(Settings.NOTIFICATION_INTERVAL, which);
+								mPrefInterval.setSummary(
+										getResources()
+												.getStringArray(R.array.interval_name)[
+												mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)
+												]
+								);
+								Utility.restartServices(getActivity());
 							dialog.dismiss();
 						}
 					})

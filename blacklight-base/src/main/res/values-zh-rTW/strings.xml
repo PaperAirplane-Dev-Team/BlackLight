@@ -179,6 +179,8 @@
 	<string name="notification_interval">提醒間隔</string>
 	<string name="set_interval">設置提醒間隔</string>
 	<string name="notification_type">提醒類型</string>
+	<string name="show_bigtext">顯示詳細的通知內容</string>
+	<string name="show_bigtext_sum">在通知中顯示詳細信息（僅對Android4.1+有效），可能導致額外的電量和流量消耗</string>
 	<string name="good">給個好評</string>
 	<string name="good_sum">親，來Play商店給個好評吧</string>
 	<string name="network">網路</string>
@@ -213,6 +215,7 @@
 	<string name="new_comment">%d 條新評論</string>
 	<string name="new_at">%d 條新提及</string>
 	<string name="click_to_view">點擊查看</string>
+	<string name="expand_to_view">展開查看</string>
 	<string name="new_at_detail_weibo">%d 條微博</string>
 	<string name="new_at_detail_and">&#160;和&#160;</string>
 	<string name="new_at_detail_comment">%d 條評論</string>

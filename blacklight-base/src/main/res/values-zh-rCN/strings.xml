@@ -187,6 +187,8 @@
 	<string name="notification_interval">提醒间隔</string>
 	<string name="set_interval">设置提醒间隔</string>
 	<string name="notification_type">提醒类型</string>
+	<string name="show_bigtext">显示详细的通知内容</string>
+	<string name="show_bigtext_sum">在通知中显示详细信息（仅对Android4.1+有效），可能导致额外的电量和流量消耗</string>
 	<string name="good">给个好评</string>
 	<string name="good_sum">亲，去Play商店给个好评呗</string>
 	<string name="network">网络</string>
@@ -234,6 +236,7 @@
 	<string name="new_at_detail_comment">%d 条评论</string>
 	<string name="new_dm">%d 条新私信</string>
 	<string name="click_to_view">点击查看</string>
+	<string name="expand_to_view">展开查看</string>
 	<string name="empty_weibo">空微博</string>
 	<string name="not_loaded">请等待图片加载完成再试</string>
 	<string name="saved_to">图片已保存到 %s</string>
