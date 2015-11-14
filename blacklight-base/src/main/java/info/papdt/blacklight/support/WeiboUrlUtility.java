@@ -68,7 +68,9 @@ public class WeiboUrlUtility
 		}
 
 		if (null == intent) {
-			intent = new Intent(Intent.ACTION_VIEW, mUri);
+			// forcing an app chooser
+			Intent viewIntent = new Intent(Intent.ACTION_VIEW, mUri);
+			intent = Intent.createChooser(viewIntent, mUri.toString());
 		}
 		return intent;
 	}
@@ -135,10 +137,6 @@ public class WeiboUrlUtility
 		protected void onPostExecute(Intent intent) {
 			if (null != intent) {
 				mContext.startActivity(intent);
-				String data = intent.getDataString();
-				if (!TextUtils.isEmpty(data)) {
-					Toast.makeText(mContext, data, Toast.LENGTH_SHORT).show();
-				}
 			}
 		}
 	}

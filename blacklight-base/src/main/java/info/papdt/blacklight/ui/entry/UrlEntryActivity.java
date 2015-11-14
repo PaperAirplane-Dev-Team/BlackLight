@@ -60,10 +60,6 @@ public class UrlEntryActivity extends Activity
 		protected void onPostExecute(Intent intent) {
 			if (null != intent) {
 				startActivity(intent);
-				String data = intent.getDataString();
-				if (!TextUtils.isEmpty(data)) {
-					Toast.makeText(UrlEntryActivity.this, data, Toast.LENGTH_SHORT).show();
-				}
 			}
 			finish();
 		}
