@@ -132,6 +132,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefCache = findPreference(DEBUG_CLEAR_CACHE);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
+		mPrefShowBigtext = (CheckBoxPreference) findPreference(Settings.SHOW_BIGTEXT);
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
 		mPrefNotifyType = findPreference(NOTIFY_TYPE);
@@ -374,9 +375,9 @@ public class SettingsFragment extends PreferenceFragment implements
 												]
 								);
 								Utility.restartServices(getActivity());
-							dialog.dismiss();
-						}
-					})
+								dialog.dismiss();
+							}
+						})
 			.show();
 	}
 
