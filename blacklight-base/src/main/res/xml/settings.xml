@@ -36,28 +36,11 @@
 		<Preference
 		    android:key="notification_interval"
 		    android:title="@string/notification_interval" />
+
+		<Preference
+			android:key="notification_type"
+			android:title="@string/notification_type" />
 		
-	</PreferenceCategory>
-
-	<!-- Notification Type -->
-	<PreferenceCategory
-		android:title="@string/notification_type">
-
-		<CheckBoxPreference
-			android:key="notify_cmt"
-			android:title="@string/drawer_comments"
-			android:checked="true"/>
-
-		<CheckBoxPreference
-			android:key="notify_at"
-			android:title="@string/drawer_at"
-			android:checked="true"/>
-
-		<CheckBoxPreference
-			android:key="notify_dm"
-			android:title="@string/drawer_dm"
-			android:checked="true"/>
-
 	</PreferenceCategory>
 
 	<!-- Actions -->

@@ -186,6 +186,7 @@
 	<string name="notification_vibrate">震动</string>
 	<string name="notification_interval">提醒间隔</string>
 	<string name="set_interval">设置提醒间隔</string>
+	<string name="notification_type">提醒类型</string>
 	<string name="good">给个好评</string>
 	<string name="good_sum">亲，去Play商店给个好评呗</string>
 	<string name="network">网络</string>
@@ -251,6 +252,5 @@
 		<item>再点要坏了！</item>
 		<item>好吧好吧你赢了。</item>
 	</string-array>
-	<string name="notification_type">通知类型</string>
 
 </resources>

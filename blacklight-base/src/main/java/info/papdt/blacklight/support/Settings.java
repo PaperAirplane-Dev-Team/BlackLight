@@ -43,6 +43,7 @@ public class Settings
 	public static final String NOTIFY_CMT = "notify_cmt",
 			NOTIFY_AT = "notify_at",
 			NOTIFY_DM = "notify_dm";
+
 	// Network
 	public static final String AUTO_NOPIC = "auto_nopic";
 
