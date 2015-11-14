@@ -268,9 +268,36 @@ public abstract class AbsImageActivity<C> extends AbsActivity /*implements OnPho
 							}
 						}
 					});
+					iv.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener() {
+						@Override
+						public void onReady() {
+
+						}
+
+						@Override
+						public void onImageLoaded() {
+
+						}
+
+						@Override
+						public void onPreviewLoadError(Exception e) {
+
+						}
+
+						@Override
+						public void onImageLoadError(Exception e) {
+							Log.d(TAG, "Image load failed");
+							iv.setImage(ImageSource.resource(android.R.drawable.ic_menu_report_image));
+						}
+
+						@Override
+						public void onTileLoadError(Exception e) {
+
+						}
+					});
 
 					if (DEBUG) {
-						Log.d(TAG, img.toString());
+						Log.d(TAG, img);
 					}
 					iv.setMaxScale(3.0f);
 
