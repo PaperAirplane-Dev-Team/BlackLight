@@ -32,6 +32,7 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.comments.CommentMentionsTimeLineApi;
@@ -95,7 +96,7 @@ public class ReminderService extends IntentService {
 			String now = unread.toString();
 			if (now.equals(previous)) {
 				Log.d(TAG, "No actual unread notifications.");
-				return;
+				//return;
 			} else {
 				settings.putString(Settings.NOTIFICATION_ONGOING, now);
 			}
@@ -119,12 +120,12 @@ public class ReminderService extends IntentService {
 				pi = PendingIntent.getActivity(c, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 				Notification n;
+				CommentListModel newComments = null;
 				if (expand) {
-					CommentListModel newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, 5), 1);
-					String bigText = "";
-					if (newComments != null) {
-						bigText = buildBigText(newComments);
-					}
+					newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, 5), 1);
+				}
+				if (expand && newComments != null) {
+					String bigText = buildBigText(newComments);
 
 					n = buildBigNotification(c,
 							format(c, R.string.new_comment, unread.cmt),
@@ -190,7 +191,7 @@ public class ReminderService extends IntentService {
 				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
 				Notification n;
-				if (expand) {
+				if (expand && !bigText.equals("")) {
 					n = buildBigNotification(c,
 							format(c, R.string.new_at, count),
 							expandToView,
@@ -218,12 +219,12 @@ public class ReminderService extends IntentService {
 				pi = PendingIntent.getActivity(c,0,i,PendingIntent.FLAG_UPDATE_CURRENT);
 
 				Notification n;
+				DirectMessageListModel newDm = null;
 				if (expand) {
-					DirectMessageListModel newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
-					String bigText = "";
-					if (newDm != null) {
-						bigText = buildBigText(newDm);
-					}
+					newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
+				}
+				if (expand && newDm != null) {
+					String bigText = buildBigText(newDm);
 
 					n = buildBigNotification(c,
 							format(c, R.string.new_dm, unread.dm),
