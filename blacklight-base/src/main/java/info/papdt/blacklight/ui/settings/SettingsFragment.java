@@ -32,7 +32,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.Set;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.database.DataBaseHelper;
@@ -61,6 +60,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private static final String FEEDBACK = "feedback";
 	private static final String GOOD = "good";
 	private static final String DONATION = "donation";
+	private static final String NOTIFY_TYPE = "notification_type";
 
 	private Settings mSettings;
 	
@@ -100,9 +100,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private CheckBoxPreference mPrefNotificationSound,
 			mPrefNotificationVibrate;
 	private Preference mPrefInterval;
-	private CheckBoxPreference mPrefNotifyCmt,
-			mPrefNotifyAt,
-			mPrefNotifyDm;
+	private Preference mPrefNotifyType;
 
 	// Network
 	private CheckBoxPreference mPrefAutoNoPic;
@@ -133,11 +131,9 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefCache = findPreference(DEBUG_CLEAR_CACHE);
 		mPrefNotificationSound = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_SOUND);
 		mPrefNotificationVibrate = (CheckBoxPreference) findPreference(Settings.NOTIFICATION_VIBRATE);
-		mPrefNotifyCmt = (CheckBoxPreference) findPreference(Settings.NOTIFY_CMT);
-		mPrefNotifyAt = (CheckBoxPreference) findPreference(Settings.NOTIFY_AT);
-		mPrefNotifyDm = (CheckBoxPreference) findPreference(Settings.NOTIFY_DM);
 		mPrefDevelopers = findPreference(DEVELOPERS);
 		mPrefInterval = findPreference(Settings.NOTIFICATION_INTERVAL);
+		mPrefNotifyType = findPreference(NOTIFY_TYPE);
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
 		mPrefDonation = findPreference(DONATION);
 		mPrefKeyword = (EditTextPreference) findPreference(Settings.KEYWORD);
@@ -160,9 +156,6 @@ public class SettingsFragment extends PreferenceFragment implements
 				Settings.NOTIFICATION_SOUND, true));
 		mPrefNotificationVibrate.setChecked(mSettings.getBoolean(
 				Settings.NOTIFICATION_VIBRATE, true));
-		mPrefNotifyCmt.setChecked(mSettings.getBoolean(Settings.NOTIFY_CMT, true));
-		mPrefNotifyAt.setChecked(mSettings.getBoolean(Settings.NOTIFY_AT, true));
-		mPrefNotifyDm.setChecked(mSettings.getBoolean(Settings.NOTIFY_DM, true));
 		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
 				Settings.AUTO_SUBMIT_LOG,false));
 		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
@@ -185,9 +178,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefLogout.setOnPreferenceClickListener(this);
 		mPrefNotificationSound.setOnPreferenceChangeListener(this);
 		mPrefNotificationVibrate.setOnPreferenceChangeListener(this);
-		mPrefNotifyCmt.setOnPreferenceChangeListener(this);
-		mPrefNotifyAt.setOnPreferenceChangeListener(this);
-		mPrefNotifyDm.setOnPreferenceChangeListener(this);
+		mPrefNotifyType.setOnPreferenceClickListener(this);
 		mPrefFeedback.setOnPreferenceClickListener(this);
 		mPrefAutoSubmitLog.setOnPreferenceChangeListener(this);
 		mPrefSubmitLog.setOnPreferenceClickListener(this);
@@ -265,6 +256,9 @@ public class SettingsFragment extends PreferenceFragment implements
 		} else if (preference == mPrefInterval) {
 			showIntervalSetDialog();
 			return true;
+		} else if(preference == mPrefNotifyType) {
+			showTypeDialog();
+			return true;
 		} else if (preference == mPrefLang) {
 			showLangDialog();
 			return true;
@@ -301,22 +295,6 @@ public class SettingsFragment extends PreferenceFragment implements
 		} else if (preference == mPrefNotificationVibrate) {
 			mSettings.putBoolean(Settings.NOTIFICATION_VIBRATE,
 					Boolean.parseBoolean(newValue.toString()));
-			return true;
-		}  else if (preference == mPrefNotifyCmt) {
-			mSettings.putBoolean(Settings.NOTIFY_CMT,
-				Boolean.parseBoolean(newValue.toString()));
-			// Reset notifications
-			mSettings.putString(Settings.NOTIFICATION_ONGOING, "");
-			return true;
-		}  else if (preference == mPrefNotifyAt) {
-			mSettings.putBoolean(Settings.NOTIFY_AT,
-					Boolean.parseBoolean(newValue.toString()));
-			mSettings.putString(Settings.NOTIFICATION_ONGOING, "");
-			return true;
-		}  else if (preference == mPrefNotifyDm) {
-			mSettings.putBoolean(Settings.NOTIFY_DM,
-					Boolean.parseBoolean(newValue.toString()));
-			mSettings.putString(Settings.NOTIFICATION_ONGOING, "");
 			return true;
 		} else if (preference == mPrefRightHanded) {
 			mSettings.putBoolean(Settings.RIGHT_HANDED,
@@ -386,7 +364,33 @@ public class SettingsFragment extends PreferenceFragment implements
 						}
 					})
 			.show();
-		
+	}
+
+	private void showTypeDialog(){
+		String[] items = {
+				getString(R.string.drawer_comments),
+				getString(R.string.drawer_at),
+				getString(R.string.drawer_dm)
+		};
+		boolean[] checked = {
+				mSettings.getBoolean(Settings.NOTIFY_CMT, true),
+				mSettings.getBoolean(Settings.NOTIFY_AT, true),
+				mSettings.getBoolean(Settings.NOTIFY_DM, true)
+		};
+		final String[] keys = {
+				Settings.NOTIFY_CMT,
+				Settings.NOTIFY_AT,
+				Settings.NOTIFY_DM
+		};
+		new AlertDialog.Builder(getActivity())
+			.setTitle(R.string.notification_type)
+			.setMultiChoiceItems(items, checked, new AlertDialog.OnMultiChoiceClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+					mSettings.putBoolean(keys[which], isChecked);
+				}
+			})
+			.show();
 	}
 	
 	private Runnable clearClickCount = new Runnable() {
