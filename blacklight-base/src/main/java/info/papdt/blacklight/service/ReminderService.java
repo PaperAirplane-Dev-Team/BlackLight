@@ -49,6 +49,7 @@ import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.model.UnreadModel;
 import info.papdt.blacklight.support.Settings;
+import info.papdt.blacklight.ui.comments.ReplyToActivity;
 import info.papdt.blacklight.ui.entry.EntryActivity;
 import info.papdt.blacklight.ui.main.MainActivity;
 import info.papdt.blacklight.api.comments.CommentTimeLineApi;
@@ -131,18 +132,28 @@ public class ReminderService extends IntentService {
 			if (expand) {
 				newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(unread.cmt, FETCH_MAX), 1);
 			}
-			if (expand && newComments != null) {
+			if (expand && newComments != null && newComments.getSize() > 0) {
+				Notification.Action action = null;
+				if (newComments.getSize() == 1) {
+					Intent it = new Intent(mContext, ReplyToActivity.class);
+					it.putExtra("comment", newComments.get(0));
+					PendingIntent pin = PendingIntent.getActivity(mContext, 0, it, PendingIntent.FLAG_UPDATE_CURRENT);
+					//noinspection AndroidLintNewApi
+					action = new Notification.Action(R.drawable.ic_action_chat, getString(R.string.reply), pin);
+				}
 				n = buildInboxNotification(
 						format(mContext, R.string.new_comment, unread.cmt),
 						firstOrExpand(newComments),
 						buildInbox(newComments),
 						unread.cmt,
 						R.drawable.ic_action_chat,
-						pi);
+						pi,
+						action);
 			} else {
 				n = buildNotification(
 						format(mContext, R.string.new_comment, unread.cmt),
 						clickToView,
+						unread.cmt,
 						R.drawable.ic_action_chat,
 						pi);
 			}
@@ -201,11 +212,13 @@ public class ReminderService extends IntentService {
 						buildInbox(list),
 						count,
 						R.drawable.ic_action_reply_all,
-						pi);
+						pi,
+						null);
 			} else {
 				n = buildNotification(
 						format(mContext, R.string.new_at, count),
 						detail,
+						count,
 						R.drawable.ic_action_reply_all,
 						pi);
 			}
@@ -225,18 +238,20 @@ public class ReminderService extends IntentService {
 			if (expand) {
 				newDm = DirectMessagesApi.getDirectMessages(Math.min(unread.dm, 5), 1);
 			}
-			if (expand && newDm != null) {
+			if (expand && newDm != null && newDm.getSize() > 0) {
 				n = buildInboxNotification(
 						format(mContext, R.string.new_dm, unread.dm),
 						firstOrExpand(newDm),
 						buildInbox(newDm),
 						unread.dm,
 						R.drawable.ic_action_email,
-						pi);
+						pi,
+						null);
 			} else {
 				n = buildNotification(
 						format(mContext, R.string.new_dm, unread.dm),
 						clickToView,
+						unread.dm,
 						R.drawable.ic_action_email,
 						pi);
 			}
@@ -305,7 +320,7 @@ public class ReminderService extends IntentService {
 	}
 
 	@SuppressLint("NewApi")
-	private Notification buildNotification(String title, String text, int icon, PendingIntent intent) {
+	private Notification buildNotification(String title, String text, int count, int icon, PendingIntent intent) {
 		return new Notification.Builder(mContext)
 			.setContentTitle(title)
 			.setContentText(text)
@@ -313,12 +328,13 @@ public class ReminderService extends IntentService {
 			.setDefaults(mDefaults)
 			.setAutoCancel(true)
 			.setContentIntent(intent)
+			.setNumber(count)
 			.build();
 		//FIXME 话说Lint报了个错说只有API 16+才能用啊
 	}
 
 	@SuppressLint("NewApi")
-	private Notification buildInboxNotification(String title, CharSequence text, Notification.InboxStyle style, int count, int icon, PendingIntent intent) {
+	private Notification buildInboxNotification(String title, CharSequence text, Notification.InboxStyle style, int count, int icon, PendingIntent intent, Notification.Action action) {
 		Notification.Builder builder =  new Notification.Builder(mContext)
 				.setContentTitle(title)
 				.setContentText(text)
@@ -332,6 +348,9 @@ public class ReminderService extends IntentService {
 			style.setSummaryText(format(mContext, R.string.more_not_displayed, count));
 		}
 		builder.setStyle(style);
+		if (null != action) {
+			builder.addAction(action);
+		}
 		return builder.build();
 	}
 
