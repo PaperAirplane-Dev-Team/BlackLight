@@ -141,17 +141,24 @@ public class FileCacheManager
 		byte[] buf = new byte[512];
 		int len = 0, read = 0;
 		
-		while ((len = ipt.read(buf)) != -1) {
-			opt.write(buf, 0, len);
-			read += len;
-			callback.onProgressChanged(read, total);
-			
-			if (!callback.shouldContinue()) {
-				opt.close();
-				ipt.close();
-				f.delete();
-				return;
+		try {
+			while ((len = ipt.read(buf)) != -1) {
+				opt.write(buf, 0, len);
+				read += len;
+				callback.onProgressChanged(read, total);
+
+				if (!callback.shouldContinue()) {
+					opt.close();
+					ipt.close();
+					f.delete();
+					return;
+				}
 			}
+		} catch (Exception e) {
+			opt.close();
+			ipt.close();
+			f.delete();
+			throw e;
 		}
 		
 		opt.close();
