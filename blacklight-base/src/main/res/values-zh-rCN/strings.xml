@@ -194,6 +194,8 @@
 	<string name="auto_nopic_sum">流量环境下不显示图片，WiFi环境下显示图片</string>
 	<string name="keyword">关键字过滤</string>
 	<string name="keyword_sum">多个关键词请用\", \"(一个英文逗号和一个空格)隔开。正则表达式须用\"`\"包裹。</string>
+	<string name="show_bigtext">显示详细的通知内容</string>
+	<string name="show_bigtext_sum">在通知中显示详细信息（仅对Android4.1+有效），可能导致额外的电量和流量消耗</string>
 	<string-array name="interval_name">
 		<item>1 分钟</item>
 		<item>3 分钟</item>
@@ -234,6 +236,7 @@
 	<string name="new_at_detail_comment">%d 条评论</string>
 	<string name="new_dm">%d 条新私信</string>
 	<string name="click_to_view">点击查看</string>
+	<string name="expand_to_view">展开查看</string>
 	<string name="empty_weibo">空微博</string>
 	<string name="not_loaded">请等待图片加载完成再试</string>
 	<string name="saved_to">图片已保存到 %s</string>
@@ -244,6 +247,7 @@
 	<string name="clear_cache_hint">系统设置 -> 应用程序 -> BlackLight</string>
 	<string name="feedback_sum">告诉我们关于你对这个应用的建议</string>
 	<string name="post_photo">分享图片</string>
+	<string name="more_not_displayed">%d 条未显示</string>
 
 	<string-array name="click_refusal">
 		<item>嘿，你好啊</item>

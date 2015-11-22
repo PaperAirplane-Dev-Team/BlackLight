@@ -39,7 +39,8 @@ public class Settings
 	public static final String NOTIFICATION_SOUND = "notification_sound",
 			NOTIFICATION_VIBRATE = "notification_vibrate",
 			NOTIFICATION_INTERVAL = "notification_interval",
-			NOTIFICATION_ONGOING = "notification_ongoing";
+			NOTIFICATION_ONGOING = "notification_ongoing",
+			SHOW_BIGTEXT = "show_bigtext";
 	public static final String NOTIFY_CMT = "notify_cmt",
 			NOTIFY_AT = "notify_at",
 			NOTIFY_DM = "notify_dm";

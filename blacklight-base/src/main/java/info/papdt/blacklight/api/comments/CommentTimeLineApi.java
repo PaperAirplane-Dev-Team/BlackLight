@@ -52,6 +52,22 @@ public class CommentTimeLineApi extends BaseApi
 			return null;
 		}
 	}
+
+	public static CommentListModel fetchCommentTimeLineToMe(int count, int page) {
+		WeiboParameters params = new WeiboParameters();
+		params.put("count", count);
+		params.put("page", page);
+
+		try {
+			JSONObject json = request(Constants.COMMENTS_TO_ME, params, HTTP_GET);
+			return new Gson().fromJson(json.toString(), CommentListModel.class);
+		} catch (Exception e) {
+			if (DEBUG) {
+				Log.d(TAG, "Cannot fetch home timeline, " + e.getClass().getSimpleName());
+			}
+			return null;
+		}
+	}
 	
 	public static CommentListModel fetchCommentTimeLineSince(long id) {
 		WeiboParameters params = new WeiboParameters();
