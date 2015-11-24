@@ -19,9 +19,13 @@
 
 package info.papdt.blacklight.ui.entry;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Build;
 
 import info.papdt.blacklight.cache.file.FileCacheManager;
 import info.papdt.blacklight.cache.login.LoginApiCache;
@@ -39,9 +43,14 @@ public class EntryActivity extends Activity
 {
 
 	@Override
+	@TargetApi(23)
 	protected void onCreate(Bundle savedInstanceState) {
-		CrashHandler.init(this);
-		CrashHandler.register();
+		// Only register the handler when permission is granted.
+		if (Build.VERSION.SDK_INT < 23 ||
+			checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			CrashHandler.init(this);
+			CrashHandler.register();
+		}
 		
 		super.onCreate(savedInstanceState);
 

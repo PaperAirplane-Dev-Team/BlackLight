@@ -104,7 +104,8 @@
 
 		<Preference
 			android:key="feedback"
-			android:title="@string/feedback_send"/>
+			android:title="@string/feedback_send"
+			android:summary="@string/feedback_sum"/>
 
 	</PreferenceCategory>
 	
@@ -124,8 +125,7 @@
 
 		<Preference
 			android:key="debug_log"
-			android:title="@string/debug_log"
-			android:summary="@string/feedback_sum"/>
+			android:title="@string/debug_log"/>
 
 		<Preference
 			android:key="debug_submit_log"

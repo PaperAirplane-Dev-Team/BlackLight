@@ -19,11 +19,14 @@
 
 package info.papdt.blacklight.ui.settings;
 
+import android.Manifest;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -39,6 +42,7 @@ import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.support.CrashHandler;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.PermissionUtility;
 import info.papdt.blacklight.support.feedback.SubmitLogTask;
 import info.papdt.blacklight.ui.entry.EntryActivity;
 import info.papdt.blacklight.ui.feedback.FeedbackActivity;
@@ -161,7 +165,16 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefShowBigtext.setChecked(mSettings.getBoolean(Settings.SHOW_BIGTEXT, false));
 		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
 				Settings.AUTO_SUBMIT_LOG,false));
-		mPrefLog.setSummary(CrashHandler.CRASH_LOG);
+
+		if (Build.VERSION.SDK_INT < 23 ||
+				getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			mPrefLog.setSummary(CrashHandler.CRASH_LOG);
+		} else {
+			// Click to request for permission
+			mPrefLog.setOnPreferenceClickListener(this);
+			mPrefAutoSubmitLog.setEnabled(false);
+			mPrefSubmitLog.setEnabled(false);
+		}
 		mPrefInterval.setSummary(
 				this.getResources()
 				.getStringArray(R.array.interval_name) [mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
@@ -285,6 +298,14 @@ public class SettingsFragment extends PreferenceFragment implements
 			return true;
 		} else if (preference == mPrefVersion) {
 			boom();
+		} else if (preference == mPrefLog) {
+			PermissionUtility.storage(getActivity(), new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(getActivity(), R.string.needs_restart, Toast.LENGTH_SHORT).show();
+				}
+			});
+			return true;
 		}
 
 		return false;

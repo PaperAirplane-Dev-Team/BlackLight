@@ -36,6 +36,7 @@
 		android:name="android.permission.VIBRATE"/>
 
 	<application
+		android:name="info.papdt.blacklight.BLApplication"
 		android:hardwareAccelerated="true"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_snapshot"

@@ -36,6 +36,7 @@
 		android:name="android.permission.VIBRATE"/>
 
 	<application
+		android:name="info.papdt.blacklight.BLApplication"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/BL.Theme.Light">

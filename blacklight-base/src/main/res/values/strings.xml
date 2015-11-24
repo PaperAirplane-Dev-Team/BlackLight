@@ -311,4 +311,8 @@
 		<item>回复</item>
 		<item>回覆</item>
 	</string-array>
+
+	<!-- Permissions -->
+	<string name="perm_sdcard_title">SDCard permission</string>
+	<string name="perm_sdcard">SDCard permission is needed to save your images to sdcard and save crash logs.</string>
 </resources>

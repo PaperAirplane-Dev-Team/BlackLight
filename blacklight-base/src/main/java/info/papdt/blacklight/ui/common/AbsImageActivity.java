@@ -52,6 +52,7 @@ import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.file.FileCacheManager;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.PermissionUtility;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -123,38 +124,43 @@ public abstract class AbsImageActivity<C> extends AbsActivity /*implements OnPho
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		final int id = item.getItemId();
 		if (id == android.R.id.home) {
 			finish();
 			return true;
 		} else if (id == R.id.save || id == R.id.share) {
-			int current = mPager.getCurrentItem();
+			final int current = mPager.getCurrentItem();
 			if (!mLoaded[current]) {
 				Toast.makeText(this, R.string.not_loaded, Toast.LENGTH_SHORT).show();
 			} else {
-				String path = saveLargePic(current);
-				if (id == R.id.save) {
-					if (path == null) {
-						Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show();
-					} else {
-						String msg = String.format(getResources().getString(R.string.saved_to), path);
-						Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-					}
-				}
-				if (id == R.id.share) {
-					if (path != null) {
-						File f = new File(path);
-						Uri u = Uri.fromFile(f);
+				PermissionUtility.storage(this, new Runnable() {
+					@Override
+					public void run() {
+						String path = saveLargePic(current);
+						if (id == R.id.save) {
+							if (path == null) {
+								Toast.makeText(AbsImageActivity.this, R.string.save_failed, Toast.LENGTH_SHORT).show();
+							} else {
+								String msg = String.format(getResources().getString(R.string.saved_to), path);
+								Toast.makeText(AbsImageActivity.this, msg, Toast.LENGTH_SHORT).show();
+							}
+						}
+						if (id == R.id.share) {
+							if (path != null) {
+								File f = new File(path);
+								Uri u = Uri.fromFile(f);
 
-						ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-						Intent i = new Intent();
-						i.setAction(Intent.ACTION_SEND);
-						i.putExtra(Intent.EXTRA_STREAM,u);
-						i.setType("image/*");
-						share.setShareIntent(i);
+								ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+								Intent i = new Intent();
+								i.setAction(Intent.ACTION_SEND);
+								i.putExtra(Intent.EXTRA_STREAM,u);
+								i.setType("image/*");
+								share.setShareIntent(i);
+							}
+						}
 					}
-				}
+				});
 			}
 			return true;
 		} else {

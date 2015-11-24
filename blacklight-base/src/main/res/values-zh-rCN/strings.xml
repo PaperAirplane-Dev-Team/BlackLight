@@ -257,4 +257,8 @@
 		<item>好吧好吧你赢了。</item>
 	</string-array>
 
+	<!-- Permissions -->
+	<string name="perm_sdcard_title">读写存储卡</string>
+	<string name="perm_sdcard">我们需要读写存储卡的权限来保存图片和崩溃日志。</string>
+
 </resources>

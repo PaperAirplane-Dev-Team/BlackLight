@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "us.shandian.blacklight"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 42
         versionName "2.1.3"
     }

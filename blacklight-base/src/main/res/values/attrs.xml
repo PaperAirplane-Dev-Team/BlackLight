@@ -24,7 +24,7 @@
 	</declare-styleable>
 
 	<declare-styleable name="ScrimInsetsView">
-		<attr name="insetForeground" format="color" />
+		<attr name="scrimInsetForeground" format="color" />
 	</declare-styleable>
 
 	<!-- Theme -->
