@@ -101,7 +101,7 @@ public class WeiboUrlUtility
 			if (null != intent)
 				return intent;
 		}
-		// TODO: parse more url, i.e. http://weibo.com/uid/MagicMessageID
+		// TODO: parse more url, i.e. http://photo.weibo.com/h5/repost/reppic_id/PIC_ID
 		return null;
 	}
 
