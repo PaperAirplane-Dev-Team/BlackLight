@@ -21,6 +21,8 @@ package info.papdt.blacklight.support;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -59,5 +61,10 @@ public class PermissionUtility {
 				.build();
 
 		Dexter.checkPermission(new CompositePermissionListener(grantedListener, dialogListener), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+	}
+
+	public static boolean hasStoragePermission(Context context) {
+		return (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) ||
+			(context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
 	}
 }
