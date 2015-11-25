@@ -19,14 +19,11 @@
 
 package info.papdt.blacklight.ui.settings;
 
-import android.Manifest;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Build;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -166,8 +163,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
 				Settings.AUTO_SUBMIT_LOG,false));
 
-		if (Build.VERSION.SDK_INT < 23 ||
-				getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+		if (PermissionUtility.hasStoragePermission(getActivity())) {
 			mPrefLog.setSummary(CrashHandler.CRASH_LOG);
 		} else {
 			// Click to request for permission
