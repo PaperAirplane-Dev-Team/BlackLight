@@ -127,7 +127,7 @@ public class WeiboUrlUtility
 	}
 
 	public static Intent getStatusIntent(Context context, String mid) {
-		MessageModel msg = QueryIdApi.showStatus(mid);
+		MessageModel msg = QueryIdApi.fetchStatus(mid);
 		if (null != msg && !TextUtils.isEmpty(msg.text)) {
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 			intent.setClass(context, SingleActivity.class);

@@ -72,7 +72,7 @@ public class QueryIdApi extends BaseApi
 		return null;
 	}
 
-	public static MessageModel showStatus(String mid) {
+	public static MessageModel fetchStatus(String mid) {
 		String id = mid;
 		if (!TextUtils.isDigitsOnly(mid)) {
 			id = queryId(mid);
