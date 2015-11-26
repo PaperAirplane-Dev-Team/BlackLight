@@ -45,6 +45,9 @@ public class Constants
 	public static final String DESTROY = SINA_BASE_URL + "statuses/destroy.json";
 	public static final String UPLOAD_PIC = SINA_BASE_URL + "statuses/upload_pic.json";
 	public static final String UPLOAD_URL_TEXT = SINA_BASE_URL + "statuses/upload_url_text.json";
+	public static final String QUERY_ID = SINA_BASE_URL + "statuses/queryid.json";
+	public static final String QUERY_MID = SINA_BASE_URL + "statuses/querymid.json";
+	public static final String SHOW = SINA_BASE_URL + "statuses/show.json";
 
 	// Comments
 	public static final String COMMENTS_TIMELINE = SINA_BASE_URL + "comments/timeline.json";

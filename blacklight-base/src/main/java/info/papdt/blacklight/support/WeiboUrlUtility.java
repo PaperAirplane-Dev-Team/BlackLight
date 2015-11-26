@@ -26,8 +26,11 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import info.papdt.blacklight.api.shorturl.ShortUrlApi;
+import info.papdt.blacklight.api.statuses.QueryIdApi;
 import info.papdt.blacklight.cache.user.UserApiCache;
+import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.model.UserModel;
+import info.papdt.blacklight.ui.statuses.SingleActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 import java.util.Arrays;
@@ -92,7 +95,13 @@ public class WeiboUrlUtility
 			if (null != intent)
 				return intent;
 		}
-		// TODO: parse more url, i.e. http://weibo.com/uid/MagicMessageID
+		// http://weibo.com/uid/Base62MessageID
+		if (2 == size && TextUtils.isDigitsOnly(paths.get(0))) {
+			intent = getStatusIntent(context, paths.get(1));
+			if (null != intent)
+				return intent;
+		}
+		// TODO: parse more url, i.e. http://photo.weibo.com/h5/repost/reppic_id/PIC_ID
 		return null;
 	}
 
@@ -112,6 +121,17 @@ public class WeiboUrlUtility
 			intent.setAction(Intent.ACTION_MAIN);
 			intent.setClass(context, UserTimeLineActivity.class);
 			intent.putExtra("user", user);
+			return intent;
+		}
+		return null;
+	}
+
+	public static Intent getStatusIntent(Context context, String mid) {
+		MessageModel msg = QueryIdApi.fetchStatus(mid);
+		if (null != msg && !TextUtils.isEmpty(msg.text)) {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setClass(context, SingleActivity.class);
+			intent.putExtra("msg", msg);
 			return intent;
 		}
 		return null;
