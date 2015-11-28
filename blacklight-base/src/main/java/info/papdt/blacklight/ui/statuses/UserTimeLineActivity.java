@@ -117,6 +117,7 @@ public class UserTimeLineActivity extends AbsActivity
 		Utility.bindOnClick(this, mFollowingContainer, "viewFriends");
 		Utility.bindOnClick(this, mFollowersContainer, "viewFollowers");
 		Utility.bindOnClick(this, info, dim, "showOrHideInfo");
+		Utility.bindOnLongClick(this, info, dim, "viewUserProfile");
 
 		getSupportActionBar().setTitle(mModel.name);
 
@@ -217,6 +218,16 @@ public class UserTimeLineActivity extends AbsActivity
 		i.putExtra("isFriends", false);
 		i.setClass(this, FriendsActivity.class);
 		startActivity(i);
+	}
+
+	@Binded
+	public boolean viewUserProfile() {
+		Intent i = new Intent();
+		i.setAction(Intent.ACTION_VIEW);
+		i.putExtra("user", mModel);
+		i.setClass(this, UserProfileActivity.class);
+		startActivity(i);
+		return true;
 	}
 
 	@Binded

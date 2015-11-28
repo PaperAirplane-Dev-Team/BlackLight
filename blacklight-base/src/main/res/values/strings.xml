@@ -130,6 +130,13 @@
 	<string name="unfollow">Unfollow</string>
 	<string name="change_group">Change group</string>
 
+	<!-- User Profile -->
+	<string name="uid">UID</string>
+	<string name="created_at">Created At</string>
+	<string name="location">Location</string>
+	<string name="verified_reason">Verified Reason</string>
+	<string name="gender">Gender</string>
+
 	<!-- Units -->
 	<string name="ten_thousand">null</string>
 	<string name="million">M</string>

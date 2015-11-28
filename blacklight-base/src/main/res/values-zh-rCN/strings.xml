@@ -124,6 +124,12 @@
 	<string name="unfollow">取消关注</string>
 	<string name="change_group">修改分组</string>
 
+	<!-- User Profile -->
+	<string name="created_at">注册时间</string>
+	<string name="location">所在地</string>
+	<string name="verified_reason">认证信息</string>
+	<string name="gender">性别</string>
+
 	<!-- Units -->
 	<string name="ten_thousand">万</string>
 	<string name="million">null</string>
