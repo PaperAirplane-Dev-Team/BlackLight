@@ -23,12 +23,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import info.papdt.blacklight.cache.login.LoginApiCache;
+import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.WeiboUrlUtility;
 
 public class UrlEntryActivity extends Activity
