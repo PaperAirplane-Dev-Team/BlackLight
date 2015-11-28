@@ -53,6 +53,13 @@ public class SpannableStringUtils
 	private static final String HTTP_SCHEME = "http://";
 	private static final String TOPIC_SCHEME = "us.shandian.blacklight.topic://";
 	private static final String MENTION_SCHEME = "us.shandian.blacklight.user://";
+
+	private static boolean mStyleText;
+
+	public static void init(Context context) {
+		Settings settings = Settings.getInstance(context);
+		mStyleText = settings.getBoolean(Settings.STYLE_TEXT, true);
+	}
 	
 	public static SpannableString span(Context context, String text) {
 		
@@ -89,44 +96,46 @@ public class SpannableStringUtils
 		}
 		
 		// Match style
-		WeiboSpan[] mySpans = ssb.getSpans(0, ssb.length(), WeiboSpan.class);
-		matcher = PATTERN_STYLE.matcher(ssb);
-		while (matcher.find()) {
-			int start = matcher.start();
-			int end = matcher.end();
-			
-			if (isInsideSpans(start, end, mySpans, ssb)) {
-				continue;
-			}
-			
-			String group = matcher.group(1);
-			
-			int len = group.length();
-			
-			Object span = null;
-			
-			if (group.startsWith("~")) {
-				span = new StrikethroughSpan();
-			} else {
-				int type = Typeface.BOLD;
-				if (len == 1) {
-					type = Typeface.ITALIC;
-				} else if (len == 2) {
-					type = Typeface.BOLD;
-				}
-				span = new StyleSpan(type);
-			}
-			
-			if (span != null) {
-				ssb.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-			}
-			
-			ssb.delete(start, start + len);
-			
-			end -= len;
-			ssb.delete(end - len, end);
-			
+		if (mStyleText) {
+			WeiboSpan[] mySpans = ssb.getSpans(0, ssb.length(), WeiboSpan.class);
 			matcher = PATTERN_STYLE.matcher(ssb);
+			while (matcher.find()) {
+				int start = matcher.start();
+				int end = matcher.end();
+
+				if (isInsideSpans(start, end, mySpans, ssb)) {
+					continue;
+				}
+
+				String group = matcher.group(1);
+
+				int len = group.length();
+
+				Object span = null;
+
+				if (group.startsWith("~")) {
+					span = new StrikethroughSpan();
+				} else {
+					int type = Typeface.BOLD;
+					if (len == 1) {
+						type = Typeface.ITALIC;
+					} else if (len == 2) {
+						type = Typeface.BOLD;
+					}
+					span = new StyleSpan(type);
+				}
+
+				if (span != null) {
+					ssb.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+				}
+
+				ssb.delete(start, start + len);
+
+				end -= len;
+				ssb.delete(end - len, end);
+
+				matcher = PATTERN_STYLE.matcher(ssb);
+			}
 		}
 		
 		return SpannableString.valueOf(ssb);

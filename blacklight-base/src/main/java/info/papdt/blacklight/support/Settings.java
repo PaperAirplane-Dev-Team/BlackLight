@@ -34,6 +34,7 @@ public class Settings
 	public static final String SHAKE_TO_RETURN = "shake_to_return";
 	public static final String RIGHT_HANDED = "right_handed";
 	public static final String KEYWORD = "keyword";
+	public static final String STYLE_TEXT = "style_text";
 
 	// Notification
 	public static final String NOTIFICATION_SOUND = "notification_sound",

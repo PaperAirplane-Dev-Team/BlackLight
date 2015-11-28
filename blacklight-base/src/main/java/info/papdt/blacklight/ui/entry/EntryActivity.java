@@ -31,6 +31,7 @@ import info.papdt.blacklight.support.CrashHandler;
 import info.papdt.blacklight.support.Emoticons;
 import info.papdt.blacklight.support.FilterUtility;
 import info.papdt.blacklight.support.PermissionUtility;
+import info.papdt.blacklight.support.SpannableStringUtils;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.feedback.SubmitLogTask;
 import info.papdt.blacklight.support.http.FeedbackUtility;
@@ -58,6 +59,7 @@ public class EntryActivity extends Activity
 		ConnectivityReceiver.readNetworkState(this);
 		Emoticons.init(this);
 		FilterUtility.init(this);
+		SpannableStringUtils.init(this);
 
 		// Crash Log
 		if (FeedbackUtility.shouldSendLog(this)) {

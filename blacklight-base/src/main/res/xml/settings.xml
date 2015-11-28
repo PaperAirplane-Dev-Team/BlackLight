@@ -73,6 +73,11 @@
 			android:key="keyword"
 			android:title="@string/keyword"
 			android:summary="@string/keyword_sum"/>
+
+		<CheckBoxPreference
+			android:key="style_text"
+			android:title="@string/style_text"
+			android:checked="true"/>
 		
 	</PreferenceCategory>
 

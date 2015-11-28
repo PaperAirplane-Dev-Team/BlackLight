@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.Set;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.database.DataBaseHelper;
@@ -95,6 +96,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private CheckBoxPreference mPrefFastScroll;
 	private CheckBoxPreference mPrefShakeToReturn;
 	private CheckBoxPreference mPrefRightHanded;
+	private CheckBoxPreference mPrefStyleText;
 	private EditTextPreference mPrefKeyword;
 
 	// Notification
@@ -140,6 +142,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefAutoNoPic = (CheckBoxPreference) findPreference(Settings.AUTO_NOPIC);
 		mPrefDonation = findPreference(DONATION);
 		mPrefKeyword = (EditTextPreference) findPreference(Settings.KEYWORD);
+		mPrefStyleText = (CheckBoxPreference) findPreference(Settings.STYLE_TEXT);
 		
 		// Data
 		String version = "Unknown";
@@ -162,6 +165,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefShowBigtext.setChecked(mSettings.getBoolean(Settings.SHOW_BIGTEXT, false));
 		mPrefAutoSubmitLog.setChecked(mSettings.getBoolean(
 				Settings.AUTO_SUBMIT_LOG,false));
+		mPrefStyleText.setChecked(mSettings.getBoolean(Settings.STYLE_TEXT, true));
 
 		if (PermissionUtility.hasStoragePermission(getActivity())) {
 			mPrefLog.setSummary(CrashHandler.CRASH_LOG);
@@ -211,6 +215,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefLang.setOnPreferenceClickListener(this);
 		mPrefDonation.setOnPreferenceClickListener(this);
 		mPrefKeyword.setOnPreferenceChangeListener(this);
+		mPrefStyleText.setOnPreferenceChangeListener(this);
 		mPrefVersion.setOnPreferenceClickListener(this);
 	}
 
@@ -349,6 +354,11 @@ public class SettingsFragment extends PreferenceFragment implements
 			return true;
 		} else if (preference == mPrefKeyword) {
 			mSettings.putString(Settings.KEYWORD, String.valueOf(newValue));
+			Toast.makeText(getActivity(), R.string.needs_restart, Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (preference == mPrefStyleText) {
+			mSettings.putBoolean(Settings.STYLE_TEXT,
+					Boolean.parseBoolean(newValue.toString()));
 			Toast.makeText(getActivity(), R.string.needs_restart, Toast.LENGTH_SHORT).show();
 			return true;
 		}
