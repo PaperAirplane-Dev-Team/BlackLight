@@ -114,7 +114,7 @@ public class UserModel implements Parcelable
 		dest.writeInt(bi_followers_count);
 		dest.writeString(cover_image_phone);
 		dest.writeString(cover_image);
-		dest.writeBooleanArray(new boolean[]{following, allow_all_act_msg, geo_enabled, verified, allow_all_comment});
+		dest.writeBooleanArray(new boolean[]{following, follow_me, allow_all_act_msg, geo_enabled, verified, allow_all_comment});
 	}
 
 	public static final Parcelable.Creator<UserModel> CREATOR = new Parcelable.Creator<UserModel>() {
@@ -146,14 +146,15 @@ public class UserModel implements Parcelable
 			ret.cover_image_phone = input.readString();
 			ret.cover_image = input.readString();
 
-			boolean[] array = new boolean[5];
+			boolean[] array = new boolean[6];
 			input.readBooleanArray(array);
 
 			ret.following = array[0];
-			ret.allow_all_act_msg = array[1];
-			ret.geo_enabled = array[2];
-			ret.verified = array[3];
-			ret.allow_all_comment = array[4];
+			ret.follow_me = array[1];
+			ret.allow_all_act_msg = array[2];
+			ret.geo_enabled = array[3];
+			ret.verified = array[4];
+			ret.allow_all_comment = array[5];
 
 			return ret;
 		}
