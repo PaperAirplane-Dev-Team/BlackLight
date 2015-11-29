@@ -153,6 +153,18 @@
 		</activity>
 
 		<activity
+			android:label="@string/user_info"
+			android:name="info.papdt.blacklight.ui.statuses.UserProfileActivity"
+			android:theme="@style/BL.Theme.Light.Translucent">
+			<intent-filter>
+				<category
+					android:name="android.intent.category.DEFAULT"/>
+				<action
+					android:name="android.intent.action.MAIN"/>
+			</intent-filter>
+		</activity>
+
+		<activity
 			android:label="@string/single_info"
 			android:name="info.papdt.blacklight.ui.statuses.SingleActivity"
 			android:theme="@style/BL.Theme.Light.Translucent">
