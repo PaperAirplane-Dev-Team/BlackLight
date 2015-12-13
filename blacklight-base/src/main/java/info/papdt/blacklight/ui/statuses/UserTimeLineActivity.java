@@ -55,6 +55,7 @@ import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import info.papdt.blacklight.ui.friendships.FriendsActivity;
+import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class UserTimeLineActivity extends AbsActivity
 {
@@ -165,6 +166,12 @@ public class UserTimeLineActivity extends AbsActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.user, menu);
+
+		if (DEBUG) {
+			// Sometimes I need the ID of contributors
+			menu.add(233, 233, 233, mModel.id);
+		}
+
 		mMenuFollow = menu.findItem(R.id.follow);
 		mMenuGroup = menu.findItem(R.id.group);
 		if (mModel != null && new LoginApiCache(this).getUid().equals(mModel.id)) {
