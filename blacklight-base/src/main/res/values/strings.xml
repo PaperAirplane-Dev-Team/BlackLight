@@ -239,7 +239,7 @@
 	<string name="auto_nopic_sum">Load pictures only if WiFi is connected</string>
 	<string name="keyword">Keyword filtering</string>
 	<string name="keyword_sum">Multiple keywords should be split by \", \" (a comma and a space), Regular Expressions should be wrapped by \"`\".</string>
-	<string name="style_text">Apply styles on text</string>
+	<string name="style_text">Markdown parsing</string>
 	<string name="show_bigtext">Show notification details</string>
 	<string name="show_bigtext_sum">Show detailed information in notifications (Valid on Android 4.1+). May cause more power or traffic consumption.</string>
 	<string-array name="interval_name">

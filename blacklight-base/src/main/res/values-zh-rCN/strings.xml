@@ -200,7 +200,7 @@
 	<string name="auto_nopic_sum">流量环境下不显示图片，WiFi环境下显示图片</string>
 	<string name="keyword">关键字过滤</string>
 	<string name="keyword_sum">多个关键词请用\", \"(一个英文逗号和一个空格)隔开。正则表达式须用\"`\"包裹。</string>
-	<string name="style_text">对文字应用样式</string>
+	<string name="style_text">Markdown 解析</string>
 	<string name="show_bigtext">显示详细的通知内容</string>
 	<string name="show_bigtext_sum">在通知中显示详细信息（仅对Android4.1+有效），可能导致额外的电量和流量消耗</string>
 	<string-array name="interval_name">
