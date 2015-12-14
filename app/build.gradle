@@ -15,8 +15,8 @@ android {
         applicationId "us.shandian.blacklight"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 43
-        versionName "2.2.0"
+        versionCode 44
+        versionName "2.2.1"
     }
     buildTypes {
 		debug	{
