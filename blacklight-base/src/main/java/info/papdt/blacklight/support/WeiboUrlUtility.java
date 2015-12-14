@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import info.papdt.blacklight.api.shorturl.ShortUrlApi;
 import info.papdt.blacklight.api.statuses.QueryIdApi;
