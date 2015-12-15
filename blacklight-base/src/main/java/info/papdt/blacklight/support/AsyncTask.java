@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -46,7 +46,7 @@ public abstract class AsyncTask<Params, Progress, Result>
 	private static final int MSG_FINISH = 1000;
 	private static final int MSG_PROGRESS = 1001;
 	
-	private static Handler sInternalHandler = new Handler() {
+	private Handler mInternalHandler = new Handler() {
 		@SuppressWarnings({"unchecked", "RawUseOfParameterizedType"})
 		@Override
 		public void handleMessage(Message msg) {
@@ -71,7 +71,7 @@ public abstract class AsyncTask<Params, Progress, Result>
 			
 			try {
 				Result result = doInBackground(mParams);
-				sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_FINISH, new AsyncResult<Result>(AsyncTask.this, result)));
+				mInternalHandler.sendMessage(mInternalHandler.obtainMessage(MSG_FINISH, new AsyncResult<Result>(AsyncTask.this, result)));
 			} catch (Exception e) {
 				// Don't crash the whole app
 				if (DEBUG) {
@@ -93,7 +93,7 @@ public abstract class AsyncTask<Params, Progress, Result>
 	protected void onProgressUpdate(Progress... progress) {}
 	
 	protected void publishProgress(Progress... progress) {
-		sInternalHandler.sendMessage(sInternalHandler.obtainMessage(MSG_PROGRESS, new AsyncResult<Progress>(this, progress)));
+		mInternalHandler.sendMessage(mInternalHandler.obtainMessage(MSG_PROGRESS, new AsyncResult<Progress>(this, progress)));
 	}
 	
 	public void execute(Params... params) {
