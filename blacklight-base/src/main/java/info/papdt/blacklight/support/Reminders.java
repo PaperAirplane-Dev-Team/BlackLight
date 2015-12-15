@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Peter Cai
+ * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
  *
@@ -73,11 +73,20 @@ public class Reminders {
 	}
 
 	@SuppressLint("NewApi")
-	public class CmtTask extends AsyncTask<Object, Void, Void> {
+	public class CmtTask extends AsyncTask<Integer, Void, CommentListModel> {
+		int count = 0;
 		@Override
-		protected Void doInBackground(Object... params) {
-			int count = (int) params[0];
-			CommentListModel newComments = null;
+		protected CommentListModel doInBackground(Integer... params) {
+			count = params[0];
+			if (mExpand) {
+				return CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(count, FETCH_MAX), 1);
+			} else {
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(CommentListModel newComments) {
 			String title = format(mContext, R.string.new_comment, count);
 			RemindBuilder rmd = new RemindBuilder(
 					title,
@@ -85,10 +94,6 @@ public class Reminders {
 					count,
 					getPending(MainActivity.COMMENT)
 			);
-
-			if (mExpand) {
-				newComments = CommentTimeLineApi.fetchCommentTimeLineToMe(Math.min(count, FETCH_MAX), 1);
-			}
 
 			if (mExpand && newComments != null && newComments.getSize() > 0) {
 				if (newComments.getSize() == 1) {
@@ -102,7 +107,6 @@ public class Reminders {
 				rmd.buildExpand(newComments, count, title);
 			}
 			mManager.notify(ID_CMT, rmd.build());
-			return null;
 		}
 	}
 
@@ -111,26 +115,43 @@ public class Reminders {
 	}
 
 	@SuppressLint("NewApi")
-	public class MentionTask extends AsyncTask<Object, Void, Void> {
+	public class MentionTask extends AsyncTask<Integer, Void, MessageListModel> {
+		int mention = 0;
+		int cmt = 0;
+		int count = 0;
 		@Override
-		protected Void doInBackground(Object... params) {
-			String detail = "";
+		protected MessageListModel doInBackground(Integer... params) {
+			mention = params[0];
+			cmt = params[1];
+			count = mention + cmt;
+
 			MessageListModel list = new MessageListModel();
+
+			if (mention > 0 && mExpand) {
+				MessageListModel newMentions = MentionsTimeLineApi.fetchMentionsTimeLine(Math.min(mention, 5), 1);
+				if (newMentions != null) {
+					list.addAll(true, newMentions);
+				}
+			}
+
+			if (cmt > 0 && mExpand) {
+				MessageListModel newMentionsCmt = CommentMentionsTimeLineApi.fetchCommentMentionsTimeLine(Math.min(cmt, 5), 1);
+				if (newMentionsCmt != null) {
+					list.addAll(true, newMentionsCmt);
+				}
+			}
+
+			return list;
+		}
+
+		@Override
+		protected void onPostExecute(MessageListModel list) {
+			String detail = "";
 			PendingIntent pi = null;
-			int mention = (int) params[0];
-			int cmt = (int) params[1];
-			int count = mention + cmt;
 
 			if (mention > 0) {
 				detail += format(mContext, R.string.new_at_detail_weibo, mention);
 				pi = getPending(MainActivity.MENTION);
-
-				if (mExpand) {
-					MessageListModel newMentions = MentionsTimeLineApi.fetchMentionsTimeLine(Math.min(mention, 5), 1);
-					if (newMentions != null) {
-						list.addAll(true, newMentions);
-					}
-				}
 			}
 
 			if (cmt > 0) {
@@ -142,14 +163,7 @@ public class Reminders {
 
 				if (mention == 0) {
 					pi = getPending(MainActivity.MENTION_CMT);
-				}
-
-				if(mExpand){
-					MessageListModel newMentionsCmt = CommentMentionsTimeLineApi.fetchCommentMentionsTimeLine(Math.min(cmt, 5), 1);
-					if (newMentionsCmt != null) {
-						list.addAll(true, newMentionsCmt);
-					}
-				}
+				}	
 			}
 
 			String title = format(mContext, R.string.new_at, count);
@@ -171,7 +185,6 @@ public class Reminders {
 			}
 
 			mManager.notify(ID_MENTION, rmd.build());
-			return null;
 		}
 	}
 
@@ -180,11 +193,22 @@ public class Reminders {
 	}
 
 	@SuppressLint("NewApi")
-	public class DmTask extends AsyncTask<Object, Void, Void> {
+	public class DmTask extends AsyncTask<Integer, Void, DirectMessageListModel> {
+		int count = 0;
 		@Override
-		protected Void doInBackground(Object... params) {
-			int count = (int) params[0];
-			DirectMessageListModel newDm = null;
+		protected DirectMessageListModel doInBackground(Integer... params) {
+			count = params[0];
+
+			if (mExpand) {
+				return DirectMessagesApi.getDirectMessages(Math.min(count, 5), 1);
+			} else {
+				return null;
+			}
+
+		}
+
+		@Override
+		protected void onPostExecute(DirectMessageListModel newDm) {
 			String title = format(mContext, R.string.new_dm, count);
 			RemindBuilder rmd = new RemindBuilder(
 					title,
@@ -193,15 +217,10 @@ public class Reminders {
 					getPending(MainActivity.DM)
 			);
 
-			if (mExpand) {
-				newDm = DirectMessagesApi.getDirectMessages(Math.min(count, 5), 1);
-			}
-
 			if (mExpand && newDm != null && newDm.getSize() > 0) {
 				rmd.buildExpand(newDm, count, title);
 			}
 			mManager.notify(ID_DM, rmd.build());
-			return null;
 		}
 	}
 
