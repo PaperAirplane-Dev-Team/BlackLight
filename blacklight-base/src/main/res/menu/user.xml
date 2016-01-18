@@ -22,6 +22,18 @@
 		android:icon="@drawable/ic_action_email"
 		android:title="@string/direct_message"
 		android:showAsAction="never"/>
+
+	<item
+		android:id="@+id/show_orig"
+	    android:icon="@android:drawable/ic_menu_info_details"
+	    android:title="@string/show_orig"
+	    android:showAsAction="never"/>
+
+	<item
+		android:id="@+id/show_all"
+		android:icon="@android:drawable/ic_menu_info_details"
+		android:title="@string/show_all"
+		android:showAsAction="never"/>
 	
 	<item
 		android:id="@+id/follow"

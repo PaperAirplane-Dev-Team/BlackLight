@@ -38,7 +38,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import info.papdt.blacklight.R;
-import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
 import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
@@ -58,7 +57,6 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 	protected View mShadow, mScroller, mOrbit;
 	protected T mAdapter;
 	protected LinearLayoutManager mManager;
-	//protected HomeTimeLineApiCache mCache;
 
 	protected Settings mSettings;
 

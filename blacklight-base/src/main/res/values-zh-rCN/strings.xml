@@ -266,5 +266,7 @@
 	<!-- Permissions -->
 	<string name="perm_sdcard_title">读写存储卡</string>
 	<string name="perm_sdcard">我们需要读写存储卡的权限来保存图片和崩溃日志。</string>
+	<string name="show_all">全部微博</string>
+	<string name="show_orig">只看原创</string>
 
 </resources>

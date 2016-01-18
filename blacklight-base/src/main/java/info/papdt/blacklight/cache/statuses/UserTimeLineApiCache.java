@@ -35,10 +35,12 @@ import info.papdt.blacklight.model.MessageListModel;
 public class UserTimeLineApiCache extends HomeTimeLineApiCache
 {
 	private String mUid;
+	private boolean mOrig;
 	
-	public UserTimeLineApiCache(Context context, String uid) {
+	public UserTimeLineApiCache(Context context, String uid, boolean orig) {
 		super(context);
 		mUid = uid;
+		mOrig = orig;
 	}
 
 	@Override
@@ -68,6 +70,7 @@ public class UserTimeLineApiCache extends HomeTimeLineApiCache
 
 	@Override
 	protected MessageListModel load() {
-		return UserTimeLineApi.fetchUserTimeLine(mUid, Constants.HOME_TIMELINE_PAGE_SIZE, ++mCurrentPage);
+		return UserTimeLineApi.fetchUserTimeLine(mUid, Constants.HOME_TIMELINE_PAGE_SIZE,
+				++mCurrentPage, mOrig);
 	}
 }

@@ -129,6 +129,8 @@
 	<string name="follow">Follow</string>
 	<string name="unfollow">Unfollow</string>
 	<string name="change_group">Change group</string>
+	<string name="show_orig">Only original</string>
+	<string name="show_all">Show all</string>
 
 	<!-- User Profile -->
 	<string name="uid">UID</string>

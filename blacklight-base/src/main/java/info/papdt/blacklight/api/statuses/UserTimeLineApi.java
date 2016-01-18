@@ -31,11 +31,12 @@ import info.papdt.blacklight.support.http.WeiboParameters;
 /* Fetches messages published by an exact user */
 public class UserTimeLineApi extends BaseApi
 {
-	public static MessageListModel fetchUserTimeLine(String uid, int count, int page) {
+	public static MessageListModel fetchUserTimeLine(String uid, int count, int page, boolean orig) {
 		WeiboParameters params = new WeiboParameters();
 		params.put("uid", uid);
 		params.put("count", count);
 		params.put("page", page);
+		params.put("feature", orig?1:0);
 
 		try {
 			JSONObject json = request(Constants.USER_TIMELINE, params, HTTP_GET);

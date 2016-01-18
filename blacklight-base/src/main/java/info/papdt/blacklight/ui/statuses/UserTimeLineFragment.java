@@ -33,22 +33,25 @@ import info.papdt.blacklight.cache.statuses.UserTimeLineApiCache;
 public class UserTimeLineFragment extends TimeLineFragment
 {
 	private String mUid;
+	private boolean mOrig;
 	
 	public UserTimeLineFragment() {
 		init();
 	}
 	
-	public UserTimeLineFragment(String uid) {
+	public UserTimeLineFragment(String uid, boolean orig) {
 		// Should pass arguments by Bundle
 		// Otherwise we will get an Exception
 		Bundle args = new Bundle();
 		args.putCharSequence("uid", uid);
+		args.putBoolean("orig", orig);
 		setArguments(args);
 		init();
 	}
 	
 	private void init() {
 		mUid = getArguments().getCharSequence("uid").toString();
+		mOrig = getArguments().getBoolean("orig");
 	}
 
 	@Override
@@ -57,13 +60,18 @@ public class UserTimeLineFragment extends TimeLineFragment
 
 		if (mShadow != null)
 			mShadow.setVisibility(View.GONE);
-
+		v.post(new Runnable() {
+			@Override
+			public void run() {
+				doRefresh();
+			}
+		});
 		return v;
 	}
 	
 	@Override
 	protected HomeTimeLineApiCache bindApiCache() {
-		return new UserTimeLineApiCache(getActivity(), mUid);
+		return new UserTimeLineApiCache(getActivity(), mUid, mOrig);
 	}
 
 	public RecyclerView getList() {

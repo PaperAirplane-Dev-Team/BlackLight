@@ -35,7 +35,7 @@ public abstract class TimeLineFragment extends AbsTimeLineFragment<WeiboAdapter>
 	protected boolean mBindOrig = true;
 	protected boolean mShowCommentStatus = true;
 	protected boolean mNotifyDataLoaded = false;
-	
+
 	@Override
 	protected WeiboAdapter buildAdapter() {
 		return new WeiboAdapter(getActivity(), mList, mCache.mMessages,

@@ -38,8 +38,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.friendships.FriendsApi;
 import info.papdt.blacklight.api.friendships.GroupsApi;
@@ -59,7 +57,8 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class UserTimeLineActivity extends AbsActivity
 {
-	private UserTimeLineFragment mFragment;
+	private UserTimeLineFragment mFragmentAll;
+	private UserTimeLineFragment mFragmentOrig;
 	private UserModel mModel;
 
 	private TextView mFollowState;
@@ -78,8 +77,11 @@ public class UserTimeLineActivity extends AbsActivity
 
 	private MenuItem mMenuFollow;
 	private MenuItem mMenuGroup;
+	private MenuItem mMenuShowAll, mMenuShowOrig;
 
 	private UserApiCache mCache;
+
+	private boolean mOnlyOrig = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,8 +145,8 @@ public class UserTimeLineActivity extends AbsActivity
 
 		new Downloader().execute();
 
-		mFragment = new UserTimeLineFragment(mModel.id);
-		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragment).commit();
+		mFragmentAll = new UserTimeLineFragment(mModel.id, false);
+		getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragmentAll).commit();
 
 		// Change panel height when measured
 		final View container = findViewById(R.id.user_container);
@@ -156,7 +158,7 @@ public class UserTimeLineActivity extends AbsActivity
 				int containerHeight = container.getMeasuredHeight();
 				int slideHeight = mSlide.getMeasuredHeight();
 				mSlide.setPanelHeight((int) (slideHeight - containerHeight + Utility.dp2px(UserTimeLineActivity.this, 20.0f)));
-				mSlide.setChildListView(mFragment.getList());
+				mSlide.setChildListView(mFragmentAll.getList());
 				return true;
 			}
 		});
@@ -181,6 +183,22 @@ public class UserTimeLineActivity extends AbsActivity
 		} else {
 			resetFollowState();
 		}
+
+		mMenuShowAll = menu.findItem(R.id.show_all);
+		mMenuShowOrig = menu.findItem(R.id.show_orig);
+
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (mOnlyOrig) {
+			mMenuShowOrig.setVisible(false);
+			mMenuShowAll.setVisible(true);
+		} else {
+			mMenuShowAll.setVisible(false);
+			mMenuShowOrig.setVisible(true);
+		}
 		return true;
 	}
 
@@ -192,6 +210,17 @@ public class UserTimeLineActivity extends AbsActivity
 			return true;
 		} else if (id == R.id.follow) {
 			follow();
+			return true;
+		} else if (id == R.id.show_orig) {
+			if (mFragmentOrig == null) {
+				mFragmentOrig = new UserTimeLineFragment(mModel.id, true);
+			}
+			getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragmentOrig).commit();
+			mOnlyOrig = true;
+			return true;
+		} else if (id == R.id.show_all) {
+			getFragmentManager().beginTransaction().replace(R.id.user_timeline_container, mFragmentAll).commit();
+			mOnlyOrig = false;
 			return true;
 		} else if (id == R.id.send_dm) {
 			Intent i = new Intent();
