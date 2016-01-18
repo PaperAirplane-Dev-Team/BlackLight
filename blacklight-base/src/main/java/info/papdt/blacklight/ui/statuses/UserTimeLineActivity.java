@@ -127,8 +127,12 @@ public class UserTimeLineActivity extends AbsActivity
 
 		// Follower state (following/followed/each other)
 		resetFollowState();
-		if (mModel != null && mModel.id.equals((new UserApiCache(this).getUser( (new LoginApiCache(this).getUid()) ).id))) {
-			mLayoutFollowState.setVisibility(View.GONE);
+		try {
+			if (mModel != null && mModel.id.equals((new UserApiCache(this).getUser((new LoginApiCache(this).getUid())).id))) {
+				mLayoutFollowState.setVisibility(View.GONE);
+			}
+		} catch (NullPointerException e) {
+			// do nothing like ostrich.
 		}
 
 		// Also view values
