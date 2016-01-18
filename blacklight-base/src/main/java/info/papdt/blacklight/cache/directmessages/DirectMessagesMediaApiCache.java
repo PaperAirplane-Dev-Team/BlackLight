@@ -20,22 +20,17 @@
 package info.papdt.blacklight.cache.directmessages;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
 
 import info.papdt.blacklight.api.BaseApi;
 import info.papdt.blacklight.cache.Constants;
 import info.papdt.blacklight.cache.file.FileCacheManager;
-import info.papdt.blacklight.model.MessageModel;
-import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Utility;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class DirectMessagesMediaApiCache {

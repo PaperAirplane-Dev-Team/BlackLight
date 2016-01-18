@@ -19,11 +19,10 @@
 
 package info.papdt.blacklight.ui.statuses;
 
-import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -34,6 +33,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -63,9 +63,9 @@ import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.support.LongPostUtility;
 import info.papdt.blacklight.support.Utility;
-import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
 import info.papdt.blacklight.ui.common.AbsActivity;

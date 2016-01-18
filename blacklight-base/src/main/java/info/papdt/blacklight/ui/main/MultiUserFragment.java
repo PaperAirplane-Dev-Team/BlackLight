@@ -20,12 +20,8 @@
 package info.papdt.blacklight.ui.main;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Fragment;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.login.LoginApiCache;

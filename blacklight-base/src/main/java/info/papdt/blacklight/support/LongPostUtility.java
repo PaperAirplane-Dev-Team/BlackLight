@@ -23,7 +23,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import info.papdt.blacklight.R;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class LongPostUtility {

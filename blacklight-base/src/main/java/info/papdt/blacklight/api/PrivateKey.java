@@ -22,9 +22,6 @@ package info.papdt.blacklight.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
-
-import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class PrivateKey extends BaseApi
 {

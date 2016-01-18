@@ -20,13 +20,13 @@
 package info.papdt.blacklight.support.adapter;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -54,12 +54,12 @@ import info.papdt.blacklight.model.CommentModel;
 import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.support.HackyMovementMethod;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.SpannableStringUtils;
 import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;
-import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
 import info.papdt.blacklight.ui.statuses.RepostActivity;

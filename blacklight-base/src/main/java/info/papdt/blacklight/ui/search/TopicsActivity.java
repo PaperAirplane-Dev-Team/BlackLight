@@ -20,7 +20,6 @@
 package info.papdt.blacklight.ui.search;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -31,8 +30,6 @@ import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
 import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.statuses.TimeLineFragment;
-
-import static info.papdt.blacklight.support.Utility.hasSmartBar;
 
 /*
   Shows the topics

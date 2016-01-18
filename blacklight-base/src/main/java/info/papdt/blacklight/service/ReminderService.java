@@ -31,7 +31,6 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 
-
 import info.papdt.blacklight.api.remind.RemindApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.model.UnreadModel;

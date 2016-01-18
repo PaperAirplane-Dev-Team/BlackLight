@@ -19,19 +19,11 @@
 
 package info.papdt.blacklight.ui.common;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import info.papdt.blacklight.R;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.ShakeDetector;
 import info.papdt.blacklight.support.ShakeDetector.ShakeListener;

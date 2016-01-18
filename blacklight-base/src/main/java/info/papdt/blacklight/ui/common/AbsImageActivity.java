@@ -22,8 +22,8 @@ package info.papdt.blacklight.ui.common;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
@@ -41,8 +41,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,8 +51,8 @@ import java.util.ArrayList;
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.file.FileCacheManager;
 import info.papdt.blacklight.support.AsyncTask;
-import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.PermissionUtility;
+import info.papdt.blacklight.support.Utility;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 

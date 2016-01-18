@@ -31,8 +31,6 @@ import info.papdt.blacklight.model.AnnotationModel;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.http.WeiboParameters;
 
-import static info.papdt.blacklight.BuildConfig.DEBUG;
-
 public class PostApi extends BaseApi
 {
 	public static final int EXTRA_NONE = 0;

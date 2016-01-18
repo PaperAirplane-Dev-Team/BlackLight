@@ -19,7 +19,6 @@
 
 package info.papdt.blacklight.ui.statuses;
 
-import android.support.v7.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -31,6 +30,7 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,8 +45,8 @@ import info.papdt.blacklight.api.statuses.PostApi;
 import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.AsyncTask;
-import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
+import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.StatusCommentFragment;
 import info.papdt.blacklight.ui.common.AbsActivity;

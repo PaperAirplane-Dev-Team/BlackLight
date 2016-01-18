@@ -23,9 +23,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
-import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.directmessages.DirectMessagesMediaApiCache;
-import info.papdt.blacklight.cache.file.FileCacheManager;
 import info.papdt.blacklight.ui.common.AbsImageActivity;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.search.SearchApi;
 import info.papdt.blacklight.support.AsyncTask;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 /*

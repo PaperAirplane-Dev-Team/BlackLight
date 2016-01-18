@@ -19,26 +19,13 @@
 
 package info.papdt.blacklight.ui.friendships;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
-import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.friendships.FriendsApi;
 import info.papdt.blacklight.model.UserListModel;
-import info.papdt.blacklight.support.AsyncTask;
-import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.UserAdapter;
-import info.papdt.blacklight.ui.main.MainActivity;
 import info.papdt.blacklight.ui.statuses.AbsTimeLineFragment;
-import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class FriendsFragment extends AbsTimeLineFragment<UserAdapter> implements SwipeRefreshLayout.OnRefreshListener {
 	private String mUid;

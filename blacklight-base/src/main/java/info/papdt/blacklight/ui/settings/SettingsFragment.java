@@ -19,7 +19,6 @@
 
 package info.papdt.blacklight.ui.settings;
 
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,19 +27,19 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.Set;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.database.DataBaseHelper;
 import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.support.CrashHandler;
+import info.papdt.blacklight.support.PermissionUtility;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
-import info.papdt.blacklight.support.PermissionUtility;
 import info.papdt.blacklight.support.feedback.SubmitLogTask;
 import info.papdt.blacklight.ui.entry.EntryActivity;
 import info.papdt.blacklight.ui.feedback.FeedbackActivity;

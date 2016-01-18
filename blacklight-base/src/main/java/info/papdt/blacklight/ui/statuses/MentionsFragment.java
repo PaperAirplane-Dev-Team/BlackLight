@@ -30,11 +30,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import info.papdt.blacklight.R;
+import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.ui.comments.CommentMentionsTimeLineFragment;
 import info.papdt.blacklight.ui.common.SlidingTabLayout;
 import info.papdt.blacklight.ui.common.SlidingTabStrip.SimpleTabColorizer;
 import info.papdt.blacklight.ui.main.MainActivity;
-import info.papdt.blacklight.support.Utility;
 
 /*
  * This class combines MentionsTimeLine and CommentMentionsTimeLine together

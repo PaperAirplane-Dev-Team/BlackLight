@@ -19,14 +19,13 @@
 
 package info.papdt.blacklight.support.adapter;
 
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 
 /**
  * An Adapter which adds HeaderView

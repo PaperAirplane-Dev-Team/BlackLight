@@ -20,10 +20,6 @@
 package info.papdt.blacklight.support.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +38,7 @@ import java.util.ArrayList;
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.model.GalleryModel;
 import info.papdt.blacklight.support.Utility;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class GalleryAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {

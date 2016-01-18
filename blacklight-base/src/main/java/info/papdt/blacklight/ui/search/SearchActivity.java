@@ -23,11 +23,9 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewTreeObserver;
-
-import android.support.v4.view.ViewPager;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.ViewTreeObserver;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.support.Utility;

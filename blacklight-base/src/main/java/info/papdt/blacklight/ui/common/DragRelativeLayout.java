@@ -20,13 +20,12 @@
 package info.papdt.blacklight.ui.common;
 
 import android.content.Context;
+import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import android.support.v4.widget.ViewDragHelper;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 

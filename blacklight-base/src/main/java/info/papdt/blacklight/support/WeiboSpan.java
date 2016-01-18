@@ -29,7 +29,6 @@ import android.view.View;
 
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserModel;
-import info.papdt.blacklight.support.WeiboUrlUtility;
 import info.papdt.blacklight.ui.search.TopicsActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 

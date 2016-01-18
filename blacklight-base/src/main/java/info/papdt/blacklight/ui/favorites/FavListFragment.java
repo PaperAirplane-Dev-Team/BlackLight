@@ -19,7 +19,6 @@
 
 package info.papdt.blacklight.ui.favorites;
 
-import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.favorites.FavListApiCache;
 import info.papdt.blacklight.cache.statuses.HomeTimeLineApiCache;
 import info.papdt.blacklight.ui.statuses.TimeLineFragment;

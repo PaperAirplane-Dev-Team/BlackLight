@@ -21,19 +21,14 @@ package info.papdt.blacklight.cache.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import info.papdt.blacklight.api.BaseApi;
-import info.papdt.blacklight.api.PrivateKey;
 import info.papdt.blacklight.api.user.AccountApi;
-import info.papdt.blacklight.api.user.UserApi;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.UserModel;
-
-import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class LoginApiCache
 {

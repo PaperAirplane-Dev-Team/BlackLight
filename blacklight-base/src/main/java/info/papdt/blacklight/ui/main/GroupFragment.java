@@ -36,6 +36,7 @@ import info.papdt.blacklight.support.AsyncTask;
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.SelectionArrayAdapter;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class GroupFragment extends Fragment implements AdapterView.OnItemClickListener

@@ -1,11 +1,10 @@
 package info.papdt.blacklight.ui.statuses;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.support.v7.widget.RecyclerView;
 
 import info.papdt.blacklight.support.Settings;
 import info.papdt.blacklight.ui.main.MainActivity;

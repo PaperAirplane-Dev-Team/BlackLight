@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import info.papdt.blacklight.api.BaseApi;
 import info.papdt.blacklight.api.Constants;
-
 import info.papdt.blacklight.support.http.WeiboParameters;
 
 public class ShortUrlApi extends BaseApi {

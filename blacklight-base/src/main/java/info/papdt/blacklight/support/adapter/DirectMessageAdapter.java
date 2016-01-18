@@ -21,8 +21,6 @@ package info.papdt.blacklight.support.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +30,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import android.support.v7.widget.CardView;
-
 import com.squareup.picasso.Picasso;
 
 import info.papdt.blacklight.R;
@@ -41,7 +37,6 @@ import info.papdt.blacklight.api.BaseApi;
 import info.papdt.blacklight.model.DirectMessageListModel;
 import info.papdt.blacklight.model.DirectMessageModel;
 import info.papdt.blacklight.support.HackyMovementMethod;
-import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.SpannableStringUtils;
 import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;

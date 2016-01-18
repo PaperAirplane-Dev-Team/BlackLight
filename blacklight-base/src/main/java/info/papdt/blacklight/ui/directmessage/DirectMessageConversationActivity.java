@@ -20,19 +20,16 @@
 package info.papdt.blacklight.ui.directmessage;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -43,25 +40,22 @@ import android.widget.PopupMenu;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.directmessages.DirectMessagesApi;
 import info.papdt.blacklight.model.DirectMessageListModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.DirectMessageAdapter;
-import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.common.EmoticonFragment;
-import info.papdt.blacklight.ui.common.MultiPicturePicker;
 import info.papdt.blacklight.ui.common.SwipeRefreshLayout;
 import info.papdt.blacklight.ui.common.SwipeUpAndDownRefreshLayout;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
-import static info.papdt.blacklight.support.Utility.hasSmartBar;
 
 public class DirectMessageConversationActivity extends AbsActivity implements SwipeRefreshLayout.OnRefreshListener
 		, PopupMenu.OnMenuItemClickListener {

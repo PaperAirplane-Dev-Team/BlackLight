@@ -19,15 +19,11 @@
 
 package info.papdt.blacklight.ui.friendships;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.ui.common.AbsActivity;
-
-import static info.papdt.blacklight.support.Utility.hasSmartBar;
 
 public class FriendsActivity extends AbsActivity
 {

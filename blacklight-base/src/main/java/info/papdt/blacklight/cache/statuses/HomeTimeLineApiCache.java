@@ -25,7 +25,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Movie;
 import android.os.Environment;
 
 import com.google.gson.Gson;
@@ -40,9 +39,9 @@ import info.papdt.blacklight.api.statuses.BilateralTimeLineApi;
 import info.papdt.blacklight.api.statuses.HomeTimeLineApi;
 import info.papdt.blacklight.cache.Constants;
 import info.papdt.blacklight.cache.database.DataBaseHelper;
-import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.cache.database.tables.HomeTimeLineTable;
 import info.papdt.blacklight.cache.file.FileCacheManager;
+import info.papdt.blacklight.cache.login.LoginApiCache;
 import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.support.Utility;

@@ -24,6 +24,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.Arrays;
+import java.util.List;
+
 import info.papdt.blacklight.api.shorturl.ShortUrlApi;
 import info.papdt.blacklight.api.statuses.QueryIdApi;
 import info.papdt.blacklight.cache.user.UserApiCache;
@@ -31,9 +34,6 @@ import info.papdt.blacklight.model.MessageModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.ui.statuses.SingleActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class WeiboUrlUtility
 {

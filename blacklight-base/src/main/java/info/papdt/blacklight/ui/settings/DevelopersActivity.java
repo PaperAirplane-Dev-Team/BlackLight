@@ -19,15 +19,11 @@
 
 package info.papdt.blacklight.ui.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import java.util.Random;
 
@@ -36,11 +32,9 @@ import info.papdt.blacklight.api.user.UserApi;
 import info.papdt.blacklight.model.UserListModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
-import info.papdt.blacklight.support.LogF;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.UserAdapter;
 import info.papdt.blacklight.ui.common.AbsActivity;
-import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 
 public class DevelopersActivity extends AbsActivity
 {

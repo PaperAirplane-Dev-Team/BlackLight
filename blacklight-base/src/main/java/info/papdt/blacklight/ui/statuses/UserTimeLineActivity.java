@@ -19,13 +19,13 @@
 
 package info.papdt.blacklight.ui.statuses;
 
-import android.support.v7.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,12 +47,13 @@ import info.papdt.blacklight.model.GroupListModel;
 import info.papdt.blacklight.model.GroupModel;
 import info.papdt.blacklight.model.UserModel;
 import info.papdt.blacklight.support.AsyncTask;
-import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
+import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.ui.common.AbsActivity;
 import info.papdt.blacklight.ui.common.GenerousSlidingUpPanelLayout;
 import info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import info.papdt.blacklight.ui.friendships.FriendsActivity;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class UserTimeLineActivity extends AbsActivity

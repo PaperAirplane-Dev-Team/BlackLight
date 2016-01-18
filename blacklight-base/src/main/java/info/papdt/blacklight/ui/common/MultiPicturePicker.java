@@ -26,16 +26,15 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.GridView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.model.GalleryModel;
 import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.adapter.GalleryAdapter;
+
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class MultiPicturePicker extends AbsActivity {

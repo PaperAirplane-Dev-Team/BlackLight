@@ -19,13 +19,12 @@
 
 package info.papdt.blacklight.ui.common;
 
-import android.os.Bundle;
 import android.os.Build;
-import android.view.View;
-import android.view.Window;
-
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Window;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.support.Utility;

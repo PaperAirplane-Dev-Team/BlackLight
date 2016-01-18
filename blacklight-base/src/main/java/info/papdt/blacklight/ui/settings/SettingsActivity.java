@@ -21,7 +21,6 @@ package info.papdt.blacklight.ui.settings;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.ui.common.AbsActivity;

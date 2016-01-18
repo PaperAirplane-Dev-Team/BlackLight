@@ -31,8 +31,8 @@ import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
 import info.papdt.blacklight.R;
-import info.papdt.blacklight.support.Utility;
 import info.papdt.blacklight.support.Binded;
+import info.papdt.blacklight.support.Utility;
 
 public class ColorPickerFragment extends Fragment {
 

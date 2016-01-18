@@ -1,11 +1,9 @@
 package info.papdt.blacklight.ui.common;
 
 import android.content.Context;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
-import android.support.v4.widget.SlidingPaneLayout;
-import android.support.v4.widget.ViewDragHelper;
 
 // Limited trigger area
 public class LimitedSlidingPaneLayout extends SlidingPaneLayout

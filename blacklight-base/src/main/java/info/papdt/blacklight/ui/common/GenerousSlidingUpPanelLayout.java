@@ -20,10 +20,9 @@
 package info.papdt.blacklight.ui.common;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
-import android.support.v7.widget.RecyclerView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 

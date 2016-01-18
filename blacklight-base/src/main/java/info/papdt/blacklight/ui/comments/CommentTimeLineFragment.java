@@ -19,7 +19,6 @@
 
 package info.papdt.blacklight.ui.comments;
 
-import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.remind.RemindApi;
 import info.papdt.blacklight.api.remind.RemindApi.Type;
 import info.papdt.blacklight.cache.comments.CommentTimeLineApiCache;

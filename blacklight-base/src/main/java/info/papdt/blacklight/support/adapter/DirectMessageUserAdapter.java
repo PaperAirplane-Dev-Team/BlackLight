@@ -21,16 +21,13 @@ package info.papdt.blacklight.support.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
@@ -38,10 +35,9 @@ import info.papdt.blacklight.R;
 import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.DirectMessageUserListModel;
 import info.papdt.blacklight.model.DirectMessageUserModel;
-import info.papdt.blacklight.support.AsyncTask;
+import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.support.StatusTimeUtils;
 import info.papdt.blacklight.support.Utility;
-import info.papdt.blacklight.support.Binded;
 import info.papdt.blacklight.ui.directmessage.DirectMessageConversationActivity;
 import info.papdt.blacklight.ui.statuses.UserTimeLineActivity;
 

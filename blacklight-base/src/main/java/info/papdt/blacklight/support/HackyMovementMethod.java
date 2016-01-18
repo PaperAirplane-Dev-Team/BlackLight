@@ -25,13 +25,10 @@ import android.text.method.LinkMovementMethod;
 import android.text.method.Touch;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
 import info.papdt.blacklight.R;
-
-import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 /*
   Hack to fix conflict between URLSpan and parent's OnClickListener
