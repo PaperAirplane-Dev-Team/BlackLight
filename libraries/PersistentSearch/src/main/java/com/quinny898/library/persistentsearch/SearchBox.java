@@ -45,6 +45,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class SearchBox extends RelativeLayout {
 
+	public static final int REQUEST_SPEECH_INPUT = 0xbeef;
+
 	private MaterialMenuView materialMenu;
 	private TextView logo;
 	private EditText search;
@@ -249,7 +251,7 @@ public class SearchBox extends RelativeLayout {
 					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 			intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
 					context.getString(R.string.speak_now));
-			activity.startActivityForResult(intent, 1234);
+			activity.startActivityForResult(intent, REQUEST_SPEECH_INPUT);
 		}
 	}
 	

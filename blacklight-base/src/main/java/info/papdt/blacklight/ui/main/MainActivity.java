@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -538,6 +539,14 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		if (requestCode == REQUEST_LOGIN && resultCode == RESULT_OK) {
 			mMultiUserFragment.reload();
 		}
+
+		// speech request code used by PersistentSearch
+		if (requestCode == SearchBox.REQUEST_SPEECH_INPUT) {
+			if (resultCode == RESULT_OK && null != data) {
+				List<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				mSearchBox.setSearchString(result.get(0));
+			}
+		}
 	}
 
 	@Override
@@ -571,7 +580,12 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	public void mic(View view) {
 		// Is causing crashes. Abandon it.
 		//mSearchBox.micClick(this);
-		mSearchBox.setSearchString("");
+		// crash? just ignore it.
+		try {
+			mSearchBox.micClick(this);
+		} catch (Exception e) {
+			// ignored
+		}
 	}
 
 	public void updateHeaderTranslation(float factor) {
