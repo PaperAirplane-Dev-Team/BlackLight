@@ -21,7 +21,8 @@ after_success:
 - export GIT_TAG=snapshot-$TRAVIS_BRANCH-$(date -u "+%Y-%m-%d")_${TRAVIS_BUILD_NUMBER}_$(git log --format="%h" -n 1)
 - git tag $GIT_TAG
 - git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
-- tar cvf lint.tar app-snapshot/build/outputs/lint-results.html app-snapshot/build/outputs/lint-results.xml app-snapshot/build/outputs/lint-results_files
+- cd app-snapshot/build/outputs/
+- tar cvf lint-results.tar lint-results.html lint-results.xml lint-results_files
 
 android:
   components:
@@ -36,7 +37,7 @@ deploy:
     secure: "bBFMDthm2NQuUCXfSRw8EvkyN7seHGxD8BvsvqudSuPpmSTNRcA1JJuANeH7WVMwJjKkySVCf+SjMbHeGzahRRo7COsQ4D70q8ctad9lo1bLwt2UvgFB+c1ux6jzixsGTcCTfmKGYKDmU+iOZ7ES4t45iPsO0VUQYO8hT2fVN+0="
   file:
   - app-snapshot/build/outputs/apk/app-snapshot-debug.apk
-  - lint.tar
+  - app-snapshot/build/outputs/lint-results.tar
   skip_cleanup: true
   on:
     repo: PaperAirplane-Dev-Team/BlackLight
