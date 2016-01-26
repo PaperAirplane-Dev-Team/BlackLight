@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2015 Peter Cai
+* Copyright (C) 2014 Peter Cai
 *
 * This file is part of BlackLight
 *
@@ -17,28 +17,6 @@
 * You should have received a copy of the GNU General Public License
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<manifest
-	package="us.shandian.blacklight"
-	android:installLocation="auto"
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	
-	<application
-		android:name="info.papdt.blacklight.BLApplication"
-		android:allowBackup="true">
-		
-			<activity
-			android:label="@string/settings"
-			android:name="info.papdt.blacklight.ui.settings.SettingsActivity"
-			android:theme="@style/BL.Theme.Light.Translucent"
-			android:windowSoftInputMode="adjustResize">
-			<intent-filter>
-				<category
-					android:name="android.intent.category.DEFAULT"/>
-				<action
-					android:name="android.intent.action.MAIN"/>
-			</intent-filter>
-		</activity>
-		
-		</application>
-
-</manifest>
+<resources>
+	<string name="app_name" translatable="false">BlackLight</string>
+</resources>

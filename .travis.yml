@@ -13,7 +13,7 @@ before_install:
 - chmod +x install_gradle.sh
 - source ./install_gradle.sh
 
-script: gradle :app-snapshot:build
+script: gradle :app-snapshot:assembleDebug
 
 after_success:
 - git config --global user.email "harry-chen@outlook.com"

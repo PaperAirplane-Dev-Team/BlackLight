@@ -19,8 +19,6 @@
 -->
 <resources>
 
-	<string name="app_name">BlackLight</string>
-
 	<!-- App Key -->
 	<string name="custom">自定义</string>
 	<string name="custom_des">App ID / Secret 被用于获取微博登录授权。如果其权限不足，本软件将无法正确运行。</string>

@@ -27,6 +27,5 @@ android {
 }
 
 dependencies {
-    debugCompile project(path:':blacklight-base', configuration: 'debug')
-    releaseCompile project(path:':blacklight-base', configuration: 'release')
+    debugCompile project(':blacklight-base')
 }

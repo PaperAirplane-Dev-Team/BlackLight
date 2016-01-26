@@ -19,8 +19,6 @@
 -->
 <resources>
 
-	<string name="app_name">BlackLight</string>
-
 	<!-- App Key -->
 	<string name="key_gist" translatable="false">https://gist.github.com/PeterCxy/3085799055f63c63c911</string>
 	<string name="custom">Custom</string>

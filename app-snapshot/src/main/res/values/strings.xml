@@ -18,6 +18,6 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-	<string name="app_snapshot">BlackLight Snapshot</string>
+	<string name="app_name">BlackLight Snapshot</string>
 	<string name="snapshot_alert">You are currently using the snapshot version of BlackLight. This version is completely not guaranteed and is potentially not stable. It is only recommended to use this version if you are skilled in debugging or you are a crazy fan of BlackLight.</string>
 </resources>

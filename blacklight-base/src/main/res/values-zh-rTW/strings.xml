@@ -19,7 +19,6 @@
 -->
 <resources>
 
-	<string name="app_name">BlackLight</string>
 
 	<!-- App Key -->
 	<string name="custom">自訂</string>
