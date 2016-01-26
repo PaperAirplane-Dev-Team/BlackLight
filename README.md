@@ -1,10 +1,10 @@
 BlackLight 新浪微博客户端
 ---
-![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/art/logo.png)  
+![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/logo.png)  
 [![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)  
 
-详细介绍以及Changelog请见Play商店 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
-源代码在GPLv3协议下发布
+详细介绍以及Changelog请见Play商店。 <https://play.google.com/store/apps/details?id=us.shandian.blacklight>  
+源代码在GPLv3协议下发布。
 
 由于新浪微博已经不再接受新的第三方客户端申请，因此BlackLight使用“黑魔法”的方式登录微博。要登录，您需要一个可用的微博App Key，这里有一个：<https://gist.github.com/PeterCxy/3085799055f63c63c911>  
 个人娱乐之作，勿用于任何盈利性用途。  
@@ -39,15 +39,22 @@ KEY_PASSWORD=your_passwd
 
 感谢
 ---
-四次元(@qii)  
-碎星iKe(@IssacWong)
+* 四次元(@qii)  
+* 碎星iKe(@IssacWong)  
+* clowwindy  
+* drakeet  
+* 日可待（绘制Logo）  
+* 某中二的薛定谔之猫
+* 小湖爱闹
+* 九十九路比|Kenny  
+* 加大号的猫
 
 
 主要开发者
 ---
-@PeterCxy  
-@Harry-Chen  
-@fython  
-@xavieryao
+* @PeterCxy（码代码）  
+* @Harry-Chen（制造bug）  
+* @fython（酱油）  
+* @xavieryao （编写梗）
 
 纸飞机开发团队 @PaperAirplane-Dev-Team 出品
