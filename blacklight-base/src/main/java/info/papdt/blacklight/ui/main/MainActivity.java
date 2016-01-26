@@ -541,7 +541,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		}
 
 		// speech request code used by PersistentSearch
-		if (requestCode == 1234) {
+		if (requestCode == SearchBox.REQUEST_SPEECH_INPUT) {
 			if (resultCode == RESULT_OK && null != data) {
 				List<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 				mSearchBox.setSearchString(result.get(0));
