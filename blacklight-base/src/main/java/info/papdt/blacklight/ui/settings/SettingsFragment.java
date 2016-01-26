@@ -443,6 +443,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private void boom() {
 		getActivity().getWindow().getDecorView().removeCallbacks(clearClickCount);
 		if (mClickCount == 5) {
+			mPrefVersion.setEnabled(false);
 			Toast.makeText(getActivity(), R.string.enough, Toast.LENGTH_SHORT).show();
 			getActivity().getWindow().getDecorView().postDelayed(new Runnable() {
 				@Override
