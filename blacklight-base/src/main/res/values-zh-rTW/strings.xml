@@ -231,7 +231,6 @@
 	<string name="alipay">支付寶</string>
 	<string name="clear_cache">清空快取</string>
 	<string name="clear_cache_hint">系統設定 -> 應用程式 -> BlackLight</string>
-	<string name="digital_ocean">DigitalOcean 推廣連接</string>
 	<string name="donation">捐贈</string>
 	<string name="donation_des">歡迎捐贈支持</string>
 	<string name="feedback_sum">告訴我們有關你對這個應用的建議</string>
