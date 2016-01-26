@@ -23,6 +23,7 @@ after_success:
 - git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
 - cd app-snapshot/build/outputs/
 - tar cvf lint-results.tar lint-results.html lint-results.xml lint-results_files
+- cd ../../../
 
 android:
   components:
@@ -33,6 +34,7 @@ android:
 
 deploy:
   provider: releases
+  prerelease: true
   api_key:
     secure: "bBFMDthm2NQuUCXfSRw8EvkyN7seHGxD8BvsvqudSuPpmSTNRcA1JJuANeH7WVMwJjKkySVCf+SjMbHeGzahRRo7COsQ4D70q8ctad9lo1bLwt2UvgFB+c1ux6jzixsGTcCTfmKGYKDmU+iOZ7ES4t45iPsO0VUQYO8hT2fVN+0="
   file:
