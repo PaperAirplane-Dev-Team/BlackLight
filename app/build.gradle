@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "us.shandian.blacklight"
         minSdkVersion MIN_SDK_VER.toInteger()
-        targetSdkVersion COMPILED_SDK_VER
+        targetSdkVersion TARGET_SDK_VER.toInteger()
         versionCode VERSION_CODE.toInteger()
         versionName VERSION_NAME
     }
