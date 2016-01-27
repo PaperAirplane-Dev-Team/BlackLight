@@ -5,18 +5,10 @@ repositories {
 }
 
 android {
-	compileSdkVersion 23
-	buildToolsVersion '21.1.2'
+	compileSdkVersion = COMPILED_SDK_VER
+	buildToolsVersion = BUILD_TOOLS_VER
 
 	publishNonDefault true
-
-	defaultConfig {
-		useJack = false
-	}
-
-	lintOptions {
-		disable 'MissingTranslation', 'ExtraTranslation'
-	}
 
 	lintOptions {
 		abortOnError false
@@ -30,8 +22,8 @@ dependencies {
 	compile 'com.android.support:support-annotations:23.1.1'
 	compile 'com.android.support:recyclerview-v7:23.1.1'
 	compile 'com.android.support:cardview-v7:23.1.1'
-	compile 'com.karumi:dexter:2.0.0'
-	compile 'pl.droidsonroids.gif:android-gif-drawable:1.0.+'
+	compile 'com.karumi:dexter:2.2.+'
+	compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
 	compile 'com.google.code.gson:gson:2.3.+'
 	compile 'de.hdodenhof:circleimageview:1.2.2'
 	compile 'com.larswerkman:HoloColorPicker:1.5'

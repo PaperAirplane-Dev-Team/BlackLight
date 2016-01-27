@@ -5,27 +5,28 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    compileSdkVersion = COMPILED_SDK_VER
+    buildToolsVersion = BUILD_TOOLS_VER
 
     defaultConfig {
         applicationId "us.shandian.blacklight.snapshot"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 42
-        versionName "snapshot"
+        minSdkVersion MIN_SDK_VER.toInteger()
+        targetSdkVersion COMPILED_SDK_VER
+        versionCode VERSION_CODE.toInteger()
+        versionName VERSION_NAME
     }
-    buildTypes {
-        release {
-            //runProguard false
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+	
+	buildTypes {
+        debug {
+            versionNameSuffix "-SNAPSHOT"
         }
     }
+	
     lintOptions {
         abortOnError false
     }
 }
 
 dependencies {
-    debugCompile project(':blacklight-base')
+    debugCompile project(path:':blacklight-base', configuration: 'debug')
 }
