@@ -1,25 +1,18 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    jcenter()
-}
-
 android {
     compileSdkVersion = COMPILED_SDK_VER
     buildToolsVersion = BUILD_TOOLS_VER
 
     defaultConfig {
+		def gitHash = "git rev-parse --short HEAD".execute().text.trim()
+		def fullVersion = "SNAPSHOT-" + gitHash + "-" + VERSION_NAME + "+"
+		
         applicationId "us.shandian.blacklight.snapshot"
         minSdkVersion MIN_SDK_VER.toInteger()
         targetSdkVersion TARGET_SDK_VER.toInteger()
         versionCode VERSION_CODE.toInteger()
-        versionName VERSION_NAME
-    }
-	
-	buildTypes {
-        debug {
-            versionNameSuffix "-SNAPSHOT"
-        }
+        versionName fullVersion
     }
 	
     lintOptions {
