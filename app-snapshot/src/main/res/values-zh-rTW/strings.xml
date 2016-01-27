@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-* Copyright (C) 2014 Peter Cai
+* Copyright (C) 2016 Paper Airplane Dev Team
 *
 * This file is part of BlackLight
 *
@@ -18,5 +18,5 @@
 * along with BlackLight.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-	<string name="snapshot_alert">你現正在使用BlackLight的實時測試副本. 這意味著該版本沒有任何保證且非常不穩定. 除非您有一定的app調試經驗或是BlackLight的忠實fans, 請不要長期使用該版本.</string>
+	<string name="snapshot_alert">你現正在使用BlackLight的實時測試副本。這意味著該版本沒有任何保證且可能非常不穩定。除非您有一定的App調試經驗或是BlackLight的忠實fans，請不要長期使用該版本。</string>
 </resources>
