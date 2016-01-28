@@ -34,9 +34,9 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class FeedbackUtility {
 
-	private static final String TAG = FeedbackUtility.class.getSimpleName(); 
-	private static final String LOG_API = "http://bbug.typeblog.net/bl-crashlog";
-	private static final String FEEDBACK_API = "http://bbug.typeblog.net/bl-feedback";
+	private static final String TAG = FeedbackUtility.class.getSimpleName();
+	private static final String LOG_API = "https://bug.black.lighting/bl-crashlog";
+	private static final String FEEDBACK_API = "https://bug.black.lighting/bl-feedback";
 
 	public static void sendLog(String user,String contact) {
 		WeiboParameters params = new WeiboParameters();
