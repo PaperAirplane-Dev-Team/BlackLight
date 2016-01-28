@@ -5,7 +5,7 @@ branches:
     - master
 env:
     - secure: "oxO/WejcfoGBUlQArNtIG6Sk7SJvbtcYr4G3EEELZaKZkbfrEKqjPBvrrVXy/Aik8nGL9AbmbZNKjGk2IJnLIr2Axd2wYr3ME6dnwBtOC6IUi10fAF3B7WnD5Vmbs5VHsH5UfoaswEKnH6LwMkzn/UDOKtLqeGVut0JX0ZoyB8s="
-	
+
 before_cache:
     - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
