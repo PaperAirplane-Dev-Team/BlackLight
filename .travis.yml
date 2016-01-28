@@ -16,7 +16,9 @@ cache:
     -  $HOME/.gradle/caches/
     -  $HOME/.gradle/wrapper/
 
-script: gradle :app-snapshot:assembleDebug
+script:
+    - gradle :app-snapshot:assembleDebug
+    - gradle :app-snapshot:lintDebug
 
 after_success:
 - git config --global user.email "harry-chen@outlook.com"
