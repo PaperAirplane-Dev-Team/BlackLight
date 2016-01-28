@@ -17,8 +17,7 @@ cache:
     -  $HOME/.gradle/wrapper/
 
 script:
-    - gradle :app-snapshot:assembleDebug
-    - gradle :app-snapshot:lintDebug
+    - gradle :app-snapshot:assembleDebug :app-snapshot:lintDebug
 
 after_success:
 - git config --global user.email "harry-chen@outlook.com"
@@ -27,7 +26,7 @@ after_success:
 - git tag $GIT_TAG
 - git push --quiet https://$GITHUBKEY@github.com/PaperAirplane-Dev-Team/BlackLight.git $GIT_TAG
 - cd app-snapshot/build/outputs/
-- tar cvf lint-results.tar lint-results.html lint-results.xml lint-results_files
+- tar cvf lint-results.tar lint-results-debug.html lint-results-debug.xml lint-results-debug_files
 - cd ../../../
 
 android:
