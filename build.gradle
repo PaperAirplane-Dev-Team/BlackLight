@@ -17,3 +17,6 @@ allprojects {
         jcenter()
     }
 }
+
+task assembleDebugSnapshot(dependsOn: ':app-snapshot:assembleDebug')
+task installDebugSnapshot(dependsOn: ':app-snapshot:installDebug')
