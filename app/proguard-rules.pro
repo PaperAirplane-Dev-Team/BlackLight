@@ -1,4 +1,4 @@
--optimizationpasses 5 
+-optimizationpasses 5
 -keepattributes *Annotation*
 -keepattributes Signature
 
@@ -11,7 +11,7 @@
 }
 
 -dontwarn android.support.**
-  
+
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
