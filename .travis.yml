@@ -8,9 +8,7 @@ env:
 cache:
     directories:
     -  $HOME/PaperAirplane-Dev-Team/BlackLight/app-snapshot/build
-    -  $HOME/PaperAirplane-Dev-Team/BlackLight/app-snapshot/.gradle
     -  $HOME/PaperAirplane-Dev-Team/BlackLight/blacklight-base/build
-    -  $HOME/PaperAirplane-Dev-Team/BlackLight/blacklight-base/.gradle
     -  $HOME/PaperAirplane-Dev-Team/BlackLight/.gradle
     -  $HOME/gradle-2.10 
     -  $HOME/.gradle
