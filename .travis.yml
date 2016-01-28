@@ -5,17 +5,16 @@ branches:
     - master
 env:
     - secure: "oxO/WejcfoGBUlQArNtIG6Sk7SJvbtcYr4G3EEELZaKZkbfrEKqjPBvrrVXy/Aik8nGL9AbmbZNKjGk2IJnLIr2Axd2wYr3ME6dnwBtOC6IUi10fAF3B7WnD5Vmbs5VHsH5UfoaswEKnH6LwMkzn/UDOKtLqeGVut0JX0ZoyB8s="
+	
+before_cache:
+    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
     directories:
-    -  $HOME/PaperAirplane-Dev-Team/BlackLight/app-snapshot/build
-    -  $HOME/PaperAirplane-Dev-Team/BlackLight/blacklight-base/build
-    -  $HOME/PaperAirplane-Dev-Team/BlackLight/.gradle
-    -  $HOME/gradle-2.10 
-    -  $HOME/.gradle
-
-before_install:
-- chmod +x install_gradle.sh
-- source ./install_gradle.sh
+    -  $HOME/PaperAirplane-Dev-Team/BlackLight/app-snapshot/build/
+    -  $HOME/PaperAirplane-Dev-Team/BlackLight/blacklight-base/build/
+    -  $HOME/PaperAirplane-Dev-Team/BlackLight/.gradle/
+    -  $HOME/.gradle/caches/
+    -  $HOME/.gradle/wrapper/
 
 script: gradle :app-snapshot:assembleDebug
 
