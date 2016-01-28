@@ -15,13 +15,17 @@ BlackLight 新浪微博客户端
 ---
 1. `git clone` 本项目到本地
 2. 在`Android Studio` 中执行 `Import` 并耐心等待……等待……再等待
-3. 调试编译时请选择`app-snapshot`模块
+3. 调试编译时请选择`app`模块并进行调试编译（若选择`app-snapshot`会发生错误）  
 4. Enjoy it!
+
+直接使用Gradle编译
+---
+1. `git clone` 本项目到本地
+2. 在项目根目录下运行 `gradle :app-snapshot:assembleDebug` （注意，不能编译 Release 版的 BlackLight Snapshot ）
 
 使用AIDE导入
 ---
-1. 安装 `AIDE` 到你的手机上
-2. 在其中直接clone本项目并打开即可
+抱歉，我们不再支持AIDE。
 
 编译非调试版本
 ---
