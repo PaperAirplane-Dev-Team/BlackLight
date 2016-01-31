@@ -62,7 +62,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONObject;
+
 import info.papdt.blacklight.R;
+import info.papdt.blacklight.api.Constants;
+import info.papdt.blacklight.support.http.HttpUtility;
+import info.papdt.blacklight.support.http.WeiboParameters;
 import info.papdt.blacklight.service.ReminderService;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
@@ -430,7 +435,7 @@ public class Utility
 		return (int) Math.ceil(fm.descent - fm.ascent);
 	}
 
-	
+
 	public static void notifyScanPhotos(Context context, String path) {
 		Intent i = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 		Uri uri = Uri.fromFile(new File(path));
@@ -803,6 +808,21 @@ public class Utility
 		mediaFile = new File(mediaStorageDir.getPath() + File.separator +
 				"IMG_"+ timeStamp + ".jpg");
 		return mediaFile;
+	}
+
+	public static String getSplash(){
+		String splash = "";
+		try{
+			WeiboParameters params = new WeiboParameters();
+			params.put("app", "bl");
+			String json = HttpUtility.doRequest(Constants.SPLASHSE_API, params, HttpUtility.GET);
+			JSONObject jsonObj = new JSONObject(json);
+			splash = jsonObj.optString("content");
+		}
+		catch(Exception e){
+			Log.e(TAG, "Failed to get splash, bad luck.", e);
+		}
+		return splash;
 	}
 
 }

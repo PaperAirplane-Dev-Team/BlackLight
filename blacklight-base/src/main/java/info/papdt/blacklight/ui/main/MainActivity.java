@@ -318,7 +318,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 		mTabs.notifyIndicatorColorChanged();
 		mToolbarTabs.setCustomTabColorizer(colorizer);
 		mToolbarTabs.notifyIndicatorColorChanged();
-		
+
 		mToolbarTabs.setOnClickCurrentTabListener(new SlidingTabLayout.OnClickCurrentTabListener() {
 			@Override
 			public void onClick(int pos) {
@@ -625,16 +625,18 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 
 	public void updateSplashes() {
 		// 梗
-		String[] splashes = getResources().getStringArray(R.array.title_splashes);
-		getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
+		//String[] splashes = getResources().getStringArray(R.array.title_splashes);
+		//getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
+		getSupportActionBar().setTitle(R.string.app_name);
+		//TODO get title_splashes back(maybe also by API?)
 
-		// 梗 in search box
+		/*// 梗 in search box
 		if (Math.random() > 0.6) { // Make this a matter of possibility
 			splashes = getResources().getStringArray(R.array.splashes);
 			mSearchBox.setLogoText(splashes[new Random().nextInt(splashes.length)]);
 		} else {
 			mSearchBox.setLogoText("");
-		}
+		}*/
 	}
 
 	// For fragments to pass events

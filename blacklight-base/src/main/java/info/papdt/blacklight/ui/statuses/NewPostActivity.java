@@ -165,9 +165,8 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 		}
 
 		// Hints
-		if (Math.random() < 0.42){ // Make this a matter of possibility.
-			mHints = getResources().getStringArray(R.array.splashes);
-			mText.setHint(mHints[new Random().nextInt(mHints.length)]);
+		if (Math.random() > 0.42){ // Make this a matter of possibility.
+			new SplashGetter().execute();
 		}
 
 		// Fragments
@@ -263,11 +262,11 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			public void onGlobalLayout() {
 				mText.requestFocus();
 				mText.requestFocusFromTouch();
-				
+
 				// Draft
 				if (needCache())
 					mText.setText(mCache.getString(DRAFT, ""));
-					
+
 				// Must be removed
 				getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}
@@ -425,8 +424,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	@Binded
 	public void avatar(){
-		mHints = getResources().getStringArray(R.array.splashes);
-		mText.setHint(mHints[new Random().nextInt(mHints.length)]);
+		new SplashGetter().execute();
 	}
 
 	@Binded
@@ -537,7 +535,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			// Post the pictures with long post
 			int size = mBitmaps.size();
 			Bitmap[] bitmaps = new Bitmap[size];
-			
+
 			for (int i = 0; i < size; i++) {
 				Bitmap bmp = mBitmaps.get(0);
 				String path = mPaths.get(0);
@@ -552,7 +550,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 				mBitmaps.remove(0);
 				mPaths.remove(0);
-				
+
 				bitmaps[i] = bmp;
 			}
 
@@ -666,5 +664,14 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 			super.onProgressUpdate();
 		}
 
+	}
+
+	private class SplashGetter extends AsyncTask<Void, Void, String> {
+		@Override
+		protected void onPreExecute() { super.onPreExecute();	}
+		@Override
+		protected String doInBackground(Void... params) { return Utility.getSplash(); }
+		@Override
+		protected void onPostExecute(String result) { mText.setHint(result); }
 	}
 }
