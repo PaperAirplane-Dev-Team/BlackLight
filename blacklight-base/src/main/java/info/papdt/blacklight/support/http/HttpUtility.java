@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.Iterator;
 
@@ -44,9 +45,9 @@ public class HttpUtility
 {
 	private static final String TAG = HttpUtility.class.getSimpleName();
   private static final OkHttpClient client = new OkHttpClient.Builder()
-																							.connectTimeout(10, TimeUnit.SECONDS)
-																							.readTimeout(10, TimeUnit.SECONDS)
-																							.writeTimeout(10, TimeUnit.SECONDS)
+																							.connectTimeout(5, TimeUnit.SECONDS)
+																							.readTimeout(5, TimeUnit.SECONDS)
+																							.writeTimeout(5, TimeUnit.SECONDS)
 																							.build();
 	public static final String POST = "POST";
 	public static final String GET = "GET";
@@ -124,4 +125,7 @@ public class HttpUtility
 			return result;
 		}
 
+		public static Response getUrl(String url) throws IOException{
+			return client.newCall(new Request.Builder().url(url).get().build()).execute();
+		}
 }

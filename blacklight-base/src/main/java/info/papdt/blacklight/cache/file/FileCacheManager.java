@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -27,11 +27,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import info.papdt.blacklight.cache.Constants;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.http.HttpUtility;
 
 public class FileCacheManager
 {
@@ -42,21 +44,21 @@ public class FileCacheManager
 	}
 
 	private static FileCacheManager mInstance;
-	
+
 	private File mCacheDir;
-	
+
 	private FileCacheManager(Context context) {
 		mCacheDir = context.getExternalCacheDir();
 	}
-	
+
 	public static synchronized FileCacheManager instance(Context context) {
 		if (mInstance == null) {
 			mInstance = new FileCacheManager(context);
 		}
-		
+
 		return mInstance;
 	}
-	
+
 	public void createCache(String type, String name, byte[] data) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
 		File f = new File(path);
@@ -65,7 +67,7 @@ public class FileCacheManager
 		}
 		f.getParentFile().mkdirs();
 		f.createNewFile();
-		
+
 		FileOutputStream opt = new FileOutputStream(path);
 		opt.write(data);
 		opt.close();
@@ -79,13 +81,13 @@ public class FileCacheManager
 		} catch (Exception e) {
 			Runtime.getRuntime().exec("mkdir -p " + dist);
 		}
-		
+
 		File origFile = new File(path);
 		File distFile = new File(dist + "/" + name);
 		if (distFile.createNewFile()) {
 			FileInputStream ipt = new FileInputStream(origFile);
 			FileOutputStream opt = new FileOutputStream(distFile);
-			
+
 			byte[] buf = new byte[1024];
 			int len = 0;
 
@@ -103,31 +105,23 @@ public class FileCacheManager
 	public InputStream createCacheFromNetwork(String type, String name, String url) throws IOException {
 		return createCacheFromNetwork(type, name, url, null);
 	}
-	
-	public InputStream createCacheFromNetwork(String type, String name, String url, ProgressCallback callback) throws IOException {
-		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-		conn.setRequestMethod("GET");
-		conn.setConnectTimeout(5000);
-		byte[] buf = readInputStream(conn.getInputStream(), conn.getContentLength(), callback);
-		createCache(type, name, buf);
-		conn.disconnect();
 
-		// Read From file
+	public InputStream createCacheFromNetwork(String type, String name, String url, ProgressCallback callback) throws IOException {
+		ResponseBody resp = HttpUtility.getUrl(url).body();
+		byte[] buf = readInputStream(resp.byteStream(), (int)resp.contentLength(), callback);
+		createCache(type, name, buf);
+		resp.close();
 		return getCache(type, name);
 	}
-	
+
 	// To prevent OOM while loading large contents
 	public InputStream createLargeCacheFromNetwork(String type, String name, String url, ProgressCallback callback) throws IOException {
-		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-		conn.setRequestMethod("GET");
-		conn.setConnectTimeout(5000);
-		createCacheFromStream(type, name, conn.getInputStream(), conn.getContentLength(), callback);
-		conn.disconnect();
-
-		// Read From file
+		ResponseBody resp = HttpUtility.getUrl(url).body();
+		createCacheFromStream(type, name, resp.byteStream(), (int)resp.contentLength(), callback);
+		resp.close();
 		return getCache(type, name);
 	}
-	
+
 	public void createCacheFromStream(String type, String name, InputStream ipt, int total, ProgressCallback callback) throws IOException {
 		String path = getCachePath(type, name);
 		File f = new File(path);
@@ -136,11 +130,11 @@ public class FileCacheManager
 		}
 		f.getParentFile().mkdirs();
 		f.createNewFile();
-		
+
 		FileOutputStream opt = new FileOutputStream(f);
 		byte[] buf = new byte[512];
 		int len = 0, read = 0;
-		
+
 		try {
 			while ((len = ipt.read(buf)) != -1) {
 				opt.write(buf, 0, len);
@@ -160,11 +154,11 @@ public class FileCacheManager
 			f.delete();
 			throw e;
 		}
-		
+
 		opt.close();
 		ipt.close();
 	}
-	
+
 	public InputStream getCache(String type, String name) throws IOException {
 		String path = mCacheDir.getPath() + "/" + type + "/" + name;
 		File f = new File(path);
@@ -179,7 +173,7 @@ public class FileCacheManager
 	public String getCachePath(String type, String name) {
 		return mCacheDir.getPath() + "/" + type + "/" + name;
 	}
-	
+
 	private byte[] readInputStream(InputStream in, int total, ProgressCallback callback) throws IOException {
 		ByteArrayOutputStream opt = new ByteArrayOutputStream();
 		byte[] buf = new byte[1024];
@@ -202,7 +196,7 @@ public class FileCacheManager
 		opt.close();
 		return ret;
 	}
-	
+
 	public void clearUnavailable() {
 		try {
 			clearUnavailable(mCacheDir);
@@ -211,7 +205,7 @@ public class FileCacheManager
 			// Just ignore
 		}
 	}
-	
+
 	private void clearUnavailable(File dir) {
 		File[] files = dir.listFiles();
 		for (File f : files) {
