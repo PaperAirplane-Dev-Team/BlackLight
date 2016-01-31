@@ -25,7 +25,7 @@ dependencies {
 	compile 'com.larswerkman:HoloColorPicker:1.5'
 	compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.+'
 	compile 'com.squareup.picasso:picasso:2.5.2'
-	compile 'org.apache.httpcomponents:httpcore:4.4.+'
+	compile 'com.squareup.okhttp3:okhttp:3.0.+'
 	compile project(':libraries:SlidingUpPanel')
 	compile project(':libraries:PersistentSearch')
 }

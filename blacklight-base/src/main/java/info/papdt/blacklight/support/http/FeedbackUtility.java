@@ -22,21 +22,20 @@ package info.papdt.blacklight.support.http;
 import android.content.Context;
 import android.util.Log;
 
-import org.apache.http.util.EncodingUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import info.papdt.blacklight.support.CrashHandler;
 import info.papdt.blacklight.support.Settings;
+import info.papdt.blacklight.api.Constants;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
 
 public class FeedbackUtility {
 
 	private static final String TAG = FeedbackUtility.class.getSimpleName();
-	private static final String LOG_API = "https://bug.black.lighting/bl-crashlog";
-	private static final String FEEDBACK_API = "https://bug.black.lighting/bl-feedback";
 
 	public static void sendLog(String user,String contact) {
 		WeiboParameters params = new WeiboParameters();
@@ -44,13 +43,12 @@ public class FeedbackUtility {
 		params.put("contact", contact);
 		params.put("log", readLog());
 		try {
-			String r = HttpUtility.doRequest(LOG_API, params, HttpUtility.POST);
-
+			String r = HttpUtility.doRequest(Constants.LOG_API, params, HttpUtility.POST);
 			if (DEBUG) {
 				Log.d(TAG, "Server response: " + r);
 			}
 		} catch (Exception e) {
-			Log.e(TAG, "WTF?! Send log failed?");
+			Log.e(TAG, "WTF?! Send log failed?", e);
 		}
 	}
 
@@ -63,13 +61,12 @@ public class FeedbackUtility {
 		params.put("version", CrashHandler.VERSION);
 
 		try {
-			String r = HttpUtility.doRequest(FEEDBACK_API, params, HttpUtility.POST);
-
+			String r = HttpUtility.doRequest(Constants.FEEDBACK_API, params, HttpUtility.POST);
 			if (DEBUG) {
 				Log.d(TAG, "Server response: " + r);
 			}
 		} catch (Exception e) {
-			Log.e(TAG, "WTF?! Send feedback failed?!");
+			Log.e(TAG, "WTF?! Send feedback failed?!", e);
 		}
 
 	}
@@ -81,27 +78,19 @@ public class FeedbackUtility {
 	}
 
 	private static String readLog(){
-		String res="";
-
+		StringBuilder res = new StringBuilder();
 		try{
 			FileInputStream fin = new FileInputStream(CrashHandler.CRASH_LOG);
-
-			int length = fin.available();
-
-			byte [] buffer = new byte[length];
-
-			fin.read(buffer);
-
-			res = EncodingUtils.getString(buffer, "UTF-8");
-
-			fin.close();
-
+			BufferedReader buf = new BufferedReader(new InputStreamReader(fin, "UTF-8"));
+			String line;
+			while( (line = buf.readLine()) != null) {
+				res.append(line);
+				res.append("\r");
+			}
+			buf.close();
 		}catch(Exception e){
-
-			e.printStackTrace();
-			return "";
-
+			Log.e(TAG, "Error reading log", e);
 		}
-		return res;
+		return res.toString();
 	}
 }

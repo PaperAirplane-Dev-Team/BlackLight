@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -101,6 +101,7 @@ public class WeiboUrlUtility
 				return intent;
 		}
 		// TODO: parse more url, i.e. http://photo.weibo.com/h5/repost/reppic_id/PIC_ID
+		// TODO: How long on earth have you ignored that here is an 'TODO'?
 		return null;
 	}
 

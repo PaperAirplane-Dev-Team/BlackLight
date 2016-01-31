@@ -102,4 +102,8 @@ public class Constants
 	// Short Url
 	public static final String SHORT_URL_SHORTEN = SINA_BASE_URL + "short_url/shorten.json";
 	public static final String SHORT_URL_EXPAND = SINA_BASE_URL + "short_url/expand.json";
+
+	// Feedback and crash report
+	public static final String LOG_API = "https://bug.black.lighting/bl-crashlog";
+	public static final String FEEDBACK_API = "https://bug.black.lighting/bl-feedback";
 }

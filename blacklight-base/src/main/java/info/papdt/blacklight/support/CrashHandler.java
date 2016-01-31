@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2014 Peter Cai
  *
  * This file is part of BlackLight
@@ -36,7 +36,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 	private static String ANDROID = Build.VERSION.RELEASE;
 	private static String MODEL = Build.MODEL;
 	private static String MANUFACTURER = Build.MANUFACTURER;
-	
+
 	public static String VERSION = "Unknown";
 
 	private Thread.UncaughtExceptionHandler mPrevious;
@@ -44,21 +44,21 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 	public static void init(Context context) {
 		try {
 			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			VERSION = info.versionName + info.versionCode;
+			VERSION = info.versionName + "/" + info.versionCode;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public static void register() {
 		new CrashHandler();
 	}
-	
+
 	private CrashHandler() {
 		mPrevious = Thread.currentThread().getUncaughtExceptionHandler();
 		Thread.currentThread().setUncaughtExceptionHandler(this);
 	}
-	
+
 	@Override
 	public void uncaughtException(Thread thread, Throwable throwable) {
 		if("Your Fault".equals(throwable.getMessage())){
@@ -76,14 +76,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 				return;
 			}
 		}
-		
+
 		PrintWriter p;
 		try {
 			p = new PrintWriter(f);
 		} catch (Exception e) {
 			return;
 		}
-		
+
 		p.write("Android Version: " + ANDROID + "\n");
 		p.write("Device Model: " + MODEL + "\n");
 		p.write("Device Manufacturer: " + MANUFACTURER + "\n");
@@ -98,7 +98,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler
 		} catch (Exception e) {
 			return;
 		}
-		
+
 		if (mPrevious != null) {
 			mPrevious.uncaughtException(thread, throwable);
 		}
