@@ -1,5 +1,5 @@
-/* 
- * Copyright (C) 2014 Peter Cai
+/*
+ * Copyright (C) 2016 Paper Airplane Dev Team
  *
  * This file is part of BlackLight
  *
@@ -22,14 +22,19 @@ package info.papdt.blacklight.support.http;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.zip.GZIPInputStream;
+import java.util.concurrent.TimeUnit;
+import java.util.Iterator;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okhttp3.CacheControl;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.FormBody;
 
 import info.papdt.blacklight.support.LogF;
 
@@ -38,118 +43,85 @@ import static info.papdt.blacklight.BuildConfig.DEBUG;
 public class HttpUtility
 {
 	private static final String TAG = HttpUtility.class.getSimpleName();
-	
+  private static final OkHttpClient client = new OkHttpClient.Builder()
+																							.connectTimeout(10, TimeUnit.SECONDS)
+																							.readTimeout(10, TimeUnit.SECONDS)
+																							.writeTimeout(10, TimeUnit.SECONDS)
+																							.build();
 	public static final String POST = "POST";
 	public static final String GET = "GET";
-	
+
 	public static String doRequest(String url, WeiboParameters params, String method) throws Exception {
-		boolean isGet = false;
-		if (method.equals(GET)) {
-			isGet = true;
-		}
-		
+		boolean isGet = method.equals(GET);
 		String myUrl = url;
-		
 		String send = params.encode();
 		if (isGet) {
 			myUrl += "?" + send;
 		}
-		
+
 		if (DEBUG) {
+			Log.d(TAG, "method = " + method);
 			Log.d(TAG, "send = " + send);
 			Log.d(TAG, "myUrl = " + myUrl);
 		}
-		
-		URL u = new URL(myUrl);
-		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-		
-		conn.setRequestMethod(method);
-		conn.setDoOutput(!isGet);
-		
-		if (!isGet) {
-			conn.setDoInput(true);
-		}
-		
-		conn.setUseCaches(false);
-		conn.setConnectTimeout(10000);
-		conn.setReadTimeout(10000);
-		
-		conn.setRequestProperty("Connection", "Keep-Alive");
-		conn.setRequestProperty("Charset", "UTF-8");
+
+		Request.Builder builder = new Request.Builder()
+														.url(myUrl)
+														.cacheControl(CacheControl.FORCE_NETWORK)
+														.addHeader("Connection", "Keep-Alive")
+														.addHeader("Charset", "UTF-8");
+
+
 		if(params.containsKey("access_token")) {
-			conn.setRequestProperty("Authorization", "OAuth2 " + params.get("access_token"));
+			builder.addHeader("Authorization", "OAuth2 " + params.get("access_token"));
 		}
-		
-		if (send != null) {
-			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
-			
-			conn.connect();
-			
-			if (!isGet) {
-				DataOutputStream o = new DataOutputStream(conn.getOutputStream());
-				
-				o.write(send.getBytes());
-				o.flush();
-				o.close();
+
+		if (!send.equals("pic")) { //No pictures
+			if (!isGet) { //Post text only
+				FormBody.Builder reqBuilder = new FormBody.Builder();
+				Iterator iter = params.entrySet().iterator();
+				while (iter.hasNext()) {
+					WeiboParameters.Entry entry = (WeiboParameters.Entry) iter.next();
+					reqBuilder.add((String)entry.getKey(), String.valueOf(entry.getValue()));
+				}
+				builder.post(reqBuilder.build());
 			}
-			
-		} else {
-			Object[] r = params.toBoundaryMsg();
-			String b = (String) r[0];
-			Bitmap bmp = (Bitmap) r[1];
-			String s = (String) r[2];
-			byte[] bs = ("--" + b + "--\r\n").getBytes("UTF-8");
-			
-			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-			bmp.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-			byte[] img = bytes.toByteArray();
-			
-			int l =  s.getBytes("UTF-8").length + img.length + 2 * bs.length;
-			
-			conn.setRequestProperty("Content-type", "multipart/form-data;boundary=" + b);
-			conn.setRequestProperty("Content-Length", String.valueOf(l));
-			conn.setFixedLengthStreamingMode(l);
-			
-			conn.connect();
-			
-			DataOutputStream o = new DataOutputStream(conn.getOutputStream());
-			o.write(s.getBytes("UTF-8"));
-			
-			o.write(img);
-			o.write(bs);
-			o.write(bs);
-			o.flush();
-			o.close();
-			
-			if (DEBUG) {
-				Log.d(TAG, b);
-				Log.d(TAG, s);
+		} else { //Pictures to upload
+				Bitmap bmp;
+				String keyToMove;
+				MultipartBody.Builder mulBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+				Iterator iter = params.entrySet().iterator();
+				while (iter.hasNext()) {
+					WeiboParameters.Entry entry = (WeiboParameters.Entry) iter.next();
+					String key = (String) entry.getKey();
+					Object value = entry.getValue();
+					if (value instanceof Bitmap){
+						ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+						((Bitmap)value).compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+						byte[] img = bytes.toByteArray();
+						mulBuilder.addFormDataPart(key, params.getFilename(),
+											RequestBody.create(MediaType.parse("image/jpeg"), img));
+					}
+					else{
+						mulBuilder.addFormDataPart(key, String.valueOf(value));
+					}
+				}
+				RequestBody body =  mulBuilder.build();
+				builder.post(body);
 			}
+
+			Response response = client.newCall(builder.build()).execute();
+			ResponseBody body = response.body();
+			String result = null;
+			if (!response.isSuccessful()){
+				LogF.e(TAG, "Http request not sucessful, code:%d", response.code());
+			}
+			else{
+				result = body.string();
+				Log.d(TAG, result);
+			}
+			body.close();
+			return result;
 		}
-		
-		if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-			LogF.d(TAG, "Http Response not OK, code:%d",conn.getResponseCode());
-			return null;
-		} else {
-			InputStream in = conn.getInputStream();
-			
-			String en = conn.getContentEncoding();
-			
-			if (en != null && en.equals("gzip")) {
-				in = new GZIPInputStream(in);
-			}
-			
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(in));
-			
-			String s;
-			StringBuilder str = new StringBuilder();
-			
-			while ((s = buffer.readLine()) != null) {
-				str.append(s);
-			}
-			
-			return str.toString();
-		}
-		
-	}
+
 }
