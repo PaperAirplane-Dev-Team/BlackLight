@@ -6,13 +6,23 @@ android {
 
     defaultConfig {
 		def gitHash = "git rev-parse --short HEAD".execute().text.trim()
-		def fullVersion = "SNAPSHOT-" + gitHash + "-" + VERSION_NAME + "+"
-		
+		def fullVersion = "SNAPSHOT-" + gitHash + "-BASE-" + VERSION_NAME
         applicationId "us.shandian.blacklight.snapshot"
         minSdkVersion MIN_SDK_VER.toInteger()
         targetSdkVersion TARGET_SDK_VER.toInteger()
         versionCode VERSION_CODE.toInteger()
-        versionName fullVersion
+		versionName fullVersion
+    }
+	
+	buildTypes {
+        debugMinify {
+			versionNameSuffix " (Proguard enabled) "
+			minifyEnabled true
+			shrinkResources true
+			debuggable true
+			signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../app/proguard-rules.pro'
+        }
     }
 	
     lintOptions {
@@ -22,4 +32,5 @@ android {
 
 dependencies {
     debugCompile project(path:':blacklight-base', configuration: 'debug')
+	debugMinifyCompile project(path:':blacklight-base', configuration: 'debug')
 }

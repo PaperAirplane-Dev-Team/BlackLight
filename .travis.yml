@@ -17,7 +17,7 @@ cache:
     -  $HOME/.gradle/wrapper/
 
 script:
-    - gradle :app-snapshot:assembleDebug :app-snapshot:lintDebug
+    - gradle :app-snapshot:assembleDebug :app-snapshot:assembleDebugMinify :app-snapshot:lintDebug
 
 after_success:
 - git config --global user.email "harry-chen@outlook.com"
@@ -43,6 +43,7 @@ deploy:
     secure: "bBFMDthm2NQuUCXfSRw8EvkyN7seHGxD8BvsvqudSuPpmSTNRcA1JJuANeH7WVMwJjKkySVCf+SjMbHeGzahRRo7COsQ4D70q8ctad9lo1bLwt2UvgFB+c1ux6jzixsGTcCTfmKGYKDmU+iOZ7ES4t45iPsO0VUQYO8hT2fVN+0="
   file:
   - app-snapshot/build/outputs/apk/app-snapshot-debug.apk
+  - app-snapshot/build/outputs/apk/app-snapshot-debugMinify.apk
   - app-snapshot/build/outputs/lint-results.tar
   skip_cleanup: true
   on:

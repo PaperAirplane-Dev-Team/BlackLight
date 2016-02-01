@@ -4,6 +4,7 @@
 # disable obfuscate, BL is open source
 -dontobfuscate
 # http://stackoverflow.com/a/7587680/832776
+-optimizationpasses 5 
 -optimizations !code/allocation/variable
 
 -keepattributes *Annotation*
@@ -21,9 +22,7 @@
 
 # picasso
 -dontwarn com.squareup.okhttp.**
+-dontwarn com.squareup.okhttp3.**
 
-# httpcore
--dontwarn org.apache.commons.**
--keep class org.apache.http.** { *; }
--dontwarn org.apache.http.**
-
+# Gif module
+-keep class pl.droidsonroids.gif.**
