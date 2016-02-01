@@ -94,7 +94,7 @@
 		<item>添加多圖</item>
 	</string-array>
 	<string name="multiple_pictures">多圖選擇</string>
-	
+
 	<!-- Time -->
 	<string name="just_now">剛剛</string>
 	<string name="min">分鐘前</string>
@@ -105,7 +105,7 @@
 	<string name="today">今天</string>
 	<string name="yesterday">昨天</string>
 	<string name="the_day_before_yesterday">前天</string>
-	
+
 	<!-- User Time Line -->
 	<string name="user_info">用戶信息</string>
 	<string name="user_statuses">用戶微博</string>
@@ -136,10 +136,10 @@
 	<string name="okay">選好了</string>
 	<string name="single_comment">發佈評論</string>
 	<string name="single_repost">轉發微博</string>
-	
+
 	<!-- Direct Message -->
 	<string name="direct_message">私信</string>
-	
+
 	<!-- Search -->
 	<string name="search">搜尋</string>
 	<string-array name="search_type">
@@ -235,8 +235,13 @@
 	<string name="feedback_sum">告訴我們有關你對這個應用的建議</string>
 	<string name="micromacer">Micromacer (設計師)</string>
 	<string name="petercxy">PeterCxy (主要開發者)</string>
+	<string name="xavieryao">Xavier Yao (首席段子手、協助開發)</string>
+	<string name="harrychen">Harry Chen (吐槽、修bug、拆輪子)</string>
+
+
 	<string name="post_photo">分享圖像</string>
-		
+	<string name="fetching_splash">正在獲取梗…</string>
+
 	<string-array name="click_refusal">
 		<item>嘿，你好啊</item>
 		<item>不，我們並沒有做彩蛋</item>

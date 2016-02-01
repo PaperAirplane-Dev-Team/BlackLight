@@ -166,9 +166,7 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mLang = Utility.getCurrentLanguage(this);
-		if (mLang > -1) {
-			Utility.changeLanguage(this, mLang);
-		}
+		Utility.changeLanguage(this, mLang);
 
 		Utility.initDarkMode(this);
 		mLayout = R.layout.main;
@@ -624,11 +622,8 @@ public class MainActivity extends ToolbarActivity implements View.OnClickListene
 	}
 
 	public void updateSplashes() {
-		// 梗
-		//String[] splashes = getResources().getStringArray(R.array.title_splashes);
-		//getSupportActionBar().setTitle(splashes[new Random().nextInt(splashes.length)]);
+		// Okay we do not need 梗 on Toolbar any more.
 		getSupportActionBar().setTitle(R.string.app_name);
-		//TODO get title_splashes back(maybe also by API?)
 
 		/*// 梗 in search box
 		if (Math.random() > 0.6) { // Make this a matter of possibility

@@ -216,8 +216,9 @@
 	<string name="donation_des">这个...你懂的</string>
 	<string name="alipay">支付宝</string>
 	<string name="petercxy">PeterCxy (主要开发者)</string>
-	<string name="xavieryao">Xavier Yao (首席段子手 协助开发)</string>
+	<string name="xavieryao">Xavier Yao (首席段子手、协助开发)</string>
 	<string name="micromacer">Micromacer (设计师)</string>
+	<string name="harrychen">Harry Chen (吐槽、修bug、拆轮子)</string>
 
 	<!-- Feedback -->
 	<string name="fb">反馈</string>
@@ -264,7 +265,10 @@
 	<!-- Permissions -->
 	<string name="perm_sdcard_title">读写存储卡</string>
 	<string name="perm_sdcard">我们需要读写存储卡的权限来保存图片和崩溃日志。</string>
+
+
 	<string name="show_all">全部微博</string>
 	<string name="show_orig">只看原创</string>
+	<string name="fetching_splash">正在获取梗...</string>
 
 </resources>

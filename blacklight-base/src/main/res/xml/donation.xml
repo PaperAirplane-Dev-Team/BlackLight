@@ -20,28 +20,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	<PreferenceCategory
 		android:title="@string/alipay">
-		
+
 		<Preference
 			android:title="@string/petercxy"
 			android:summary="@string/petercxy_alipay"/>
 
 		<Preference
 			android:title="@string/xavieryao"
-		    android:summary="@string/xavieryao_alipay"/>
-		
+			android:summary="@string/xavieryao_alipay"/>
+
 		<Preference
 			android:title="@string/micromacer"
 			android:summary="@string/micromacer_alipay"/>
-		
+
+		<Preference
+			android:title="@string/harrychen"
+			android:summary="@string/harrychen_alipay"/>
+
 	</PreferenceCategory>
-	
+
 	<PreferenceCategory
 		android:title="@string/paypal">
-		
+
 		<Preference
 			android:title="@string/petercxy"
 			android:summary="@string/petercxy_paypal"/>
-		
+
 	</PreferenceCategory>
-	
+
 </PreferenceScreen>

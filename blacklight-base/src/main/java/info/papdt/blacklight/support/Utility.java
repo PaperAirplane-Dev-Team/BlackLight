@@ -81,6 +81,11 @@ public class Utility
 
 	public static String lastPicPath;
 
+	public static final int LANG_EN_US = 0;
+	public static final int LANG_ZH_HANS = 1;
+	public static final int LANG_ZH_HANT = 2;
+	public static final int LANG_SYS = -1;
+
 	public static int action_bar_title = -1;
 
 	public static int action_bar_spinner = -1;
@@ -209,27 +214,7 @@ public class Utility
 	}
 
 	public static int getCurrentLanguage(Context context) {
-		int lang = Settings.getInstance(context).getInt(Settings.LANGUAGE, -1);
-		if (lang == -1) {
-			String language = Locale.getDefault().getLanguage();
-			String country = Locale.getDefault().getCountry();
-
-			if (DEBUG) {
-				Log.d(TAG, "Locale.getLanguage() = " + language);
-			}
-
-			if (language.equalsIgnoreCase("zh")) {
-				if (country.equalsIgnoreCase("CN")) {
-					lang = 1;
-				} else {
-					lang = 2;
-				}
-			} else {
-				lang = 0;
-			}
-		}
-
-		return lang;
+		return Settings.getInstance(context).getInt(Settings.LANGUAGE, LANG_SYS);
 	}
 
 	// Must be called before setContentView()
@@ -238,21 +223,24 @@ public class Utility
 		String country = null;
 
 		switch (lang) {
-			case 1:
+			case LANG_ZH_HANS:
 				language = "zh";
 				country = "CN";
 				break;
-			case 2:
+			case LANG_ZH_HANT:
 				language = "zh";
 				country = "TW";
 				break;
-			default:
+			case LANG_EN_US:
 				language = "en";
 				country = "US";
 				break;
+			case LANG_SYS:
+				break;
+			default:
+				throw new IllegalStateException("But I can not speak this language!");
 		}
-
-		Locale locale = new Locale(language, country);
+		Locale locale = (language == null)?Locale.getDefault():new Locale(language, country);
 		Configuration conf = context.getResources().getConfiguration();
 		conf.locale = locale;
 		context.getApplicationContext().getResources().updateConfiguration(conf, context.getResources().getDisplayMetrics());
@@ -815,7 +803,7 @@ public class Utility
 		try{
 			WeiboParameters params = new WeiboParameters();
 			params.put("app", "bl");
-			String json = HttpUtility.doRequest(Constants.SPLASHSE_API, params, HttpUtility.GET);
+			String json = HttpUtility.doRequest(Constants.SPLASHES_API, params, HttpUtility.GET);
 			JSONObject jsonObj = new JSONObject(json);
 			splash = jsonObj.optString("content");
 		}

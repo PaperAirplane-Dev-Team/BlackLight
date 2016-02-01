@@ -49,7 +49,9 @@ public class WeiboParameters extends HashMap<String, Object>
 				if (first) first = false;
 				else str.append("&");
 				try {
-					str.append(URLEncoder.encode(key, "UTF-8")).append("=").append(URLEncoder.encode(value.toString(), "UTF-8"));
+					str.append(URLEncoder.encode(key, "UTF-8"))
+								.append("=")
+								.append(URLEncoder.encode(value.toString(), "UTF-8"));
 				} catch (UnsupportedEncodingException e) { }
 			}
 		}

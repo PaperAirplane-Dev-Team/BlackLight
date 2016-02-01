@@ -28,7 +28,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import info.papdt.blacklight.cache.Constants;

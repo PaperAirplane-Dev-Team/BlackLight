@@ -174,6 +174,7 @@
 		<item>\@vip.sina.com</item>
 		<item>\@vip.qq.com</item>
 		<item>\@yeah.net</item>
+		<item>\@outlook.com</item>
 	</string-array>
 
 	<string-array name="contributor_weibo_uids" translatable="false">
@@ -257,6 +258,7 @@
 		<item>English</item>
 		<item>简体中文</item>
 		<item>繁體中文</item>
+		<item>跟随系统(Follow system)</item>
 	</string-array>
 
 	<!-- Donation -->
@@ -271,6 +273,8 @@
 	<string name="xavieryao_alipay" translatable="false">xavieryao@live.cn</string>
 	<string name="micromacer">Micromacer (Designer)</string>
 	<string name="micromacer_alipay" translatable="false">micromacer@me.com</string>
+	<string name="harrychen">Harry Chen (Bug Fixer)</string>
+	<string name="harrychen_alipay" translatable="false">harry-chen@outlook.com</string>
 
 	<!-- Feedback -->
 	<string name="fb">Feedback</string>
@@ -325,4 +329,6 @@
 	<!-- Permissions -->
 	<string name="perm_sdcard_title">SDCard permission</string>
 	<string name="perm_sdcard">SDCard permission is needed to save your images to sdcard and save crash logs.</string>
+
+	<string name="fetching_splash">Fetching 梗...</string>
 </resources>

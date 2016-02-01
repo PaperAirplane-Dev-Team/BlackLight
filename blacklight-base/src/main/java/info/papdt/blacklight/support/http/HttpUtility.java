@@ -45,10 +45,10 @@ public class HttpUtility
 {
 	private static final String TAG = HttpUtility.class.getSimpleName();
   private static final OkHttpClient client = new OkHttpClient.Builder()
-																							.connectTimeout(5, TimeUnit.SECONDS)
-																							.readTimeout(5, TimeUnit.SECONDS)
-																							.writeTimeout(5, TimeUnit.SECONDS)
-																							.build();
+												.connectTimeout(5, TimeUnit.SECONDS)
+												.readTimeout(5, TimeUnit.SECONDS)
+												.writeTimeout(5, TimeUnit.SECONDS)
+												.build();
 	public static final String POST = "POST";
 	public static final String GET = "GET";
 
@@ -67,10 +67,10 @@ public class HttpUtility
 		}
 
 		Request.Builder builder = new Request.Builder()
-														.url(myUrl)
-														.cacheControl(CacheControl.FORCE_NETWORK)
-														.addHeader("Connection", "Keep-Alive")
-														.addHeader("Charset", "UTF-8");
+										.url(myUrl)
+										.cacheControl(CacheControl.FORCE_NETWORK)
+										.addHeader("Connection", "Keep-Alive")
+										.addHeader("Charset", "UTF-8");
 
 
 		if(params.containsKey("access_token")) {
@@ -89,7 +89,6 @@ public class HttpUtility
 			}
 		} else { //Pictures to upload
 				Bitmap bmp;
-				String keyToMove;
 				MultipartBody.Builder mulBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 				Iterator iter = params.entrySet().iterator();
 				while (iter.hasNext()) {

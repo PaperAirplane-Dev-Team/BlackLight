@@ -668,7 +668,7 @@ public class NewPostActivity extends AbsActivity implements View.OnLongClickList
 
 	private class SplashGetter extends AsyncTask<Void, Void, String> {
 		@Override
-		protected void onPreExecute() { super.onPreExecute();	}
+		protected void onPreExecute() { mText.setHint(R.string.fetching_splash);	}
 		@Override
 		protected String doInBackground(Void... params) { return Utility.getSplash(); }
 		@Override

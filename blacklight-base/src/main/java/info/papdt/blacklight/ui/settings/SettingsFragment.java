@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2015 Peter Cai
  *
  * This file is part of BlackLight
@@ -64,7 +64,7 @@ public class SettingsFragment extends PreferenceFragment implements
 	private static final String NOTIFY_TYPE = "notification_type";
 
 	private Settings mSettings;
-	
+
 	// Life needs joy!
 	private int mClickCount = 0;
 	private String[] mRefusals;
@@ -142,7 +142,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		mPrefDonation = findPreference(DONATION);
 		mPrefKeyword = (EditTextPreference) findPreference(Settings.KEYWORD);
 		mPrefStyleText = (CheckBoxPreference) findPreference(Settings.STYLE_TEXT);
-		
+
 		// Data
 		String version = "Unknown";
 		try {
@@ -178,8 +178,10 @@ public class SettingsFragment extends PreferenceFragment implements
 				this.getResources()
 				.getStringArray(R.array.interval_name) [mSettings.getInt(Settings.NOTIFICATION_INTERVAL, 1)]
 						);
+		int lang = Utility.getCurrentLanguage(getActivity());
+		if (lang == Utility.LANG_SYS) lang = 3;
 		mPrefLang.setSummary(
-				this.getResources().getStringArray(R.array.langs) [Utility.getCurrentLanguage(getActivity())]);
+				this.getResources().getStringArray(R.array.langs) [lang]);
 		mPrefAutoNoPic.setChecked(mSettings.getBoolean(Settings.AUTO_NOPIC, true));
 		mPrefKeyword.setText(mSettings.getString(Settings.KEYWORD, ""));
 
@@ -187,7 +189,7 @@ public class SettingsFragment extends PreferenceFragment implements
 		if(android.os.Build.VERSION.SDK_INT < 16){
 			mPrefShowBigtext.setEnabled(false);
 		}
-		
+
 		// Set
 		mPrefLicense.setOnPreferenceClickListener(this);
 		mPrefSourceCode.setOnPreferenceClickListener(this);
@@ -366,14 +368,17 @@ public class SettingsFragment extends PreferenceFragment implements
 	}
 
 	private void showLangDialog() {
+		int lang = Utility.getCurrentLanguage(getActivity());
+		if(lang == Utility.LANG_SYS) lang = 3;
 		new AlertDialog.Builder(getActivity())
 			.setTitle(getString(R.string.language))
 			.setSingleChoiceItems(
-					getResources().getStringArray(R.array.langs), Utility.getCurrentLanguage(getActivity()),
+					getResources().getStringArray(R.array.langs), lang,
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							mSettings.putInt(Settings.LANGUAGE, which);
+							if(which != 3) mSettings.putInt(Settings.LANGUAGE, which);
+							else mSettings.putInt(Settings.LANGUAGE, Utility.LANG_SYS);
 							dialog.dismiss();
 							getActivity().recreate();
 						}
@@ -382,7 +387,7 @@ public class SettingsFragment extends PreferenceFragment implements
 			.show();
 
 	}
-	
+
 	private void showIntervalSetDialog(){
 		new AlertDialog.Builder(getActivity())
 			.setTitle(getString(R.string.set_interval))
@@ -433,7 +438,7 @@ public class SettingsFragment extends PreferenceFragment implements
 			})
 			.show();
 	}
-	
+
 	private Runnable clearClickCount = new Runnable() {
 		@Override
 		public void run() {
@@ -455,8 +460,8 @@ public class SettingsFragment extends PreferenceFragment implements
 			Toast.makeText(getActivity(), mRefusals[mClickCount], Toast.LENGTH_SHORT).show();
 			getActivity().getWindow().getDecorView().postDelayed(clearClickCount, 3000);
 		}
-		
+
 		mClickCount++;
 	}
-	
+
 }

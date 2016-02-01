@@ -108,5 +108,5 @@ public class Constants
 	public static final String FEEDBACK_API = "https://bug.black.lighting/bl-feedback";
 
 	//No one hates splashes
-	public static final String SPLASHSE_API = "https://misc.typeblog.net/splash";
+	public static final String SPLASHES_API = "https://misc.typeblog.net/splash";
 }
