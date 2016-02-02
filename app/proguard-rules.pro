@@ -4,7 +4,7 @@
 # disable obfuscate, BL is open source
 -dontobfuscate
 # http://stackoverflow.com/a/7587680/832776
--optimizationpasses 5 
+#-optimizationpasses 5 
 -optimizations !code/allocation/variable
 
 -keepattributes *Annotation*
