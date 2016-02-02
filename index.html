@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>BlackLight - Yet another Sina Weibo client for Android</title>
+
+		<meta name="description" content="A Sina Weibo client for Android">
+		<meta name="author" content="Peter Cai">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/blood.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!-- Geng style -->
+		<style>
+		  div .geng {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				text-align: center;
+				padding: 10px;
+				z-index: 9999;
+			}
+
+			div .geng p {
+				width: 75%;
+				margin: auto;
+				font-size: 0.4em;
+			}
+		</style>
+
+		<!-- Geng js -->
+    <script src="https://ajax.css.network/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+      function updateSplash() {
+        $.ajax({
+          url: 'https://misc.typeblog.net/splash',
+          jsonp: 'callback',
+          dataType: 'jsonp',
+          success: function(res) {
+            if (res.status == '200') {
+              $('#splash').fadeOut(function() {
+								$(this).text(res.content).fadeIn();
+							});
+            }
+          }
+        });
+      }
+
+			$(function() {
+				updateSplash();
+			});
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+        <section>
+					<h3>Welcome to Black.Lighting</h3>
+					<p>The project home page of BlackLight, a famous Sina Weibo client for Android.</p>
+				</section>
+
+				<section data-background="#3f51b5">
+					<section>
+						<h3>Why another?</h3>
+			  	</section>
+					<section>
+						<p>Back to 2014...</p>
+						<p class="fragment">A High 1 student began to use Weibo, a Chinese clone of Twitter.</p>
+						<p class="fragment">Unfortunately, the only phone he had was a super slow MI-ONE.</p>
+						<p class="fragment">And that was why all these had begun.</p>
+					</section>
+					<section>
+						<p>In 2014, Sina Weibo clients on Android were...</p>
+						<ul>
+							<li class="fragment">Some sticky</li>
+							<li class="fragment">Much heavyweight</li>
+							<li class="fragment">Sketchy-featured (3rd party clients)</li>
+						</ul>
+					</section>
+					<section>
+						<p>But then he found Weiciyuan on <a href="https://wasu.pw/h6x4" target="_blank">GitHub</a>, and it was</p>
+						<ul>
+							<li class="fragment">Silky-smooth</li>
+							<li class="fragment">Such lightweight</li>
+							<li class="fragment">Full-featured & opensource</li>
+						</ul>
+					</section>
+					<section>
+						<p>Weiciyuan is now dead.</p>
+						<p class="fragment">Actually, there haven't been any practical updates since summer 2014.</p>
+						<p class="fragment">The boy did not give up his pursuit for a full-featured and smooth Weibo client.</p>
+						<p class="fragment">As he thought he had some skills in programming,</p>
+						<p class="fragment">he set up a project called BlackLight,</p>
+						<p class="fragment">whose name came from the way Weiciyuan was granted full permission to Sina Weibo, "Black Magic".</p>
+					</section>
+				</section>
+
+				<section data-background="#1b5e20">
+					<section>
+						<h3>Long long journey...</h3>
+						<p>To the first release.</p>
+					</section>
+
+					<section>
+						<p>As is mentioned, the boy "thought" he had some skills in programming.</p>
+						<p class="fragment">In fact, the only programming experience he had</p>
+						<p class="fragment">was learning EPL(A Chinese clone of Visual Basic) in his primary school years.</p>
+						<p class="fragment">He had little experience in Java, nor in software engineering.</p>
+						<p class="fragment">Had he thought about these, he would not have even adopt the idea about setting up the project.</p>
+						<p class="fragment">But it was already set up.</p>
+						<p class="fragment">Things should not be given up at the beginning.</p>
+					</section>
+
+					<section>
+						<p>Here he began.</p>
+						<p class="fragment">Learn java while writing BlackLight.</p>
+						<p class="fragment">Write BlackLight while learning Java.</p>
+						<p class="fragment">Anyway, the infrastructure of the project was finished within two months.</p>
+						<p class="fragment">He was full of some kinds of joy towards his "intelligence" in programming.</p>
+					</section>
+
+					<section>
+						<p>But...</p>
+						<p class="fragment">At that time, BlackLight was</p>
+						<ul>
+							<li class="fragment">Poorly designed</li>
+							<li class="fragment">Sticky</li>
+							<li class="fragment">Full of messy code</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Bravehearts</h3>
+						<p class="fragment">Though BlackLight was so alpha-staged by then,</p>
+						<p class="fragment">there was more than one brave young man</p>
+						<p class="fragment">who joined the test group of BlackLight and gave the boy their precious appreciations.</p>
+						<p class="fragment">BlackLight would not have gone through all the difficulties without them.</p>
+						<blockquote class="fragment">Every man dies, not every man really lives.</blockquote>
+					</section>
+				</section>
+
+				<section data-background="#004d40">
+					<section>
+						<h3>Adoption</h3>
+						<p>To PaperAirplane Dev Team</p>
+					</section>
+
+					<section>
+						<p>Through a famous engineer Undowndings, he got to know <a href="https://harrychen.xyz" target="_blank">Harry Chen</a></p>
+						<p class="fragment">who was also a High 1 student.</p>
+						<p class="fragment">He had created a developers' team with <a href="https://github.com/xavieryao" target="_blank">Xavier Yao</a></p>
+						<p class="fragment">who was later admitted into Tsinghua University.</p>
+						<p class="fragment">As BlackLight was in need of a Play Store developer account,</p>
+						<p class="fragment">Harry agreed to admit the boy together with his BlackLight into</p>
+						<p class="fragment"><a href="https://github.com/PaperAirplane-Dev-Team" target="_blank">PaperAirplane Dev Team</a></p>
+					</section>
+
+					<section>
+						<h3>The Team</h3>
+						<ul>
+							<li class="fragment">Xavier Yao - A Tsinghua student who insists that he could only write splashes.</li>
+							<li class="fragment">Harry Chen - A high school student. "I produce bugs for BlackLight", he said.</li>
+							<li class="fragment">Abu Young - Nazo no otoko. From Inner Mongolia, and <strong>HE HAS A GIRLFRIEND</strong></li>
+							<li class="fragment">Fung Jichun - Also a high school student. Maintainer of the famous app, NHBooks.</li>
+							<li class="fragment">Peter Cai - The boy.</li>
+						</ul>
+					</section>
+
+					<section>
+						<p>BlackLight is now</p>
+						<h3 class="fragment">Built with love</h3>
+						<p class="fragment">by the entire team.</p>
+					</section>
+				</section>
+
+				<section data-background="#e65100">
+					<section data-state="dead">
+						<h3>The future</h3>
+						<p>BlackLight is <b id="dead">dead?</b></p>
+						<script>
+					    $(function() {
+								Reveal.addEventListener('dead', function() {
+									if ($('#dead').text() === "dead?") {
+						  			setTimeout(function() {
+							  		  $('#dead').fadeOut(function() {
+								  			$(this).text('alive!').fadeIn();
+								  		});
+								    }, 2000);
+									}
+								});
+							});
+						</script>
+					</section>
+
+					<section>
+						<p>Time flows like a river...</p>
+						<p class="fragment">BlackLight has improved a lot</p>
+						<p class="fragment">with help from the team and a lot of contributors.</p>
+						<p class="fragment">However, the base of the code, the "infrastructure",</p>
+						<p class="fragment">was still unchanged due to Peter's busy school life.</p>
+						<p class="fragment">It has been more and more obsolete over time.</p>
+						<p class="fragment">Peter has thought of refactoring the code base, but it is far too difficult for now.</p>
+						<p class="fragment">It is planned that BlackLight should be rewritten from scratch to overcome a lot of limits.</p>
+					</section>
+
+					<section>
+						<p>The</p>
+						<h3 class="fragment">Free software</h3>
+						<p class="fragment">is a practice rather than a belief.</p>
+						<p class="fragment">BlackLight is designed to be free</p>
+						<p class="fragment">and will always be.</p>
+						<p class="fragment">Otherwise, it should not be called BlackLight.</p>
+						<blockquote class="fragment">You should think of 'free' as in 'free speech', not as in 'free beer'.</blockquote>
+					</section>
+
+					<section>
+						<h3>This website</h3>
+						<p class="fragment">is a presentation for everything valuable in the growth of BlackLight and the boy, Peter.</p>
+						<p class="fragment">It will be maintained till the day that BlackLight fades out.</p>
+						<p class="fragment">Remember, we are BlackLightING!</p>
+					</section>
+				</section>
+
+				<section>
+					<section data-state="end">
+						<h3>The <i id="end">End</i></h3>
+						<p id="get_now" style="display:none">Get BlackLight now from <a href="https://wasu.pw/UC6p" target="_blank">Play Store</a> or <a href="https://wasu.pw/uOHu" target="_blank">Coolapk</a>. Fork us on <a href="https://wasu.pw/pUXL" target="_blank">GitHub</a>.</p>
+						<p id="visit_now" style="display:none">Visit Peter's <a href="https://wasu.pw/sng6" target="_blank">blog</a>.</p>
+						<script>
+					    $(function() {
+								Reveal.addEventListener('end', function() {
+									if ($('#end').text() === "End") {
+						  			setTimeout(function() {
+							  		  $('#end').fadeOut(function() {
+								  			$(this).text('Beginning').fadeIn();
+												$('#get_now').fadeIn();
+												$('#visit_now').fadeIn();
+								  		});
+								    }, 1000);
+									}
+								});
+							});
+						</script>
+					</section>
+				</section>
+			</div>
+
+			<div class="geng">
+				<p id="splash"></p>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+			Reveal.addEventListener('slidechanged', updateSplash);
+
+		</script>
+
+	</body>
+</html>
