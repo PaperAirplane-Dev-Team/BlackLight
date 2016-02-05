@@ -1,0 +1,20 @@
+snapshot:
+  script:
+    - gradle :app-snapshot:assembleDebug
+  artifacts:
+    paths:
+      - app-snapshot/build/outputs/apk/
+  except:
+    - /^v.*$/
+
+release:
+  script:
+    - cp /var/private/signing.properties ./
+    - gradle :app:assembleRelease
+  artifacts:
+    paths:
+      - app/build/outputs/apk/
+  tags:
+    - release
+  only:
+    - /^v.*$/
