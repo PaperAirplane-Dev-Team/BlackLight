@@ -1,3 +1,6 @@
+variables:
+  JAVA_OPTS: "-Xms128m -Xmx256m"
+
 snapshot:
   script:
     - gradle :app-snapshot:assembleDebug
@@ -9,7 +12,7 @@ snapshot:
 
 release:
   script:
-    - cp /var/private/signing.properties ./
+    - cp /opt/private/signing.properties ./
     - gradle :app:assembleRelease
   artifacts:
     paths:
