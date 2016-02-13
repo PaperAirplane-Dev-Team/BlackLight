@@ -1,18 +1,11 @@
-apply plugin: 'android-library'
-
-repositories {
-  jcenter()
-}
+apply plugin: 'com.android.library'
 
 dependencies {
-  compile 'com.android.support:support-v4:21.0.+'
-  compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "21.1.2"
-  lintOptions {
-    abortOnError false
-  }
+    compileSdkVersion COMPILED_SDK_VER
+    buildToolsVersion BUILD_TOOLS_VER
 }
