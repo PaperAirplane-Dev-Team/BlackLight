@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.model.GalleryModel;
 import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.PermissionUtility;
 import info.papdt.blacklight.support.adapter.GalleryAdapter;
 
 import static info.papdt.blacklight.BuildConfig.DEBUG;
@@ -54,11 +55,16 @@ public class MultiPicturePicker extends AbsActivity {
 		// Views
 		mGrid = Utility.findViewById(this, R.id.picker_grid);
 
-		buildAdapter();
+		PermissionUtility.storage(this, new Runnable() {
+			@Override
+			public void run() {
+				buildAdapter();
 
-		mGrid.setAdapter(mAdapter);
-		mGrid.setOnItemClickListener(mAdapter);
-		mGrid.setFastScrollEnabled(true);
+				mGrid.setAdapter(mAdapter);
+				mGrid.setOnItemClickListener(mAdapter);
+				mGrid.setFastScrollEnabled(true);
+			}
+		});
 	}
 
 	@Override

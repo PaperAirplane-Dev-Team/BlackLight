@@ -19,7 +19,7 @@ public class HomeTimeLineFragment extends TimeLineFragment
 		// Restore position
 		int pos = mSettings.getInt(Settings.LAST_POSITION, 0);
 		if (pos > 0 && pos < mAdapter.getCount()) {
-			mList.smoothScrollToPosition(pos);
+			mList.scrollToPosition(pos);
 		}
 		mSettings.putInt(Settings.LAST_POSITION, 0);
 		

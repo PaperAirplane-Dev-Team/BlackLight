@@ -83,7 +83,7 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 		@Override
 		public void run() {
 			if (mNewPosition != -1) {
-				mList.smoothScrollToPosition(mNewPosition);
+				mList.scrollToPosition(mNewPosition);
 				mNewPosition = -1;
 			}
 		}
@@ -339,12 +339,8 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 
 	@Override
 	public void doRefresh() {
-		if (mManager.findFirstVisibleItemPosition() <= 20) {
-			mList.smoothScrollToPosition(0);
-		} else {
-			mList.scrollToPosition(1);
-			mList.smoothScrollToPosition(0);
-		}
+		mList.scrollToPosition(1); // Peter does not know why
+		mList.smoothScrollToPosition(0);
 
 		mList.post(new Runnable() {
 			@Override
@@ -370,7 +366,12 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 				pos = 0;
 			}
 
-			mList.smoothScrollToPosition(pos);
+			if (pos == 0) {
+				mList.scrollToPosition(1);
+				mList.smoothScrollToPosition(pos);
+			} else {
+				mList.scrollToPosition(pos);
+			}
 		}
 	}
 
