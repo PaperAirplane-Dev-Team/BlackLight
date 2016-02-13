@@ -1,5 +1,7 @@
 BlackLight 新浪微博客户端
----
+---  
+请注意，当前BlackLight的开发已经被冻结，直到2016年高考后重启。  
+The development progress has been _FROZEN_ till June 2016.  
 ![Logo](https://raw.githubusercontent.com/PaperAirplane-Dev-Team/BlackLight/master/logo.png)  
 [![Build Status](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight.svg?branch=master)](https://travis-ci.org/PaperAirplane-Dev-Team/BlackLight)  
 
