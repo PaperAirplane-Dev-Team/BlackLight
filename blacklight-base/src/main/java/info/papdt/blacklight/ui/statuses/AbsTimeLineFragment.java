@@ -259,7 +259,7 @@ SwipeRefreshLayout.OnRefreshListener, MainActivity.Refresher, MainActivity.Heade
 		if (mShadow != null)
 			mShadow.bringToFront();
 
-		if (mFastScrollEnabled) {
+		if (mFastScrollEnabled && !(getActivity() instanceof SingleActivity)) {
 			mOrbit.setVisibility(View.VISIBLE);
 			mScroller.setVisibility(View.VISIBLE);
 

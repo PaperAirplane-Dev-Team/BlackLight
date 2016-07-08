@@ -30,19 +30,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-
+import android.view.*;
+import android.widget.*;
 import com.squareup.picasso.Picasso;
-
 import info.papdt.blacklight.R;
 import info.papdt.blacklight.api.attitudes.AttitudesApi;
 import info.papdt.blacklight.api.comments.NewCommentApi;
@@ -53,13 +43,7 @@ import info.papdt.blacklight.cache.user.UserApiCache;
 import info.papdt.blacklight.model.CommentModel;
 import info.papdt.blacklight.model.MessageListModel;
 import info.papdt.blacklight.model.MessageModel;
-import info.papdt.blacklight.support.AsyncTask;
-import info.papdt.blacklight.support.Binded;
-import info.papdt.blacklight.support.HackyMovementMethod;
-import info.papdt.blacklight.support.Settings;
-import info.papdt.blacklight.support.SpannableStringUtils;
-import info.papdt.blacklight.support.StatusTimeUtils;
-import info.papdt.blacklight.support.Utility;
+import info.papdt.blacklight.support.*;
 import info.papdt.blacklight.ui.comments.CommentOnActivity;
 import info.papdt.blacklight.ui.comments.ReplyToActivity;
 import info.papdt.blacklight.ui.statuses.RepostActivity;
@@ -187,7 +171,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 	@Override
 	public WeiboAdapter.ViewHolder doCreateViewHolder(ViewGroup parent, int viewType) {
 		View v = mInflater.inflate(R.layout.weibo, parent, false);
-		ViewHolder h = new ViewHolder(this, v);
+		ViewHolder h = new ViewHolder(this, v, viewType);
 
 		h.content.setMovementMethod(HackyMovementMethod.getInstance());
 		h.orig_content.setMovementMethod(HackyMovementMethod.getInstance());
@@ -199,10 +183,11 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		int picCount = viewType % 10;
 
 		if (picCount > 0) {
-			h.scroll.setVisibility(View.VISIBLE);
 			h.pics.setVisibility(View.VISIBLE);
 			for (int i = 0; i < 9; i++) {
-				View view = h.pics.getChildAt(i);
+				int rowId = i / 3;
+				int picId = i % 3;
+				View view = ((LinearLayout)h.pics.getChildAt(rowId)).getChildAt(picId);
 				if (i < picCount) {
 					view.setTag(TAG_ID, i);
 					view.setOnClickListener(sImageListener);
@@ -210,6 +195,8 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 					view.setVisibility(View.GONE);
 				}
 			}
+		} else {
+			h.pics.setVisibility(View.GONE);
 		}
 
 		return h;
@@ -305,7 +292,17 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	private void bindOrig(ViewHolder h, MessageModel msg, boolean showPic) {
 		h.orig_content.setText(SpannableStringUtils.getOrigSpan(mContext, msg));
-
+		h.orig_retweets.setText(Utility.addUnitToInt(mContext, msg.reposts_count));
+		h.orig_comments.setText(Utility.addUnitToInt(mContext, msg.comments_count));
+		h.orig_attitudes.setText(Utility.addUnitToInt(mContext, msg.attitudes_count));
+		h.orig_date.setText(mTimeUtils.buildTimeString(msg.millis));
+		String ver = "";
+		if (msg.annotations.size() > 0 && !(ver = msg.annotations.get(0).bl_version).trim().equals("")) {
+			// Show a fake tail for BL :)
+			h.orig_from.setText(mAppName);
+		} else {
+			h.orig_from.setText(TextUtils.isEmpty(msg.source) ? "" : Utility.truncateSourceString(msg.source));
+		}
 		bindMultiPicLayout(h, msg, showPic);
 
 		if (!(msg instanceof CommentModel)) {
@@ -317,12 +314,15 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 	private void bindMultiPicLayout(ViewHolder h, MessageModel msg, boolean showPic) {
 		if (showPic && h.getItemViewType() % 10 > 0) {
-			LinearLayout container = h.pics;
+			TableLayout container = h.pics;
 
 			int numChilds = h.getItemViewType() % 10;
 
 			for (int i = 0; i < numChilds; i++) {
-				ImageView iv = (ImageView) container.getChildAt(i);
+				int rowId = i / 3;
+				int picId = i % 3;
+
+				ImageView iv = (ImageView) ((LinearLayout)container.getChildAt(rowId)).getChildAt(picId);
 
 				String url = null;
 				if (msg.hasMultiplePictures()) {
@@ -503,11 +503,15 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 		public TextView orig_content;
 		public ImageView avatar;
 		public ImageView popup;
-		public HorizontalScrollView scroll;
-		public LinearLayout pics;
+		public TableLayout pics;
 		public CardView card;
 		public View origin_parent;
 		public View comment_and_retweet;
+		public TextView orig_date;
+		public TextView orig_from;
+		public TextView orig_retweets;
+		public TextView orig_comments;
+		public TextView orig_attitudes;
 
 		public View v;
 		public MessageModel msg = null;
@@ -519,7 +523,7 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			isHeader = true;
 		}
 
-		public ViewHolder(WeiboAdapter adapter, View v) {
+		public ViewHolder(WeiboAdapter adapter, View v, int viewType) {
 			super(v);
 			this.v = v;
 			this.context = v.getContext();
@@ -527,10 +531,10 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 
 			v.setTag(this);
 
-			init();
+			init(viewType);
 		}
 
-		private void init() {
+		private void init(int viewType) {
 			// Views
 			date = Utility.findViewById(v, R.id.weibo_date);
 			retweets = Utility.findViewById(v, R.id.weibo_retweet);
@@ -539,13 +543,25 @@ public class WeiboAdapter extends HeaderViewAdapter<WeiboAdapter.ViewHolder> {
 			from = Utility.findViewById(v, R.id.weibo_from);
 			content = Utility.findViewById(v, R.id.weibo_content);
 			attitudes = Utility.findViewById(v, R.id.weibo_attitudes);
-			orig_content = Utility.findViewById(v, R.id.weibo_orig_content);
+			origin_parent = Utility.findViewById(v, R.id.weibo_origin);
+			orig_content = Utility.findViewById(origin_parent, R.id.weibo_content);
 			avatar = Utility.findViewById(v, R.id.weibo_avatar);
 			popup = Utility.findViewById(v, R.id.weibo_popup);
-			scroll = Utility.findViewById(v, R.id.weibo_pics_scroll);
-			pics = Utility.findViewById(v, R.id.weibo_pics);
+			if(viewType >= 10) {
+				pics = Utility.findViewById(origin_parent, R.id.weibo_pics);
+				TableLayout tmpPics = Utility.findViewById(v, R.id.weibo_pics);
+				tmpPics.setVisibility(View.GONE);
+				View oriWeibo_user = Utility.findViewById(origin_parent, R.id.weibo_user);
+				oriWeibo_user.setVisibility(View.GONE);
+				orig_date = Utility.findViewById(origin_parent, R.id.weibo_date);
+				orig_retweets = Utility.findViewById(origin_parent, R.id.weibo_retweet);
+				orig_comments = Utility.findViewById(origin_parent, R.id.weibo_comments);
+				orig_from = Utility.findViewById(origin_parent, R.id.weibo_from);
+				orig_attitudes = Utility.findViewById(origin_parent, R.id.weibo_attitudes);
+			} else {
+				pics = Utility.findViewById(v, R.id.weibo_pics);
+			}
 			card = Utility.findViewById(v, R.id.card);
-			origin_parent = Utility.findViewById(v, R.id.weibo_origin);
 			comment_and_retweet = Utility.findViewById(v, R.id.weibo_comment_and_retweet);
 
 			// Events
